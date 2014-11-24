@@ -7,12 +7,8 @@
  * @var string $content Content
  */
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\widgets\Alert;
-
-
 
 ?>
 <?php $this->beginPage(); ?>
@@ -21,7 +17,7 @@ use frontend\widgets\Alert;
     <head>
         <?= $this->render('//layouts/head') ?>
     </head>
-    <body class="skin-blue">
+    <body class="skin-black">
     <?php $this->beginBody(); ?>
 
         <!-- header logo: style can be found in header.less -->
@@ -45,17 +41,15 @@ use frontend\widgets\Alert;
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span><?//= Yii::$app->user->identity->profile->fullName ?> <i class="caret"></i></span>
+                                <span><?= 'User Name' ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <?php /*if (Yii::$app->user->identity->profile->avatar_url) : ?>
-                                        <?= Html::img(Yii::$app->user->identity->profile->urlAttribute('avatar_url'), ['class' => 'img-circle', 'alt' => Yii::$app->user->identity->username]) ?>
-                                    <?php endif;*/ ?>
+                                    <?= Html::img('http://almsaeedstudio.com/AdminLTE/img/avatar3.png', ['class' => 'img-circle', 'alt' => Yii::$app->user->identity->username]) ?>
                                     <p>
-                                        <?//= Yii::$app->user->identity->profile->fullName ?> - <?//= Yii::$app->user->identity->role ?>
-                                        <small><?//= Yii::t('app', 'Member since') ?> <?//= Yii::$app->user->identity->created ?></small>
+                                        <?= 'User Name' ?> - <?= 'Administrator' ?>
+                                        <small><?= Yii::t('app', 'Member since') ?> <?= '2014-11-24' ?></small>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -88,14 +82,14 @@ use frontend\widgets\Alert;
                 <section class="sidebar">
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
-                        <?php /*if (Yii::$app->user->identity->profile->avatar_url) : ?>
+                        <?php // if (Yii::$app->user->identity->profile->avatar_url) : ?>
                             <div class="pull-left image">
-                                <?= Html::img(Yii::$app->user->identity->profile->urlAttribute('avatar_url'), ['class' => 'img-circle', 'alt' => Yii::$app->user->identity->username]) ?>
+                                <?= Html::img('http://almsaeedstudio.com/AdminLTE/img/avatar3.png', ['class' => 'img-circle', 'alt' => 'User Name']) ?>
                             </div>
-                        <?php endif;*/ ?>
+                        <?php // endif; ?>
                         <div class="pull-left info">
                             <p>
-                                <?//= Yii::t('app', 'Hello, {name}', ['name' => Yii::$app->user->identity->profile->name]) ?>
+                                <?= Yii::t('app', 'Hello, {name}', ['name' => 'User Name']) ?>
                             </p>
                             <a>
                                 <i class="fa fa-circle text-success"></i> <?= Yii::t('app', 'Online') ?>
