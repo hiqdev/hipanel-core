@@ -46,7 +46,7 @@ use frontend\widgets\Alert;
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <?= Html::img('http://almsaeedstudio.com/AdminLTE/img/avatar3.png', ['class' => 'img-circle', 'alt' => Yii::$app->user->identity->username]) ?>
+                                    <?= Html::img('/adminlte/img/avatar5.png', ['class' => 'img-circle', 'alt' => Yii::$app->user->identity->username]) ?>
                                     <p>
                                         <?= 'User Name' ?> - <?= 'Administrator' ?>
                                         <small><?= Yii::t('app', 'Member since') ?> <?= '2014-11-24' ?></small>
@@ -84,7 +84,7 @@ use frontend\widgets\Alert;
                     <div class="user-panel">
                         <?php // if (Yii::$app->user->identity->profile->avatar_url) : ?>
                             <div class="pull-left image">
-                                <?= Html::img('http://almsaeedstudio.com/AdminLTE/img/avatar3.png', ['class' => 'img-circle', 'alt' => 'User Name']) ?>
+                                <?= Html::img('/adminlte/img/avatar5.png', ['class' => 'img-circle', 'alt' => 'User Name']) ?>
                             </div>
                         <?php // endif; ?>
                         <div class="pull-left info">

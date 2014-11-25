@@ -6,7 +6,7 @@
  * @var \yii\web\View $this View
  */
 
-use app\components\widgets\Menu;
+use frontend\widgets\Menu;
 
 echo Menu::widget(
     [
@@ -22,19 +22,19 @@ echo Menu::widget(
             ],
             [
                 'label' => Yii::t('app', 'Users'),
-                'url' => ['/users/default/index'],
+                'url' => ['/client/default/index'],
                 'icon' => 'fa-group',
                 // 'visible' => Yii::$app->user->can('administrateUsers') || Yii::$app->user->can('BViewUsers'),
             ],
             [
-                'label' => Yii::t('app', 'Blogs'),
+                'label' => Yii::t('app', 'Tickets'),
                 'url' => ['/blogs/default/index'],
-                'icon' => 'fa-book',
+                'icon' => 'fa-folder',
             ],
             [
-                'label' => Yii::t('app', 'Comments'),
+                'label' => Yii::t('app', 'Domains'),
                 'url' => ['/comments/default/index'],
-                'icon' => 'fa-comments',
+                'icon' => 'fa-folder',
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Comments'),

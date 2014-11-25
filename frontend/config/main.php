@@ -14,7 +14,7 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\m  odels\User',
             'enableAutoLogin' => true,
         ],
         'log' => [
@@ -59,6 +59,14 @@ return [
                     ],
                 ],
             ],
+        ],
+    ],
+    'modules' => [
+        'client' => [
+            'class' => 'app\modules\client\Module',
+        ],
+        'ticket' => [
+            'class' => 'app\modules\ticket\Module',
         ],
     ],
     'params' => $params,
