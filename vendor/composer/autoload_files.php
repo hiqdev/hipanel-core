@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+    $vendorDir . '/react/promise/src/functions.php',
     $vendorDir . '/swiftmailer/swiftmailer/lib/swift_required.php',
 );

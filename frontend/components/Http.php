@@ -52,6 +52,6 @@ class Http {
             'auth_password'=>'1309847555',
         ];
         $fetchData = self::fetchPost('https://api.ahnames.com/'.$action.'/',ArrayHelper::merge($data, $authData));
-        return Json::decode($fetchData,true);
+        return Json::decode($fetchData);
     }
 };

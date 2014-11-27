@@ -17,7 +17,7 @@ use frontend\widgets\Alert;
     <head>
         <?= $this->render('//layouts/head') ?>
     </head>
-    <body class="skin-black">
+    <body class="skin-blue">
     <?php $this->beginBody(); ?>
 
         <!-- header logo: style can be found in header.less -->

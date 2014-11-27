@@ -12,7 +12,7 @@
 */
 html,
 body {
-  overflow-x: hidden!important;
+  /*overflow-x: hidden!important;*/
   font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100%;

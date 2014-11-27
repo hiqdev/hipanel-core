@@ -21,30 +21,55 @@ echo Menu::widget(
                 'active' => Yii::$app->request->url === Yii::$app->homeUrl
             ],
             [
-                'label' => Yii::t('app', 'Users'),
+                'label' => Yii::t('app', 'Clients'),
                 'url' => ['/client/default/index'],
                 'icon' => 'fa-group',
                 // 'visible' => Yii::$app->user->can('administrateUsers') || Yii::$app->user->can('BViewUsers'),
             ],
             [
                 'label' => Yii::t('app', 'Tickets'),
-                'url' => ['/blogs/default/index'],
-                'icon' => 'fa-folder',
-            ],
-            [
-                'label' => Yii::t('app', 'Domains'),
-                'url' => ['/comments/default/index'],
+                'url' => ['/ticket/default/index'],
                 'icon' => 'fa-folder',
                 'items' => [
                     [
-                        'label' => Yii::t('app', 'Comments'),
-                        'url' => ['/comments/default/index'],
-//                         'visible' => Yii::$app->user->can('administrateComments') || Yii::$app->user->can('BViewComments'),
+                        'label' => Yii::t('app', 'Tickets'),
+                        'url' => ['/ticket/default/index'],
                     ],
                     [
-                        'label' => Yii::t('app', 'Models management'),
-                        'url' => ['/comments/models/index'],
-                    ]
+                        'label' => Yii::t('app', 'Tickets settings'),
+                        'url' => ['/ticket/default/settings'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Tickets templates'),
+                        'url' => ['/ticket/default/templates'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Ticket tags'),
+                        'url' => ['/ticket/tag/index'],
+                    ],
+                ]
+            ],
+            [
+                'label' => Yii::t('app', 'Domains'),
+                'url' => ['/domains/default/index'],
+                'icon' => 'fa-folder',
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'My domains'),
+                        'url' => ['/domain/default/mydomains'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Nameservers'),
+                        'url' => ['/domain/nameservers/index'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Contacts'),
+                        'url' => ['/domain/contacts/index'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'SEO'),
+                        'url' => ['/domain/default/seo'],
+                    ],
                 ]
             ],
             [
