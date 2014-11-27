@@ -21,7 +21,8 @@
         "yiisoft/yii2-jui": "*",
         "vova07/yii2-imperavi-widget": "*",
         "kartik-v/yii2-widgets": "dev-master",
-        "guzzlehttp/guzzle": "~5.0"
+        "guzzlehttp/guzzle": "~5.0",
+        "kartik-v/yii2-builder": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

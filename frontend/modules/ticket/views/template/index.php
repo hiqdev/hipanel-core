@@ -1,10 +1,8 @@
 <?php
 use frontend\widgets\GridView;
-
-// use yii\grid\GridView;
 use yii\helpers\Html;
 
-$this->title = Yii::t('app', 'Tag');
+$this->title = Yii::t('app', 'Template');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -12,8 +10,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <p>
     <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-        'modelClass' => 'Tag',
-    ]), ['create'], ['class' => 'btn btn-success']) ?>
+        'modelClass' => 'Template',
+    ]), '#', ['class' => 'btn btn-success']) ?>
 </p>
 <?=Html::a('Scenario 2 Output', 'http://demos.krajee.com/builder-details/tabular-form');?>
 <p>
@@ -24,20 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
+        // ['class' => 'yii\grid\SerialColumn'],
         ['class' => 'yii\grid\CheckboxColumn'],
-        'client',
-        [
-            'attribute'=>'name',
-        ],
-        'descr',
-        [
-            'label'=>'Preview',
-            'format'=>'html',
-            'value'=>function($data) {
-                    return '<span class="label" style="background-color: '.$data['bgcolor'].';color:'.$data['color'].';">'.$data['name'].'</span>';
-                },
-        ],
+        'article_name',
         ['class' => 'yii\grid\ActionColumn'],
     ],
 ]); ?>

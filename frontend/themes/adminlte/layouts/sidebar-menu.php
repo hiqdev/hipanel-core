@@ -41,7 +41,7 @@ echo Menu::widget(
                     ],
                     [
                         'label' => Yii::t('app', 'Tickets templates'),
-                        'url' => ['/ticket/default/templates'],
+                        'url' => ['/ticket/template/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'Ticket tags'),
