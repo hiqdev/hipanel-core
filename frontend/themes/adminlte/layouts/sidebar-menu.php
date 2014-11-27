@@ -25,6 +25,20 @@ echo Menu::widget(
                 'url' => ['/client/default/index'],
                 'icon' => 'fa-group',
                 // 'visible' => Yii::$app->user->can('administrateUsers') || Yii::$app->user->can('BViewUsers'),
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Clients list'),
+                        'url' => ['/client/default/index'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Mailings'),
+                        'url' => ['/client/mailing/index'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'News and articles'),
+                        'url' => ['/client/article/index'],
+                    ],
+                ]
             ],
             [
                 'label' => Yii::t('app', 'Tickets'),
@@ -53,6 +67,7 @@ echo Menu::widget(
                 'label' => Yii::t('app', 'Domains'),
                 'url' => ['/domains/default/index'],
                 'icon' => 'fa-folder',
+                'visible' => false,
                 'items' => [
                     [
                         'label' => Yii::t('app', 'My domains'),
@@ -76,7 +91,7 @@ echo Menu::widget(
                 'label' => Yii::t('app', 'Access control'),
                 'url' => '#',
                 'icon' => 'fa-gavel',
-                // 'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRoles') || Yii::$app->user->can('BViewPermissions') || Yii::$app->user->can('BViewRules'),
+                'visible' => false,
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Permissions'),
