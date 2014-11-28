@@ -17,8 +17,7 @@ echo GridView::widget([
             'template'=>'{view}',
             'buttons'=>[
                 'view'=>function ($url, $model, $key) {
-                        return Html::a('view',['view','id'=>$model['id']]);
-                        // return yii\grid\ActionColumn::createUrl('view',$model,$model['id'],$key);
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',['view','id'=>$model['id']]);
                     },
             ],
         ],
