@@ -3,16 +3,17 @@ namespace app\modules\client\models;
 
 use Yii;
 
-class Article extends \yii\db\ActiveRecord
+class Article extends \frontend\components\hiresource\ActiveRecord
 {
-    public $id;
-    public $article_name;
-    public $author_id;
-    public $post_date;
-    public $type;
-    public $type_id;
-    public $type_name;
-    public $is_published;
+
+    /**
+     * @return array the list of attributes for this record
+     */
+    public function attributes()
+    {
+        // path mapping for '_id' is setup to field 'id'
+        return ['id', 'article_name', 'author_id', 'post_date'];
+    }
 
 
     public function rules()
@@ -28,5 +29,10 @@ class Article extends \yii\db\ActiveRecord
                 'is_published',
             ],'safe'],
         ];
+    }
+
+    public function rest()
+    {
+        return \yii\helpers\ArrayHelper::merge(parent::rest(),['resource'=>'article']);
     }
 }

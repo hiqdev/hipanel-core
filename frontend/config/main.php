@@ -13,6 +13,22 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+
+//        'activeresource'=>[
+//            'class'=>'frontend\components\ActiveResource\EActiveResource\EActiveResourceConnection',
+//            'site'=>'http://api.ahnames.com',
+//            'contentType'=>'application/json',
+//            'acceptType'=>'application/json',
+//            'queryCacheId'=>'SomeCacheComponent'
+//        ],
+
+        'hiresource'=>[
+            'class' => 'frontend\components\hiresource\Connection',
+            'nodes' => [
+                ['http_address'=>'https://sol-api.ahnames.com:80'],
+            ],
+        ],
+
         'user' => [
             'identityClass' => 'common\m  odels\User',
             'enableAutoLogin' => true,

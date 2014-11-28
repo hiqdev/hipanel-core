@@ -39,25 +39,25 @@ class ArticleSearch extends \app\modules\client\models\Article
      */
     public function search($params)
     {
-        // $query = Ticket::find();
+         $query = Article::find();
 
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $query,
-//        ]);
-        $dataProvider = new \yii\data\ArrayDataProvider([
-            'allModels' => \frontend\components\Http::get('articlesSearch', ['limit'=>'1000','show_unpublished'=>'1']),
-
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
         ]);
+//        $dataProvider = new \yii\data\ArrayDataProvider([
+//            'allModels' => \frontend\components\Http::get('articlesSearch', ['limit'=>'1000','show_unpublished'=>'1']),
+//
+//        ]);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
-//        $query->andFilterWhere([
-//            'id' => $this->id,
-//            'create_time' => $this->create_time,
-//        ]);
-//        $query->andFilterWhere(['like', 'subject', $this->title]);
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'article_name' => $this->article_name,
+        ]);
+        // $query->andFilterWhere(['like', 'subject', $this->title]);
 
         return $dataProvider;
     }
