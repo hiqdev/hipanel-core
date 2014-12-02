@@ -12,7 +12,7 @@ class Article extends \frontend\components\hiresource\ActiveRecord
     public function attributes()
     {
         // path mapping for '_id' is setup to field 'id'
-        return ['id', 'article_name', 'author_id', 'post_date'];
+        return ['id', 'article_name', 'post_date', 'data'];
     }
 
 
@@ -21,12 +21,8 @@ class Article extends \frontend\components\hiresource\ActiveRecord
         return [
             [['article_name'],'required'],
             [[
-                'author_id',
                 'post_date',
-                'type',
-                'type_id',
-                'type_name',
-                'is_published',
+                'data',
             ],'safe'],
         ];
     }
@@ -34,5 +30,18 @@ class Article extends \frontend\components\hiresource\ActiveRecord
     public function rest()
     {
         return \yii\helpers\ArrayHelper::merge(parent::rest(),['resource'=>'article']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'article_name' => Yii::t('app', 'Article Name'),
+            'post_date' => Yii::t('app', 'Post Date'),
+            'data' => Yii::t('app', 'Data'),
+        ];
     }
 }

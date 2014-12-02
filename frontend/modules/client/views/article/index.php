@@ -19,9 +19,14 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
+        // ['class' => 'yii\grid\SerialColumn'],
         ['class' => 'yii\grid\CheckboxColumn'],
+        'id',
         'article_name',
-        'post_date',
+        [
+            'attribute'=>'post_date',
+            'format'=>['date','yyyy-mm-dd'],
+        ],
         ['class' => 'yii\grid\ActionColumn'],
     ],
-]); ?>
+]);?>

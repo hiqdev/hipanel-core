@@ -17,7 +17,7 @@ class ArticleSearch extends \app\modules\client\models\Article
     {
         return [
             [['id'], 'integer'],
-            [['article_name','post_date'],'safe'],
+            // [['article_name','post_date'],'safe'],
         ];
     }
 
@@ -39,23 +39,18 @@ class ArticleSearch extends \app\modules\client\models\Article
      */
     public function search($params)
     {
-         $query = Article::find();
+        $query = Article::find()->where(['with_data'=>1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-//        $dataProvider = new \yii\data\ArrayDataProvider([
-//            'allModels' => \frontend\components\Http::get('articlesSearch', ['limit'=>'1000','show_unpublished'=>'1']),
-//
-//        ]);
-
+        $query->andFilterWhere(['like', 'article_name', $this->article_name]);
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'article_name' => $this->article_name,
+            'ids' => $this->id,
         ]);
         // $query->andFilterWhere(['like', 'subject', $this->title]);
 

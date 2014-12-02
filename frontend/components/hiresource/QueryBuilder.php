@@ -9,13 +9,18 @@ use yii\base\InvalidParamException;
 use yii\base\NotSupportedException;
 use yii\helpers\Json;
 /**
- * QueryBuilder builds an elasticsearch query based on the specification given as a [[Query]] object.
+ * QueryBuilder builds an hiresource query based on the specification given as a [[Query]] object.
  *
  * @author Carsten Brandt <mail@cebe.cc>
  * @since 2.0
  */
 class QueryBuilder extends \yii\base\Object
 {
+    private $_sort = [
+        SORT_ASC =>'_asc',
+        SORT_DESC=>'_desc',
+    ];
+
     /**
      * @var Connection the database connection.
      */
@@ -38,76 +43,26 @@ class QueryBuilder extends \yii\base\Object
      */
     public function build($query)
     {
-        $parts = [];
-        if ($query->fields === []) {
-            $parts['fields'] = [];
-        } elseif ($query->fields !== null) {
-            $fields = [];
-            $scriptFields = [];
-            foreach($query->fields as $key => $field) {
-                if (is_int($key)) {
-                    $fields[] = $field;
-                } else {
-                    $scriptFields[$key] = $field;
-                }
-            }
-            if (!empty($fields)) {
-                $parts['fields'] = $fields;
-            }
-            if (!empty($scriptFields)) {
-                $parts['script_fields'] = $scriptFields;
-            }
-        }
-        if ($query->source !== null) {
-            $parts['_source'] = $query->source;
-        }
+        // \yii\helpers\VarDumper::dump($query, 10, true);
+        $options = $parts = [];
         if ($query->limit !== null && $query->limit >= 0) {
-            $parts['size'] = $query->limit;
+            $parts['limit'] = $query->limit;
         }
         if ($query->offset > 0) {
-            $parts['from'] = (int) $query->offset;
+            $parts['page'] = ceil($query->offset/$query->limit)+1;
         }
-        if (empty($query->query)) {
-            $parts['query'] = ["match_all" => (object) []];
-        } else {
-            $parts['query'] = $query->query;
+        if (!empty($query->query)) {
+            $parts['query'] = $query->limit;
         }
-        $whereFilter = $this->buildCondition($query->where);
-        if (is_string($query->filter)) {
-            if (empty($whereFilter)) {
-                $parts['filter'] = $query->filter;
-            } else {
-                $parts['filter'] = '{"and": [' . $query->filter . ', ' . Json::encode($whereFilter) . ']}';
-            }
-        } elseif ($query->filter !== null) {
-            if (empty($whereFilter)) {
-                $parts['filter'] = $query->filter;
-            } else {
-                $parts['filter'] = ['and' => [$query->filter, $whereFilter]];
-            }
-        } elseif (!empty($whereFilter)) {
-            $parts['filter'] = $whereFilter;
+
+        if (!empty($query->where)) {
+            $parts = array_merge($query->where,$parts);
         }
-        if (!empty($query->highlight)) {
-            $parts['highlight'] = $query->highlight;
+
+        if (!empty($query->orderBy)) {
+            $parts['orderby'] = key($query->orderBy).$this->_sort[reset($query->orderBy)];
         }
-        if (!empty($query->aggregations)) {
-            $parts['aggregations'] = $query->aggregations;
-        }
-        if (!empty($query->stats)) {
-            $parts['stats'] = $query->stats;
-        }
-        if (!empty($query->suggest)) {
-            $parts['suggest'] = $query->suggest;
-        }
-        $sort = $this->buildOrderBy($query->orderBy);
-        if (!empty($sort)) {
-            $parts['sort'] = $sort;
-        }
-        $options = [];
-        if ($query->timeout !== null) {
-            $options['timeout'] = $query->timeout;
-        }
+        // \yii\helpers\VarDumper::dump($parts, 10, true);
         return [
             'queryParts' => $parts,
             'index' => $query->index,
@@ -115,198 +70,12 @@ class QueryBuilder extends \yii\base\Object
             'options' => $options,
         ];
     }
-    /**
-     * adds order by condition to the query
-     */
-    public function buildOrderBy($columns)
-    {
-        if (empty($columns)) {
-            return [];
-        }
-        $orders = [];
-        foreach ($columns as $name => $direction) {
-            if (is_string($direction)) {
-                $column = $direction;
-                $direction = SORT_ASC;
-            } else {
-                $column = $name;
-            }
-            if ($column == '_id') {
-                $column = '_uid';
-            }
-            // allow elasticsearch extended syntax as described in http://www.elasticsearch.org/guide/reference/api/search/sort/
-            if (is_array($direction)) {
-                $orders[] = [$column => $direction];
-            } else {
-                $orders[] = [$column => ($direction === SORT_DESC ? 'desc' : 'asc')];
-            }
-        }
-        return $orders;
-    }
-    /**
-     * Parses the condition specification and generates the corresponding SQL expression.
-     *
-     * @param string|array $condition the condition specification. Please refer to [[Query::where()]] on how to specify a condition.
-     * @throws \yii\base\InvalidParamException if unknown operator is used in query
-     * @throws \yii\base\NotSupportedException if string conditions are used in where
-     * @return string the generated SQL expression
-     */
-    public function buildCondition($condition)
-    {
-        static $builders = [
-            'not' => 'buildNotCondition',
-            'and' => 'buildAndCondition',
-            'or' => 'buildAndCondition',
-            'between' => 'buildBetweenCondition',
-            'not between' => 'buildBetweenCondition',
-            'in' => 'buildInCondition',
-            'not in' => 'buildInCondition',
-            'like' => 'buildLikeCondition',
-            'not like' => 'buildLikeCondition',
-            'or like' => 'buildLikeCondition',
-            'or not like' => 'buildLikeCondition',
-        ];
-        if (empty($condition)) {
-            return [];
-        }
-        if (!is_array($condition)) {
-            throw new NotSupportedException('String conditions in where() are not supported by elasticsearch.');
-        }
-        if (isset($condition[0])) { // operator format: operator, operand 1, operand 2, ...
-            $operator = strtolower($condition[0]);
-            if (isset($builders[$operator])) {
-                $method = $builders[$operator];
-                array_shift($condition);
-                return $this->$method($operator, $condition);
-            } else {
-                throw new InvalidParamException('Found unknown operator in query: ' . $operator);
-            }
-        } else { // hash format: 'column1' => 'value1', 'column2' => 'value2', ...
-            return $this->buildHashCondition($condition);
-        }
-    }
-    private function buildHashCondition($condition)
-    {
-        $parts = [];
-        foreach ($condition as $attribute => $value) {
-            if ($attribute == '_id') {
-                if ($value === null) { // there is no null pk
-                    $parts[] = ['terms' => ['_uid' => []]]; // this condition is equal to WHERE false
-                } else {
-                    $parts[] = ['ids' => ['values' => is_array($value) ? $value : [$value]]];
-                }
-            } else {
-                if (is_array($value)) { // IN condition
-                    $parts[] = ['in' => [$attribute => $value]];
-                } else {
-                    if ($value === null) {
-                        $parts[] = ['missing' => ['field' => $attribute, 'existence' => true, 'null_value' => true]];
-                    } else {
-                        $parts[] = ['term' => [$attribute => $value]];
-                    }
-                }
-            }
-        }
-        return count($parts) === 1 ? $parts[0] : ['and' => $parts];
-    }
-    private function buildNotCondition($operator, $operands)
-    {
-        if (count($operands) != 1) {
-            throw new InvalidParamException("Operator '$operator' requires exactly one operand.");
-        }
-        $operand = reset($operands);
-        if (is_array($operand)) {
-            $operand = $this->buildCondition($operand);
-        }
-        return [$operator => $operand];
-    }
-    private function buildAndCondition($operator, $operands)
-    {
-        $parts = [];
-        foreach ($operands as $operand) {
-            if (is_array($operand)) {
-                $operand = $this->buildCondition($operand);
-            }
-            if (!empty($operand)) {
-                $parts[] = $operand;
-            }
-        }
-        if (!empty($parts)) {
-            return [$operator => $parts];
-        } else {
-            return [];
-        }
-    }
-    private function buildBetweenCondition($operator, $operands)
-    {
-        if (!isset($operands[0], $operands[1], $operands[2])) {
-            throw new InvalidParamException("Operator '$operator' requires three operands.");
-        }
-        list($column, $value1, $value2) = $operands;
-        if ($column == '_id') {
-            throw new NotSupportedException('Between condition is not supported for the _id field.');
-        }
-        $filter = ['range' => [$column => ['gte' => $value1, 'lte' => $value2]]];
-        if ($operator == 'not between') {
-            $filter = ['not' => $filter];
-        }
-        return $filter;
-    }
-    private function buildInCondition($operator, $operands)
-    {
-        if (!isset($operands[0], $operands[1])) {
-            throw new InvalidParamException("Operator '$operator' requires two operands.");
-        }
-        list($column, $values) = $operands;
-        $values = (array) $values;
-        if (empty($values) || $column === []) {
-            return $operator === 'in' ? ['terms' => ['_uid' => []]] : []; // this condition is equal to WHERE false
-        }
-        if (count($column) > 1) {
-            return $this->buildCompositeInCondition($operator, $column, $values);
-        } elseif (is_array($column)) {
-            $column = reset($column);
-        }
-        $canBeNull = false;
-        foreach ($values as $i => $value) {
-            if (is_array($value)) {
-                $values[$i] = $value = isset($value[$column]) ? $value[$column] : null;
-            }
-            if ($value === null) {
-                $canBeNull = true;
-                unset($values[$i]);
-            }
-        }
-        if ($column == '_id') {
-            if (empty($values) && $canBeNull) { // there is no null pk
-                $filter = ['terms' => ['_uid' => []]]; // this condition is equal to WHERE false
-            } else {
-                $filter = ['ids' => ['values' => array_values($values)]];
-                if ($canBeNull) {
-                    $filter = ['or' => [$filter, ['missing' => ['field' => $column, 'existence' => true, 'null_value' => true]]]];
-                }
-            }
-        } else {
-            if (empty($values) && $canBeNull) {
-                $filter = ['missing' => ['field' => $column, 'existence' => true, 'null_value' => true]];
-            } else {
-                $filter = ['in' => [$column => array_values($values)]];
-                if ($canBeNull) {
-                    $filter = ['or' => [$filter, ['missing' => ['field' => $column, 'existence' => true, 'null_value' => true]]]];
-                }
-            }
-        }
-        if ($operator == 'not in') {
-            $filter = ['not' => $filter];
-        }
-        return $filter;
-    }
     protected function buildCompositeInCondition($operator, $columns, $values)
     {
-        throw new NotSupportedException('composite in is not supported by elasticsearch.');
+        throw new NotSupportedException('composite in is not supported by hiresource.');
     }
     private function buildLikeCondition($operator, $operands)
     {
-        throw new NotSupportedException('like conditions are not supported by elasticsearch.');
+        throw new NotSupportedException('like conditions are not supported by hiresource.');
     }
 }

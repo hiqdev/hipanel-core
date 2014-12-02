@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\elasticsearch;
+namespace frontend\components\hiresource;
 
 use yii\base\Component;
 use yii\base\InvalidCallException;
@@ -50,69 +50,18 @@ class Command extends Component
     public function search($options = [])
     {
         $query = $this->queryParts;
-        if (empty($query)) {
-            $query = '{}';
-        }
-        if (is_array($query)) {
-            $query = Json::encode($query);
-        }
-        $url = [
-            $this->index !== null ? $this->index : '_all',
-            $this->type !== null ? $this->type : '_all',
-            '_search'
-        ];
+//        if (empty($query)) {
+//            $query = '{}';
+//        }
+//        if (is_array($query)) {
+//            $query = Json::encode($query);
+//        }
+        $options = array_merge($query, $options);
+        $url = $this->index.'Search';
 
-        return $this->db->get($url, array_merge($this->options, $options), $query);
+        return $this->db->get($url, array_merge($this->options, $options));
     }
 
-    /**
-     * Sends a request to the delete by query
-     * @param array $options
-     * @return mixed
-     */
-    public function deleteByQuery($options = [])
-    {
-        if (!isset($this->queryParts['query'])) {
-            throw new InvalidCallException('Can not call deleteByQuery when no query is given.');
-        }
-        $query = [
-            'query' => $this->queryParts['query'],
-        ];
-        if (isset($this->queryParts['filter'])) {
-            $query['filter'] = $this->queryParts['filter'];
-        }
-        $query = Json::encode($query);
-        $url = [
-            $this->index !== null ? $this->index : '_all',
-            $this->type !== null ? $this->type : '_all',
-            '_query'
-        ];
-
-        return $this->db->delete($url, array_merge($this->options, $options), $query);
-    }
-
-    /**
-     * Sends a request to the _suggest API and returns the result
-     * @param string|array $suggester the suggester body
-     * @param array $options
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-suggesters.html
-     */
-    public function suggest($suggester, $options = [])
-    {
-        if (empty($suggester)) {
-            $suggester = '{}';
-        }
-        if (is_array($suggester)) {
-            $suggester = Json::encode($suggester);
-        }
-        $url = [
-            $this->index !== null ? $this->index : '_all',
-            '_suggest'
-        ];
-
-        return $this->db->post($url, array_merge($this->options, $options), $suggester);
-    }
 
     /**
      * Inserts a document into an index
@@ -148,9 +97,9 @@ class Command extends Component
      * @return mixed
      * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html
      */
-    public function get($index, $type, $id, $options = [])
+    public function get($action, $id, $options = [])
     {
-        return $this->db->get([$index, $type, $id], $options);
+        return $this->db->get([$action.'GetInfo'], array_merge($options,['id'=>$id]));
     }
 
     /**
@@ -169,19 +118,6 @@ class Command extends Component
         $body = Json::encode(['ids' => array_values($ids)]);
 
         return $this->db->get([$index, $type, '_mget'], $options, $body);
-    }
-
-    /**
-     * gets a documents _source from the index (>=v0.90.1)
-     * @param $index
-     * @param $type
-     * @param $id
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html#_source
-     */
-    public function getSource($index, $type, $id)
-    {
-        return $this->db->get([$index, $type, $id]);
     }
 
     /**
@@ -220,245 +156,10 @@ class Command extends Component
      * @return mixed
      * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-update.html
      */
-//	public function update($index, $type, $id, $data, $options = [])
-//	{
-//		// TODO implement
-////		return $this->db->delete([$index, $type, $id], $options);
-//	}
+	public function update($index, $type, $id, $data, $options = [])
+	{
+		// TODO implement
+        return $this->db->delete([$index, $type, $id], $options);
+	}
 
-    // TODO bulk http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-bulk.html
-
-    /**
-     * creates an index
-     * @param $index
-     * @param array $configuration
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-create-index.html
-     */
-    public function createIndex($index, $configuration = null)
-    {
-        $body = $configuration !== null ? Json::encode($configuration) : null;
-
-        return $this->db->put([$index], [], $body);
-    }
-
-    /**
-     * deletes an index
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-delete-index.html
-     */
-    public function deleteIndex($index)
-    {
-        return $this->db->delete([$index]);
-    }
-
-    /**
-     * deletes all indexes
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-delete-index.html
-     */
-    public function deleteAllIndexes()
-    {
-        return $this->db->delete(['_all']);
-    }
-
-    /**
-     * checks whether an index exists
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-exists.html
-     */
-    public function indexExists($index)
-    {
-        return $this->db->head([$index]);
-    }
-
-    /**
-     * @param $index
-     * @param $type
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-types-exists.html
-     */
-    public function typeExists($index, $type)
-    {
-        return $this->db->head([$index, $type]);
-    }
-
-    // TODO http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-aliases.html
-
-    // TODO http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-update-settings.html
-    // TODO http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-get-settings.html
-
-    // TODO http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-warmers.html
-
-    /**
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-open-close.html
-     */
-    public function openIndex($index)
-    {
-        return $this->db->post([$index, '_open']);
-    }
-
-    /**
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-open-close.html
-     */
-    public function closeIndex($index)
-    {
-        return $this->db->post([$index, '_close']);
-    }
-
-    /**
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-status.html
-     */
-    public function getIndexStatus($index = '_all')
-    {
-        return $this->db->get([$index, '_status']);
-    }
-
-    // TODO http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-stats.html
-    // http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-segments.html
-
-    /**
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-clearcache.html
-     */
-    public function clearIndexCache($index)
-    {
-        return $this->db->post([$index, '_cache', 'clear']);
-    }
-
-    /**
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-flush.html
-     */
-    public function flushIndex($index = '_all')
-    {
-        return $this->db->post([$index, '_flush']);
-    }
-
-    /**
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-refresh.html
-     */
-    public function refreshIndex($index)
-    {
-        return $this->db->post([$index, '_refresh']);
-    }
-
-    // TODO http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-optimize.html
-
-    // TODO http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-gateway-snapshot.html
-
-    /**
-     * @param $index
-     * @param $type
-     * @param $mapping
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-put-mapping.html
-     */
-    public function setMapping($index, $type, $mapping, $options = [])
-    {
-        $body = $mapping !== null ? (is_string($mapping) ? $mapping : Json::encode($mapping)) : null;
-
-        return $this->db->put([$index, '_mapping', $type], $options, $body);
-    }
-
-    /**
-     * @param string $index
-     * @param string $type
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-get-mapping.html
-     */
-    public function getMapping($index = '_all', $type = '_all')
-    {
-        return $this->db->get([$index, '_mapping', $type]);
-    }
-
-    /**
-     * @param $index
-     * @param $type
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-put-mapping.html
-     */
-    public function deleteMapping($index, $type)
-    {
-        return $this->db->delete([$index, '_mapping', $type]);
-    }
-
-    /**
-     * @param $index
-     * @param string $type
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-get-field-mapping.html
-     */
-//    public function getFieldMapping($index, $type = '_all')
-//    {
-//		// TODO implement
-//        return $this->db->put([$index, $type, '_mapping']);
-//    }
-
-    /**
-     * @param $options
-     * @param $index
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-analyze.html
-     */
-//	public function analyze($options, $index = null)
-//	{
-//		// TODO implement
-////		return $this->db->put([$index]);
-//	}
-
-    /**
-     * @param $name
-     * @param $pattern
-     * @param $settings
-     * @param $mappings
-     * @param integer $order
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-templates.html
-     */
-    public function createTemplate($name, $pattern, $settings, $mappings, $order = 0)
-    {
-        $body = Json::encode([
-            'template' => $pattern,
-            'order' => $order,
-            'settings' => (object) $settings,
-            'mappings' => (object) $mappings,
-        ]);
-
-        return $this->db->put(['_template', $name], [], $body);
-
-    }
-
-    /**
-     * @param $name
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-templates.html
-     */
-    public function deleteTemplate($name)
-    {
-        return $this->db->delete(['_template', $name]);
-
-    }
-
-    /**
-     * @param $name
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-templates.html
-     */
-    public function getTemplate($name)
-    {
-        return $this->db->get(['_template', $name]);
-    }
 }

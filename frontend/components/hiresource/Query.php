@@ -12,45 +12,6 @@ use yii\base\Component;
 use yii\db\QueryInterface;
 use yii\db\QueryTrait;
 
-/**
- * Query represents a query to the search API of elasticsearch.
- *
- * Query provides a set of methods to facilitate the specification of different parameters of the query.
- * These methods can be chained together.
- *
- * By calling [[createCommand()]], we can get a [[Command]] instance which can be further
- * used to perform/execute the DB query against a database.
- *
- * For example,
- *
- * ~~~
- * $query = new Query;
- * $query->fields('id, name')
- *     ->from('myindex', 'users')
- *     ->limit(10);
- * // build and execute the query
- * $command = $query->createCommand();
- * $rows = $command->search(); // this way you get the raw output of elasticsearch.
- * ~~~
- *
- * You would normally call `$query->search()` instead of creating a command as this method
- * adds the `indexBy()` feature and also removes some inconsistencies from the response.
- *
- * Query also provides some methods to easier get some parts of the result only:
- *
- * - [[one()]]: returns a single record populated with the first row of data.
- * - [[all()]]: returns all records based on the query results.
- * - [[count()]]: returns the number of records.
- * - [[scalar()]]: returns the value of the first column in the first row of the query result.
- * - [[column()]]: returns the value of the first column in the query result.
- * - [[exists()]]: returns a value indicating whether the query result has data or not.
- *
- * NOTE: elasticsearch limits the number of records returned to 10 records by default.
- * If you expect to get more records you should specify limit explicitly.
- *
- * @author Carsten Brandt <mail@cebe.cc>
- * @since 2.0
- */
 class Query extends Component implements QueryInterface
 {
     use QueryTrait;
@@ -160,10 +121,9 @@ class Query extends Component implements QueryInterface
     public function init()
     {
         parent::init();
-        // setting the default limit according to elasticsearch defaults
-        // http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-body.html#_parameters_3
+        // setting the default limit according to api defaults
         if ($this->limit === null) {
-            $this->limit = 10;
+            $this->limit = 25;
         }
     }
 
@@ -176,7 +136,7 @@ class Query extends Component implements QueryInterface
     public function createCommand($db = null)
     {
         if ($db === null) {
-            $db = Yii::$app->get('elasticsearch');
+            $db = Yii::$app->get('hiresource');
         }
 
         $commandConfig = $db->getQueryBuilder()->build($this);
@@ -223,11 +183,11 @@ class Query extends Component implements QueryInterface
      */
     public function one($db = null)
     {
-        $result = $this->createCommand($db)->search(['size' => 1]);
-        if (empty($result['hits']['hits'])) {
+        $result = $this->createCommand($db)->search(['limit' => 1]);
+        if (empty($result)) {
             return false;
         }
-        $record = reset($result['hits']['hits']);
+        $record = reset($result);
 
         return $record;
     }
@@ -246,9 +206,9 @@ class Query extends Component implements QueryInterface
     public function search($db = null, $options = [])
     {
         $result = $this->createCommand($db)->search($options);
-        if (!empty($result['hits']['hits']) && $this->indexBy !== null) {
+        if (!empty($result) && $this->indexBy !== null) {
             $rows = [];
-            foreach ($result['hits']['hits'] as $key => $row) {
+            foreach ($result as $key => $row) {
                 if (is_string($this->indexBy)) {
                     $key = isset($row['fields'][$this->indexBy]) ? $row['fields'][$this->indexBy] : $row['_source'][$this->indexBy];
                 } else {
@@ -256,7 +216,7 @@ class Query extends Component implements QueryInterface
                 }
                 $rows[$key] = $row;
             }
-            $result['hits']['hits'] = $rows;
+            $result = $rows;
         }
         return $result;
     }
@@ -339,15 +299,9 @@ class Query extends Component implements QueryInterface
      */
     public function count($q = '*', $db = null)
     {
-        // TODO consider sending to _count api instead of _search for performance
-        // only when no facety are registerted.
-        // http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-count.html
-        // http://www.elasticsearch.org/guide/en/elasticsearch/reference/1.x/_search_requests.html
-
         $options = [];
-        $options['search_type'] = 'count';
-
-        return $this->createCommand($db)->search($options)['hits']['total'];
+        $options['count'] = 1;
+        return $this->createCommand($db)->search($options);
     }
 
     /**

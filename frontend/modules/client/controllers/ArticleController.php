@@ -28,4 +28,20 @@ class ArticleController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Article::findOne(['id'=>$id,'with_data'=>1])) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 }

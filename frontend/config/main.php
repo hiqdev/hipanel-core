@@ -24,8 +24,8 @@ return [
 
         'hiresource'=>[
             'class' => 'frontend\components\hiresource\Connection',
-            'nodes' => [
-                ['http_address'=>'https://sol-api.ahnames.com:80'],
+            'config' => [
+                'api_url'=>'tofid-api.ahnames.com',
             ],
         ],
 

@@ -11,69 +11,6 @@ use yii\db\ActiveQueryInterface;
 use yii\db\ActiveQueryTrait;
 use yii\db\ActiveRelationTrait;
 
-/**
- * ActiveQuery represents a [[Query]] associated with an [[ActiveRecord]] class.
- *
- * An ActiveQuery can be a normal query or be used in a relational context.
- *
- * ActiveQuery instances are usually created by [[ActiveRecord::find()]].
- * Relational queries are created by [[ActiveRecord::hasOne()]] and [[ActiveRecord::hasMany()]].
- *
- * Normal Query
- * ------------
- *
- * ActiveQuery mainly provides the following methods to retrieve the query results:
- *
- * - [[one()]]: returns a single record populated with the first row of data.
- * - [[all()]]: returns all records based on the query results.
- * - [[count()]]: returns the number of records.
- * - [[scalar()]]: returns the value of the first column in the first row of the query result.
- * - [[column()]]: returns the value of the first column in the query result.
- * - [[exists()]]: returns a value indicating whether the query result has data or not.
- *
- * Because ActiveQuery extends from [[Query]], one can use query methods, such as [[where()]],
- * [[orderBy()]] to customize the query options.
- *
- * ActiveQuery also provides the following additional query options:
- *
- * - [[with()]]: list of relations that this query should be performed with.
- * - [[indexBy()]]: the name of the column by which the query result should be indexed.
- * - [[asArray()]]: whether to return each record as an array.
- *
- * These options can be configured using methods of the same name. For example:
- *
- * ```php
- * $customers = Customer::find()->with('orders')->asArray()->all();
- * ```
- * > NOTE: elasticsearch limits the number of records returned to 10 records by default.
- * > If you expect to get more records you should specify limit explicitly.
- *
- * Relational query
- * ----------------
- *
- * In relational context ActiveQuery represents a relation between two Active Record classes.
- *
- * Relational ActiveQuery instances are usually created by calling [[ActiveRecord::hasOne()]] and
- * [[ActiveRecord::hasMany()]]. An Active Record class declares a relation by defining
- * a getter method which calls one of the above methods and returns the created ActiveQuery object.
- *
- * A relation is specified by [[link]] which represents the association between columns
- * of different tables; and the multiplicity of the relation is indicated by [[multiple]].
- *
- * If a relation involves a junction table, it may be specified by [[via()]].
- * This methods may only be called in a relational context. Same is true for [[inverseOf()]], which
- * marks a relation as inverse of another relation.
- *
- * > Note: elasticsearch limits the number of records returned by any query to 10 records by default.
- * > If you expect to get more records you should specify limit explicitly in relation definition.
- * > This is also important for relations that use [[via()]] so that if via records are limited to 10
- * > the relations records can also not be more than 10.
- *
- * > Note: Currently [[with]] is not supported in combination with [[asArray]].
- *
- * @author Carsten Brandt <mail@cebe.cc>
- * @since 2.0
- */
 class ActiveQuery extends Query implements ActiveQueryInterface
 {
     use ActiveQueryTrait;
@@ -149,6 +86,7 @@ class ActiveQuery extends Query implements ActiveQueryInterface
             $this->index = $modelClass::index();
             $this->type = $modelClass::type();
         }
+
         $commandConfig = $db->getQueryBuilder()->build($this);
 
         return $db->createCommand($commandConfig);
@@ -168,10 +106,13 @@ class ActiveQuery extends Query implements ActiveQueryInterface
         }
 
         $result = $this->createCommand($db)->search();
-        if (empty($result['hits']['hits'])) {
+
+        if (empty($result)) {
             return [];
         }
-        $models = $this->createModels($result['hits']['hits']);
+
+        $models = $this->createModels($result);
+
         if (!empty($this->with)) {
             $this->findWith($this->with, $models);
         }
@@ -234,7 +175,7 @@ class ActiveQuery extends Query implements ActiveQueryInterface
         $result = $this->createCommand($db)->search($options);
         // TODO implement with() for asArray
         if (!empty($result['hits']['hits']) && !$this->asArray) {
-            $models = $this->createModels($result['hits']['hits']);
+            $models = $this->createModels($result);
             if (!empty($this->with)) {
                 $this->findWith($this->with, $models);
             }
