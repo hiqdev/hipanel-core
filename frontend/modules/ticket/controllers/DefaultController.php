@@ -136,7 +136,4 @@ class DefaultController extends Controller
         }
         echo \yii\helpers\Json::encode($out);
     }
-
-
-
 }

@@ -155,7 +155,8 @@ class Connection extends Component
      */
     public function put($url, $options = [], $body = null, $raw = false)
     {
-        return $this->httpRequest('PUT', $this->createUrl($url, $options), $body, $raw);
+        return $this->httpRequest('POST', $this->createUrl($url, $options), $body, $raw);
+        //return $this->httpRequest('PUT', $this->createUrl($url, $options), $body, $raw);
     }
     /**
      * Performs DELETE HTTP request
@@ -170,7 +171,8 @@ class Connection extends Component
      */
     public function delete($url, $options = [], $body = null, $raw = false)
     {
-        return $this->httpRequest('DELETE', $this->createUrl($url, $options), $body, $raw);
+        // return $this->httpRequest('DELETE', $this->createUrl($url, $options), $body, $raw);
+        return $this->httpRequest('POST', $this->createUrl($url, $options), $body, $raw);
     }
     /**
      * Creates URL

@@ -23,10 +23,17 @@ class ArticleController extends Controller
     public function actionCreate()
     {
         $model = new Article;
+//        $fields = array_merge($baseModel->attributes(), $baseModel->getArticleExtraFields());
+//        $model = new \yii\base\DynamicModel($fields);
+//        $model->addRule(array_merge($baseModel->activeValidators[0]->attributes, $baseModel->getArticleExtraFields()),'required');
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        if ( $model->load(Yii::$app->request->post()) && $model->save() ) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
     }
 
     public function actionView($id)
@@ -34,6 +41,26 @@ class ArticleController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
     }
 
     protected function findModel($id)

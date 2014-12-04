@@ -14,6 +14,9 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
 
+        're'=>[
+            'class'=>'app\components\Re',
+        ],
 //        'activeresource'=>[
 //            'class'=>'frontend\components\ActiveResource\EActiveResource\EActiveResourceConnection',
 //            'site'=>'http://api.ahnames.com',

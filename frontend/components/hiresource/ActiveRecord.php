@@ -19,6 +19,8 @@ use yii\helpers\StringHelper;
 
 class ActiveRecord extends BaseActiveRecord
 {
+    public $gl_key;
+    public $gl_value;
     /**
      * Returns the database connection used by this AR class.
      * By default, the "hiresoruce" application component is used as the database connection.
@@ -44,7 +46,6 @@ class ActiveRecord extends BaseActiveRecord
      */
     public static function findOne($condition)
     {
-
         $query = static::find();
         if (is_array($condition)) {
             return $query->andWhere($condition)->one();
@@ -148,7 +149,62 @@ class ActiveRecord extends BaseActiveRecord
     }
 
 
-    public function insert($runValidation = true, $attributes = null, $options = ['op_type' => 'create'])
+    public function insert($runValidation = true, $attributes = null, $options = [])
     {
+        if ($runValidation && !$this->validate($attributes)) {
+            return false;
+        }
+
+        if (!$this->beforeSave(true)) {
+            return false;
+        }
+
+        $values = $this->getDirtyAttributes($attributes);
+        // \yii\helpers\VarDumper::dump($values, 10, true);die();
+        $response = static::getDb()->createCommand()->insert(
+                          static::type(),
+                          $values,
+                          $this->getPrimaryKey(),
+                          $options
+        );
+
+        $pk = static::primaryKey()[0];
+        $this->$pk = $response['id'];
+        if ($pk != 'id') {
+            $values[$pk] = $response['id'];
+        }
+        $changedAttributes = array_fill_keys(array_keys($values), null);
+        $this->setOldAttributes($values);
+        $this->afterSave(true, $changedAttributes);
+        return true;
+    }
+
+    public function delete($options = [])
+    {
+        if (!$this->beforeDelete()) {
+            return false;
+        }
+
+        try {
+            $result = static::getDb()->createCommand()->delete(
+                            static::type(),
+                            $this->getOldPrimaryKey(false),
+                            $options
+            );
+        } catch(Exception $e) {
+            // HTTP 409 is the response in case of failed optimistic locking
+            // http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/optimistic-concurrency-control.html
+            if (isset($e->errorInfo['responseCode']) && $e->errorInfo['responseCode'] == 409) {
+                throw new StaleObjectException('The object being deleted is outdated.', $e->errorInfo, $e->getCode(), $e);
+            }
+            throw $e;
+        }
+        $this->setOldAttributes(null);
+        $this->afterDelete();
+        if ($result === false) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }

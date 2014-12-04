@@ -48,7 +48,7 @@ class Http {
     static public function get($action,$data=array()) {
         $authData = [
             'auth_ip'=>'192.168.1.39',
-            'auth_login'=>'tofid',
+            'auth_login'=>'tofid',// Yii::$app->user->login
             'auth_password'=>'1309847555',
         ];
         $fetchData = self::fetchPost('https://api.ahnames.com/'.$action.'/',ArrayHelper::merge($data, $authData));

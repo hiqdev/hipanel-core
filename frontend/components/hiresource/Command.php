@@ -59,60 +59,39 @@ class Command extends Component
         $options = array_merge($query, $options);
         $url = $this->index.'Search';
 
-        return $this->db->get($url, array_merge($this->options, $options));
+        return $this->db->get($url, $options);
+    }
+
+    public function getList($options = [])
+    {
+        $options = array_merge($this->queryParts, $options);
+        return $this->db->get($this->index.'GetList', $options);
     }
 
 
-    /**
-     * Inserts a document into an index
-     * @param string $index
-     * @param string $type
-     * @param string|array $data json string or array of data to store
-     * @param null $id the documents id. If not specified Id will be automatically chosen
-     * @param array $options
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-index_.html
-     */
-    public function insert($index, $type, $data, $id = null, $options = [])
+
+    public function insert($action, $data, $id = null, $options = [])
     {
-        if (empty($data)) {
-            $body = '{}';
-        } else {
-            $body = is_array($data) ? Json::encode($data) : $data;
-        }
+//        if (empty($data)) {
+//            $body = '{}';
+//        } else {
+//            $body = is_array($data) ? Json::encode($data) : $data;
+//        }
+        $options = array_merge($data, $options);
 
         if ($id !== null) {
-            return $this->db->put([$index, $type, $id], $options, $body);
+            return $this->db->put($action.'Update', array_merge($options,['id'=>$id]), $body);
         } else {
-            return $this->db->post([$index, $type], $options, $body);
+            return $this->db->post($action.'Create', $options, $body);
         }
     }
 
-    /**
-     * gets a document from the index
-     * @param $index
-     * @param $type
-     * @param $id
-     * @param array $options
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html
-     */
-    public function get($action, $id, $options = [])
+    public function get()
     {
-        return $this->db->get([$action.'GetInfo'], array_merge($options,['id'=>$id]));
+        unset($this->queryParts['limit']);
+        return $this->db->get($this->type.'GetInfo', $this->queryParts);
     }
 
-    /**
-     * gets multiple documents from the index
-     *
-     * TODO allow specifying type and index + fields
-     * @param $index
-     * @param $type
-     * @param $ids
-     * @param array $options
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-multi-get.html
-     */
     public function mget($index, $type, $ids, $options = [])
     {
         $body = Json::encode(['ids' => array_values($ids)]);
@@ -120,42 +99,16 @@ class Command extends Component
         return $this->db->get([$index, $type, '_mget'], $options, $body);
     }
 
-    /**
-     * gets a document from the index
-     * @param $index
-     * @param $type
-     * @param $id
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html
-     */
     public function exists($index, $type, $id)
     {
         return $this->db->head([$index, $type, $id]);
     }
 
-    /**
-     * deletes a document from the index
-     * @param $index
-     * @param $type
-     * @param $id
-     * @param array $options
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-delete.html
-     */
-    public function delete($index, $type, $id, $options = [])
+    public function delete($index, $id, $options = [])
     {
-        return $this->db->delete([$index, $type, $id], $options);
+        return $this->db->delete($index.'Delete', array_merge($options,['id'=>$id]));
     }
 
-    /**
-     * updates a document
-     * @param $index
-     * @param $type
-     * @param $id
-     * @param array $options
-     * @return mixed
-     * @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-update.html
-     */
 	public function update($index, $type, $id, $data, $options = [])
 	{
 		// TODO implement

@@ -133,9 +133,8 @@ class ActiveQuery extends Query implements ActiveQueryInterface
      */
     public function one($db = null)
     {
-        if (($result = parent::one($db)) === false) {
-            return null;
-        }
+        $result = $this->createCommand($db)->get();
+
         if ($this->asArray) {
             // TODO implement with()
 //            /* @var $modelClass ActiveRecord */
@@ -174,7 +173,7 @@ class ActiveQuery extends Query implements ActiveQueryInterface
     {
         $result = $this->createCommand($db)->search($options);
         // TODO implement with() for asArray
-        if (!empty($result['hits']['hits']) && !$this->asArray) {
+        if (!empty($result) && !$this->asArray) {
             $models = $this->createModels($result);
             if (!empty($this->with)) {
                 $this->findWith($this->with, $models);
@@ -182,7 +181,7 @@ class ActiveQuery extends Query implements ActiveQueryInterface
             foreach ($models as $model) {
                 $model->afterFind();
             }
-            $result['hits']['hits'] = $models;
+            $result = $models;
         }
 
         return $result;
@@ -210,5 +209,23 @@ class ActiveQuery extends Query implements ActiveQueryInterface
         }
 
         return parent::column($field, $db);
+    }
+
+    public function getList($db = null, $options = [])
+    {
+        $rawResult = $this->createCommand($db)->getList($options);
+        foreach ($rawResult as $k=>$v) $result[] = ['gl_key'=>$k,'gl_value'=>$v];
+        if (!empty($result) && !$this->asArray) {
+            $models = $this->createModels($result);
+            if (!empty($this->with)) {
+                $this->findWith($this->with, $models);
+            }
+            foreach ($models as $model) {
+                $model->afterFind();
+            }
+            $result = $models;
+        }
+//        return $this->createCommand($db)->getList($options);
+        return $result;
     }
 }

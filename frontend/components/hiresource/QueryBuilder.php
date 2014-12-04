@@ -43,7 +43,6 @@ class QueryBuilder extends \yii\base\Object
      */
     public function build($query)
     {
-        // \yii\helpers\VarDumper::dump($query, 10, true);
         $options = $parts = [];
         if ($query->limit !== null && $query->limit >= 0) {
             $parts['limit'] = $query->limit;
@@ -56,13 +55,13 @@ class QueryBuilder extends \yii\base\Object
         }
 
         if (!empty($query->where)) {
-            $parts = array_merge($query->where,$parts);
+            $parts = array_merge($parts,$query->where);
         }
 
         if (!empty($query->orderBy)) {
             $parts['orderby'] = key($query->orderBy).$this->_sort[reset($query->orderBy)];
         }
-        // \yii\helpers\VarDumper::dump($parts, 10, true);
+
         return [
             'queryParts' => $parts,
             'index' => $query->index,

@@ -1,77 +1,59 @@
 <?
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use frontend\models\Ref;
 use yii\bootstrap\ActiveForm;
-
+use frontend\components\Re;
+$langs = ArrayHelper::map(\app\modules\client\models\Article::getApiLangs(), 'gl_key', 'gl_value');
+$this->registerJs("$(function () {\$('#lang_tab a:first').tab('show');});", yii\web\View::POS_END, 'lng-tabpanel-options');
+$modelReflacion = new \ReflectionClass(get_class($model));
 ?>
 
 <? $form = ActiveForm::begin() ?>
-    <?= $form->field($model, 'is_published')->widget(kartik\widgets\SwitchInput::className(),[
+    <?= $form->field($model, 'is_published')->widget(kartik\widgets\SwitchInput::className()); ?>
 
-    ]); ?>
-
-    <?= $form->field($model, 'article_name'); ?>
+    <?= $form->field($model, 'name'); ?>
     <?= $form->field($model, 'post_date')->widget(kartik\widgets\DatePicker::className(),[
     'value' => date('d-M-Y', strtotime('+2 days')),
     ]); ?>
 
-    <?= $form->field($model, 'type')->dropDownList(['news'=>'News','promos'=>'Promos','mail'=>'Mail']); ?>
+    <?= $form->field($model, 'type')->dropDownList(ArrayHelper::map(Ref::find()->where(['gtype'=>'type,article'])->getList(), 'gl_key', function($l){
+         return ucfirst(Re::l($l->gl_value));
+    })); ?>
 
-
-
-    <div role="tabpanel">
+    <div role="tabpanel" style="margin-bottom: 25px;">
 
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#ru" aria-controls="home" role="tab" data-toggle="tab">Russian</a></li>
-            <li role="presentation"><a href="#en" aria-controls="profile" role="tab" data-toggle="tab">English</a></li>
+        <ul id="lang_tab" class="nav nav-tabs" role="tablist">
+            <? foreach ($langs as $code=>$label) : ?>
+                <?=Html::beginTag('li',['role'=>'presentation'])?>
+                    <?=Html::a(Re::l($label),'#'.$code,['role'=>'tab','data-toggle'=>'tab']);?>
+                <?=Html::endTag('li')?>
+            <? endforeach; ?>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="ru">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">HTML title</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">HTML keywords</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Title</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Short text</label>
-                    <textarea class="form-control" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Text</label>
-                    <textarea class="form-control" rows="3"></textarea>
-                </div>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="en">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">HTML title</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">HTML keywords</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Title</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Short text</label>
-                    <textarea class="form-control" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Text</label>
-                    <textarea class="form-control" rows="3"></textarea>
-                </div>
-            </div>
+            <?/* foreach ($langs as $code=>$label) : ?>
+                <?=Html::beginTag('div',['id'=>$code,'role'=>'tabpanel','class'=>'tab-pane'])?>
+                    <?= $form->field($model, "html_title_$code"); ?>
+                    <?= $form->field($model, "html_keywords_$code"); ?>
+                    <?= $form->field($model, "html_description_$code"); ?>
+                    <?= $form->field($model, "title_$code"); ?>
+                    <?= $form->field($model, "short_text_$code")->textarea(['row'=>6]); ?>
+                    <?= $form->field($model, "text_$code")->textarea(['row'=>9]); ?>
+                <?=Html::endTag('div')?>
+            <? endforeach; */?>
+
+            <? foreach ( [2867298=>"ru",2867299=>"en"] as $id=>$lng ) : ?>
+                <?=Html::beginTag('div',['id'=>$lng,'role'=>'tabpanel','class'=>'tab-pane'])?>
+                    <?= $form->field($model, "data[$id][html_title]")->label('Html Title'); ?>
+                    <?= $form->field($model, "data[$id][html_keywords]")->label('Html Keywords'); ?>
+                    <?= $form->field($model, "data[$id][title]")->label('Article Title'); ?>
+                    <?= $form->field($model, "data[$id][short_text]")->textarea(['rows'=>6])->label('Short Text'); ?>
+                    <?= $form->field($model, "data[$id][text]")->textarea(['rows'=>9])->label('Long Text'); ?>
+                <?=Html::endTag('div')?>
+            <? endforeach; ?>
         </div>
 
     </div>

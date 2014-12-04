@@ -1,31 +1,96 @@
 <?php
 namespace app\modules\client\models;
 
-use Yii;
+use Yii, frontend\models\Ref;
 
 class Article extends \frontend\components\hiresource\ActiveRecord
 {
+
+    public function getArticleExtraFields() {
+        $extraField = [
+            'html_title',
+            'html_keywords',
+            'html_description',
+            'title',
+            'short_text',
+            'text',
+        ];
+        $lngs = self::getApiLangs();
+        foreach ($extraField as $field) {
+            foreach ( $lngs as $l) {
+                $ar[] = $field.'_'.$l->gl_key;
+            }
+        }
+        return $ar;
+    }
 
     /**
      * @return array the list of attributes for this record
      */
     public function attributes()
     {
-        // path mapping for '_id' is setup to field 'id'
-        return ['id', 'article_name', 'post_date', 'data'];
+
+        return [
+            'id',
+            'article_name',
+            'post_date',
+            'data',
+            // create
+            'name',
+            'type',
+            'texts',
+            'client',
+            'client_id',
+            'is_common',
+            'realm',
+            'is_published',
+
+        ];
     }
 
+    public static function getApiLangs($select=null) {
+        if ($select!==null)
+            return Ref::find()->where(['gtype'=>'type,lang','select'=>$select])->getList();
+        else
+            return Ref::find()->where(['gtype'=>'type,lang'])->getList();
+
+    }
 
     public function rules()
     {
         return [
-            [['article_name'],'required'],
             [[
+                'name',
+                'type',
+                'data',
+            ],'required'],
+            [[
+                'is_published',
+                'type',
                 'post_date',
                 'data',
             ],'safe'],
         ];
     }
+
+//    public function fields()
+//    {
+//        return [
+//            'lang_id',
+//            'html_title',
+//            'html_keywords',
+//            'title',
+//            'short_text',
+//            'text',
+//            'name',
+//            'label',
+//        ];
+//    }
+//
+//    public function extraFields()
+//    {
+//        return ['data'];
+//    }
 
     public function rest()
     {
