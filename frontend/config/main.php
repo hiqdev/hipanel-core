@@ -13,8 +13,13 @@ return [
     'name'=>'hi Panel',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'defaultRoute' => 'site',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+
+//        'assetManager' => [
+//            'bundles' => false,
+//        ],
 
         're'=>[
             'class'=>'app\components\Re',
