@@ -9,6 +9,14 @@ use \app\modules\client\models\ArticleSearch;
 
 class ArticleController extends Controller
 {
+    public function beforeAction($action) {
+        if (isset($_POST['Article']['data'])) {
+            $_POST['Article']['texts'] = $_POST['Article']['data'];
+            unset($_POST['Article']['data']);
+        }
+        return parent::beforeAction($action);
+    }
+
     public function actionIndex($tpl='_tariff')
     {
         $searchModel = new ArticleSearch();

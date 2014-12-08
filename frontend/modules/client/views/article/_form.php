@@ -7,6 +7,7 @@ use frontend\components\Re;
 $langs = ArrayHelper::map(\app\modules\client\models\Article::getApiLangs(), 'gl_key', 'gl_value');
 $this->registerJs("$(function () {\$('#lang_tab a:first').tab('show');});", yii\web\View::POS_END, 'lng-tabpanel-options');
 $modelReflacion = new \ReflectionClass(get_class($model));
+\yii\helpers\VarDumper::dump($model, 10, true);
 ?>
 
 <? $form = ActiveForm::begin() ?>
