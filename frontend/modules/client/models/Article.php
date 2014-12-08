@@ -62,13 +62,13 @@ class Article extends \frontend\components\hiresource\ActiveRecord
             [[
                 'name',
                 'type',
-                'data',
             ],'required'],
             [[
                 'is_published',
                 'type',
                 'post_date',
                 'data',
+                'texts',
             ],'safe'],
         ];
     }

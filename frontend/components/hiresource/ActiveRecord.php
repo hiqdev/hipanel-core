@@ -207,4 +207,56 @@ class ActiveRecord extends BaseActiveRecord
             return 1;
         }
     }
+
+    public function update($runValidation = true, $attributeNames = null, $options = [])
+    {
+        if ($runValidation && !$this->validate($attributeNames)) {
+            return false;
+        }
+        return $this->updateInternal($attributeNames, $options);
+    }
+
+    protected function updateInternal($attributes = null, $options = [])
+    {
+        if (!$this->beforeSave(false)) {
+            return false;
+        }
+
+        $values = $this->getAttributes($attributes);
+//        $values = $this->attributes;
+
+
+        if (empty($values)) {
+            $this->afterSave(false, $values);
+            return 0;
+        }
+
+        try {
+            $result = static::getDb()->createCommand()->update(
+                            static::type(),
+                            $this->getOldPrimaryKey(false),
+                            $values,
+                            $options
+            );
+        } catch(Exception $e) {
+            // HTTP 409 is the response in case of failed optimistic locking
+            // http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/optimistic-concurrency-control.html
+            if (isset($e->errorInfo['responseCode']) && $e->errorInfo['responseCode'] == 409) {
+                throw new StaleObjectException('The object being updated is outdated.', $e->errorInfo, $e->getCode(), $e);
+            }
+            throw $e;
+        }
+        $changedAttributes = [];
+        foreach ($values as $name => $value) {
+            $changedAttributes[$name] = $this->getOldAttribute($name);
+            $this->setOldAttribute($name, $value);
+        }
+        $this->afterSave(false, $changedAttributes);
+        if ($result === false) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
 }

@@ -109,10 +109,10 @@ class Command extends Component
         return $this->db->delete($index.'Delete', array_merge($options,['id'=>$id]));
     }
 
-	public function update($index, $type, $id, $data, $options = [])
+	public function update($index, $id, $data, $options = [])
 	{
-		// TODO implement
-        return $this->db->delete([$index, $type, $id], $options);
+        $options['id'] = $id;
+        return $this->db->put($index.'Update', array_merge($data,$options));
 	}
 
 }
