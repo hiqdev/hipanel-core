@@ -48,6 +48,7 @@ use frontend\widgets\Alert;
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <?php echo \cebe\gravatar\Gravatar::widget([
                                     'email' => Yii::$app->user->identity->email,
+                                    'defaultImage' => 'identicon',
                                     'options' => [
                                         'alt' => Yii::$app->user->identity->username,
                                     ],
@@ -60,6 +61,7 @@ use frontend\widgets\Alert;
                                 <li class="user-header bg-light-blue">
                                     <?php echo \cebe\gravatar\Gravatar::widget([
                                         'email' => Yii::$app->user->identity->email,
+                                        'defaultImage' => 'identicon',
                                         'options' => [
                                             'alt' => Yii::$app->user->identity->username,
                                         ],
