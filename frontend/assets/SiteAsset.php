@@ -30,7 +30,7 @@ class SiteAsset extends AssetBundle
 //         'adminlte/js/AdminLTE/app.js'
     ];
     public $depends = [
-        'yii\web\JqueryAsset',
+//        'yii\web\JqueryAsset',
 //         'yii\web\YiiAsset',
 //         'yii\bootstrap\BootstrapAsset',
 //         'yii\bootstrap\BootstrapPluginAsset'
