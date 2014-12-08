@@ -6,6 +6,8 @@ $params = array_merge(
     require(__DIR__ . '/params-local.php')
 );
 
+function d ($a) { die(var_dump($a)); }
+
 return [
     'id' => 'app-frontend',
     'name'=>'hi Panel',
@@ -33,7 +35,7 @@ return [
         ],
 
         'user' => [
-            'identityClass' => 'common\m  odels\User',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
         ],
         'log' => [
@@ -48,6 +50,21 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'hi3a' => [
+                    'class'         => 'common\components\hi3aOauth2Client',
+                    'authUrl'       => 'http://sol-auth-master.hiqdev.com/oauth2/authorize',
+                    'tokenUrl'      => 'http://sol-auth-master.hiqdev.com/oauth2/token',
+                    'apiBaseUrl'    => 'http://sol-auth-master.hiqdev.com/api',
+                    'clientId'      => 'sol-hipanel-master',
+                    'clientSecret'  => 'MdQybNMHMJ',
+                ],
+            ],
+        ],
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

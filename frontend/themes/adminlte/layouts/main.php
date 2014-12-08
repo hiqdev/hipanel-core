@@ -39,16 +39,34 @@ use frontend\widgets\Alert;
                     <ul class="nav navbar-nav">
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <?php if (!Yii::$app->user->identity->id) { ?>
+                            <a href="/site/login">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span><?= 'User Name' ?> <i class="caret"></i></span>
+                                Login
+                            </a>
+                        <?php } else { ?>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <?php echo \cebe\gravatar\Gravatar::widget([
+                                    'email' => Yii::$app->user->identity->email,
+                                    'options' => [
+                                        'alt' => Yii::$app->user->identity->username,
+                                    ],
+                                    'size' => 16
+                                ]); ?>&nbsp;
+                                <span><?= Yii::$app->user->identity->username ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <?= Html::img('/adminlte/img/avatar5.png', ['class' => 'img-circle', 'alt' => Yii::$app->user->identity->username]) ?>
+                                    <?php echo \cebe\gravatar\Gravatar::widget([
+                                        'email' => Yii::$app->user->identity->email,
+                                        'options' => [
+                                            'alt' => Yii::$app->user->identity->username,
+                                        ],
+                                        'size' => 90
+                                    ]); ?>
                                     <p>
-                                        <?= 'User Name' ?> - <?= 'Administrator' ?>
+                                        <?= Yii::$app->user->identity->username ?> - <?= Yii::$app->user->identity->type ?>
                                         <small><?= Yii::t('app', 'Member since') ?> <?= '2014-11-24' ?></small>
                                     </p>
                                 </li>
@@ -64,12 +82,13 @@ use frontend\widgets\Alert;
                                     <div class="pull-right">
                                         <?= Html::a(
                                             'Sign out',
-                                            ['/users/user/logout'],
+                                            ['/site/logout'],
                                             ['class' => 'btn btn-default btn-flat']
                                         ) ?>
                                     </div>
                                 </li>
                             </ul>
+                        <?php }; ?>
                         </li>
                     </ul>
                 </div>

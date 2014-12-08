@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\User;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -40,21 +41,26 @@ class SiteController extends Controller
                     ],
                 ],
             ],
+/*
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
                 ],
             ],
+*/
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function actions()
-    {
+    public function actions () {
         return [
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'successCallback'],
+            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
@@ -65,16 +71,23 @@ class SiteController extends Controller
         ];
     }
 
+    public function successCallback ($client) {
+        $attributes = $client->getUserAttributes();
+        $user = new User;
+        foreach ($user->attributes() as $k) $user->{$k} = $attributes[$k];
+        $user->save();
+        Yii::$app->user->login($user, 3600 * 24 * 30);
+    }
+
     public function actionIndex()
     {
         return $this->render('index');
     }
 
-    public function actionLogin()
-    {
+    public function actionLogin () {
         if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+            return $this->goBack();
+        };
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
@@ -83,7 +96,7 @@ class SiteController extends Controller
             return $this->render('login', [
                 'model' => $model,
             ]);
-        }
+        };
     }
 
     public function actionLogout()

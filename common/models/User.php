@@ -2,9 +2,9 @@
 namespace common\models;
 
 use Yii;
+use yii\base\Model;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -22,11 +22,27 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends Model implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
-    const ROLE_USER = 10;
+    public $id;
+    public $email;
+    public $username;
+    public $type;
+
+    private static $_users;
+
+
+    public function save () {
+        static::$_users[$this->id]       = $this;
+        \Yii::$app->session->set('identity:'.$this->id,$this);
+    }
+
+    public function findOne ($id) {
+        $find = static::$_users[$id];
+        if ($find) return $find;
+        $find = \Yii::$app->session->get('identity:'.$id);
+        return $find;
+    }
 
     /**
      * @inheritdoc
@@ -60,12 +76,11 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
-    {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+    /** @inheritdoc */
+    public static function findIdentity ($id) {
+//d(debug_backtrace());
+//d(\Yii::$app->authClientCollection->getClient('hi3a')->getUserAttributes());
+        return static::findOne($id);
     }
 
     /**
@@ -125,17 +140,16 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
+    public function getId () {
+        return $this->id;
     }
 
     /**
      * @inheritdoc
      */
-    public function getAuthKey()
-    {
-        return $this->auth_key;
+    public function getAuthKey () {
+        return 'DUMMY';
+        //return $this->auth_key;
     }
 
     /**
@@ -170,9 +184,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Generates "remember me" authentication key
      */
-    public function generateAuthKey()
-    {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+    public function generateAuthKey () {
+        $this->auth_key = 'DUMMY';
+        //$this->auth_key = Yii::$app->security->generateRandomString();
     }
 
     /**
