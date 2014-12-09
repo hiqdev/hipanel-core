@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\elasticsearch;
+namespace frontend\components\hiresource;
 
 use yii\debug\Panel;
 use yii\helpers\ArrayHelper;
@@ -15,20 +15,20 @@ use yii\helpers\Html;
 use yii\web\View;
 
 /**
- * Debugger panel that collects and displays elasticsearch queries performed.
+ * Debugger panel that collects and displays Hires queries performed.
  *
  * @author Carsten Brandt <mail@cebe.cc>
  * @since 2.0
  */
 class DebugPanel extends Panel
 {
-    public $db = 'elasticsearch';
+    public $db = 'hiresource';
 
 
     public function init()
     {
-        $this->actions['elasticsearch-query'] = [
-            'class' => 'yii\\elasticsearch\\DebugAction',
+        $this->actions['hiresource-query'] = [
+            'class' => 'frontend\\components\\hiresource\\DebugAction',
             'panel' => $this,
             'db' => $this->db,
         ];
@@ -39,7 +39,7 @@ class DebugPanel extends Panel
      */
     public function getName()
     {
-        return 'Elasticsearch';
+        return 'HiResource';
     }
 
     /**
@@ -57,7 +57,7 @@ class DebugPanel extends Panel
         $url = $this->getUrl();
         $output = <<<EOD
 <div class="yii-debug-toolbar-block">
-    <a href="$url" title="Executed $queryCount elasticsearch queries which took $queryTime.">
+    <a href="$url" title="Executed $queryCount queries which took $queryTime.">
         ES <span class="label">$queryCount</span> <span class="label">$queryTime</span>
     </a>
 </div>
@@ -133,7 +133,7 @@ HTML;
         $rows = implode("\n", $rows);
 
         return <<<HTML
-<h1>Elasticsearch Queries</h1>
+<h1>HiResource Queries</h1>
 
 <table class="table table-condensed table-bordered table-striped table-hover" style="table-layout: fixed;">
 <thead>
@@ -188,7 +188,7 @@ HTML;
     public function save()
     {
         $target = $this->module->logTarget;
-        $messages = $target->filterMessages($target->messages, Logger::LEVEL_PROFILE, ['yii\elasticsearch\Connection::httpRequest']);
+        $messages = $target->filterMessages($target->messages, Logger::LEVEL_PROFILE, ['frontend\components\hiresource\Connection::httpRequest']);
 
         return ['messages' => $messages];
     }

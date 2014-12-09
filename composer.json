@@ -22,7 +22,7 @@
         "yiisoft/yii2-authclient": "*",
         "guzzlehttp/guzzle": "~5.0",
         "vova07/yii2-imperavi-widget": "*",
-        "kartik-v/yii2-widgets": "dev-master",
+        "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
         "cebe/yii2-gravatar": "*"
     },

@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\elasticsearch;
+namespace frontend\components\hiresource;
 
 use yii\base\Action;
 use yii\base\NotSupportedException;
@@ -38,6 +38,7 @@ class DebugAction extends Action
 
     public function run($logId, $tag)
     {
+        \yii\helpers\VarDumper::dump($tag, 10, true);die();
         $this->controller->loadData($tag);
 
         $timings = $this->panel->calculateTimings();

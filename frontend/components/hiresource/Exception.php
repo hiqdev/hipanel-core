@@ -20,6 +20,6 @@ class Exception extends \yii\db\Exception
      */
     public function getName()
     {
-        return 'Elasticsearch Database Exception';
+        return 'HiResource Database Exception';
     }
 }
