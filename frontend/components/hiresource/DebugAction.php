@@ -38,7 +38,7 @@ class DebugAction extends Action
 
     public function run($logId, $tag)
     {
-        \yii\helpers\VarDumper::dump($tag, 10, true);die();
+
         $this->controller->loadData($tag);
 
         $timings = $this->panel->calculateTimings();

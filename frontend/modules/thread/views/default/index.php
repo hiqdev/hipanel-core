@@ -2,8 +2,14 @@
 use frontend\widgets\GridView;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
+use yii\web\JsExpression;
+
+//kartik\select2\Select2Asset::register($this);
+frontend\assets\Select2Asset::register($this);
+
 $this->title = Yii::t('app', 'Tickets');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <?php echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -19,24 +25,36 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
+        // ['class' => 'yii\grid\SerialColumn'],
         [
             'class' => 'yii\grid\CheckboxColumn',
             // you may configure additional properties here
         ],
         [
             'attribute'=>'create_time',
-            'format'=>['date'],
+            'format'=>['date', 'php:d/m/y H:i'],
             'filter' => DatePicker::widget(
                                   [
                                       'name'=>'create_time',
+                                      'dateFormat' => 'dd/MM/yyyy',
                                       'options' => [
-                                          'class' => 'form-control'
+                                          'class' => 'form-control',
                                       ],
-                                      'clientOptions' => [
-                                          'dateFormat' => 'dd.mm.yy',
-                                      ]
                                   ])
+        ],
+        [
+            'attribute'=>'author_id',
+            'value'=> function ($data) { return $data->author; },
+            'filterInputOptions' => ['id'=>'author_id'],
+            'header'=>'',
+        ],
+        [
+            'attribute'=>'recipient',
+            'format'=>'html',
+            'value'=>function($data) {
+                    return Html::a($data->recipient, ['/client/default/view','id'=>$data->recipient_id]);
+
+                },
         ],
         [
             'attribute'=>'subject',
@@ -82,15 +100,51 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         [
             'class' => 'yii\grid\ActionColumn',
-            'template'=>'{view} {update} {delete} {remind}',
-            'buttons'=>[
-                'view'=>function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',['view','id'=>$model['id']]);
-                    },
-                'remind'=>function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-bell"></span>','#',['title'=>'Remind']);
-                    },
-            ],
+//            'template'=>'{view} {update} {delete} {remind}',
+//            'buttons'=>[
+//                'view'=>function ($url, $model, $key) {
+//                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',['view','id'=>$model['id']]);
+//                    },
+//                'remind'=>function ($url, $model, $key) {
+//                        return Html::a('<span class="glyphicon glyphicon-bell"></span>','#',['title'=>'Remind']);
+//                    },
+//            ],
         ],
     ],
 ]); ?>
+<?
+// client ajax get
+$getAuthorUrl = yii\helpers\Url::to(['client-list']);
+$initScript = <<< SCRIPT
+function (elem, callback) {
+    var id=$(elem).val();
+    $.ajax("{$getAuthorUrl}?id=" + id, {
+        dataType: "json"
+    }).done(function(data) {
+        callback(data.results);
+    });
+}
+SCRIPT;
+$this->registerJs("$('#author_id').select2({
+    placeholder: 'type author name ...',
+    minimumInputLength: 3,
+    triggerChange: true,
+    allowClear: true,
+    width:'100%',
+    ajax: {
+        url: '{$getAuthorUrl}',
+        dataType: 'json',
+        data: function (term, page) {
+            return {
+                search: term
+            };
+        },
+        results: function (data, page) {
+            return {
+                results: data.results
+            };
+        }
+    },
+    initSelection: {$initScript}
+});", \yii\web\View::POS_READY, 'author');
+?>

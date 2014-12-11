@@ -20,7 +20,8 @@ use yii\helpers\Url;
 <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 <![endif]-->
 
-<?php AppAsset::register($this);
+<?php
+AppAsset::register($this);
 
 $this->registerMetaTag(
     [

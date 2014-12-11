@@ -35,7 +35,7 @@ return [
         'hiresource'=>[
             'class' => 'frontend\components\hiresource\Connection',
             'config' => [
-                'api_url'=>'tofid-api.ahnames.com',
+                'api_url'=>'localhost-api.ahnames.com',
             ],
         ],
 
@@ -106,8 +106,8 @@ return [
         'client' => [
             'class' => 'app\modules\client\Module',
         ],
-        'ticket' => [
-            'class' => 'app\modules\ticket\Module',
+        'thread' => [
+            'class' => 'app\modules\thread\Module',
         ],
     ],
     'params' => $params,

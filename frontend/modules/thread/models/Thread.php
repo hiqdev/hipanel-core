@@ -1,51 +1,60 @@
 <?php
 
-namespace app\modules\ticket\models;
+namespace app\modules\thread\models;
 
 use Yii;
 
-class Ticket extends \yii\db\ActiveRecord
+class Thread extends \frontend\components\hiresource\ActiveRecord
 {
-    public $subject;
-    public $message;
-    public $state;
-    public $state_label;
-    public $author_id;
-    public $responsible_id;
-    public $author;
-    public $author_seller;
-    public $recipient_id;
-    public $recipient;
-    public $recipient_seller;
-    public $replier_id;
-    public $replier;
-    public $replier_seller;
-    public $replier_name;
-    public $responsible;
-    public $priority;
-    public $spent;
-    public $answer_count;
-    public $status;
-    public $reply_time;
-    public $create_time;
-    public $a_reply_time;
-    public $elapsed;
-    public $topic;
-    public $watchers;
-    public $add_tag_ids;
-    public $file_ids;
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
+    public function attributes()
     {
-        return 'ticket';
-    }
+        return [
+            'id',
+            'subject',
+            'state',
+            'state_label',
+            'author',
+            'author_id',
+            'responsible_id',
+            'author_seller',
+            'recipient_id',
+            'recipient',
+            'recipient_seller',
+            'replier_id',
+            'replier',
+            'replier_seller',
+            'replier_name',
+            'responsible',
+            'priority',
+            'spent',
+            'answer_count',
+            'status',
+            'reply_time',
+            'create_time',
+            'a_reply_time',
+            'elapsed',
+            'topic',
+            'watchers',
+            'add_tag_ids',
+            'file_ids',
 
-    public static function getDb()
-    {
-        return \Yii::$app->hipanel;  // use the "db2" application component
+
+            // $with_messages_fields
+            'message',
+            'answer_message',
+
+
+            // $with_anonym_fields
+            'is_private',
+            'anonym_email',
+            'anonym_seller',
+
+//
+//            'topic',
+//            'watchers',
+//            'add_tag_ids',
+//            'file_ids',
+        ];
     }
 
     /**
@@ -53,35 +62,10 @@ class Ticket extends \yii\db\ActiveRecord
      */
     public function rules () {
         return [
-            [['subject', 'message'], 'required'],
+            [[], 'required'],
             [
                 [
-                    'state',
-                    'state_label',
-                    'author_id',
-                    'responsible_id',
-                    'author',
-                    'author_seller',
-                    'recipient_id',
-                    'recipient',
-                    'recipient_seller',
-                    'replier_id',
-                    'replier',
-                    'replier_seller',
-                    'replier_name',
-                    'responsible',
-                    'priority',
-                    'spent',
-                    'answer_count',
-                    'status',
-                    'reply_time',
-                    'create_time',
-                    'a_reply_time',
-                    'elapsed',
-                    'topic',
-                    'watchers',
-                    'add_tag_ids',
-                    'file_ids',
+
                 ],
                 'safe'
             ],

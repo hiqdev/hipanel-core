@@ -2,7 +2,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-$this->title = $data['subject'];
+//\yii\helpers\VarDumper::dump($model, 10, true);
+$this->title = $model->subject;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </p>
 
 
-<?=DetailView::widget([
+<?/*=DetailView::widget([
     'model' => $data,
     'attributes' => [
         [
@@ -27,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => $data['subject'],
         ],
     ],
-]);
+]);*/
 ?>
 
 

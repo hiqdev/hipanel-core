@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\ticket\models;
+namespace frontend\modules\client\models;
 
 use Yii;
 use yii\base\Model;
@@ -10,16 +10,14 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class TicketSearch extends \app\modules\ticket\models\Ticket
+class ClientSearch extends \frontend\modules\client\models\Client
 {
-    /**
-     * @inheritdoc
-     */
+
     public function rules()
     {
         return [
             [['id'], 'integer'],
-            [['subject','create_time'], 'safe'],
+            // [['',''],'safe'],
         ];
     }
 
@@ -41,25 +39,23 @@ class TicketSearch extends \app\modules\ticket\models\Ticket
      */
     public function search($params)
     {
-        // $query = Ticket::find();
+        $query = Client::find()->where(['with_contact'=>1]);
 
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $query,
-//        ]);
-        $dataProvider = new \yii\data\ArrayDataProvider([
-            'allModels' => \frontend\components\Http::get('ticketsSearch', ['limit'=>'1000']),
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
 
+        $query->andFilterWhere([
+            'client_like' => $this->client_like,
         ]);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
-//        $query->andFilterWhere([
-//            'id' => $this->id,
-//            'create_time' => $this->create_time,
-//        ]);
-//        $query->andFilterWhere(['like', 'subject', $this->title]);
+        $query->andFilterWhere([
+            'ids' => $this->id,
+        ]);
 
         return $dataProvider;
     }

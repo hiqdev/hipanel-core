@@ -24,7 +24,8 @@
         "vova07/yii2-imperavi-widget": "*",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
-        "cebe/yii2-gravatar": "*"
+        "cebe/yii2-gravatar": "*",
+        "vova07/yii2-select2-widget": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -42,24 +42,24 @@ echo Menu::widget(
             ],
             [
                 'label' => Yii::t('app', 'Tickets'),
-                'url' => ['/ticket/default/index'],
+                'url' => ['/thread/default/index'],
                 'icon' => 'fa-folder',
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Tickets'),
-                        'url' => ['/ticket/default/index'],
+                        'url' => ['/thread/default/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'Tickets settings'),
-                        'url' => ['/ticket/default/settings'],
+                        'url' => ['/thread/default/settings'],
                     ],
                     [
                         'label' => Yii::t('app', 'Tickets templates'),
-                        'url' => ['/ticket/template/index'],
+                        'url' => ['/thread/template/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'Ticket tags'),
-                        'url' => ['/ticket/tag/index'],
+                        'url' => ['/thread/tag/index'],
                     ],
                 ]
             ],
