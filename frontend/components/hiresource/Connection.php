@@ -224,6 +224,9 @@ class Connection extends Component
      */
     protected function httpRequest($method, $url, $requestBody = null, $raw = false)
     {
+        $this->auth = [
+            'access_token' => \Yii::$app->user->identity->getAccessToken()
+        ];
         $method = strtoupper($method);
         // response body and headers
         $headers = [];

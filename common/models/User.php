@@ -78,9 +78,12 @@ class User extends Model implements IdentityInterface
 
     /** @inheritdoc */
     public static function findIdentity ($id) {
-//d(debug_backtrace());
-//d(\Yii::$app->authClientCollection->getClient('hi3a')->getUserAttributes());
         return static::findOne($id);
+    }
+
+    /** @inheritdoc */
+    public function getAccessToken () {
+        return \Yii::$app->authClientCollection->getClient('hi3a')->getAccessToken()->getParam('access_token');
     }
 
     /**
