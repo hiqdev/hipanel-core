@@ -22,6 +22,12 @@ class DefaultController extends Controller
 
     }
 
+    private function getFilters ($name) {
+        return ArrayHelper::map(\frontend\models\Ref::find()->where(['gtype' => 'type,'.$name])->getList(),
+            'gl_key',
+            function ($v) { return frontend\components\Re::l($v->gl_value); });
+    }
+
     public function actionView($id)
     {
         return $this->render('view', [
@@ -109,8 +115,42 @@ class DefaultController extends Controller
             foreach ($data as $item) $res[] =  ['id' => $item->gl_key, 'text' => $item->gl_value];
             $out['results'] = $res;
         }
-        elseif ($id > 0) {
-            $out['results'] = ['id' => $id, 'text' => \frontend\modules\client\models\Client::find()->where(['ids'=>$id,'with_contact'=>1])->one()->login];
+        elseif ($id != 0) {
+            $out['results'] = ['id' => $id, 'text' => \frontend\modules\client\models\Client::find()->where(['id'=>$id,'with_contact'=>1])->one()->login];
+        }
+        else {
+            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
+        }
+        echo \yii\helpers\Json::encode($out);
+    }
+
+    public function actionManagerList($search = null, $id = null) {
+        $out = ['more' => false];
+        if (!is_null($search)) {
+            $data = \frontend\modules\client\models\Client::find()->where(['client_like'=>$search, 'manager_only'=>1])->getList();// Http::get('clientsGetList',['client_like'=>$search]);
+            $res = [];
+            foreach ($data as $item) $res[] =  ['id' => $item->gl_key, 'text' => $item->gl_value];
+            $out['results'] = $res;
+        }
+        elseif ($id != 0) {
+            $out['results'] = ['id' => $id, 'text' => \frontend\modules\client\models\Client::find()->where(['id'=>$id,'with_contact'=>1])->one()->login];
+        }
+        else {
+            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
+        }
+        echo \yii\helpers\Json::encode($out);
+    }
+
+    public function actionStateList($search = null, $id = null) {
+        $out = ['more' => false];
+        if (!is_null($search)) {
+            $data = Ref::find()->where(['gtype'=>'state,ticket'])->getList();
+            $res = [];
+            foreach ($data as $item) $res[] =  ['id' => $item->gl_key, 'text' => $item->gl_value];
+            $out['results'] = $res;
+        }
+        elseif ($id != 0) {
+            $out['results'] = ['id' => $id, 'text' => \frontend\modules\client\models\Client::find()->where(['id'=>$id,'with_contact'=>1])->one()->login];
         }
         else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];

@@ -18,7 +18,7 @@ class ThreadSearch extends \app\modules\thread\models\Thread
     public function rules()
     {
         return [
-            [['author_id',], 'safe'],
+            [['author_id','responsible_id','state','priority','time_from','time_till'], 'safe'],
         ];
     }
 
@@ -53,6 +53,11 @@ class ThreadSearch extends \app\modules\thread\models\Thread
 
         $query->andFilterWhere([
             'author_id' => $this->author_id,
+            'responsible_id' => $this->responsible_id,
+            'state' => $this->state,
+            'priority' => $this->priority,
+            'time_till' => $this->time_till,
+            'time_form' => $this->time_from,
         ]);
         // $query->andFilterWhere(['like', 'subject', $this->title]);
 

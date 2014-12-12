@@ -8,7 +8,7 @@
     "support": {
         "issues": "http://hipanel.com/issues",
         "forum": "http://yiiframework.com/forum",
-        "wiki": "http://hipanel.com/wiki",
+        "wiki": "http://hipanel.com/wiki"
     },
     "minimum-stability": "stable",
     "require": {
@@ -23,7 +23,8 @@
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
         "cebe/yii2-gravatar": "*",
-        "vova07/yii2-select2-widget": "*"
+        "vova07/yii2-select2-widget": "*",
+        "kartik-v/yii2-field-range": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

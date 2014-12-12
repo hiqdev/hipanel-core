@@ -6,6 +6,9 @@ use Yii;
 
 class Thread extends \frontend\components\hiresource\ActiveRecord
 {
+    public $time_from;
+    public $time_till;
+
     public function attributes()
     {
         return [

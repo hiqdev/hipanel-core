@@ -35,9 +35,10 @@ class Connection extends Component
      * @var array
      */
     public $auth = [
-        'auth_ip'=>'192.168.1.39',
-        'auth_login'=>'tofid',
-        'auth_password'=>'1309847555',
+//        'auth_ip'=>'192.168.1.39',
+//        'auth_login'=>'tofid',
+//        'auth_password'=>'1309847555',
+//        'access_token' => \Yii::$app->user->identity->getAccessToken()
     ];
 
     /**
@@ -53,6 +54,13 @@ class Connection extends Component
      * If not set, no explicit timeout will be set for curl.
      */
     public $dataTimeout = null;
+
+    private function _getAuth()
+    {
+        return [
+            'access_token' => \Yii::$app->user->identity->getAccessToken()
+        ];
+    }
 
     public function init()
     {
@@ -197,7 +205,7 @@ class Connection extends Component
 //            }
 //        }
 
-        $options = \yii\helpers\ArrayHelper::merge($options, $this->auth);
+        $options = \yii\helpers\ArrayHelper::merge($options, $this->_getAuth());
         if (!is_string($path)) {
             $url = urldecode(reset($path));
             if (!empty($options)) {
