@@ -12,16 +12,6 @@ use kartik\widgets\DatePicker;
 $this->title = Yii::t('app', 'Tickets');
 $this->params['breadcrumbs'][] = $this->title;
 
-$initClientScript = <<< SCRIPT
-function (elem, callback) {
-    var id=$(elem).val();
-    $.ajax("{$getClientUrl}?id=" + id, {
-        dataType: "json"
-    }).done(function(data) {
-        callback(data.results);
-    });
-}
-SCRIPT;
 ?>
 
 <?php echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,7 +19,7 @@ SCRIPT;
 
 
 <div class="row">
-    <?=print Html::beginForm('','get');?>
+    <?=Html::beginForm('','get');?>
     <div class="col-md-6">
         <p>
             <?= Html::a(Yii::t('app', 'Create {modelClass}', [
@@ -37,17 +27,15 @@ SCRIPT;
             ]), ['create'], ['class' => 'btn btn-success']) ?>
         </p>
     </div>
-    <div class="col-md-4">
-
+    <div class="col-md-5">
         <?
-        print '<label class="control-label">'.Yii::t('app','Dates range').'</label>';
         print DatePicker::widget([
             'model'=>$searchModel,
             'attribute' => 'time_from',
-            'value' => date('d-m-Y'),
+            // 'value' => date('d-m-Y'),
             'type' => DatePicker::TYPE_RANGE,
             'attribute2' => 'time_till',
-            'value2' => date('d-m-Y'),
+            // 'value2' => date('d-m-Y'),
             'pluginOptions' => [
                 'autoclose'=>true,
                 'format' => 'dd-mm-yyyy'
@@ -55,7 +43,7 @@ SCRIPT;
         ]);
         ?>
     </div>
-    <div class="col-md-2"><?=Html::submitButton(Yii::t('app','Sort'));?></div>
+    <div class="col-md-1"><?=Html::submitButton(Yii::t('app','Apply'),['class'=>'btn btn-md btn-default']);?></div>
     <?=Html::endForm();?>
 </div>
 
@@ -146,7 +134,7 @@ SCRIPT;
                         ],
                         'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("'.yii\helpers\Url::to(['manager-list']).'?id=" + id, {
+                                                            $.ajax("'.yii\helpers\Url::to(['client-list']).'?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);
@@ -228,7 +216,7 @@ SCRIPT;
                         ],
                         'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("'.yii\helpers\Url::to(['client-list']).'?id=" + id, {
+                                                            $.ajax("'.yii\helpers\Url::to(['manager-list']).'?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);
