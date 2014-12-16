@@ -62,7 +62,6 @@ class QueryBuilder extends \yii\base\Object
         if (!empty($query->orderBy)) {
             $parts['orderby'] = key($query->orderBy).$this->_sort[reset($query->orderBy)];
         }
-        print '<hr>';\yii\helpers\VarDumper::dump($parts, 10, true);print '<hr>';
 
         return [
             'queryParts' => $parts,
