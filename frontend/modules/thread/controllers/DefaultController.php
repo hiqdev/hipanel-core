@@ -25,7 +25,7 @@ class DefaultController extends Controller
     private function getFilters ($name) {
         return ArrayHelper::map(\frontend\models\Ref::find()->where(['gtype' => 'type,'.$name])->getList(),
             'gl_key',
-            function ($v) { return frontend\components\Re::l($v->gl_value); });
+            function ($v) { return \frontend\components\Re::l($v->gl_value); });
     }
 
     public function actionView($id)

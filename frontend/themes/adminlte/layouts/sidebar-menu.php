@@ -16,7 +16,7 @@ echo Menu::widget(
         'items' => [
             [
                 'label' => 'Dashboard',
-                'url' => Yii::$app->homeUrl,
+                'url' => ['/hipanel'],//Yii::$app->homeUrl,
                 'icon' => 'fa-dashboard',
                 'active' => Yii::$app->request->url === Yii::$app->homeUrl
             ],
