@@ -1,18 +1,17 @@
 <?php
-namespace frontend\modules\client\models;
+namespace app\modules\client\models;
 
 use Yii, frontend\models\Ref;
-
 
 class Client extends \frontend\components\hiresource\ActiveRecord
 {
     /**
-     * @return array|\string[]
+     * @return array the list of attributes for this record
      */
     public function attributes()
     {
         return [
-            // serach
+            // search
             'id',
             'client',
             'seller',
@@ -51,7 +50,31 @@ class Client extends \frontend\components\hiresource\ActiveRecord
     public function rules()
     {
         return [
+            [[
+                'name',
+                'type',
+            ],'required'],
+            [[
+                'type',
+            ],'safe'],
+        ];
+    }
 
+    public function rest()
+    {
+        return \yii\helpers\ArrayHelper::merge(parent::rest(),['resource'=>'article']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'article_name' => Yii::t('app', 'Article Name'),
+            'post_date' => Yii::t('app', 'Post Date'),
+            'data' => Yii::t('app', 'Data'),
         ];
     }
 }
