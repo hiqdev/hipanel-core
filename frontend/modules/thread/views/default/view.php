@@ -1,11 +1,17 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Markdown;
 use yii\widgets\DetailView;
-
-//\yii\helpers\VarDumper::dump($model, 10, true);
+use yii\helpers\Url;
 $this->title = $model->subject;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+// \yii\helpers\VarDumper::dump($model, 10, true);
+$this->registerCss('
+    .text-message {
+        margin: 1rem;
+    }
+');
 ?>
 
 <p>
@@ -19,20 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 </p>
 
-
-<?/*=DetailView::widget([
-    'model' => $data,
+<?= DetailView::widget([
+    'model' => $model,
     'attributes' => [
-        [
-            'label' => Yii::t('app','subject'),
-            'value' => $data['subject'],
-        ],
+        'subject',
+        'state',
+        'priority',
+        'author_id',
+        'responsible_id',
+        'recipient_id',
     ],
-]);*/
-?>
-
-
-
+]); ?>
 <!-- Chat box -->
 <div class="box box-success">
     <div class="box-header">
@@ -46,18 +49,26 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="box-body chat" id="chat-box">
-        <!-- chat item -->
-        <div class="item">
-            <img src="/adminlte/img/avatar.png" alt="user image" class="online"/>
-            <p class="message">
-                <a href="#" class="name">
-                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                    Mike Doe
-                </a>
-                I would like to meet you to discuss the latest news about
-                the arrival of the new theme. They say it is going to be one the
-                best themes on the market
-            </p>
+<?php foreach ($model->answers as $answer_id => $answer) : ?>
+    <!-- chat item -->
+    <div class="item" id="answer-<?=$answer['id']?>">
+        <?= \cebe\gravatar\Gravatar::widget([
+            'email' => $answer['email'],
+            'defaultImage' => 'identicon',
+            'options' => [
+                'alt' => $answer['author'],
+            ],
+            'size' => 90
+        ]); ?>
+        <div class="message">
+            <?=Html::beginTag('a', ['class'=>'name', 'href'=>Url::toRoute(['/client/default/view', 'id'=>$answer['author_id']]) ]) ?>
+                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> <?= Yii::$app->formatter->asDatetime($answer['create_time'], 'd-m-Y H:i')?></small>
+                <?= $answer['author'] ?>
+            <?= Html::endTag('a'); ?>
+            <div class="message-source"></div><?= Markdown::process($answer['message']) ?></div>
+        </div>
+
+        <?php if (!empty($answer['files'])) : ?>
             <div class="attachment">
                 <h4>Attachments:</h4>
                 <p class="filename">
@@ -67,35 +78,32 @@ $this->params['breadcrumbs'][] = $this->title;
                     <button class="btn btn-primary btn-sm btn-flat">Open</button>
                 </div>
             </div><!-- /.attachment -->
-        </div><!-- /.item -->
-        <!-- chat item -->
-        <div class="item">
-            <img src="/adminlte/img/avatar2.png" alt="user image" class="offline"/>
-            <p class="message">
-                <a href="#" class="name">
-                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
-                    Jane Doe
-                </a>
-                I would like to meet you to discuss the latest news about
-                the arrival of the new theme. They say it is going to be one the
-                best themes on the market
-            </p>
-        </div><!-- /.item -->
-        <!-- chat item -->
-        <div class="item">
-            <img src="/adminlte/img/avatar3.png" alt="user image" class="offline"/>
-            <p class="message">
-                <a href="#" class="name">
-                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small>
-                    Susan Doe
-                </a>
-                I would like to meet you to discuss the latest news about
-                the arrival of the new theme. They say it is going to be one the
-                best themes on the market
-            </p>
-        </div><!-- /.item -->
+            <div class="attachments_wrapper">
+                <?php foreach ($answer['files'] as $file) : ?>
+                    <div class="attachment">
+                        <a class="file<?= $file['is_image'] ? ' media' : '' ?>" href="<?= $file['url'] ?>"
+                           title="<?= htmlspecialchars($file['filename']) ?>"
+                            <? if (!$file['is_image']) { ?>
+                                download="<?= htmlspecialchars($file['filename']) ?>"
+                            <? } else { ?>
+                                target="_blank"
+                            <? } ?>
+                            >
+                            <? if ($file['is_image']) { ?>
+                                <img src="<?= $file['url'] ?>" <?= $file['size_string'] ?> wikiparams="<?= $file['wikiparams'] ?>" />
+                            <? } else {   ?>
+                                <img src="<?= $file['icon'] ?>"/>
+                            <? } ?>
+                            <span class="name"><?= htmlspecialchars($file['filename']) ?></span>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div><!-- /.item -->
+<?php endforeach; ?>
     </div><!-- /.chat -->
     <div class="box-footer">
-        <?=$this->render('_form',['model'=>new \app\modules\ticket\models\Ticket()])?>
+
     </div>
 </div><!-- /.box (chat box) -->

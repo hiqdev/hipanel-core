@@ -4,6 +4,9 @@ use frontend\widgets\HiBox;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use yii\web\JsExpression;
+use frontend\models\Ref;
+use yii\helpers\ArrayHelper;
+use frontend\components\Re;
 $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View::POS_READY);
 
 ?>
@@ -20,15 +23,7 @@ $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'topic')->widget(Select2::classname(),[
-                'data' => array_merge(["" => ""], [
-                    'abuse'=> "Abuse",
-                    'administration'=> "Administration",
-                    'domain'=> "Domain",
-                    'financial'=>"Financial question",
-                    'general'=>"General question",
-                    'technical'=>"Technical question",
-                    'vds'=>"VDS",
-                ]),
+                'data' => array_merge(["" => ""], ArrayHelper::map(Ref::find()->where(['gtype'=>'topic,ticket'])->getList(),'gl_key', function($o){return Re::l($o->gl_value);})),
                 'options' => ['placeholder' => 'Select a topic ...', 'multiple'=>true],
                 'pluginOptions' => [
                     'allowClear' => true,

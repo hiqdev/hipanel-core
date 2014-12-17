@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
 /* @var $model app\modules\ticket\models\Ticket */
 
@@ -13,8 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ticket-create">
-
-
 
     <?= $this->render('_form', [
         'model' => $model,

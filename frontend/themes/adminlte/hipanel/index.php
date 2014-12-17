@@ -78,10 +78,3 @@
         </div>
     </div><!-- ./col -->
 </div>
-
-
-<?php
-
-$userQuery = (new appQuery)->select('id')->from('user');
-$query->where(['id' => $userQuery]);
-?>

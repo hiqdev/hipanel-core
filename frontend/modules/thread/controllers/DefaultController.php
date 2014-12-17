@@ -100,7 +100,7 @@ class DefaultController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Thread::findOne(['id'=>$id,'with_data'=>1])) !== null) {
+        if (($model = Thread::findOne(['id'=>$id,'with_answers'=>1])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

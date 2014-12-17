@@ -44,7 +44,8 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
 
             // $with_messages_fields
             'message',
-            'answer_message',
+            // 'answer_message',
+            'answers',
 
 
             // $with_anonym_fields
@@ -81,12 +82,12 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function attributeLabels () {
         return [
             'id'               => Yii::t('app', 'ID'),
-            'subject'          => Yii::t('app', 'subject'),
-            'message'          => Yii::t('app', 'message'),
-            'state'            => Yii::t('app', 'state'),
-            'state_label'      => Yii::t('app', 'state_label'),
-            'author_id'        => Yii::t('app', 'author_id'),
-            'responsible_id'   => Yii::t('app', 'responsible_id'),
+            'subject'          => Yii::t('app', 'Subject'),
+            'message'          => Yii::t('app', 'Message'),
+            'state'            => Yii::t('app', 'State'),
+            'state_label'      => Yii::t('app', 'State_label'),
+            'author_id'        => Yii::t('app', 'Author'),
+            'responsible_id'   => Yii::t('app', 'Responsible'),
             'author'           => Yii::t('app', 'author'),
             'author_seller'    => Yii::t('app', 'author_seller'),
             'recipient_id'     => Yii::t('app', 'recipient_id'),
