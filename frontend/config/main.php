@@ -38,7 +38,6 @@ return [
                 'api_url'=>'localhost-api.ahnames.com',
             ],
         ],
-
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
@@ -108,6 +107,9 @@ return [
         ],
         'thread' => [
             'class' => 'app\modules\thread\Module',
+        ],
+        'server' => [
+            'class' => 'app\modules\server\Module',
         ],
     ],
     'params' => $params,

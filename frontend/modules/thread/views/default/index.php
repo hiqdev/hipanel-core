@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         [
             'attribute'=>'create_time',
-            'format'=>['date', 'php:d/m/y H:i'],
+            'format'=>['date', 'php:d.m.Y H:i'],
 //            'filter' => DatePicker::widget(
 //                                  [
 //                                      'name'=>'create_time',
