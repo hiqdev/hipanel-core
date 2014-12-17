@@ -182,6 +182,17 @@ class Connection extends Component
         // return $this->httpRequest('DELETE', $this->createUrl($url, $options), $body, $raw);
         return $this->httpRequest('POST', $this->createUrl($url, $options), $body, $raw);
     }
+
+    /**
+     * @param $url
+     * @param array $options
+     *
+     * @return mixed
+     */
+    public function perform($url, $options = [])
+    {
+        return $this->httpRequest('POST', $this->createUrl($url, $options));
+    }
     /**
      * Creates URL
      *

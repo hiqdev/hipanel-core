@@ -115,4 +115,14 @@ class Command extends Component
         return $this->db->put($index.'Update', array_merge($data,$options));
 	}
 
+    /**
+     * @param $action
+     * @param array $options
+     *
+     * @return mixed
+     */
+    public function perform($action, $options = [])
+    {
+        return $this->db->put($action, $options);
+    }
 }

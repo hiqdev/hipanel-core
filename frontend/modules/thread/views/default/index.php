@@ -229,6 +229,7 @@ $('.thread-search').find('input[type=text], select').each(function(){
 // Button handle
 $('.search-button').click(function(){
     $('.thread-search').toggle();
+    $('tr.filters').toggle();
     return false;
 });
 // Reset handle

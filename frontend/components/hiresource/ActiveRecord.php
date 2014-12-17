@@ -259,4 +259,28 @@ class ActiveRecord extends BaseActiveRecord
         }
     }
 
+    /**
+     * Custom method for HiResource
+     *
+     * @param $action
+     * @param null $attributes
+     * @param array $options
+     *
+     * @return int
+     * @throws \Exception
+     * @throws Exception
+     * @throws StaleObjectException
+     */
+    public function perform($action, $attributes = null, $options = []) {
+        try {
+            $result = static::getDb()->createCommand()->perform($action, $options);
+        } catch(Exception $e) {
+            if (isset($e->errorInfo['responseCode']) && $e->errorInfo['responseCode'] == 409) {
+                throw new StaleObjectException('The object being deleted is outdated.', $e->errorInfo, $e->getCode(), $e);
+            }
+            throw $e;
+        }
+        $this->setOldAttributes(null);
+        return $result;
+    }
 }
