@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\Thread\controllers;
+namespace app\modules\thread\controllers;
 
 use app\modules\thread\models\Thread;
 use app\modules\thread\models\ThreadSearch;
