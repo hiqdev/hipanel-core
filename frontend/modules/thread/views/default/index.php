@@ -1,51 +1,23 @@
 <?
 use frontend\widgets\GridView;
 use yii\helpers\Html;
-// use yii\jui\DatePicker;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
-use kartik\widgets\DatePicker;
-
 
 // frontend\assets\Select2Asset::register($this);
 
 $this->title = Yii::t('app', 'Tickets');
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 
-<?php echo $this->render('_search', ['model' => $searchModel]); ?>
+<?= $this->render('_search', ['model' => $searchModel]); ?>
+
+<?= Html::a(Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'Ticket',
+]), ['create'], ['class' => 'btn btn-success']) ?>&nbsp;
+<?= Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-success search-button']) ?>
 
 
-
-<div class="row">
-    <?=Html::beginForm('','get');?>
-    <div class="col-md-6">
-        <p>
-            <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-                'modelClass' => 'Ticket',
-            ]), ['create'], ['class' => 'btn btn-success']) ?>
-        </p>
-    </div>
-    <div class="col-md-5">
-        <?
-        print DatePicker::widget([
-            'model'=>$searchModel,
-            'attribute' => 'time_from',
-            // 'value' => date('d-m-Y'),
-            'type' => DatePicker::TYPE_RANGE,
-            'attribute2' => 'time_till',
-            // 'value2' => date('d-m-Y'),
-            'pluginOptions' => [
-                'autoclose'=>true,
-                'format' => 'dd-mm-yyyy'
-            ]
-        ]);
-        ?>
-    </div>
-    <div class="col-md-1"><?=Html::submitButton(Yii::t('app','Apply'),['class'=>'btn btn-md btn-default']);?></div>
-    <?=Html::endForm();?>
-</div>
 
 <?=GridView::widget([
     'dataProvider' => $dataProvider,
@@ -95,13 +67,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                     ],
                     'initSelection' => new JsExpression('function (elem, callback) {
-                                                            var id=$(elem).val();
-                                                            $.ajax("'.yii\helpers\Url::to(['client-list']).'?id=" + id, {
-                                                                dataType: "json"
-                                                            }).done(function(data) {
-                                                                callback(data.results);
-                                                            });
-                                                        }')
+                        var id=$(elem).val();
+                        $.ajax("' . yii\helpers\Url::to(['client-list']) . '?id=" + id, {
+                            dataType: "json"
+                        }).done(function(data) {
+                            callback(data.results);
+                        });
+                    }')
                 ],
             ]),
         ],
@@ -246,3 +218,23 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ],
 ]); ?>
+
+
+<?php
+$this->registerJs("
+// Check if at least one input field is filled
+$('.thread-search').find('input[type=text], select').each(function(){
+    if($(this).val() != '') $('.thread-search').toggle();
+});
+// Button handle
+$('.search-button').click(function(){
+    $('.thread-search').toggle();
+    return false;
+});
+// Reset handle
+$('.thread-search :reset').click(function(){
+    $('.thread-search :input').reset();
+    return false;
+});
+", \yii\web\View::POS_LOAD, 'advanced-search-button');
+?>
