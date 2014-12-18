@@ -8,14 +8,15 @@
 namespace frontend\components\hiresource;
 
 use Yii;
-use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
-use yii\base\NotSupportedException;
 use yii\db\BaseActiveRecord;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
-use yii\helpers\Json;
 use yii\helpers\StringHelper;
+
+//use yii\base\InvalidCallException;
+//use yii\base\NotSupportedException;
+//use yii\helpers\ArrayHelper;
+//use yii\helpers\Json;
 
 class ActiveRecord extends BaseActiveRecord
 {
@@ -38,7 +39,7 @@ class ActiveRecord extends BaseActiveRecord
      */
     public static function find()
     {
-        return Yii::createObject(ActiveQuery::className(), [get_called_class()]);
+        return \Yii::createObject(ActiveQuery::className(), [get_called_class()]);
     }
 
     /**
@@ -138,8 +139,10 @@ class ActiveRecord extends BaseActiveRecord
      */
     public static function index()
     {
-        return Inflector::pluralize(Inflector::camel2id(StringHelper::basename(get_called_class()), '-'));
+//        return Inflector::pluralize(Inflector::camel2id(StringHelper::basename(get_called_class()), '-'));
+        return mb_strtolower(StringHelper::basename(get_called_class()).'s');
     }
+
     /**
      * @return string the name of the type of this record.
      */
@@ -148,9 +151,7 @@ class ActiveRecord extends BaseActiveRecord
         return Inflector::camel2id(StringHelper::basename(get_called_class()), '-');
     }
 
-
-    public function insert($runValidation = true, $attributes = null, $options = [])
-    {
+    public function insert ($runValidation = true, $attributes = null, $options = []) {
         if ($runValidation && !$this->validate($attributes)) {
             return false;
         }
@@ -162,13 +163,13 @@ class ActiveRecord extends BaseActiveRecord
         $values = $this->getDirtyAttributes($attributes);
         // \yii\helpers\VarDumper::dump($values, 10, true);die();
         $response = static::getDb()->createCommand()->insert(
-                          static::type(),
-                          $values,
-                          $this->getPrimaryKey(),
-                          $options
+            static::type(),
+            $values,
+            $this->getPrimaryKey(),
+            $options
         );
 
-        $pk = static::primaryKey()[0];
+        $pk        = static::primaryKey()[0];
         $this->$pk = $response['id'];
         if ($pk != 'id') {
             $values[$pk] = $response['id'];
@@ -185,22 +186,15 @@ class ActiveRecord extends BaseActiveRecord
             return false;
         }
 
-        try {
-            $result = static::getDb()->createCommand()->delete(
-                            static::type(),
-                            $this->getOldPrimaryKey(false),
-                            $options
-            );
-        } catch(Exception $e) {
-            // HTTP 409 is the response in case of failed optimistic locking
-            // http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/optimistic-concurrency-control.html
-            if (isset($e->errorInfo['responseCode']) && $e->errorInfo['responseCode'] == 409) {
-                throw new StaleObjectException('The object being deleted is outdated.', $e->errorInfo, $e->getCode(), $e);
-            }
-            throw $e;
-        }
+        $result = static::getDb()->createCommand()->delete(
+                        static::type(),
+                        $this->getOldPrimaryKey(false),
+                        $options
+        );
+
         $this->setOldAttributes(null);
         $this->afterDelete();
+
         if ($result === false) {
             return 0;
         } else {
@@ -231,27 +225,21 @@ class ActiveRecord extends BaseActiveRecord
             return 0;
         }
 
-        try {
-            $result = static::getDb()->createCommand()->update(
-                            static::type(),
-                            $this->getOldPrimaryKey(false),
-                            $values,
-                            $options
-            );
-        } catch(Exception $e) {
-            // HTTP 409 is the response in case of failed optimistic locking
-            // http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/optimistic-concurrency-control.html
-            if (isset($e->errorInfo['responseCode']) && $e->errorInfo['responseCode'] == 409) {
-                throw new StaleObjectException('The object being updated is outdated.', $e->errorInfo, $e->getCode(), $e);
-            }
-            throw $e;
-        }
+        $result = static::getDb()->createCommand()->update(
+            static::type(),
+            $this->getOldPrimaryKey(false),
+            $values,
+            $options
+        );
+
         $changedAttributes = [];
         foreach ($values as $name => $value) {
             $changedAttributes[$name] = $this->getOldAttribute($name);
             $this->setOldAttribute($name, $value);
         }
+
         $this->afterSave(false, $changedAttributes);
+
         if ($result === false) {
             return 0;
         } else {
@@ -263,25 +251,14 @@ class ActiveRecord extends BaseActiveRecord
      * Custom method for HiResource
      *
      * @param $action
-     * @param null $attributes
      * @param array $options
+     * @param bool $bulk
      *
-     * @return int
-     * @throws \Exception
-     * @throws Exception
-     * @throws StaleObjectException
+     * @return array
      */
-    public static function perform($action, $options = [], $bulk=true) {
+    public static function perform($action, $options = [], $bulk=false) {
         $action = ($bulk==true) ? self::index().$action : self::type().$action;
-        try {
-            $result = static::getDb()->createCommand()->perform($action, $options);
-        } catch(Exception $e) {
-            if (isset($e->errorInfo['responseCode']) && $e->errorInfo['responseCode'] == 409) {
-                throw new StaleObjectException('The object being deleted is outdated.', $e->errorInfo, $e->getCode(), $e);
-            }
-            throw $e;
-        }
-
+        $result = static::getDb()->createCommand()->perform($action, $options);
         return $result;
     }
 }

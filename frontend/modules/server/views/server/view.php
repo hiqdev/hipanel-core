@@ -1,5 +1,6 @@
 <?php
 
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\server\widgets\DiscountFormatter;
@@ -53,13 +54,68 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <? if ($model->vnc['leftTime']) { ?>
-        <div class="panel panel-primary">
-            <div class="panel-heading"><?= \Yii::t('app', 'VNC to server') ?></div>
-            <div class="panel-body">
-                <?= Html::tag('span', \Yii::t('app', 'Enabled'), ['class' => 'label label-success']) ?>
-                <?= \Yii::t('app', 'Time left') ?>: <?= \Yii::$app->formatter->asRelativeTime($model->vnc['leftTime']) ?>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><?= \Yii::t('app', 'VNC to server') ?></div>
+                <div class="panel-body">
+                    <?= $this->render('_vnc', ['model' => $model]) ?>
+                </div>
             </div>
         </div>
-    <? } ?>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><?= \Yii::t('app', 'Power management') ?></div>
+                <div class="panel-body">
+                    <?php Modal::begin([
+                        'toggleButton'  => [
+                            'label' => Yii::t('app', 'Reboot'),
+                            'class' => 'btn btn-default',
+                        ],
+                        'header'        => Html::tag('h4', Yii::t('app', 'Confirm server reboot')),
+                        'headerOptions' => ['class' => 'label-warning'],
+                        'footer'        => Html::a(Yii::t('app', 'Reboot'),
+                            ['reboot', 'id' => $model->id],
+                            [
+                                'class'             => 'btn btn-warning',
+                                'data-loading-text' => Yii::t('app', 'Rebooting...'),
+                                'onClick'           => new \yii\web\JsExpression("$(this).button('loading')")
+                            ])
+                    ]);
+                    ?>
+                    <div class="callout callout-warning">
+                        <h4><?= Yii::t('app', 'This may cause data loose!') ?></h4>
+
+                        <p>Кароч, тут может все нах похерится. Сечёшь? Точняк уверен?</p>
+                    </div>
+                    <?php Modal::end(); ?>
+
+
+                    <?php Modal::begin([
+                        'toggleButton'  => [
+                            'label' => Yii::t('app', 'Reset'),
+                            'class' => 'btn btn-default',
+                        ],
+                        'header'        => Html::tag('h4', Yii::t('app', 'Confirm server reset')),
+                        'headerOptions' => ['class' => 'label-warning'],
+                        'footer'        => Html::a(Yii::t('app', 'Reset'),
+                            ['reset', 'id' => $model->id],
+                            [
+                                'class'             => 'btn btn-warning',
+                                'data-loading-text' => Yii::t('app', 'Reseting...'),
+                                'onClick'           => new \yii\web\JsExpression("$(this).button('loading')")
+                            ])
+                    ]);
+                    ?>
+                    <div class="callout callout-warning">
+                        <h4><?= Yii::t('app', 'This may cause data loose!') ?></h4>
+
+                        <p>Кароч, тут может все нах похерится. Сечёшь? Точняк уверен?</p>
+                    </div>
+                    <?php Modal::end(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

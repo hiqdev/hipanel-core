@@ -31,19 +31,28 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
             'ips',
             'os',
             'vnc',
-            'statuses'
+            'statuses',
+            'running_task'
         ];
     }
 
     public function rules () {
         return [
             [
-                [
-                    'name',
-                ],
-                'required'
+                ['name'], 'required'
             ]
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOperable () {
+        if ($this->running_task) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
