@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\Markdown;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 $this->title = $model->subject;
@@ -14,8 +13,9 @@ $this->registerCss('
 ?>
 
 <p>
-    <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+    <?= Html::a(Yii::t('app', 'Replay'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a(Yii::t('app', 'Replay'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a(Yii::t('app', 'Close'), ['close', 'id' => $model->id], [
         'class' => 'btn btn-danger',
         'data' => [
             'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
@@ -28,11 +28,30 @@ $this->registerCss('
     'model' => $model,
     'attributes' => [
         'subject',
-        'state',
-        'priority',
-        'author_id',
-        'responsible_id',
-        'recipient_id',
+        [
+            'attribute'=>'state',
+            'value'=>strtoupper($model->state),
+        ],
+        [
+            'attribute'=>'priority',
+            'format'=>'html',
+            'value'=>Html::tag('span', $model->priority, ['class'=>'label label-primary']),
+        ],
+        [
+            'attribute'=>'author',
+            'format'=>'html',
+            'value'=>Html::a($model->author,['/client/client/view','id'=>$model->author_id]),
+        ],
+        [
+            'attribute'=>'responsible',
+            'format'=>'html',
+            'value'=>Html::a($model->responsible,['/client/client/view','id'=>$model->responsible_id]),
+        ],
+        [
+            'attribute'=>'recipient',
+            'format'=>'html',
+            'value'=>Html::a($model->recipient,['/client/client/view','id'=>$model->recipient_id]),
+        ],
     ],
 ]); ?>
 <!-- Chat box -->
@@ -50,7 +69,7 @@ $this->registerCss('
     <div class="box-body chat" id="chat-box">
 <?php foreach ($model->answers as $answer_id => $answer) : ?>
     <!-- chat item -->
-    <div class="item" id="answer-<?=$answer['id']?>">
+    <div class="item <?= ($answer['is_answer']) ? 'move' : ''; ?>" id="answer-<?=$answer['id']?>">
         <?= \cebe\gravatar\Gravatar::widget([
             'email' => $answer['email'],
             'defaultImage' => 'identicon',
@@ -61,10 +80,12 @@ $this->registerCss('
         ]); ?>
         <div class="message">
             <?=Html::beginTag('a', ['class'=>'name', 'href'=>Url::toRoute(['/client/default/view', 'id'=>$answer['author_id']]) ]) ?>
-                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> <?= Yii::$app->formatter->asDatetime($answer['create_time'], 'd-m-Y H:i')?></small>
+                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> <?= Yii::$app->formatter->asDatetime($answer['create_time'])?></small>
                 <?= $answer['author'] ?>
             <?= Html::endTag('a'); ?>
-            <div class="message-source"></div><?= Markdown::process($answer['message']) ?></div>
+            <div class="message-source">
+                <?= app\modules\thread\models\Thread::parseMessage($answer['message']) ?>
+            </div>
         </div>
 
         <?php if (!empty($answer['files'])) : ?>
