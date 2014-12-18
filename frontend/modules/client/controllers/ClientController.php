@@ -3,12 +3,15 @@
 namespace app\modules\client\controllers;
 
 use yii\web\Controller;
+use Yii;
+use \app\modules\client\models\Client;
+use \app\modules\client\models\ClientSearch;
 
-class DefaultController extends Controller
+class ClientController extends DefaultController
 {
     public function actionIndex($tpl='_tariff')
     {
-        // Fetch clits data from API
+        // Fetch clients data from API
         $data = \frontend\components\Http::get('clientsSearch', ['limit'=>'ALL']);
         $provider = new \yii\data\ArrayDataProvider([
             'allModels' => $data,
