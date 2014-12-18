@@ -271,7 +271,8 @@ class ActiveRecord extends BaseActiveRecord
      * @throws Exception
      * @throws StaleObjectException
      */
-    public function perform($action, $attributes = null, $options = []) {
+    public static function perform($action, $options = [], $bulk=true) {
+        $action = ($bulk==true) ? self::index().$action : self::type().$action;
         try {
             $result = static::getDb()->createCommand()->perform($action, $options);
         } catch(Exception $e) {
@@ -280,7 +281,7 @@ class ActiveRecord extends BaseActiveRecord
             }
             throw $e;
         }
-        $this->setOldAttributes(null);
+
         return $result;
     }
 }

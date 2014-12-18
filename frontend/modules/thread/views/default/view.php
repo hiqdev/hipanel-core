@@ -6,7 +6,6 @@ use yii\helpers\Url;
 $this->title = $model->subject;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-// \yii\helpers\VarDumper::dump($model, 10, true);
 $this->registerCss('
     .text-message {
         margin: 1rem;
