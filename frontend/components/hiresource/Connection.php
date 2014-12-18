@@ -246,7 +246,6 @@ class Connection extends Component
             CURLOPT_HEADER          => false,
             CURLOPT_SSL_VERIFYPEER  => false,
             CURLOPT_SSL_VERIFYHOST  => 2,
-            CURLOPT_SSLVERSION      => 3,
             // http://www.php.net/manual/en/function.curl-setopt.php#82418
             CURLOPT_HTTPHEADER      => ['Expect:'],
             CURLOPT_WRITEFUNCTION   => function ($curl, $data) use (&$body) {
