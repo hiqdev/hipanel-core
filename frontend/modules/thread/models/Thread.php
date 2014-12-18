@@ -3,6 +3,7 @@
 namespace app\modules\thread\models;
 
 use Yii;
+use yii\helpers\Markdown;
 
 class Thread extends \frontend\components\hiresource\ActiveRecord
 {
@@ -112,4 +113,43 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'file_ids'         => Yii::t('app', 'file_ids'),
         ];
     }
+
+    public static function regexConfig ($target) {
+        $config = [
+            'tickets'   => [
+                '/\#\d{6,9}(\#answer-\d{6,7})?\b/',
+            ],
+            'servers'   => [
+                '/\b[A-Z]*DS\d{3,9}[A-Za-z0-9-]{0,6}\b/',
+            ],
+        ];
+        return $config[$target];
+    }
+
+    public static function prepareLinks ($text) {
+        $targets = ['thread', 'server'];
+        $host = getenv("HTTP_HOST");
+        foreach ($targets as $target) {
+            foreach (self::regexConfig($target) as $pattern) {
+                $matches = [];
+                $changed = [];
+                preg_match_all($pattern, $text, $matches);
+                foreach ($matches[0] as $match) {
+                    $number = $target=='tickets' ? substr($match, 1) : $match;
+                    if ($changed[$number] && $changed[$number] == $match) continue;
+                    $changed[$number] = $match;
+                    $text = str_replace($match, "[[https://{$host}/panel/{$target}/details/{$number}|{$match}]]", $text);
+                }
+            }
+        }
+        return $text;
+    }
+
+    public static function parseMessage($message) {
+        $message = str_replace(["\n\r", "\n\n", "\r\r", "\r\n"], "\n", $message);
+        $message = self::prepareLinks($message);
+        $message = Markdown::process($message);
+        return $message;
+    }
+
 }
