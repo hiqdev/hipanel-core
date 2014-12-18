@@ -30,7 +30,7 @@ $this->registerCss('
         'subject',
         [
             'attribute'=>'state',
-            'value'=>strtoupper($model->state),
+            'value'=>mb_strtoupper($model->state),
         ],
         [
             'attribute'=>'priority',
