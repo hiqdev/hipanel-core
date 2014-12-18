@@ -65,16 +65,4 @@ class Client extends \frontend\components\hiresource\ActiveRecord
         return \yii\helpers\ArrayHelper::merge(parent::rest(),['resource'=>'article']);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('app', 'ID'),
-            'article_name' => Yii::t('app', 'Article Name'),
-            'post_date' => Yii::t('app', 'Post Date'),
-            'data' => Yii::t('app', 'Data'),
-        ];
-    }
 }
