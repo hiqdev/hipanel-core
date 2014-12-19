@@ -12,6 +12,7 @@ use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
+use frontend\components\Re;
 
 //use yii\base\InvalidCallException;
 //use yii\base\NotSupportedException;
@@ -73,6 +74,9 @@ class ActiveRecord extends BaseActiveRecord
         }
         $command = static::getDb()->createCommand();
         $result = $command->get(static::type(), $primaryKey, $options);
+        if ( Re::isError($result) ) {
+            throw new HiResException('Hiresource method: get', Re::getError($result));
+        }
         if ($result) {
             $model = static::instantiate($result);
             static::populateRecord($model, $result);
@@ -118,7 +122,7 @@ class ActiveRecord extends BaseActiveRecord
      */
     public function attributes()
     {
-        throw new InvalidConfigException('The attributes() method of elasticsearch ActiveRecord has to be implemented by child classes.');
+        throw new InvalidConfigException('The attributes() method of Hiresource ActiveRecord has to be implemented by child classes.');
     }
 
     /**
@@ -259,6 +263,9 @@ class ActiveRecord extends BaseActiveRecord
     public static function perform($action, $options = [], $bulk=false) {
         $action = ($bulk==true) ? self::index().$action : self::type().$action;
         $result = static::getDb()->createCommand()->perform($action, $options);
+        if ( Re::isError($result) ) {
+            throw new HiResException('Hiresource method: '.$action, Re::getError($result));
+        }
         return $result;
     }
 }

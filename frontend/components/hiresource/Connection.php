@@ -108,13 +108,15 @@ class Connection extends Component
     }
     /**
      * Performs GET HTTP request
+
      *
-     * @param string $url URL
+*@param string $url URL
      * @param array $options URL options
      * @param string $body request body
      * @param boolean $raw if response body contains JSON and should be decoded
-     * @return mixed response
-     * @throws Exception
+     *
+*@return mixed response
+     * @throws HiResException
      * @throws \yii\base\InvalidConfigException
      */
     public function get($url, $options = [], $body = null, $raw = false)
@@ -123,12 +125,14 @@ class Connection extends Component
     }
     /**
      * Performs HEAD HTTP request
+
      *
-     * @param string $url URL
+*@param string $url URL
      * @param array $options URL options
      * @param string $body request body
-     * @return mixed response
-     * @throws Exception
+     *
+*@return mixed response
+     * @throws HiResException
      * @throws \yii\base\InvalidConfigException
      */
     public function head($url, $options = [], $body = null)
@@ -137,13 +141,15 @@ class Connection extends Component
     }
     /**
      * Performs POST HTTP request
+
      *
-     * @param string $url URL
+*@param string $url URL
      * @param array $options URL options
      * @param string $body request body
      * @param boolean $raw if response body contains JSON and should be decoded
-     * @return mixed response
-     * @throws Exception
+     *
+*@return mixed response
+     * @throws HiResException
      * @throws \yii\base\InvalidConfigException
      */
     public function post($url, $options = [], $body = null, $raw = false)
@@ -152,13 +158,15 @@ class Connection extends Component
     }
     /**
      * Performs PUT HTTP request
+
      *
-     * @param string $url URL
+*@param string $url URL
      * @param array $options URL options
      * @param string $body request body
      * @param boolean $raw if response body contains JSON and should be decoded
-     * @return mixed response
-     * @throws Exception
+     *
+*@return mixed response
+     * @throws HiResException
      * @throws \yii\base\InvalidConfigException
      */
     public function put($url, $options = [], $body = null, $raw = false)
@@ -168,13 +176,15 @@ class Connection extends Component
     }
     /**
      * Performs DELETE HTTP request
+
      *
-     * @param string $url URL
+*@param string $url URL
      * @param array $options URL options
      * @param string $body request body
      * @param boolean $raw if response body contains JSON and should be decoded
-     * @return mixed response
-     * @throws Exception
+     *
+*@return mixed response
+     * @throws HiResException
      * @throws \yii\base\InvalidConfigException
      */
     public function delete($url, $options = [], $body = null, $raw = false)
@@ -232,12 +242,14 @@ class Connection extends Component
     }
     /**
      * Performs HTTP request
+
      *
-     * @param string $method method name
+*@param string $method method name
      * @param string $url URL
      * @param string $requestBody request body
      * @param boolean $raw if response body contains JSON and should be decoded
-     * @throws Exception if request failed
+     *
+     * @throws HiResException if request failed
      * @throws \yii\base\InvalidParamException
      * @return mixed response
      */
@@ -307,7 +319,7 @@ class Connection extends Component
         $curl = curl_init($url);
         curl_setopt_array($curl, $options);
         if (curl_exec($curl) === false) {
-            throw new Exception('Hiresource request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl), [
+            throw new HiResException('Hiresource request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl), [
                 'requestMethod' => $method,
                 'requestUrl' => $url,
                 'requestBody' => $requestBody,
@@ -325,7 +337,7 @@ class Connection extends Component
                 return true;
             } else {
                 if (isset($headers['content-length']) && ($len = mb_strlen($body, '8bit')) < $headers['content-length']) {
-                    throw new Exception("Incomplete data received from Hiresource: $len < {$headers['content-length']}", [
+                    throw new HiResException("Incomplete data received from Hiresource: $len < {$headers['content-length']}", [
                         'requestMethod' => $method,
                         'requestUrl' => $url,
                         'requestBody' => $requestBody,
@@ -337,7 +349,7 @@ class Connection extends Component
                 if (isset($headers['content-type']) /*&& !strncmp($headers['content-type'], 'application/json', 16)*/) {
                     return $raw ? $body : Json::decode($body);
                 }
-                throw new Exception('Unsupported data received from Hiresource: ' . $headers['content-type'], [
+                throw new HiResException('Unsupported data received from Hiresource: ' . $headers['content-type'], [
                     'requestMethod' => $method,
                     'requestUrl' => $url,
                     'requestBody' => $requestBody,
@@ -349,7 +361,7 @@ class Connection extends Component
         } elseif ($responseCode == 404) {
             return false;
         } else {
-            throw new Exception("Hiresource request failed with code $responseCode.", [
+            throw new HiResException("Hiresource request failed with code $responseCode.", [
                 'requestMethod' => $method,
                 'requestUrl' => $url,
                 'requestBody' => $requestBody,

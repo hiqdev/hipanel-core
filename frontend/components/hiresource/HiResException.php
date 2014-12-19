@@ -13,7 +13,7 @@ namespace frontend\components\hiresource;
  * @author Carsten Brandt <mail@cebe.cc>
  * @since 2.0
  */
-class Exception extends \yii\db\Exception
+class HiResException extends \yii\db\Exception
 {
     /**
      * @return string the user-friendly name of this exception

@@ -10,6 +10,8 @@ $this->registerCss('
         margin: 1rem;
     }
 ');
+
+print \app\modules\thread\models\Thread::perform('GetInfo');
 ?>
 
 <p>
