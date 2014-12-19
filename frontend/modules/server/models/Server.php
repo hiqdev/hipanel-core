@@ -2,6 +2,7 @@
 namespace app\modules\server\models;
 
 use Yii;
+use yii\base\NotSupportedException;
 
 class Server extends \frontend\components\hiresource\ActiveRecord {
     /**
@@ -30,6 +31,8 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
             'ip',
             'ips',
             'os',
+            'osimage',
+            'rcp',
             'vnc',
             'statuses',
             'running_task'
@@ -51,6 +54,17 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
         if ($this->running_task) {
             return false;
         }
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws NotSupportedException
+     */
+    public function checkOperable () {
+        if (!$this->isOperable())
+            throw new NotSupportedException('Server has a running task');
 
         return true;
     }

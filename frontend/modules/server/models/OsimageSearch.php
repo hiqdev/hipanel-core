@@ -9,14 +9,14 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class ServerSearch extends \app\modules\server\models\Server {
+class OsimageSearch extends \app\modules\server\models\Osimage {
 
     /**
      * @inheritdoc
      */
     public function rules () {
         return [
-            [['client', 'seller', 'name', 'state', 'tariff_note'], 'safe'],
+            [['osimage'], 'safe'],
         ];
     }
 
@@ -35,7 +35,7 @@ class ServerSearch extends \app\modules\server\models\Server {
      *
      * @return ActiveDataProvider
      */
-    public function search ($params = array()) {
+    public function search ($params = []) {
         $query = Server::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -48,11 +48,7 @@ class ServerSearch extends \app\modules\server\models\Server {
         }
 
         $query->andFilterWhere([
-            'clients'        => $this->client,
-            'seller'         => $this->seller,
-            'servers'        => $this->name,
-            'states'         => $this->state,
-            'tariff_note'    => $this->tariff_note,
+            'osimage' => $this->osimage,
         ]);
 
         return $dataProvider;
