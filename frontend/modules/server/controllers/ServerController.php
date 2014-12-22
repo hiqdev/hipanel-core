@@ -18,6 +18,7 @@ class ServerController extends \yii\web\Controller {
             [
                 'searchModel'  => $searchModel,
                 'dataProvider' => $dataProvider,
+                'osimages'     => $this->getOsimages()
             ]);
     }
 

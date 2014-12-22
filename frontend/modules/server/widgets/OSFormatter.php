@@ -3,8 +3,19 @@ namespace app\modules\server\widgets;
 
 use app\modules\server\models\Osimage;
 use yii\base\Widget;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
+/**
+ * Class OSFormatter
+ *
+ * Renders a formatted information about OS
+ *
+ * @package app\modules\server\widgets
+ * @uses yii\bootstrap\Modal
+ * @uses app\modules\server\models\Osimage
+ * @author SilverFire
+ */
 class OSFormatter extends Widget {
     public $osimages;
 
@@ -12,7 +23,16 @@ class OSFormatter extends Widget {
      * @var \app\modules\server\models\Osimage
      */
     public $osimage;
+
+    /**
+     * @var string osimage code-name
+     */
     public $imageName;
+
+    /**
+     * @var bool whether to display a button with modal pop-up, containing OS soft information
+     */
+    public $infoCircle = true;
 
     public function init () {
         parent::init();
@@ -24,6 +44,9 @@ class OSFormatter extends Widget {
         }
     }
 
+    /**
+     * @return string html code of definition list
+     */
     public function generateOSInfo () {
         $html = Html::beginTag('dl', ['class' => 'dl-horizontal']);
 
@@ -36,29 +59,33 @@ class OSFormatter extends Widget {
         return $html;
     }
 
+    /**
+     * Renders info-circle with modal popup
+     */
     public function generateInfoCircle () {
-        $this->getView()->registerJs("$('.os-info-popover').popover({html: true});", \yii\web\View::POS_READY, 'os-info-popover');
-        return Html::tag('button',
-            ' ',
-            [
+        Modal::begin([
+            'toggleButton'  => [
                 'class' => 'fa fa-info-circle text-info os-info-popover',
-                'title' => Html::tag('h4', $this->osimage->getFullOsName()),
-                'data'  => [
-                    //'trigger' => 'focus',
-                    'content' => Html::tag('div', $this->generateOSInfo())
-                ]
-            ]);
+                'label' => ''
+            ],
+            'header'        => Html::tag('h4', $this->osimage->getFullOsName()),
+            'size'          => Modal::SIZE_LARGE
+        ]);
+        echo Html::tag('div', $this->generateOSInfo(), [
+            'class' => 'row'
+        ]);
+        Modal::end();
     }
 
+    /**
+     * Renders the widget
+     */
     public function run () {
         if (!($this->osimage instanceof Osimage)) return $this->imageName;
 
-        $html = $this->osimage->getFullOsName();
-
-        if ($this->osimage->hasSoftPack()) {
-            $html .= "&nbsp;&nbsp;" . $this->generateInfoCircle();
-        }
-
-        return $html;
+        echo $this->osimage->getFullOsName();
+        echo "&nbsp;";
+        if ($this->osimage->hasSoftPack() && $this->infoCircle)
+            echo $this->generateInfoCircle();
     }
 }

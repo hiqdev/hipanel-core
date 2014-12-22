@@ -89,7 +89,7 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
             'sale_time'             => Yii::t('app', 'Sale time'),
             'autorenewal'           => Yii::t('app', 'Autorenewal'),
             'state'                 => Yii::t('app', 'State'),
-            'expires'               => Yii::t('app', 'State'),
+            'expires'               => Yii::t('app', 'Expires'),
             'block_reason_label'    => Yii::t('app', 'Block reason label'),
             'request_state_label'   => Yii::t('app', 'Request state label'),
         ];
