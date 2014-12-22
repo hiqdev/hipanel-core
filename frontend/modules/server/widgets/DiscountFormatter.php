@@ -4,6 +4,12 @@ namespace app\modules\server\widgets;
 use yii\base\Widget;
 use yii\helpers\Html;
 
+/**
+ * Class DiscountFormatter
+ * Renders a button with popover to display current and upcoming discount
+ *
+ * @package app\modules\server\widgets
+ */
 class DiscountFormatter extends Widget {
     /**
      * @var string Tag name to be created

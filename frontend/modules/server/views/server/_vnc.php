@@ -3,9 +3,11 @@ use kartik\builder\Form;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
-Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
+/**
+ * @var \app\modules\server\models\Server $model
+ */
 
-//\yii\helpers\VarDumper::dump($model, 10, true);
+Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
 
 if ($model->vnc['enabled']) {
     echo Html::tag('span',
@@ -34,7 +36,8 @@ if ($model->vnc['enabled']) {
         [
             'class'             => 'btn btn-success',
             'data-loading-text' => Yii::t('app', 'Enabling...'),
-            'onClick'           => new \yii\web\JsExpression("$(this).button('loading')")
+            'onClick'           => new \yii\web\JsExpression("$(this).button('loading')"),
+            'disabled'          => !$model->isOperable()
         ]
     );
 }

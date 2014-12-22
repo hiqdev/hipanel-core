@@ -5,11 +5,16 @@ use app\modules\object\widgets\RequestState;
 use \yii\jui\DatePicker;
 use \yii\helpers\Html;
 
+/**
+ * @var app\modules\server\models\OsimageSearch $osimages
+ */
+
 $this->title                   = Yii::t('app', 'Servers');
 $this->params['breadcrumbs'][] = $this->title;
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,
+    'filterModel'  => $searchModel,
     'columns'      => [
         [
             'class' => 'yii\grid\CheckboxColumn',
@@ -52,7 +57,17 @@ echo GridView::widget([
             'format'    => ['date'],
         ],
         [
-            'attribute' => 'discounts',
+            'attribute' => 'os',
+            'format'    => 'raw',
+            'value'     => function ($model) use ($osimages) {
+                return \app\modules\server\widgets\OSFormatter::widget([
+                    'osimages'  => $osimages,
+                    'imageName' => $model->osimage
+                ]);
+            }
+        ],
+        [
+            'attribute' => 'expires',
             'format'    => 'raw',
             'value'     => function ($model) {
                 if ($model['state'] != 'blocked') {

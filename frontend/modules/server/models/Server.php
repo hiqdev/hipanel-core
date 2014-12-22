@@ -2,6 +2,7 @@
 namespace app\modules\server\models;
 
 use Yii;
+use yii\base\NotSupportedException;
 
 class Server extends \frontend\components\hiresource\ActiveRecord {
     /**
@@ -30,6 +31,8 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
             'ip',
             'ips',
             'os',
+            'osimage',
+            'rcp',
             'vnc',
             'statuses',
             'running_task'
@@ -56,6 +59,17 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
     }
 
     /**
+     * @return bool
+     * @throws NotSupportedException
+     */
+    public function checkOperable () {
+        if (!$this->isOperable())
+            throw new NotSupportedException('Server has a running task');
+
+        return true;
+    }
+
+    /**
      * @inheritdoc
      */
     public function attributeLabels () {
@@ -75,7 +89,7 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
             'sale_time'             => Yii::t('app', 'Sale time'),
             'autorenewal'           => Yii::t('app', 'Autorenewal'),
             'state'                 => Yii::t('app', 'State'),
-            'expires'               => Yii::t('app', 'State'),
+            'expires'               => Yii::t('app', 'Expires'),
             'block_reason_label'    => Yii::t('app', 'Block reason label'),
             'request_state_label'   => Yii::t('app', 'Request state label'),
         ];
