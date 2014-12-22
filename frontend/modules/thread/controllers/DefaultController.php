@@ -5,6 +5,7 @@ use app\modules\thread\models\Thread;
 use app\modules\thread\models\ThreadSearch;
 use frontend\components\hiresource\HiResException;
 use Yii;
+use yii\validators\ExistValidator;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -20,6 +21,11 @@ class DefaultController extends Controller {
             ]);
 
     }
+
+    private $_subscribeAction = [
+        'subscribe'   => 'add_watchers',
+        'unsubscribe' => 'del_watchers',
+    ];
 
     private function getFilters ($name) {
         return ArrayHelper::map(\frontend\models\Ref::find()->where(['gtype' => 'type,' . $name])->getList(),
@@ -88,21 +94,31 @@ class DefaultController extends Controller {
     }
 
     public function actionSubscribe ($id) {
-        if (is_array($id)) {
-            foreach ($id as $item) {
-                $options[$id] = [
-                    'id'    => $id,
-                    'del_watchers'  => g::auth()->login(),
-                ];
-            }
-        } else $options = ['id'=>$id, 'del_watchers'=>\Yii::$app->user->identity->username];
+        if ($this->_subscriptionOperations($id, 'subscribe'))
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You subscibed!'));
+        else
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'You do not subscibed!'));
+
+        return $this->redirect(['view', 'id'=>$id]);
+    }
+
+    public function actionUnsubscribe ($id) {
+        if ($this->_subscriptionOperations($id, 'unsubscribe'))
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You unsubscibed!'));
+        else
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'You do not unsubscibed!'));
+        return $this->redirect(['view', 'id'=>$id]);
+    }
+
+    private function _subscriptionOperations ($id, $action) {
+        if (!in_array($action, array_keys($this->_subscribeAction))) return false;
+        $options[$id] = ['id'=>$id, $this->_subscribeAction[$action]=>\Yii::$app->user->identity->username];
         try {
-            Thread::perform('TicketsAnswer', $options);
-            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You successfuly subscibed!'));
+            Thread::perform('Answer', $options, true);
         } catch (HiResException $e) {
-            \Yii::$app->getSession()->setFlash('error', 'Unfortunly you do not subscibe. Try later');
+            return false;
         }
-        return $this->render('view', ['model'=>$this->findModel($id)]);
+        return true;
     }
 
     public function actionSettings () {
