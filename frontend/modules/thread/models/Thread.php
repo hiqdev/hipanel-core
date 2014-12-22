@@ -10,6 +10,16 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public $time_from;
     public $time_till;
 
+    public function ticketState() {
+        $labelClass = ($this->state=='closed') ? 'default' : 'success' ;
+        return '<span class="label label-'.$labelClass.'">'.$this->state.'</span>';
+    }
+
+    public function ticketPriority() {
+        $labelClass = ($this->priority=='medium') ? 'primary' : 'warning' ;
+        return '<span class="label label-'.$labelClass.'">'.$this->priority.'</span>';
+    }
+
     public function attributes()
     {
         return [
@@ -30,6 +40,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'replier_name',
             'responsible',
             'priority',
+            'priority_label',
             'spent',
             'answer_count',
             'status',
@@ -39,6 +50,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'elapsed',
             'topic',
             'watchers',
+            'watcher',
             'add_tag_ids',
             'file_ids',
 
@@ -86,29 +98,31 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'subject'          => Yii::t('app', 'Subject'),
             'message'          => Yii::t('app', 'Message'),
             'state'            => Yii::t('app', 'State'),
-            'state_label'      => Yii::t('app', 'State_label'),
+            'state_label'      => Yii::t('app', 'State'),
             'author_id'        => Yii::t('app', 'Author'),
             'responsible_id'   => Yii::t('app', 'Responsible'),
-            'author'           => Yii::t('app', 'author'),
-            'author_seller'    => Yii::t('app', 'author_seller'),
+            'author'           => Yii::t('app', 'Author'),
+            'author_seller'    => Yii::t('app', 'Seller'),
             'recipient_id'     => Yii::t('app', 'recipient_id'),
-            'recipient'        => Yii::t('app', 'recipient'),
+            'recipient'        => Yii::t('app', 'Recipient'),
             'recipient_seller' => Yii::t('app', 'recipient_seller'),
             'replier_id'       => Yii::t('app', 'replier_id'),
-            'replier'          => Yii::t('app', 'replier'),
+            'replier'          => Yii::t('app', 'Replier'),
             'replier_seller'   => Yii::t('app', 'replier_seller'),
             'replier_name'     => Yii::t('app', 'replier_name'),
-            'responsible'      => Yii::t('app', 'responsible'),
-            'priority'         => Yii::t('app', 'priority'),
-            'spent'            => Yii::t('app', 'spent'),
-            'answer_count'     => Yii::t('app', 'answer_count'),
-            'status'           => Yii::t('app', 'status'),
+            'responsible'      => Yii::t('app', 'Responsible'),
+            'priority'         => Yii::t('app', 'Priority'),
+            'priority_label'   => Yii::t('app', 'Priority'),
+            'spent'            => Yii::t('app', 'Spent time'),
+            'answer_count'     => Yii::t('app', 'Answer count'),
+            'status'           => Yii::t('app', 'Status'),
             'reply_time'       => Yii::t('app', 'reply_time'),
-            'create_time'      => Yii::t('app', 'create_time'),
+            'create_time'      => Yii::t('app', 'Created'),
             'a_reply_time'     => Yii::t('app', 'a_reply_time'),
             'elapsed'          => Yii::t('app', 'elapsed'),
-            'topic'            => Yii::t('app', 'topic'),
-            'watchers'         => Yii::t('app', 'watchers'),
+            'topic'            => Yii::t('app', 'Topic'),
+            'watchers'         => Yii::t('app', 'Watchers'),
+            'watcher'          => Yii::t('app', 'Watchers'),
             'add_tag_ids'      => Yii::t('app', 'add_tag_ids'),
             'file_ids'         => Yii::t('app', 'file_ids'),
         ];

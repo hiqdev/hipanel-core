@@ -1,4 +1,7 @@
 <?php
+use frontend\components\Re;
+use frontend\modules\thread\widgets\Label;
+use frontend\modules\thread\widgets\Watcher;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
@@ -10,15 +13,16 @@ $this->registerCss('
         margin: 1rem;
     }
 ');
-
-print \app\modules\thread\models\Thread::perform('GetInfo');
+// \yii\helpers\VarDumper::dump($model, 10, true);
 ?>
 
 <p>
-    <?= Html::a(Yii::t('app', 'Replay'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a(Yii::t('app', 'Replay'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a(Yii::t('app', 'Close'), ['close', 'id' => $model->id], [
-        'class' => 'btn btn-danger',
+    <?= Html::a('<i class="fa fa-reply"></i>&nbsp;&nbsp;'.Yii::t('app', 'Replay'), '#', ['class'=>'btn btn-default', 'onClick' => new \yii\web\JsExpression('return false;')]) ?>
+
+    <?= Html::a('<i class="fa fa-pencil"></i>&nbsp;&nbsp;'.Yii::t('app', 'Subscribe'), ['subscribe', 'id' => $model->id], ['class' => 'btn  btn-default']) ?>
+
+    <?= Html::a('<i class="fa fa-close"></i>&nbsp;&nbsp;'.Yii::t('app', 'Close'), ['close', 'id' => $model->id], [
+        'class' => 'btn btn-danger pull-right',
         'data' => [
             'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
             'method' => 'post',
@@ -32,12 +36,21 @@ print \app\modules\thread\models\Thread::perform('GetInfo');
         'subject',
         [
             'attribute'=>'state',
-            'value'=>mb_strtoupper($model->state),
+            'format'=>'html',
+            'value'=>Label::widget([
+                    'type'=>'state',
+                    'label'=> Re::l($model->state_label),
+                    'value'=>$model->state,
+                ]),
         ],
         [
             'attribute'=>'priority',
             'format'=>'html',
-            'value'=>Html::tag('span', $model->priority, ['class'=>'label label-primary']),
+            'value'=> Label::widget([
+                    'type'=>'priority',
+                    'label'=> Re::l($model->priority_label),
+                    'value'=>$model->priority,
+                ])
         ],
         [
             'attribute'=>'author',
@@ -53,6 +66,12 @@ print \app\modules\thread\models\Thread::perform('GetInfo');
             'attribute'=>'recipient',
             'format'=>'html',
             'value'=>Html::a($model->recipient,['/client/client/view','id'=>$model->recipient_id]),
+        ],
+        [
+            'attribute'=>'watcher',
+            'format'=>'html',
+            'value'=> Watcher::widget(['watchers'=>$model->watcher]),
+            'visible'=> is_array($model->watcher)
         ],
     ],
 ]); ?>

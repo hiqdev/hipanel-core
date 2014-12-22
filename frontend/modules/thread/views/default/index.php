@@ -1,13 +1,17 @@
 <?
+use frontend\components\Re;
+use frontend\modules\thread\widgets\Label;
 use frontend\widgets\GridView;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
+use Yii;
 
 // frontend\assets\Select2Asset::register($this);
 
 $this->title = Yii::t('app', 'Tickets');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <?= $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,6 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'class' => 'yii\grid\CheckboxColumn',
             // you may configure additional properties here
+        ],
+        [
+            'attribute'=>'subject',
+            'format'=>'html',
+            'value'=>function ($data) {
+                    $html = '';
+                    $html .= $data['subject'];
+                    $html .= '<ul class="list-inline">';
+                    foreach ($data['topic'] as $item=>$label) {
+                        $html .= '<li><span class="label label-success">'.$item.'</span></li>';
+                    }
+                    $html .= '</ul>';
+                    return $html;
+                }
         ],
         [
             'attribute'=>'create_time',
@@ -115,25 +133,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]),
         ],
-        [
-            'attribute'=>'subject',
-            'format'=>'html',
-            'value'=>function ($data) {
-                    $html = '';
-                    $html .= $data['subject'];
-                    $html .= '<ul class="list-inline">';
-                    foreach ($data['topic'] as $item=>$label) {
-                        $html .= '<li><span class="label label-success">'.$item.'</span></li>';
-                    }
-                    $html .= '</ul>';
-                    return $html;
-                }
-        ],
+
         [
             'attribute'=>'priority',
-            'format'=>'html',
+            'format'=>'raw',
             'value'=>function ($data) {
-                    return  '<span class="label label-warning">'.$data->priority.'</span>';
+                    return  Label::widget([
+                        'type'=>'priority',
+                        'label'=> Re::l($data->priority_label),
+                        'value'=>$data->priority,
+                    ]);
                 },
             'filter'=> Html::activeDropDownList($searchModel,
                     'priority',
@@ -144,15 +153,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]),
         ],
         [
-            'attribute'=>'state',
-            'format'=>'html',
-            'value'=>function ($data) {
-                    return  '<span class="label label-info">'.$data->state.'</span>';
+            'attribute' => 'state',
+            'format'    => 'html',
+            'value'     => function ($data) {
+                    return  Label::widget([
+                        'type'=>'state',
+                        'label'=> Re::l($data->state_label),
+                        'value'=>$data->state,
+                    ]);
                 },
-            'filter'=> Html::activeDropDownList($searchModel,
+            'filter'    => Html::activeDropDownList($searchModel,
                     'state',
-                    ArrayHelper::map(frontend\models\Ref::find()->where(['gtype'=>'state,ticket'])->getList(),'gl_key',
-                        function($v){
+                    ArrayHelper::map(frontend\models\Ref::find()->where(['gtype' => 'state,ticket'])->getList(),
+                        'gl_key',
+                        function ($v) {
                             return frontend\components\Re::l($v->gl_value);
                         }),
                     [
@@ -160,6 +174,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         'prompt' => Yii::t('app', '--'),
                     ]),
         ],
+//        [
+//            'attribute'=>'watcher',
+//            'format'=>'text',
+//            'enableSorting'=>false,
+//            'value'=>function($data){
+//                foreach ($data->watcher as $k=>$v) {
+//                    print $v;
+//                }
+//            }
+//        ],
         [
             'attribute'=>'responsible_id',
             'format'=>'html',
