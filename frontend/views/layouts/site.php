@@ -1,11 +1,11 @@
 <?
 use yii\helpers\Html;
-
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\SiteAsset;
-use frontend\widgets\Alert;
+
+//use frontend\widgets\Alert;
+//use yii\widgets\Breadcrumbs;
 
 SiteAsset::register($this);
 
