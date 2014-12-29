@@ -10,7 +10,7 @@ use frontend\components\Re;
 $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View::POS_READY);
 
 ?>
-<div class="default-form">
+<div class="ticket-form">
 
     <?php $form = ActiveForm::begin([]); ?>
 
@@ -130,4 +130,4 @@ SCRIPT;
     </div>
     <?php ActiveForm::end(); ?>
 
-</div><!-- default-_form -->
+</div><!-- ticket-_form -->

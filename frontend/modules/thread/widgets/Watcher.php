@@ -12,7 +12,7 @@ class Watcher extends Widget
 
     public function init() {
         parent::init();
-        if ($this->inView) {
+        if ($this->inView and is_array($this->watchers)) {
             print Html::beginTag('ul', ['class'=>'list-unstyled']);
             foreach ($this->watchers as $uid=>$username) {
                 print Html::beginTag('li');

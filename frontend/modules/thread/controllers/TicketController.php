@@ -5,11 +5,10 @@ use app\modules\thread\models\Thread;
 use app\modules\thread\models\ThreadSearch;
 use frontend\components\hiresource\HiResException;
 use Yii;
-use yii\validators\ExistValidator;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class DefaultController extends Controller {
+class TicketController extends Controller {
     public function actionIndex () {
         $searchModel  = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

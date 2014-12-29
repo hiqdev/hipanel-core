@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute'=>'author_id',
             'value'=> function ($data) {
-                    return Html::a($data->author, ['/client/default/view','id'=>$data->author_id]);
+                    return Html::a($data->author, ['/client/client/view','id'=>$data->author_id]);
                 },
             'format'=>'html',
             'filterInputOptions' => ['id'=>'author_id'],
@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterInputOptions' => ['id'=>'recipient_id'],
             'label'=>Yii::t('app','Recipient'),
             'value'=>function($data) {
-                    return Html::a($data->recipient, ['/client/default/view','id'=>$data->recipient_id]);
+                    return Html::a($data->recipient, ['/client/client/view','id'=>$data->recipient_id]);
 
             },
             'filter'=> frontend\widgets\Select2::widget([
@@ -190,7 +190,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'label'=>Yii::t('app','Responsible'),
             'filterInputOptions' => ['id'=>'responsible_id'],
             'value'=>function ($data) {
-                    return Html::a($data['responsible'], ['/client/default/view','id'=>$data->responsible_id]);
+                    return Html::a($data['responsible'], ['/client/client/view','id'=>$data->responsible_id]);
                 },
             'filter'=> frontend\widgets\Select2::widget([
                     'attribute'=>'responsible_id',
