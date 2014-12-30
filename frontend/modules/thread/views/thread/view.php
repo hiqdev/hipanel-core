@@ -5,6 +5,8 @@ use frontend\modules\thread\widgets\Watcher;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+
+
 $this->title = $model->subject;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -98,3 +100,4 @@ $this->registerCss('
     </div>
 </div><!-- /.box (chat box) -->
 <?php endif; ?>
+

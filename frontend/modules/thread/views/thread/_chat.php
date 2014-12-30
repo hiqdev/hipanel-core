@@ -1,5 +1,13 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+
+?>
+
 <div class="box-body chat" id="chat-box">
-    <?php foreach ($model->answers as $answer_id => $answer) : ?>
+    <?php
+
+    foreach ($model->answers as $answer_id => $answer) : ?>
         <!-- chat item -->
         <div class="item <?= ($answer['is_answer']) ? 'move' : ''; ?>" id="answer-<?=$answer['id']?>">
             <?= \cebe\gravatar\Gravatar::widget([
