@@ -36,13 +36,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute'=>'subject',
             'format'=>'html',
             'value'=>function ($data) {
-                    $html = '';
-                    $html .= $data['subject'];
-                    $html .= '<ul class="list-inline">';
-                    foreach ($data['topic'] as $item=>$label) {
-                        $html .= '<li><span class="label label-success">'.$item.'</span></li>';
-                    }
-                    $html .= '</ul>';
+                    if (is_array($data['topic'])) {
+                        $html = '';
+                        $html .= $data['subject'];
+                        $html .= '<ul class="list-inline">';
+                        foreach ($data['topic'] as $item=>$label) {
+                            $html .= '<li><span class="label label-success">'.$item.'</span></li>';
+                        }
+                        $html .= '</ul>';
+                    } else $html = $data['topic'];
                     return $html;
                 }
         ],
@@ -174,16 +176,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'prompt' => Yii::t('app', '--'),
                     ]),
         ],
-//        [
-//            'attribute'=>'watcher',
-//            'format'=>'text',
-//            'enableSorting'=>false,
-//            'value'=>function($data){
-//                foreach ($data->watcher as $k=>$v) {
-//                    print $v;
-//                }
-//            }
-//        ],
         [
             'attribute'=>'responsible_id',
             'format'=>'html',

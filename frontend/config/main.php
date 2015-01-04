@@ -8,6 +8,7 @@ $params = array_merge(
 
 function d ($a) { die(var_dump($a)); }
 
+
 return [
     'id' => 'app-frontend',
     'name'=>'hi Panel',

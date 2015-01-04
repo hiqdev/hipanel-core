@@ -10,16 +10,6 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public $time_from;
     public $time_till;
 
-    public function ticketState() {
-        $labelClass = ($this->state=='closed') ? 'default' : 'success' ;
-        return '<span class="label label-'.$labelClass.'">'.$this->state.'</span>';
-    }
-
-    public function ticketPriority() {
-        $labelClass = ($this->priority=='medium') ? 'primary' : 'warning' ;
-        return '<span class="label label-'.$labelClass.'">'.$this->priority.'</span>';
-    }
-
     public function attributes()
     {
         return [
@@ -130,10 +120,10 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
 
     public static function regexConfig ($target) {
         $config = [
-            'tickets'   => [
+            'thread'   => [
                 '/\#\d{6,9}(\#answer-\d{6,7})?\b/',
             ],
-            'servers'   => [
+            'server'   => [
                 '/\b[A-Z]*DS\d{3,9}[A-Za-z0-9-]{0,6}\b/',
             ],
         ];
@@ -161,7 +151,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
 
     public static function parseMessage($message) {
         $message = str_replace(["\n\r", "\n\n", "\r\r", "\r\n"], "\n", $message);
-        $message = self::prepareLinks($message);
+        // $message = self::prepareLinks($message);
         $message = Markdown::process($message);
         return $message;
     }

@@ -8,7 +8,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class TicketController extends Controller {
+class ThreadController extends Controller {
     public function actionIndex () {
         $searchModel  = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
