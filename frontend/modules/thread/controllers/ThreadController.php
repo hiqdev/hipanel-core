@@ -120,6 +120,32 @@ class ThreadController extends Controller {
         return true;
     }
 
+    private function _threadChangeState($id, $state) {
+        $options[$id] = ['id'=>$id, 'state'=>'close', 'is_private'=>1];
+        try {
+            Thread::perform('Answer', $options, true);
+        } catch (HiResException $e) {
+            return false;
+        }
+        return true;
+    }
+
+    public function actionClose($id) {
+        if ($this->_threadChangeState($id, $this->action->id))
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket is closed!'));
+        else
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
+        return $this->redirect(['view', 'id'=>$id]);
+    }
+
+    public function actionOpen($id) {
+        if ($this->_threadChangeState($id, $this->action->id))
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket id open!'));
+        else
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
+        return $this->redirect(['view', 'id'=>$id]);
+    }
+
     public function actionSettings () {
         return $this->render('settings', []);
     }

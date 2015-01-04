@@ -3,6 +3,7 @@
 namespace app\modules\thread\models;
 
 use Yii;
+use yii\helpers\Html;
 use yii\helpers\Markdown;
 
 class Thread extends \frontend\components\hiresource\ActiveRecord
@@ -116,6 +117,14 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'add_tag_ids'      => Yii::t('app', 'add_tag_ids'),
             'file_ids'         => Yii::t('app', 'file_ids'),
         ];
+    }
+
+    public function getThreadUrl() {
+        return ['/thread/thread/view', 'id'=>$this->id];
+    }
+
+    public function getThreadViewTitle() {
+        return '#'.$this->id.' '.Html::encode($this->subject);
     }
 
     public static function regexConfig ($target) {

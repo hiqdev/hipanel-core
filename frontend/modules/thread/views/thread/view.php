@@ -6,8 +6,8 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 
-
-$this->title = $model->subject;
+// \yii\helpers\VarDumper::dump($model, 10, true);
+$this->title = $model->threadViewTitle;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerCss('
@@ -27,13 +27,23 @@ $this->registerCss('
         <?= Html::a('<i class="fa fa-pencil"></i>&nbsp;&nbsp;'.Yii::t('app', 'Subscribe'), ['subscribe', 'id' => $model->id], ['class' => 'btn  btn-default']) ?>
     <?php endif; ?>
 
-    <?= Html::a('<i class="fa fa-close"></i>&nbsp;&nbsp;'.Yii::t('app', 'Close'), ['close', 'id' => $model->id], [
-        'class' => 'btn btn-danger pull-right',
-        'data' => [
-            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-            'method' => 'post',
-        ],
-    ]) ?>
+    <?php if ($model->state=='opened') : ?>
+        <?= Html::a('<i class="fa fa-close"></i>&nbsp;&nbsp;'.Yii::t('app', 'Close'), ['close', 'id' => $model->id], [
+            'class' => 'btn btn-danger pull-right',
+            'data' => [
+                'confirm' => Yii::t('app', 'Are you sure you want to close this ticket?'),
+                'method' => 'post',
+            ],
+        ]) ?>
+    <?php else : ?>
+        <?= Html::a('<i class="fa fa-close"></i>&nbsp;&nbsp;'.Yii::t('app', 'Open'), ['open', 'id' => $model->id], [
+            'class' => 'btn btn-danger pull-right',
+            'data' => [
+                'confirm' => Yii::t('app', 'Are you sure you want to open this ticket?'),
+                'method' => 'post',
+            ],
+        ]) ?>
+    <?php endif; ?>
 </p>
 
 <?= DetailView::widget([
