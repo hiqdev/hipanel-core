@@ -103,6 +103,9 @@ return [
         ],
     ],
     'modules' => [
+        'markdown' => [
+            'class' => 'kartik\markdown\Module',
+        ],
         'client' => [
             'class' => 'app\modules\client\Module',
         ],

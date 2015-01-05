@@ -4,10 +4,9 @@ use frontend\modules\thread\widgets\Label;
 use frontend\modules\thread\widgets\Watcher;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\helpers\Url;
+use yii\helpers\StringHelper;
 
-// \yii\helpers\VarDumper::dump($model, 10, true);
-$this->title = $model->threadViewTitle;
+$this->title = StringHelper::truncateWords($model->threadViewTitle, 5);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerCss('
@@ -15,11 +14,14 @@ $this->registerCss('
         margin: 1rem;
     }
 ');
-//\yii\helpers\VarDumper::dump(Yii::$app->user->identity->username, 10, true);
 ?>
 
 <p>
-    <?= Html::a('<i class="fa fa-reply"></i>&nbsp;&nbsp;'.Yii::t('app', 'Replay'), '#', ['class'=>'btn btn-default', 'onClick' => new \yii\web\JsExpression('return false;')]) ?>
+    <?= Html::a('<i class="fa fa-reply"></i>&nbsp;&nbsp;'.Yii::t('app', 'Replay'), '#', ['class'=>'btn btn-default', 'onClick' => new \yii\web\JsExpression('
+    $("html, body").animate({
+        scrollTop: $(".ticket-update").offset().top
+    }, 3000);
+    ')]) ?>
 
     <?php if (is_array($model->watcher) && in_array(Yii::$app->user->identity->username, $model->watcher)) : ?>
         <?= Html::a('<i class="fa fa-pencil"></i>&nbsp;&nbsp;'.Yii::t('app', 'Unsubscribe'), ['unsubscribe', 'id' => $model->id], ['class' => 'btn  btn-default']) ?>
@@ -43,6 +45,12 @@ $this->registerCss('
                 'method' => 'post',
             ],
         ]) ?>
+    <?php endif; ?>
+
+    <?php if ($model->priority == 'medium') : ?>
+        <?= Html::a('<span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;'.Yii::t('app', 'Increase'), ['priority-up', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+    <?php else : ?>
+        <?= Html::a('<span class="glyphicon glyphicon-arrow-down"></span>&nbsp;&nbsp;'.Yii::t('app', 'Lower'), ['priority-down', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
     <?php endif; ?>
 </p>
 
@@ -94,4 +102,12 @@ $this->registerCss('
 <?php if (is_array($model->answers)) : ?>
     <?= $this->render('_chat',['model'=>$model]); ?>
 <?php endif; ?>
+
+<div class="ticket-update">
+
+    <?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
+
+</div>
 

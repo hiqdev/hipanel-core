@@ -8,7 +8,9 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class ThreadController extends Controller {
+class ThreadController extends Controller
+{
+
     public function actionIndex () {
         $searchModel  = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -93,7 +95,9 @@ class ThreadController extends Controller {
     }
 
     public function actionSubscribe ($id) {
-        if ($this->_subscriptionOperations($id, 'subscribe'))
+        if (!in_array($this->action->id, array_keys($this->_subscribeAction))) return false;
+        $options[$id] = ['id'=>$id, $this->_subscribeAction[$this->action->id]=>\Yii::$app->user->identity->username];
+        if ($this->_threadChange($options))
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You subscibed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'You do not subscibed!'));
@@ -101,36 +105,18 @@ class ThreadController extends Controller {
     }
 
     public function actionUnsubscribe ($id) {
-        if ($this->_subscriptionOperations($id, 'unsubscribe'))
+        if (!in_array($this->action->id, array_keys($this->_subscribeAction))) return false;
+        $options[$id] = ['id'=>$id, $this->_subscribeAction[$this->action->id]=>\Yii::$app->user->identity->username];
+        if ($this->_threadChange($options))
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You unsubscibed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'You do not unsubscibed!'));
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    private function _subscriptionOperations ($id, $action) {
-        if (!in_array($action, array_keys($this->_subscribeAction))) return false;
-        $options[$id] = ['id'=>$id, $this->_subscribeAction[$action]=>\Yii::$app->user->identity->username];
-        try {
-            Thread::perform('Answer', $options, true);
-        } catch (HiResException $e) {
-            return false;
-        }
-        return true;
-    }
-
-    private function _threadChangeState($id, $state) {
-        $options[$id] = ['id'=>$id, 'state'=>'close', 'is_private'=>1];
-        try {
-            Thread::perform('Answer', $options, true);
-        } catch (HiResException $e) {
-            return false;
-        }
-        return true;
-    }
-
     public function actionClose($id) {
-        if ($this->_threadChangeState($id, $this->action->id))
+        $options[$id] = ['id'=>$id, 'state'=>$this->action->id, 'is_private'=>1];
+        if ($this->_threadChange($options))
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket is closed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
@@ -138,7 +124,8 @@ class ThreadController extends Controller {
     }
 
     public function actionOpen($id) {
-        if ($this->_threadChangeState($id, $this->action->id))
+        $options[$id] = ['id'=>$id, 'state'=>$this->action->id, 'is_private'=>1];
+        if ($this->_threadChange($options))
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket id open!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
@@ -147,6 +134,40 @@ class ThreadController extends Controller {
 
     public function actionSettings () {
         return $this->render('settings', []);
+    }
+
+    public function actionPriorityUp($id) {
+        $options[$id] = ['id'=>$id, 'priority'=>'high'];
+        if ($this->_threadChange($options))
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Change priority to high!'));
+        else
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionPriorityDown($id) {
+        $options[$id] = ['id'=>$id, 'priority'=>'medium'];
+        if ($this->_threadChange($options))
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Change priority to medium!'));
+        else
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Numerous thread changes in one method, like BladeRoot did :)
+     * @param array $options
+     * @param string $apiCall
+     * @param bool $bulk
+     * @return bool
+     */
+    private function _threadChange($options = [], $apiCall = 'Answer', $bulk = true) {
+        try {
+            Thread::perform($apiCall, $options, $bulk);
+        } catch (HiResException $e) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -171,14 +192,14 @@ class ThreadController extends Controller {
     public function actionClientList ($search = null, $id = null) {
         $out = ['more' => false];
         if (!is_null($search)) {
-            $data = \frontend\modules\client\models\Client::find()->where(['client_like' => $search])->getList(); // Http::get('clientsGetList',['client_like'=>$search]);
+            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search])->getList(); // Http::get('clientsGetList',['client_like'=>$search]);
             $res  = [];
             foreach ($data as $item) {
                 $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
             }
             $out['results'] = $res;
         } elseif ($id != 0) {
-            $out['results'] = ['id' => $id, 'text' => \frontend\modules\client\models\Client::find()->where(['id' => $id, 'with_contact' => 1])->one()->login];
+            $out['results'] = ['id' => $id, 'text' => \app\modules\client\models\Client::find()->where(['id' => $id, 'with_contact' => 1])->one()->login];
         } else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
@@ -188,14 +209,12 @@ class ThreadController extends Controller {
     public function actionManagerList ($search = null, $id = null) {
         $out = ['more' => false];
         if (!is_null($search)) {
-            $data = \frontend\modules\client\models\Client::find()->where(['client_like'  => $search,
-                                                                           'manager_only' => 1
-            ])->getList(); // Http::get('clientsGetList',['client_like'=>$search]);
+            $data = \app\modules\client\models\Client::find()->where(['client_like'  => $search,'manager_only' => 1])->getList();
             $res  = [];
             foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
             $out['results'] = $res;
         } elseif ($id != 0) {
-            $out['results'] = ['id' => $id, 'text' => \frontend\modules\client\models\Client::find()->where(['id' => $id, 'with_contact' => 1])->one()->login];
+            $out['results'] = ['id' => $id, 'text' => \app\modules\client\models\Client::find()->where(['id' => $id, 'with_contact' => 1])->one()->login];
         } else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
@@ -209,10 +228,6 @@ class ThreadController extends Controller {
             $res  = [];
             foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
             $out['results'] = $res;
-        } elseif ($id != 0) {
-            $out['results'] = ['id' => $id, 'text' => \frontend\modules\client\models\Client::find()->where(['id' => $id, 'with_contact' => 1])->one()->login];
-        } else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
         echo \yii\helpers\Json::encode($out);
     }

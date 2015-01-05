@@ -204,7 +204,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("'.yii\helpers\Url::to(['manager-list']).'?id=" + id, {
+                                                            $.ajax("'.yii\helpers\Url::to(['client-list']).'?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);
@@ -222,15 +222,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         [
             'class' => 'yii\grid\ActionColumn',
-//            'template'=>'{view} {update} {delete} {remind}',
-//            'buttons'=>[
-//                'view'=>function ($url, $model, $key) {
-//                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',['view','id'=>$model['id']]);
-//                    },
-//                'remind'=>function ($url, $model, $key) {
-//                        return Html::a('<span class="glyphicon glyphicon-bell"></span>','#',['title'=>'Remind']);
-//                    },
-//            ],
+            'template'=>'{view} {state}',
+            'buttons'=>[
+                'state'=>function ($url, $model, $key) {
+                    if ($model->state == 'opened') {
+                        return Html::a('<span class="glyphicon glyphicon-remove"></span>',['close', 'id'=>$model->id],['title'=>'Close']);
+                    }
+                },
+            ],
         ],
     ],
 ]); ?>

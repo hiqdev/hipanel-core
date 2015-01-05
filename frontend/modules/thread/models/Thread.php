@@ -70,13 +70,8 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
      */
     public function rules () {
         return [
-            [[], 'required'],
-            [
-                [
-
-                ],
-                'safe'
-            ],
+            [['subject', 'message'], 'required'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'spent'], 'safe'],
         ];
     }
 
