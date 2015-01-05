@@ -11,13 +11,13 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\Inflector;
+use yii\helpers\Json;
 use yii\helpers\StringHelper;
 use frontend\components\Re;
 
 //use yii\base\InvalidCallException;
 //use yii\base\NotSupportedException;
 //use yii\helpers\ArrayHelper;
-//use yii\helpers\Json;
 
 class ActiveRecord extends BaseActiveRecord
 {
@@ -172,7 +172,9 @@ class ActiveRecord extends BaseActiveRecord
             $this->getPrimaryKey(),
             $options
         );
-
+        if ( Re::isError($response) ) {
+            throw new HiResException('Hiresource method: Insert -- '.Json::encode($response), Re::getError($response));
+        }
         $pk        = static::primaryKey()[0];
         $this->$pk = $response['id'];
         if ($pk != 'id') {
@@ -195,6 +197,10 @@ class ActiveRecord extends BaseActiveRecord
                         $this->getOldPrimaryKey(false),
                         $options
         );
+
+        if ( Re::isError($result) ) {
+            throw new HiResException('Hiresource method: Delete -- '.Json::encode($result), Re::getError($result));
+        }
 
         $this->setOldAttributes(null);
         $this->afterDelete();
@@ -244,7 +250,7 @@ class ActiveRecord extends BaseActiveRecord
 
         $this->afterSave(false, $changedAttributes);
 
-        if ($result === false) {
+        if ($result === false || Re::isError($result)) {
             return 0;
         } else {
             return 1;
