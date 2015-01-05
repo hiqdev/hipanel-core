@@ -97,8 +97,7 @@ class ThreadController extends Controller {
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You subscibed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'You do not subscibed!'));
-
-        return $this->redirect(['view', 'id'=>$id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionUnsubscribe ($id) {
@@ -106,7 +105,7 @@ class ThreadController extends Controller {
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You unsubscibed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'You do not unsubscibed!'));
-        return $this->redirect(['view', 'id'=>$id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     private function _subscriptionOperations ($id, $action) {
@@ -135,7 +134,7 @@ class ThreadController extends Controller {
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket is closed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
-        return $this->redirect(['view', 'id'=>$id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionOpen($id) {
@@ -143,7 +142,7 @@ class ThreadController extends Controller {
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket id open!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
-        return $this->redirect(['view', 'id'=>$id]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionSettings () {
