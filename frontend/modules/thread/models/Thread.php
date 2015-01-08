@@ -33,6 +33,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'priority',
             'priority_label',
             'spent',
+            'spent_hours',
             'answer_count',
             'status',
             'reply_time',
@@ -71,7 +72,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function rules () {
         return [
             [['subject', 'message'], 'required'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'spent'], 'safe'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'spent','spent_hours'], 'safe'],
         ];
     }
 
@@ -100,6 +101,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'priority'         => Yii::t('app', 'Priority'),
             'priority_label'   => Yii::t('app', 'Priority'),
             'spent'            => Yii::t('app', 'Spent time'),
+            'spent_hours'      => Yii::t('app', 'Spent hours'),
             'answer_count'     => Yii::t('app', 'Answer count'),
             'status'           => Yii::t('app', 'Status'),
             'reply_time'       => Yii::t('app', 'reply_time'),
@@ -160,4 +162,11 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
         return $message;
     }
 
+    public function beforeSave($insert) {
+        if (!parent::beforeSave($insert)) return false;
+        // spent time
+        list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
+        
+        return true;
+    }
 }
