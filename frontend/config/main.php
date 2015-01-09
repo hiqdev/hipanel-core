@@ -61,9 +61,9 @@ return [
             'clients' => [
                 'hi3a' => [
                     'class'         => 'common\components\hi3aOauth2Client',
-                    'authUrl'       => 'http://sol-auth-master.hiqdev.com/oauth2/authorize',
-                    'tokenUrl'      => 'http://sol-auth-master.hiqdev.com/oauth2/token',
-                    'apiBaseUrl'    => 'http://sol-auth-master.hiqdev.com/api',
+                    'authUrl'       => 'https://sol-hi3a-master.ahnames.com/oauth2/authorize',
+                    'tokenUrl'      => 'https://sol-hi3a-master.ahnames.com/oauth2/token',
+                    'apiBaseUrl'    => 'https://sol-hi3a-master.ahnames.com/api',
                     'clientId'      => 'sol-hipanel-master',
                     'clientSecret'  => 'MdQybNMHMJ',
                 ],
