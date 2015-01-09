@@ -8,6 +8,7 @@ $params = array_merge(
 
 function d ($a) { die(var_dump($a)); }
 
+
 return [
     'id' => 'app-frontend',
     'name'=>'hi Panel',
@@ -38,7 +39,6 @@ return [
                 'api_url'=>'localhost-api.ahnames.com',
             ],
         ],
-
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
@@ -103,11 +103,17 @@ return [
         ],
     ],
     'modules' => [
+        'markdown' => [
+            'class' => 'kartik\markdown\Module',
+        ],
         'client' => [
             'class' => 'app\modules\client\Module',
         ],
         'thread' => [
             'class' => 'app\modules\thread\Module',
+        ],
+        'server' => [
+            'class' => 'app\modules\server\Module',
         ],
     ],
     'params' => $params,

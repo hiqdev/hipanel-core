@@ -80,9 +80,9 @@ class Command extends Component
         $options = array_merge($data, $options);
 
         if ($id !== null) {
-            return $this->db->put($action.'Update', array_merge($options,['id'=>$id]), $body);
+            return $this->db->put($action.'Update', array_merge($options,['id'=>$id]));
         } else {
-            return $this->db->post($action.'Create', $options, $body);
+            return $this->db->post($action.'Create', $options);
         }
     }
 
@@ -115,4 +115,14 @@ class Command extends Component
         return $this->db->put($index.'Update', array_merge($data,$options));
 	}
 
+    /**
+     * @param $action
+     * @param array $options
+     *
+     * @return mixed
+     */
+    public function perform($action, $options = [])
+    {
+        return $this->db->put($action, $options);
+    }
 }

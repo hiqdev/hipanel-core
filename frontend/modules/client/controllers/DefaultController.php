@@ -9,7 +9,7 @@ class DefaultController extends Controller
     public function actionIndex($tpl='_tariff')
     {
         // Fetch clits data from API
-        $data = \frontend\components\Http::get('clientsSearch', ['limit'=>'1000']);
+        $data = \frontend\components\Http::get('clientsSearch', ['limit'=>'ALL']);
         $provider = new \yii\data\ArrayDataProvider([
             'allModels' => $data,
             'sort' => [

@@ -42,16 +42,16 @@ echo Menu::widget(
             ],
             [
                 'label' => Yii::t('app', 'Tickets'),
-                'url' => ['/thread/default/index'],
+                'url' => ['/thread/thread/index'],
                 'icon' => 'fa-folder',
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Tickets'),
-                        'url' => ['/thread/default/index'],
+                        'url' => ['/thread/thread/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'Tickets settings'),
-                        'url' => ['/thread/default/settings'],
+                        'url' => ['/thread/thread/settings'],
                     ],
                     [
                         'label' => Yii::t('app', 'Tickets templates'),

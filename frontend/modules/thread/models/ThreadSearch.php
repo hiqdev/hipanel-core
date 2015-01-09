@@ -18,7 +18,16 @@ class ThreadSearch extends \app\modules\thread\models\Thread
     public function rules()
     {
         return [
-            [['author_id','responsible_id','state','priority','time_from','time_till', 'subject'], 'safe'],
+            [[
+                'author_id',
+                'responsible_id',
+                'state',
+                'priority',
+                'time_from',
+                'time_till',
+                'subject',
+                'watcher',
+            ], 'safe'],
         ];
     }
 
@@ -41,16 +50,12 @@ class ThreadSearch extends \app\modules\thread\models\Thread
     public function search($params)
     {
         $query = Thread::find();
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'author_id' => $this->author_id,
             'responsible_id' => $this->responsible_id,
@@ -60,9 +65,7 @@ class ThreadSearch extends \app\modules\thread\models\Thread
             'time_form' => $this->time_from,
         ]);
         $query->andFilterWhere(['like', 'subject', $this->subject]);
-//        $query->andFilterWhere(['in', 'subject', $this->subject]);
-
-        // \yii\helpers\VarDumper::dump($dataProvider, 10, true);
+        $query->andFilterWhere(['in', 'watcher', $this->watchers]);
         return $dataProvider;
     }
 }

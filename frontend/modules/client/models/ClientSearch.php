@@ -17,7 +17,6 @@ class ClientSearch extends \frontend\modules\client\models\Client
     {
         return [
             [['id'], 'integer'],
-            // [['',''],'safe'],
         ];
     }
 
@@ -44,11 +43,7 @@ class ClientSearch extends \frontend\modules\client\models\Client
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-        $query->andFilterWhere([
-            'client_like' => $this->client_like,
-        ]);
-
+        $query->andFilterWhere(['like', 'client_like', $this->client_like]);
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
@@ -56,6 +51,7 @@ class ClientSearch extends \frontend\modules\client\models\Client
         $query->andFilterWhere([
             'ids' => $this->id,
         ]);
+        // $query->andFilterWhere(['like', 'subject', $this->title]);
 
         return $dataProvider;
     }

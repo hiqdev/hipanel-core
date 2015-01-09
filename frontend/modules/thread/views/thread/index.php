@@ -1,13 +1,17 @@
 <?
+use frontend\components\Re;
+use frontend\modules\thread\widgets\Label;
 use frontend\widgets\GridView;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
+use Yii;
 
 // frontend\assets\Select2Asset::register($this);
 
 $this->title = Yii::t('app', 'Tickets');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <?= $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,8 +33,24 @@ $this->params['breadcrumbs'][] = $this->title;
             // you may configure additional properties here
         ],
         [
+            'attribute'=>'subject',
+            'format'=>'html',
+            'value'=>function ($data) {
+                    if (is_array($data['topic'])) {
+                        $html = '';
+                        $html .= $data['subject'];
+                        $html .= '<ul class="list-inline">';
+                        foreach ($data['topic'] as $item=>$label) {
+                            $html .= '<li><span class="label label-success">'.$item.'</span></li>';
+                        }
+                        $html .= '</ul>';
+                    } else $html = $data['topic'];
+                    return $html;
+                }
+        ],
+        [
             'attribute'=>'create_time',
-            'format'=>['date', 'php:d/m/y H:i'],
+            'format'=>['date', 'php:d.m.Y H:i'],
 //            'filter' => DatePicker::widget(
 //                                  [
 //                                      'name'=>'create_time',
@@ -43,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute'=>'author_id',
             'value'=> function ($data) {
-                    return Html::a($data->author, ['/client/default/view','id'=>$data->author_id]);
+                    return Html::a($data->author, ['/client/client/view','id'=>$data->author_id]);
                 },
             'format'=>'html',
             'filterInputOptions' => ['id'=>'author_id'],
@@ -83,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterInputOptions' => ['id'=>'recipient_id'],
             'label'=>Yii::t('app','Recipient'),
             'value'=>function($data) {
-                    return Html::a($data->recipient, ['/client/default/view','id'=>$data->recipient_id]);
+                    return Html::a($data->recipient, ['/client/client/view','id'=>$data->recipient_id]);
 
             },
             'filter'=> frontend\widgets\Select2::widget([
@@ -115,25 +135,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]),
         ],
-        [
-            'attribute'=>'subject',
-            'format'=>'html',
-            'value'=>function ($data) {
-                    $html = '';
-                    $html .= $data['subject'];
-                    $html .= '<ul class="list-inline">';
-                    foreach ($data['topic'] as $item=>$label) {
-                        $html .= '<li><span class="label label-success">'.$item.'</span></li>';
-                    }
-                    $html .= '</ul>';
-                    return $html;
-                }
-        ],
+
         [
             'attribute'=>'priority',
-            'format'=>'html',
+            'format'=>'raw',
             'value'=>function ($data) {
-                    return  '<span class="label label-warning">'.$data->priority.'</span>';
+                    return  Label::widget([
+                        'type'=>'priority',
+                        'label'=> Re::l($data->priority_label),
+                        'value'=>$data->priority,
+                    ]);
                 },
             'filter'=> Html::activeDropDownList($searchModel,
                     'priority',
@@ -144,15 +155,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]),
         ],
         [
-            'attribute'=>'state',
-            'format'=>'html',
-            'value'=>function ($data) {
-                    return  '<span class="label label-info">'.$data->state.'</span>';
+            'attribute' => 'state',
+            'format'    => 'html',
+            'value'     => function ($data) {
+                    return  Label::widget([
+                        'type'=>'state',
+                        'label'=> Re::l($data->state_label),
+                        'value'=>$data->state,
+                    ]);
                 },
-            'filter'=> Html::activeDropDownList($searchModel,
+            'filter'    => Html::activeDropDownList($searchModel,
                     'state',
-                    ArrayHelper::map(frontend\models\Ref::find()->where(['gtype'=>'state,ticket'])->getList(),'gl_key',
-                        function($v){
+                    ArrayHelper::map(frontend\models\Ref::find()->where(['gtype' => 'state,ticket'])->getList(),
+                        'gl_key',
+                        function ($v) {
                             return frontend\components\Re::l($v->gl_value);
                         }),
                     [
@@ -166,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'label'=>Yii::t('app','Responsible'),
             'filterInputOptions' => ['id'=>'responsible_id'],
             'value'=>function ($data) {
-                    return Html::a($data['responsible'], ['/client/default/view','id'=>$data->responsible_id]);
+                    return Html::a($data['responsible'], ['/client/client/view','id'=>$data->responsible_id]);
                 },
             'filter'=> frontend\widgets\Select2::widget([
                     'attribute'=>'responsible_id',
@@ -188,7 +204,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("'.yii\helpers\Url::to(['manager-list']).'?id=" + id, {
+                                                            $.ajax("'.yii\helpers\Url::to(['client-list']).'?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);
@@ -206,15 +222,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         [
             'class' => 'yii\grid\ActionColumn',
-//            'template'=>'{view} {update} {delete} {remind}',
-//            'buttons'=>[
-//                'view'=>function ($url, $model, $key) {
-//                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',['view','id'=>$model['id']]);
-//                    },
-//                'remind'=>function ($url, $model, $key) {
-//                        return Html::a('<span class="glyphicon glyphicon-bell"></span>','#',['title'=>'Remind']);
-//                    },
-//            ],
+            'template'=>'{view} {state}',
+            'buttons'=>[
+                'state'=>function ($url, $model, $key) {
+                    if ($model->state == 'opened') {
+                        return Html::a('<span class="glyphicon glyphicon-remove"></span>',['close', 'id'=>$model->id],['title'=>'Close']);
+                    }
+                },
+            ],
         ],
     ],
 ]); ?>
@@ -229,6 +244,7 @@ $('.thread-search').find('input[type=text], select').each(function(){
 // Button handle
 $('.search-button').click(function(){
     $('.thread-search').toggle();
+    $('tr.filters').toggle();
     return false;
 });
 // Reset handle
