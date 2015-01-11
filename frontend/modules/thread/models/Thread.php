@@ -11,8 +11,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public $time_from;
     public $time_till;
 
-    public function attributes()
-    {
+    public function attributes() {
         return [
             'id',
             'subject',
@@ -45,19 +44,14 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'watcher',
             'add_tag_ids',
             'file_ids',
-
-
+            'file',
             // $with_messages_fields
-            'message',
-            // 'answer_message',
+            'message', // 'answer_message',
             'answers',
-
-
             // $with_anonym_fields
             'is_private',
             'anonym_email',
             'anonym_seller',
-
 //
 //            'topic',
 //            'watchers',
@@ -69,74 +63,72 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules () {
+    public function rules() {
         return [
             [['subject', 'message'], 'required'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'spent','spent_hours'], 'safe'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'spent', 'spent_hours'], 'safe'],
+            [['file'], 'file', 'maxFiles' => 5],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels () {
+    public function attributeLabels() {
         return [
-            'id'               => Yii::t('app', 'ID'),
-            'subject'          => Yii::t('app', 'Subject'),
-            'message'          => Yii::t('app', 'Message'),
-            'state'            => Yii::t('app', 'State'),
-            'state_label'      => Yii::t('app', 'State'),
-            'author_id'        => Yii::t('app', 'Author'),
-            'responsible_id'   => Yii::t('app', 'Responsible'),
-            'author'           => Yii::t('app', 'Author'),
-            'author_seller'    => Yii::t('app', 'Seller'),
-            'recipient_id'     => Yii::t('app', 'recipient_id'),
-            'recipient'        => Yii::t('app', 'Recipient'),
+            'id' => Yii::t('app', 'ID'),
+            'subject' => Yii::t('app', 'Subject'),
+            'message' => Yii::t('app', 'Message'),
+            'state' => Yii::t('app', 'State'),
+            'state_label' => Yii::t('app', 'State'),
+            'author_id' => Yii::t('app', 'Author'),
+            'responsible_id' => Yii::t('app', 'Responsible'),
+            'author' => Yii::t('app', 'Author'),
+            'author_seller' => Yii::t('app', 'Seller'),
+            'recipient_id' => Yii::t('app', 'recipient_id'),
+            'recipient' => Yii::t('app', 'Recipient'),
             'recipient_seller' => Yii::t('app', 'recipient_seller'),
-            'replier_id'       => Yii::t('app', 'replier_id'),
-            'replier'          => Yii::t('app', 'Replier'),
-            'replier_seller'   => Yii::t('app', 'replier_seller'),
-            'replier_name'     => Yii::t('app', 'replier_name'),
-            'responsible'      => Yii::t('app', 'Responsible'),
-            'priority'         => Yii::t('app', 'Priority'),
-            'priority_label'   => Yii::t('app', 'Priority'),
-            'spent'            => Yii::t('app', 'Spent time'),
-            'spent_hours'      => Yii::t('app', 'Spent hours'),
-            'answer_count'     => Yii::t('app', 'Answer count'),
-            'status'           => Yii::t('app', 'Status'),
-            'reply_time'       => Yii::t('app', 'reply_time'),
-            'create_time'      => Yii::t('app', 'Created'),
-            'a_reply_time'     => Yii::t('app', 'a_reply_time'),
-            'elapsed'          => Yii::t('app', 'elapsed'),
-            'topic'            => Yii::t('app', 'Topic'),
-            'watchers'         => Yii::t('app', 'Watchers'),
-            'watcher'          => Yii::t('app', 'Watchers'),
-            'add_tag_ids'      => Yii::t('app', 'add_tag_ids'),
-            'file_ids'         => Yii::t('app', 'file_ids'),
+            'replier_id' => Yii::t('app', 'replier_id'),
+            'replier' => Yii::t('app', 'Replier'),
+            'replier_seller' => Yii::t('app', 'replier_seller'),
+            'replier_name' => Yii::t('app', 'replier_name'),
+            'responsible' => Yii::t('app', 'Responsible'),
+            'priority' => Yii::t('app', 'Priority'),
+            'priority_label' => Yii::t('app', 'Priority'),
+            'spent' => Yii::t('app', 'Spent time'),
+            'spent_hours' => Yii::t('app', 'Spent hours'),
+            'answer_count' => Yii::t('app', 'Answer count'),
+            'status' => Yii::t('app', 'Status'),
+            'reply_time' => Yii::t('app', 'reply_time'),
+            'create_time' => Yii::t('app', 'Created'),
+            'a_reply_time' => Yii::t('app', 'a_reply_time'),
+            'elapsed' => Yii::t('app', 'elapsed'),
+            'topic' => Yii::t('app', 'Topic'),
+            'watchers' => Yii::t('app', 'Watchers'),
+            'watcher' => Yii::t('app', 'Watchers'),
+            'add_tag_ids' => Yii::t('app', 'add_tag_ids'),
+            'file_ids' => Yii::t('app', 'file_ids'),
+            'file' => Yii::t('app', 'Files'),
         ];
     }
 
     public function getThreadUrl() {
-        return ['/thread/thread/view', 'id'=>$this->id];
+        return ['/thread/thread/view', 'id' => $this->id];
     }
 
     public function getThreadViewTitle() {
-        return '#'.$this->id.' '.Html::encode($this->subject);
+        return '#' . $this->id . ' ' . Html::encode($this->subject);
     }
 
-    public static function regexConfig ($target) {
+    public static function regexConfig($target) {
         $config = [
-            'thread'   => [
-                '/\#\d{6,9}(\#answer-\d{6,7})?\b/',
-            ],
-            'server'   => [
-                '/\b[A-Z]*DS\d{3,9}[A-Za-z0-9-]{0,6}\b/',
-            ],
+            'thread' => ['/\#\d{6,9}(\#answer-\d{6,7})?\b/',],
+            'server' => ['/\b[A-Z]*DS\d{3,9}[A-Za-z0-9-]{0,6}\b/',],
         ];
         return $config[$target];
     }
 
-    public static function prepareLinks ($text) {
+    public static function prepareLinks($text) {
         $targets = ['thread', 'server'];
         $host = getenv("HTTP_HOST");
         foreach ($targets as $target) {
@@ -145,7 +137,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
                 $changed = [];
                 preg_match_all($pattern, $text, $matches);
                 foreach ($matches[0] as $match) {
-                    $number = $target=='tickets' ? substr($match, 1) : $match;
+                    $number = $target == 'tickets' ? substr($match, 1) : $match;
                     if ($changed[$number] && $changed[$number] == $match) continue;
                     $changed[$number] = $match;
                     $text = str_replace($match, "[[https://{$host}/panel/{$target}/details/{$number}|{$match}]]", $text);
@@ -166,7 +158,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
         if (!parent::beforeSave($insert)) return false;
         // spent time
         list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
-        
+
         return true;
     }
 }
