@@ -1,11 +1,11 @@
 <?
 use frontend\components\Re;
 use frontend\modules\thread\widgets\Label;
+use frontend\modules\thread\widgets\Topic;
 use frontend\widgets\GridView;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
-use Yii;
 
 // frontend\assets\Select2Asset::register($this);
 
@@ -34,18 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         [
             'attribute'=>'subject',
-            'format'=>'html',
+            'format'=>'raw',
             'value'=>function ($data) {
-                    if (is_array($data['topic'])) {
-                        $html = '';
-                        $html .= $data['subject'];
-                        $html .= '<ul class="list-inline">';
-                        foreach ($data['topic'] as $item=>$label) {
-                            $html .= '<li><span class="label label-success">'.$item.'</span></li>';
-                        }
-                        $html .= '</ul>';
-                    } else $html = $data['topic'];
-                    return $html;
+                    return $data['subject'] . Topic::widget(['topics' => $data->topic]);
                 }
         ],
         [

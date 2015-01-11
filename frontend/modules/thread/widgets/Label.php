@@ -8,7 +8,6 @@
 
 namespace frontend\modules\thread\widgets;
 
-
 use yii\helpers\Html;
 use yii\jui\Widget;
 
