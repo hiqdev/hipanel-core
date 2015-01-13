@@ -5,6 +5,7 @@ use app\modules\thread\models\Thread;
 use app\modules\thread\models\ThreadSearch;
 use common\models\File;
 use frontend\components\hiresource\HiResException;
+use frontend\models\Ref;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -17,14 +18,20 @@ class ThreadController extends Controller
         $searchModel = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider,]);
-
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'state_data' => \yii\helpers\ArrayHelper::map(Ref::find()->where(['gtype' => 'state,ticket'])->getList(), 'gl_key', function ($v) {
+                return \frontend\components\Re::l($v->gl_value);
+            }),
+            'priority_data' => Ref::getList('priority'),
+        ]);
     }
 
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers',];
 
     private function getFilters($name) {
-        return ArrayHelper::map(\frontend\models\Ref::find()->where(['gtype' => 'type,' . $name])->getList(), 'gl_key', function ($v) { return \frontend\components\Re::l($v->gl_value); });
+        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,' . $name])->getList(), 'gl_key', function ($v) { return \frontend\components\Re::l($v->gl_value); });
     }
 
     public function actionView($id) {

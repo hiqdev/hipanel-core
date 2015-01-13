@@ -163,7 +163,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     }
 
     public function afterFind() {
-        $this->topic = array_keys($this->topic);
+        if (is_array($this->topic)) $this->topic = array_keys($this->topic);
 
         parent::afterFind();
     }
