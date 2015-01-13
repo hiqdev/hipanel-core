@@ -26,6 +26,7 @@ $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View
     <!-- Properties -->
     <div class="row">
         <div class="col-md-6">
+            <?php \yii\helpers\VarDumper::dump($model->topic, 10, true); ?>
             <?= $form->field($model, 'topic')->widget(Select2::classname(), [
                 'data' => array_merge(["" => ""], ArrayHelper::map(Ref::find()->where(['gtype' => 'topic,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); })),
                 'options' => ['placeholder' => 'Select a topic ...', 'multiple' => true],
@@ -33,6 +34,23 @@ $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View
                     'allowClear' => true,
                 ],
             ]); ?>
+            <?php if ($model->scenario != 'update') : ?>
+                <?= $form->field($model, 'topic')->widget(Select2::classname(), [
+                    'data' => array_merge(["" => ""], ArrayHelper::map(Ref::find()->where(['gtype' => 'topic,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); })),
+                    'options' => ['placeholder' => 'Select a topic ...', 'multiple' => true],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]); ?>
+            <?php else : ?>
+                <?= $form->field($model, 'topic')->widget(Select2::classname(), [
+                    'data' => array_merge(["" => ""], ArrayHelper::map(Ref::find()->where(['gtype' => 'topic,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); })),
+                    'options' => ['placeholder' => 'Select a topic ...', 'multiple' => true],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]); ?>
+            <?php endif; ?>
             <?= $form->field($model, 'state')->widget(Select2::classname(), [
                 'data' => array_merge(["" => ""], ArrayHelper::map(Ref::find()->where(['gtype' => 'state,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); })),
                 'options' => ['placeholder' => 'Select a state ...'],
@@ -129,6 +147,7 @@ $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View
                     'showMeridian' => false,
                     'minuteStep' => 1,
                     'hourStep' => 1,
+                    'defaultTime' => '00:00',
                 ]
             ]); ?>
         </div>
