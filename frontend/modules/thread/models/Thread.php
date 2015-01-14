@@ -66,7 +66,8 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function rules() {
         return [
             [['subject', 'message'], 'required'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'spent', 'spent_hours'], 'safe'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id'], 'safe', 'on' => 'insert'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'spent', 'spent_hours'], 'safe', 'on' => 'answer'],
             [['file'], 'file', 'maxFiles' => 5],
         ];
     }
@@ -156,7 +157,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
 
     public function beforeSave($insert) {
         if (!parent::beforeSave($insert)) return false;
-        // spent time
+        // spent time handle
         list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
 
         return true;

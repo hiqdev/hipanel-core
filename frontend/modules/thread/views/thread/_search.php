@@ -1,13 +1,11 @@
 <?php
 
+use kartik\widgets\Select2;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 use kartik\widgets\DatePicker;
 use yii\helpers\Url;
-$model = $searchModel;
-/* @var $this yii\web\View */
-/* @var $model app\modules\thread\models\ThreadSearch */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="thread-search row" style="margin-bottom: 20px; display: none;">
@@ -40,7 +38,29 @@ $model = $searchModel;
 
     <div class="col-md-4">
         <?php echo $form->field($model, 'author_id')->widget(\frontend\widgets\Select2::classname(),['url' => Url::to(['client-list'])]) ?>
-        <?php echo $form->field($model, 'responsible_id')->widget(\frontend\widgets\Select2::classname(),['url' => Url::to(['client-list'])]) ?>
+
+        <?php echo $form->field($model, 'responsible_id')->widget(Select2::classname(), [
+            'options' => ['placeholder' => 'Search for a responsible ...'],
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 3,
+                'ajax' => [
+                    'url' => Url::to(['manager-list']),
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(term,page) { return {search:term}; }'),
+                    'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                ],
+                'initSelection' => new JsExpression('function (elem, callback) {
+                    var id=$(elem).val();
+                    $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                        dataType: "json"
+                    }).done(function(data) {
+                        callback(data.results);
+                    });
+                }')
+            ],
+        ]) ?>
+
         <?php echo $form->field($model, 'topic') ?>
     </div>
 

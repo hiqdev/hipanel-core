@@ -15,7 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<?= $this->render('_search', compact('searchModel', 'priority_data')); ?>
+<?= $this->render('_search', [
+    'model' => $searchModel,
+    'topic_data' => $topic_data,
+    'priority_data' => $priority_data,
+    'state_data' => $state_data,
+]); ?>
 
 <?= Html::a(Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Ticket',

@@ -27,21 +27,21 @@ $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'topic')->widget(Select2::classname(), [
-                'data' => array_merge(["" => ""], ArrayHelper::map(Ref::find()->where(['gtype' => 'topic,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); })),
+                'data' => array_merge(["" => ""], $topic_data),
                 'options' => ['placeholder' => 'Select a topic ...', 'multiple' => true],
                 'pluginOptions' => [
                     'allowClear' => true,
                 ],
             ]); ?>
             <?= $form->field($model, 'state')->widget(Select2::classname(), [
-                'data' => array_merge(["" => ""], ArrayHelper::map(Ref::find()->where(['gtype' => 'state,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); })),
+                'data' => array_merge(["" => ""], $state_data),
                 'options' => ['placeholder' => 'Select a state ...'],
                 'pluginOptions' => [
                     'allowClear' => true,
                 ],
             ]); ?>
             <?= $form->field($model, 'priority')->widget(Select2::classname(), [
-                'data' => array_merge(["" => ""], ArrayHelper::map(Ref::find()->where(['gtype' => 'type,priority'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); })),
+                'data' => array_merge(["" => ""], $priority_data),
                 'options' => ['placeholder' => 'Select a priority ...'],
                 'pluginOptions' => [
                     'allowClear' => true,
@@ -92,7 +92,28 @@ $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View
                                                         }')
                 ],
             ]); ?>
-            <?php /*print $form->field($model, 'watcher')*/ ?>
+            <?= $form->field($model, 'watcher')->widget(Select2::classname(), [
+                'options' => ['placeholder' => 'Select watchers ...', 'multiple' => true],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'minimumInputLength' => 3,
+                    'multiple' => true,
+                    'ajax' => [
+                        'url' => Url::to(['manager-list']),
+                        'dataType' => 'json',
+                        'data' => new JsExpression('function(term,page) { return {search:term}; }'),
+                        'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                    ],
+                    'initSelection' => new JsExpression('function (elem, callback) {
+                                                            var id=$(elem).val();
+                                                            $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                                                                dataType: "json"
+                                                            }).done(function(data) {
+                                                                callback(data.results);
+                                                            });
+                                                        }')
+                ],
+            ]); ?>
 
         </div>
     </div>

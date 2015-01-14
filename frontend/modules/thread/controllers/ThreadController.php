@@ -5,14 +5,30 @@ use app\modules\thread\models\Thread;
 use app\modules\thread\models\ThreadSearch;
 use common\models\File;
 use frontend\components\hiresource\HiResException;
+use frontend\components\Re;
 use frontend\models\Ref;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 class ThreadController extends Controller
 {
+    private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
+
+    private function _topicData() {
+        return ArrayHelper::map(Ref::find()->where(['gtype' => 'topic,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
+    }
+
+    private function _priorityData() {
+        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,priority'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
+    }
+
+    private function _stateData() {
+        return ArrayHelper::map(Ref::find()->where(['gtype' => 'state,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
+    }
 
     public function actionIndex() {
         $searchModel = new ThreadSearch();
@@ -21,21 +37,33 @@ class ThreadController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'state_data' => \yii\helpers\ArrayHelper::map(Ref::find()->where(['gtype' => 'state,ticket'])->getList(), 'gl_key', function ($v) {
-                return \frontend\components\Re::l($v->gl_value);
-            }),
-            'priority_data' => Ref::getList('priority'),
+            'topic_data' => $this->_topicData(),
+            'priority_data' => $this->_priorityData(),
+            'state_data' => $this->_stateData(),
         ]);
     }
 
-    private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers',];
-
     private function getFilters($name) {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,' . $name])->getList(), 'gl_key', function ($v) { return \frontend\components\Re::l($v->gl_value); });
+        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,' . $name])->getList(), 'gl_key', function ($v) { return Re::l($v->gl_value); });
     }
 
     public function actionView($id) {
-        return $this->render('view', ['model' => $this->findModel($id),]);
+        if (Yii::$app->request->isPost) {
+            $model = new Thread();
+            $model->scenario = 'answer';
+            if ($model->load(Yii::$app->request->post()) && $model->validate() && $this->_threadChange($model->getAttributes())) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+                'topic_data' => $this->_topicData(),
+                'priority_data' => $this->_priorityData(),
+                'state_data' => $this->_stateData(),
+            ]);
+        }
+
+
     }
 
     /**
@@ -45,6 +73,7 @@ class ThreadController extends Controller
      */
     public function actionCreate() {
         $model = new Thread();
+        $model->scenario = 'insert';
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstances($model, 'file');
@@ -61,7 +90,12 @@ class ThreadController extends Controller
             \yii\helpers\VarDumper::dump($model->load(Yii::$app->request->post()), 10, true);die;
             if ($model->save()) return $this->redirect(['view', 'id' => $model->id]);
         }
-        return $this->render('create', ['model' => $model]);
+        return $this->render('create', [
+            'model' => $model,
+            'topic_data' => $this->_topicData(),
+            'priority_data' => $this->_priorityData(),
+            'state_data' => $this->_stateData(),
+        ]);
     }
 
     private function _fileUpload(Thread $model) {
@@ -81,23 +115,16 @@ class ThreadController extends Controller
         File::getfile(Yii::$app->request->queryParams);
     }
 
-    /**
-     * Updates an existing Thread model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     *
-     * @param integer $id
-     *
-     * @return mixed
-     */
     public function actionUpdate($id) {
-        $model = $this->findModel($id);
-        $model->scenario = 'answer';
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-        else {
-            return $this->render('update', ['model' => $model,]);
-        }
+        throw new \LogicException(Yii::t('app', 'Update Action in View!'));
+//        $model = $this->findModel($id);
+//        $model->scenario = 'answer';
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        }
+//        else {
+//            return $this->render('update', ['model' => $model,]);
+//        }
     }
 
     /**
@@ -232,11 +259,12 @@ class ThreadController extends Controller
         else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
-        echo \yii\helpers\Json::encode($out);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $out;
     }
 
     public function actionManagerList($search = null, $id = null) {
-        $out = ['more' => false];
+        $out = ['more' => true];
         if (!is_null($search)) {
             $data = \app\modules\client\models\Client::find()->where([
                 'client_like' => $search,
@@ -258,17 +286,19 @@ class ThreadController extends Controller
         else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
-        echo \yii\helpers\Json::encode($out);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $out;
     }
 
     public function actionStateList($search = null, $id = null) {
-        $out = ['more' => false];
+        $out = ['more' => true];
         if (!is_null($search)) {
             $data = Ref::find()->where(['gtype' => 'state,ticket'])->getList();
             $res = [];
             foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
             $out['results'] = $res;
         }
-        echo \yii\helpers\Json::encode($out);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $out;
     }
 }
