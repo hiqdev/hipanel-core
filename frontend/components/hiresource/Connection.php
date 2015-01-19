@@ -121,9 +121,9 @@ class Connection extends Component
      * @throws HiResException
      * @throws \yii\base\InvalidConfigException
      */
-    public function get($url, $options = [], $body = null, $raw = false)
+    public function get ($url, $options = [], $body = null, $raw = false)
     {
-        return $this->httpRequest('GET', $this->createUrl($url, $options), $body, $raw);
+        return $this->httpRequest('POST', $this->createUrl($url, $options), $body, $raw);
     }
     /**
      * Performs HEAD HTTP request

@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'author_id',
                 'model' => $searchModel,
-                'url' => Url::to(['client-list'])
+                'url' => Url::to(['/client/client/client-all-list'])
             ]),
         ],
         [
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'recipient_id',
                 'model' => $searchModel,
-                'url' => Url::to(['manager-list'])
+                'url' => Url::to(['/client/client/can-manage-list'])
             ]),
         ],
         [
@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'responsible_id',
                 'model' => $searchModel,
-                'url' => Url::to(['client-list'])
+                'url' => Url::to(['/client/client/client-all-list'])
             ]),
         ],
         'answer_count',
