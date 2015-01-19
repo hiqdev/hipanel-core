@@ -31,149 +31,56 @@ class ClientController extends DefaultController
         return $this->render('view', ['model' => $this->findModel($id, 'Client', $params),]);
     }
 
-    public function actionClientAllList ($search = null, $id = null) {
+    private function actionUserList ($search, $id) {
         $out = ['more' => false];
         if (!is_null($search)) {
-            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search])->getList();
+            $data = \app\modules\client\models\Client::find()->where($search)->getList();
             $res = [];
             foreach ($data as $item) {
                 $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
             }
             $out['results'] = $res;
-        }
-        elseif ($id != 0) {
+        } elseif ($id != 0) {
             $out['results'] = [
                 'id' => $id,
                 'text' => \app\modules\client\models\Client::find()->where([
                     'id' => $id,
                 ])->one()->login
             ];
-        }
-        else {
+        } else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
-        echo \yii\helpers\Json::encode($out);
+        return \yii\helpers\Json::encode($out);
     }
 
+    public function actionClientAllList ($search = null, $id = null) {
+        $search = $search === null ? null : ['client_like' => $search];
+        echo $this->actionUserList($search, $id);
+    }
 
     public function actionClientList ($search = null, $id = null) {
-        $out = ['more' => false];
-        if (!is_null($search)) {
-            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search, 'type' => 'client'])->getList();
-            $res = [];
-            foreach ($data as $item) {
-                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-            }
-            $out['results'] = $res;
-        }
-        elseif ($id != 0) {
-            $out['results'] = [
-                'id' => $id,
-                'text' => \app\modules\client\models\Client::find()->where([
-                    'id' => $id,
-                ])->one()->login
-            ];
-        }
-        else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        echo \yii\helpers\Json::encode($out);
+        $search = $search === null ? null : ['client_like' => $search, 'type' => 'client'];
+        echo $this->actionUserList($search, $id);
     }
 
     public function actionManagerList ($search = null, $id = null) {
-        $out = ['more' => false];
-        if (!is_null($search)) {
-            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search, 'type' => 'manager' ])->getList();
-            $res = [];
-            foreach ($data as $item) {
-                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-            }
-            $out['results'] = $res;
-        }
-        elseif ($id != 0) {
-            $out['results'] = [
-                'id' => $id,
-                'text' => \app\modules\client\models\Client::find()->where([
-                    'id' => $id,
-                ])->one()->login
-            ];
-        }
-        else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        echo \yii\helpers\Json::encode($out);
+        $search = $search === null ? null : ['client_like' => $search, 'type' => 'manager' ];
+        echo $this->actionUserList($search, $id);
     }
 
     public function actionAdminList ($search = null, $id = null) {
-        $out = ['more' => false];
-        if (!is_null($search)) {
-            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search, 'type' => 'admin' ])->getList();
-            $res = [];
-            foreach ($data as $item) {
-                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-            }
-            $out['results'] = $res;
-        }
-        elseif ($id != 0) {
-            $out['results'] = [
-                'id' => $id,
-                'text' => \app\modules\client\models\Client::find()->where([
-                    'id' => $id,
-                ])->one()->login
-            ];
-        }
-        else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        echo \yii\helpers\Json::encode($out);
+        $search = $search === null ? null : ['client_like' => $search, 'type' => 'admin' ];
+        echo $this->actionUserList($search, $id);
     }
 
     public function actionSellerList ($search = null, $id = null) {
-        $out = ['more' => false];
-        if (!is_null($search)) {
-            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search, 'type' => 'reseller' ])->getList();
-            $res = [];
-            foreach ($data as $item) {
-                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-            }
-            $out['results'] = $res;
-        }
-        elseif ($id != 0) {
-            $out['results'] = [
-                'id' => $id,
-                'text' => \app\modules\client\models\Client::find()->where([
-                    'id' => $id,
-                ])->one()->login
-            ];
-        }
-        else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        echo \yii\helpers\Json::encode($out);
+         $search = $search === null ? null : ['client_like' => $search, 'type' => 'reseller' ];
+         echo $this->actionUserList($search, $id);
     }
 
     public function actionCanManageList ($search = null, $id = null) {
-        $out = ['more' => false];
-        if (!is_null($search)) {
-            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search, 'manager_only' => 'true' ])->getList();
-            $res = [];
-            foreach ($data as $item) {
-                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-            }
-            $out['results'] = $res;
-        }
-        elseif ($id != 0) {
-            $out['results'] = [
-                'id' => $id,
-                'text' => \app\modules\client\models\Client::find()->where([
-                    'id' => $id,
-                ])->one()->login
-            ];
-        }
-        else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        echo \yii\helpers\Json::encode($out);
+        $search = $search === null ? null : ['client_like' => $search, 'manager_only' => 'true' ];
+        echo $this->actionUserList($search, $id);
     }
 
 
