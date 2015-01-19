@@ -93,7 +93,7 @@ class ThreadController extends Controller
                     $model->file_ids .= $fileId . ',';
                 }
             }
-            \yii\helpers\VarDumper::dump($model->load(Yii::$app->request->post()), 10, true);die;
+
             if ($model->save()) return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('create', [
