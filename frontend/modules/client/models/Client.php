@@ -1,7 +1,9 @@
 <?php
 namespace app\modules\client\models;
 
-use Yii, frontend\models\Ref;
+use Yii;
+use frontend\models\Ref;
+use yii\base\NotSupportedException;
 
 class Client extends \frontend\components\hiresource\ActiveRecord
 {
@@ -15,18 +17,24 @@ class Client extends \frontend\components\hiresource\ActiveRecord
             'id',
             'client',
             'seller',
+            'seller_id',
             'type',
             'state',
             'hide_blocked',
             'show_deleted',
             'show',
             'tariff_id',
+            'balance',
+            'credit',
+            'tariff_name',
+            'create_time',
             'direct_only',
             'with_domains_count',
             'with_servers_count',
             'with_contact',
             'manager_only',
             'view',
+            'language',
 
             // getlist
             'client_like',
@@ -44,6 +52,9 @@ class Client extends \frontend\components\hiresource\ActiveRecord
             'name',
             'first_name',
             'last_name',
+            // count
+            'count',
+            'contact',
         ];
     }
 
