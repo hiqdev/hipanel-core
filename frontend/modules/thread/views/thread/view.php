@@ -1,6 +1,7 @@
 <?php
 use frontend\components\Re;
 use frontend\modules\thread\widgets\Label;
+use frontend\modules\thread\widgets\Topic;
 use frontend\modules\thread\widgets\Watcher;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -68,6 +69,12 @@ $this->registerCss('
                 ]),
         ],
         [
+            'attribute' => 'topic',
+            'format'=>'html',
+            'value' => Topic::widget(['topics' => $model->topic]),
+            'visible' => $model->topic != null,
+        ],
+        [
             'attribute'=>'priority',
             'format'=>'html',
             'value'=> Label::widget([
@@ -85,6 +92,7 @@ $this->registerCss('
             'attribute'=>'responsible',
             'format'=>'html',
             'value'=>Html::a($model->responsible,['/client/client/view','id'=>$model->responsible_id]),
+            'visible'=> $model->responsible != null,
         ],
         [
             'attribute'=>'recipient',
@@ -107,6 +115,9 @@ $this->registerCss('
 
     <?= $this->render('_form', [
         'model' => $model,
+        'topic_data' => $topic_data,
+        'priority_data' => $priority_data,
+        'state_data' => $state_data,
     ]) ?>
 
 </div>

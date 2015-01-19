@@ -10,9 +10,11 @@ namespace frontend\components\hiresource;
 
 use Yii;
 use yii\base\Component;
+use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidParamException;
 use yii\helpers\Json;
+use yii\web\HttpException;
 
 class Connection extends Component
 {
@@ -119,9 +121,9 @@ class Connection extends Component
      * @throws HiResException
      * @throws \yii\base\InvalidConfigException
      */
-    public function get($url, $options = [], $body = null, $raw = false)
+    public function get ($url, $options = [], $body = null, $raw = false)
     {
-        return $this->httpRequest('GET', $this->createUrl($url, $options), $body, $raw);
+        return $this->httpRequest('POST', $this->createUrl($url, $options), $body, $raw);
     }
     /**
      * Performs HEAD HTTP request
@@ -308,7 +310,8 @@ class Connection extends Component
                 }
             }
             $profile = $method . ' ' . $q . '#' . $requestBody;
-            $url = 'https://' . $host . '/' . $q;
+            if (preg_match("@^https?://@", $host)) $url = $host . '/' . $q;
+            else throw new HiResException('HiResource request failed: please specify the protocol (http, https) in reference to the API HiResource Core');
         } else {
             $profile = false;
         }
@@ -319,7 +322,7 @@ class Connection extends Component
         $curl = curl_init($url);
         curl_setopt_array($curl, $options);
         if (curl_exec($curl) === false) {
-            throw new HiResException('Hiresource request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl), [
+            throw new HiResException('HiResource request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl), [
                 'requestMethod' => $method,
                 'requestUrl' => $url,
                 'requestBody' => $requestBody,

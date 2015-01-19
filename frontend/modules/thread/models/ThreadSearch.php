@@ -21,6 +21,7 @@ class ThreadSearch extends \app\modules\thread\models\Thread
             [[
                 'author_id',
                 'responsible_id',
+                'recipient_id',
                 'state',
                 'priority',
                 'time_from',
@@ -59,6 +60,7 @@ class ThreadSearch extends \app\modules\thread\models\Thread
         $query->andFilterWhere([
             'author_id' => $this->author_id,
             'responsible_id' => $this->responsible_id,
+            'recipient_id' => $this->recipient_id,
             'state' => $this->state,
             'priority' => $this->priority,
             'time_till' => $this->time_till,
