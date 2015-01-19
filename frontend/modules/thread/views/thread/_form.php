@@ -1,16 +1,17 @@
 <?
 use yii\helpers\Html;
-use frontend\widgets\HiBox;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use yii\web\JsExpression;
-use frontend\models\Ref;
-use yii\helpers\ArrayHelper;
-use frontend\components\Re;
 use kartik\markdown\MarkdownEditor;
 use yii\helpers\Url;
 
-$this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View::POS_READY);
+//use frontend\widgets\HiBox;
+//use frontend\models\Ref;
+//use yii\helpers\ArrayHelper;
+//use frontend\components\Re;
+
+//$this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View::POS_READY);
 ?>
 <div class="ticket-form">
 
@@ -92,7 +93,7 @@ $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View
                                                         }')
                 ],
             ]); ?>
-            <?= $form->field($model, 'watcher')->widget(Select2::classname(), [
+            <?= $form->field($model, 'watchers')->widget(Select2::classname(), [
                 'options' => ['placeholder' => 'Select watchers ...', 'multiple' => true],
                 'pluginOptions' => [
                     'allowClear' => true,
@@ -159,6 +160,7 @@ $this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>
     </div>
+
     <?php ActiveForm::end(); ?>
 
 </div><!-- ticket-_form -->

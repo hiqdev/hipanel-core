@@ -33,14 +33,20 @@ class ThreadController extends Controller
     public function actionIndex() {
         $searchModel = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'topic_data' => $this->_topicData(),
-            'priority_data' => $this->_priorityData(),
-            'state_data' => $this->_stateData(),
-        ]);
+        if (Yii::$app->request->isPjax) {
+            return $this->renderPartial('_grid', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'topic_data' => $this->_topicData(),
+                'priority_data' => $this->_priorityData(),
+                'state_data' => $this->_stateData(),
+            ]);
+        }
     }
 
     private function getFilters($name) {

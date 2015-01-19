@@ -10,6 +10,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
 {
     public $time_from;
     public $time_till;
+    public $search_form;
 
     public function attributes() {
         return [
@@ -66,8 +67,9 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function rules() {
         return [
             [['subject', 'message'], 'required'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id'], 'safe', 'on' => 'insert'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'spent', 'spent_hours'], 'safe', 'on' => 'answer'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours'], 'safe', 'on' => 'insert'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'is_private'], 'safe', 'on' => 'answer'],
+            [['search_form'], 'safe'],
             [['file'], 'file', 'maxFiles' => 5],
         ];
     }
@@ -86,7 +88,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'responsible_id' => Yii::t('app', 'Responsible'),
             'author' => Yii::t('app', 'Author'),
             'author_seller' => Yii::t('app', 'Seller'),
-            'recipient_id' => Yii::t('app', 'recipient_id'),
+            'recipient_id' => Yii::t('app', 'Recipient'),
             'recipient' => Yii::t('app', 'Recipient'),
             'recipient_seller' => Yii::t('app', 'recipient_seller'),
             'replier_id' => Yii::t('app', 'replier_id'),
@@ -165,6 +167,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
 
     public function afterFind() {
         if (is_array($this->topic)) $this->topic = array_keys($this->topic);
+        if (is_array($this->watchers)) $this->watchers = array_keys($this->watchers);
 
         parent::afterFind();
     }
