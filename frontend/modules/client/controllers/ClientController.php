@@ -7,6 +7,7 @@ use app\modules\client\models\Client;
 use frontend\components\hiresource\HiResException;
 use yii\helpers\ArrayHelper;
 use Yii;
+use yii\web\Response;
 
 class ClientController extends DefaultController
 {
@@ -32,7 +33,7 @@ class ClientController extends DefaultController
     }
 
     private function actionUserList ($search, $id) {
-        $out = ['more' => false];
+        $out = ['more' => true];
         if (!is_null($search)) {
             $data = \app\modules\client\models\Client::find()->where($search)->getList();
             $res = [];
@@ -50,37 +51,38 @@ class ClientController extends DefaultController
         } else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
-        return \yii\helpers\Json::encode($out);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $out;
     }
 
     public function actionClientAllList ($search = null, $id = null) {
         $search = $search === null ? null : ['client_like' => $search];
-        echo $this->actionUserList($search, $id);
+        return $this->actionUserList($search, $id);
     }
 
     public function actionClientList ($search = null, $id = null) {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'client'];
-        echo $this->actionUserList($search, $id);
+        return $this->actionUserList($search, $id);
     }
 
     public function actionManagerList ($search = null, $id = null) {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'manager' ];
-        echo $this->actionUserList($search, $id);
+        return $this->actionUserList($search, $id);
     }
 
     public function actionAdminList ($search = null, $id = null) {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'admin' ];
-        echo $this->actionUserList($search, $id);
+        return $this->actionUserList($search, $id);
     }
 
     public function actionSellerList ($search = null, $id = null) {
          $search = $search === null ? null : ['client_like' => $search, 'type' => 'reseller' ];
-         echo $this->actionUserList($search, $id);
+        return $this->actionUserList($search, $id);
     }
 
     public function actionCanManageList ($search = null, $id = null) {
         $search = $search === null ? null : ['client_like' => $search, 'manager_only' => 'true' ];
-        echo $this->actionUserList($search, $id);
+        return $this->actionUserList($search, $id);
     }
 
 

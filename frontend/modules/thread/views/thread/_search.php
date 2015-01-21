@@ -33,7 +33,7 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
         'method' => 'get',
         'options' => ['data-pjax' => true]
     ]); ?>
-    <?= $form->field($model, 'search_form')->hiddenInput(['value' => 1]); ?>
+    <?= $form->field($model, 'search_form')->hiddenInput(['value' => 1])->label(false); ?>
     <div class="col-md-4">
         <?= $form->field($model, 'subject') ?>
 
@@ -62,14 +62,14 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
                 'allowClear' => true,
                 'minimumInputLength' => 3,
                 'ajax' => [
-                    'url' => Url::to(['manager-list']),
+                    'url' => Url::to(['/client/client/client-all-list']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                     'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                 ],
                 'initSelection' => new JsExpression('function (elem, callback) {
                     var id=$(elem).val();
-                    $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                    $.ajax("' . Url::to(['/client/client/client-all-list']) . '?id=" + id, {
                         dataType: "json"
                     }).done(function(data) {
                         callback(data.results);
@@ -84,14 +84,14 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
                 'allowClear' => true,
                 'minimumInputLength' => 3,
                 'ajax' => [
-                    'url' => Url::to(['manager-list']),
+                    'url' => Url::to(['/client/client/client-all-list']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                     'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                 ],
                 'initSelection' => new JsExpression('function (elem, callback) {
                     var id=$(elem).val();
-                    $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                    $.ajax("' . Url::to(['/client/client/client-all-list']) . '?id=" + id, {
                         dataType: "json"
                     }).done(function(data) {
                         callback(data.results);
@@ -116,14 +116,14 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
                 'allowClear' => true,
                 'minimumInputLength' => 3,
                 'ajax' => [
-                    'url' => Url::to(['manager-list']),
+                    'url' => Url::to(['/client/client/can-manage-list']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                     'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                 ],
                 'initSelection' => new JsExpression('function (elem, callback) {
                     var id=$(elem).val();
-                    $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                    $.ajax("' . Url::to(['/client/client/can-manage-list']) . '?id=" + id, {
                         dataType: "json"
                     }).done(function(data) {
                         callback(data.results);
