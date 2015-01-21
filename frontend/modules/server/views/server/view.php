@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\server\widgets\DiscountFormatter;
 use app\modules\object\widgets\RequestState;
+use yii\widgets\Pjax;
 
 /**
  * @var \app\modules\server\models\Server $model
@@ -15,7 +16,9 @@ $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Servers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
+Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
 ?>
+
 <div class="row">
     <div class="col-md-5">
         <div class="event-view">
@@ -267,3 +270,4 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<? Pjax::end();

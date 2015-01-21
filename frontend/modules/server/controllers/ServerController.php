@@ -8,10 +8,11 @@ use app\modules\server\models\Server;
 use app\modules\server\models\Osimage;
 use frontend\components\hiresource\HiResException;
 //use yii\filters\VerbFilter;
+use frontend\controllers\HipanelController;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
-class ServerController extends \yii\web\Controller
+class ServerController extends HipanelController
 {
     public function behaviors()
     {
@@ -56,12 +57,7 @@ class ServerController extends \yii\web\Controller
         $model = $this->findModel($id);
         $model->checkOperable();
         $model->vnc = $this->getVNCInfo($model, true);
-
-        if (\Yii::$app->request->isAjax) {
-            return $this->renderAjax('_vnc', ['model' => $model, 'hide_leftTime' => 1]);
-        } else {
-            return $this->render('view', ['model' => $model]);
-        }
+        return $this->actionView($id);
     }
 
     /**
@@ -171,7 +167,7 @@ class ServerController extends \yii\web\Controller
         } catch (HiResException $e) {
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
         }
-        return $this->redirect(['view', 'id' => $model->id]);
+        return $this->actionView($options['id']);
     }
 
     /**

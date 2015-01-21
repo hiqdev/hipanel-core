@@ -6,7 +6,6 @@ use yii\widgets\Pjax;
  * @var \app\modules\server\models\Server $model
  */
 
-Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
 
 if ($model->vnc['enabled']) {
     echo Html::tag('span',
@@ -44,5 +43,3 @@ if ($model->vnc['enabled']) {
         echo Yii::t('app', 'VNC is supported only on XEN');
     }
 }
-
-Pjax::end();
