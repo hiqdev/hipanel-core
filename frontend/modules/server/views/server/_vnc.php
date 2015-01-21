@@ -1,5 +1,4 @@
 <?php
-use kartik\builder\Form;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
@@ -28,7 +27,7 @@ if ($model->vnc['enabled']) {
         } ?>
     </dl>
     <?php
-    echo Yii::t('app', 'VNC will be disabled ') ?> <?= \Yii::$app->formatter->asRelativeTime($model->vnc['endTime']);
+    echo ($hide_leftTime ? '' : Yii::t('app', 'VNC will be disabled ') . \Yii::$app->formatter->asRelativeTime($model->vnc['endTime']));
 } else {
     echo Html::a(
         Yii::t('app', 'Enable'),
@@ -37,9 +36,13 @@ if ($model->vnc['enabled']) {
             'class'             => 'btn btn-success',
             'data-loading-text' => Yii::t('app', 'Enabling...'),
             'onClick'           => new \yii\web\JsExpression("$(this).button('loading')"),
-            'disabled'          => !$model->isOperable()
+            'disabled'          => !$model->isOperable() || !$model->isVNCSupported(),
         ]
     );
+    echo ' ';
+    if (!$model->isVNCSupported()) {
+        echo Yii::t('app', 'VNC is supported only on XEN');
+    }
 }
 
 Pjax::end();

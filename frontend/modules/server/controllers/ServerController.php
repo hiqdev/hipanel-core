@@ -2,39 +2,63 @@
 
 namespace app\modules\server\controllers;
 
+use app\modules\server\models\OsimageSearch;
 use app\modules\server\models\ServerSearch;
 use app\modules\server\models\Server;
-use app\modules\server\models\OsimageSearch;
 use app\modules\server\models\Osimage;
 use frontend\components\hiresource\HiResException;
+//use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
 
-class ServerController extends \yii\web\Controller {
-    public function actionIndex () {
-        $searchModel  = new ServerSearch();
+class ServerController extends \yii\web\Controller
+{
+    public function behaviors()
+    {
+        return [
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'enableVnc' => ['post'],
+//                    'reboot' => ['post'],
+//                    'reset' => ['post'],
+//                    'shutdown' => ['post'],
+//                    'powerOff' => ['post'],
+//                    'bootLive' => ['post'],
+//                    'regenRootPassword' => ['post'],
+//                ],
+//            ],
+        ];
+    }
+
+    public function actionIndex()
+    {
+        $searchModel = new ServerSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index',
             [
-                'searchModel'  => $searchModel,
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
-                'osimages'     => $this->getOsimages()
+                'osimages' => $this->getOsimages()
             ]);
     }
 
-    public function actionView ($id) {
-        $model      = $this->findModel($id);
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
         $model->vnc = $this->getVNCInfo($model);
-        return $this->render('view', ['model' => $model, 'osimages' => $this->getOsimages()]);
+        return $this->render('view', ['model' => $model, 'osimages' => $this->getOsimages(), 'osimageslivecd' => $this->getOsimagesLiveCd()]);
     }
 
-    public function actionEnableVnc ($id) {
+    public function actionEnableVnc($id)
+    {
         $model = $this->findModel($id);
         $model->checkOperable();
         $model->vnc = $this->getVNCInfo($model, true);
 
         if (\Yii::$app->request->isAjax) {
-            return $this->renderAjax('_vnc', ['model' => $model]);
+            return $this->renderAjax('_vnc', ['model' => $model, 'hide_leftTime' => 1]);
         } else {
             return $this->render('view', ['model' => $model]);
         }
@@ -47,66 +71,86 @@ class ServerController extends \yii\web\Controller {
      * @return array
      * @throws HiResException
      */
-    private function getVNCInfo ($model, $enable = false) {
+    private function getVNCInfo($model, $enable = false)
+    {
         $vnc['endTime'] = strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC']));
         if (($vnc['endTime'] > time() || $enable) && $model->isOperable()) {
             $vnc['enabled'] = true;
-            $vnc            = ArrayHelper::merge($vnc, Server::perform('EnableVNC', ['id' => $model->id]));
+            $vnc = ArrayHelper::merge($vnc, Server::perform('EnableVNC', ['id' => $model->id]));
         }
         return $vnc;
     }
 
-    public function actionReboot ($id) {
+    public function actionReboot($id)
+    {
         return $this->operate([
-            'id'             => $id,
-            'action'         => 'Reset',
-            'errorMessage'   => 'Error while rebooting',
+            'id' => $id,
+            'action' => 'Reset',
+            'errorMessage' => 'Error while rebooting',
             'successMessage' => 'Reboot task has been successfully added to queue',
         ]);
     }
 
-    public function actionReset ($id) {
+    public function actionReset($id)
+    {
         return $this->operate([
-            'id'             => $id,
-            'action'         => 'Reset',
-            'errorMessage'   => 'Error while resetting',
+            'id' => $id,
+            'action' => 'Reset',
+            'errorMessage' => 'Error while resetting',
             'successMessage' => 'Reset task has been successfully added to queue',
         ]);
     }
 
-    public function actionShutdown ($id) {
+    public function actionShutdown($id)
+    {
         return $this->operate([
-            'id'             => $id,
-            'action'         => 'Shutdown',
-            'errorMessage'   => 'Error while shutting down',
+            'id' => $id,
+            'action' => 'Shutdown',
+            'errorMessage' => 'Error while shutting down',
             'successMessage' => 'Shutdown task has been successfully added to queue',
         ]);
     }
 
-    public function actionPowerOff ($id) {
+    public function actionPowerOff($id)
+    {
         return $this->operate([
-            'id'             => $id,
-            'action'         => 'PowerOff',
-            'errorMessage'   => 'Error while turning power off',
+            'id' => $id,
+            'action' => 'PowerOff',
+            'errorMessage' => 'Error while turning power off',
             'successMessage' => 'Power off task has been successfully added to queue',
         ]);
     }
 
-    public function actionPowerOn ($id) {
+    public function actionPowerOn($id)
+    {
         return $this->operate([
-            'id'             => $id,
-            'action'         => 'PowerOn',
-            'errorMessage'   => 'Error while turning power on',
+            'id' => $id,
+            'action' => 'PowerOn',
+            'errorMessage' => 'Error while turning power on',
             'successMessage' => 'Power on task has been successfully added to queue',
         ]);
     }
 
-    public function actionBootLive ($id) {
+    public function actionBootLive($id, $osimage)
+    {
         return $this->operate([
-            'id'             => $id,
-            'action'         => 'BootLive',
-            'errorMessage'   => 'Error while booting live CD',
+            'id' => $id,
+            'params' => function ($model) use ($osimage) {
+                return ['id' => $model->id, 'osimage' => $osimage];
+            },
+            'action' => 'BootLive',
+            'errorMessage' => 'Error while booting live CD',
             'successMessage' => 'Live CD booting task has been successfully added to queue',
+        ]);
+    }
+
+    public function actionRegenRootPassword($id)
+    {
+        return $this->operate([
+            'id' => $id,
+            'action' => 'RegenRootPassword',
+            'errorMessage' => 'Error while password regeneration',
+            'successMessage' => 'Password regenerating task has been successfully added to queue',
         ]);
     }
 
@@ -117,14 +161,15 @@ class ServerController extends \yii\web\Controller {
      * @throws NotFoundHttpException
      * @throws \yii\base\NotSupportedException
      */
-    private function operate ($options) {
+    private function operate($options)
+    {
         $model = $this->findModel($options['id']);
         $model->checkOperable();
         try {
             Server::perform($options['action'], $options['params'] ? $options['params']($model) : ['id' => $model->id]);
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', $options['successMessage']));
         } catch (HiResException $e) {
-            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $options['errorMessage']));
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
         }
         return $this->redirect(['view', 'id' => $model->id]);
     }
@@ -135,7 +180,8 @@ class ServerController extends \yii\web\Controller {
      * @return \app\modules\server\models\Server|null
      * @throws NotFoundHttpException
      */
-    protected function findModel ($id) {
+    protected function findModel($id)
+    {
         if (($model = Server::findOne(['id' => $id])) !== null) {
             return $model;
         } else {
@@ -143,11 +189,8 @@ class ServerController extends \yii\web\Controller {
         }
     }
 
-    /**
-     * @return array
-     * @throws NotFoundHttpException
-     */
-    protected function getOsimages () {
+    protected function getOsimages()
+    {
         if (($models = Osimage::find()->all()) !== null) {
             return $models;
         } else {
@@ -155,4 +198,25 @@ class ServerController extends \yii\web\Controller {
         }
     }
 
+    protected function getOsimagesLiveCd()
+    {
+        return [
+            'freebsdx64.live' => [
+                'osimage' => 'freebsdx64.live',
+                'os' => 'FreeBSD',
+                'bitwise' => 'x64'
+            ],
+            'gentoox64.live' => [
+                'osimage' => 'gentoox64.live',
+                'os' => 'Linux Gentoo',
+                'bitwise' => 'x64'
+            ]
+        ];
+
+        if (($models = OsimageSearch::findAll(['livecd' => true])) !== null) {
+            return $models;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 }

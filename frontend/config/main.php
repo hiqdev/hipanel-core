@@ -36,7 +36,7 @@ return [
         'hiresource'=>[
             'class' => 'frontend\components\hiresource\Connection',
             'config' => [
-                'api_url'=>'localhost-api.ahnames.com',
+                'api_url'=>'http://localhost-api.ahnames.com',
             ],
         ],
         'user' => [

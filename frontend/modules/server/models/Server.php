@@ -26,6 +26,7 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
             'sale_time',
             'autorenewal',
             'state',
+            'type',
             'expires',
             'block_reason_label',
             'ip',
@@ -47,15 +48,36 @@ class Server extends \frontend\components\hiresource\ActiveRecord {
         ];
     }
 
+    public function goodStates() {
+        return ['ok', 'disabled'];
+    }
+
     /**
      * @return bool
      */
     public function isOperable () {
-        if ($this->running_task) {
+        if ($this->running_task || !in_array($this->state, $this->goodStates())) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Returns true, if server supports VNC
+     *
+     * @return bool
+     */
+    public function isVNCSupported() {
+        return $this->type != 'ovds';
+    }
+
+    public function isPwChangeSupported() {
+        return $this->type == 'ovds';
+    }
+
+    public function isLiveCDSupported() {
+        return $this->type != 'ovds';
     }
 
     /**

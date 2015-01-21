@@ -10,13 +10,12 @@ use yii\data\ActiveDataProvider;
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
 class OsimageSearch extends \app\modules\server\models\Osimage {
-
     /**
      * @inheritdoc
      */
     public function rules () {
         return [
-            [['osimage'], 'safe'],
+            [['osimage', 'livecd'], 'safe'],
         ];
     }
 
@@ -42,13 +41,13 @@ class OsimageSearch extends \app\modules\server\models\Osimage {
             'query' => $query,
         ]);
 
-
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
             'osimage' => $this->osimage,
+            'livecd'  => $this->livecd
         ]);
 
         return $dataProvider;

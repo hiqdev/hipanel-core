@@ -12,7 +12,6 @@ class Osimage extends \frontend\components\hiresource\ActiveRecord {
             'osimage',
             'os',
             'version',
-            'version',
             'bitwise',
             'panel',
             'softpack'
