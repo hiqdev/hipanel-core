@@ -6,6 +6,8 @@ use frontend\widgets\GridView;
 use frontend\widgets\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\Pjax;
+
 //use yii\web\JsExpression;
 
 // frontend\assets\Select2Asset::register($this);
@@ -15,6 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
+<?= Html::a(Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'Ticket',
+]), ['create'], ['class' => 'btn btn-success']) ?>&nbsp;
+<?= Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-success search-button']) ?>
+
 <?= $this->render('_search', [
     'model' => $searchModel,
     'topic_data' => $topic_data,
@@ -22,16 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
     'state_data' => $state_data,
 ]); ?>
 
-<?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Ticket',
-]), ['create'], ['class' => 'btn btn-success']) ?>&nbsp;
-<?= Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-success search-button']) ?>
-
-
-
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
+    'id' => 'thread-grid',
     'columns' => [
         // ['class' => 'yii\grid\SerialColumn'],
         [
@@ -68,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'author_id',
                 'model' => $searchModel,
-                'url' => Url::to(['client-list'])
+                'url' => Url::to(['/client/client/client-all-list'])
             ]),
         ],
         [
@@ -83,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'recipient_id',
                 'model' => $searchModel,
-                'url' => Url::to(['manager-list'])
+                'url' => Url::to(['/client/client/can-manage-list'])
             ]),
         ],
         [
@@ -97,9 +98,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]);
             },
             'filter' => Html::activeDropDownList($searchModel, 'priority', \frontend\models\Ref::getList('priority'), [
-                    'class' => 'form-control',
-                    'prompt' => Yii::t('app', '--'),
-                ]),
+                'class' => 'form-control',
+                'prompt' => Yii::t('app', '--'),
+            ]),
         ],
         [
             'attribute' => 'state',
@@ -127,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'responsible_id',
                 'model' => $searchModel,
-                'url' => Url::to(['client-list'])
+                'url' => Url::to(['/client/client/client-all-list'])
             ]),
         ],
         'answer_count',
@@ -153,27 +154,3 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ],
 ]); ?>
-
-
-<?php
-$this->registerJs("
-// Check if at least one input field is filled
-$('.thread-search').find('input[type=text], select').each(function(){
-    if($(this).val() != '') {
-        $('.thread-search').toggle();
-        $('tr.filters').toggle();
-    }
-});
-// Button handle
-$('.search-button').click(function(){
-    $('.thread-search').toggle();
-    $('tr.filters').toggle();
-    return false;
-});
-// Reset handle
-$('.thread-search :reset').click(function(){
-    $('.thread-search :input').reset();
-    return false;
-});
-", \yii\web\View::POS_LOAD, 'advanced-search-button');
-?>

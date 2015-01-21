@@ -22,13 +22,13 @@ echo Menu::widget(
             ],
             [
                 'label' => Yii::t('app', 'Clients'),
-                'url' => ['/client/default/index'],
+                'url' => ['/client/client/index'],
                 'icon' => 'fa-group',
                 // 'visible' => Yii::$app->user->can('administrateUsers') || Yii::$app->user->can('BViewUsers'),
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Clients list'),
-                        'url' => ['/client/default/index'],
+                        'url' => ['/client/client/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'Mailings'),
