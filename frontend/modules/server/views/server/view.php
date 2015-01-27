@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\server\widgets\DiscountFormatter;
 use app\modules\object\widgets\RequestState;
-use yii\widgets\Pjax;
+use frontend\widgets\Pjax;
 use yii\helpers\Json;
 
 /**
