@@ -101,6 +101,10 @@ return [
                 ],
             ],
         ],
+        'request' => [
+            'cookieValidationKey' => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
+            'enableCsrfValidation' => true
+        ],
     ],
     'modules' => [
         'markdown' => [

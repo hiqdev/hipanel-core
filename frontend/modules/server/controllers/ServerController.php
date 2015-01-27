@@ -99,7 +99,7 @@ class ServerController extends HipanelController
 
     public function actionReboot ($id) {
         return $this->operate([
-                                  'id'             => $id, 'action' => 'Reset',
+                                  'id'             => $id, 'action' => 'Reboot',
                                   'errorMessage'   => 'Error while rebooting',
                                   'successMessage' => 'Reboot task has been successfully added to queue',
                               ]);

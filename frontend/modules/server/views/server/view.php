@@ -129,7 +129,7 @@ Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
                                 echo Html::endForm(); ?>
 
                                 <?php
-                                echo Html::beginForm(['shutdown', 'id' => $model->id], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                                echo Html::beginForm(['reset', 'id' => $model->id], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
                                 Modal::begin([
                                     'toggleButton' => [
                                         'label' => Yii::t('app', 'Reset'),
