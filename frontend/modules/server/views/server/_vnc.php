@@ -28,9 +28,9 @@ if ($model->vnc['enabled']) {
     <?php
     echo ($hide_leftTime ? '' : Yii::t('app', 'VNC will be disabled ') . \Yii::$app->formatter->asRelativeTime($model->vnc['endTime']));
 } else {
-    echo Html::a(
+    echo Html::beginForm(['enable-vnc', 'id' => $model->id], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+    echo Html::submitButton(
         Yii::t('app', 'Enable'),
-        ['enable-vnc', 'id' => $model->id],
         [
             'class'             => 'btn btn-success',
             'data-loading-text' => Yii::t('app', 'Enabling...'),
@@ -42,4 +42,5 @@ if ($model->vnc['enabled']) {
     if (!$model->isVNCSupported()) {
         echo Yii::t('app', 'VNC is supported only on XEN');
     }
+    echo Html::endForm();
 }
