@@ -11,24 +11,27 @@ use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
 use frontend\controllers\HipanelController;
 use frontend\models\Ref;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 class ServerController extends HipanelController
 {
     public function behaviors () {
-        return [//            'verbs' => [
-                //                'class' => VerbFilter::className(),
-                //                'actions' => [
-                //                    'enableVnc' => ['post'],
-                //                    'reboot' => ['post'],
-                //                    'reset' => ['post'],
-                //                    'shutdown' => ['post'],
-                //                    'powerOff' => ['post'],
-                //                    'bootLive' => ['post'],
-                //                    'regenRootPassword' => ['post'],
-                //                ],
-                //            ],
+        return [
+            'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'enableVnc' => ['post'],
+                            'reboot' => ['post'],
+                            'reset' => ['post'],
+                            'shutdown' => ['post'],
+                            'powerOff' => ['post'],
+                            'bootLive' => ['post'],
+                            'regenRootPassword' => ['post'],
+                            'reinstall' => ['post'],
+                        ],
+                    ],
         ];
     }
 
