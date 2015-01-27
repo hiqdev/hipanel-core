@@ -7,6 +7,7 @@ use yii\widgets\DetailView;
 use app\modules\server\widgets\DiscountFormatter;
 use app\modules\object\widgets\RequestState;
 use yii\widgets\Pjax;
+use yii\helpers\Json;
 
 /**
  * @var \app\modules\server\models\Server $model
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
 ?>
 
-<div class="row">
+<div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-5">
         <div class="event-view">
             <?= DetailView::widget([
@@ -262,6 +263,86 @@ Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
                                 ?>
                                 <?= Yii::t('app', 'The password from root account on the server will be re-created and sent on e-mail') ?>
                                 <?php Modal::end(); ?>
+
+
+                                <?php Modal::begin([
+                                    'toggleButton' => [
+                                        'label' => Yii::t('app', 'Reinstall OS'),
+                                        'class' => 'btn btn-default',
+                                        'disabled' => !$model->isOperable(),
+                                    ],
+                                    'header' => Html::tag('h4', Yii::t('app', 'Please, select the operating system you want to install')),
+                                    'headerOptions' => ['class' => 'label-warning'],
+                                    'footer' => Html::a(Yii::t('app', 'Reinstall'),
+                                        ['#'],
+                                        [
+                                            'class' => 'btn btn-warning',
+                                            'data-loading-text' => Yii::t('app', 'Reinstalling started...'),
+                                            'onClick' => new \yii\web\JsExpression("$(this).closest('.modal-content').find('form').submit(); $(this).button('loading'); return false;")
+                                        ])
+                                ]);
+                                ?>
+                                <div class="callout callout-warning">
+                                    <h4><?= Yii::t('app', 'This will cause full data loss!') ?></h4>
+                                </div>
+
+                                <?= Html::beginForm(['reinstall', 'id' => $model->id], "POST", ['data' => ['pjax' => 1]]) ?>
+                                <?= Html::hiddenInput('osimage', null, ['class' => "reinstall-osimage"]) ?>
+                                <?= Html::hiddenInput('panel', null, ['class' => "reinstall-panel"]) ?>
+                                <div class="row os-selector">
+                                    <div class="col-md-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><?= \Yii::t('app', 'OS') ?></div>
+                                            <div class="list-group">
+                                                <?php
+                                                foreach ($grouped_osimages['vendors'] as $vendor) { ?>
+                                                    <div class="list-group-item">
+                                                        <h4 class="list-group-item-heading"><?= $vendor['name'] ?></h4>
+                                                        <div class="list-group-item-text os-list">
+                                                            <? foreach ($vendor['oses'] as $system => $os) {
+                                                                echo Html::tag('div', Html::radio('os', false, ['label' => $os, 'value' => $system, 'class' => 'radio']), ['class' => 'radio']);
+                                                            } ?>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><?= \Yii::t('app', 'Panel and soft') ?></div>
+                                            <div class="list-group">
+                                                <?php
+                                                foreach ($panels as $panel => $panel_name) { ?>
+                                                    <div class="list-group-item soft-list" data-panel="<?= $panel ?>">
+                                                        <h4 class="list-group-item-heading"><?= Yii::t('app', $panel_name) ?></h4>
+                                                        <div class="list-group-item-text">
+                                                            <?php foreach ($grouped_osimages['softpacks'][$panel] as $softpack) { ?>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <?= Html::radio('panel_soft', false, [
+                                                                            'data' => [
+                                                                                'panel-soft' => 'soft',
+                                                                                'panel' => $panel
+                                                                            ],
+                                                                            'value' => $softpack['name']
+                                                                        ]) ?>
+                                                                        <strong><?= $softpack['name'] ?></strong>
+                                                                        <small style="font-weight: normal"><?= $softpack['description'] ?></small>
+                                                                        <a class="softinfo-bttn glyphicon glyphicon-info-sign" href="#"></a>
+                                                                        <div class="soft-desc" style="display: none;"></div>
+                                                                    </label>
+                                                                </div>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?= Html::endForm() ?>
+                                <?php Modal::end(); ?>
                             </div>
                         </div>
                     </div>
@@ -270,4 +351,11 @@ Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
         </div>
     </div>
 </div>
-<? Pjax::end();
+<?php \frontend\modules\server\assets\OsSelectionAsset::register($this);
+$this->registerJs("var osparams = " . Json::encode($grouped_osimages['oses']) . ";
+$('.os-selector').osSelector({
+    osparams: osparams
+});
+", \yii\web\View::POS_READY, 'os-selector-init');
+?>
+<?php Pjax::end();

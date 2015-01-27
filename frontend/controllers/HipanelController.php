@@ -20,7 +20,6 @@ use yii\web\Response;
  */
 class HipanelController extends Controller
 {
-    public $layout = 'main';
     /**
      * @inheritdoc
      */
