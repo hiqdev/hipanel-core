@@ -18,7 +18,7 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
     $.pjax.reload({container:'#thread-grid-pjax', timeout: false});  //Reload GridView
 });
 ", \yii\web\View::POS_READY);
-
+// \yii\helpers\VarDumper::dump($_GET['ThreadSearch']['watchers'], 10, true);
 ?>
 
 <?php if (isset($_GET['ThreadSearch']['search_form']) && filter_var($_GET['ThreadSearch']['search_form'], FILTER_VALIDATE_BOOLEAN)) : ?>
@@ -100,7 +100,7 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
             ],
         ]) ?>
 
-        <?php echo $form->field($model, 'topic')->widget(Select2::classname(), [
+        <?= $form->field($model, 'topics')->widget(Select2::classname(), [
             'data' => array_merge(["" => ""], $topic_data),
             'options' => ['placeholder' => 'Select a topic ...', 'multiple' => true],
             'pluginOptions' => [
@@ -132,6 +132,7 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
             ],
         ]) ?>
         <?php echo $form->field($model, 'priority')->dropDownList(array_merge(['' => ''], $priority_data)) ?>
+
         <?php echo $form->field($model, 'watchers')->widget(Select2::classname(), [
             'options' => ['placeholder' => 'Select watchers ...', 'multiple' => true],
             'pluginOptions' => [
@@ -139,14 +140,14 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
                 'minimumInputLength' => 3,
                 'multiple' => true,
                 'ajax' => [
-                    'url' => Url::to(['manager-list']),
+                    'url' => Url::to(['/client/client/can-manage-list']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                     'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                 ],
                 'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                                                            $.ajax("' . Url::to(['/client/client/can-manage-list']) . '?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);

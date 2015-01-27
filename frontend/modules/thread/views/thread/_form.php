@@ -11,11 +11,13 @@ use yii\helpers\Url;
 //use yii\helpers\ArrayHelper;
 //use frontend\components\Re;
 
+//\yii\helpers\VarDumper::dump($model, 10, true);
 //$this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View::POS_READY);
 ?>
 <div class="ticket-form">
 
     <?php $form = ActiveForm::begin([
+        'action' => $model->scenario == 'insert' ? Url::toRoute(['create']) : Url::toRoute(['update', 'id' => $model->id]),
         'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
 
@@ -27,7 +29,7 @@ use yii\helpers\Url;
     <!-- Properties -->
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'topic')->widget(Select2::classname(), [
+            <?= $form->field($model, 'topics')->widget(Select2::classname(), [
                 'data' => array_merge(["" => ""], $topic_data),
                 'options' => ['placeholder' => 'Select a topic ...', 'multiple' => true],
                 'pluginOptions' => [
@@ -41,6 +43,7 @@ use yii\helpers\Url;
                     'allowClear' => true,
                 ],
             ]); ?>
+            <?php if ($model->scenario == 'insert') : ?>
             <?= $form->field($model, 'priority')->widget(Select2::classname(), [
                 'data' => array_merge(["" => ""], $priority_data),
                 'options' => ['placeholder' => 'Select a priority ...'],
@@ -48,6 +51,7 @@ use yii\helpers\Url;
                     'allowClear' => true,
                 ],
             ]); ?>
+            <?php endif; ?>
         </div>
         <div class="col-md-6">
             <?= $form->field($model, 'responsible_id')->widget(Select2::classname(), [
@@ -56,14 +60,14 @@ use yii\helpers\Url;
                     'allowClear' => true,
                     'minimumInputLength' => 3,
                     'ajax' => [
-                        'url' => Url::to(['manager-list']),
+                        'url' => Url::to(['/client/client/client-all-list']),
                         'dataType' => 'json',
                         'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                         'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                     ],
                     'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                                                            $.ajax("' . Url::to(['/client/client/client-all-list']) . '?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);
@@ -78,14 +82,14 @@ use yii\helpers\Url;
                     'allowClear' => true,
                     'minimumInputLength' => 3,
                     'ajax' => [
-                        'url' => Url::to(['manager-list']),
+                        'url' => Url::to(['/client/client/can-manage-list']),
                         'dataType' => 'json',
                         'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                         'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                     ],
                     'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                                                            $.ajax("' . Url::to(['/client/client/can-manage-list']) . '?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);
@@ -93,6 +97,7 @@ use yii\helpers\Url;
                                                         }')
                 ],
             ]); ?>
+            <?php if ($model->scenario == 'insert') : ?>
             <?= $form->field($model, 'watchers')->widget(Select2::classname(), [
                 'options' => ['placeholder' => 'Select watchers ...', 'multiple' => true],
                 'pluginOptions' => [
@@ -100,14 +105,14 @@ use yii\helpers\Url;
                     'minimumInputLength' => 3,
                     'multiple' => true,
                     'ajax' => [
-                        'url' => Url::to(['manager-list']),
+                        'url' => Url::to(['/client/client/can-manage-list']),
                         'dataType' => 'json',
                         'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                         'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                     ],
                     'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("' . Url::to(['manager-list']) . '?id=" + id, {
+                                                            $.ajax("' . Url::to(['/client/client/can-manage-list']) . '?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);
@@ -115,7 +120,7 @@ use yii\helpers\Url;
                                                         }')
                 ],
             ]); ?>
-
+            <?php endif; ?>
         </div>
     </div>
     <?php /* $box = HiBox::end() */ ?>

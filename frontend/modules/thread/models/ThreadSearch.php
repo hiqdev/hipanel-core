@@ -15,28 +15,30 @@ class ThreadSearch extends \app\modules\thread\models\Thread
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [[
-                'author_id',
-                'responsible_id',
-                'recipient_id',
-                'state',
-                'priority',
-                'time_from',
-                'time_till',
-                'subject',
-                'watcher',
-            ], 'safe'],
+            [
+                [
+                    'author_id',
+                    'responsible_id',
+                    'recipient_id',
+                    'state',
+                    'priority',
+                    'time_from',
+                    'time_till',
+                    'subject',
+                    'watchers',
+                    'topics',
+                ],
+                'safe'
+            ],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -48,8 +50,7 @@ class ThreadSearch extends \app\modules\thread\models\Thread
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Thread::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -67,7 +68,7 @@ class ThreadSearch extends \app\modules\thread\models\Thread
             'time_form' => $this->time_from,
         ]);
         $query->andFilterWhere(['like', 'subject', $this->subject]);
-        $query->andFilterWhere(['in', 'watcher', $this->watchers]);
+        $query->andFilterWhere(['in', 'watchers', $this->watchers]);
         return $dataProvider;
     }
 }

@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'subject',
             'format' => 'raw',
             'value' => function ($data) {
-                return $data['subject'] . Topic::widget(['topics' => $data->topic]);
+                return Html::a($data->subject, $data->threadUrl). Topic::widget(['topics' => $data->topic]);
             }
         ],
         [
