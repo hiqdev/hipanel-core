@@ -34,7 +34,7 @@ if ($model->vnc['enabled']) {
         [
             'class'             => 'btn btn-success',
             'data-loading-text' => Yii::t('app', 'Enabling...'),
-            'onClick'           => new \yii\web\JsExpression("$(this).button('loading')"),
+            'onClick'           => new \yii\web\JsExpression("$(this).closest('form').submit(); $(this).button('loading')"),
             'disabled'          => !$model->isOperable() || !$model->isVNCSupported(),
         ]
     );
