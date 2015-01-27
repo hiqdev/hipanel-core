@@ -3,56 +3,47 @@ namespace app\modules\server\models;
 
 use Yii;
 
-class Osimage extends \frontend\components\hiresource\ActiveRecord {
+/**
+ * @property string osimage
+ * @property string os
+ * @property string version
+ * @property string bitwise
+ * @property string panel
+ * @property array softpack
+ */
+class Osimage extends \frontend\components\hiresource\ActiveRecord
+{
     /**
      * @return array the list of attributes for this record
      */
     public function attributes () {
-        return [
-            'osimage',
-            'os',
-            'version',
-            'bitwise',
-            'panel',
-            'softpack'
-        ];
+        return ['osimage', 'os', 'version', 'bitwise', 'panel', 'softpack'];
     }
 
     public function rules () {
-        return [
-            [
-                ['osimage'],
-                'required'
-            ]
-        ];
+        return [[['osimage'], 'required']];
     }
 
     /**
+     * @param bool $delimiter defines delimiter to separeate os, version and bitwise of OS
      * @return string
      */
-    public function getFullOsName() {
-        return implode(' ', [$this->os, $this->version, $this->bitwise]);
+    public function getFullOsName ($delimiter = ' ') {
+        return implode($delimiter, [$this->os, $this->version, $this->bitwise]);
     }
-
-    /**
-     * @return bool
-     */
-    public function hasSoftPack() {
-        return !empty($this->softpack);
-    }
+    public function getSoftPackName () { return $this->hasSoftPack() ? $this->softpack['name'] : 'clear'; }
+    public function hasSoftPack () { return !empty($this->softpack); }
+    public function getPanelName () { return $this->panel ?: 'no'; }
+    public function getSoftPack () { return $this->hasSoftPack() ? $this->softpack : []; }
 
     /**
      * @inheritdoc
      */
     public function attributeLabels () {
         return [
-            'osimagae' => Yii::t('app', 'System name of image'),
-            'os'       => Yii::t('app', 'OS'),
-            'version'  => Yii::t('app', 'Version'),
-            'bitwise'  => Yii::t('app', 'Bitwise'),
-            'panel'    => Yii::t('app', 'Panel'),
-            'softpack' => Yii::t('app', 'Soft package'),
-
+            'osimagae' => Yii::t('app', 'System name of image'), 'os' => Yii::t('app', 'OS'),
+            'version'  => Yii::t('app', 'Version'), 'bitwise' => Yii::t('app', 'Bitwise'),
+            'panel'    => Yii::t('app', 'Panel'), 'softpack' => Yii::t('app', 'Soft package'),
         ];
     }
 }
