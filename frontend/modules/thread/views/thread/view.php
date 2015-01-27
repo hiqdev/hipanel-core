@@ -122,3 +122,5 @@ $this->registerCss('
 
 </div>
 
+http://hipanel.dev/thread/thread/index?ThreadSearch%5Bsearch_form%5D=1&ThreadSearch%5Bsubject%5D=&ThreadSearch%5Btime_from%5D=&ThreadSearch%5Btime_till%5D=&ThreadSearch%5Bstate%5D=&ThreadSearch%5Bauthor_id%5D=&ThreadSearch%5Bresponsible_id%5D=&ThreadSearch%5Btopics%5D=&ThreadSearch%5Btopics%5D%5B%5D=vds&ThreadSearch%5Brecipient_id%5D=&ThreadSearch%5Bpriority%5D=&ThreadSearch%5Bwatchers%5D=
+

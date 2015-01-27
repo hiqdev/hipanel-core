@@ -54,22 +54,14 @@ class ThreadController extends Controller
     }
 
     public function actionView($id) {
-        if (Yii::$app->request->isPost) {
-            $model = new Thread();
-            $model->scenario = 'answer';
-            if ($model->load(Yii::$app->request->post()) && $model->validate() && $this->_threadChange($model->getAttributes())) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-                'topic_data' => $this->_topicData(),
-                'priority_data' => $this->_priorityData(),
-                'state_data' => $this->_stateData(),
-            ]);
-        }
-
-
+        $model = $this->findModel($id);
+        $model->scenario = 'answer';
+        return $this->render('view', [
+            'model' => $model,
+            'topic_data' => $this->_topicData(),
+            'priority_data' => $this->_priorityData(),
+            'state_data' => $this->_stateData(),
+        ]);
     }
 
     /**
@@ -104,6 +96,17 @@ class ThreadController extends Controller
         ]);
     }
 
+    public function actionUpdate($id) {
+        $model = Thread::findOne(['id' => $id]); //$this->findModel($id)
+        $model->scenario = 'answer';
+        $model->load(Yii::$app->request->post());
+        $model->preSpenTransform();
+        if ($model->validate() && $this->_threadChange($model->getAttributes(), 'Answer', false)) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+        throw new \LogicException('An error has occurred');
+    }
+
     private function _fileUpload(Thread $model) {
         $model->file = UploadedFile::getInstances($model, 'file');
         \yii\helpers\VarDumper::dump($model->file, 10, true);
@@ -119,18 +122,6 @@ class ThreadController extends Controller
 
     public function actionGetfile() {
         File::getfile(Yii::$app->request->queryParams);
-    }
-
-    public function actionUpdate($id) {
-        throw new \LogicException(Yii::t('app', 'Update Action in View!'));
-//        $model = $this->findModel($id);
-//        $model->scenario = 'answer';
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        }
-//        else {
-//            return $this->render('update', ['model' => $model,]);
-//        }
     }
 
     /**
@@ -172,19 +163,29 @@ class ThreadController extends Controller
     }
 
     public function actionClose($id) {
-        $options[$id] = ['id' => $id, 'state' => $this->action->id, 'is_private' => 1];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket is closed!'));
+        if ($this->_ticketChangeState($id, $this->action->id))
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket is closed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
         return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionOpen($id) {
-        $options[$id] = ['id' => $id, 'state' => $this->action->id, 'is_private' => 1];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket id open!'));
+        if ($this->_ticketChangeState($id, $this->action->id))
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket id opened!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    private function _ticketChangeState($id, $action) {
+        $options[$id] = ['id' => $id, 'state' => $action];
+        try {
+            Thread::perform(ucfirst($action), $options, true);
+        } catch (HiResException $e) {
+            return false;
+        }
+        return true;
     }
 
     public function actionSettings() {
@@ -243,68 +244,68 @@ class ThreadController extends Controller
 
     /* AJAX */
 
-    public function actionClientList($search = null, $id = null) {
-        $out = ['more' => false];
-        if (!is_null($search)) {
-            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search])->getList(); // Http::get('clientsGetList',['client_like'=>$search]);
-            $res = [];
-            foreach ($data as $item) {
-                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-            }
-            $out['results'] = $res;
-        }
-        elseif ($id != 0) {
-            $out['results'] = [
-                'id' => $id,
-                'text' => \app\modules\client\models\Client::find()->where([
-                    'id' => $id,
-                    'with_contact' => 1
-                ])->one()->login
-            ];
-        }
-        else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $out;
-    }
-
-    public function actionManagerList($search = null, $id = null) {
-        $out = ['more' => true];
-        if (!is_null($search)) {
-            $data = \app\modules\client\models\Client::find()->where([
-                'client_like' => $search,
-                'manager_only' => 1
-            ])->getList();
-            $res = [];
-            foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-            $out['results'] = $res;
-        }
-        elseif ($id != 0) {
-            $out['results'] = [
-                'id' => $id,
-                'text' => \app\modules\client\models\Client::find()->where([
-                    'id' => $id,
-                    'with_contact' => 1
-                ])->one()->login
-            ];
-        }
-        else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $out;
-    }
-
-    public function actionStateList($search = null, $id = null) {
-        $out = ['more' => true];
-        if (!is_null($search)) {
-            $data = Ref::find()->where(['gtype' => 'state,ticket'])->getList();
-            $res = [];
-            foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-            $out['results'] = $res;
-        }
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $out;
-    }
+//    public function actionClientList($search = null, $id = null) {
+//        $out = ['more' => false];
+//        if (!is_null($search)) {
+//            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search])->getList(); // Http::get('clientsGetList',['client_like'=>$search]);
+//            $res = [];
+//            foreach ($data as $item) {
+//                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
+//            }
+//            $out['results'] = $res;
+//        }
+//        elseif ($id != 0) {
+//            $out['results'] = [
+//                'id' => $id,
+//                'text' => \app\modules\client\models\Client::find()->where([
+//                    'id' => $id,
+//                    'with_contact' => 1
+//                ])->one()->login
+//            ];
+//        }
+//        else {
+//            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
+//        }
+//        Yii::$app->response->format = Response::FORMAT_JSON;
+//        return $out;
+//    }
+//
+//    public function actionManagerList($search = null, $id = null) {
+//        $out = ['more' => true];
+//        if (!is_null($search)) {
+//            $data = \app\modules\client\models\Client::find()->where([
+//                'client_like' => $search,
+//                'manager_only' => 1
+//            ])->getList();
+//            $res = [];
+//            foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
+//            $out['results'] = $res;
+//        }
+//        elseif ($id != 0) {
+//            $out['results'] = [
+//                'id' => $id,
+//                'text' => \app\modules\client\models\Client::find()->where([
+//                    'id' => $id,
+//                    'with_contact' => 1
+//                ])->one()->login
+//            ];
+//        }
+//        else {
+//            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
+//        }
+//        Yii::$app->response->format = Response::FORMAT_JSON;
+//        return $out;
+//    }
+//
+//    public function actionStateList($search = null, $id = null) {
+//        $out = ['more' => true];
+//        if (!is_null($search)) {
+//            $data = Ref::find()->where(['gtype' => 'state,ticket'])->getList();
+//            $res = [];
+//            foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
+//            $out['results'] = $res;
+//        }
+//        Yii::$app->response->format = Response::FORMAT_JSON;
+//        return $out;
+//    }
 }

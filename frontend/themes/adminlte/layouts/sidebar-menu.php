@@ -53,14 +53,6 @@ echo Menu::widget(
                         'label' => Yii::t('app', 'Tickets settings'),
                         'url' => ['/thread/thread/settings'],
                     ],
-                    [
-                        'label' => Yii::t('app', 'Tickets templates'),
-                        'url' => ['/thread/template/index'],
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Ticket tags'),
-                        'url' => ['/thread/tag/index'],
-                    ],
                 ]
             ],
             [
