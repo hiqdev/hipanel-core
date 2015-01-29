@@ -100,7 +100,8 @@ class ThreadController extends Controller
         $model = Thread::findOne(['id' => $id]); //$this->findModel($id)
         $model->scenario = 'answer';
         $model->load(Yii::$app->request->post());
-        $model->preSpenTransform();
+        $model->prepareSpentTime();
+        $model->prepareTopic();
         if ($model->validate() && $this->_threadChange($model->getAttributes(), 'Answer', false)) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

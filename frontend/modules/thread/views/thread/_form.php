@@ -29,7 +29,7 @@ use yii\helpers\Url;
     <!-- Properties -->
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'topics')->widget(Select2::classname(), [
+            <?= $form->field($model, 'topic')->widget(Select2::classname(), [
                 'data' => array_merge(["" => ""], $topic_data),
                 'options' => ['placeholder' => 'Select a topic ...', 'multiple' => true],
                 'pluginOptions' => [

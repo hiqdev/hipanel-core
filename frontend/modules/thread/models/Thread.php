@@ -163,13 +163,18 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function beforeSave($insert) {
         if (!parent::beforeSave($insert)) return false;
         // spent time handle
-        $this->preSpenTransform();
+        $this->prepareSpentTime();
+        $this->prepareTopic();
 
         return true;
     }
 
-    public function preSpenTransform() {
+    public function prepareSpentTime() {
         list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
+    }
+
+    public function prepareTopic() {
+        $this->topic = implode(',', $this->topic);
     }
 
     public function afterFind() {
