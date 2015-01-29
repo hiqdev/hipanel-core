@@ -69,8 +69,8 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function rules() {
         return [
             [['subject', 'message'], 'required'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours'], 'safe', 'on' => 'insert'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'is_private'], 'safe', 'on' => 'answer'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'file_ids'], 'safe', 'on' => 'insert'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'is_private', 'file_ids'], 'safe', 'on' => 'answer'],
             [['search_form'], 'safe'],
             [['file'], 'file', 'maxFiles' => 5],
         ];

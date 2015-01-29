@@ -40,36 +40,36 @@ use yii\helpers\Url;
                     </div>
 
                     <?php if (!empty($answer['files'])) : ?>
-                        <div class="attachment">
-                            <h4>Attachments:</h4>
-                            <p class="filename">
-                                Theme-thumbnail-image.jpg
-                            </p>
-                            <div class="pull-right">
-                                <button class="btn btn-primary btn-sm btn-flat">Open</button>
-                            </div>
-                        </div><!-- /.attachment -->
-                        <div class="attachments_wrapper">
-                            <?php foreach ($answer['files'] as $file) : ?>
-                                <div class="attachment">
-                                    <a class="file<?= $file['is_image'] ? ' media' : '' ?>" href="<?= $file['url'] ?>"
-                                       title="<?= htmlspecialchars($file['filename']) ?>"
-                                        <? if (!$file['is_image']) { ?>
-                                            download="<?= htmlspecialchars($file['filename']) ?>"
-                                        <? } else { ?>
-                                            target="_blank"
-                                        <? } ?>
-                                        >
-                                        <? if ($file['is_image']) { ?>
-                                            <img src="<?= $file['url'] ?>" <?= $file['size_string'] ?> wikiparams="<?= $file['wikiparams'] ?>" />
-                                        <? } else {   ?>
-                                            <img src="<?= $file['icon'] ?>"/>
-                                        <? } ?>
-                                        <span class="name"><?= htmlspecialchars($file['filename']) ?></span>
-                                    </a>
+                        <?php foreach ($answer['files'] as $file) : ?>
+                            <div class="attachment">
+                                <?= Html::tag('h4', Yii::t('app', 'Attachments')); ?>
+                                <?= Html::tag('p', Html::encode($file['filename']), ['class' => 'filename']) ?>
+                                <?php if (in_array(strtolower(pathinfo($file['filename'], PATHINFO_EXTENSION)), ['gif', 'jpg', 'jpeg', 'png'])) : ?>
+
+                                <?php endif; ?>
+                                <div class="pull-right">
+                                    <button class="btn btn-primary btn-sm btn-flat">Open</button>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
+                            </div><!-- /.attachment -->
+
+                            <!--div class="attachment">
+                                <a class="file<?= $file['is_image'] ? ' media' : '' ?>" href="<?= $file['url'] ?>"
+                                   title="<?= htmlspecialchars($file['filename']) ?>"
+                                    <? if (!$file['is_image']) { ?>
+                                        download="<?= htmlspecialchars($file['filename']) ?>"
+                                    <? } else { ?>
+                                        target="_blank"
+                                    <? } ?>
+                                    >
+                                    <? if ($file['is_image']) { ?>
+                                        <img src="<?= $file['url'] ?>" <?= $file['size_string'] ?> wikiparams="<?= $file['wikiparams'] ?>" />
+                                    <? } else {   ?>
+                                        <img src="<?= $file['icon'] ?>"/>
+                                    <? } ?>
+                                    <span class="name"><?= htmlspecialchars($file['filename']) ?></span>
+                                </a>
+                            </div-->
+                        <?php endforeach; ?>
                     <?php endif; ?>
                 </div><!-- /.item -->
             <?php endif; ?>

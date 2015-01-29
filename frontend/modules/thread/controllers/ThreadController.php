@@ -77,15 +77,16 @@ class ThreadController extends Controller
             $model->file = UploadedFile::getInstances($model, 'file');
 
             if ($model->file) { // && $model->validate()
+                $files = [];
                 foreach ($model->file as $file) {
                     $filename = Yii::$app->user->id . '_' . uniqid() . '.' . $file->extension;
                     $url = File::makeThreadFileUrl($filename); // File::makeThreadFileUrl($file->tempName);
                     $file->saveAs('uploads/' . $filename);
-                    $fileId = File::perform('Put', ['url' => $url, 'filename' => $filename]);
-                    $model->file_ids .= $fileId . ',';
+                    $files[] = File::perform('Put', ['url' => $url, 'filename' => $filename]);
                 }
-            }
 
+                $model->file_ids = implode(',', ArrayHelper::getColumn($files, 'id'));
+            }
             if ($model->save()) return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('create', [
@@ -235,7 +236,7 @@ class ThreadController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = Thread::findOne(['id' => $id, 'with_answers' => 1])) !== null) {
+        if (($model = Thread::findOne(['id' => $id, 'with_answers' => 1, 'with_files' => 1])) !== null) {
             return $model;
         }
         else {
