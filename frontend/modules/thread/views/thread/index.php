@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => $data->priority,
                 ]);
             },
-            'filter' => Html::activeDropDownList($searchModel, 'priority', \frontend\models\Ref::getList('priority'), [
+            'filter' => Html::activeDropDownList($searchModel, 'priority', \frontend\models\Ref::getList('type,priority'), [
                 'class' => 'form-control',
                 'prompt' => Yii::t('app', '--'),
             ]),
