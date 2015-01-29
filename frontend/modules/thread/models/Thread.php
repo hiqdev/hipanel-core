@@ -11,6 +11,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public $time_from;
     public $time_till;
     public $search_form;
+    public $files;
 
     public function attributes() {
         return [
@@ -162,9 +163,13 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function beforeSave($insert) {
         if (!parent::beforeSave($insert)) return false;
         // spent time handle
-        list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
+        $this->preSpenTransform();
 
         return true;
+    }
+
+    public function preSpenTransform() {
+        list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
     }
 
     public function afterFind() {
