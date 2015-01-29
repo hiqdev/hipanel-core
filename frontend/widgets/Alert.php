@@ -59,23 +59,14 @@ class Alert extends \yii\bootstrap\Widget
             if (isset($this->alertTypes[$type])) {
                 $data = (array)$data;
                 foreach ($data as $message) {
-//                    /* initialize css class for each alert box */
-//                    $this->options['class'] = $this->alertTypes[$type] . $appendCss;
-//
-//                    /* assign unique id to each alert box */
-//                    $this->options['id'] = $this->getId() . '-' . $type;
-//
-//                    echo \yii\bootstrap\Alert::widget([
-//                        'body'        => $message,
-//                        'closeButton' => $this->closeButton,
-//                        'options'     => $this->options,
-//                    ]);
                     echo PNotify::widget([
                         'pluginOptions' => [
-                            //'title' => 'Sticky Success',
                             'text' => $message,
                             'type' => $type,
-                            'hide' => true
+                            'hide' => true,
+                            'buttons' => [
+                                'sticker' => false
+                            ]
                         ]
                     ]);
                 }

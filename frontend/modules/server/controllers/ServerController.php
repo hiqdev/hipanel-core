@@ -2,12 +2,10 @@
 
 namespace app\modules\server\controllers;
 
-use app\modules\server\models\OsimageSearch;
 use app\modules\server\models\ServerSearch;
 use app\modules\server\models\Server;
 use app\modules\server\models\Osimage;
 use frontend\components\hiresource\HiResException;
-//use yii\filters\VerbFilter;
 use frontend\components\Re;
 use frontend\controllers\HipanelController;
 use frontend\models\Ref;
@@ -20,18 +18,18 @@ class ServerController extends HipanelController
     public function behaviors () {
         return [
             'verbs' => [
-                        'class' => VerbFilter::className(),
-                        'actions' => [
-                            'enableVnc' => ['post'],
-                            'reboot' => ['post'],
-                            'reset' => ['post'],
-                            'shutdown' => ['post'],
-                            'powerOff' => ['post'],
-                            'bootLive' => ['post'],
-                            'regenRootPassword' => ['post'],
-                            'reinstall' => ['post'],
-                        ],
-                    ],
+                'class'   => VerbFilter::className(),
+                'actions' => [
+                    'enableVnc'         => ['post'],
+                    'reboot'            => ['post'],
+                    'reset'             => ['post'],
+                    'shutdown'          => ['post'],
+                    'powerOff'          => ['post'],
+                    'bootLive'          => ['post'],
+                    'regenRootPassword' => ['post'],
+                    'reinstall'         => ['post'],
+                ],
+            ],
         ];
     }
 
@@ -40,7 +38,9 @@ class ServerController extends HipanelController
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'osimages' => $this->getOsimages()
+            'searchModel'  => $searchModel,
+            'dataProvider' => $dataProvider,
+            'osimages'     => $this->getOsimages()
         ]);
     }
 
@@ -48,10 +48,10 @@ class ServerController extends HipanelController
         $model      = $this->findModel($id);
         $model->vnc = $this->getVNCInfo($model);
 
-        $osimages = $this->getOsimages();
-        $osimageslivecd = $this->getOsimagesLiveCd();
+        $osimages         = $this->getOsimages();
+        $osimageslivecd   = $this->getOsimagesLiveCd();
         $grouped_osimages = $this->getGroupedOsimages($osimages);
-        $panels = $this->getPanelTypes();
+        $panels           = $this->getPanelTypes();
 
         return $this->render('view', compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels'));
     }
@@ -66,18 +66,18 @@ class ServerController extends HipanelController
 
     public function actionReinstall ($id) {
         return $this->operate([
-                                  'id'             => $id,
-                                  'params'         =>
-                                      function ($model) {
-                                          return [  'id' => $model->id,
-                                                    'osimage' => \Yii::$app->request->post('osimage'),
-                                                    'panel' => \Yii::$app->request->post('panel')
-                                          ];
-                                      },
-                                  'action'         => 'Resetup',
-                                  'errorMessage'   => 'Error while server re-intalling',
-                                  'successMessage' => 'Server reinstalling task has been successfully added to queue',
-                              ]);
+            'id'             => $id,
+            'params'         => function ($model) {
+                return [
+                    'id'      => $model->id,
+                    'osimage' => \Yii::$app->request->post('osimage'),
+                    'panel'   => \Yii::$app->request->post('panel')
+                ];
+            },
+            'action'         => 'Resetup',
+            'errorMessage'   => 'Error while server re-intalling',
+            'successMessage' => 'Server reinstalling task has been successfully added to queue',
+        ]);
     }
 
     /**
@@ -99,63 +99,68 @@ class ServerController extends HipanelController
 
     public function actionReboot ($id) {
         return $this->operate([
-                                  'id'             => $id, 'action' => 'Reboot',
-                                  'errorMessage'   => 'Error while rebooting',
-                                  'successMessage' => 'Reboot task has been successfully added to queue',
-                              ]);
+            'id'             => $id,
+            'action'         => 'Reboot',
+            'errorMessage'   => 'Error while rebooting',
+            'successMessage' => 'Reboot task has been successfully added to queue',
+        ]);
     }
 
     public function actionReset ($id) {
         return $this->operate([
-                                  'id'             => $id, 'action' => 'Reset',
-                                  'errorMessage'   => 'Error while resetting',
-                                  'successMessage' => 'Reset task has been successfully added to queue',
-                              ]);
+            'id'             => $id,
+            'action'         => 'Reset',
+            'errorMessage'   => 'Error while resetting',
+            'successMessage' => 'Reset task has been successfully added to queue',
+        ]);
     }
 
     public function actionShutdown ($id) {
         return $this->operate([
-                                  'id'             => $id, 'action' => 'Shutdown',
-                                  'errorMessage'   => 'Error while shutting down',
-                                  'successMessage' => 'Shutdown task has been successfully added to queue',
-                              ]);
+            'id'             => $id,
+            'action'         => 'Shutdown',
+            'errorMessage'   => 'Error while shutting down',
+            'successMessage' => 'Shutdown task has been successfully added to queue',
+        ]);
     }
 
     public function actionPowerOff ($id) {
         return $this->operate([
-                                  'id'             => $id, 'action' => 'PowerOff',
-                                  'errorMessage'   => 'Error while turning power off',
-                                  'successMessage' => 'Power off task has been successfully added to queue',
-                              ]);
+            'id'             => $id,
+            'action'         => 'PowerOff',
+            'errorMessage'   => 'Error while turning power off',
+            'successMessage' => 'Power off task has been successfully added to queue',
+        ]);
     }
 
     public function actionPowerOn ($id) {
         return $this->operate([
-                                  'id'             => $id, 'action' => 'PowerOn',
-                                  'errorMessage'   => 'Error while turning power on',
-                                  'successMessage' => 'Power on task has been successfully added to queue',
-                              ]);
+            'id'             => $id,
+            'action'         => 'PowerOn',
+            'errorMessage'   => 'Error while turning power on',
+            'successMessage' => 'Power on task has been successfully added to queue',
+        ]);
     }
 
     public function actionBootLive ($id, $osimage) {
         return $this->operate([
-                                  'id'             => $id,
-                                  'params'         =>
-                                      function ($model) use ($osimage) {
-                                            return ['id' => $model->id, 'osimage' => $osimage];
-                                      },
-                                  'action'         => 'BootLive',
-                                  'errorMessage'   => 'Error while booting live CD',
-                                  'successMessage' => 'Live CD booting task has been successfully added to queue',
-                              ]);
+            'id'             => $id,
+            'params'         => function ($model) use ($osimage) {
+                return ['id' => $model->id, 'osimage' => $osimage];
+            },
+            'action'         => 'BootLive',
+            'errorMessage'   => 'Error while booting live CD',
+            'successMessage' => 'Live CD booting task has been successfully added to queue',
+        ]);
     }
 
     public function actionRegenRootPassword ($id) {
         return $this->operate([
-                                  'id'             => $id, 'action' => 'RegenRootPassword',
-                                  'errorMessage'   => 'Error while password regeneration',
-                                  'successMessage' => 'Password regenerating task has been successfully added to queue',
-                              ]);
+            'id'             => $id,
+            'action'         => 'RegenRootPassword',
+            'errorMessage'   => 'Error while password regeneration',
+            'successMessage' => 'Password regenerating task has been successfully added to queue',
+        ]);
     }
 
     /**
@@ -209,7 +214,8 @@ class ServerController extends HipanelController
     }
 
     protected function getPanelTypes () {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,panel'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
+        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,panel'])
+                                   ->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
     }
 
     protected function getGroupedOsimages ($images) {
@@ -245,23 +251,28 @@ class ServerController extends HipanelController
                     foreach ($softpack['soft'] as $soft => $soft_info) {
                         $soft_info['description'] = preg_replace('/,([^\s])/', ', $1', $soft_info['description']);
 
-                        $html_desc[] = "<b>{$soft_info['name']} {$soft_info['version']}</b>: <i>{$soft_info['description']}</i>";
-                        $data['soft'][$soft] = ['name' => $soft_info['name'], 'version' => $soft_info['version'], 'description' => $soft_info['description']];
+                        $html_desc[]         = "<b>{$soft_info['name']} {$soft_info['version']}</b>: <i>{$soft_info['description']}</i>";
+                        $data['soft'][$soft] = [
+                            'name'        => $soft_info['name'],
+                            'version'     => $soft_info['version'],
+                            'description' => $soft_info['description']
+                        ];
                     }
                     $data['html_desc'] = implode("<br>", $html_desc);
                 }
                 $oses[$system]['panel'][$panel]['softpack'][$softpack_name] = $data;
-                $softpacks[$panel][$softpack_name] = $data;
+                $softpacks[$panel][$softpack_name]                          = $data;
             } else {
                 $oses[$system]['panel'][$panel] = false;
             }
         }
 
 
-
         foreach ($oses as $system => $os) {
             $delete = true;
-            foreach ($os['panel'] as $panel => $info) if ($info !== false) $delete = false;
+            foreach ($os['panel'] as $panel => $info) {
+                if ($info !== false) $delete = false;
+            }
             if ($delete) unset($vendors[$os['vendor']]['oses'][$system]);
         }
 
