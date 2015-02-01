@@ -15,11 +15,17 @@ class Client extends \frontend\components\hiresource\ActiveRecord
         return [
             // search
             'id',
+            'ids',
             'client',
+            'clients',
             'seller',
+            'sellers',
             'seller_id',
+            'seller_ids',
             'type',
+            'types',
             'state',
+            'states',
             'hide_blocked',
             'show_deleted',
             'show',
@@ -35,6 +41,7 @@ class Client extends \frontend\components\hiresource\ActiveRecord
             'manager_only',
             'view',
             'language',
+            'priority',
 
             // getlist
             'client_like',
