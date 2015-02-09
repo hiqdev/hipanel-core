@@ -15,6 +15,10 @@ use yii\web\NotFoundHttpException;
 
 class ServerController extends HipanelController
 {
+    /**
+     * All of security-aware methods are allowed only with POST requests
+     * @return array
+     */
     public function behaviors () {
         return [
             'verbs' => [
@@ -56,6 +60,14 @@ class ServerController extends HipanelController
         return $this->render('view', compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels'));
     }
 
+    /**
+     * Enables VNC on the server
+     *
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     * @throws \yii\base\NotSupportedException
+     */
     public function actionEnableVnc ($id) {
         $model = $this->findModel($id);
         $model->checkOperable();
@@ -64,6 +76,12 @@ class ServerController extends HipanelController
         return $this->actionView($id);
     }
 
+    /**
+     * Reinstalls OS on the server
+     *
+     * @param $id
+     * @return \yii\web\Response
+     */
     public function actionReinstall ($id) {
         return $this->operate([
             'id'             => $id,
@@ -81,6 +99,8 @@ class ServerController extends HipanelController
     }
 
     /**
+     * Gets info of VNC on the server
+     *
      * @param \app\modules\server\models\Server $model
      * @param bool $enable
      *
@@ -164,7 +184,8 @@ class ServerController extends HipanelController
     }
 
     /**
-     * @param $options
+     * @param array $options
+     * options['params'] - callable ($model)
      *
      * @return \yii\web\Response
      * @throws NotFoundHttpException
@@ -174,7 +195,8 @@ class ServerController extends HipanelController
         $model = $this->findModel($options['id']);
         $model->checkOperable();
         try {
-            Server::perform($options['action'], $options['params'] ? $options['params']($model) : ['id' => $model->id]);
+            $params = $options['params'] ? $options['params']($model) : ['id' => $model->id];
+            Server::perform($options['action'], $params);
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', $options['successMessage']));
         } catch (HiResException $e) {
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
@@ -218,6 +240,12 @@ class ServerController extends HipanelController
                                    ->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
     }
 
+    /**
+     * Generates array of osimages data, grouped by different fields to display on the website
+     * @param $images Array of osimages models to be proceed
+     *
+     * @return array
+     */
     protected function getGroupedOsimages ($images) {
         $isp = 1; /// TODO: temporary enabled for all tariff. Redo with check of tariff resources
 

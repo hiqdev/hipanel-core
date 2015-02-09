@@ -25,15 +25,19 @@ class Osimage extends \frontend\components\hiresource\ActiveRecord
     }
 
     /**
-     * @param bool $delimiter defines delimiter to separeate os, version and bitwise of OS
+     * @param string $delimiter defines delimiter to separeate os, version and bitwise of OS
      * @return string
      */
     public function getFullOsName ($delimiter = ' ') {
         return implode($delimiter, [$this->os, $this->version, $this->bitwise]);
     }
+
     public function getSoftPackName () { return $this->hasSoftPack() ? $this->softpack['name'] : 'clear'; }
+
     public function hasSoftPack () { return !empty($this->softpack); }
+
     public function getPanelName () { return $this->panel ?: 'no'; }
+
     public function getSoftPack () { return $this->hasSoftPack() ? $this->softpack : []; }
 
     /**
@@ -41,9 +45,12 @@ class Osimage extends \frontend\components\hiresource\ActiveRecord
      */
     public function attributeLabels () {
         return [
-            'osimagae' => Yii::t('app', 'System name of image'), 'os' => Yii::t('app', 'OS'),
-            'version'  => Yii::t('app', 'Version'), 'bitwise' => Yii::t('app', 'Bitwise'),
-            'panel'    => Yii::t('app', 'Panel'), 'softpack' => Yii::t('app', 'Soft package'),
+            'osimagae' => Yii::t('app', 'System name of image'),
+            'os'       => Yii::t('app', 'OS'),
+            'version'  => Yii::t('app', 'Version'),
+            'bitwise'  => Yii::t('app', 'Bitwise'),
+            'panel'    => Yii::t('app', 'Panel'),
+            'softpack' => Yii::t('app', 'Soft package'),
         ];
     }
 }
