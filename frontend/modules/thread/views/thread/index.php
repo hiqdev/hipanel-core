@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'subject',
             'format' => 'raw',
             'value' => function ($data) {
-                return $data['subject'] . Topic::widget(['topics' => $data->topic]);
+                return Html::tag('b', Html::a($data->subject, $data->threadUrl)). Topic::widget(['topic' => $data->topic]);
             }
         ],
         [
@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'author_id',
                 'model' => $searchModel,
-                'url' => Url::to(['client-list'])
+                'url' => Url::to(['/client/client/client-all-list'])
             ]),
         ],
         [
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'recipient_id',
                 'model' => $searchModel,
-                'url' => Url::to(['manager-list'])
+                'url' => Url::to(['/client/client/can-manage-list'])
             ]),
         ],
         [
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => $data->priority,
                 ]);
             },
-            'filter' => Html::activeDropDownList($searchModel, 'priority', \frontend\models\Ref::getList('priority'), [
+            'filter' => Html::activeDropDownList($searchModel, 'priority', \frontend\models\Ref::getList('type,priority'), [
                 'class' => 'form-control',
                 'prompt' => Yii::t('app', '--'),
             ]),
@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filter' => Select2::widget([
                 'attribute' => 'responsible_id',
                 'model' => $searchModel,
-                'url' => Url::to(['client-list'])
+                'url' => Url::to(['/client/client/client-all-list'])
             ]),
         ],
         'answer_count',

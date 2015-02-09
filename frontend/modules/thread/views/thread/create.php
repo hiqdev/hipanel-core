@@ -1,7 +1,4 @@
 <?php
-
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model app\modules\ticket\models\Ticket */
 
@@ -10,8 +7,6 @@ $this->title = Yii::t('app', 'Create {modelClass}', [
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
-print $model->scenario;
 ?>
 
 <div class="ticket-create">

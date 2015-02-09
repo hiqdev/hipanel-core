@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\StringHelper;
 
+\yii\helpers\VarDumper::dump($model, 10, true);
 $this->title = StringHelper::truncateWords($model->threadViewTitle, 5);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -71,7 +72,7 @@ $this->registerCss('
         [
             'attribute' => 'topic',
             'format'=>'html',
-            'value' => Topic::widget(['topics' => $model->topic]),
+            'value' => Topic::widget(['topic' => $model->topic]),
             'visible' => $model->topic != null,
         ],
         [

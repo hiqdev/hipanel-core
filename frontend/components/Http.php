@@ -38,7 +38,6 @@ class Http {
             CURLOPT_RETURNTRANSFER  => 1,
             CURLOPT_SSL_VERIFYPEER  => FALSE,
             CURLOPT_SSL_VERIFYHOST  => 2,
-            CURLOPT_SSLVERSION      => 3,
             CURLOPT_POST            => 1,
             CURLOPT_POSTFIELDS      => $data,
         ));
@@ -47,10 +46,11 @@ class Http {
 
     static public function get($action,$data=array()) {
         $authData = [
-            'auth_ip'=>'192.168.1.39',
-            'auth_login'=>'tofid',// Yii::$app->user->login
-            'auth_password'=>'1309847555',
+            'auth_ip'       => '192.168.1.39',
+//            'auth_login'=>'tofid',// Yii::$app->user->login
+//            'auth_password'=>'1309847555',
         ];
+        var_dump($authData);
         $fetchData = self::fetchPost('https://api.ahnames.com/'.$action.'/',ArrayHelper::merge($data, $authData));
         return Json::decode($fetchData);
     }

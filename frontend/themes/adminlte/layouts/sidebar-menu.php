@@ -22,13 +22,13 @@ echo Menu::widget(
             ],
             [
                 'label' => Yii::t('app', 'Clients'),
-                'url' => ['/client/default/index'],
+                'url' => ['/client/client/index'],
                 'icon' => 'fa-group',
                 // 'visible' => Yii::$app->user->can('administrateUsers') || Yii::$app->user->can('BViewUsers'),
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Clients list'),
-                        'url' => ['/client/default/index'],
+                        'url' => ['/client/client/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'Mailings'),
@@ -52,14 +52,6 @@ echo Menu::widget(
                     [
                         'label' => Yii::t('app', 'Tickets settings'),
                         'url' => ['/thread/thread/settings'],
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Tickets templates'),
-                        'url' => ['/thread/template/index'],
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Ticket tags'),
-                        'url' => ['/thread/tag/index'],
                     ],
                 ]
             ],

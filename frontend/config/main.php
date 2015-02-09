@@ -36,7 +36,7 @@ return [
         'hiresource'=>[
             'class' => 'frontend\components\hiresource\Connection',
             'config' => [
-                'api_url'=>'localhost-api.ahnames.com',
+                'api_url'=>'http://localhost-api.ahnames.com',
             ],
         ],
         'user' => [
@@ -100,6 +100,10 @@ return [
                     ],
                 ],
             ],
+        ],
+        'request' => [
+            'cookieValidationKey' => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
+            'enableCsrfValidation' => true
         ],
     ],
     'modules' => [

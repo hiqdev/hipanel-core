@@ -56,6 +56,7 @@ class QueryBuilder extends \yii\base\Object
 
         if (!empty($query->where)) {
             $whereFilter = $this->buildCondition($query->where);
+//            \yii\helpers\VarDumper::dump($whereFilter, 10, true);
             $parts = array_merge($parts, $whereFilter);
         }
 
@@ -90,7 +91,8 @@ class QueryBuilder extends \yii\base\Object
             $operator = strtolower($condition[0]);
             if (isset($builders[$operator])) {
                 $method = $builders[$operator];
-                array_shift($condition);
+                array_shift($condition); // Shift build condition
+
                 return $this->$method($operator, $condition);
             } else {
                 throw new InvalidParamException('Found unknown operator in query: ' . $operator);
@@ -144,7 +146,12 @@ class QueryBuilder extends \yii\base\Object
 
     private function buildInCondition($operator, $operands)
     {
-        throw new NotSupportedException('In is not supported by hiresource.');
+
+        $key = $operands[0];
+        array_shift($operands);
+
+//        return [$item => join(',', $operands)];
+        return [$key => join(',', $operands)];
     }
 
     protected function buildCompositeInCondition($operator, $columns, $values)

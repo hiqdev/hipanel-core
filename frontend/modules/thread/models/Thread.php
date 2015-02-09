@@ -11,6 +11,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public $time_from;
     public $time_till;
     public $search_form;
+    public $files;
 
     public function attributes() {
         return [
@@ -40,6 +41,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'create_time',
             'a_reply_time',
             'elapsed',
+            'topics',
             'topic',
             'watchers',
             'watcher',
@@ -67,8 +69,8 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function rules() {
         return [
             [['subject', 'message'], 'required'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours'], 'safe', 'on' => 'insert'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'is_private'], 'safe', 'on' => 'answer'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'file_ids'], 'safe', 'on' => 'insert'],
+            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'is_private', 'file_ids'], 'safe', 'on' => 'answer'],
             [['search_form'], 'safe'],
             [['file'], 'file', 'maxFiles' => 5],
         ];
@@ -107,6 +109,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             'a_reply_time' => Yii::t('app', 'a_reply_time'),
             'elapsed' => Yii::t('app', 'elapsed'),
             'topic' => Yii::t('app', 'Topic'),
+            'topics' => Yii::t('app', 'Topic'),
             'watchers' => Yii::t('app', 'Watchers'),
             'watcher' => Yii::t('app', 'Watchers'),
             'add_tag_ids' => Yii::t('app', 'add_tag_ids'),
@@ -160,9 +163,18 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function beforeSave($insert) {
         if (!parent::beforeSave($insert)) return false;
         // spent time handle
-        list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
+        $this->prepareSpentTime();
+        $this->prepareTopic();
 
         return true;
+    }
+
+    public function prepareSpentTime() {
+        list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
+    }
+
+    public function prepareTopic() {
+        $this->topic = implode(',', $this->topic);
     }
 
     public function afterFind() {

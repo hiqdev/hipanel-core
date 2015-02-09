@@ -2,6 +2,8 @@
 use frontend\widgets\GridView;
 use app\modules\server\widgets\DiscountFormatter;
 use app\modules\object\widgets\RequestState;
+use frontend\widgets\Select2;
+use yii\helpers\Url;
 use \yii\jui\DatePicker;
 use \yii\helpers\Html;
 
@@ -19,9 +21,41 @@ echo GridView::widget([
         [
             'class' => 'yii\grid\CheckboxColumn',
         ],
-        'seller',
-        'client',
-        'name',
+        [
+            'attribute'          => 'seller_id',
+            'value'              => function ($model) {
+                return Html::a($model->seller, ['/client/client/view', 'id' => $model->seller_id]);
+            },
+            'format'             => 'html',
+            'filterInputOptions' => ['id' => 'seller_id'],
+            'label'              => Yii::t('app', 'Author'),
+            'filter'             => Select2::widget([
+                'attribute' => 'seller_id',
+                'model'     => $searchModel,
+                'url'       => Url::to(['/client/client/seller-list'])
+            ]),
+        ],
+        [
+            'attribute'          => 'client_id',
+            'value'              => function ($model) {
+                return Html::a($model->client, ['/client/client/view', 'id' => $model->client_id]);
+            },
+            'format'             => 'html',
+            'filterInputOptions' => ['id' => 'author_id'],
+            'label'              => Yii::t('app', 'Author'),
+            'filter'             => Select2::widget([
+                'attribute' => 'client_id',
+                'model'     => $searchModel,
+                'url'       => Url::to(['/client/client/client-all-list'])
+            ]),
+        ],
+        [
+            'attribute' => 'server_like',
+            'label'     => Yii::t('app', 'Name'),
+            'value'     => function ($model) {
+                return $model->name;
+            }
+        ],
         [
             'attribute'      => 'panel',
             'format'         => 'text',
@@ -44,13 +78,17 @@ echo GridView::widget([
             }
         ],
         [
-            'attribute' => 'state_label',
+            'attribute' => 'state',
             'format'    => 'raw',
             'value'     => function ($model) {
                 return RequestState::widget([
                     'model' => $model
                 ]);
-            }
+            },
+            'filter'    => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,device'), [
+                'class'  => 'form-control',
+                'prompt' => Yii::t('app', '--'),
+            ]),
         ],
         [
             'attribute' => 'sale_time',
@@ -86,6 +124,7 @@ echo GridView::widget([
                     $class[] = 'label-danger';
                 }
                 $html = Html::tag('span', $value, ['class' => implode(' ', $class)]);
+
                 return $html;
             }
         ],

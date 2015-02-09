@@ -1,5 +1,4 @@
 <?php
-use kartik\builder\Form;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
@@ -7,7 +6,6 @@ use yii\widgets\Pjax;
  * @var \app\modules\server\models\Server $model
  */
 
-Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
 
 if ($model->vnc['enabled']) {
     echo Html::tag('span',
@@ -28,18 +26,21 @@ if ($model->vnc['enabled']) {
         } ?>
     </dl>
     <?php
-    echo Yii::t('app', 'VNC will be disabled ') ?> <?= \Yii::$app->formatter->asRelativeTime($model->vnc['endTime']);
+    echo ($hide_leftTime ? '' : Yii::t('app', 'VNC will be disabled ') . \Yii::$app->formatter->asRelativeTime($model->vnc['endTime']));
 } else {
-    echo Html::a(
+    echo Html::beginForm(['enable-vnc', 'id' => $model->id], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+    echo Html::submitButton(
         Yii::t('app', 'Enable'),
-        ['enable-vnc', 'id' => $model->id],
         [
             'class'             => 'btn btn-success',
             'data-loading-text' => Yii::t('app', 'Enabling...'),
-            'onClick'           => new \yii\web\JsExpression("$(this).button('loading')"),
-            'disabled'          => !$model->isOperable()
+            'onClick'           => new \yii\web\JsExpression("$(this).closest('form').submit(); $(this).button('loading')"),
+            'disabled'          => !$model->isOperable() || !$model->isVNCSupported(),
         ]
     );
+    echo ' ';
+    if (!$model->isVNCSupported()) {
+        echo Yii::t('app', 'VNC is supported only on XEN');
+    }
+    echo Html::endForm();
 }
-
-Pjax::end();
