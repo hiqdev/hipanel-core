@@ -127,10 +127,17 @@ use yii\helpers\Url;
 
 
     <?= $form->field($model, 'subject') ?>
-    <?= $form->field($model, 'message')->widget(MarkdownEditor::classname(), [
-            'height' => 300,
-            'encodeLabels' => false
-        ]);; ?>
+    <?=
+//    $form->field($model, 'message')->widget(MarkdownEditor::classname(), [
+//        'height' => 300,
+//        'encodeLabels' => false
+//    ]);
+    // usage with model
+    MarkdownEditor::widget([
+        'model' => $model,
+        'attribute' => 'subject',
+    ]);
+    ?>
 
     <div class="row">
         <div class="col-md-6">
