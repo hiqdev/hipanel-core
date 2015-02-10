@@ -135,7 +135,7 @@ use yii\helpers\Url;
     // usage with model
     MarkdownEditor::widget([
         'model' => $model,
-        'attribute' => 'subject',
+        'attribute' => 'message',
     ]);
     ?>
 
