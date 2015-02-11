@@ -25,43 +25,40 @@ class DebugPanel extends Panel
     public $db = 'hiresource';
 
 
-    public function init()
-    {
+    public function init () {
         $this->actions['hiresource-query'] = [
             'class' => 'frontend\\components\\hiresource\\DebugAction',
             'panel' => $this,
-            'db' => $this->db,
+            'db'    => $this->db,
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function getName()
-    {
+    public function getName () {
         return 'HiResource';
     }
 
     /**
      * @inheritdoc
      */
-    public function getSummary()
-    {
-        $timings = $this->calculateTimings();
+    public function getSummary () {
+        $timings    = $this->calculateTimings();
         $queryCount = count($timings);
-        $queryTime = 0;
+        $queryTime  = 0;
         foreach ($timings as $timing) {
             $queryTime += $timing[3];
         }
         $queryTime = number_format($queryTime * 1000) . ' ms';
-        $url = $this->getUrl();
-        $output = <<<EOD
+        $url       = $this->getUrl();
+        $output    = <<<HTML
 <div class="yii-debug-toolbar-block">
     <a href="$url" title="Executed $queryCount queries which took $queryTime.">
         ES <span class="label">$queryCount</span> <span class="label">$queryTime</span>
     </a>
 </div>
-EOD;
+HTML;
 
         return $queryCount > 0 ? $output : '';
     }
@@ -69,68 +66,77 @@ EOD;
     /**
      * @inheritdoc
      */
-    public function getDetail()
-    {
+    public function getDetail () {
         $timings = $this->calculateTimings();
         ArrayHelper::multisort($timings, 3, SORT_DESC);
         $rows = [];
-        $i = 0;
+        $i    = 0;
         foreach ($timings as $logId => $timing) {
             $duration = sprintf('%.1f ms', $timing[3] * 1000);
-            $message = $timing[1];
-            $traces = $timing[4];
+            $message  = $timing[1];
+            $traces   = $timing[4];
             if (($pos = mb_strpos($message, "#")) !== false) {
-                $url = mb_substr($message, 0, $pos);
+                $url  = mb_substr($message, 0, $pos);
                 $body = mb_substr($message, $pos + 1);
             } else {
-                $url = $message;
+                $url  = $message;
                 $body = null;
             }
             $traceString = '';
             if (!empty($traces)) {
                 $traceString .= Html::ul($traces, [
                     'class' => 'trace',
-                    'item' => function ($trace) {
-                            return "<li>{$trace['file']}({$trace['line']})</li>";
-                        },
+                    'item'  => function ($trace) {
+                        return "<li>{$trace['file']}({$trace['line']})</li>";
+                    },
                 ]);
             }
             $ajaxUrl = Url::to(['hiresource-query', 'logId' => $logId, 'tag' => $this->tag]);
-            \Yii::$app->view->registerJs(<<<JS
-$('#elastic-link-$i').on('click', function () {
-    var result = $('#elastic-result-$i');
-    result.html('Sending request...');
-    result.parent('tr').show();
-    $.ajax({
-        type: "POST",
-        url: "$ajaxUrl",
-        success: function (data) {
-            $('#elastic-time-$i').html(data.time);
-            $('#elastic-result-$i').html(data.result);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $('#elastic-time-$i').html('');
-            $('#elastic-result-$i').html('<span style="color: #c00;">Error: ' + errorThrown + ' - ' + textStatus + '</span><br />' + jqXHR.responseText);
-        },
-        dataType: "json"
-    });
-
-    return false;
-});
-JS
-                , View::POS_READY);
-            $runLink = Html::a('run query', '#', ['id' => "elastic-link-$i"]) . '<br/>';
-            $rows[] = <<<HTML
+            $runLink = Html::a('run query', $ajaxUrl, [
+                    'class' => 'elastic-link',
+                    'data'  => ['id' => $i]
+                ]) . '<br/>';
+            $rows[]  = <<<HTML
 <tr>
     <td style="width: 10%;">$duration</td>
     <td style="width: 75%;"><div><b>$url</b><br/><p>$body</p>$traceString</div></td>
     <td style="width: 15%;">$runLink</td>
 </tr>
-<tr style="display: none;"><td id="elastic-time-$i"></td><td colspan="3" id="elastic-result-$i"></td></tr>
+<tr style="display: none;" class="elastic-wrapper" data-id="$i">
+    <td class="time"></td><td colspan="3" class="result"></td>
+</tr>
 HTML;
             $i++;
         }
         $rows = implode("\n", $rows);
+
+        \Yii::$app->view->registerJs(<<<JS
+
+$('.elastic-link').on('click', function (event) {
+    event.preventDefault();
+
+    var id = $(this).data('id');
+    var result = $('.elastic-wrapper[data-id=' + id +']');
+    result.find('.result').html('Sending request...');
+    result.show();
+    $.ajax({
+        type: 'POST',
+        url: $(this).attr('href'),
+        success: function (data) {
+            result.find('.time').html(data.time);
+            result.find('.result').html(data.result);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            result.find('.time').html('');
+            result.find('.result').html('<span style="color: #c00;">Error: ' + errorThrown + ' - ' + textStatus + '</span><br />' + jqXHR.responseText);
+        },
+        dataType: 'json'
+    });
+    return false;
+});
+JS
+            , View::POS_READY);
+
 
         return <<<HTML
 <h1>HiResource Queries</h1>
@@ -152,14 +158,13 @@ HTML;
 
     private $_timings;
 
-    public function calculateTimings()
-    {
+    public function calculateTimings () {
         if ($this->_timings !== null) {
             return $this->_timings;
         }
         $messages = $this->data['messages'];
-        $timings = [];
-        $stack = [];
+        $timings  = [];
+        $stack    = [];
         foreach ($messages as $i => $log) {
             list($token, $level, $category, $timestamp) = $log;
             $log[5] = $i;
@@ -174,7 +179,7 @@ HTML;
 
         $now = microtime(true);
         while (($last = array_pop($stack)) !== null) {
-            $delta = $now - $last[3];
+            $delta             = $now - $last[3];
             $timings[$last[5]] = [count($stack), $last[0], $last[2], $delta, $last[4]];
         }
         ksort($timings);
@@ -185,9 +190,8 @@ HTML;
     /**
      * @inheritdoc
      */
-    public function save()
-    {
-        $target = $this->module->logTarget;
+    public function save () {
+        $target   = $this->module->logTarget;
         $messages = $target->filterMessages($target->messages, Logger::LEVEL_PROFILE, ['frontend\components\hiresource\Connection::httpRequest']);
 
         return ['messages' => $messages];

@@ -38,7 +38,7 @@
 				if (id) data.push(id)
 			});
 
-			if (!data) return false;
+			if (!data.length) return false;
 
 			$.ajax({
 				url: '/' + this.settings.module + '/' + this.settings.module + "/requests-state",
@@ -54,7 +54,7 @@
 						if (item['html']) {
 							$v.html(data[id]['html']);
 						} else {
-							_this.items.splice(i,1);
+							_this.items.splice(i, 1);
 							$v.text($v.data('norm_state')).removeData('norm_state');
 						}
 					});

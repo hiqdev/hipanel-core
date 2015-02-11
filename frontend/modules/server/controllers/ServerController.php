@@ -9,9 +9,9 @@ use frontend\modules\server\models\Osimage;
 use frontend\components\hiresource\HiResException;
 use frontend\controllers\HipanelController;
 use frontend\models\Ref;
+use yii\base\NotSupportedException;
 use yii\filters\VerbFilter;
 use frontend\components\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 
 class ServerController extends HipanelController
@@ -195,11 +195,13 @@ class ServerController extends HipanelController
      */
     private function operate ($options) {
         $model = $this->findModel($options['id']);
-        $model->checkOperable();
         try {
+            $model->checkOperable();
             $params = $options['params'] ? $options['params']($model) : ['id' => $model->id];
             Server::perform($options['action'], $params);
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', $options['successMessage']));
+        } catch (NotSupportedException $e) {
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
         } catch (HiResException $e) {
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
         }
