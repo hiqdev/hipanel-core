@@ -1,7 +1,7 @@
 <?php
-namespace app\modules\server\widgets;
+namespace frontend\modules\server\widgets;
 
-use app\modules\server\models\Osimage;
+use frontend\modules\server\models\Osimage;
 use yii\base\Widget;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
@@ -20,7 +20,7 @@ class OSFormatter extends Widget {
     public $osimages;
 
     /**
-     * @var \app\modules\server\models\Osimage
+     * @var frontend\modules\server\models\Osimage
      */
     public $osimage;
 

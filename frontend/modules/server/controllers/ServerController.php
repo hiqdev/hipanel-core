@@ -1,22 +1,24 @@
 <?php
 
-namespace app\modules\server\controllers;
+namespace frontend\modules\server\controllers;
 
-use app\modules\server\models\ServerSearch;
-use app\modules\server\models\Server;
-use app\modules\server\models\Osimage;
+use frontend\modules\object\widgets\RequestState;
+use frontend\modules\server\models\ServerSearch;
+use frontend\modules\server\models\Server;
+use frontend\modules\server\models\Osimage;
 use frontend\components\hiresource\HiResException;
-use frontend\components\Re;
 use frontend\controllers\HipanelController;
 use frontend\models\Ref;
+use yii\base\NotSupportedException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
+use frontend\components\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 class ServerController extends HipanelController
 {
     /**
      * All of security-aware methods are allowed only with POST requests
+     *
      * @return array
      */
     public function behaviors () {
@@ -101,7 +103,7 @@ class ServerController extends HipanelController
     /**
      * Gets info of VNC on the server
      *
-     * @param \app\modules\server\models\Server $model
+     * @param \frontend\modules\server\models\Server $model
      * @param bool $enable
      *
      * @return array
@@ -193,11 +195,13 @@ class ServerController extends HipanelController
      */
     private function operate ($options) {
         $model = $this->findModel($options['id']);
-        $model->checkOperable();
         try {
+            $model->checkOperable();
             $params = $options['params'] ? $options['params']($model) : ['id' => $model->id];
             Server::perform($options['action'], $params);
             \Yii::$app->getSession()->setFlash('success', \Yii::t('app', $options['successMessage']));
+        } catch (NotSupportedException $e) {
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
         } catch (HiResException $e) {
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
         }
@@ -208,7 +212,7 @@ class ServerController extends HipanelController
     /**
      * @param int $id
      *
-     * @return \app\modules\server\models\Server|null
+     * @return \frontend\modules\server\models\Server|null
      * @throws NotFoundHttpException
      */
     protected function findModel ($id) {
@@ -236,12 +240,28 @@ class ServerController extends HipanelController
     }
 
     protected function getPanelTypes () {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,panel'])
-                                   ->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
+        return Ref::find()->where(['gtype' => 'type,panel'])->getList();
+    }
+
+    public function actionRequestsState (array $ids) {
+        $data = Server::find()->where(['id' => $ids, 'with_request' => true])->all();
+        foreach ($data as $model) {
+            $res[$model->id] = [
+                'id'   => $model->id,
+                'name' => $model->name,
+                'html' => RequestState::widget([
+                    'module' => 'server',
+                    'model'  => $model
+                ])
+            ];
+        }
+
+        return $this->renderJson($res);
     }
 
     /**
      * Generates array of osimages data, grouped by different fields to display on the website
+     *
      * @param $images Array of osimages models to be proceed
      *
      * @return array

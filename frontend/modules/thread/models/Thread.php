@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\thread\models;
+namespace frontend\modules\thread\models;
 
 use Yii;
 use yii\helpers\Html;

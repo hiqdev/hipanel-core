@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\client\controllers;
+namespace frontend\modules\client\controllers;
 
-use app\modules\client\models\ClientSearch;
-use app\modules\client\models\Client;
+use frontend\modules\client\models\ClientSearch;
+use frontend\modules\client\models\Client;
 use frontend\components\hiresource\HiResException;
 use yii\helpers\ArrayHelper;
 use Yii;
@@ -137,7 +137,7 @@ class ClientController extends DefaultController {
         }
         if (!$id && $this->_recursiveSearch(Yii::$app->request->post(), 'credit') ) {
             if ($this->_actionPrepareDataToUpdate('SetCredit', Yii::$app->request->post())) {
-                \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Credits were setted') . " " . \Yii::t('app', 'successfuly'));
+                \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Credits has been set successfully'));
             } else {
                 \Yii::$app->getSession()->setFlash('error',  \Yii::t('app', 'Something wrong'));
             }
@@ -150,10 +150,12 @@ class ClientController extends DefaultController {
             : $this->render('set-credit', $this->_actionPrepareRender('set-credit', $queryParams));
     }
 
+    /// TODO: implement
     public function actionSetLanguage () {
         return $this->renderPartial('set-language', ['model' => $this->findModel($id)]);
     }
 
+    /// TODO: implement
     public function actionSetTariffs () {
         return $this->renderPartial('set-tariffs', ['model' => $this->findModel($id)]);
     }
@@ -171,7 +173,7 @@ class ClientController extends DefaultController {
         }
         if (!$id && $this->_recursiveSearch(Yii::$app->request->post(), 'type') && $this->_recursiveSearch(Yii::$app->request->post(), 'comment') ) {
             if ($this->_actionPrepareDataToUpdate('SetCredit', Yii::$app->request->post())) {
-                \Yii::$app->getSession()->setFlash('success', \Yii::t('app', $action . ' block were') . " " . \Yii::t('app', 'successfuly'));
+                \Yii::$app->getSession()->setFlash('success', \Yii::t('app', '{0} block was successful', $action));
             } else {
                 \Yii::$app->getSession()->setFlash('error',  \Yii::t('app', 'Something wrong'));
             }

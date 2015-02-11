@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\ticket\models\Ticket */
+/* @var $model frontend\modules\ticket\models\Ticket */
 
 $this->title = Yii::t('app', 'Update {modelClass}', [
     'modelClass' => 'Article',

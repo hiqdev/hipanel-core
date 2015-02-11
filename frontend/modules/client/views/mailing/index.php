@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\client\models\Mailing */
+/* @var $model frontend\modules\client\models\Mailing */
 /* @var $form ActiveForm */
 ?>
 <div class="client-mailing-index">

@@ -59,9 +59,14 @@ class Connection extends Component
 
     private function _getAuth()
     {
-        return [
-            'access_token' => \Yii::$app->user->identity->getAccessToken()
-        ];
+        $res = [];
+        if (\Yii::$app->user->identity) {
+            $res['access_token'] = \Yii::$app->user->identity->getAccessToken();
+        } else {
+            \Yii::$app->user->loginRequired();
+        }
+
+        return $res;
     }
 
     public function init()

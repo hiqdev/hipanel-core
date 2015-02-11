@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\thread\models;
+namespace frontend\modules\thread\models;
 
 use Yii;
 use yii\base\Model;
@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class ThreadSearch extends \app\modules\thread\models\Thread
+class ThreadSearch extends Thread
 {
     /**
      * @inheritdoc
