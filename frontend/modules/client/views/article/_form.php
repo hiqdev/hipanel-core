@@ -4,7 +4,8 @@ use yii\helpers\ArrayHelper;
 use frontend\models\Ref;
 use yii\bootstrap\ActiveForm;
 use frontend\components\Re;
-$langs = ArrayHelper::map(\app\modules\client\models\Article::getApiLangs(), 'gl_key', 'gl_value');
+
+$langs = ArrayHelper::map(frontend\modules\client\models\Article::getApiLangs(), 'gl_key', 'gl_value');
 $this->registerJs("$(function () {\$('#lang_tab a:first').tab('show');});", yii\web\View::POS_END, 'lng-tabpanel-options');
 $modelReflacion = new \ReflectionClass(get_class($model));
 \yii\helpers\VarDumper::dump($model, 10, true);
@@ -18,7 +19,7 @@ $modelReflacion = new \ReflectionClass(get_class($model));
     'value' => date('d-M-Y', strtotime('+2 days')),
     ]); ?>
 
-    <?= $form->field($model, 'type')->dropDownList(ArrayHelper::map(Ref::find()->where(['gtype'=>'type,article'])->getList(), 'gl_key', function($l){
+    <?= $form->field($model, 'type')->dropDownList(ArrayHelper::map(Ref::find()->where(['gtype'=>'type,article'])->getList(false), 'gl_key', function($l){
          return ucfirst(Re::l($l->gl_value));
     })); ?>
 

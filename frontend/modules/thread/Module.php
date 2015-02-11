@@ -4,7 +4,7 @@ namespace app\modules\thread;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\thread\controllers';
+    public $controllerNamespace = 'frontend\modules\thread\controllers';
 
     public function init()
     {

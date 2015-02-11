@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\server\models;
+namespace frontend\modules\server\models;
 
 use Yii;
 use yii\base\NotSupportedException;
@@ -45,10 +45,8 @@ class Server extends \frontend\components\hiresource\ActiveRecord
 
     public function rules () {
         return [
-            [
-                ['name'],
-                'required'
-            ]
+            [['name'], 'required'],
+            [['id'], 'safe']
         ];
     }
 

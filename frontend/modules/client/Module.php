@@ -4,7 +4,7 @@ namespace app\modules\client;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\client\controllers';
+    public $controllerNamespace = 'frontend\modules\client\controllers';
     public $defaultRoute = 'client/client';
 
     public function init()

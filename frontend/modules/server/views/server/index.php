@@ -1,14 +1,14 @@
 <?php
 use frontend\widgets\GridView;
-use app\modules\server\widgets\DiscountFormatter;
-use app\modules\object\widgets\RequestState;
+use frontend\modules\server\widgets\DiscountFormatter;
+use frontend\modules\object\widgets\RequestState;
 use frontend\widgets\Select2;
 use yii\helpers\Url;
 use \yii\jui\DatePicker;
 use \yii\helpers\Html;
 
 /**
- * @var app\modules\server\models\OsimageSearch $osimages
+ * @var frontend\modules\server\models\OsimageSearch $osimages
  */
 
 $this->title                   = Yii::t('app', 'Servers');
@@ -82,7 +82,8 @@ echo GridView::widget([
             'format'    => 'raw',
             'value'     => function ($model) {
                 return RequestState::widget([
-                    'model' => $model
+                    'model' => $model,
+                    'module' => 'server'
                 ]);
             },
             'filter'    => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,device'), [
@@ -98,7 +99,7 @@ echo GridView::widget([
             'attribute' => 'os',
             'format'    => 'raw',
             'value'     => function ($model) use ($osimages) {
-                return \app\modules\server\widgets\OSFormatter::widget([
+                return frontend\modules\server\widgets\OSFormatter::widget([
                     'osimages'  => $osimages,
                     'imageName' => $model->osimage
                 ]);

@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 /**
- * @var \app\modules\server\models\Server $model
+ * @var \frontend\modules\server\models\Server $model
  */
 
 

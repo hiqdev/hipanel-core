@@ -35,7 +35,7 @@ use yii\helpers\Url;
                         <?= $answer['author'] ?>
                         <?= Html::endTag('a'); ?>
                         <div class="message-source">
-                            <?= app\modules\thread\models\Thread::parseMessage($answer['message']) ?>
+                            <?= frontend\modules\thread\models\Thread::parseMessage($answer['message']) ?>
                         </div>
                     </div>
 
