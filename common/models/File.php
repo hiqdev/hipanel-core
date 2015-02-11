@@ -11,8 +11,9 @@ class File extends \frontend\components\hiresource\ActiveRecord
 
     public $request;
 
-    private static function currentPrjDir() {
-        return Yii::getAlias('@webroot/uploads');
+    public static function currentPrjDir() {
+        return Yii::getAlias('@webroot/uploads/');
+//        return Yii::getAlias('@app/uploads');
     }
 
     public function attributes() {
@@ -81,14 +82,22 @@ class File extends \frontend\components\hiresource\ActiveRecord
         return $res;
     }
 
-    public static function getfile($request) {
+    /**
+     * tmp_file
+     * key
+     *
+     * @param $request
+     * @return string
+     * @throws \yii\base\ExitException
+     */
+    public static function getFile($request) {
         if (err::not($request)) {
             if (err::not($request['tmp_file']) && $request['key'] == md5(self::FILE_MD5 . $request['tmp_file'] . "salt")) {
 //                $request['tmp_file'] = str_replace(['../', '/'], '', $request['tmp_file']);
-                $file = self::currentPrjDir() . "/" . $request['tmp_file'];
+                $file = self::currentPrjDir() . $request['tmp_file'];
                 if (file_exists($file)) {
-                    if (err::is(self::put_file_from_site($file))) echo json_encode(['_error' => 'file not found']);
-                    exit;
+                    if (err::is(self::put_file_from_site($file))) return json_encode(['_error' => 'file not found']);
+                    \Yii::$app->end();
                 }
             }
 //            if (tpl::get('auth.id')) {
