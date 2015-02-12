@@ -2,6 +2,7 @@
 
 namespace frontend\modules\client\controllers;
 
+use yii\base\Model;
 use frontend\modules\client\models\ClientSearch;
 use frontend\modules\client\models\Client;
 use frontend\components\hiresource\HiResException;
@@ -93,13 +94,26 @@ class ClientController extends DefaultController {
         ];
     }
 
-    private function _actionPrepareDataToUpdate ($action, $params) {
+    private function _actionPrepareDataToUpdate ($action, $params, $scenario) {
         $data = [];
-        foreach ($params as $id => $values) {
-            foreach ($values as $key => $value) $data[$id][$key] = $value;
+        foreach ($params['Client'] as $id => $values) {
+            if (is_array($values)) {
+                foreach ($values as $key => $value) $data[$id][$key] = $value;
+            }
+            $models[$id] = Client::findOne(compact('id'));
+            $models[$id]->scenario = $scenario;
         }
         try {
-            Client::perform($action, $data, true);
+            foreach ($models as $id => $model) {
+                if (!$model->load($data[$id]) || !$model->validate()) {
+                    unset($data[$id]);
+                }
+            }
+            if (!empty($data)) {
+                Client::perform($action, $data, true);
+            } else {
+                return false;
+            }
         } catch (HiResException $e) {
             return false;
         }
@@ -135,7 +149,7 @@ class ClientController extends DefaultController {
         $id = $row['id'] ? : Yii::$app->request->post('id');
         $ids = $row['ids'] ? : Yii::$app->request->post('ids');
         if (Yii::$app->request->isAjax && !$id) {
-            if ($this->_actionPrepareDataToUpdate($row['action'] , Yii::$app->request->post())) {
+            if ($this->_actionPrepareDataToUpdate($row['action'] , Yii::$app->request->post(), $row['scenario'])) {
                 return ['state' => 'success', 'message' => \Yii::t('app', $row['action']) ];
             } else {
                 return ['state' => 'error', 'message' => \Yii::t('app', 'Something wrong')];
@@ -149,7 +163,7 @@ class ClientController extends DefaultController {
             }
         }
         if (!$id && $check) {
-            if ($this->_actionPrepareDataToUpdate($row['action'], Yii::$app->request->post())) {
+            if ($this->_actionPrepareDataToUpdate($row['action'], Yii::$app->request->post(), $row['scenario'])) {
                 \Yii::$app->getSession()->setFlash('success', \Yii::t('app', '{0} was successful', $row['action']));
             } else {
                 \Yii::$app->getSession()->setFlash('error',  \Yii::t('app', 'Something wrong'));
@@ -169,6 +183,7 @@ class ClientController extends DefaultController {
             'action'    => 'SetCredit',
             'required'  => [ 'credit', 'id' ],
             'page'      => 'set-credit',
+            'scenario'  => 'setcredit',
         ]);
     }
 
@@ -180,6 +195,7 @@ class ClientController extends DefaultController {
             'action'    => 'SetLanguage',
             'required'  => [ 'id', 'language' ],
             'page'      => 'language',
+            'scenario'  => 'setlanguage',
         ]);
     }
 
@@ -221,6 +237,7 @@ class ClientController extends DefaultController {
             'subaction' => $action,
             'required'  => [ 'type', 'comment', 'id' ],
             'page'      => 'block',
+            'scenario'  => 'setblock',
         ]);
    }
 
