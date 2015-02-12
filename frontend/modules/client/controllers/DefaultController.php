@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\client\controllers;
+namespace frontend\modules\client\controllers;
 use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
 use frontend\components\Ref;
@@ -12,7 +12,7 @@ use Yii;
 class DefaultController extends Controller {
 
     protected $class    = 'Default';
-    protected $path     = '\app\modules\client\models';
+    protected $path     = '\frontend\modules\client\models';
     protected $tpl      = [];
 
     protected function objectGetParameters ($ref) {

@@ -13,7 +13,7 @@ use yii\web\NotFoundHttpException;
 class ClientController extends DefaultController {
 
     protected $class    = 'Client';
-    protected $path     = '\app\modules\client\models';
+    protected $path     = 'frontend\modules\client\models';
     protected $tpl      = [
         '_tariff'   => '_tariff',
         '_card'     => '_card',
