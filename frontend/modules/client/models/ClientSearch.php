@@ -9,7 +9,7 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class ClientSearch extends \app\modules\client\models\Client {
+class ClientSearch extends \frontend\modules\client\models\Client {
 
     public function rules () {
         return [
