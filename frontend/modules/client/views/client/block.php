@@ -34,14 +34,14 @@ $widgetIndexConfig = [
             'label'     => Yii::t('app','block reason'),
             'format'    => 'raw',
             'value'     => function ($data) {
-                return Html::dropDownList("ids[$data->id}][type]", '', \frontend\models\Ref::getList('type,block', true), [ 'promt' => Yii::t('app', 'Select block reason') ]);
+                return Html::dropDownList("ids[{$data->id}][type]", '', \frontend\models\Ref::getList('type,block', true), [ 'promt' => Yii::t('app', 'Select block reason') ]);
             }
         ],
         [
             'label'     => Yii::t('app','Comment'),
             'format'    => 'raw',
             'value'     => function ($data) {
-                return Html::input('text', "ids[$data->id}][comment]", '', [ 'toggle-title' => Yii::t('app','Write comment') ]);
+                return Html::input('text', "ids[{$data->id}][comment]", '', [ 'toggle-title' => Yii::t('app','Write comment') ]);
             },
         ],
     ],
