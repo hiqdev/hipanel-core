@@ -35,8 +35,8 @@ class ClientController extends DefaultController {
         if (!is_null($search)) {
             $data = $class::find()->where($search)->getList();
             $res = [];
-            foreach ($data as $item) {
-                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
+            foreach ($data as $key => $item) {
+                $res[] = ['id' => $key, 'text' => $item];
             }
             $out['results'] = $res;
         } elseif ($id != 0) {
