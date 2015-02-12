@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\server\widgets;
+namespace frontend\modules\server\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;

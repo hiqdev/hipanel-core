@@ -26,7 +26,7 @@
         "vova07/yii2-select2-widget": "*",
         "kartik-v/yii2-field-range": "*",
         "michelf/php-smartypants": "1.6.*@dev",
-        "kartik-v/yii2-markdown": "dev-master",
+        "kartik-v/yii2-markdown": "1.3.0",
         "raoul2000/yii2-pnotify-widget": "*"
     },
     "require-dev": {

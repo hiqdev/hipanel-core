@@ -4,7 +4,7 @@ namespace app\modules\server;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\server\controllers';
+    public $controllerNamespace = 'frontend\modules\server\controllers';
     public $defaultRoute = 'server/index';
 
     public function init()

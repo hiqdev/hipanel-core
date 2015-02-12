@@ -35,7 +35,7 @@ use yii\helpers\Url;
                         <?= $answer['author'] ?>
                         <?= Html::endTag('a'); ?>
                         <div class="message-source">
-                            <?= app\modules\thread\models\Thread::parseMessage($answer['message']) ?>
+                            <?= frontend\modules\thread\models\Thread::parseMessage($answer['message']) ?>
                         </div>
                     </div>
 
@@ -51,7 +51,9 @@ use yii\helpers\Url;
                                     <button class="btn btn-primary btn-sm btn-flat">Open</button>
                                 </div>
                             </div><!-- /.attachment -->
-
+                            <?php
+                            /*
+                            ?>
                             <!--div class="attachment">
                                 <a class="file<?= $file['is_image'] ? ' media' : '' ?>" href="<?= $file['url'] ?>"
                                    title="<?= htmlspecialchars($file['filename']) ?>"
@@ -69,6 +71,8 @@ use yii\helpers\Url;
                                     <span class="name"><?= htmlspecialchars($file['filename']) ?></span>
                                 </a>
                             </div-->
+                            */
+                            ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div><!-- /.item -->

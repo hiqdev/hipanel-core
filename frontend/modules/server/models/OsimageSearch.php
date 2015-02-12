@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\server\models;
+namespace frontend\modules\server\models;
 
 use Yii;
 use yii\base\Model;
@@ -9,7 +9,7 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class OsimageSearch extends \app\modules\server\models\Osimage {
+class OsimageSearch extends \frontend\modules\server\models\Osimage {
     /**
      * @inheritdoc
      */

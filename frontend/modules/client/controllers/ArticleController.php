@@ -1,11 +1,9 @@
 <?php
 
-namespace app\modules\client\controllers;
+namespace frontend\modules\client\controllers;
 
-use yii\web\Controller;
 use Yii;
 use \app\modules\client\models\Article;
-use \app\modules\client\models\ArticleSearch;
 
 class ArticleController extends DefaultController {
 

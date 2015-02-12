@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\server\models;
+namespace frontend\modules\server\models;
 
 use Yii;
 use yii\base\NotSupportedException;
@@ -45,10 +45,8 @@ class Server extends \frontend\components\hiresource\ActiveRecord
 
     public function rules () {
         return [
-            [
-                ['name'],
-                'required'
-            ]
+            [['name'], 'required'],
+            [['id'], 'safe']
         ];
     }
 
@@ -89,7 +87,7 @@ class Server extends \frontend\components\hiresource\ActiveRecord
      * @throws NotSupportedException
      */
     public function checkOperable () {
-        if (!$this->isOperable()) throw new NotSupportedException('Server has a running task');
+        if (!$this->isOperable()) throw new NotSupportedException(\Yii::t('app', 'Server already has a running task. Can not start new.'));
 
         return true;
     }

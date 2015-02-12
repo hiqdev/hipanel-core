@@ -16,21 +16,15 @@ class DefaultController extends Controller {
     protected $tpl      = [];
 
     protected function objectGetParameters ($ref) {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => $ref . "," . strtolower($this->class)])->getList(), 'gl_key', function ($o) {
-            return Re::l($o->gl_value);
-        });
+        return Ref::find()->where(['gtype' => $ref . "," . strtolower($this->class)])->getList();
     }
 
     protected function objectGetStates () {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => "state," . strtolower($this->class)])->getList(), 'gl_key', function ($o) {
-            return Re::l($o->gl_value);
-        });
+        return Ref::find()->where(['gtype' => "state," . strtolower($this->class)])->getList();
     }
 
     protected function objectGetBlockReason () {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,block'])->getList(), 'gl_key', function ($o) {
-            return Re::l($o->gl_value);
-        });
+        return Ref::find()->where(['gtype' => 'type,block'])->getList();
     }
 
     public function actionIndex ($tpl = null) {

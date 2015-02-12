@@ -1,16 +1,16 @@
 <?php
 
-use app\modules\server\widgets\OSFormatter;
+use frontend\modules\server\widgets\OSFormatter;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use app\modules\server\widgets\DiscountFormatter;
-use app\modules\object\widgets\RequestState;
+use frontend\modules\server\widgets\DiscountFormatter;
+use frontend\modules\object\widgets\RequestState;
 use frontend\widgets\Pjax;
 use yii\helpers\Json;
 
 /**
- * @var \app\modules\server\models\Server $model
+ * @var frontend\modules\server\models\Server $model
  */
 
 $this->title                   = Html::encode($model->name);
@@ -28,9 +28,10 @@ Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
                     'attributes' => [
                         [
                             'attribute' => 'state',
-                            'format'    => 'html',
+                            'format'    => 'raw',
                             'value'     => RequestState::widget([
-                                'model' => $model
+                                'model'  => $model,
+                                'module' => 'server'
                             ])
                         ],
                         'tariff',

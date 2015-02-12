@@ -1,8 +1,8 @@
 <?php
-namespace app\modules\thread\controllers;
+namespace frontend\modules\thread\controllers;
 
-use app\modules\thread\models\Thread;
-use app\modules\thread\models\ThreadSearch;
+use frontend\modules\thread\models\Thread;
+use frontend\modules\thread\models\ThreadSearch;
 use common\models\File;
 use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
@@ -18,39 +18,43 @@ class ThreadController extends Controller
 {
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
 
+    public function behaviors() {
+        return [
+            'file' => [
+                'class' => 'common\behaviors\File',
+                'attribute' => 'file',
+                'scenarios' => ['insert', 'update'],
+            ]
+        ];
+    }
+
     private function _topicData() {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => 'topic,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
+        return Ref::find()->where(['gtype' => 'topic,ticket'])->getList();
     }
 
     private function _priorityData() {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,priority'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
+        return Ref::find()->where(['gtype' => 'type,priority'])->getList();
     }
 
     private function _stateData() {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => 'state,ticket'])->getList(), 'gl_key', function ($o) { return Re::l($o->gl_value); });
+        return Ref::find()->where(['gtype' => 'state,ticket'])->getList();
     }
 
     public function actionIndex() {
         $searchModel = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        if (Yii::$app->request->isPjax) {
-            return $this->renderPartial('_grid', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        } else {
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-                'topic_data' => $this->_topicData(),
-                'priority_data' => $this->_priorityData(),
-                'state_data' => $this->_stateData(),
-            ]);
-        }
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'topic_data' => $this->_topicData(),
+            'priority_data' => $this->_priorityData(),
+            'state_data' => $this->_stateData(),
+        ]);
     }
 
     private function getFilters($name) {
-        return ArrayHelper::map(Ref::find()->where(['gtype' => 'type,' . $name])->getList(), 'gl_key', function ($v) { return Re::l($v->gl_value); });
+        return Ref::find()->where(['gtype' => 'type,' . $name])->getList();
     }
 
     public function actionView($id) {
@@ -74,19 +78,19 @@ class ThreadController extends Controller
         $model->scenario = 'insert';
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $model->file = UploadedFile::getInstances($model, 'file');
-
-            if ($model->file) { // && $model->validate()
-                $files = [];
-                foreach ($model->file as $file) {
-                    $filename = Yii::$app->user->id . '_' . uniqid() . '.' . $file->extension;
-                    $url = File::makeThreadFileUrl($filename); // File::makeThreadFileUrl($file->tempName);
-                    $file->saveAs('uploads/' . $filename);
-                    $files[] = File::perform('Put', ['url' => $url, 'filename' => $filename]);
-                }
-
-                $model->file_ids = implode(',', ArrayHelper::getColumn($files, 'id'));
-            }
+//            $model->file = UploadedFile::getInstances($model, 'file');
+//
+//            if ($model->file) { // && $model->validate()
+//                $files = [];
+//                foreach ($model->file as $file) {
+//                    $filename = Yii::$app->user->id . '_' . uniqid() . '.' . $file->extension;
+//                    $url = File::makeThreadFileUrl($filename); // File::makeThreadFileUrl($file->tempName);
+//                    $file->saveAs(File::currentPrjDir() . $filename);
+//                    $files[] = File::perform('Put', ['url' => $url, 'filename' => $filename]);
+//                }
+//
+//                $model->file_ids = implode(',', ArrayHelper::getColumn($files, 'id'));
+//            }
             if ($model->save()) return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('create', [
@@ -146,9 +150,9 @@ class ThreadController extends Controller
             'id' => $id,
             $this->_subscribeAction[$this->action->id] => \Yii::$app->user->identity->username
         ];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You subscibed!'));
+        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You have successfully subscribed!'));
         else
-            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'You do not subscibed!'));
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred. You have not been subscribed!'));
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -158,25 +162,25 @@ class ThreadController extends Controller
             'id' => $id,
             $this->_subscribeAction[$this->action->id] => \Yii::$app->user->identity->username
         ];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You unsubscibed!'));
+        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You have successfully subscribed!'));
         else
-            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'You do not unsubscibed!'));
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred. You have not been subscribed!'));
         return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionClose($id) {
         if ($this->_ticketChangeState($id, $this->action->id))
-            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket is closed!'));
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'The ticket has been closed!'));
         else
-            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred. The ticket has not been closed.'));
         return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionOpen($id) {
         if ($this->_ticketChangeState($id, $this->action->id))
-            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Ticket id opened!'));
+            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'The ticket has been opened!'));
         else
-            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred! The ticket has not been opened.'));
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -196,15 +200,15 @@ class ThreadController extends Controller
 
     public function actionPriorityUp($id) {
         $options[$id] = ['id' => $id, 'priority' => 'high'];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Change priority to high!'));
+        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Priority has been changed to high!'));
         else
-            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
+            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred! Priority has not been changed to high.'));
         return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionPriorityDown($id) {
         $options[$id] = ['id' => $id, 'priority' => 'medium'];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Change priority to medium!'));
+        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Priority has been changed to medium!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
         return $this->redirect(Yii::$app->request->referrer);

@@ -80,6 +80,18 @@ echo Menu::widget(
                 ]
             ],
             [
+                'label' => Yii::t('app', 'Servers'),
+                'url' => ['/server/server/index'],
+                'icon' => 'fa-folder',
+                'visible' => true,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Servers'),
+                        'url' => ['/server/server/index'],
+                    ],
+                ]
+            ],
+            [
                 'label' => Yii::t('app', 'Access control'),
                 'url' => '#',
                 'icon' => 'fa-gavel',
