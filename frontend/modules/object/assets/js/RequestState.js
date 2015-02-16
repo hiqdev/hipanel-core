@@ -1,7 +1,9 @@
 (function ($, window, document, undefined) {
 	var pluginName = "objectsStateWatcher",
 		defaults = {
-			propertyName: "value"
+			afterChange: function (element, data) {
+				return true;
+			}
 		};
 
 	function Plugin(element, options) {
@@ -15,27 +17,31 @@
 
 	Plugin.prototype = {
 		init: function () {
-			this.items = this.element.find('.objectState[data-module=' + this.settings.module + ']');
 			if (!this.settings.module) {
 				console.log('failed to init');
 				return false;
 			}
 			this.startQuerier();
 		},
+		updateItems: function () {
+			this.items = this.element.find('.objectState[data-module=' + this.settings.module + ']');
+		},
 		startQuerier: function () {
 			var _this = this;
 			setInterval(function () {
 				_this.query();
-			}, 5000);
+			}, 8 * 1000);
 			return this;
 		},
 		query: function () {
 			var _this = this;
+			this.updateItems();
 
 			var data = [];
 			$.each(this.items, function (i, v) {
 				var id = $(v).data('id');
-				if (id) data.push(id)
+				if (id) data.push(id);
+				$(v).data('prev_html', $(v).html());
 			});
 
 			if (!data.length) return false;
@@ -52,8 +58,13 @@
 						var item = data[id];
 
 						if (item['html']) {
-							$v.html(data[id]['html']);
+							item['old_html'] = $('<div>').append($v.clone()).html();
+							if (item['html'] != item['old_html']) {
+								if (!_this.settings.afterChange(v, data)) return false;
+							}
+							$v.replaceWith(data[id]['html']);
 						} else {
+							/// Currently is not in use. Request always sends html attribute.
 							_this.items.splice(i, 1);
 							$v.text($v.data('norm_state')).removeData('norm_state');
 						}

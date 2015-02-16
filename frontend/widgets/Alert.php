@@ -52,26 +52,42 @@ class Alert extends \yii\bootstrap\Widget
     public function init () {
         parent::init();
 
-        $session   = \Yii::$app->getSession();
-        $flashes   = $session->getAllFlashes();
+        $session = \Yii::$app->getSession();
+        $flashes = $session->getAllFlashes();
 
         foreach ($flashes as $type => $data) {
             if (isset($this->alertTypes[$type])) {
                 $data = (array)$data;
                 foreach ($data as $message) {
+                    $message = $this->normalizeMessage($message);
+
                     echo PNotify::widget([
-                        'pluginOptions' => [
-                            'text' => $message,
-                            'type' => $type,
-                            'hide' => true,
+                        'pluginOptions' => array_merge([
+                            'type'    => $type,
+                            'hide'    => true,
                             'buttons' => [
                                 'sticker' => false
                             ]
-                        ]
+                        ], $message)
                     ]);
                 }
                 $session->removeFlash($type);
             }
         }
+    }
+
+    /**
+     * @param mixed $message Flash value to be normalized
+     * @return array
+     */
+    public function normalizeMessage ($message) {
+        $res = [];
+        if (is_string($message)) {
+            $res['text'] = $message;
+        } elseif (is_array($message)) {
+            $res = $message;
+        }
+
+        return $res;
     }
 }

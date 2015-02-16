@@ -199,11 +199,17 @@ class ServerController extends HipanelController
             $model->checkOperable();
             $params = $options['params'] ? $options['params']($model) : ['id' => $model->id];
             Server::perform($options['action'], $params);
-            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', $options['successMessage']));
+            \Yii::$app->getSession()->addFlash('success', [
+                'title' => $model->name,
+                'text'  => \Yii::t('app', $options['successMessage']),
+            ]);
         } catch (NotSupportedException $e) {
-            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
+            \Yii::$app->getSession()->addFlash('error', [
+                'title' => $model->name,
+                'text'  => \Yii::t('app', $e->errorInfo),
+            ]);
         } catch (HiResException $e) {
-            \Yii::$app->getSession()->setFlash('error', \Yii::t('app', $e->errorInfo));
+            \Yii::$app->getSession()->addFlash('error', \Yii::t('app', $e->errorInfo));
         }
 
         return $this->actionView($options['id']);
