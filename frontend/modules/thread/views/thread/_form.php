@@ -13,6 +13,10 @@ use yii\helpers\Url;
 
 //\yii\helpers\VarDumper::dump($model, 10, true);
 //$this->registerjs('$("button[data-widget=\'collapse\']").click();', yii\web\View::POS_READY);
+
+// client - message, title, files
+// all - > all
+
 ?>
 <div class="ticket-form">
 
@@ -29,7 +33,9 @@ use yii\helpers\Url;
     <!-- Properties -->
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'topic')->widget(Select2::classname(), [
+            <?php
+            if ($model->isNewRecord) $model->topic = 'general';
+            print $form->field($model, 'topic')->widget(Select2::classname(), [
                 'data' => array_merge(["" => ""], $topic_data),
                 'options' => ['placeholder' => 'Select a topic ...', 'multiple' => true],
                 'pluginOptions' => [
@@ -135,7 +141,7 @@ use yii\helpers\Url;
     // usage with model
     MarkdownEditor::widget([
         'model' => $model,
-        'attribute' => 'subject',
+        'attribute' => 'message',
     ]);
     ?>
 

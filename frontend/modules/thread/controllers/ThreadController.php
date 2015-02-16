@@ -18,6 +18,16 @@ class ThreadController extends Controller
 {
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
 
+    public function behaviors() {
+        return [
+            'file' => [
+                'class' => 'common\behaviors\File',
+                'attribute' => 'file',
+                'scenarios' => ['insert', 'update'],
+            ]
+        ];
+    }
+
     private function _topicData() {
         return Ref::find()->where(['gtype' => 'topic,ticket'])->getList();
     }
@@ -33,20 +43,14 @@ class ThreadController extends Controller
     public function actionIndex() {
         $searchModel = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        if (Yii::$app->request->isPjax) {
-            return $this->renderPartial('_grid', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        } else {
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-                'topic_data' => $this->_topicData(),
-                'priority_data' => $this->_priorityData(),
-                'state_data' => $this->_stateData(),
-            ]);
-        }
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'topic_data' => $this->_topicData(),
+            'priority_data' => $this->_priorityData(),
+            'state_data' => $this->_stateData(),
+        ]);
     }
 
     private function getFilters($name) {
@@ -74,19 +78,19 @@ class ThreadController extends Controller
         $model->scenario = 'insert';
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            $model->file = UploadedFile::getInstances($model, 'file');
-
-            if ($model->file) { // && $model->validate()
-                $files = [];
-                foreach ($model->file as $file) {
-                    $filename = Yii::$app->user->id . '_' . uniqid() . '.' . $file->extension;
-                    $url = File::makeThreadFileUrl($filename); // File::makeThreadFileUrl($file->tempName);
-                    $file->saveAs('uploads/' . $filename);
-                    $files[] = File::perform('Put', ['url' => $url, 'filename' => $filename]);
-                }
-
-                $model->file_ids = implode(',', ArrayHelper::getColumn($files, 'id'));
-            }
+//            $model->file = UploadedFile::getInstances($model, 'file');
+//
+//            if ($model->file) { // && $model->validate()
+//                $files = [];
+//                foreach ($model->file as $file) {
+//                    $filename = Yii::$app->user->id . '_' . uniqid() . '.' . $file->extension;
+//                    $url = File::makeThreadFileUrl($filename); // File::makeThreadFileUrl($file->tempName);
+//                    $file->saveAs(File::currentPrjDir() . $filename);
+//                    $files[] = File::perform('Put', ['url' => $url, 'filename' => $filename]);
+//                }
+//
+//                $model->file_ids = implode(',', ArrayHelper::getColumn($files, 'id'));
+//            }
             if ($model->save()) return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('create', [

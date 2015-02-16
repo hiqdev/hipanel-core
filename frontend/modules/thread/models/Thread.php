@@ -154,6 +154,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     }
 
     public static function parseMessage($message) {
+        $message = Html::encode($message); // prevent xss
         $message = str_replace(["\n\r", "\n\n", "\r\r", "\r\n"], "\n", $message);
         // $message = self::prepareLinks($message);
         $message = Markdown::process($message);

@@ -2,6 +2,7 @@
 
 namespace frontend\modules\client\controllers;
 
+use yii\base\Model;
 use frontend\modules\client\models\ClientSearch;
 use frontend\modules\client\models\Client;
 use frontend\components\hiresource\HiResException;
@@ -13,7 +14,7 @@ use yii\web\NotFoundHttpException;
 class ClientController extends DefaultController {
 
     protected $class    = 'Client';
-    protected $path     = '\app\modules\client\models';
+    protected $path     = 'frontend\modules\client\models';
     protected $tpl      = [
         '_tariff'   => '_tariff',
         '_card'     => '_card',
@@ -35,8 +36,8 @@ class ClientController extends DefaultController {
         if (!is_null($search)) {
             $data = $class::find()->where($search)->getList();
             $res = [];
-            foreach ($data as $item) {
-                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
+            foreach ($data as $key => $item) {
+                $res[] = ['id' => $key, 'text' => $item];
             }
             $out['results'] = $res;
         } elseif ($id != 0) {
@@ -83,7 +84,7 @@ class ClientController extends DefaultController {
         return $this->actionUserList($search, $id);
     }
 
-    private function _actionPrepareRender ($action, $params = []) {
+    private function _actionPrepareRender ($params = []) {
         $class = "{$this->path}\\{$this->class}Search";
         $searchModel = new $class();
         $dataProvider = $searchModel->search( $params );
@@ -93,13 +94,26 @@ class ClientController extends DefaultController {
         ];
     }
 
-    private function _actionPrepareDataToUpdate ($action, $params) {
+    private function _actionPrepareDataToUpdate ($action, $params, $scenario) {
         $data = [];
-        foreach ($params as $id => $values) {
-            foreach ($values as $key => $value) $data[$id][$key] = $value;
+        foreach ($params['Client'] as $id => $values) {
+            if (is_array($values)) {
+                foreach ($values as $key => $value) $data[$id][$key] = $value;
+            }
+            $models[$id] = Client::findOne(compact('id'));
+            $models[$id]->scenario = $scenario;
         }
         try {
-            Client::perform($action, $data, true);
+            foreach ($models as $id => $model) {
+                if (!$model->load($data[$id]) || !$model->validate()) {
+                    unset($data[$id]);
+                }
+            }
+            if (!empty($data)) {
+                Client::perform($action, $data, true);
+            } else {
+                return false;
+            }
         } catch (HiResException $e) {
             return false;
         }
@@ -124,20 +138,33 @@ class ClientController extends DefaultController {
         return true;
     }
 
-    public function actionSetCredit ($id = null, $ids = []) {
-        $this->_checkException ($id, $ids, Yii::$app->request->post());
-        $id = $id ? : Yii::$app->request->post('id');
-        $ids = $ids ? : Yii::$app->request->post('ids');
+    private function _actionRenderPage ($page, $queryParams, $action = []) {
+        return Yii::$app->request->isAjax
+            ? $this->renderPartial($page, ArrayHelper::merge($this->_actionPrepareRender($queryParams), $action))
+            : $this->render($page, ArrayHelper::merge($this->_actionPrepareRender($queryParams), $action));
+    }
+
+    private function _actionPerform ($row) {
+        $this->_checkException ($row['id'], $row['ids'], Yii::$app->request->post());
+        $id = $row['id'] ? : Yii::$app->request->post('id');
+        $ids = $row['ids'] ? : Yii::$app->request->post('ids');
         if (Yii::$app->request->isAjax && !$id) {
-            if ($this->_actionPrepareDataToUpdate('SetCredit', Yii::$app->request->post())) {
-                return ['state' => 'success', 'message' => \Yii::t('app', 'Credits were setted') ];
+            if ($this->_actionPrepareDataToUpdate($row['action'] , Yii::$app->request->post(), $row['scenario'])) {
+                return ['state' => 'success', 'message' => \Yii::t('app', $row['action']) ];
             } else {
                 return ['state' => 'error', 'message' => \Yii::t('app', 'Something wrong')];
             }
         }
-        if (!$id && $this->_recursiveSearch(Yii::$app->request->post(), 'credit') ) {
-            if ($this->_actionPrepareDataToUpdate('SetCredit', Yii::$app->request->post())) {
-                \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Credits has been set successfully'));
+        $check = true;
+        foreach ($row['required'] as $required) {
+            if (!$this->_recursiveSearch(Yii::$app->request->post(), $required)) {
+                $check = false;
+                break;
+            }
+        }
+        if (!$id && $check) {
+            if ($this->_actionPrepareDataToUpdate($row['action'], Yii::$app->request->post(), $row['scenario'])) {
+                \Yii::$app->getSession()->setFlash('success', \Yii::t('app', '{0} was successful', $row['action']));
             } else {
                 \Yii::$app->getSession()->setFlash('error',  \Yii::t('app', 'Something wrong'));
             }
@@ -145,45 +172,73 @@ class ClientController extends DefaultController {
         }
         $ids = $ids ? : [ 'id' => $id ];
         $queryParams = [ 'ids' => implode(',', $ids) ];
-        return Yii::$app->request->isAjax
-            ? $this->renderPartial('set-credit', $this->_actionPrepareRender('set-credit', $queryParams))
-            : $this->render('set-credit', $this->_actionPrepareRender('set-credit', $queryParams));
+        return $this->_actionRenderPage($row['page'], $queryParams, ['action' => $row['subaction']]);
+   }
+
+
+    public function actionSetCredit ($id = null, $ids = []) {
+        return $this->_actionPerform([
+            'id'        => $id,
+            'ids'       => $ids,
+            'action'    => 'SetCredit',
+            'required'  => [ 'credit', 'id' ],
+            'page'      => 'set-credit',
+            'scenario'  => 'setcredit',
+        ]);
     }
 
     /// TODO: implement
-    public function actionSetLanguage () {
-        return $this->renderPartial('set-language', ['model' => $this->findModel($id)]);
+    public function actionSetLanguage ($id = null, $ids = []) {
+        return $this->_actionPerform([
+            'id'        => $id,
+            'ids'       => $ids,
+            'action'    => 'SetLanguage',
+            'required'  => [ 'id', 'language' ],
+            'page'      => 'language',
+            'scenario'  => 'setlanguage',
+        ]);
     }
 
     /// TODO: implement
     public function actionSetTariffs () {
+        $this->_checkException ($id, $ids, Yii::$app->request->post());
         return $this->renderPartial('set-tariffs', ['model' => $this->findModel($id)]);
     }
 
-    private function actionDoBlock ($id = null, $ids = [], $action = 'enable') {
+    /// TODO: implement
+    public function actionChangeType () {
         $this->_checkException ($id, $ids, Yii::$app->request->post());
-        $id = $id ? : Yii::$app->request->post('id');
-        $ids = $ids ? : Yii::$app->request->post('ids');
-        if (Yii::$app->request->isAjax && !$id) {
-            if ($this->_actionPrepareDataToUpdate(ucfirst($action) . "Block", Yii::$app->request->post())) {
-                return ['state' => 'success', 'message' => \Yii::t('app', ucfirst($action) . 'd') ];
-            } else {
-                return ['state' => 'error', 'message' => \Yii::t('app', 'Something wrong')];
-            }
-        }
-        if (!$id && $this->_recursiveSearch(Yii::$app->request->post(), 'type') && $this->_recursiveSearch(Yii::$app->request->post(), 'comment') ) {
-            if ($this->_actionPrepareDataToUpdate('SetCredit', Yii::$app->request->post())) {
-                \Yii::$app->getSession()->setFlash('success', \Yii::t('app', '{0} block was successful', $action));
-            } else {
-                \Yii::$app->getSession()->setFlash('error',  \Yii::t('app', 'Something wrong'));
-            }
-            return $this->redirect(Yii::$app->request->referrer);
-        }
-        $ids = $ids ? : [ 'id' => $id ];
-        $queryParams = [ 'ids' => implode(',', $ids) ];
-         return Yii::$app->request->isAjax ?
-             $this->renderPartial('block', ArrayHelper::merge($this->_actionPrepareRender('disable-block', $queryParams), ['action' => $action]))
-             : $this->render('block', ArrayHelper::merge($this->_actionPrepareRender('disable-block', $queryParams), ['action' => $action]));
+        return $this->renderPartial('change-type', ['model' => $this->findModel($id)]);
+    }
+
+    /// TODO: implement
+    public function actionChangeSeller () {
+        $this->_checkException ($id, $ids, Yii::$app->request->post());
+        return $this->renderPartial('change-seller', ['model' => $this->findModel($id)]);
+    }
+
+    /// TODO: implement
+    public function actionChangeLogin () {
+        $this->_checkException ($id, $ids, Yii::$app->request->post());
+        return $this->renderPartial('change-login', ['model' => $this->findModel($id)]);
+    }
+
+    /// TODO: implement
+    public function actionCheckLogin ($login) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $out;
+    }
+
+    private function actionDoBlock ($id = null, $ids = [], $action = 'enable') {
+        return $this->_actionPerform([
+            'id'        => $id,
+            'ids'       => $ids,
+            'action'    => ucfirst($action) . "Block",
+            'subaction' => $action,
+            'required'  => [ 'type', 'comment', 'id' ],
+            'page'      => 'block',
+            'scenario'  => 'setblock',
+        ]);
    }
 
     public function actionEnableBlock ($id = null, $ids = []) {
