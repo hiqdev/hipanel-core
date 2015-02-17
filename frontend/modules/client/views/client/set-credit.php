@@ -25,14 +25,14 @@ $widgetIndexConfig = [
             'label'     => Yii::t('app', 'Client'),
             'format'    => 'raw',
             'value'     => function ($data) {
-                return HTML::input("hidden", "ids[{$data->id}][id]", $data->id, ['readonly' => 'readonly', 'disabled' => $data->id == \Yii::$app->user->identity->id || \Yii::$app->user->identity->type == 'client' || \Yii::$app->user->identity->type == 'admin' ]) .  HTML::tag('span', $data->login);
+                return HTML::input("hidden", "ids[{$data->id}][Client][id]", $data->id, ['readonly' => 'readonly', 'disabled' => $data->id == \Yii::$app->user->identity->id || \Yii::$app->user->identity->type == 'client' || \Yii::$app->user->identity->type == 'admin' ]) .  HTML::tag('span', $data->login);
             }
         ],
         [
             'label'     => Yii::t('app','Credit'),
             'format'    => 'raw',
             'value'     => function ($data) {
-                return HTML::input('number', "ids[{$data->id}][credit]", $data->credit, [ 'min' => 0, 'step' => 0.01, 'disabled' => $data->id == \Yii::$app->user->identity->id || \Yii::$app->user->identity->type == 'client' || \Yii::$app->user->identity->type == 'admin' ]);
+                return HTML::input('number', "ids[{$data->id}][Client][credit]", $data->credit, [ 'min' => 0, 'step' => 0.01, 'disabled' => $data->id == \Yii::$app->user->identity->id || \Yii::$app->user->identity->type == 'client' || \Yii::$app->user->identity->type == 'admin' ]);
             }
         ],
     ],
