@@ -8,10 +8,21 @@ use yii\helpers\Markdown;
 
 class Thread extends \frontend\components\hiresource\ActiveRecord
 {
+
     public $time_from;
     public $time_till;
     public $search_form;
-    public $files;
+
+    public function behaviors() {
+        return [
+            [
+                'class' => 'common\behaviors\File',
+                'attribute' => 'file',
+                'savedAttribute' => 'file_ids',
+                'scenarios' => ['insert', 'answer'],
+            ]
+        ];
+    }
 
     public function attributes() {
         return [
@@ -69,8 +80,37 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public function rules() {
         return [
             [['subject', 'message'], 'required'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'file_ids'], 'safe', 'on' => 'insert'],
-            [['topic', 'state', 'priority', 'responsible_id', 'recipient_id', 'watchers', 'spent', 'spent_hours', 'is_private', 'file_ids'], 'safe', 'on' => 'answer'],
+            [
+                [
+                    'topic',
+                    'state',
+                    'priority',
+                    'responsible_id',
+                    'recipient_id',
+                    'watchers',
+                    'spent',
+                    'spent_hours',
+                    'file_ids'
+                ],
+                'safe',
+                'on' => 'insert'
+            ],
+            [
+                [
+                    'topic',
+                    'state',
+                    'priority',
+                    'responsible_id',
+                    'recipient_id',
+                    'watchers',
+                    'spent',
+                    'spent_hours',
+                    'is_private',
+                    'file_ids',
+                ],
+                'safe',
+                'on' => 'answer'
+            ],
             [['search_form'], 'safe'],
             [['file'], 'file', 'maxFiles' => 5],
         ];

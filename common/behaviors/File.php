@@ -10,7 +10,10 @@ namespace common\behaviors;
 use yii;
 use yii\base\Behavior;
 use yii\db\BaseActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
+use common\models\File as FileModel;
 
 class File extends Behavior
 {
@@ -40,12 +43,16 @@ class File extends Behavior
      */
     private $_file;
 
-    /**
-     * @throws InvalidConfigException
-     */
     public function init() {
         parent::init();
         $this->path = Yii::getAlias($this->path);
+    }
+
+    /**
+     * @return bool|string
+     */
+    private function getPath($file_id) {
+         return Yii::getAlias(implode(DIRECTORY_SEPARATOR, [$this->path, substr($file_id, -2, 2)]));
     }
 
     /**
@@ -53,39 +60,48 @@ class File extends Behavior
      */
     public function events() {
         return [
-            BaseActiveRecord::EVENT_BEFORE_INSERT => 'beforeSave',
-            BaseActiveRecord::EVENT_BEFORE_UPDATE => 'beforeSave',
+            BaseActiveRecord::EVENT_BEFORE_INSERT => 'saveUploadedFile',
+            BaseActiveRecord::EVENT_BEFORE_UPDATE => 'saveUploadedFile',
         ];
     }
 
     /**
      * Event handler for beforeSave
-     * @param \yii\base\ModelEvent $event
+     * @param \yii\base\ModelEven|boolean $event
      */
-    public function beforeSave($event) {
-        die('123123123');
+    public function saveUploadedFile($event) {
         $model = $this->owner;
+        $arr_ids = [];
         if (in_array($model->scenario, $this->scenarios)) {
-            if ($this->_file instanceof UploadedFile) {
-                if (!$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
-                    if ($this->unlinkOnSave === true) {
-                        $this->delete($this->attribute, true);
+            $this->_file = UploadedFile::getInstances($model, $this->attribute);
+            if (is_array($this->_file) && !empty($this->_file)) {
+                foreach ($this->_file as $file) {
+                    if ($file instanceof UploadedFile) {
+                        // Move to temporary destination
+                        $tempDestination = FileModel::getTempFolder() . DIRECTORY_SEPARATOR . uniqid() . '.' . $file->extension;
+                        FileHelper::createDirectory(dirname($tempDestination));
+                        $file->saveAs($tempDestination);
+                        // Prepare to final destination
+                        $url = FileModel::getTmpUrl(basename($tempDestination));
+                        $response =  FileModel::perform('Put', [
+                            'url' => $url,
+                            'filename' => basename($tempDestination)
+                        ]);
+
+                        $file_id = $arr_ids[] = $response['id'];
+                        $finalDestination = $this->getPath($file_id) . DIRECTORY_SEPARATOR . $file_id;
+                        FileHelper::createDirectory(dirname($finalDestination));
+                        if (!rename($tempDestination, $finalDestination))
+                            throw new \LogicException('rename function is not work');
+                        if (is_file($tempDestination))
+                            unlink($tempDestination);
                     }
                 }
-                $model->setAttribute($this->attribute, $this->_file->name);
-            }
-            else {
+                $this->owner->{$this->savedAttribute} = implode(',', $arr_ids);
+            } else {
                 // Protect attribute
                 unset($model->{$this->attribute});
-                // $model->setAttribute($this->attribute, $model->getOldAttribute($this->attribute));
             }
-        }
-        else {
-//            if (!$model->getIsNewRecord() && $model->isAttributeChanged($this->attribute)) {
-//                if ($this->unlinkOnSave === true) {
-//                    $this->delete($this->attribute, true);
-//                }
-//            }
         }
     }
 }

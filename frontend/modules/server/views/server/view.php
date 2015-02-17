@@ -17,7 +17,7 @@ $this->title                   = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Servers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
+Pjax::begin(['id' => 'content-pjax', 'timeout' => 0, 'enablePushState' => false]);
 ?>
 
     <div class="row" xmlns="http://www.w3.org/1999/html">
@@ -31,7 +31,10 @@ Pjax::begin(['timeout' => 0, 'enablePushState' => false]);
                             'format'    => 'raw',
                             'value'     => RequestState::widget([
                                 'model'  => $model,
-                                'module' => 'server'
+                                'module' => 'server',
+                                'clientOptions' => [
+                                    'afterChange' => new \yii\web\JsExpression("function () { $.pjax.reload('#content-pjax', {'timeout': 0});}")
+                                ]
                             ])
                         ],
                         'tariff',
