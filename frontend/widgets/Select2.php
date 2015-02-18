@@ -27,20 +27,20 @@ class Select2 extends Widget
 
     public $url;
 
-    private function _defaultSettings() {
+    private function _defaultSettings () {
         return [
-            'allowClear' => true,
-            'placeholder' => Yii::t('app', 'Type here ...'),
-            'width' => '100%',
-            'triggerChange' => true,
+            'allowClear'         => true,
+            'placeholder'        => Yii::t('app', 'Type here ...'),
+            'width'              => '100%',
+            'triggerChange'      => true,
             'minimumInputLength' => 3,
-            'ajax' => [
-                'url' => $this->url,
+            'ajax'               => [
+                'url'      => $this->url,
                 'dataType' => 'json',
-                'data' => new JsExpression('function(term,page) { return {search:term}; }'),
-                'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                'data'     => new JsExpression('function(term,page) { return {search:term}; }'),
+                'results'  => new JsExpression('function(data,page) { return {results:data.results}; }'),
             ],
-            'initSelection' => new JsExpression('function (elem, callback) {
+            'initSelection'      => new JsExpression('function (elem, callback) {
                 var id=$(elem).val();
                 $.ajax("' . $this->url . '?id=" + id, {
                     dataType: "json"
@@ -54,7 +54,7 @@ class Select2 extends Widget
     /**
      * @inheritdoc
      */
-    public function init() {
+    public function init () {
         parent::init();
         $this->_initOptions();
         $this->_initSettings();
@@ -69,8 +69,9 @@ class Select2 extends Widget
     /**
      * @inheritdoc
      */
-    public function run() {
+    public function run () {
         $this->registerClientScript();
+
         return Html::activeTextInput($this->model, $this->attribute, $this->options);
         // return Html::textInput($this->attribute, $_GET[$this->attribute], $this->options);
 
@@ -88,14 +89,14 @@ class Select2 extends Widget
         $asset = Select2Asset::register($view);
 
         // Init widget
-        $view->registerJs("jQuery('$selector').select2($settings);");
+        $view->registerJs(new JsExpression("$('$selector').select2($settings);"), \yii\web\View::POS_READY);
     }
 
-    private function _initOptions() {
+    private function _initOptions () {
         $this->options['id'] = $this->attribute;
     }
 
-    private function _initSettings() {
+    private function _initSettings () {
         $this->settings = ArrayHelper::merge($this->_defaultSettings(), $this->settings);
     }
 }
