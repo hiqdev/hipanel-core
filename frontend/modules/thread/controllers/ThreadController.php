@@ -8,6 +8,7 @@ use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
 use frontend\models\Ref;
 use Yii;
+use yii\base\Event;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -17,16 +18,6 @@ use yii\web\UploadedFile;
 class ThreadController extends Controller
 {
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
-
-    public function behaviors() {
-        return [
-            'file' => [
-                'class' => 'common\behaviors\File',
-                'attribute' => 'file',
-                'scenarios' => ['insert', 'update'],
-            ]
-        ];
-    }
 
     private function _topicData() {
         return Ref::find()->where(['gtype' => 'topic,ticket'])->getList();
@@ -76,23 +67,11 @@ class ThreadController extends Controller
     public function actionCreate() {
         $model = new Thread();
         $model->scenario = 'insert';
-
-        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-//            $model->file = UploadedFile::getInstances($model, 'file');
-//
-//            if ($model->file) { // && $model->validate()
-//                $files = [];
-//                foreach ($model->file as $file) {
-//                    $filename = Yii::$app->user->id . '_' . uniqid() . '.' . $file->extension;
-//                    $url = File::makeThreadFileUrl($filename); // File::makeThreadFileUrl($file->tempName);
-//                    $file->saveAs(File::currentPrjDir() . $filename);
-//                    $files[] = File::perform('Put', ['url' => $url, 'filename' => $filename]);
-//                }
-//
-//                $model->file_ids = implode(',', ArrayHelper::getColumn($files, 'id'));
-//            }
-            if ($model->save()) return $this->redirect(['view', 'id' => $model->id]);
+        $model->load(Yii::$app->request->post());
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
+
         return $this->render('create', [
             'model' => $model,
             'topic_data' => $this->_topicData(),
@@ -104,6 +83,7 @@ class ThreadController extends Controller
     public function actionUpdate($id) {
         $model = Thread::findOne(['id' => $id]); //$this->findModel($id)
         $model->scenario = 'answer';
+        $model->trigger($model::EVENT_BEFORE_UPDATE);
         $model->load(Yii::$app->request->post());
         $model->prepareSpentTime();
         $model->prepareTopic();
@@ -169,16 +149,14 @@ class ThreadController extends Controller
     }
 
     public function actionClose($id) {
-        if ($this->_ticketChangeState($id, $this->action->id))
-            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'The ticket has been closed!'));
+        if ($this->_ticketChangeState($id, $this->action->id)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'The ticket has been closed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred. The ticket has not been closed.'));
         return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionOpen($id) {
-        if ($this->_ticketChangeState($id, $this->action->id))
-            \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'The ticket has been opened!'));
+        if ($this->_ticketChangeState($id, $this->action->id)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'The ticket has been opened!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred! The ticket has not been opened.'));
         return $this->redirect(Yii::$app->request->referrer);
@@ -242,8 +220,7 @@ class ThreadController extends Controller
     protected function findModel($id) {
         if (($model = Thread::findOne(['id' => $id, 'with_answers' => 1, 'with_files' => 1])) !== null) {
             return $model;
-        }
-        else {
+        } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }

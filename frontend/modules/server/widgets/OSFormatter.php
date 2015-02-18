@@ -16,11 +16,12 @@ use yii\helpers\Html;
  * @uses app\modules\server\models\Osimage
  * @author SilverFire
  */
-class OSFormatter extends Widget {
+class OSFormatter extends Widget
+{
     public $osimages;
 
     /**
-     * @var frontend\modules\server\models\Osimage
+     * @var \frontend\modules\server\models\Osimage
      */
     public $osimage;
 
@@ -56,6 +57,7 @@ class OSFormatter extends Widget {
         }
 
         $html .= Html::endTag('dl');
+
         return $html;
     }
 
@@ -64,12 +66,12 @@ class OSFormatter extends Widget {
      */
     public function generateInfoCircle () {
         Modal::begin([
-            'toggleButton'  => [
+            'toggleButton' => [
                 'class' => 'fa fa-info-circle text-info os-info-popover',
                 'label' => ''
             ],
-            'header'        => Html::tag('h4', $this->osimage->getFullOsName()),
-            'size'          => Modal::SIZE_LARGE
+            'header'       => Html::tag('h4', $this->osimage->getFullOsName()),
+            'size'         => Modal::SIZE_LARGE
         ]);
         echo Html::tag('div', $this->generateOSInfo(), [
             'class' => 'row'
@@ -85,7 +87,6 @@ class OSFormatter extends Widget {
 
         echo $this->osimage->getFullOsName();
         echo "&nbsp;";
-        if ($this->osimage->hasSoftPack() && $this->infoCircle)
-            echo $this->generateInfoCircle();
+        if ($this->osimage->hasSoftPack() && $this->infoCircle) echo $this->generateInfoCircle();
     }
 }

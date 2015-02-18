@@ -7,15 +7,21 @@ use Yii;
 
 class File extends \frontend\components\hiresource\ActiveRecord
 {
-    const FILE_MD5 = '76303fjsq06mcr234nc379z32x48';
-
+    const MD5 = '76303fjsq06mcr234nc379z32x48';
+    const SALT = 'salt';
     public $request;
 
-    public static function currentPrjDir() {
-        return Yii::getAlias('@webroot/uploads/');
-//        return Yii::getAlias('@app/uploads');
+    /**
+     * @param $key
+     * @return bool|string
+     */
+    public static function uploadPath($key) {
+        return Yii::getAlias('@runtime/upload/');
     }
 
+    /**
+     * @return array
+     */
     public function attributes() {
         return [
             'id',
@@ -32,11 +38,36 @@ class File extends \frontend\components\hiresource\ActiveRecord
         ];
     }
 
-    public static function makeThreadFileUrl($tmp_filename) {
-        $key = md5(self::FILE_MD5 . $tmp_filename . 'salt');
-        return Url::to(['/thread/thread/getfile', 'tmp_file' => $tmp_filename, 'key' => $key], true);
+    /**
+     * @param $name
+     * @return string
+     */
+    public static function getHash($name) {
+        return md5(self::MD5 . $name . self::SALT);
     }
 
+    /**
+     * @return string
+     */
+    public static function getTempFolder() {
+        return Yii::getAlias('@runtime/tmp');
+    }
+
+    /**
+     * @param $temp_name
+     * @return string
+     */
+    public static function getTmpUrl($temp_name) {
+        $key = self::getHash($temp_name);
+        return Url::to(['/file/temp-view', 'temp_file' => $temp_name, 'key' => $key], true);
+    }
+
+    /**
+     * @param $file
+     * @param null $file_id
+     * @param null $ticket_id
+     * @return array|bool
+     */
     private static function put_file_from_site($file, $file_id = null, $ticket_id = null) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime_type = finfo_file($finfo, $file);
@@ -84,7 +115,6 @@ class File extends \frontend\components\hiresource\ActiveRecord
 
     /**
      * tmp_file
-     * key
      *
      * @param $request
      * @return string
@@ -92,9 +122,9 @@ class File extends \frontend\components\hiresource\ActiveRecord
      */
     public static function getFile($request) {
         if (err::not($request)) {
-            if (err::not($request['tmp_file']) && $request['key'] == md5(self::FILE_MD5 . $request['tmp_file'] . "salt")) {
+            if (err::not($request['tmp_file']) && $request['key'] == md5(self::MD5 . $request['tmp_file'] . "salt")) {
 //                $request['tmp_file'] = str_replace(['../', '/'], '', $request['tmp_file']);
-                $file = self::currentPrjDir() . $request['tmp_file'];
+                $file = self::uploadPath() . $request['tmp_file'];
                 if (file_exists($file)) {
                     if (err::is(self::put_file_from_site($file))) return json_encode(['_error' => 'file not found']);
                     \Yii::$app->end();

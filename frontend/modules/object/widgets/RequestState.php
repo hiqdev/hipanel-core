@@ -6,6 +6,7 @@ use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use frontend\components\Re;
+use yii\helpers\Json;
 
 class RequestState extends Widget
 {
@@ -16,6 +17,16 @@ class RequestState extends Widget
      * @var \frontend\components\hiresource\ActiveRecord
      */
     public $model;
+
+    /**
+     * @var array additional options to be passed to the JS plugin call.
+     */
+    public $clientOptions;
+
+    /**
+     * @var string default selector of wrapper with state labels. Will be passed to JS plugin call.
+     */
+    public $elementSelector = "#content-pjax";
 
     public function init () {
         parent::init();
@@ -33,26 +44,28 @@ class RequestState extends Widget
     public function run () {
         if ($this->model->request_state) {
             $icon = Html::tag('i', '', [
-                    'class' => ($this->model->request_state != 'error') ? 'fa fa-circle-o-notch fa-spin' : 'fa fa-exclamation-triangle text-danger'
-                ]);
+                'class' => ($this->model->request_state != 'error') ? 'fa fa-circle-o-notch fa-spin' : 'fa fa-exclamation-triangle text-danger'
+            ]);
 
             $res = Html::tag('span', $icon . ' ' . $this->model->request_state_label, [
-                    'class' => 'objectState',
-                    'data'  => [
-                        'id'         => $this->model->id,
-                        'module'     => $this->module,
-                        'norm_state' => $this->model->state_label,
-                        'with_href'  => 0
-                    ]
-                ]);
+                'class' => 'objectState',
+                'data'  => [
+                    'id'         => $this->model->id,
+                    'module'     => $this->module,
+                    'norm_state' => $this->model->state_label,
+                    'with_href'  => 0
+                ]
+            ]);
         } else {
             $res = Html::tag('span', $this->model->state_label);
         }
 
         RequestStateAsset::register(\Yii::$app->getView());
-        \Yii::$app->getView()->registerJs("$('html,body').objectsStateWatcher({
-            'module': '{$this->module}'
-        });", \yii\web\View::POS_READY, 'objectStateWatcher-'.$this->module);
+
+        $options   = Json::encode(array_merge(['module' => $this->module], $this->clientOptions));
+        $plugin_id = 'objectStateWatcher-' . $this->module;
+        \Yii::$app->getView()->registerJs("$('{$this->elementSelector}').objectsStateWatcher($options);", \yii\web\View::POS_READY, $plugin_id);
+
         return $res;
     }
 }
