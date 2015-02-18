@@ -5,7 +5,6 @@ use kartik\widgets\Select2;
 use yii\web\JsExpression;
 use kartik\markdown\MarkdownEditor;
 use yii\helpers\Url;
-
 //use frontend\widgets\HiBox;
 //use frontend\models\Ref;
 //use yii\helpers\ArrayHelper;

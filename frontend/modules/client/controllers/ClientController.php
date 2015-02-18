@@ -30,11 +30,11 @@ class ClientController extends DefaultController {
         return $this->render('view', ['model' => $this->findModel($id, $params),]);
     }
 
-    private function actionUserList ($search, $id) {
+    private function _actionUserList ($input) {
         $out = ['more' => true];
         $class = "{$this->path}\\{$this->class}";
-        if (!is_null($search)) {
-            $data = $class::find()->where($search)->getList();
+        if (!is_null($input['search'])) {
+            $data = $class::find()->where($input['search'])->getList();
             $res = [];
             foreach ($data as $key => $item) {
                 $res[] = ['id' => $key, 'text' => $item];
@@ -42,61 +42,65 @@ class ClientController extends DefaultController {
             $out['results'] = $res;
         } elseif ($id != 0) {
             $out['results'] = [
-                'id' => $id,
+                'id' => $input['id'],
                 'text' => $class::find()->where([
-                    'id' => $id,
+                    'id' => $input['id'],
                 ])->one()->login
             ];
         } else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($format == 'json') Yii::$app->response->format = Response::FORMAT_JSON;
         return $out;
     }
 
-    public function actionClientAllList ($search = null, $id = null) {
+    public function actionClientAllList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search];
-        return $this->actionUserList($search, $id);
+        return $this->_actionUserList(compact('search','id','format'));
     }
 
-    public function actionClientList ($search = null, $id = null) {
+    public function actionClientList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'client'];
-        return $this->actionUserList($search, $id);
+        return $this->_actionUserList(compact('search','id','format'));
     }
 
-    public function actionManagerList ($search = null, $id = null) {
+    public function actionManagerList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'manager' ];
-        return $this->actionUserList($search, $id);
+        return $this->_actionUserList(compact('search','id','format'));
     }
 
-    public function actionAdminList ($search = null, $id = null) {
+    public function actionAdminList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'admin' ];
-        return $this->actionUserList($search, $id);
+        return $this->_actionUserList(compact('search','id','format'));
     }
 
-    public function actionSellerList ($search = null, $id = null) {
+    public function actionSellerList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'reseller' ];
-        return $this->actionUserList($search, $id);
+        return $this->_actionUserList(compact('search','id','format'));
     }
 
-    public function actionCanManageList ($search = null, $id = null) {
+    public function actionCanManageList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'manager_only' => 'true' ];
-        return $this->actionUserList($search, $id);
+        return $this->_actionUserList(compact('search','id','format'));
     }
 
-    private function _actionPrepareRender ($params = []) {
+    private function _actionPrepareRender ($params = [], $addFuncs) {
         $class = "{$this->path}\\{$this->class}Search";
         $searchModel = new $class();
         $dataProvider = $searchModel->search( $params );
+        foreach ($addFuncs as $func => $param) {
+            $additional[$func] = $this->{$func}($param);
+        }
         return [
                 'dataProvider'  => $dataProvider,
                 'searchModel'   => $searchModel,
+                'additional'    => $additional,
         ];
     }
 
     private function _actionPrepareDataToUpdate ($action, $params, $scenario) {
         $data = [];
-        foreach ($params['Client'] as $id => $values) {
+        foreach ($params['ids'] as $id => $values) {
             if (is_array($values)) {
                 foreach ($values as $key => $value) $data[$id][$key] = $value;
             }
@@ -138,10 +142,10 @@ class ClientController extends DefaultController {
         return true;
     }
 
-    private function _actionRenderPage ($page, $queryParams, $action = []) {
+    private function _actionRenderPage ($page, $queryParams, $action = [], $addFunc = []) {
         return Yii::$app->request->isAjax
-            ? $this->renderPartial($page, ArrayHelper::merge($this->_actionPrepareRender($queryParams), $action))
-            : $this->render($page, ArrayHelper::merge($this->_actionPrepareRender($queryParams), $action));
+            ? $this->renderPartial($page, ArrayHelper::merge($this->_actionPrepareRender($queryParams, $addFunc), $action))
+            : $this->render($page, ArrayHelper::merge($this->_actionPrepareRender($queryParams, $addFunc), $action));
     }
 
     private function _actionPerform ($row) {
@@ -172,7 +176,7 @@ class ClientController extends DefaultController {
         }
         $ids = $ids ? : [ 'id' => $id ];
         $queryParams = [ 'ids' => implode(',', $ids) ];
-        return $this->_actionRenderPage($row['page'], $queryParams, ['action' => $row['subaction']]);
+        return $this->_actionRenderPage($row['page'], $queryParams, ['action' => $row['subaction']], $row['add']);
    }
 
 
@@ -227,6 +231,19 @@ class ClientController extends DefaultController {
     public function actionCheckLogin ($login) {
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $out;
+    }
+
+    public function actionSetSeller ($id = null, $ids = []) {
+        return $this->_actionPerform([
+            'id'        => $id,
+            'ids'       => $ids,
+            'action'    => "setSeller",
+            'required'  => [ 'id', 'seller_id' ],
+            'page'      => 'set-seller',
+            'scenario'  => 'setseller',
+            'add'       => ['_actionUserList' => ['search' => ['type' => 'reseller', 'limit' => 'ALL'], 'format' => '']],
+        ]);
+
     }
 
     private function actionDoBlock ($id = null, $ids = [], $action = 'enable') {
