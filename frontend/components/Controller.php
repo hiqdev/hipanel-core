@@ -1,14 +1,14 @@
 <?php
 
-namespace frontend\controllers;
+namespace frontend\components;
 
 use yii\filters\AccessControl;
 use yii\web\Response;
 
 /**
- * HiPanel controller
+ * Site controller
  */
-class HipanelController extends \frontend\components\Controller
+class Controller extends \yii\web\Controller
 {
     /**
      * @inheritdoc
