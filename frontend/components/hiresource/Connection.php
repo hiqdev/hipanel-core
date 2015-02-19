@@ -354,10 +354,12 @@ class Connection extends Component
                         'responseBody' => $this->decodeErrorBody($body),
                     ]);
                 }
-                if (isset($headers['content-type']) /*&& !strncmp($headers['content-type'], 'application/json', 16)*/) {
+                if (isset($headers['content-type']) && !strncmp($headers['content-type'], 'application/json', 16)) {
                     return $raw ? $body : Json::decode($body);
+                } else {
+                    return $body;
                 }
-                throw new HiResException('Unsupported data received from Hiresource: ' . $headers['content-type'], [
+                throw new HiResException('Unsuppor ted data received from Hiresource: ' . $headers['content-type'], [
                     'requestMethod' => $method,
                     'requestUrl' => $url,
                     'requestBody' => $requestBody,
