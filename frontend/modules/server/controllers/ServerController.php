@@ -46,7 +46,8 @@ class ServerController extends HipanelController
         return $this->render('index', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
-            'osimages'     => $this->getOsimages()
+            'osimages'     => $this->getOsimages(),
+            'states'       => $this->getStates()
         ]);
     }
 
@@ -211,7 +212,6 @@ class ServerController extends HipanelController
         } catch (HiResException $e) {
             \Yii::$app->getSession()->addFlash('error', \Yii::t('app', $e->errorInfo));
         }
-
         return $this->actionView($options['id']);
     }
 
@@ -246,7 +246,11 @@ class ServerController extends HipanelController
     }
 
     protected function getPanelTypes () {
-        return Ref::find()->where(['gtype' => 'type,panel'])->getList();
+        return Ref::getList('type,panel');
+    }
+
+    protected function getStates () {
+        return Ref::getList('state,device');
     }
 
     public function actionRequestsState (array $ids) {
