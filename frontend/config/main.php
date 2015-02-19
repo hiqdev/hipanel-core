@@ -120,6 +120,9 @@ return [
         'server' => [
             'class' => 'app\modules\server\Module',
         ],
+        'hosting' => [
+            'class' => 'app\modules\hosting\Module',
+        ],
     ],
     'params' => $params,
 ];

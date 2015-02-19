@@ -38,7 +38,9 @@ class RequestState extends Widget
             $this->model->state_label = Re::l($this->model->state_label);
         }
 
-        if (empty($this->module)) throw new InvalidConfigException('module name is not specified');
+        if (empty($this->module)) {
+            $this->module = $this->model->formName();
+        }
     }
 
     public function run () {

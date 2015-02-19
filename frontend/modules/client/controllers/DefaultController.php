@@ -4,12 +4,13 @@ namespace frontend\modules\client\controllers;
 use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
 use frontend\components\Ref;
+use frontend\controllers\HipanelController;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use Yii;
 
 
-class DefaultController extends Controller {
+class DefaultController extends HipanelController {
 
     protected $class    = 'Default';
     protected $path     = '\frontend\modules\client\models';

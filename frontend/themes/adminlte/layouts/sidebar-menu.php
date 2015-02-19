@@ -92,6 +92,18 @@ echo Menu::widget(
                 ]
             ],
             [
+                'label' => Yii::t('app', 'Hosting'),
+                'url' => '#',
+                'icon' => 'fa-folder',
+                'visible' => true,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Accounts'),
+                        'url' => ['/hosting/account/index'],
+                    ],
+                ]
+            ],
+            [
                 'label' => Yii::t('app', 'Access control'),
                 'url' => '#',
                 'icon' => 'fa-gavel',
