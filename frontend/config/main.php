@@ -80,6 +80,7 @@ return [
             ],
         ],
         'view' => [
+            'class' => 'frontend\components\View',
             'theme' => [
                 'pathMap' => [
                     '@app/views' => '@app/themes/adminlte',

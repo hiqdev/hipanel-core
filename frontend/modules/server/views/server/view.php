@@ -1,6 +1,7 @@
 <?php
 
 use frontend\modules\server\widgets\OSFormatter;
+use frontend\modules\server\widgets\StateFormatter;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -10,6 +11,9 @@ use frontend\widgets\Pjax;
 use yii\helpers\Json;
 
 /**
+ * @var frontend\components\View $this
+ */
+/**
  * @var frontend\modules\server\models\Server $model
  */
 
@@ -17,7 +21,7 @@ $this->title                   = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Servers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-Pjax::begin(['id' => 'content-pjax', 'timeout' => 0, 'enablePushState' => false]);
+Pjax::begin(Yii::$app->params['pjax']);
 ?>
 
     <div class="row" xmlns="http://www.w3.org/1999/html">
@@ -81,7 +85,10 @@ Pjax::begin(['id' => 'content-pjax', 'timeout' => 0, 'enablePushState' => false]
                         ],
                         [
                             'attribute' => 'expires',
-                            'format'    => 'date'
+                            'format'    => 'raw',
+                            'value'     => StateFormatter::widget([
+                                'model' => $model
+                            ])
                         ]
                     ],
                 ]) ?>

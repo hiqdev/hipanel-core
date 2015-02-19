@@ -70,12 +70,10 @@ class Client extends \frontend\components\hiresource\ActiveRecord
     public function rules()
     {
         return [
-            //[[ 'name', 'type', ], 'required'],
-            // [[ 'name'], 'integer'],
-            //[[ 'type', ],'safe'],
-            //[[ 'id', 'credit', ], 'integer', 'required', 'on' => 'setcredit' ],
+            [[ 'id', 'credit', ], 'integer', 'on' => 'setcredit' ],
             [[ 'id', 'type', 'comment', ], 'safe', 'on' => 'setblock' ],
             [[ 'id', 'language', ], 'safe', 'on' => 'setlanguage' ],
+            [[ 'id', 'seller_id',], 'integer', 'on' => 'setseller' ],
         ];
     }
 
