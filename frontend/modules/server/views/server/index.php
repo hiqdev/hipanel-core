@@ -89,11 +89,11 @@ echo GridView::widget([
             'format'    => 'raw',
             'value'     => function ($model) {
                 return RequestState::widget([
-                    'model' => $model,
+                    'model'  => $model,
                     'module' => 'server'
                 ]);
             },
-            'filter'    => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,device'), [
+            'filter'    => Html::activeDropDownList($searchModel, 'state', $states, [
                 'class'  => 'form-control',
                 'prompt' => Yii::t('app', '--'),
             ]),

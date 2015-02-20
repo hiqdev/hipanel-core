@@ -132,9 +132,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'url' => Url::to(['/client/client/client-all-list'])
             ]),
         ],
-        'answer_count',
+        [
+            'attribute' => 'answer_count',
+            'label' => Yii::t('app', 'Answers'),
+        ],
         [
             'attribute' => 'spent',
+            'label' => Yii::t('app', 'Spent'),
             'value' => function ($data) {
                 return $data['spent'] > 0 ? sprintf("%02d:%02d", floor($data['spent'] / 60), ($data['spent'] % 60)) : '00:00';
             }

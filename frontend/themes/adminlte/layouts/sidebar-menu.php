@@ -59,23 +59,23 @@ echo Menu::widget(
                 'label' => Yii::t('app', 'Domains'),
                 'url' => ['/domains/default/index'],
                 'icon' => 'fa-folder',
-                'visible' => false,
+                'visible' => true,
                 'items' => [
                     [
                         'label' => Yii::t('app', 'My domains'),
-                        'url' => ['/domain/default/mydomains'],
+                        'url' => ['/domain/domain/index'],
                     ],
                     [
-                        'label' => Yii::t('app', 'Nameservers'),
+                        'label' => Yii::t('app', 'Name Servers'),
                         'url' => ['/domain/nameservers/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'Contacts'),
-                        'url' => ['/domain/contacts/index'],
+                        'url' => ['/client/contacts/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'SEO'),
-                        'url' => ['/domain/default/seo'],
+                        'url' => ['/domain/domain/index'],
                     ],
                 ]
             ],
@@ -88,6 +88,18 @@ echo Menu::widget(
                     [
                         'label' => Yii::t('app', 'Servers'),
                         'url' => ['/server/server/index'],
+                    ],
+                ]
+            ],
+            [
+                'label' => Yii::t('app', 'Hosting'),
+                'url' => '#',
+                'icon' => 'fa-folder',
+                'visible' => true,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Accounts'),
+                        'url' => ['/hosting/account/index'],
                     ],
                 ]
             ],

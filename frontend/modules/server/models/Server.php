@@ -13,6 +13,7 @@ class Server extends \frontend\components\hiresource\ActiveRecord
         return [
             'id',
             'name',
+            'server_like',
             'seller',
             'seller_id',
             'client',

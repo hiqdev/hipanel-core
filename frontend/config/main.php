@@ -36,7 +36,7 @@ return [
         'hiresource'=>[
             'class' => 'frontend\components\hiresource\Connection',
             'config' => [
-                'api_url'=>'http://localhost-api.ahnames.com',
+                'api_url' => 'http://localhost-api.ahnames.com',
             ],
         ],
         'user' => [
@@ -61,9 +61,9 @@ return [
             'clients' => [
                 'hi3a' => [
                     'class'         => 'common\components\hi3aOauth2Client',
-                    'authUrl'       => 'http://sol-auth-master.hiqdev.com/oauth2/authorize',
-                    'tokenUrl'      => 'http://sol-auth-master.hiqdev.com/oauth2/token',
-                    'apiBaseUrl'    => 'http://sol-auth-master.hiqdev.com/api',
+                    'authUrl'       => 'https://sol-hi3a-master.ahnames.com/oauth2/authorize',
+                    'tokenUrl'      => 'https://sol-hi3a-master.ahnames.com/oauth2/token',
+                    'apiBaseUrl'    => 'https://sol-hi3a-master.ahnames.com/api',
                     'clientId'      => 'sol-hipanel-master',
                     'clientSecret'  => 'MdQybNMHMJ',
                 ],
@@ -119,6 +119,12 @@ return [
         ],
         'server' => [
             'class' => 'app\modules\server\Module',
+        ],
+//      'domain' => [
+//          'class' => 'app\modules\domain\Module',
+//      ],
+        'hosting' => [
+            'class' => 'app\modules\hosting\Module',
         ],
     ],
     'params' => $params,

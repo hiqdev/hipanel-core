@@ -2,6 +2,7 @@
 
 namespace frontend\modules\client\controllers;
 
+use frontend\components\CrudController;
 use yii\base\Model;
 use frontend\modules\client\models\ClientSearch;
 use frontend\modules\client\models\Client;
@@ -11,7 +12,7 @@ use Yii;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 
-class ClientController extends DefaultController {
+class ClientController extends CrudController {
 
     protected $class    = 'Client';
     protected $path     = 'frontend\modules\client\models';
@@ -40,7 +41,7 @@ class ClientController extends DefaultController {
                 $res[] = ['id' => $key, 'text' => $item];
             }
             $out['results'] = $res;
-        } elseif ($id != 0) {
+        } elseif ($input['id'] != 0) {
             $out['results'] = [
                 'id' => $input['id'],
                 'text' => $class::find()->where([
@@ -50,8 +51,7 @@ class ClientController extends DefaultController {
         } else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
-        if ($format == 'json') Yii::$app->response->format = Response::FORMAT_JSON;
-        return $out;
+        return $this->renderJson($out);
     }
 
     public function actionClientAllList ($search = null, $id = null, $format = 'json') {
@@ -177,8 +177,7 @@ class ClientController extends DefaultController {
         $ids = $ids ? : [ 'id' => $id ];
         $queryParams = [ 'ids' => implode(',', $ids) ];
         return $this->_actionRenderPage($row['page'], $queryParams, ['action' => $row['subaction']], $row['add']);
-   }
-
+    }
 
     public function actionSetCredit ($id = null, $ids = []) {
         return $this->_actionPerform([

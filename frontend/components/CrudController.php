@@ -1,15 +1,16 @@
 <?php
 
-namespace frontend\modules\client\controllers;
+namespace frontend\components;
+
+use frontend\components\Controller;
 use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
 use frontend\components\Ref;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use Yii;
 
 
-class DefaultController extends Controller {
+class CrudController extends Controller {
 
     protected $class    = 'Default';
     protected $path     = '\frontend\modules\client\models';

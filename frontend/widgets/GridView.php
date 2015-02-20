@@ -12,7 +12,7 @@ class GridView extends \yii\grid\GridView
      * @inheritdoc
      */
     public $tableOptions = [
-        'class' => 'table table-bordered table-hover dataTable'
+        'class' => 'table table-condensed table-bordered table-hover dataTable'
     ];
     /**
      * @inheritdoc
