@@ -1,12 +1,16 @@
 <?
+
+use frontend\widgets\GridActionButton;
+use Yii;
 use frontend\components\Re;
-use frontend\modules\thread\widgets\Label;
-use frontend\modules\thread\widgets\Topic;
-use frontend\widgets\GridView;
+use frontend\modules\ticket\widgets\Label;
+use frontend\modules\ticket\widgets\Topic;
+//use frontend\widgets\GridView;
+
 use frontend\widgets\Select2;
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\Pjax;
 
 //use yii\web\JsExpression;
 
@@ -31,32 +35,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
+//    'tableOptions' => ['class' => 'table-condensed'],
     'filterModel' => $searchModel,
-    'id' => 'thread-grid',
+    'id' => 'ticket-grid',
     'columns' => [
         // ['class' => 'yii\grid\SerialColumn'],
-        [
-            'class' => 'yii\grid\CheckboxColumn',
-            // you may configure additional properties here
-        ],
         [
             'attribute' => 'subject',
             'format' => 'raw',
             'value' => function ($data) {
-                return Html::tag('b', Html::a($data->subject, $data->threadUrl)). Topic::widget(['topic' => $data->topic]);
+                return Html::tag('b', Html::a('#' . $data->id . '&nbsp;' . $data->subject, $data->threadUrl)) . Topic::widget(['topic' => $data->topic]);
             }
         ],
         [
             'attribute' => 'create_time',
             'format' => ['date', 'php:d.m.Y H:i'],
-//            'filter' => DatePicker::widget(
-//                                  [
-//                                      'name'=>'create_time',
-//                                      'dateFormat' => 'dd/MM/yyyy',
-//                                      'options' => [
-//                                          'class' => 'form-control',
-//                                      ],
-//                                  ])
+            //            'filter' => DatePicker::widget(
+            //                                  [
+            //                                      'name'=>'create_time',
+            //                                      'dateFormat' => 'dd/MM/yyyy',
+            //                                      'options' => [
+            //                                          'class' => 'form-control',
+            //                                      ],
+            //                                  ])
         ],
         [
             'attribute' => 'author_id',
@@ -145,16 +146,33 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{view} {state}',
+            'header' => Yii::t('app', 'Actions'),
             'buttons' => [
+                'view' => function ($url, $model, $key) {
+                    return GridActionButton::widget([
+                        'url' => $url,
+                        'icon' => '<i class="fa fa-eye"></i>',
+                        'label' => Yii::t('app', 'Details'),
+                    ]);
+                },
                 'state' => function ($url, $model, $key) {
                     if ($model->state == 'opened') {
-                        return Html::a('<span class="glyphicon glyphicon-remove"></span>', [
-                            'close',
-                            'id' => $model->id
-                        ], ['title' => 'Close']);
+//                        $title = Yii::t('app', 'Close');
+//                        return Html::a('<i class="fa fa-times"></i>&nbsp;&nbsp;'.$title,
+//                            ['close', 'id' => $model->id],
+//                            ['title' => $title, 'class' => 'btn btn-default btn-xs', 'data-pjax' => 0]
+//                        );
+                        return GridActionButton::widget([
+                            'url' => ['close', 'id' => $model->id],
+                            'icon' => '<i class="fa fa-times"></i>',
+                            'label' => Yii::t('app', 'Close'),
+                        ]);
                     }
                 },
             ],
+        ],
+        [
+            'class' => 'yii\grid\CheckboxColumn',
         ],
     ],
 ]); ?>

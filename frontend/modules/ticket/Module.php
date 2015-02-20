@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\thread;
+namespace app\modules\ticket;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'frontend\modules\thread\controllers';
+    public $controllerNamespace = 'frontend\modules\ticket\controllers';
 
     public function init()
     {

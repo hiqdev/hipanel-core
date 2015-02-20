@@ -6,7 +6,7 @@
  * Time: 2:56 PM
  */
 
-namespace frontend\modules\thread\widgets;
+namespace frontend\modules\ticket\widgets;
 
 use yii\helpers\Html;
 use yii\jui\Widget;

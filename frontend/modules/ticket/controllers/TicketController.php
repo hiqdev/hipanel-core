@@ -1,8 +1,8 @@
 <?php
-namespace frontend\modules\thread\controllers;
+namespace frontend\modules\ticket\controllers;
 
-use frontend\modules\thread\models\Thread;
-use frontend\modules\thread\models\ThreadSearch;
+use frontend\modules\ticket\models\Thread;
+use frontend\modules\ticket\models\ThreadSearch;
 use common\models\File;
 use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
@@ -15,7 +15,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
-class ThreadController extends Controller
+class TicketController extends Controller
 {
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
 
@@ -195,7 +195,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Numerous thread changes in one method, like BladeRoot did :)
+     * Numerous ticket changes in one method, like BladeRoot did :)
      * @param array $options
      * @param string $apiCall
      * @param bool $bulk

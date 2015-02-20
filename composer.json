@@ -28,7 +28,8 @@
         "vova07/yii2-select2-widget": "*",
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "1.6.*@dev",
-        "raoul2000/yii2-pnotify-widget": "*"
+        "raoul2000/yii2-pnotify-widget": "*",
+        "himiklab/yii2-easy-thumbnail-image-helper": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

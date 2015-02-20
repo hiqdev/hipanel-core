@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\thread\models;
+namespace frontend\modules\ticket\models;
 
 use Yii;
 use yii\base\Model;

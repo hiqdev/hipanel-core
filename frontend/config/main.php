@@ -114,8 +114,8 @@ return [
         'client' => [
             'class' => 'app\modules\client\Module',
         ],
-        'thread' => [
-            'class' => 'app\modules\thread\Module',
+        'ticket' => [
+            'class' => 'app\modules\ticket\Module',
         ],
         'server' => [
             'class' => 'app\modules\server\Module',

@@ -10,12 +10,12 @@ use yii\helpers\Url;
 $this->registerJs("
 // Button handle
 $('.search-button').click(function(){
-    $('.thread-search').toggle();
+    $('.ticket-search').toggle();
     return false;
 });
 //
-$('#search-form-thread-pjax').on('pjax:end', function() {
-    $.pjax.reload({container:'#thread-grid-pjax', timeout: false});  //Reload GridView
+$('#search-form-ticket-pjax').on('pjax:end', function() {
+    $.pjax.reload({container:'#ticket-grid-pjax', timeout: false});  //Reload GridView
 });
 ", \yii\web\View::POS_READY);
 // \yii\helpers\VarDumper::dump($_GET['ThreadSearch']['watchers'], 10, true);
@@ -28,7 +28,7 @@ $('#search-form-thread-pjax').on('pjax:end', function() {
 <?php endif; ?>
 
     <?php $form = ActiveForm::begin([
-        'id' => 'thread-search',
+        'id' => 'ticket-search',
         'action' => Url::to('index'),
         'method' => 'get',
         'options' => ['data-pjax' => true]

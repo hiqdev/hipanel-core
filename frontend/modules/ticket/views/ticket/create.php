@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $model frontend\modules\thread\models\Thread */
+/* @var $model frontend\modules\ticket\models\Thread */
 
 $this->title = Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Ticket',
