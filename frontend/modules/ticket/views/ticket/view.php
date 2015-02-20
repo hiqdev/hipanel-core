@@ -20,7 +20,7 @@ $this->registerCss('
     <?= Html::a('<i class="fa fa-reply"></i>&nbsp;&nbsp;'.Yii::t('app', 'Replay'), '#', ['class'=>'btn btn-default', 'onClick' => new \yii\web\JsExpression('
     $("html, body").animate({
         scrollTop: $(".ticket-update").offset().top
-    }, 3000);
+    }, 500);
     ')]) ?>
 
     <?php if (is_array($model->watcher) && in_array(Yii::$app->user->identity->username, $model->watcher)) : ?>

@@ -2,7 +2,7 @@
 namespace frontend\modules\thread\controllers;
 
 use frontend\modules\thread\models\Thread;
-use frontend\modules\thread\models\ThreadSearch;
+use frontend\modules\thread\models\TicketSearch;
 use common\models\File;
 use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
@@ -15,7 +15,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
-class ThreadController extends Controller
+class TicketController extends Controller
 {
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
 
@@ -32,7 +32,7 @@ class ThreadController extends Controller
     }
 
     public function actionIndex() {
-        $searchModel = new ThreadSearch();
+        $searchModel = new TicketSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -193,7 +193,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Numerous thread changes in one method, like BladeRoot did :)
+     * Numerous ticket changes in one method, like BladeRoot did :)
      * @param array $options
      * @param string $apiCall
      * @param bool $bulk

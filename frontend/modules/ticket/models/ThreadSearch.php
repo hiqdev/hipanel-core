@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\thread\models;
+namespace frontend\modules\ticket\models;
 
 use Yii;
 use yii\base\Model;
@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class ThreadSearch extends Thread
+class TicketSearch extends Ticket
 {
     /**
      * @inheritdoc
@@ -51,7 +51,7 @@ class ThreadSearch extends Thread
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Thread::find();
+        $query = Ticket::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

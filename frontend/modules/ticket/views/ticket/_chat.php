@@ -42,6 +42,7 @@ use yii\helpers\Url;
                     <?php if (!empty($answer['files'])) : ?>
                         <?php foreach ($answer['files'] as $file) : ?>
                             <div class="attachment">
+                                <?= $file['id']; ?>
                                 <?= Html::tag('h4', Yii::t('app', 'Attachments')); ?>
                                 <?= Html::tag('p', Html::encode($file['filename']), ['class' => 'filename']) ?>
                                 <?php if (in_array(strtolower(pathinfo($file['filename'], PATHINFO_EXTENSION)), ['gif', 'jpg', 'jpeg', 'png'])) : ?>

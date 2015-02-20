@@ -1,12 +1,12 @@
 <?php
 
-namespace frontend\modules\thread\models;
+namespace frontend\modules\ticket\models;
 
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\Markdown;
 
-class Thread extends \frontend\components\hiresource\ActiveRecord
+class Ticket extends \frontend\components\hiresource\ActiveRecord
 {
 
     public $time_from;
@@ -79,7 +79,8 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
      */
     public function rules() {
         return [
-            [['subject', 'message'], 'required'],
+            [['subject', 'message'], 'required', 'on' => ['insert']],
+            [['message'], 'required', 'on' => ['answer']],
             [
                 [
                     'topic',
@@ -159,7 +160,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     }
 
     public function getThreadUrl() {
-        return ['/thread/thread/view', 'id' => $this->id];
+        return ['/ticket/ticket/view', 'id' => $this->id];
     }
 
     public function getThreadViewTitle() {
@@ -168,14 +169,14 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
 
     public static function regexConfig($target) {
         $config = [
-            'thread' => ['/\#\d{6,9}(\#answer-\d{6,7})?\b/',],
+            'ticket' => ['/\#\d{6,9}(\#answer-\d{6,7})?\b/',],
             'server' => ['/\b[A-Z]*DS\d{3,9}[A-Za-z0-9-]{0,6}\b/',],
         ];
         return $config[$target];
     }
 
     public static function prepareLinks($text) {
-        $targets = ['thread', 'server'];
+        $targets = ['ticket', 'server'];
         $host = getenv("HTTP_HOST");
         foreach ($targets as $target) {
             foreach (self::regexConfig($target) as $pattern) {
