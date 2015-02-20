@@ -5,10 +5,8 @@ use Yii;
 use frontend\components\Re;
 use frontend\modules\ticket\widgets\Label;
 use frontend\modules\ticket\widgets\Topic;
-//use frontend\widgets\GridView;
-
+use frontend\widgets\GridView;
 use frontend\widgets\Select2;
-use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 

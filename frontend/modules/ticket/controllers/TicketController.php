@@ -69,7 +69,7 @@ class TicketController extends CrudController {
 
         return $this->render('create', [
             'model' => $model,
-            'topic_data' => objectGetParameters('topic'),
+            'topic_data' => $this->objectGetParameters('topic'),
             'priority_data' => $this->_priorityData(),
             'state_data' => $this->objectGetParameters('state'),
         ]);
