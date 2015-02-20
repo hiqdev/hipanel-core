@@ -7,7 +7,6 @@ Pjax::begin();
         'modelClass' => 'Ticket Settings',
     ]), ['create'], ['class' => 'btn btn-success']) ?>
 </p>
-
 <p>This section allows you to manage the settings on mail alerts </p>
 
 <p>In this field you can specify to receive email notifications of ticket. By default, the notification is used for editing the main e-mail</p>
@@ -18,7 +17,7 @@ Pjax::begin();
 
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-            <input type="text" class="form-control" placeholder="Email">
+            <input type="text" class="form-control" placeholder="Email" value="<?= $settings['ticket_emails'] ?>">
         </div>
 
         <p>
@@ -31,7 +30,7 @@ Pjax::begin();
         <div class="form-group">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox"/>
+                    <input type="checkbox" checked="<?= $settings['send_message_text'] ? 'checked' : '' ?>" />
                     Send message text
                 </label>
             </div>

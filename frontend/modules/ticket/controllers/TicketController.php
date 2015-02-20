@@ -170,10 +170,10 @@ class TicketController extends CrudController {
     public function actionSettings() {
         return Yii::$app->request->isAjax
             ? $this->renderPartial('settings', [
-                'settings'  => $this->actionGetClassValues('client,ticket_settings', 'frontend\modules\client\models\Client'),
+                'settings'  => $this->actionGetClassValues('client', 'ticket_settings', 'frontend\modules\client\models'),
             ])
             : $this->render('settings', [
-                'settings'  => $this->actionGetClassValues('client,ticket_settings', 'frontend\modules\client\models\Client'),
+                'settings'  => $this->actionGetClassValues('client', 'ticket_settings', 'frontend\modules\client\models'),
             ]);
     }
 
