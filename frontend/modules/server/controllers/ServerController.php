@@ -39,6 +39,15 @@ class ServerController extends HipanelController
         ];
     }
 
+    public function actions() {
+        return [
+            'requests-state' => [
+                'class' => 'frontend\modules\object\actions\RequestStateAction',
+                'model' => Server::className()
+            ],
+        ];
+    }
+
     public function actionIndex () {
         $searchModel  = new ServerSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
@@ -46,7 +55,8 @@ class ServerController extends HipanelController
         return $this->render('index', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
-            'osimages'     => $this->getOsimages()
+            'osimages'     => $this->getOsimages(),
+            'states'       => $this->getStates()
         ]);
     }
 
@@ -211,7 +221,6 @@ class ServerController extends HipanelController
         } catch (HiResException $e) {
             \Yii::$app->getSession()->addFlash('error', \Yii::t('app', $e->errorInfo));
         }
-
         return $this->actionView($options['id']);
     }
 
@@ -246,24 +255,38 @@ class ServerController extends HipanelController
     }
 
     protected function getPanelTypes () {
-        return Ref::find()->where(['gtype' => 'type,panel'])->getList();
+        return Ref::getList('type,panel');
     }
 
-    public function actionRequestsState (array $ids) {
-        $data = Server::find()->where(['id' => $ids, 'with_request' => true])->all();
-        foreach ($data as $model) {
-            $res[$model->id] = [
-                'id'   => $model->id,
-                'name' => $model->name,
-                'html' => RequestState::widget([
-                    'module' => 'server',
-                    'model'  => $model
-                ])
-            ];
+    protected function getStates () {
+        return Ref::getList('state,device');
+    }
+
+    public function actionList ($search = '', $id = null) {
+        $data = Server::find()->where(['server_like' => $search, 'ids' => $id])->getList();
+        $res = [];
+        foreach ($data as $key => $item) {
+            $res[] = ['id' => $key, 'text' => $item];
         }
-
-        return $this->renderJson($res);
+        if (!empty($id)) $res = array_shift($res);
+        return $this->renderJson(['results' => $res]);
     }
+
+//    public function actionRequestsState (array $ids) {
+//        $data = Server::find()->where(['id' => $ids, 'with_request' => true])->all();
+//        foreach ($data as $model) {
+//            $res[$model->id] = [
+//                'id'   => $model->id,
+//                'name' => $model->name,
+//                'html' => RequestState::widget([
+//                    'module' => 'server',
+//                    'model'  => $model
+//                ])
+//            ];
+//        }
+//
+//        return $this->renderJson($res);
+//    }
 
     /**
      * Generates array of osimages data, grouped by different fields to display on the website

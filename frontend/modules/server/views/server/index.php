@@ -1,18 +1,25 @@
 <?php
+use frontend\modules\server\widgets\StateFormatter;
 use frontend\widgets\GridView;
 use frontend\modules\server\widgets\DiscountFormatter;
 use frontend\modules\object\widgets\RequestState;
+use frontend\widgets\Pjax;
 use frontend\widgets\Select2;
 use yii\helpers\Url;
-use \yii\jui\DatePicker;
 use \yii\helpers\Html;
 
 /**
  * @var frontend\modules\server\models\OsimageSearch $osimages
  */
 
+/**
+ * @var frontend\components\View $this
+ */
+
 $this->title                   = Yii::t('app', 'Servers');
 $this->params['breadcrumbs'][] = $this->title;
+
+Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]));
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,
@@ -28,7 +35,7 @@ echo GridView::widget([
             },
             'format'             => 'html',
             'filterInputOptions' => ['id' => 'seller_id'],
-            'label'              => Yii::t('app', 'Author'),
+            'label'              => Yii::t('app', 'Seller'),
             'filter'             => Select2::widget([
                 'attribute' => 'seller_id',
                 'model'     => $searchModel,
@@ -42,7 +49,7 @@ echo GridView::widget([
             },
             'format'             => 'html',
             'filterInputOptions' => ['id' => 'author_id'],
-            'label'              => Yii::t('app', 'Author'),
+            'label'              => Yii::t('app', 'Client'),
             'filter'             => Select2::widget([
                 'attribute' => 'client_id',
                 'model'     => $searchModel,
@@ -82,11 +89,11 @@ echo GridView::widget([
             'format'    => 'raw',
             'value'     => function ($model) {
                 return RequestState::widget([
-                    'model' => $model,
+                    'model'  => $model,
                     'module' => 'server'
                 ]);
             },
-            'filter'    => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,device'), [
+            'filter'    => Html::activeDropDownList($searchModel, 'state', $states, [
                 'class'  => 'form-control',
                 'prompt' => Yii::t('app', '--'),
             ]),
@@ -109,24 +116,9 @@ echo GridView::widget([
             'attribute' => 'expires',
             'format'    => 'raw',
             'value'     => function ($model) {
-                if ($model['state'] != 'blocked') {
-                    $value = \yii::$app->formatter->asDate($model->expires);
-                } else {
-                    $value = \yii::t('app', 'Blocked') . ' ' . frontend\components\Re::l($model['block_reason_label']);
-                }
-
-                $class = ['label'];
-
-                if (strtotime("+7 days", time()) < strtotime($model->expires)) {
-                    $class[] = 'label-info';
-                } elseif (strtotime("+3 days", time()) < strtotime($model->expires)) {
-                    $class[] = 'label-warning';
-                } else {
-                    $class[] = 'label-danger';
-                }
-                $html = Html::tag('span', $value, ['class' => implode(' ', $class)]);
-
-                return $html;
+                return StateFormatter::widget([
+                    'model' => $model
+                ]);
             }
         ],
         [
@@ -141,4 +133,4 @@ echo GridView::widget([
     ],
 ]);
 
-?>
+Pjax::end();

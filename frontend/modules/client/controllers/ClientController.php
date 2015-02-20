@@ -41,7 +41,7 @@ class ClientController extends CrudController {
                 $res[] = ['id' => $key, 'text' => $item];
             }
             $out['results'] = $res;
-        } elseif ($id != 0) {
+        } elseif ($input['id'] != 0) {
             $out['results'] = [
                 'id' => $input['id'],
                 'text' => $class::find()->where([
@@ -51,8 +51,7 @@ class ClientController extends CrudController {
         } else {
             $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
         }
-        if ($format == 'json') Yii::$app->response->format = Response::FORMAT_JSON;
-        return $out;
+        return $this->renderJson($out);
     }
 
     public function actionClientAllList ($search = null, $id = null, $format = 'json') {

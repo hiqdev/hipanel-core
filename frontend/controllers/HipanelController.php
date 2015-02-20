@@ -2,13 +2,14 @@
 
 namespace frontend\controllers;
 
+use frontend\components\Controller;
 use yii\filters\AccessControl;
 use yii\web\Response;
 
 /**
  * HiPanel controller
  */
-class HipanelController extends \frontend\components\Controller
+class HipanelController extends Controller
 {
     /**
      * @inheritdoc
@@ -28,21 +29,6 @@ class HipanelController extends \frontend\components\Controller
                 ],
             ],
         ];
-    }
-
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
-    public function renderJson ($data) {
-        \Yii::$app->response->format = Response::FORMAT_JSON;
-        return $data;
-    }
-
-    public function renderJsonp ($data) {
-        \Yii::$app->response->format = Response::FORMAT_JSONP;
-        return $data;
     }
 
 }

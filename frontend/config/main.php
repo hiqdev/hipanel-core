@@ -36,7 +36,7 @@ return [
         'hiresource'=>[
             'class' => 'frontend\components\hiresource\Connection',
             'config' => [
-                'api_url'=>'http://localhost-api.ahnames.com',
+                'api_url' => 'http://localhost-api.ahnames.com',
             ],
         ],
         'user' => [
@@ -80,6 +80,7 @@ return [
             ],
         ],
         'view' => [
+            'class' => 'frontend\components\View',
             'theme' => [
                 'pathMap' => [
                     '@app/views' => '@app/themes/adminlte',
@@ -118,6 +119,12 @@ return [
         ],
         'server' => [
             'class' => 'app\modules\server\Module',
+        ],
+//      'domain' => [
+//          'class' => 'app\modules\domain\Module',
+//      ],
+        'hosting' => [
+            'class' => 'app\modules\hosting\Module',
         ],
     ],
     'params' => $params,

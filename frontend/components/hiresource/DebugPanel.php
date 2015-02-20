@@ -96,10 +96,11 @@ HTML;
                     'class' => 'elastic-link',
                     'data'  => ['id' => $i]
                 ]) . '<br/>';
+            $url_encoded = Html::encode($url);
             $rows[]  = <<<HTML
 <tr>
     <td style="width: 10%;">$duration</td>
-    <td style="width: 75%;"><div><b>$url</b><br/><p>$body</p>$traceString</div></td>
+    <td style="width: 75%;"><div><b>$url_encoded</b><br/><p>$body</p>$traceString</div></td>
     <td style="width: 15%;">$runLink</td>
 </tr>
 <tr style="display: none;" class="elastic-wrapper" data-id="$i">
@@ -110,7 +111,35 @@ HTML;
         }
         $rows = implode("\n", $rows);
 
+        \Yii::$app->view->registerCss(<<<CSS
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+CSS
+);
+
         \Yii::$app->view->registerJs(<<<JS
+function syntaxHighlight(json) {
+    json = json.replace(/&/g, '&').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
 
 $('.elastic-link').on('click', function (event) {
     event.preventDefault();
@@ -124,7 +153,7 @@ $('.elastic-link').on('click', function (event) {
         url: $(this).attr('href'),
         success: function (data) {
             result.find('.time').html(data.time);
-            result.find('.result').html(data.result);
+            result.find('.result').html( syntaxHighlight( JSON.stringify( JSON.parse(data.result), undefined, 10) ) );
         },
         error: function (jqXHR, textStatus, errorThrown) {
             result.find('.time').html('');

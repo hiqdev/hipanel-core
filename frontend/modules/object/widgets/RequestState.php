@@ -21,7 +21,7 @@ class RequestState extends Widget
     /**
      * @var array additional options to be passed to the JS plugin call.
      */
-    public $clientOptions;
+    public $clientOptions = array();
 
     /**
      * @var string default selector of wrapper with state labels. Will be passed to JS plugin call.
@@ -38,7 +38,9 @@ class RequestState extends Widget
             $this->model->state_label = Re::l($this->model->state_label);
         }
 
-        if (empty($this->module)) throw new InvalidConfigException('module name is not specified');
+        if (empty($this->module)) {
+            $this->module = $this->model->formName();
+        }
     }
 
     public function run () {
