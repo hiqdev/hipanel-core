@@ -42,7 +42,6 @@ $widgetButtonConfig = [
 </div>
 
 <?php
-
 $widgetIndexConfig = [
     'dataProvider'  => $dataProvider,
     'filterModel'   => $searchModel,

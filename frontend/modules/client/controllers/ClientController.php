@@ -31,7 +31,7 @@ class ClientController extends CrudController {
         return $this->render('view', ['model' => $this->findModel($id, $params),]);
     }
 
-    private function _actionUserList ($input) {
+    private function actionUserList ($input) {
         $out = ['more' => true];
         $class = "{$this->path}\\{$this->class}";
         if (!is_null($input['search'])) {
@@ -56,35 +56,35 @@ class ClientController extends CrudController {
 
     public function actionClientAllList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search];
-        return $this->_actionUserList(compact('search','id','format'));
+        return $this->actionUserList(compact('search','id','format'));
     }
 
     public function actionClientList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'client'];
-        return $this->_actionUserList(compact('search','id','format'));
+        return $this->actionUserList(compact('search','id','format'));
     }
 
     public function actionManagerList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'manager' ];
-        return $this->_actionUserList(compact('search','id','format'));
+        return $this->actionUserList(compact('search','id','format'));
     }
 
     public function actionAdminList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'admin' ];
-        return $this->_actionUserList(compact('search','id','format'));
+        return $this->actionUserList(compact('search','id','format'));
     }
 
     public function actionSellerList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'type' => 'reseller' ];
-        return $this->_actionUserList(compact('search','id','format'));
+        return $this->actionUserList(compact('search','id','format'));
     }
 
     public function actionCanManageList ($search = null, $id = null, $format = 'json') {
         $search = $search === null ? null : ['client_like' => $search, 'manager_only' => 'true' ];
-        return $this->_actionUserList(compact('search','id','format'));
+        return $this->actionUserList(compact('search','id','format'));
     }
 
-    private function _actionPrepareRender ($params = [], $addFuncs) {
+    private function actionPrepareRender ($params = [], $addFuncs) {
         $class = "{$this->path}\\{$this->class}Search";
         $searchModel = new $class();
         $dataProvider = $searchModel->search( $params );
@@ -98,7 +98,7 @@ class ClientController extends CrudController {
         ];
     }
 
-    private function _actionPrepareDataToUpdate ($action, $params, $scenario) {
+    private function actionPrepareDataToUpdate ($action, $params, $scenario) {
         $data = [];
         foreach ($params['ids'] as $id => $values) {
             if (is_array($values)) {
@@ -124,12 +124,12 @@ class ClientController extends CrudController {
         return true;
     }
 
-    private function _recursiveSearch ($array, $field) {
+    private function recursiveSearch ($array, $field) {
         if (is_array($array)) {
             if (\yii\helpers\BaseArrayHelper::keyExists($field, $array)) return true;
             else {
                 foreach ($array as $key => $value) {
-                    if (is_array($value)) $res = $res ? : $this->_recursiveSearch($value, $field);
+                    if (is_array($value)) $res = $res ? : $this->recursiveSearch($value, $field);
                 }
                 return $res;
             }
@@ -137,23 +137,23 @@ class ClientController extends CrudController {
         return false;
     }
 
-    private function _checkException ($id, $ids, $post) {
+    private function checkException ($id, $ids, $post) {
         if (!$id && !$ids &&!$post['id'] && !$post['ids']) throw new NotFoundHttpException('The requested page does not exist.');
         return true;
     }
 
-    private function _actionRenderPage ($page, $queryParams, $action = [], $addFunc = []) {
+    private function actionRenderPage ($page, $queryParams, $action = [], $addFunc = []) {
         return Yii::$app->request->isAjax
-            ? $this->renderPartial($page, ArrayHelper::merge($this->_actionPrepareRender($queryParams, $addFunc), $action))
-            : $this->render($page, ArrayHelper::merge($this->_actionPrepareRender($queryParams, $addFunc), $action));
+            ? $this->renderPartial($page, ArrayHelper::merge($this->actionPrepareRender($queryParams, $addFunc), $action))
+            : $this->render($page, ArrayHelper::merge($this->actionPrepareRender($queryParams, $addFunc), $action));
     }
 
-    private function _actionPerform ($row) {
-        $this->_checkException ($row['id'], $row['ids'], Yii::$app->request->post());
+    private function actionPerform ($row) {
+        $this->checkException ($row['id'], $row['ids'], Yii::$app->request->post());
         $id = $row['id'] ? : Yii::$app->request->post('id');
         $ids = $row['ids'] ? : Yii::$app->request->post('ids');
         if (Yii::$app->request->isAjax && !$id) {
-            if ($this->_actionPrepareDataToUpdate($row['action'] , Yii::$app->request->post(), $row['scenario'])) {
+            if ($this->actionPrepareDataToUpdate($row['action'] , Yii::$app->request->post(), $row['scenario'])) {
                 return ['state' => 'success', 'message' => \Yii::t('app', $row['action']) ];
             } else {
                 return ['state' => 'error', 'message' => \Yii::t('app', 'Something wrong')];
@@ -161,13 +161,13 @@ class ClientController extends CrudController {
         }
         $check = true;
         foreach ($row['required'] as $required) {
-            if (!$this->_recursiveSearch(Yii::$app->request->post(), $required)) {
+            if (!$this->recursiveSearch(Yii::$app->request->post(), $required)) {
                 $check = false;
                 break;
             }
         }
         if (!$id && $check) {
-            if ($this->_actionPrepareDataToUpdate($row['action'], Yii::$app->request->post(), $row['scenario'])) {
+            if ($this->actionPrepareDataToUpdate($row['action'], Yii::$app->request->post(), $row['scenario'])) {
                 \Yii::$app->getSession()->setFlash('success', \Yii::t('app', '{0} was successful', $row['action']));
             } else {
                 \Yii::$app->getSession()->setFlash('error',  \Yii::t('app', 'Something wrong'));
@@ -176,11 +176,11 @@ class ClientController extends CrudController {
         }
         $ids = $ids ? : [ 'id' => $id ];
         $queryParams = [ 'ids' => implode(',', $ids) ];
-        return $this->_actionRenderPage($row['page'], $queryParams, ['action' => $row['subaction']], $row['add']);
+        return $this->actionRenderPage($row['page'], $queryParams, ['action' => $row['subaction']], $row['add']);
     }
 
     public function actionSetCredit ($id = null, $ids = []) {
-        return $this->_actionPerform([
+        return $this->actionPerform([
             'id'        => $id,
             'ids'       => $ids,
             'action'    => 'SetCredit',
@@ -192,7 +192,7 @@ class ClientController extends CrudController {
 
     /// TODO: implement
     public function actionSetLanguage ($id = null, $ids = []) {
-        return $this->_actionPerform([
+        return $this->actionPerform([
             'id'        => $id,
             'ids'       => $ids,
             'action'    => 'SetLanguage',
@@ -204,25 +204,25 @@ class ClientController extends CrudController {
 
     /// TODO: implement
     public function actionSetTariffs () {
-        $this->_checkException ($id, $ids, Yii::$app->request->post());
+        $this->checkException ($id, $ids, Yii::$app->request->post());
         return $this->renderPartial('set-tariffs', ['model' => $this->findModel($id)]);
     }
 
     /// TODO: implement
     public function actionChangeType () {
-        $this->_checkException ($id, $ids, Yii::$app->request->post());
+        $this->checkException ($id, $ids, Yii::$app->request->post());
         return $this->renderPartial('change-type', ['model' => $this->findModel($id)]);
     }
 
     /// TODO: implement
     public function actionChangeSeller () {
-        $this->_checkException ($id, $ids, Yii::$app->request->post());
+        $this->checkException ($id, $ids, Yii::$app->request->post());
         return $this->renderPartial('change-seller', ['model' => $this->findModel($id)]);
     }
 
     /// TODO: implement
     public function actionChangeLogin () {
-        $this->_checkException ($id, $ids, Yii::$app->request->post());
+        $this->checkException ($id, $ids, Yii::$app->request->post());
         return $this->renderPartial('change-login', ['model' => $this->findModel($id)]);
     }
 
@@ -233,20 +233,20 @@ class ClientController extends CrudController {
     }
 
     public function actionSetSeller ($id = null, $ids = []) {
-        return $this->_actionPerform([
+        return $this->actionPerform([
             'id'        => $id,
             'ids'       => $ids,
             'action'    => "setSeller",
             'required'  => [ 'id', 'seller_id' ],
             'page'      => 'set-seller',
             'scenario'  => 'setseller',
-            'add'       => ['_actionUserList' => ['search' => ['type' => 'reseller', 'limit' => 'ALL'], 'format' => '']],
+            'add'       => ['actionUserList' => ['search' => ['type' => 'reseller', 'limit' => 'ALL'], 'format' => '']],
         ]);
 
     }
 
     private function actionDoBlock ($id = null, $ids = [], $action = 'enable') {
-        return $this->_actionPerform([
+        return $this->actionPerform([
             'id'        => $id,
             'ids'       => $ids,
             'action'    => ucfirst($action) . "Block",

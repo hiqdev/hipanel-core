@@ -14,21 +14,16 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
+use frontend\components\CrudController;
 
-class TicketController extends Controller
-{
+class TicketController extends CrudController {
+    protected $class    = 'Ticket';
+    protected $path     = 'frontend\modules\ticket\models';
+
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
-
-    private function _topicData() {
-        return Ref::find()->where(['gtype' => 'topic,ticket'])->getList();
-    }
 
     private function _priorityData() {
         return Ref::find()->where(['gtype' => 'type,priority'])->getList();
-    }
-
-    private function _stateData() {
-        return Ref::find()->where(['gtype' => 'state,ticket'])->getList();
     }
 
     public function actionIndex() {
@@ -38,9 +33,9 @@ class TicketController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'topic_data' => $this->_topicData(),
+            'topic_data' => $this->objectGetParameters('topic'),
             'priority_data' => $this->_priorityData(),
-            'state_data' => $this->_stateData(),
+            'state_data' => $this->objectGetParameters('state'),
         ]);
     }
 
@@ -53,9 +48,9 @@ class TicketController extends Controller
         $model->scenario = 'answer';
         return $this->render('view', [
             'model' => $model,
-            'topic_data' => $this->_topicData(),
+            'topic_data' => $this->objectGetParameters('topic'),
             'priority_data' => $this->_priorityData(),
-            'state_data' => $this->_stateData(),
+            'state_data' => $this->objectGetParameters('state'),
         ]);
     }
 
@@ -74,9 +69,9 @@ class TicketController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'topic_data' => $this->_topicData(),
+            'topic_data' => objectGetParameters('topic'),
             'priority_data' => $this->_priorityData(),
-            'state_data' => $this->_stateData(),
+            'state_data' => $this->objectGetParameters('state'),
         ]);
     }
 
@@ -174,8 +169,12 @@ class TicketController extends Controller
 
     public function actionSettings() {
         return Yii::$app->request->isAjax
-            ? $this->renderPartial('settings', [])
-            : $this->render('settings', []);
+            ? $this->renderPartial('settings', [
+                'settings'  => $this->actionGetClassValues('client,ticket_settings', 'frontend\modules\client\models\Client'),
+            ])
+            : $this->render('settings', [
+                'settings'  => $this->actionGetClassValues('client,ticket_settings', 'frontend\modules\client\models\Client'),
+            ]);
     }
 
     public function actionPriorityUp($id) {

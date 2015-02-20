@@ -5,7 +5,7 @@ namespace frontend\components;
 use frontend\components\Controller;
 use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
-use frontend\components\Ref;
+use frontend\models\Ref;
 use yii\helpers\ArrayHelper;
 use Yii;
 
@@ -20,12 +20,13 @@ class CrudController extends Controller {
         return Ref::find()->where(['gtype' => $ref . "," . strtolower($this->class)])->getList();
     }
 
-    protected function objectGetStates () {
-        return Ref::find()->where(['gtype' => "state," . strtolower($this->class)])->getList();
-    }
-
     protected function objectGetBlockReason () {
         return Ref::find()->where(['gtype' => 'type,block'])->getList();
+    }
+
+    protected function actionGetClassValues ($class = "", $call_class = "") {
+        $call_class = $call_class ? : "{$this->path}\\{$this->class}";
+        return $call_class::find()->where(['class' => $class])->getList();
     }
 
     public function actionIndex ($tpl = null) {
