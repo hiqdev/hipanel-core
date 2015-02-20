@@ -126,6 +126,9 @@ return [
         'hosting' => [
             'class' => 'app\modules\hosting\Module',
         ],
+        'setting' => [
+            'class' => 'app\modules\setting\Module',
+        ],
     ],
     'params' => $params,
 ];

@@ -173,7 +173,9 @@ class ThreadController extends Controller
     }
 
     public function actionSettings() {
-        return $this->render('settings', []);
+        return Yii::$app->request->isAjax
+            ? $this->renderPartial('settings', [])
+            : $this->render('settings', []);
     }
 
     public function actionPriorityUp($id) {

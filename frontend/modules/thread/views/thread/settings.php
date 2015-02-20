@@ -1,3 +1,7 @@
+<?php
+use yii\widgets\Pjax;
+Pjax::begin();
+?>
 <p>
     <?= yii\helpers\Html::a(Yii::t('app', 'Save {modelClass}', [
         'modelClass' => 'Ticket Settings',
@@ -36,3 +40,4 @@
 
     </form>
 </div>
+<?php Pjax::end() ?>
