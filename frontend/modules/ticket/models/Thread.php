@@ -6,7 +6,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\helpers\Markdown;
 
-class Ticket extends \frontend\components\hiresource\ActiveRecord
+class Thread extends \frontend\components\hiresource\ActiveRecord
 {
 
     public $time_from;

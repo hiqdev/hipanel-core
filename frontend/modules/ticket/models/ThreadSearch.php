@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class TicketSearch extends Ticket
+class ThreadSearch extends Thread
 {
     /**
      * @inheritdoc
@@ -51,7 +51,7 @@ class TicketSearch extends Ticket
      * @return ActiveDataProvider
      */
     public function search($params) {
-        $query = Ticket::find();
+        $query = Thread::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

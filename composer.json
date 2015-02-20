@@ -27,7 +27,8 @@
         "kartik-v/yii2-field-range": "*",
         "michelf/php-smartypants": "1.6.*@dev",
         "kartik-v/yii2-markdown": "1.3.0",
-        "raoul2000/yii2-pnotify-widget": "*"
+        "raoul2000/yii2-pnotify-widget": "*",
+        "himiklab/yii2-easy-thumbnail-image-helper": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

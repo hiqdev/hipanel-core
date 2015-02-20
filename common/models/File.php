@@ -2,6 +2,7 @@
 namespace common\models;
 
 use common\components\Err as err;
+use frontend\modules\thread\models\Thread;
 use yii\helpers\Url;
 use Yii;
 
@@ -46,6 +47,14 @@ class File extends \frontend\components\hiresource\ActiveRecord
         return md5(self::MD5 . $name . self::SALT);
     }
 
+    public static function ticketPath($md5) {
+        return implode('/', [self::ticketDir($md5), $md5]);
+    }
+
+    public static function ticketDir($md5) {
+        return implode('/', ['var/files/tickets', substr($md5, 0, 2)]); // $GLOBALS['PRJ_DIR'],
+    }
+
     /**
      * @return string
      */
@@ -62,13 +71,19 @@ class File extends \frontend\components\hiresource\ActiveRecord
         return Url::to(['/file/temp-view', 'temp_file' => $temp_name, 'key' => $key], true);
     }
 
+    protected function fileGet($rows, $params = []) {
+        $input = $this->_prepareData($rows);
+        $response = http::fetchPost($this->api_url . 'fileGet', $input);
+        return $response;
+    }
+
     /**
      * @param $file
      * @param null $file_id
      * @param null $ticket_id
      * @return array|bool
      */
-    private static function put_file_from_site($file, $file_id = null, $ticket_id = null) {
+    public static function put_file_from_site($file, $file_id = null, $ticket_id = null) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime_type = finfo_file($finfo, $file);
         finfo_close($finfo);
@@ -83,8 +98,10 @@ class File extends \frontend\components\hiresource\ActiveRecord
         return true;
     }
 
-    private static function put_file_from_api($file_id, $ticket_id) {
-        $data = g::base()->ticketGetFile(['file_id' => $file_id, 'id' => $ticket_id]);
+    public static function put_file_from_api($file_id, $ticket_id) {
+        $data = Thread::perform('GetFile', ['file_id' => $file_id, 'id' => $ticket_id]);
+        return $data;
+        //\yii\helpers\VarDumper::dump($data, 10, true);die();
 //        dlog($data);
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime_type = finfo_buffer($finfo, $data);
@@ -104,8 +121,8 @@ class File extends \frontend\components\hiresource\ActiveRecord
     }
 
     public static function putFile($file_id, $ticket_id) {
-        if (in_array($file_id, $_SESSION['ticket_files_allow_access']) && !$_REQUEST['source'] == 'api') {
-            $res = self::put_file_from_site(g::base()->ticketPath(md5($file_id)), $file_id, $ticket_id);
+        if (is_file(Yii::getAlias('@runtime/upload/'.substr($file_id, -2, 2).DIRECTORY_SEPARATOR.$file_id))) {
+            $res = self::put_file_from_site(self::ticketPath(md5($file_id)), $file_id, $ticket_id);
         }
         else {
             $res = self::put_file_from_api($file_id, $ticket_id);

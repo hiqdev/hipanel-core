@@ -15,17 +15,18 @@ use yii\web\Response;
 
 class FileController extends Controller
 {
-
-    public function actionIndex() {
-        print 'Hello world!';
-    }
-
     public function actionView($id) {
-        $model = $this->findModel($id);
+//        $model = $this->findModel($id);
+//        \yii\helpers\VarDumper::dump($model, 10, true);die();
         $response = Yii::$app->getResponse();
-        $response->format = Response::FORMAT_RAW;
-        $response->getHeaders()->add('content-type', $model->type);
-        return file_get_contents($model->filename);
+//        $response->format = Response::FORMAT_RAW;
+//        $response->getHeaders()->add('content-type', 'image/jpeg');
+
+        return $response->sendContentAsFile(File::putFile($id, 6236652), 'test.jpg', ['display' => 1]);
+//        $response = Yii::$app->getResponse();
+//        $response->format = Response::FORMAT_RAW;
+//        $response->getHeaders()->add('content-type', $model->type);
+//        return file_get_contents($model->filename);
     }
 
     public function actionTempView($temp_file, $key) {

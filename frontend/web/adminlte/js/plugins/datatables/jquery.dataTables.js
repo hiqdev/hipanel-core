@@ -4132,10 +4132,10 @@
 				 * disabled, as we need to perform slightly different actions.
 				 *   Basically the issue here is that the Javascript engine in modern browsers don't 
 				 * appear to allow the rendering engine to update the display while it is still executing
-				 * it's thread (well - it does but only after long intervals). This means that the 
-				 * 'processing' display doesn't appear for a table sort. To break the js thread up a bit
+				 * it's ticket (well - it does but only after long intervals). This means that the
+				 * 'processing' display doesn't appear for a table sort. To break the js ticket up a bit
 				 * I force an execution break by using setTimeout - but this breaks the expected 
-				 * thread continuation for the end-developer's point of view (their code would execute
+				 * ticket continuation for the end-developer's point of view (their code would execute
 				 * too early), so we only do it when we absolutely have to.
 				 */
 				var fnInnerSorting = function () {

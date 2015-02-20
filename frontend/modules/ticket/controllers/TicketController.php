@@ -1,8 +1,8 @@
 <?php
-namespace frontend\modules\thread\controllers;
+namespace frontend\modules\ticket\controllers;
 
-use frontend\modules\thread\models\Thread;
-use frontend\modules\thread\models\TicketSearch;
+use frontend\modules\ticket\models\Thread;
+use frontend\modules\ticket\models\ThreadSearch;
 use common\models\File;
 use frontend\components\hiresource\HiResException;
 use frontend\components\Re;
@@ -32,7 +32,7 @@ class TicketController extends Controller
     }
 
     public function actionIndex() {
-        $searchModel = new TicketSearch();
+        $searchModel = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

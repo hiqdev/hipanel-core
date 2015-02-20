@@ -1,8 +1,8 @@
 <?php
 use frontend\components\Re;
-use frontend\modules\thread\widgets\Label;
-use frontend\modules\thread\widgets\Topic;
-use frontend\modules\thread\widgets\Watcher;
+use frontend\modules\ticket\widgets\Label;
+use frontend\modules\ticket\widgets\Topic;
+use frontend\modules\ticket\widgets\Watcher;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\StringHelper;

@@ -1,5 +1,5 @@
 <?php
-namespace frontend\modules\thread\widgets;
+namespace frontend\modules\ticket\widgets;
 
 use yii\helpers\Html;
 use yii\jui\Widget;
