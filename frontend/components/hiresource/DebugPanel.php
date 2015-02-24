@@ -140,7 +140,6 @@ function syntaxHighlight(json) {
     });
 }
 
-
 $('.elastic-link').on('click', function (event) {
     event.preventDefault();
 
@@ -152,8 +151,20 @@ $('.elastic-link').on('click', function (event) {
         type: 'POST',
         url: $(this).attr('href'),
         success: function (data) {
+            var is_json = true;
+            try {
+               var json = JSON.parse(data.result);
+            } catch(e) {
+               is_json = false;
+            }
             result.find('.time').html(data.time);
-            result.find('.result').html( syntaxHighlight( JSON.stringify( JSON.parse(data.result), undefined, 10) ) );
+            if (is_json) {
+                console.log('123');
+                result.find('.result').html( syntaxHighlight( JSON.stringify( JSON.parse(data.result), undefined, 10) ) );
+            } else {
+                console.log('321');
+                result.find('.result').html( data.result );
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             result.find('.time').html('');
