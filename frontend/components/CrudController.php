@@ -24,9 +24,10 @@ class CrudController extends Controller {
         return Ref::find()->where(['gtype' => 'type,block'])->getList();
     }
 
-    protected function actionGetClassValues ($class = "", $call_class = "") {
-        $call_class = $call_class ? : "{$this->path}\\{$this->class}";
-        return $call_class::find()->where(['class' => $class])->getList();
+    protected function actionGetClassValues ($class = "", $values, $path = "", $id = "") {
+        $id = $id ? : Yii::$app->user->id;
+        $call_class = $path ? "{$path}\\" . ucfirst($class) : "{$this->path}\\{$this->class}";
+        return $call_class::Perform("GetClassValues", ["class" => "{$class},{$values}"], false);
     }
 
     public function actionIndex ($tpl = null) {
