@@ -120,9 +120,9 @@ return [
         'server' => [
             'class' => 'app\modules\server\Module',
         ],
-//      'domain' => [
-//          'class' => 'app\modules\domain\Module',
-//      ],
+        'domain' => [
+            'class' => 'app\modules\domain\Module',
+        ],
         'hosting' => [
             'class' => 'app\modules\hosting\Module',
         ],
