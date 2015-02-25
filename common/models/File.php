@@ -2,15 +2,23 @@
 namespace common\models;
 
 use common\components\Err as err;
-use frontend\modules\thread\models\Thread;
 use yii\helpers\Url;
 use Yii;
+use yii\helpers\FileHelper;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 class File extends \frontend\components\hiresource\ActiveRecord
 {
     const MD5 = '76303fjsq06mcr234nc379z32x48';
     const SALT = 'salt';
-    public $request;
+
+    /**
+     * @var string the directory to store uploaded files. You may use path alias here.
+     * If not set, it will use the "upload" subdirectory under the application runtime path.
+     */
+    public $path = '@runtime/upload';
 
     /**
      * @param $key
@@ -29,6 +37,7 @@ class File extends \frontend\components\hiresource\ActiveRecord
             'ids',
             'object_id',
             'object_ids',
+            'object',
             'seller',
             'sellers',
             'url',
@@ -47,11 +56,12 @@ class File extends \frontend\components\hiresource\ActiveRecord
         return md5(self::MD5 . $name . self::SALT);
     }
 
-    public static function ticketPath($md5) {
-        return implode('/', [self::ticketDir($md5), $md5]);
+    public static function filePath($file_id) {
+        return Yii::getAlias('@runtime/upload/' . substr($file_id, -2, 2) . DIRECTORY_SEPARATOR . $file_id);
+//        return implode('/', [self::fileDir($md5), $md5]);
     }
 
-    public static function ticketDir($md5) {
+    public static function fileDir($md5) {
         return implode('/', ['var/files/tickets', substr($md5, 0, 2)]); // $GLOBALS['PRJ_DIR'],
     }
 
@@ -80,63 +90,85 @@ class File extends \frontend\components\hiresource\ActiveRecord
     /**
      * @param $file
      * @param null $file_id
-     * @param null $ticket_id
+     * @param null $object_id
      * @return array|bool
      */
-    public static function put_file_from_site($file, $file_id = null, $ticket_id = null) {
+    public static function get_file_from_site($file, $file_id = null, $object_id = null, $object_name = null, $render = true) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime_type = finfo_file($finfo, $file);
         finfo_close($finfo);
-        $data = file_get_contents($file);
-        if (err::is($data)) return self::put_file_from_api($file_id, $ticket_id);
+//        $data = file_get_contents($file);
+//        if (err::is($data))
+//            return self::put_file_from_api($file_id, $object_id, $object_name, $render);
         if ($mime_type == 'text/plain') {
-            $encoded = json_decode($data, true);
-            if (err::is($encoded)) return self::put_file_from_api($file_id, $ticket_id);
+            $encoded = json_decode(file_get_contents($file), true);
+            if (err::is($encoded))
+                return self::get_file_from_api($file_id, $object_id, $object_name, $render);
         }
-        header('Content-type: ' . $mime_type);
-        echo $data;
-        return true;
+        if ($render)
+            return self::responseFile($file, $mime_type);
+        else
+            return $file;
     }
 
-    public static function put_file_from_api($file_id, $ticket_id) {
-        $data = Thread::perform('GetFile', ['file_id' => $file_id, 'id' => $ticket_id]);
-        return $data;
-        //\yii\helpers\VarDumper::dump($data, 10, true);die();
-//        dlog($data);
+    private static function responseFile($path, $content_type) {
+        $response = Yii::$app->getResponse();
+        $response->format = Response::FORMAT_RAW;
+        $response->getHeaders()->add('content-type', $content_type);
+        return file_get_contents($path);
+    }
+
+    public static function get_file_from_api($file_id, $object_id = null, $object_name = null, $render = true) {
+        $data = self::perform('Get', ['id' => $file_id, 'object_id' => $object_id, 'object' => $object_name]);
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime_type = finfo_buffer($finfo, $data);
         finfo_close($finfo);
-        $md5 = md5($file_id);
-        $dir = g::base()->ticketDir($md5);
-        $d = $GLOBALS['PRJ_DIR'] . '/var/files';
-        if (!file_exists($d)) mkdir($d, 0777, true);
-        $d = $GLOBALS['PRJ_DIR'] . '/var/files/tickets';
-        if (!file_exists($d)) mkdir($d, 0777, true);
-        if (!file_exists($dir)) mkdir($dir, 0777, true);
-        $file = file_put_contents(g::base()->ticketPath($md5), $data);
-        if (!$file) return err::set([], 'no file found');
-        header('Content-type: ' . $mime_type);
-        echo $data;
-        return true;
+        $finalDestination = self::filePath($file_id);
+        FileHelper::createDirectory(dirname($finalDestination));
+        $file = file_put_contents($finalDestination, $data);
+        if (!$file)
+            throw new NotFoundHttpException('File not found!');
+        if ($render)
+            return self::responseFile($finalDestination, $mime_type);
+        else
+            return $finalDestination;
     }
 
-    public static function putFile($file_id, $ticket_id) {
-        if (is_file(Yii::getAlias('@runtime/upload/'.substr($file_id, -2, 2).DIRECTORY_SEPARATOR.$file_id))) {
-            $res = self::put_file_from_site(self::ticketPath(md5($file_id)), $file_id, $ticket_id);
-        }
-        else {
-            $res = self::put_file_from_api($file_id, $ticket_id);
-        }
+    public static function renderFile($file_id, $object_id = null, $object_name = null, $render = true) {
+        if (is_file(self::filePath($file_id)))
+            $res = self::get_file_from_site(self::filePath($file_id), $file_id, $object_id, $object_name, $render);
+        else
+            $res = self::get_file_from_api($file_id, $object_id, $object_name, $render);
         return $res;
     }
 
-    /**
-     * tmp_file
-     *
-     * @param $request
-     * @return string
-     * @throws \yii\base\ExitException
-     */
+    public static function fileSave(array $files) {
+        $arr_ids = [];
+        foreach ($files as $file) {
+            if ($file instanceof UploadedFile) {
+                // Move to temporary destination
+                $tempDestination = self::getTempFolder() . DIRECTORY_SEPARATOR . uniqid() . '.' . $file->extension;
+                FileHelper::createDirectory(dirname($tempDestination));
+                $file->saveAs($tempDestination);
+                // Prepare to final destination
+                $url = self::getTmpUrl(basename($tempDestination));
+                $response =  self::perform('Put', [
+                    'url' => $url,
+                    'filename' => basename($tempDestination)
+                ]);
+                $file_id = $arr_ids[] = $response['id'];
+                $finalDestination = self::filePath($file_id);
+                FileHelper::createDirectory(dirname($finalDestination));
+                if (!rename($tempDestination, $finalDestination))
+                    throw new \LogicException('rename function is not work');
+                if (is_file($tempDestination))
+                    unlink($tempDestination);
+            }
+        }
+        return $arr_ids;
+    }
+
+    /*
     public static function getFile($request) {
         if (err::not($request)) {
             if (err::not($request['tmp_file']) && $request['key'] == md5(self::MD5 . $request['tmp_file'] . "salt")) {
@@ -164,4 +196,5 @@ class File extends \frontend\components\hiresource\ActiveRecord
 //            }
         }
     }
+    */
 }

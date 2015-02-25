@@ -15,19 +15,20 @@ use yii\web\Response;
 
 class FileController extends Controller
 {
-    public function actionView($id) {
+//    public function actionView($id, $ticket_id) {
+//        return File::renderFile($id, $ticket_id);
 //        $model = $this->findModel($id);
 //        \yii\helpers\VarDumper::dump($model, 10, true);die();
-        $response = Yii::$app->getResponse();
+//        $response = Yii::$app->getResponse();
 //        $response->format = Response::FORMAT_RAW;
 //        $response->getHeaders()->add('content-type', 'image/jpeg');
 
-        return $response->sendContentAsFile(File::putFile($id, 6236652), 'test.jpg', ['display' => 1]);
+//        return $response->sendContentAsFile(File::putFile($id, 6236652), 'test.jpg', ['display' => 1]);
 //        $response = Yii::$app->getResponse();
 //        $response->format = Response::FORMAT_RAW;
 //        $response->getHeaders()->add('content-type', $model->type);
 //        return file_get_contents($model->filename);
-    }
+//    }
 
     public function actionTempView($temp_file, $key) {
         if ($key == File::getHash($temp_file)) {
