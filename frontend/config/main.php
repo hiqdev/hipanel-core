@@ -17,7 +17,6 @@ return [
     'defaultRoute' => 'site',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-
 //        'assetManager' => [
 //            'bundles' => false,
 //        ],

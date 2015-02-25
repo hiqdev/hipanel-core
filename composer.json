@@ -29,7 +29,7 @@
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "1.6.*@dev",
         "raoul2000/yii2-pnotify-widget": "*",
-        "himiklab/yii2-easy-thumbnail-image-helper": "*"
+        "yiisoft/yii2-imagine": "~2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
