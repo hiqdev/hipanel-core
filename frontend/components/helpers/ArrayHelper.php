@@ -15,4 +15,24 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
 
         return $res;
     }
+
+    /**
+     * Parses data, exploding the string by comma, trying to create array
+     *
+     * @param $string
+     * @param string $delimiter
+     * @return array
+     */
+    static public function csplit ($string, $delimiter = ',') {
+        $res = [];
+        foreach (explode($delimiter, $string) as $k => $v) {
+            $v = trim($v);
+            if (strlen($v)) {
+                array_push($res, $v);
+            }
+        }
+
+        return $res;
+    }
+
 }

@@ -8,6 +8,7 @@
 
 namespace frontend\widgets;
 
+use frontend\components\helpers\ArrayHelper;
 use yii\base\InvalidValueException;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -78,7 +79,7 @@ class ArraySpoiler extends Widget
         parent::init();
 
         if (is_string($this->data) || is_numeric($this->data)) {
-            $this->data = $this->parse_csplit();
+            $this->data = ArrayHelper::csplit($this->data);
         }
 
         if (!is_array($this->data)) {
@@ -88,23 +89,6 @@ class ArraySpoiler extends Widget
         if (is_callable($this->formatter)) {
             $this->data = array_map($this->formatter, $this->data);
         }
-    }
-
-    /**
-     * Parses data, exploding the string by comma, trying to create array
-     * @return array
-     */
-    private function parse_csplit()
-    {
-        $res = [];
-        foreach (explode(',', $this->data) as $k => $v) {
-            $v = trim($v);
-            if (strlen($v)) {
-                array_push($res, $v);
-            }
-        }
-
-        return $res;
     }
 
     /**
