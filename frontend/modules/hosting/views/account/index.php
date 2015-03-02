@@ -25,17 +25,17 @@ echo GridView::widget([
         ],
         [
             'attribute'          => 'client_id',
+            'label'              => Yii::t('app', 'Client'),
+            'format'             => 'html',
             'value'              => function ($model) {
                 return Html::a($model->client, ['/client/client/view', 'id' => $model->client_id]);
             },
-            'format'             => 'html',
-            'filterInputOptions' => ['id' => 'client_id'],
-            'label'              => Yii::t('app', 'Client'),
             'filter'             => Select2::widget([
                 'attribute' => 'client_id',
                 'model'     => $searchModel,
                 'url'       => Url::to(['/client/client/client-all-list'])
             ]),
+            'filterInputOptions' => ['id' => 'client_id'],
         ],
         [
             'attribute' => 'device_like',

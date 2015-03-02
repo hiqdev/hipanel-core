@@ -78,7 +78,7 @@ class TicketController extends CrudController {
         $model->load(Yii::$app->request->post());
         $model->prepareSpentTime();
         $model->prepareTopic();
-        if ($model->validate() && $this->_threadChange($model->getAttributes(), 'Answer', false)) {
+        if ($model->validate() && $this->_ticketChange($model->getAttributes(), 'Answer', false)) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
         throw new \LogicException('An error has occurred');
@@ -121,7 +121,7 @@ class TicketController extends CrudController {
             'id' => $id,
             $this->_subscribeAction[$this->action->id] => \Yii::$app->user->identity->username
         ];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You have successfully subscribed!'));
+        if ($this->_ticketChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You have successfully subscribed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred. You have not been subscribed!'));
         return $this->redirect(Yii::$app->request->referrer);
@@ -133,7 +133,7 @@ class TicketController extends CrudController {
             'id' => $id,
             $this->_subscribeAction[$this->action->id] => \Yii::$app->user->identity->username
         ];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You have successfully subscribed!'));
+        if ($this->_ticketChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'You have successfully subscribed!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred. You have not been subscribed!'));
         return $this->redirect(Yii::$app->request->referrer);
@@ -175,7 +175,7 @@ class TicketController extends CrudController {
 
     public function actionPriorityUp($id) {
         $options[$id] = ['id' => $id, 'priority' => 'high'];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Priority has been changed to high!'));
+        if ($this->_ticketChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Priority has been changed to high!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Some error occurred! Priority has not been changed to high.'));
         return $this->redirect(Yii::$app->request->referrer);
@@ -183,7 +183,7 @@ class TicketController extends CrudController {
 
     public function actionPriorityDown($id) {
         $options[$id] = ['id' => $id, 'priority' => 'medium'];
-        if ($this->_threadChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Priority has been changed to medium!'));
+        if ($this->_ticketChange($options)) \Yii::$app->getSession()->setFlash('success', \Yii::t('app', 'Priority has been changed to medium!'));
         else
             \Yii::$app->getSession()->setFlash('error', \Yii::t('app', 'Something goes wrong!'));
         return $this->redirect(Yii::$app->request->referrer);
@@ -196,7 +196,7 @@ class TicketController extends CrudController {
      * @param bool $bulk
      * @return bool
      */
-    private function _threadChange($options = [], $apiCall = 'Answer', $bulk = true) {
+    private function _ticketChange($options = [], $apiCall = 'Answer', $bulk = true) {
         try {
             Thread::perform($apiCall, $options, $bulk);
         } catch (HiResException $e) {
@@ -220,6 +220,15 @@ class TicketController extends CrudController {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * @param $id
+     * @param $object_id
+     * @return array|bool
+     */
+    public function actionFileView($id, $object_id) {
+        return File::renderFile($id, $object_id, 'thread', true);
     }
 
     /* AJAX */
