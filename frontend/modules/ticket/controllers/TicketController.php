@@ -22,10 +22,6 @@ class TicketController extends CrudController {
 
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
 
-    private function _priorityData() {
-        return Ref::find()->where(['gtype' => 'type,priority'])->getList();
-    }
-
     public function actionIndex() {
         $searchModel = new ThreadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -34,7 +30,7 @@ class TicketController extends CrudController {
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'topic_data' => $this->objectGetParameters('topic'),
-            'priority_data' => $this->_priorityData(),
+            'priority_data' => $this->objectGetPriority(),
             'state_data' => $this->objectGetParameters('state'),
         ]);
     }
@@ -49,7 +45,7 @@ class TicketController extends CrudController {
         return $this->render('view', [
             'model' => $model,
             'topic_data' => $this->objectGetParameters('topic'),
-            'priority_data' => $this->_priorityData(),
+            'priority_data' => $this->objectGetPriority(),
             'state_data' => $this->objectGetParameters('state'),
         ]);
     }
@@ -70,7 +66,7 @@ class TicketController extends CrudController {
         return $this->render('create', [
             'model' => $model,
             'topic_data' => $this->objectGetParameters('topic'),
-            'priority_data' => $this->_priorityData(),
+            'priority_data' => $this->objectGetPriority(),
             'state_data' => $this->objectGetParameters('state'),
         ]);
     }
