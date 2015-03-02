@@ -1,6 +1,8 @@
 <?php
 namespace frontend\modules\hosting\models;
 
+use frontend\components\helpers\ArrayHelper;
+use frontend\components\validators\IpAddressValidator;
 use Yii;
 
 class Account extends \frontend\components\hiresource\ActiveRecord
@@ -12,6 +14,7 @@ class Account extends \frontend\components\hiresource\ActiveRecord
         return [
             'id',
             'login',
+            'password',
             'uid',
             'gid',
             'shell',
@@ -31,13 +34,60 @@ class Account extends \frontend\components\hiresource\ActiveRecord
             'objects_count',
             'request_state',
             'request_state_label',
-            'mail_settings'
+            'mail_settings',
+            'server',
+            'server_id',
         ];
     }
 
     public function rules () {
         return [
-            [['login'], 'required']
+            [
+                [
+                    'login',
+                    'server_id',
+                    'password',
+                    'sshftp_ips',
+                    'type',
+                ],
+                'safe',
+                'on' => 'insert'
+            ],
+            [
+                [
+                    'login',
+                    'server_id',
+                    'password',
+                    'sshftp_ips',
+                    'type',
+                ],
+                'required',
+                'on' => 'insert'
+            ],
+            [
+                'password',
+                'compare',
+                'compareAttribute' => 'login',
+                'message'          => Yii::t('app', 'Password must not be equal to login'),
+                'operator'         => '!=',
+                'on'               => ['insert'],
+            ],
+            ['login', 'match', 'pattern' => '/^[a-z][a-z0-9_]{2,31}$/', 'on' => 'insert'],
+            [
+                'login',
+                'in',
+                'range'   => ['root', 'toor'],
+                'not'     => true,
+                'on'      => 'insert',
+                'message' => Yii::t('app', 'You can not use this login')
+            ],
+            [
+                'sshftp_ips',
+                'filter',
+                'filter' => function ($value) { return ArrayHelper::csplit($value); },
+                'on'     => 'insert'
+            ],
+            ['sshftp_ips', IpAddressValidator::className(), 'on' => ['insert', 'update'], 'exclusion' => true]
         ];
     }
 
@@ -58,6 +108,11 @@ class Account extends \frontend\components\hiresource\ActiveRecord
             'state_label' => Yii::t('app', 'state'),
             'allowed_ips' => Yii::t('app', 'Allowed IPs'),
             'sshftp_ips'  => Yii::t('app', 'SSH/FTP IPs'),
+            'server_id'   => Yii::t('app', 'Server'),
         ];
+    }
+
+    public function getSshFtpIpsList () {
+        return implode(', ', $this->sshftp_ips);
     }
 }

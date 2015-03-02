@@ -8,26 +8,10 @@ use frontend\controllers\HipanelController;
 use frontend\models\Ref;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
+use yii;
 
 class AccountController extends HipanelController
 {
-    /**
-     * All of security-aware methods are allowed only with POST requests
-     *
-     * @return array
-     */
-    public function behaviors () {
-        return [
-            'verbs' => [
-                'class'   => VerbFilter::className(),
-                'actions' => [
-                    'create' => ['post'],
-                    'update' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actionIndex () {
         $searchModel  = new AccountSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
@@ -44,6 +28,19 @@ class AccountController extends HipanelController
         $model = $this->findModel($id);
 
         return $this->render('view', compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels'));
+    }
+
+    public function actionCreate () {
+        $model           = new Account();
+        $model->scenario = 'insert';
+        $model->load(Yii::$app->request->post());
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create', [
+            'model'         => $model
+        ]);
     }
 
     /**
