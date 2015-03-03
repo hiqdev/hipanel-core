@@ -2,11 +2,9 @@
 namespace common\models;
 
 use common\components\Err;
-use frontend\components\hiresource\HiResException;
 use yii\helpers\Url;
 use Yii;
 use yii\helpers\FileHelper;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -137,15 +135,11 @@ class File extends \frontend\components\hiresource\ActiveRecord
     }
 
     public static function renderFile($file_id, $object_id = null, $object_name = null, $render = true) {
-        $canISee = (boolean)Err::not(self::perform('GetInfo', ['id' => $file_id, 'object_id' => $object_id, 'object' => $object_name]));
-//        \yii\helpers\VarDumper::dump($canISee, 10, true);
-        if ($canISee) {
-            if (is_file(self::filePath($file_id)))
-                $res = self::get_file_from_site(self::filePath($file_id), $file_id, $object_id, $object_name, $render);
-            else
-                $res = self::get_file_from_api($file_id, $object_id, $object_name, $render);
-            return $res;
-        }
+        if (is_file(self::filePath($file_id)))
+            $res = self::get_file_from_site(self::filePath($file_id), $file_id, $object_id, $object_name, $render);
+        else
+            $res = self::get_file_from_api($file_id, $object_id, $object_name, $render);
+        return $res;
     }
 
     public static function fileSave(array $files) {
