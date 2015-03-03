@@ -684,6 +684,7 @@ $(window).load(function() {
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
+/*
 (function($, h, c) {
     var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j + "-special-event", b = "delay", f = "throttleWindow";
     e[b] = 250;
@@ -739,7 +740,7 @@ $(window).load(function() {
         }, e[b])
     }}
 )(jQuery, this);
-
+*/
 /*!
  * SlimScroll https://github.com/rochal/jQuery-slimScroll
  * =======================================================

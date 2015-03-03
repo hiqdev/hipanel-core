@@ -1,10 +1,12 @@
 <?php
 namespace common\models;
 
-use common\components\Err as err;
+use common\components\Err;
+use frontend\components\hiresource\HiResException;
 use yii\helpers\Url;
 use Yii;
 use yii\helpers\FileHelper;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -76,7 +78,7 @@ class File extends \frontend\components\hiresource\ActiveRecord
      * @param $temp_name
      * @return string
      */
-    public static function getTmpUrl($temp_name) {
+    private static function getTmpUrl($temp_name) {
         $key = self::getHash($temp_name);
         return Url::to(['/file/temp-view', 'temp_file' => $temp_name, 'key' => $key], true);
     }
@@ -93,7 +95,7 @@ class File extends \frontend\components\hiresource\ActiveRecord
      * @param null $object_id
      * @return array|bool
      */
-    public static function get_file_from_site($file, $file_id = null, $object_id = null, $object_name = null, $render = true) {
+    private static function get_file_from_site($file, $file_id = null, $object_id = null, $object_name = null, $render = true) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime_type = finfo_file($finfo, $file);
         finfo_close($finfo);
@@ -118,7 +120,7 @@ class File extends \frontend\components\hiresource\ActiveRecord
         return file_get_contents($path);
     }
 
-    public static function get_file_from_api($file_id, $object_id = null, $object_name = null, $render = true) {
+    private static function get_file_from_api($file_id, $object_id = null, $object_name = null, $render = true) {
         $data = self::perform('Get', ['id' => $file_id, 'object_id' => $object_id, 'object' => $object_name]);
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime_type = finfo_buffer($finfo, $data);
@@ -135,11 +137,15 @@ class File extends \frontend\components\hiresource\ActiveRecord
     }
 
     public static function renderFile($file_id, $object_id = null, $object_name = null, $render = true) {
-        if (is_file(self::filePath($file_id)))
-            $res = self::get_file_from_site(self::filePath($file_id), $file_id, $object_id, $object_name, $render);
-        else
-            $res = self::get_file_from_api($file_id, $object_id, $object_name, $render);
-        return $res;
+        $canISee = (boolean)Err::not(self::perform('GetInfo', ['id' => $file_id, 'object_id' => $object_id, 'object' => $object_name]));
+//        \yii\helpers\VarDumper::dump($canISee, 10, true);
+        if ($canISee) {
+            if (is_file(self::filePath($file_id)))
+                $res = self::get_file_from_site(self::filePath($file_id), $file_id, $object_id, $object_name, $render);
+            else
+                $res = self::get_file_from_api($file_id, $object_id, $object_name, $render);
+            return $res;
+        }
     }
 
     public static function fileSave(array $files) {
@@ -167,34 +173,4 @@ class File extends \frontend\components\hiresource\ActiveRecord
         }
         return $arr_ids;
     }
-
-    /*
-    public static function getFile($request) {
-        if (err::not($request)) {
-            if (err::not($request['tmp_file']) && $request['key'] == md5(self::MD5 . $request['tmp_file'] . "salt")) {
-//                $request['tmp_file'] = str_replace(['../', '/'], '', $request['tmp_file']);
-                $file = self::uploadPath() . $request['tmp_file'];
-                if (file_exists($file)) {
-                    if (err::is(self::put_file_from_site($file))) return json_encode(['_error' => 'file not found']);
-                    \Yii::$app->end();
-                }
-            }
-//            if (tpl::get('auth.id')) {
-//                $file_id = check::id($request['file_id'] ? : $URLPARTS[3]);
-//                $ticket_id = check::id($request['ticket_id'] ? : $URLPARTS[4]);
-//                if ($file_id) {
-//                    $res = putFile($file_id, $ticket_id);
-//                    if (err::is($res)) echo json_encode($res);
-//                    exit;
-//                }
-//                if (isset($_SESSION['ticket_create_files_tmp'][$request['tmp_file']])) {
-//                    $file = "{".self::PRJ_DIR."}/var/tmp/{$request['tmp_file']}";
-//                    if (file_exists($file)) {
-//                        if (err::is(self::put_file_from_site($file))) echo json_encode(['_error' => 'file not found']);;
-//                    }
-//                }
-//            }
-        }
-    }
-    */
 }

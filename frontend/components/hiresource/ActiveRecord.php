@@ -14,6 +14,7 @@ use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\helpers\StringHelper;
 use frontend\components\Re;
+use common\components\Err;
 
 //use yii\base\InvalidCallException;
 //use yii\base\NotSupportedException;
@@ -23,14 +24,14 @@ class ActiveRecord extends BaseActiveRecord
 {
     public $gl_key;
     public $gl_value;
+
     /**
      * Returns the database connection used by this AR class.
      * By default, the "hiresoruce" application component is used as the database connection.
      * You may override this method if you want to use a different database connection.
      * @return Connection the database connection used by this AR class.
      */
-    public static function getDb()
-    {
+    public static function getDb() {
         return \Yii::$app->get('hiresource');
     }
 
@@ -38,20 +39,19 @@ class ActiveRecord extends BaseActiveRecord
      * @inheritdoc
      * @return ActiveQuery the newly created [[ActiveQuery]] instance.
      */
-    public static function find()
-    {
+    public static function find() {
         return \Yii::createObject(ActiveQuery::className(), [get_called_class()]);
     }
 
     /**
      * @inheritdoc
      */
-    public static function findOne($condition)
-    {
+    public static function findOne($condition) {
         $query = static::find();
         if (is_array($condition)) {
             return $query->andWhere($condition)->one();
-        } else {
+        }
+        else {
             return static::get($condition);
         }
 
@@ -67,15 +67,14 @@ class ActiveRecord extends BaseActiveRecord
      * for more details on these options.
      * @return static|null The record instance or null if it was not found.
      */
-    public static function get($primaryKey, $options = [])
-    {
+    public static function get($primaryKey, $options = []) {
         if ($primaryKey === null) {
             return null;
         }
         $command = static::getDb()->createCommand();
         $result = $command->get(static::type(), $primaryKey, $options);
-        if ( Re::isError($result) ) {
-            throw new HiResException('Hiresource method: get', Re::getError($result));
+        if (Err::isError($result)) {
+            throw new HiResException('Hiresource method: get', Err::getError($result));
         }
         if ($result) {
             $model = static::instantiate($result);
@@ -102,8 +101,7 @@ class ActiveRecord extends BaseActiveRecord
      *
      * @return string[] array of primary key attributes. Only the first element of the array will be used.
      */
-    public static function primaryKey()
-    {
+    public static function primaryKey() {
         return ['id'];
     }
 
@@ -120,8 +118,7 @@ class ActiveRecord extends BaseActiveRecord
      * @return string[] list of attribute names.
      * @throws \yii\base\InvalidConfigException if not overridden in a child class.
      */
-    public function attributes()
-    {
+    public function attributes() {
         throw new InvalidConfigException('The attributes() method of Hiresource ActiveRecord has to be implemented by child classes.');
     }
 
@@ -133,29 +130,26 @@ class ActiveRecord extends BaseActiveRecord
      *
      * @return string[] list of attribute names. Must be a subset of [[attributes()]].
      */
-    public function arrayAttributes()
-    {
+    public function arrayAttributes() {
         return [];
     }
 
     /**
      * @return string the name of the index this record is stored in.
      */
-    public static function index()
-    {
-//        return Inflector::pluralize(Inflector::camel2id(StringHelper::basename(get_called_class()), '-'));
-        return mb_strtolower(StringHelper::basename(get_called_class()).'s');
+    public static function index() {
+        //        return Inflector::pluralize(Inflector::camel2id(StringHelper::basename(get_called_class()), '-'));
+        return mb_strtolower(StringHelper::basename(get_called_class()) . 's');
     }
 
     /**
      * @return string the name of the type of this record.
      */
-    public static function type()
-    {
+    public static function type() {
         return Inflector::camel2id(StringHelper::basename(get_called_class()), '-');
     }
 
-    public function insert ($runValidation = true, $attributes = null, $options = []) {
+    public function insert($runValidation = true, $attributes = null, $options = []) {
         if ($runValidation && !$this->validate($attributes)) {
             return false;
         }
@@ -166,16 +160,11 @@ class ActiveRecord extends BaseActiveRecord
 
         $values = $this->getDirtyAttributes($attributes);
         // \yii\helpers\VarDumper::dump($values, 10, true);die();
-        $response = static::getDb()->createCommand()->insert(
-            static::type(),
-            $values,
-            $this->getPrimaryKey(),
-            $options
-        );
-        if ( Re::isError($response) ) {
-            throw new HiResException('Hiresource method: Insert -- '.Json::encode($response), Re::getError($response));
+        $response = static::getDb()->createCommand()->insert(static::type(), $values, $this->getPrimaryKey(), $options);
+        if (Err::isError($response)) {
+            throw new HiResException('Hiresource method: Insert -- ' . Json::encode($response), Err::getError($response));
         }
-        $pk        = static::primaryKey()[0];
+        $pk = static::primaryKey()[0];
         $this->$pk = $response['id'];
         if ($pk != 'id') {
             $values[$pk] = $response['id'];
@@ -186,20 +175,15 @@ class ActiveRecord extends BaseActiveRecord
         return true;
     }
 
-    public function delete($options = [])
-    {
+    public function delete($options = []) {
         if (!$this->beforeDelete()) {
             return false;
         }
 
-        $result = static::getDb()->createCommand()->delete(
-                        static::type(),
-                        $this->getOldPrimaryKey(false),
-                        $options
-        );
+        $result = static::getDb()->createCommand()->delete(static::type(), $this->getOldPrimaryKey(false), $options);
 
-        if ( Re::isError($result) ) {
-            throw new HiResException('Hiresource method: Delete -- '.Json::encode($result), Re::getError($result));
+        if (Err::isError($result)) {
+            throw new HiResException('Hiresource method: Delete -- ' . Json::encode($result), Err::getError($result));
         }
 
         $this->setOldAttributes(null);
@@ -207,27 +191,26 @@ class ActiveRecord extends BaseActiveRecord
 
         if ($result === false) {
             return 0;
-        } else {
+        }
+        else {
             return 1;
         }
     }
 
-    public function update($runValidation = true, $attributeNames = null, $options = [])
-    {
+    public function update($runValidation = true, $attributeNames = null, $options = []) {
         if ($runValidation && !$this->validate($attributeNames)) {
             return false;
         }
         return $this->updateInternal($attributeNames, $options);
     }
 
-    protected function updateInternal($attributes = null, $options = [])
-    {
+    protected function updateInternal($attributes = null, $options = []) {
         if (!$this->beforeSave(false)) {
             return false;
         }
 
         $values = $this->getAttributes($attributes);
-//        $values = $this->attributes;
+        //        $values = $this->attributes;
 
 
         if (empty($values)) {
@@ -235,12 +218,7 @@ class ActiveRecord extends BaseActiveRecord
             return 0;
         }
 
-        $result = static::getDb()->createCommand()->update(
-            static::type(),
-            $this->getOldPrimaryKey(false),
-            $values,
-            $options
-        );
+        $result = static::getDb()->createCommand()->update(static::type(), $this->getOldPrimaryKey(false), $values, $options);
 
         $changedAttributes = [];
         foreach ($values as $name => $value) {
@@ -250,9 +228,10 @@ class ActiveRecord extends BaseActiveRecord
 
         $this->afterSave(false, $changedAttributes);
 
-        if ($result === false || Re::isError($result)) {
+        if ($result === false || Err::isError($result)) {
             return 0;
-        } else {
+        }
+        else {
             return 1;
         }
     }
@@ -267,10 +246,10 @@ class ActiveRecord extends BaseActiveRecord
      * @return array
      */
     public static function perform($action, $options = [], $bulk = false) {
-        $action = ($bulk==true) ? self::index().$action : self::type().$action;
+        $action = ($bulk == true) ? self::index() . $action : self::type() . $action;
         $result = static::getDb()->createCommand()->perform($action, $options);
-        if ( Re::isError($result) ) {
-            throw new HiResException('Hiresource method: '.$action, Re::getError($result));
+        if (Err::isError($result)) {
+            throw new HiResException('Hiresource method: ' . $action, Err::getError($result));
         }
         return $result;
     }
