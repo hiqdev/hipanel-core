@@ -5,15 +5,9 @@ use frontend\modules\ticket\models\Thread;
 use frontend\modules\ticket\models\ThreadSearch;
 use common\models\File;
 use frontend\components\hiresource\HiResException;
-use frontend\components\Re;
 use frontend\models\Ref;
 use Yii;
-use yii\base\Event;
-use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
-use yii\web\UploadedFile;
 use frontend\components\CrudController;
 
 class TicketController extends CrudController {
@@ -82,23 +76,6 @@ class TicketController extends CrudController {
             return $this->redirect(['view', 'id' => $model->id]);
         }
         throw new \LogicException('An error has occurred');
-    }
-
-    private function _fileUpload(Thread $model) {
-        $model->file = UploadedFile::getInstances($model, 'file');
-        \yii\helpers\VarDumper::dump($model->file, 10, true);
-        die;
-        if ($model->file && $model->validate()) {
-            foreach ($model->file as $file) {
-                $file->saveAs('uploads/' . Yii::$app->user->id . '_' . uniqid() . '.' . $file->extension);
-            }
-            return true;
-        }
-        else false;
-    }
-
-    public function actionGetfile() {
-        File::getfile(Yii::$app->request->queryParams);
     }
 
     /**
@@ -230,71 +207,4 @@ class TicketController extends CrudController {
     public function actionFileView($id, $object_id) {
         return File::renderFile($id, $object_id, 'thread', true);
     }
-
-    /* AJAX */
-
-//    public function actionClientList($search = null, $id = null) {
-//        $out = ['more' => false];
-//        if (!is_null($search)) {
-//            $data = \app\modules\client\models\Client::find()->where(['client_like' => $search])->getList(); // Http::get('clientsGetList',['client_like'=>$search]);
-//            $res = [];
-//            foreach ($data as $item) {
-//                $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-//            }
-//            $out['results'] = $res;
-//        }
-//        elseif ($id != 0) {
-//            $out['results'] = [
-//                'id' => $id,
-//                'text' => \app\modules\client\models\Client::find()->where([
-//                    'id' => $id,
-//                    'with_contact' => 1
-//                ])->one()->login
-//            ];
-//        }
-//        else {
-//            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-//        }
-//        Yii::$app->response->format = Response::FORMAT_JSON;
-//        return $out;
-//    }
-//
-//    public function actionManagerList($search = null, $id = null) {
-//        $out = ['more' => true];
-//        if (!is_null($search)) {
-//            $data = \app\modules\client\models\Client::find()->where([
-//                'client_like' => $search,
-//                'manager_only' => 1
-//            ])->getList();
-//            $res = [];
-//            foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-//            $out['results'] = $res;
-//        }
-//        elseif ($id != 0) {
-//            $out['results'] = [
-//                'id' => $id,
-//                'text' => \app\modules\client\models\Client::find()->where([
-//                    'id' => $id,
-//                    'with_contact' => 1
-//                ])->one()->login
-//            ];
-//        }
-//        else {
-//            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-//        }
-//        Yii::$app->response->format = Response::FORMAT_JSON;
-//        return $out;
-//    }
-//
-//    public function actionStateList($search = null, $id = null) {
-//        $out = ['more' => true];
-//        if (!is_null($search)) {
-//            $data = Ref::find()->where(['gtype' => 'state,ticket'])->getList();
-//            $res = [];
-//            foreach ($data as $item) $res[] = ['id' => $item->gl_key, 'text' => $item->gl_value];
-//            $out['results'] = $res;
-//        }
-//        Yii::$app->response->format = Response::FORMAT_JSON;
-//        return $out;
-//    }
 }
