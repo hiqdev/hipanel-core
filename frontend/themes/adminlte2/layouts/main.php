@@ -19,7 +19,7 @@ use frontend\widgets\Alert;
     <?= $this->render('//layouts/head') ?>
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
-<body class="skin-black">
+<body class="skin-green">
 <?php $this->beginBody(); ?>
 <!-- Site wrapper -->
 <div class="wrapper">
