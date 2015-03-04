@@ -86,7 +86,7 @@ return [
 
             'theme' => [
                 'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
-                'baseUrl' => '@web/themes/adminlte2',
+//                'baseUrl' => '@web/themes/adminlte2',
             ],
         ],
         'i18n' => [

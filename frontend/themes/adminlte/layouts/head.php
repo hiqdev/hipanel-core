@@ -5,6 +5,7 @@
  */
 
 use frontend\assets\AppAsset;
+use frontend\assets\AdminLteAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -22,6 +23,7 @@ use yii\helpers\Url;
 
 <?php
 AppAsset::register($this);
+AdminLteAsset::register($this);
 
 $this->registerMetaTag(
     [

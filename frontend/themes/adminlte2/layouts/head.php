@@ -11,6 +11,7 @@ use yii\helpers\Url;
 <title><?= Html::encode($this->title); ?></title>
 <?= Html::csrfMetaTags(); ?>
 <?php $this->head(); ?>
+<?php \frontend\assets\AppAsset::register($this); ?>
 <?php \frontend\assets\AdminLte2Asset::register($this); ?>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

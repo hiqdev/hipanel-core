@@ -11,8 +11,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 //use yii\web\JsExpression;
-
-// frontend\assets\Select2Asset::register($this);
+//frontend\assets\Select2Asset::register($this);
 
 $this->title = Yii::t('app', 'Tickets');
 $this->params['breadcrumbs'][] = $this->title;
