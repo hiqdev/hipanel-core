@@ -15,8 +15,18 @@ $this->title                   = Yii::t('app', 'Accounts');
 $this->params['breadcrumbs'][] = $this->title;
 
 Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]));
+?>
 
-echo GridView::widget([
+<?= Html::a(Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'account',
+]), ['create'], ['class' => 'btn btn-success']); ?>
+
+<?= Html::a(Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'FTP account',
+]), ['create-ftp'], ['class' => 'btn btn-success']); ?>
+
+
+<?php echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
     'columns'      => [
