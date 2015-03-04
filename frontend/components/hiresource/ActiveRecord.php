@@ -9,6 +9,7 @@ namespace frontend\components\hiresource;
 
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\base\NotSupportedException;
 use yii\db\BaseActiveRecord;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
@@ -29,9 +30,10 @@ class ActiveRecord extends BaseActiveRecord
      * Returns the database connection used by this AR class.
      * By default, the "hiresoruce" application component is used as the database connection.
      * You may override this method if you want to use a different database connection.
+     *
      * @return Connection the database connection used by this AR class.
      */
-    public static function getDb() {
+    public static function getDb () {
         return \Yii::$app->get('hiresource');
     }
 
@@ -39,19 +41,18 @@ class ActiveRecord extends BaseActiveRecord
      * @inheritdoc
      * @return ActiveQuery the newly created [[ActiveQuery]] instance.
      */
-    public static function find() {
+    public static function find () {
         return \Yii::createObject(ActiveQuery::className(), [get_called_class()]);
     }
 
     /**
      * @inheritdoc
      */
-    public static function findOne($condition) {
+    public static function findOne ($condition) {
         $query = static::find();
         if (is_array($condition)) {
             return $query->andWhere($condition)->one();
-        }
-        else {
+        } else {
             return static::get($condition);
         }
 
@@ -67,21 +68,23 @@ class ActiveRecord extends BaseActiveRecord
      * for more details on these options.
      * @return static|null The record instance or null if it was not found.
      */
-    public static function get($primaryKey, $options = []) {
+    public static function get ($primaryKey, $options = []) {
         if ($primaryKey === null) {
             return null;
         }
         $command = static::getDb()->createCommand();
-        $result = $command->get(static::type(), $primaryKey, $options);
+        $result  = $command->get(static::moduleName(), $primaryKey, $options);
         if (Err::isError($result)) {
-            throw new HiResException('Hiresource method: get', Err::getError($result));
+            throw new HiResException('Hiresource method: get', Re::getError($result));
         }
         if ($result) {
             $model = static::instantiate($result);
             static::populateRecord($model, $result);
             $model->afterFind();
+
             return $model;
         }
+
         return null;
     }
 
@@ -101,7 +104,7 @@ class ActiveRecord extends BaseActiveRecord
      *
      * @return string[] array of primary key attributes. Only the first element of the array will be used.
      */
-    public static function primaryKey() {
+    public static function primaryKey () {
         return ['id'];
     }
 
@@ -118,7 +121,7 @@ class ActiveRecord extends BaseActiveRecord
      * @return string[] list of attribute names.
      * @throws \yii\base\InvalidConfigException if not overridden in a child class.
      */
-    public function attributes() {
+    public function attributes () {
         throw new InvalidConfigException('The attributes() method of Hiresource ActiveRecord has to be implemented by child classes.');
     }
 
@@ -130,26 +133,36 @@ class ActiveRecord extends BaseActiveRecord
      *
      * @return string[] list of attribute names. Must be a subset of [[attributes()]].
      */
-    public function arrayAttributes() {
+    public function arrayAttributes () {
         return [];
     }
 
     /**
      * @return string the name of the index this record is stored in.
      */
-    public static function index() {
-        //        return Inflector::pluralize(Inflector::camel2id(StringHelper::basename(get_called_class()), '-'));
+    public static function index () {
+//        return Inflector::pluralize(Inflector::camel2id(StringHelper::basename(get_called_class()), '-'));
         return mb_strtolower(StringHelper::basename(get_called_class()) . 's');
     }
 
     /**
      * @return string the name of the type of this record.
      */
-    public static function type() {
+    public static function type () {
         return Inflector::camel2id(StringHelper::basename(get_called_class()), '-');
     }
 
-    public function insert($runValidation = true, $attributes = null, $options = []) {
+    /**
+     * Declares the name of the model associated with this class.
+     * By default this method returns the class name by calling [[Inflector::camel2id()]]
+     *
+     * @return string the module name
+     */
+    public static function moduleName () {
+        return Inflector::camel2id(StringHelper::basename(get_called_class()));
+    }
+
+    public function insert ($runValidation = true, $attributes = null, $options = []) {
         if ($runValidation && !$this->validate($attributes)) {
             return false;
         }
@@ -159,12 +172,16 @@ class ActiveRecord extends BaseActiveRecord
         }
 
         $values = $this->getDirtyAttributes($attributes);
-        // \yii\helpers\VarDumper::dump($values, 10, true);die();
-        $response = static::getDb()->createCommand()->insert(static::type(), $values, $this->getPrimaryKey(), $options);
+
+        $command = $this->getScenarioCommand('create');
+        $data    = array_merge($values, $options, ['id' => $this->getOldPrimaryKey()]);
+
+        $response = static::getDb()->createCommand()->perform($command, $data);
+
         if (Err::isError($response)) {
             throw new HiResException('Hiresource method: Insert -- ' . Json::encode($response), Err::getError($response));
         }
-        $pk = static::primaryKey()[0];
+        $pk        = static::primaryKey()[0];
         $this->$pk = $response['id'];
         if ($pk != 'id') {
             $values[$pk] = $response['id'];
@@ -172,17 +189,21 @@ class ActiveRecord extends BaseActiveRecord
         $changedAttributes = array_fill_keys(array_keys($values), null);
         $this->setOldAttributes($values);
         $this->afterSave(true, $changedAttributes);
+
         return true;
     }
 
-    public function delete($options = []) {
+    public function delete ($options = []) {
         if (!$this->beforeDelete()) {
             return false;
         }
 
-        $result = static::getDb()->createCommand()->delete(static::type(), $this->getOldPrimaryKey(false), $options);
+        $command = $this->getScenarioCommand('delete');
+        $data    = array_merge($options, ['id' => $this->getOldPrimaryKey()]);
 
-        if (Err::isError($result)) {
+        $result = static::getDb()->createCommand()->perform($command, $data);
+
+        if (Re::isError($result)) {
             throw new HiResException('Hiresource method: Delete -- ' . Json::encode($result), Err::getError($result));
         }
 
@@ -191,34 +212,37 @@ class ActiveRecord extends BaseActiveRecord
 
         if ($result === false) {
             return 0;
-        }
-        else {
+        } else {
             return 1;
         }
     }
 
-    public function update($runValidation = true, $attributeNames = null, $options = []) {
+    public function update ($runValidation = true, $attributeNames = null, $options = []) {
         if ($runValidation && !$this->validate($attributeNames)) {
             return false;
         }
+
         return $this->updateInternal($attributeNames, $options);
     }
 
-    protected function updateInternal($attributes = null, $options = []) {
+    protected function updateInternal ($attributes = null, $options = []) {
         if (!$this->beforeSave(false)) {
             return false;
         }
 
         $values = $this->getAttributes($attributes);
-        //        $values = $this->attributes;
-
+//        $values = $this->attributes;
 
         if (empty($values)) {
             $this->afterSave(false, $values);
+
             return 0;
         }
 
-        $result = static::getDb()->createCommand()->update(static::type(), $this->getOldPrimaryKey(false), $values, $options);
+        $command = $this->getScenarioCommand('update');
+        $data    = array_merge($values, $options, ['id' => $this->getOldPrimaryKey()]);
+
+        $result = static::getDb()->createCommand()->perform($command, $data);
 
         $changedAttributes = [];
         foreach ($values as $name => $value) {
@@ -230,8 +254,7 @@ class ActiveRecord extends BaseActiveRecord
 
         if ($result === false || Err::isError($result)) {
             return 0;
-        }
-        else {
+        } else {
             return 1;
         }
     }
@@ -242,15 +265,44 @@ class ActiveRecord extends BaseActiveRecord
      * @param $action
      * @param array $options
      * @param bool $bulk
-     *
      * @return array
+     * @throws HiResException
      */
-    public static function perform($action, $options = [], $bulk = false) {
-        $action = ($bulk == true) ? self::index() . $action : self::type() . $action;
+    public static function perform ($action, $options = [], $bulk = false) {
+        $action = ($bulk == true) ? static::index() . $action : static::moduleName() . $action;
         $result = static::getDb()->createCommand()->perform($action, $options);
         if (Err::isError($result)) {
             throw new HiResException('Hiresource method: ' . $action, Err::getError($result));
         }
+
         return $result;
+    }
+
+    public function getScenarioCommand ($default = '') {
+        if (!$this->scenario) {
+            if ($default !== '') {
+                $result = $default;
+            } else {
+                throw new InvalidConfigException('Scenario not specified');
+            }
+        } else {
+            $scenarioCommands = $this->scenarioCommands();
+            if ($command = $scenarioCommands[$this->scenario]) {
+                if ($command === false) {
+                    throw new NotSupportedException('The scenario can not be saved');
+                } elseif (is_array($command) && $command[0] === null) {
+                    $command = $command[1];
+                }
+                $result = ucfirst($command);
+            } else {
+                $result = Inflector::id2camel($this->scenario);
+            }
+        }
+
+        return is_array($result) ? implode('', $result) : static::moduleName() . $result;
+    }
+
+    public function scenarioCommands () {
+        return [];
     }
 }

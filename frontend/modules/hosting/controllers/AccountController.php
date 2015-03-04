@@ -6,7 +6,6 @@ use frontend\modules\hosting\models\Account;
 use frontend\modules\hosting\models\AccountSearch;
 use frontend\controllers\HipanelController;
 use frontend\models\Ref;
-use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii;
 
@@ -27,26 +26,61 @@ class AccountController extends HipanelController
     public function actionView ($id) {
         $model = $this->findModel($id);
 
-        return $this->render('view', compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels'));
+        return $this->render('view', compact('model'));
     }
 
-    public function actionCreate () {
-        $model           = new Account();
-        $model->scenario = 'insert';
-        $model->load(Yii::$app->request->post());
-        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->save()) {
+    public function actionCreateFtp () {
+        return $this->actionCreate('ftponly');
+    }
+
+    public function actionCreate ($type = 'user') {
+        if (!in_array($type, ['user', 'ftponly'])) throw new NotFoundHttpException('Account type is unknown');
+        $model = new Account(['scenario' => 'insert-' . $type]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
-            'model'         => $model
+            'model' => $model,
+            'type'  => $type,
         ]);
+    }
+
+    public function actionSetPassword ($id) {
+        $model           = $this->findModel($id);
+        $model->scenario = 'set-password';
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            \Yii::$app->getSession()->addFlash('success', [
+                'title' => $model->login,
+                'text'  => \Yii::t('app', 'Password changing task has been successfully added to queue'),
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            /// TODO: do
+            return $this->render('view', ['model' => $model]);
+        }
+    }
+
+
+    public function actionSetAllowedIps ($id) {
+        $model           = $this->findModel($id);
+        $model->scenario = 'set-allowed-ips';
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            \Yii::$app->getSession()->addFlash('success', [
+                'title' => $model->login,
+                'text'  => \Yii::t('app', 'Allowed IPs changing task has been successfully added to queue'),
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            /// TODO: do
+            return $this->render('view', ['model' => $model]);
+        }
     }
 
     /**
      * @param int $id
      *
-     * @return \frontend\modules\server\models\Server|null
+     * @return \frontend\modules\hosting\models\Account|null
      * @throws NotFoundHttpException
      */
     protected function findModel ($id) {

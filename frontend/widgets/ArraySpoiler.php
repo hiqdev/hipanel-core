@@ -78,6 +78,8 @@ class ArraySpoiler extends Widget
     {
         parent::init();
 
+        if (empty($this->data)) return '';
+
         if (is_string($this->data) || is_numeric($this->data)) {
             $this->data = ArrayHelper::csplit($this->data);
         }

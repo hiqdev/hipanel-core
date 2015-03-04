@@ -272,22 +272,6 @@ class ServerController extends HipanelController
         return $this->renderJson(['results' => $res]);
     }
 
-//    public function actionRequestsState (array $ids) {
-//        $data = Server::find()->where(['id' => $ids, 'with_request' => true])->all();
-//        foreach ($data as $model) {
-//            $res[$model->id] = [
-//                'id'   => $model->id,
-//                'name' => $model->name,
-//                'html' => RequestState::widget([
-//                    'module' => 'server',
-//                    'model'  => $model
-//                ])
-//            ];
-//        }
-//
-//        return $this->renderJson($res);
-//    }
-
     /**
      * Generates array of osimages data, grouped by different fields to display on the website
      *

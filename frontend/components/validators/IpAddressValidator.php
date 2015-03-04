@@ -124,6 +124,8 @@ class IpAddressValidator extends Validator
             $ip = $this->validate4($ip);
         }
 
+        if (empty($ip)) return false;
+
         $result = $exclude . $ip;
 
         if ($this->subnet) {
