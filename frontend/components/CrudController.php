@@ -24,6 +24,10 @@ class CrudController extends Controller {
         return Ref::find()->where(['gtype' => 'type,block'])->getList();
     }
 
+    protected function objectGetPriority () {
+        return Ref::find()->where(['gtype' => 'type, priority'])->getList();
+    }
+
     protected function actionGetClassValues ($class = "", $values, $path = "", $id = "") {
         $id = $id ? : Yii::$app->user->id;
         $call_class = $path ? "{$path}\\" . ucfirst($class) : "{$this->path}\\{$this->class}";

@@ -1,4 +1,3 @@
-
 /***
 Chats
 ***/
@@ -127,4 +126,56 @@ Chats
 }
 .chat-form .btn-cont:hover .btn {
     background-color: #0362fd;
+}
+
+.chats li .attachment {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #f0f0f0;
+    margin-left: 10px;
+    margin-right: 15px;
+    padding: 10px;
+}
+.chats li .attachment > h4 {
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    font-size: 14px;
+}
+.chats li .attachment > p,
+.chats li .attachment > .filename {
+    font-weight: 600;
+    font-size: 13px;
+    font-style: italic;
+    margin: 0;
+}
+.chats li .attachment:before,
+.chats li .attachment:after {
+    display: table;
+    content: " ";
+}
+.chats li .attachment:after {
+    clear: both;
+}
+
+.chats li .attachment .file {
+    vertical-align: middle;
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+    background-color: #CCC;
+    padding: 0;
+    position: relative;
+}
+
+.chats li .attachment .file > div {
+    display: table-cell;
+    width: inherit;
+    height: inherit;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.chats li .attachment .file > div i {
+    color: #666;
 }

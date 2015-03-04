@@ -15,6 +15,7 @@ use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\helpers\StringHelper;
 use frontend\components\Re;
+use common\components\Err;
 
 //use yii\base\InvalidCallException;
 //use yii\base\NotSupportedException;
@@ -72,8 +73,8 @@ class ActiveRecord extends BaseActiveRecord
             return null;
         }
         $command = static::getDb()->createCommand();
-        $result  = $command->get(static::type(), $primaryKey, $options);
-        if (Re::isError($result)) {
+        $result  = $command->get(static::moduleName(), $primaryKey, $options);
+        if (Err::isError($result)) {
             throw new HiResException('Hiresource method: get', Re::getError($result));
         }
         if ($result) {
@@ -154,10 +155,10 @@ class ActiveRecord extends BaseActiveRecord
     /**
      * Declares the name of the model associated with this class.
      * By default this method returns the class name by calling [[Inflector::camel2id()]]
+     *
      * @return string the module name
      */
-    public static function moduleName()
-    {
+    public static function moduleName () {
         return Inflector::camel2id(StringHelper::basename(get_called_class()));
     }
 
@@ -177,10 +178,9 @@ class ActiveRecord extends BaseActiveRecord
 
         $response = static::getDb()->createCommand()->perform($command, $data);
 
-        if (Re::isError($response)) {
-            throw new HiResException('Hiresource method: Insert -- ' . Json::encode($response), Re::getError($response));
+        if (Err::isError($response)) {
+            throw new HiResException('Hiresource method: Insert -- ' . Json::encode($response), Err::getError($response));
         }
-
         $pk        = static::primaryKey()[0];
         $this->$pk = $response['id'];
         if ($pk != 'id') {
@@ -204,7 +204,7 @@ class ActiveRecord extends BaseActiveRecord
         $result = static::getDb()->createCommand()->perform($command, $data);
 
         if (Re::isError($result)) {
-            throw new HiResException('Hiresource method: Delete -- ' . Json::encode($result), Re::getError($result));
+            throw new HiResException('Hiresource method: Delete -- ' . Json::encode($result), Err::getError($result));
         }
 
         $this->setOldAttributes(null);
@@ -252,7 +252,7 @@ class ActiveRecord extends BaseActiveRecord
 
         $this->afterSave(false, $changedAttributes);
 
-        if ($result === false || Re::isError($result)) {
+        if ($result === false || Err::isError($result)) {
             return 0;
         } else {
             return 1;
@@ -269,10 +269,10 @@ class ActiveRecord extends BaseActiveRecord
      * @throws HiResException
      */
     public static function perform ($action, $options = [], $bulk = false) {
-        $action = ($bulk == true) ? self::index() . $action : self::type() . $action;
+        $action = ($bulk == true) ? static::index() . $action : static::moduleName() . $action;
         $result = static::getDb()->createCommand()->perform($action, $options);
-        if (Re::isError($result)) {
-            throw new HiResException('Hiresource method: ' . $action, Re::getError($result));
+        if (Err::isError($result)) {
+            throw new HiResException('Hiresource method: ' . $action, Err::getError($result));
         }
 
         return $result;
@@ -299,7 +299,7 @@ class ActiveRecord extends BaseActiveRecord
             }
         }
 
-        return is_array($result) ? implode('', $result) : static::type() . $result;
+        return is_array($result) ? implode('', $result) : static::moduleName() . $result;
     }
 
     public function scenarioCommands () {
