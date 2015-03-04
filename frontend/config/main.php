@@ -79,13 +79,14 @@ return [
             ],
         ],
         'view' => [
-            'class' => 'frontend\components\View',
+//            'theme' => [
+//                'pathMap' => ['@app/views' => '@app/themes/adminlte'],
+//                'baseUrl'   => '@web/themes/adminlte'
+//            ],
+
             'theme' => [
-                'pathMap' => [
-                    '@app/views' => '@app/themes/adminlte',
-//                    '@app/modules' => '@frontend/themes/adminlte/modules',
-                ],
-                'baseUrl'   => '@web/themes/adminlte'
+                'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
+                'baseUrl' => '@web/themes/adminlte2',
             ],
         ],
         'i18n' => [
