@@ -2,27 +2,25 @@
 /**
  * Created by PhpStorm.
  * User: tofid
- * Date: 03.03.15
- * Time: 18:34
+ * Date: 04.03.15
+ * Time: 18:29
  */
 
 namespace frontend\assets;
 
 use yii\web\AssetBundle;
 
-class AdminLte2Asset extends AssetBundle
+class AdminLteAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/admin-lte';
+    public $sourcePath = '@app/themes/adminlte/assets';
     public $css = [
         'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',
         'http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css',
-        'dist/css/AdminLTE.css',
-        'dist/css/skins/_all-skins.css',
+        'css/morris/morris.css',
+        'css/AdminLTE.css',
     ];
     public $js = [
-        'plugins/slimScroll/jquery.slimscroll.min.js',
-        'plugins/fastclick/fastclick.min.js',
-        'dist/js/app.js',
+        'js/AdminLTE/app.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

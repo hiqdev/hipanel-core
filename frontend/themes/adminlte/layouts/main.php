@@ -6,7 +6,7 @@
  * @var frontend\components\View $this View
  * @var string $content Content
  */
-use frontend\widgets\Pjax;
+
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use frontend\widgets\Alert;

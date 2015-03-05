@@ -17,6 +17,8 @@ use yii\helpers\Url;
 // all - > all
 
 ?>
+<div class="box box-primary">
+<div class="box-body">
 <div class="ticket-form">
 
     <?php $form = ActiveForm::begin([
@@ -174,3 +176,5 @@ use yii\helpers\Url;
     <?php ActiveForm::end(); ?>
 
 </div><!-- ticket-_form -->
+</div>
+</div>

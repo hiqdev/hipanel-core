@@ -8,6 +8,9 @@ use frontend\assets\DataTablesAsset;
  */
 class GridView extends \yii\grid\GridView
 {
+
+    public $dataColumnClass = 'frontend\widgets\DataColumn';
+
     /**
      * @inheritdoc
      */
@@ -31,6 +34,6 @@ class GridView extends \yii\grid\GridView
     public function run()
     {
         parent::run();
-        DataTablesAsset::register($this->getView());
+        //DataTablesAsset::register($this->getView());
     }
 }

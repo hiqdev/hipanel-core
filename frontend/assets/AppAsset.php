@@ -18,13 +18,9 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'adminlte/css/font-awesome/css/font-awesome.min.css',
-        // 'adminlte/css/morris/morris.css',
-        'adminlte/css/AdminLTE.css',
         'css/panel.css',
     ];
     public $js = [
-        'adminlte/js/AdminLTE/app.js',
         'js/panel.js',
     ];
     public $depends = [

@@ -16,7 +16,8 @@ $this->registerCss('
 ');
 ?>
 
-<p>
+<div class="box box-danger">
+    <div class="box-header">
     <?= Html::a('<i class="fa fa-reply"></i>&nbsp;&nbsp;'.Yii::t('app', 'Replay'), '#', ['class'=>'btn btn-default', 'onClick' => new \yii\web\JsExpression('
     $("html, body").animate({
         scrollTop: $(".ticket-update").offset().top
@@ -52,8 +53,12 @@ $this->registerCss('
     <?php else : ?>
         <?= Html::a('<span class="glyphicon glyphicon-arrow-down"></span>&nbsp;&nbsp;'.Yii::t('app', 'Lower'), ['priority-down', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
     <?php endif; ?>
-</p>
+</div>
+</div>
 
+
+<div class="box box-info">
+<div class="box-body">
 <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
@@ -106,6 +111,9 @@ $this->registerCss('
         ],
     ],
 ]); ?>
+</div>
+</div>
+
 <?php if (is_array($model->answers)) : ?>
     <?= $this->render('_chat',['model'=>$model]); ?>
 <?php endif; ?>

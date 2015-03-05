@@ -16,13 +16,13 @@ class DataTablesAsset extends AssetBundle
      * @inheritdoc
      */
     public $css = [
-        'adminlte/css/datatables/dataTables.bootstrap.css'
+//        '@app/themes/adminlte/assets/css/datatables/dataTables.bootstrap.css'
     ];
 
     /**
      * @inheritdoc
      */
     public $depends = [
-        'frontend\assets\AppAsset'
+//        'frontend\assets\AdminLteAsset'
     ];
 }
