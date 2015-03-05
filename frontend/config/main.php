@@ -79,15 +79,15 @@ return [
             ],
         ],
         'view' => [
-//            'theme' => [
-//                'pathMap' => ['@app/views' => '@app/themes/adminlte'],
-//                'baseUrl'   => '@web/themes/adminlte'
-//            ],
+ //           'theme' => [
+ //               'pathMap' => ['@app/views' => '@app/themes/adminlte'],
+ //               'baseUrl'   => '@web/themes/adminlte'
+ //           ],
 
-            'theme' => [
-                'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
-//                'baseUrl' => '@web/themes/adminlte2',
-            ],
+          'theme' => [
+              'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
+                'baseUrl' => '@web/themes/adminlte2',
+          ],
         ],
         'i18n' => [
             'translations' => [
