@@ -17,7 +17,7 @@ class DomainSearch extends \frontend\modules\domain\models\Domain
     public function attributes () {
         return array_merge(parent::attributes(), [
             'ids',
-            'domain_like',
+            'host_like',
         ]);
     }
 
@@ -27,7 +27,7 @@ class DomainSearch extends \frontend\modules\domain\models\Domain
     public function rules () {
         return [
             [
-                ['ids', 'client', 'client_id', 'seller', 'seller_id', 'name', 'domain_like', 'state', ],
+                ['ids', 'client', 'client_id', 'seller', 'seller_id', 'name'],
                 'safe'
             ],
         ];
@@ -64,12 +64,10 @@ class DomainSearch extends \frontend\modules\domain\models\Domain
             'ids'          => $this->ids,
             'clients'      => $this->client,
             'client_ids'   => $this->client_id,
-            'name'         => $this->name,
-            'domain_like'  => $this->domain_like,
             'seller'       => $this->seller,
             'seller_ids'   => $this->seller_id,
-            'domains'      => $this->name,
-            'state'        => $this->state,
+            'host'         => $this->host,
+            'host_like'    => $this->domain_like,
         ]);
 
         return $dataProvider;

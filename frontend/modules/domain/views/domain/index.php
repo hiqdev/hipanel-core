@@ -1,4 +1,5 @@
 <?php
+
 use frontend\widgets\GridView;
 use frontend\modules\object\widgets\RequestState;
 use frontend\widgets\Select2;
@@ -51,15 +52,17 @@ echo GridView::widget([
             'label'     => Yii::t('app', 'Name'),
             'value'     => function ($model) {
                 return $model->domain;
-            }
+            },
         ],
         [
             'attribute' => 'whois_protected',
             'label'     => Yii::t('app', 'Whois'),
+            'popover'   => 'WHOIS protected',
         ],
         [
-            'attribute' => 'Block',
-            'value'     => '',
+            'attribute' => 'is_secured',
+            'label'     => Yii::t('app', 'Locked'),
+            'popover'   => Yii::t('app', 'Protected from transfer'),
         ],
         [
             'attribute' => 'state',

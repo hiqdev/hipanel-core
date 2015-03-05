@@ -8,6 +8,9 @@ use frontend\assets\DataTablesAsset;
  */
 class GridView extends \yii\grid\GridView
 {
+
+    public $dataColumnClass = 'frontend\widgets\DataColumn';
+
     /**
      * @inheritdoc
      */
