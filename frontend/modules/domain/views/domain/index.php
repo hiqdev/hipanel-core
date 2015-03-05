@@ -3,14 +3,20 @@
 use frontend\widgets\GridView;
 use frontend\modules\object\widgets\RequestState;
 use frontend\widgets\Select2;
+use frontend\components\Re;
 use yii\helpers\Url;
 use \yii\jui\DatePicker;
 use \yii\helpers\Html;
 
-$this->title                   = Yii::t('app', 'Domains');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title                    = Yii::t('app', 'Domains');
+$this->params['breadcrumbs'][]  = $this->title;
+$this->params['subtitle']       = Yii::$app->request->queryParams ? 'full list' : 'filtered list';
 
-echo GridView::widget([
+?>
+
+<div class="box box-primary">
+<div class="box-data">
+<?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
     'columns'      => [
@@ -48,10 +54,11 @@ echo GridView::widget([
             ]),
         ],
         [
-            'attribute' => 'domain_like',
+            'attribute' => 'domain',
             'label'     => Yii::t('app', 'Name'),
+            'format'    => 'html',
             'value'     => function ($model) {
-                return $model->domain;
+                return Html::a($model->domain, ['view', 'id' => $model->id]);
             },
         ],
         [
@@ -66,18 +73,23 @@ echo GridView::widget([
         ],
         [
             'attribute' => 'state',
-            'format'    => 'raw',
             'filter'    => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,domain'), [
                 'class'  => 'form-control',
                 'prompt' => Yii::t('app', '--'),
             ]),
-        ],
-        [
-            'attribute' => 'registered',
-            'format'    => ['date'],
+            'value'     => function ($model) {
+                return Re::l($model->state_label);
+            },
         ],
         [
             'attribute' => 'note',
+            'value'     => function ($model) {
+                return $model->note ?: ' ';
+            },
+        ],
+        [
+            'attribute' => 'created_date',
+            'format'    => ['date'],
         ],
         [
             'attribute' => 'expires',
@@ -103,16 +115,7 @@ echo GridView::widget([
                 return $html;
             }
         ],
-        [
-            'class'    => 'yii\grid\ActionColumn',
-            'template' => '{view}',
-            'buttons'  => [
-                'view' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id]);
-                },
-            ],
-        ],
     ],
-]);
-
-?>
+]) ?>
+</div>
+</div>
