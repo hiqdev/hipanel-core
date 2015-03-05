@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 use kartik\widgets\DatePicker;
 use yii\helpers\Url;
 
-$this->registerJs("
+$this->registerJs(new JsExpression(<<<JS
 // Button handle
 $('.search-button').click(function(){
     $('.ticket-search').toggle();
@@ -17,14 +17,15 @@ $('.search-button').click(function(){
 $('#search-form-ticket-pjax').on('pjax:end', function() {
     $.pjax.reload({container:'#ticket-grid-pjax', timeout: false});  //Reload GridView
 });
-", \yii\web\View::POS_READY);
+JS
+), \yii\web\View::POS_READY);
 // \yii\helpers\VarDumper::dump($_GET['ThreadSearch']['watchers'], 10, true);
 ?>
 
 <?php if (isset($_GET['ThreadSearch']['search_form']) && filter_var($_GET['ThreadSearch']['search_form'], FILTER_VALIDATE_BOOLEAN)) : ?>
-    <div class="thread-search row" style="margin-bottom: 20px;">
+    <div class="ticket-search row" style="margin-bottom: 20px;">
 <?php else : ?>
-    <div class="thread-search row" style="margin-bottom: 20px; display: none;">
+    <div class="ticket-search row" style="margin-bottom: 20px; display: none;">
 <?php endif; ?>
 
     <?php $form = ActiveForm::begin([
