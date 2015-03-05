@@ -242,7 +242,6 @@ class ClientController extends CrudController {
             'scenario'  => 'setseller',
             'add'       => ['actionUserList' => ['search' => ['type' => 'reseller', 'limit' => 'ALL'], 'format' => '']],
         ]);
-
     }
 
     private function actionDoBlock ($id = null, $ids = [], $action = 'enable') {
@@ -264,4 +263,21 @@ class ClientController extends CrudController {
     public function actionDisableBlock ($id = null, $ids = []) {
         return $this->actionDoBlock($id, $ids, 'disable');
     }
+
+    private function actionDoPincode ($id = null, $ids = [], $action = 'enable') {
+
+    }
+
+    public function actionEnablePincode ($id = null, $ids = []) {
+        return $this->actionDoPincode($id, $ids, 'enable');
+    }
+
+    public function actionDisablePincode ($id = null, $ids = []) {
+        return $this->actionDoPincode($id, $ids, 'disable');
+    }
+
+    public function actionSetTmpPwd () {
+        y
+    }
+
 }

@@ -41,4 +41,11 @@ class Err
         if (is_array($data)) foreach ($data as $k => $v) if (substr($k, 0, 6) == '_error') unset($data[$k]);
         return $data;
     }
+
+
+    static public function isError ($data, $eq = null) {
+        return is_null($eq) ? (is_array($data) ? array_key_exists('_error', $data) : !$data) : (isset($data['_error']) && $data['_error'] == $eq);
+    }
+
+    static  public function getError ($data,$df=null) { return isset($data['_error']) ? $data['_error'] : $df; }
 }

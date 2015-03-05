@@ -59,6 +59,7 @@ class Server extends \frontend\components\hiresource\ActiveRecord
      * @return bool
      */
     public function isOperable () {
+        /// TODO: all is operable for admin
         if ($this->running_task || !in_array($this->state, $this->goodStates())) {
             return false;
         }

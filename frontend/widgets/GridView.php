@@ -34,6 +34,6 @@ class GridView extends \yii\grid\GridView
     public function run()
     {
         parent::run();
-        DataTablesAsset::register($this->getView());
+        //DataTablesAsset::register($this->getView());
     }
 }

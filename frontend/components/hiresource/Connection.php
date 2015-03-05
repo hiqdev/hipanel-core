@@ -57,6 +57,8 @@ class Connection extends Component
      */
     public $dataTimeout = null;
 
+    public static $curl = null;
+
     private function _getAuth()
     {
         $res = [];
@@ -75,6 +77,15 @@ class Connection extends Component
             throw new InvalidConfigException('Hiresource needs api_url configuration.');
         }
     }
+
+    public function getHandler() {
+        if (!self::$curl) {
+            self::$curl = static::$curl = curl_init();
+        }
+        return self::$curl;
+    }
+
+
     /**
      * Closes the connection when this component is being serialized.
      * @return array
@@ -270,6 +281,7 @@ class Connection extends Component
         $headers = [];
         $body = '';
         $options = [
+            CURLOPT_URL             => $url,
             CURLOPT_USERAGENT       => 'Yii Framework ' . Yii::getVersion() . __CLASS__,
             //CURLOPT_ENCODING        => 'UTF-8',
             # CURLOPT_USERAGENT       => 'curl/0.00 (php 5.x; U; en)',
@@ -320,11 +332,12 @@ class Connection extends Component
         } else {
             $profile = false;
         }
+        $options[CURLOPT_URL] = $url;
         Yii::trace("Sending request to Hiresource node: $method $url\n$requestBody", __METHOD__);
         if ($profile !== false) {
             Yii::beginProfile($profile, __METHOD__);
         }
-        $curl = curl_init($url);
+        $curl = $this->getHandler();
         curl_setopt_array($curl, $options);
         if (curl_exec($curl) === false) {
             throw new HiResException('HiResource request failed: ' . curl_errno($curl) . ' - ' . curl_error($curl), [
@@ -335,8 +348,9 @@ class Connection extends Component
                 'responseBody' => $this->decodeErrorBody($body),
             ]);
         }
+
         $responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
+        Yii::trace(curl_getinfo($curl));
         if ($profile !== false) {
             Yii::endProfile($profile, __METHOD__);
         }
