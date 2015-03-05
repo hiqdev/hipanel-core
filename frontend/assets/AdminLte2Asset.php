@@ -28,5 +28,6 @@ class AdminLte2Asset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        'frontend\assets\AppAsset',
     ];
 }
