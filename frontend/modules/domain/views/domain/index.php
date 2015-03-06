@@ -5,8 +5,11 @@ use frontend\modules\object\widgets\RequestState;
 use frontend\widgets\Select2;
 use frontend\components\Re;
 use yii\helpers\Url;
-use \yii\jui\DatePicker;
-use \yii\helpers\Html;
+use yii\jui\DatePicker;
+use yii\helpers\Html;
+use yii\web\JsExpression;
+use kartik\editable\Editable;
+use kartik\widgets\SwitchInput;
 
 $this->title                    = Yii::t('app', 'Domains');
 $this->params['breadcrumbs'][]  = $this->title;
@@ -15,13 +18,13 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'full list' 
 ?>
 
 <div class="box box-primary">
-<div class="box-data">
+<div class="box-body">
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
     'columns'      => [
         [
-            'class' => 'yii\grid\CheckboxColumn',
+            'class' => 'frontend\widgets\CheckboxColumn',
         ],
         [
             'visible'               => false,
@@ -65,11 +68,29 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'full list' 
             'attribute' => 'whois_protected',
             'label'     => Yii::t('app', 'Whois'),
             'popover'   => 'WHOIS protected',
+            'format'    => 'raw',
+            'value'     => function ($model) {
+                return SwitchInput::widget([
+                    'attribute'     => 'whois_protected',
+                    'name'          => 'wpc'.$model->id,
+                    'pluginOptions' => [
+                        'size'              => 'mini',
+                        'state'             => false,
+                        'onSwitchChange'    => new JsExpression('function () { console.log("hello"); }'),
+                    ],
+                ]);
+            },
         ],
         [
-            'attribute' => 'is_secured',
-            'label'     => Yii::t('app', 'Locked'),
-            'popover'   => Yii::t('app', 'Protected from transfer'),
+            #'class'             => 'frontend\widgets\EditableColumn',
+            'attribute'         => 'is_secured',
+            'label'             => Yii::t('app', 'Locked'),
+            'popover'           => Yii::t('app', 'Protection from transfer'),
+#           'editableOptions'   => function ($model, $key, $index, $widget) {
+#               return [
+#                   'inputType'     => Editable::INPUT_SWITCH,
+#               ];
+#           },
         ],
         [
             'attribute' => 'state',
