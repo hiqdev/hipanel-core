@@ -2,7 +2,7 @@
 
 namespace frontend\modules\server\controllers;
 
-use frontend\modules\object\widgets\RequestState;
+use frontend\components\widgets\RequestState;
 use frontend\modules\server\models\ServerSearch;
 use frontend\modules\server\models\Server;
 use frontend\modules\server\models\Osimage;

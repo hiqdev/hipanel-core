@@ -1,6 +1,7 @@
 <?php
 namespace frontend\modules\server\widgets;
 
+use frontend\modules\server\models\Server;
 use yii\base\InvalidParamException;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -8,17 +9,20 @@ use yii\helpers\Html;
 class StateFormatter extends Widget
 {
     /**
-     * @var \frontend\modules\server\models\Server
+     * @var Server
      */
     public $model;
 
     public function init () {
         parent::init();
-        if (!($this->model instanceof \frontend\modules\server\models\Server)) {
+        if (!($this->model instanceof Server)) {
             throw new InvalidParamException("Model should be an instance of Server model");
         }
     }
 
+    /**
+     * @return string
+     */
     public function run () {
         if ($this->model->state != 'blocked') {
             $value = \yii::$app->formatter->asDate($this->model->expires);

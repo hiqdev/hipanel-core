@@ -1,8 +1,8 @@
 <?php
 
-use frontend\widgets\GridView;
-use frontend\modules\object\widgets\RequestState;
-use frontend\widgets\Select2;
+use frontend\components\widgets\GridView;
+use frontend\components\widgets\RequestState;
+use frontend\components\widgets\Select2;
 use frontend\components\Re;
 use yii\helpers\Url;
 use \yii\jui\DatePicker;

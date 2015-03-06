@@ -5,10 +5,9 @@
  * Date: 26.02.15
  * Time: 17:37
  */
-namespace frontend\widgets;
+namespace frontend\components\widgets;
 
 use frontend\assets\LightBoxAsset\LightBoxAsset;
-use frontend\components\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -52,14 +51,14 @@ class FileRender extends Widget
      * @var array
      */
     private $extMatch = [
-        'pdf' => '<div><i class="fa fa-file-pdf-o fa-2x"></i></div>',
-        'doc' => '<div><i class="fa fa-file-word-o fa-2x"></i></div>',
+        'pdf'  => '<div><i class="fa fa-file-pdf-o fa-2x"></i></div>',
+        'doc'  => '<div><i class="fa fa-file-word-o fa-2x"></i></div>',
         'docx' => '<div><i class="fa fa-file-word-o fa-2x"></i></div>',
-        'xls' => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
+        'xls'  => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
         'xlsx' => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
     ];
 
-    public function init() {
+    public function init () {
         parent::init();
         if (empty($this->data)) {
             throw new InvalidConfigException('The "data" property must not be empty.');
@@ -74,19 +73,22 @@ class FileRender extends Widget
         $this->renderHtml();
     }
 
-    private function registerClientScript() {
+    private function registerClientScript () {
         $view = $this->getView();
         LightBoxAsset::register($view);
         // Fix: Incorrect resizing of image #122
         $view->registerCss('.lightbox  .lb-image{ max-width: inherit!important; }');
     }
 
-    private function renderHtml() {
+    private function renderHtml () {
         foreach ($this->data as $file) {
             $contentType = $this->getContentType($file['id']);
             if (mb_substr($contentType, 0, 5) == 'image') {
-                $base64 = 'data: '.$contentType.';base64,'.base64_encode(Image::thumbnail($this->getPathToFile($file['id']), $this->thumbHeight, $this->thumbHeight));
-                print Html::beginTag('a', ['href' => $this->getLink($file['id']), 'data' => ['lightbox' => 'answer-gal-' . $this->answer_id]]);
+                $base64 = 'data: ' . $contentType . ';base64,' . base64_encode(Image::thumbnail($this->getPathToFile($file['id']), $this->thumbHeight, $this->thumbHeight));
+                print Html::beginTag('a', [
+                    'href' => $this->getLink($file['id']),
+                    'data' => ['lightbox' => 'answer-gal-' . $this->answer_id]
+                ]);
                 print Html::img($base64, ['class' => 'margin']);
                 print Html::endTag('a');
             } else {
@@ -97,37 +99,37 @@ class FileRender extends Widget
         }
     }
 
-    private function getLink($id, $ext = null, $contentType = null) {
+    private function getLink ($id, $ext = null, $contentType = null) {
         if (!$ext && !$contentType) {
-            return Url::to(['/file/view',
-                'id' => $id,
-                'object_id' => $this->object_id,
+            return Url::to([
+                '/file/view',
+                'id'          => $id,
+                'object_id'   => $this->object_id,
                 'object_name' => $this->object_name,
             ]);
         } else {
-            return Url::to(['/file/get',
-                'id' => $id,
-                'object_id' => $this->object_id,
+            return Url::to([
+                '/file/get',
+                'id'          => $id,
+                'object_id'   => $this->object_id,
                 'object_name' => $this->object_name,
-                'ext' => $ext,
+                'ext'         => $ext,
                 'contentType' => $contentType
             ]);
         }
     }
 
-    private function getContentType($id) {
+    private function getContentType ($id) {
         return \yii\helpers\FileHelper::getMimeType($this->getPathToFile($id));
     }
 
-    private function getPathToFile($id, $render = false) {
+    private function getPathToFile ($id, $render = false) {
         return File::renderFile($id, $this->object_id, $this->object_name, $render);
     }
 
-    private function getExtIcon($ext) {
+    private function getExtIcon ($ext) {
         $default = '<div><i class="fa fa-file-text-o fa-2x"></i></div>';
-        if (array_key_exists($ext, $this->extMatch))
-            return $this->extMatch[$ext];
-        else
+        if (array_key_exists($ext, $this->extMatch)) return $this->extMatch[$ext]; else
             return $default;
     }
 }

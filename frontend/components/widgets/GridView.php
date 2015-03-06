@@ -1,5 +1,5 @@
 <?php
-namespace frontend\widgets;
+namespace frontend\components\widgets;
 use frontend\assets\DataTablesAsset;
 use frontend\assets\iCheckAsset;
 use yii\web\JsExpression;
@@ -12,7 +12,7 @@ use yii\web\JsExpression;
 class GridView extends \yii\grid\GridView
 {
 
-    public $dataColumnClass = 'frontend\widgets\DataColumn';
+    public $dataColumnClass = 'frontend\components\widgets\DataColumn';
 
     /**
      * @inheritdoc
@@ -36,7 +36,7 @@ class GridView extends \yii\grid\GridView
      */
     public function run()
     {
-        parent::run();
+        \yii\grid\GridView::run();
         $this->registerClientScript();
     }
 

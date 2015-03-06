@@ -1,8 +1,7 @@
 <?php
-namespace frontend\widgets;
-use yii\base\Widget;
+namespace frontend\components\widgets;
+
 use yii\helpers\Html;
-use yii\web\YiiAsset;
 use Yii;
 /**
  * Class Box

@@ -1,6 +1,7 @@
 <?php
 
-namespace frontend\modules\object\assets;
+namespace frontend\assets;
+
 use yii\web\AssetBundle;
 
 class RequestStateAsset extends AssetBundle
@@ -8,7 +9,7 @@ class RequestStateAsset extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@frontend/modules/object/assets';
+    public $sourcePath = '@frontend/assets';
 
     /**
      * @var array

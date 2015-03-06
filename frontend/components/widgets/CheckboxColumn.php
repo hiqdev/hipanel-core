@@ -6,7 +6,7 @@
  * Time: 13:46
  */
 
-namespace frontend\widgets;
+namespace frontend\components\widgets;
 
 use frontend\assets\iCheckAsset;
 

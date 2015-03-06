@@ -57,6 +57,10 @@ class ActiveRecord extends BaseActiveRecord
 
     }
 
+    public function isScenarioDefault () {
+        return $this->scenario === static::SCENARIO_DEFAULT;
+    }
+
     /**
      * Gets a record by its primary key.
      *
@@ -279,9 +283,9 @@ class ActiveRecord extends BaseActiveRecord
     }
 
     public function getScenarioCommand ($default = '', $bulk = false) {
-        if (!$this->scenario) {
+        if ($this->isScenarioDefault()) {
             if ($default !== '') {
-                $result = $default;
+                $result = Inflector::id2camel($default);
             } else {
                 throw new InvalidConfigException('Scenario not specified');
             }
@@ -302,11 +306,7 @@ class ActiveRecord extends BaseActiveRecord
         if (is_array($result)) {
             return implode('', $result);
         } else {
-            if ($bulk) {
-                return static::modelName() . 's' . $result;
-            } else {
-                return static::modelName() . 's' . $result;
-            }
+            return static::modelName() . ($bulk ? 's' : '') . $result;
         }
     }
 
@@ -329,6 +329,7 @@ class ActiveRecord extends BaseActiveRecord
      *              array - first attribute a module name, second - value
      *
      * Tricks: pass null as first argument of array to leave command's case unchanged (no inflator calling)
+     *
      * @return array
      */
     public function scenarioCommands () {

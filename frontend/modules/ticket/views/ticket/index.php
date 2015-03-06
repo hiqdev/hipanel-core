@@ -1,12 +1,11 @@
 <?
 
-use frontend\widgets\GridActionButton;
-use Yii;
+use frontend\components\widgets\GridActionButton;
 use frontend\components\Re;
 use frontend\modules\ticket\widgets\Label;
 use frontend\modules\ticket\widgets\Topic;
-use frontend\widgets\GridView;
-use frontend\widgets\Select2;
+use frontend\components\widgets\GridView;
+use frontend\components\widgets\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -170,12 +169,10 @@ $this->params['subtitle'] = 'full list';
                     ],
                 ],
                 [
-                    'class' => 'frontend\widgets\CheckboxColumn',
+                    'class' => 'frontend\components\widgets\CheckboxColumn',
                     'checkboxOptions' => ['class' => 'check']
                 ],
             ],
         ]); ?>
     </div>
 </div>
-
-

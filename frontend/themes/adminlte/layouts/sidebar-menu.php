@@ -6,7 +6,7 @@
  * @var \yii\web\View $this View
  */
 
-use frontend\widgets\Menu;
+use frontend\components\widgets\Menu;
 
 echo Menu::widget(
     [

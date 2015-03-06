@@ -1,7 +1,7 @@
 <?php
 
 use yii\bootstrap\ButtonGroup;
-use frontend\widgets\GridView;
+use frontend\components\widgets\GridView;
 use yii\web\View;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -31,7 +31,7 @@ $widgetIndexConfig = [
             },
             'format'        => 'html',
             'filterInputOptions'=> ['id' => 'id'],
-            'filter'            => frontend\widgets\Select2::widget([
+            'filter'            => \frontend\components\widgets\Select2::widget([
                 'attribute'     =>'id',
                 'model'         => $searchModel,
                 'options'       => [
@@ -68,7 +68,7 @@ $widgetIndexConfig = [
             },
             'format'        => 'html',
             'filterInputOptions'=> ['id' => 'seller_id'],
-            'filter'            => frontend\widgets\Select2::widget([
+            'filter'            => \frontend\components\widgets\Select2::widget([
                 'attribute'     =>'seller_id',
                 'model'         => $searchModel,
                 'options'       => [

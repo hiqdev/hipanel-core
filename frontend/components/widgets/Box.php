@@ -1,11 +1,14 @@
 <?php
-namespace frontend\widgets;
+namespace frontend\components\widgets;
+
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\YiiAsset;
 use Yii;
+
 /**
  * Class Box
+ *
  * @package vova07\themes\admin\widgets
  * Theme Box widget.
  */
@@ -59,11 +62,11 @@ class Box extends Widget
      * @var string Param name of delete action
      */
     public $deleteParam = 'id';
+
     /**
      * @inheritdoc
      */
-    public function init()
-    {
+    public function init () {
         parent::init();
         $this->initOptions();
         $this->initButtons();
@@ -86,64 +89,64 @@ class Box extends Widget
             echo Html::beginTag('div', $this->bodyOptions) . "\n";
         }
     }
+
     /**
      * @inheritdoc
      */
-    public function run()
-    {
+    public function run () {
         $this->registerClientScripts();
         if ($this->renderBody === true) {
             echo "\n" . Html::endTag('div'); // End box body
         }
         echo "\n" . Html::endTag('div'); // End box
     }
+
     /**
      * Begin box body container.
      */
-    public function beginBody()
-    {
+    public function beginBody () {
         echo Html::beginTag('div', $this->bodyOptions) . "\n";
     }
+
     /**
      * End box body container.
      */
-    public function endBody()
-    {
+    public function endBody () {
         echo "\n" . Html::endTag('div');
     }
+
     /**
      * Begin box footer container.
      */
-    public function beginFooter()
-    {
+    public function beginFooter () {
         echo Html::beginTag('div', $this->footerOptions) . "\n";
     }
+
     /**
      * End box footer container.
      */
-    public function endFooter()
-    {
+    public function endFooter () {
         echo "\n" . Html::endTag('div');
     }
+
     /**
      * Initializes the widget options.
      * This method sets the default values for various options.
      */
-    protected function initOptions()
-    {
-        $this->options['class'] = isset($this->options['class']) ? 'box ' . $this->options['class'] : 'box';
-        $this->bodyOptions['class'] = isset($this->bodyOptions['class']) ? 'box-body ' . $this->bodyOptions['class'] : 'box-body';
+    protected function initOptions () {
+        $this->options['class']       = isset($this->options['class']) ? 'box ' . $this->options['class'] : 'box';
+        $this->bodyOptions['class']   = isset($this->bodyOptions['class']) ? 'box-body ' . $this->bodyOptions['class'] : 'box-body';
         $this->footerOptions['class'] = isset($this->footerOptions['class']) ? 'box-footer ' . $this->footerOptions['class'] : 'box-footer';
     }
+
     /**
      * Initializes the widget buttons.
      */
-    protected function initButtons()
-    {
+    protected function initButtons () {
         if (!isset($this->buttons['create'])) {
             $this->buttons['create'] = [
-                'url' => ['create'],
-                'icon' => 'fa-plus',
+                'url'     => ['create'],
+                'icon'    => 'fa-plus',
                 'options' => [
                     'class' => 'btn-default',
                     'title' => Yii::t('app', 'Create')
@@ -152,22 +155,22 @@ class Box extends Widget
         }
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = [
-                'url' => ['delete', $this->deleteParam => Yii::$app->request->get($this->deleteParam)],
-                'icon' => 'fa-trash-o',
+                'url'     => ['delete', $this->deleteParam => Yii::$app->request->get($this->deleteParam)],
+                'icon'    => 'fa-trash-o',
                 'options' => [
-                    'class' => 'btn-default',
-                    'title' => Yii::t('app', 'Delete'),
+                    'class'        => 'btn-default',
+                    'title'        => Yii::t('app', 'Delete'),
                     'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                    'data-method' => 'delete'
+                    'data-method'  => 'delete'
                 ]
             ];
         }
         if (!isset($this->buttons['batch-delete'])) {
             $this->buttons['batch-delete'] = [
-                'url' => ['batch-delete'],
-                'icon' => 'fa-trash-o',
+                'url'     => ['batch-delete'],
+                'icon'    => 'fa-trash-o',
                 'options' => [
-                    'id' => 'batch-delete',
+                    'id'    => 'batch-delete',
                     'class' => 'btn-default',
                     'title' => Yii::t('app', 'Delete selected')
                 ]
@@ -175,8 +178,8 @@ class Box extends Widget
         }
         if (!isset($this->buttons['cancel'])) {
             $this->buttons['cancel'] = [
-                'url' => ['index'],
-                'icon' => 'fa-reply',
+                'url'     => ['index'],
+                'icon'    => 'fa-reply',
                 'options' => [
                     'class' => 'btn-default',
                     'title' => Yii::t('app', 'Cancel')
@@ -184,68 +187,45 @@ class Box extends Widget
             ];
         }
     }
+
     /**
      * Render widget tools button.
      */
-    protected function renderButtons()
-    {
+    protected function renderButtons () {
         // Box tools
         if ($this->buttonsTemplate !== null && !empty($this->buttons)) {
             // Begin box tools
             echo Html::beginTag('div', ['class' => 'box-tools pull-right']);
-            echo preg_replace_callback(
-                '/\\{([\w\-\/]+)\\}/',
-                function ($matches) {
-                    $name = $matches[1];
-                    if (isset($this->buttons[$name])) {
-                        $label = isset($this->buttons[$name]['label']) ? $this->buttons[$name]['label'] : '';
-                        $url = isset($this->buttons[$name]['url']) ? $this->buttons[$name]['url'] : '#';
-                        $icon = isset($this->buttons[$name]['icon']) ? Html::tag(
-                                                                           'i',
-                                                                               '',
-                                                                               ['class' => 'fa ' . $this->buttons[$name]['icon']]
-                        ) : '';
-                        $label = $icon . ' ' . $label;
-                        $this->buttons[$name]['options']['class'] = isset($this->buttons[$name]['options']['class']) ? 'btn btn-sm ' . $this->buttons[$name]['options']['class'] : 'btn btn-sm';
-                        return Html::a($label, $url, $this->buttons[$name]['options']);
-                    } else {
-                        return '';
-                    }
-                },
-                $this->buttonsTemplate
-            );
+            echo preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) {
+                $name = $matches[1];
+                if (isset($this->buttons[$name])) {
+                    $label                                    = isset($this->buttons[$name]['label']) ? $this->buttons[$name]['label'] : '';
+                    $url                                      = isset($this->buttons[$name]['url']) ? $this->buttons[$name]['url'] : '#';
+                    $icon                                     = isset($this->buttons[$name]['icon']) ? Html::tag('i', '', ['class' => 'fa ' . $this->buttons[$name]['icon']]) : '';
+                    $label                                    = $icon . ' ' . $label;
+                    $this->buttons[$name]['options']['class'] = isset($this->buttons[$name]['options']['class']) ? 'btn btn-sm ' . $this->buttons[$name]['options']['class'] : 'btn btn-sm';
+
+                    return Html::a($label, $url, $this->buttons[$name]['options']);
+                } else {
+                    return '';
+                }
+            }, $this->buttonsTemplate);
             // End box tools
             echo Html::endTag('div');
         }
     }
+
     /**
      * Register widgets assets bundles.
      */
-    protected function registerClientScripts()
-    {
+    protected function registerClientScripts () {
         if (strpos($this->buttonsTemplate, '{delete}') !== false && isset($this->buttons['delete'])) {
             YiiAsset::register($this->getView());
         }
         if (strpos($this->buttonsTemplate, '{batch-delete}') !== false && $this->grid !== null && isset($this->buttons['batch-delete'])) {
             $view = $this->getView();
             YiiAsset::register($view);
-            $view->registerJs(
-                 "jQuery(document).on('click', '#batch-delete', function (evt) {" .
-                 "evt.preventDefault();" .
-                 "var keys = jQuery('#" . $this->grid . "').yiiGridView('getSelectedRows');" .
-                 "if (keys == '') {" .
-                 "alert('" . Yii::t('app', 'You need to select at least one item.') . "');" .
-                 "} else {" .
-                 "if (confirm('" . Yii::t('app', 'Are you sure you want to delete selected items?') . "')) {" .
-                 "jQuery.ajax({" .
-                 "type: 'POST'," .
-                 "url: jQuery(this).attr('href')," .
-                 "data: { " . $this->batchParam . ": keys}" .
-                 "});" .
-                 "}" .
-                 "}" .
-                 "});"
-            );
+            $view->registerJs("jQuery(document).on('click', '#batch-delete', function (evt) {" . "evt.preventDefault();" . "var keys = jQuery('#" . $this->grid . "').yiiGridView('getSelectedRows');" . "if (keys == '') {" . "alert('" . Yii::t('app', 'You need to select at least one item.') . "');" . "} else {" . "if (confirm('" . Yii::t('app', 'Are you sure you want to delete selected items?') . "')) {" . "jQuery.ajax({" . "type: 'POST'," . "url: jQuery(this).attr('href')," . "data: { " . $this->batchParam . ": keys}" . "});" . "}" . "}" . "});");
         }
     }
 }

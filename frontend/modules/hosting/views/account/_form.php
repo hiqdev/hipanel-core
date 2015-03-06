@@ -4,7 +4,7 @@
 /* @var $model frontend\modules\hosting\models\Account */
 /* @var $type string */
 
-use \frontend\widgets\Select2;
+use frontend\components\widgets\Select2;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
@@ -45,7 +45,7 @@ $action = [
                     'the best' => Yii::t('app', 'The best'),
                 ];
 
-                print $form->field($model, 'password')->widget(\frontend\widgets\PasswordInput::className());
+                print $form->field($model, 'password')->widget(\frontend\components\widgets\PasswordInput::className());
 
                 print $form->field($model, 'sshftp_ips')
                            ->hint(Yii::t('app', 'Access to the account is opened by default. Please input the IPs, for which the access to the server will be granted'))
