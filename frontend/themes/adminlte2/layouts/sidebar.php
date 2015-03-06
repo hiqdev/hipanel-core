@@ -56,8 +56,6 @@ use Yii;
                         'label' => Yii::t('app', 'Clients'),
                         'url' => ['/client/client/index'],
                         'icon' => 'fa-group',
-                        'options' => 'treeview',
-                        // 'visible' => Yii::$app->user->can('administrateUsers') || Yii::$app->user->can('BViewUsers'),
                         'items' => [
                             [
                                 'label' => Yii::t('app', 'Clients list'),
@@ -79,7 +77,7 @@ use Yii;
                     [
                         'label' => Yii::t('app', 'Tickets'),
                         'url' => ['/ticket/ticket/index'],
-                        'icon' => 'fa-folder',
+                        'icon' => 'fa-ticket',
                         'items' => [
                             [
                                 'label' => Yii::t('app', 'Tickets'),
@@ -96,7 +94,7 @@ use Yii;
                     [
                         'label' => Yii::t('app', 'Domains'),
                         'url' => ['/domains/default/index'],
-                        'icon' => 'fa-folder',
+                        'icon' => 'fa-globe',
                         'visible' => true,
                         'items' => [
                             [
@@ -124,7 +122,7 @@ use Yii;
                     [
                         'label' => Yii::t('app', 'Servers'),
                         'url' => ['/server/server/index'],
-                        'icon' => 'fa-folder',
+                        'icon' => 'fa-server',
                         'visible' => true,
                         'items' => [
                             [
@@ -136,7 +134,7 @@ use Yii;
                     [
                         'label' => Yii::t('app', 'Hosting'),
                         'url' => '#',
-                        'icon' => 'fa-folder',
+                        'icon' => 'fa-sitemap',
                         'visible' => true,
                         'items' => [
                             [

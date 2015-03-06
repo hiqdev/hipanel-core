@@ -10,19 +10,25 @@ class DataTablesAsset extends AssetBundle
     /**
      * @inheritdoc
      */
-    // public $sourcePath = '@vova07/themes/admin';
+     public $sourcePath = '@bower/admin-lte';
 
     /**
      * @inheritdoc
      */
     public $css = [
-//        '@app/themes/adminlte/assets/css/datatables/dataTables.bootstrap.css'
+        'plugins/datatables/dataTables.bootstrap.css',
+    ];
+
+    public $js = [
+//        'plugins/datatables/dataTables.bootstrap.js',
     ];
 
     /**
      * @inheritdoc
      */
     public $depends = [
-//        'frontend\assets\AdminLteAsset'
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
     ];
 }

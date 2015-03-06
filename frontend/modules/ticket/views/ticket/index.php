@@ -10,13 +10,9 @@ use frontend\widgets\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-//use yii\web\JsExpression;
-//frontend\assets\Select2Asset::register($this);
-
 $this->title = Yii::t('app', 'Tickets');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['subtitle'] = 'full list';
-
 ?>
 <div class="box">
     <div class="box-header">
@@ -43,6 +39,7 @@ $this->params['subtitle'] = 'full list';
                 // ['class' => 'yii\grid\SerialColumn'],
                 [
                     'attribute' => 'subject',
+                    'popover' => 'Subject',
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Html::tag('b', Html::a('#' . $data->id . '&nbsp;' . $data->subject, $data->threadUrl)) . Topic::widget(['topic' => $data->topic]);
@@ -173,7 +170,8 @@ $this->params['subtitle'] = 'full list';
                     ],
                 ],
                 [
-                    'class' => 'yii\grid\CheckboxColumn',
+                    'class' => 'frontend\widgets\CheckboxColumn',
+                    'checkboxOptions' => ['class' => 'check']
                 ],
             ],
         ]); ?>

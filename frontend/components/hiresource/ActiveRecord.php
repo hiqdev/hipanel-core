@@ -14,7 +14,6 @@ use yii\db\BaseActiveRecord;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\helpers\StringHelper;
-use frontend\components\Re;
 use common\components\Err;
 
 //use yii\base\InvalidCallException;
@@ -66,16 +65,17 @@ class ActiveRecord extends BaseActiveRecord
      * as request URI parameters.
      * Please refer to the [elasticsearch documentation](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-get.html)
      * for more details on these options.
-     * @return static|null The record instance or null if it was not found.
+     * @return null|static The record instance or null if it was not found.
+     * @throws HiResException
      */
     public static function get ($primaryKey, $options = []) {
         if ($primaryKey === null) {
             return null;
         }
         $command = static::getDb()->createCommand();
-        $result  = $command->get(static::moduleName(), $primaryKey, $options);
+        $result  = $command->get(static::modelName(), $primaryKey, $options);
         if (Err::isError($result)) {
-            throw new HiResException('Hiresource method: get', Re::getError($result));
+            throw new HiResException('Hiresource method: get', Err::getError($result));
         }
         if ($result) {
             $model = static::instantiate($result);
@@ -158,7 +158,7 @@ class ActiveRecord extends BaseActiveRecord
      *
      * @return string the module name
      */
-    public static function moduleName () {
+    public static function modelName () {
         return Inflector::camel2id(StringHelper::basename(get_called_class()));
     }
 
@@ -203,7 +203,7 @@ class ActiveRecord extends BaseActiveRecord
 
         $result = static::getDb()->createCommand()->perform($command, $data);
 
-        if (Re::isError($result)) {
+        if (Err::isError($result)) {
             throw new HiResException('Hiresource method: Delete -- ' . Json::encode($result), Err::getError($result));
         }
 
@@ -269,7 +269,7 @@ class ActiveRecord extends BaseActiveRecord
      * @throws HiResException
      */
     public static function perform ($action, $options = [], $bulk = false) {
-        $action = ($bulk == true) ? static::index() . $action : static::moduleName() . $action;
+        $action = ($bulk == true) ? static::index() . $action : static::modelName() . $action;
         $result = static::getDb()->createCommand()->perform($action, $options);
         if (Err::isError($result)) {
             throw new HiResException('Hiresource method: ' . $action, Err::getError($result));
@@ -278,7 +278,7 @@ class ActiveRecord extends BaseActiveRecord
         return $result;
     }
 
-    public function getScenarioCommand ($default = '') {
+    public function getScenarioCommand ($default = '', $bulk = false) {
         if (!$this->scenario) {
             if ($default !== '') {
                 $result = $default;
@@ -299,9 +299,38 @@ class ActiveRecord extends BaseActiveRecord
             }
         }
 
-        return is_array($result) ? implode('', $result) : static::moduleName() . $result;
+        if (is_array($result)) {
+            return implode('', $result);
+        } else {
+            if ($bulk) {
+                return static::modelName() . 's' . $result;
+            } else {
+                return static::modelName() . 's' . $result;
+            }
+        }
     }
 
+    /**
+     * Define an array of relations between scenario and API call action.
+     *
+     * Example:
+     *
+     * ```
+     * [
+     *      'update-name'                => 'set-name',
+     *      'update-related-name'        => [Action::formName(), 'SetName'],
+     *      'update-self-case-sensetive' => [null, 'SomeSENSETIVE']
+     * ]
+     * ~~
+     *
+     *  key string name of scenario
+     *  value string|array
+     *              string will be passed to [[Inflector::id2camel|id2camel]] inflator
+     *              array - first attribute a module name, second - value
+     *
+     * Tricks: pass null as first argument of array to leave command's case unchanged (no inflator calling)
+     * @return array
+     */
     public function scenarioCommands () {
         return [];
     }
