@@ -56,8 +56,6 @@ use Yii;
                         'label' => Yii::t('app', 'Clients'),
                         'url' => ['/client/client/index'],
                         'icon' => 'fa-group',
-                        'options' => 'treeview',
-                        // 'visible' => Yii::$app->user->can('administrateUsers') || Yii::$app->user->can('BViewUsers'),
                         'items' => [
                             [
                                 'label' => Yii::t('app', 'Clients list'),
