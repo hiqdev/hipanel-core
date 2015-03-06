@@ -108,26 +108,29 @@ return [
         ],
     ],
     'modules' => [
-        'markdown' => [
-            'class' => 'kartik\markdown\Module',
+        'markdown'  => [
+            'class'     => 'kartik\markdown\Module',
         ],
-        'client' => [
-            'class' => 'app\modules\client\Module',
+        'client'    => [
+            'class'     => 'app\modules\client\Module',
         ],
-        'ticket' => [
-            'class' => 'app\modules\ticket\Module',
+        'contact'   => [
+            'class'     => 'app\modules\contact\Module',
         ],
-        'server' => [
-            'class' => 'app\modules\server\Module',
+        'ticket'    => [
+            'class'     => 'app\modules\ticket\Module',
+        ],
+        'server'    => [
+            'class'     => 'app\modules\server\Module',
         ],
 //      'domain' => [
 //          'class' => 'app\modules\domain\Module',
 //      ],
-        'hosting' => [
-            'class' => 'app\modules\hosting\Module',
+        'hosting'   => [
+            'class'     => 'app\modules\hosting\Module',
         ],
-        'setting' => [
-            'class' => 'app\modules\setting\Module',
+        'setting'   => [
+            'class'     => 'app\modules\setting\Module',
         ],
     ],
     'params' => $params,
