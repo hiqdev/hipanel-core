@@ -98,89 +98,8 @@ class ClientController extends CrudController {
         ];
     }
 
-    private function actionPrepareDataToUpdate ($action, $params, $scenario) {
-        $data = [];
-        foreach ($params['ids'] as $id => $values) {
-            if (is_array($values)) {
-                foreach ($values as $key => $value) $data[$id][$key] = $value;
-            }
-            $models[$id] = Client::findOne(compact('id'));
-            $models[$id]->scenario = $scenario;
-        }
-        try {
-            foreach ($models as $id => $model) {
-                if (!$model->load($data[$id]) || !$model->validate()) {
-                    unset($data[$id]);
-                }
-            }
-            if (!empty($data)) {
-                Client::perform($action, $data, true);
-            } else {
-                return false;
-            }
-        } catch (HiResException $e) {
-            return false;
-        }
-        return true;
-    }
-
-    private function recursiveSearch ($array, $field) {
-        if (is_array($array)) {
-            if (\yii\helpers\BaseArrayHelper::keyExists($field, $array)) return true;
-            else {
-                foreach ($array as $key => $value) {
-                    if (is_array($value)) $res = $res ? : $this->recursiveSearch($value, $field);
-                }
-                return $res;
-            }
-        }
-        return false;
-    }
-
-    private function checkException ($id, $ids, $post) {
-        if (!$id && !$ids &&!$post['id'] && !$post['ids']) throw new NotFoundHttpException('The requested page does not exist.');
-        return true;
-    }
-
-    private function actionRenderPage ($page, $queryParams, $action = [], $addFunc = []) {
-        return Yii::$app->request->isAjax
-            ? $this->renderPartial($page, ArrayHelper::merge($this->actionPrepareRender($queryParams, $addFunc), $action))
-            : $this->render($page, ArrayHelper::merge($this->actionPrepareRender($queryParams, $addFunc), $action));
-    }
-
-    private function actionPerform ($row) {
-        $this->checkException ($row['id'], $row['ids'], Yii::$app->request->post());
-        $id = $row['id'] ? : Yii::$app->request->post('id');
-        $ids = $row['ids'] ? : Yii::$app->request->post('ids');
-        if (Yii::$app->request->isAjax && !$id) {
-            if ($this->actionPrepareDataToUpdate($row['action'] , Yii::$app->request->post(), $row['scenario'])) {
-                return ['state' => 'success', 'message' => \Yii::t('app', $row['action']) ];
-            } else {
-                return ['state' => 'error', 'message' => \Yii::t('app', 'Something wrong')];
-            }
-        }
-        $check = true;
-        foreach ($row['required'] as $required) {
-            if (!$this->recursiveSearch(Yii::$app->request->post(), $required)) {
-                $check = false;
-                break;
-            }
-        }
-        if (!$id && $check) {
-            if ($this->actionPrepareDataToUpdate($row['action'], Yii::$app->request->post(), $row['scenario'])) {
-                \Yii::$app->getSession()->setFlash('success', \Yii::t('app', '{0} was successful', $row['action']));
-            } else {
-                \Yii::$app->getSession()->setFlash('error',  \Yii::t('app', 'Something wrong'));
-            }
-            return $this->redirect(Yii::$app->request->referrer);
-        }
-        $ids = $ids ? : [ 'id' => $id ];
-        $queryParams = [ 'ids' => implode(',', $ids) ];
-        return $this->actionRenderPage($row['page'], $queryParams, ['action' => $row['subaction']], $row['add']);
-    }
-
     public function actionSetCredit ($id = null, $ids = []) {
-        return $this->actionPerform([
+        return $this->performRequest([
             'id'        => $id,
             'ids'       => $ids,
             'action'    => 'SetCredit',
@@ -192,7 +111,7 @@ class ClientController extends CrudController {
 
     /// TODO: implement
     public function actionSetLanguage ($id = null, $ids = []) {
-        return $this->actionPerform([
+        return $this->performRequest([
             'id'        => $id,
             'ids'       => $ids,
             'action'    => 'SetLanguage',
@@ -233,7 +152,7 @@ class ClientController extends CrudController {
     }
 
     public function actionSetSeller ($id = null, $ids = []) {
-        return $this->actionPerform([
+        return $this->performRequest([
             'id'        => $id,
             'ids'       => $ids,
             'action'    => "setSeller",
@@ -245,7 +164,7 @@ class ClientController extends CrudController {
     }
 
     private function actionDoBlock ($id = null, $ids = [], $action = 'enable') {
-        return $this->actionPerform([
+        return $this->performRequest([
             'id'        => $id,
             'ids'       => $ids,
             'action'    => ucfirst($action) . "Block",
@@ -277,7 +196,6 @@ class ClientController extends CrudController {
     }
 
     public function actionSetTmpPwd () {
-        y
     }
 
 }
