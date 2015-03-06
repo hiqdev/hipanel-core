@@ -1,5 +1,5 @@
 <?php
-namespace frontend\widgets;
+namespace frontend\components\widgets;
 use frontend\assets\DataTablesAsset;
 use frontend\assets\iCheckAsset;
 use yii\web\JsExpression;
@@ -11,7 +11,7 @@ use yii\web\JsExpression;
 class GridView extends \kartik\grid\GridView
 {
 
-    public $dataColumnClass = 'frontend\widgets\DataColumn';
+    public $dataColumnClass = 'frontend\components\grid\DataColumn';
 
     /**
      * @inheritdoc
@@ -35,7 +35,7 @@ class GridView extends \kartik\grid\GridView
      */
     public function run()
     {
-        parent::run();
+        \yii\grid\GridView::run();
         $this->registerClientScript();
     }
 
@@ -46,10 +46,10 @@ class GridView extends \kartik\grid\GridView
         $view->registerJs(<<<'JS'
 $(function () {
     var checkAll = $('input.select-on-check-all');
-    var checkboxes = $('input.check');
+    var checkboxes = $('input.icheck');
 
     //$('input').iCheck();
-    $('input').iCheck({
+    $('input.icheck, input.select-on-check-all ').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass: 'iradio_minimal-blue'
     });

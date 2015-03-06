@@ -3,8 +3,8 @@
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use frontend\modules\object\widgets\RequestState;
-use frontend\widgets\Pjax;
+use frontend\components\widgets\RequestState;
+use frontend\components\widgets\Pjax;
 use yii\helpers\Json;
 
 $this->title                   = Html::encode($model->name);
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'attribute' => 'ips',
                             'format'    => 'raw',
-                            'value'     => \frontend\widgets\ArraySpoiler::widget([
+                            'value'     => \frontend\components\widgets\ArraySpoiler::widget([
                                 'data' => $model->ips
                             ])
                         ],

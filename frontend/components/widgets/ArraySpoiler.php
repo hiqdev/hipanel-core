@@ -6,7 +6,7 @@
  * Time: 11:13
  */
 
-namespace frontend\widgets;
+namespace frontend\components\widgets;
 
 use frontend\components\helpers\ArrayHelper;
 use yii\base\InvalidValueException;

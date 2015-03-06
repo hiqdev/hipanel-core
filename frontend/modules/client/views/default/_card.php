@@ -1,5 +1,5 @@
 <?
-use frontend\widgets\GridView;
+use frontend\components\widgets\GridView;
 use yii\helpers\Html;
 
 echo GridView::widget([

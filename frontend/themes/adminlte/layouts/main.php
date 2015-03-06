@@ -9,7 +9,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
-use frontend\widgets\Alert;
+use frontend\components\widgets\Alert;
 
 ?>
 <?php $this->beginPage(); ?>

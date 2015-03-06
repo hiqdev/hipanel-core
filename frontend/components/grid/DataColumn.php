@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\widgets;
+namespace frontend\components\grid;
 use Yii;
 use yii\helpers\Json;
 
@@ -8,7 +8,7 @@ use yii\helpers\Json;
  * Class DataColumn
  * Our DataColumn widget.
  */
-class EditableColumn extends \kartik\grid\EditableColumn
+class DataColumn extends \yii\grid\DataColumn
 {
     /**
      * @inheritdoc
@@ -18,13 +18,13 @@ class EditableColumn extends \kartik\grid\EditableColumn
      * @inheritdoc
      */
     public $headerOptions = [
-        'data-toggle'   => 'popover',
-        'data-trigger'  => 'hover',
+        'data-toggle'  => 'popover',
+        'data-trigger' => 'hover',
     ];
 
     public $popoverOptions = [
-        'placement'     => 'bottom',
-        'selector'      => 'a',
+        'placement' => 'bottom',
+        'selector'  => 'a',
     ];
     /**
      * @inheritdoc
@@ -33,21 +33,20 @@ class EditableColumn extends \kartik\grid\EditableColumn
     /**
      * @inheritdoc
      */
-    public function init()
-    {
-        parent::init();
+    public function init () {
+        \yii\grid\DataColumn::init();
         $this->registerClientScript();
     }
 
     public function renderHeaderCellContent () {
         $this->headerOptions['data-content'] = $this->popover;
-        return parent::renderHeaderCellContent();
+        return \yii\grid\DataColumn::renderHeaderCellContent();
     }
 
     public function registerClientScript () {
         $view = Yii::$app->getView();
-        $ops = Json::encode($this->popoverOptions);
-        $view->registerJs("$('#{$this->grid->id} thead th[data-toggle=\"popover\"]').popover($ops);",\yii\web\View::POS_READY);
+        $ops  = Json::encode($this->popoverOptions);
+        $view->registerJs("$('#{$this->grid->id} thead th[data-toggle=\"popover\"]').popover($ops);", \yii\web\View::POS_READY);
     }
 
 }

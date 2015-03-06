@@ -1,8 +1,8 @@
 <?php
 
-namespace frontend\modules\object\actions;
+namespace frontend\actions\widgets;
 
-use frontend\modules\object\widgets\RequestState;
+use frontend\components\widgets\RequestState;
 use yii\base\Action;
 
 class RequestStateAction extends Action {

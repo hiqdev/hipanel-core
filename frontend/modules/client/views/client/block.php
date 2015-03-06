@@ -1,6 +1,6 @@
 <?php
 use yii\bootstrap\ButtonGroup;
-use frontend\widgets\GridView;
+use frontend\components\widgets\GridView;
 use yii\web\View;
 use yii\helpers\Url;
 use yii\helpers\Html;

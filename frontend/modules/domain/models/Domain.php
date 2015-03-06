@@ -6,6 +6,8 @@ use yii\base\NotSupportedException;
 
 class Domain extends \frontend\components\hiresource\ActiveRecord
 {
+    public $key = 'id';
+
     /**
      * @return array the list of attributes for this record
      */
@@ -61,7 +63,8 @@ class Domain extends \frontend\components\hiresource\ActiveRecord
     public function rules () {
         return [
             [['domain'], 'required'],
-            [['id'], 'safe']
+            [['id'], 'safe'],
+            [['is_secured'],'safe'],
         ];
     }
 
@@ -106,8 +109,8 @@ class Domain extends \frontend\components\hiresource\ActiveRecord
             'since'                 => Yii::t('app', 'Since Time'),
             'lastop'                => Yii::t('app', 'Last Operation'),
             'operated'              => Yii::t('app', 'Last Operation Time'),
-            'whois_protected'       => Yii::t('app', 'WHOIS Protect'),
-            'is_secured'            => Yii::t('app', 'Locked'),
+            'whois_protected'       => Yii::t('app', 'WHOIS'),
+            'is_secured'            => Yii::t('app', 'Lock'),
             'is_holded'             => Yii::t('app', ' label'),
             'autorenewal'           => Yii::t('app', ' label'),
             'is_freezed'            => Yii::t('app', ' label'),

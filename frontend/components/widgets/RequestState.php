@@ -1,7 +1,7 @@
 <?php
-namespace frontend\modules\object\widgets;
+namespace frontend\components\widgets;
 
-use frontend\modules\object\assets\RequestStateAsset;
+use frontend\assets\RequestStateAsset;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -21,7 +21,7 @@ class RequestState extends Widget
     /**
      * @var array additional options to be passed to the JS plugin call.
      */
-    public $clientOptions = array();
+    public $clientOptions = [];
 
     /**
      * @var string default selector of wrapper with state labels. Will be passed to JS plugin call.

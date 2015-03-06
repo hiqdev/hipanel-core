@@ -6,7 +6,7 @@
  * Date: 27.01.2015
  * Time: 13:57
  */
-namespace frontend\widgets;
+namespace frontend\components\widgets;
 
 use yii\helpers\Html;
 use yii\web\JsExpression;
@@ -15,7 +15,7 @@ use yii\widgets\Breadcrumbs;
 class Pjax extends \yii\widgets\Pjax
 {
     public function init () {
-        parent::init();
+        \yii\widgets\Pjax::init();
         Alert::widget();
         if ($this->requiresPjax()) {
             $this->addBreadcrumbs();
@@ -23,7 +23,7 @@ class Pjax extends \yii\widgets\Pjax
     }
 
     public function registerClientScript () {
-        parent::registerClientScript();
+        \yii\widgets\Pjax::registerClientScript();
         \Yii::$app->getView()->registerJs('$.pjax.defaults.timeout = 0;');
     }
 

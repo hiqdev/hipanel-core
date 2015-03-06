@@ -45,6 +45,9 @@ Chats
     padding: 5px;
     position: relative;
 }
+.chats li .message .body {
+    font-size: 1.5rem;
+}
 .chats li.in .message {
     text-align: left;
     border-left: 2px solid #1BBC9B;

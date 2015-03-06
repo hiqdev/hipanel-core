@@ -1,5 +1,5 @@
 <?php
-use frontend\widgets\GridView;
+use frontend\components\widgets\GridView;
 
 use yii\helpers\Html;
 
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'filterModel' => $searchModel,
     'columns' => [
         // ['class' => 'yii\grid\SerialColumn'],
-        ['class' => 'yii\grid\CheckboxColumn'],
+        ['class' => 'frontend\components\grid\CheckboxColumn'],
         'id',
         'article_name',
         [

@@ -12,36 +12,9 @@ use yii\bootstrap\Modal;
 use frontend\modules\thread\widgets\Label;
 use frontend\components\Re;
 
-$this->title = 'Clients';
+$this->title = 'Contacts';
 $this->params['breadcrumbs'][] = $this->title;
 
-$widgetButtonConfig = [
-    'buttons'   => [
-        [
-            'label'     => Yii::t('app','Tariff'),
-            'options'   => [
-                'class'     => 'btn-xs' . ($tpl=='_tariff' ? ' active' : ''),
-                'data-view' => '_tariff'
-            ],
-        ],
-        [
-            'label'     => Yii::t('app','Card'),
-            'options'   => [
-                'class'     => 'btn-xs' . ($tpl=='_card' ? ' active' : ''),
-                'data-view' => '_card',
-            ],
-        ],
-    ],
-    'options'   => ['class'=>'change-view-button']
-];
-?>
-<div class="row">
-    <div class="col-md-1 col-md-offset-11" style="margin: 10px">
-        <?= ButtonGroup::widget($widgetButtonConfig); ?>
-    </div>
-</div>
-
-<?php
 $widgetIndexConfig = [
     'dataProvider'  => $dataProvider,
     'filterModel'   => $searchModel,
@@ -51,10 +24,10 @@ $widgetIndexConfig = [
             'name'          => 'ids',
         ],
         [
-            'attribute'     => 'login',
+            'attribute'     => 'client',
             'label'         => Yii::t('app', 'Client'),
             'value'         => function ($data) {
-                return  Html::a($data->login, ['/client/client/view','id'=>$data->id]);
+                return  Html::a($data->client, ['/client/client/view','id'=>$data->client_id]);
             },
             'format'        => 'html',
             'filterInputOptions'=> ['id' => 'id'],
@@ -71,14 +44,14 @@ $widgetIndexConfig = [
                     'triggerChange' => true,
                     'minimumInputLength' => 3,
                     'ajax'          => [
-                        'url'           => yii\helpers\Url::to(['client-all-list']),
+                        'url'           => yii\helpers\Url::to(['/client/client/client-all-list']),
                         'dataType'      => 'json',
                         'data'          => new JsExpression('function(term,page) { return {search:term}; }'),
                         'results'       => new JsExpression('function(data,page) { return {results:data.results}; }'),
                     ],
                     'initSelection' => new JsExpression('function (elem, callback) {
                         var id=$(elem).val();
-                        $.ajax("' . yii\helpers\Url::to(['client-all-list']) . '?id=" + id, {
+                        $.ajax("' . yii\helpers\Url::to(['/client/client/client-all-list']) . '?id=" + id, {
                             dataType: "json"
                         }).done(function(data) {
                             callback(data.results);
@@ -108,36 +81,20 @@ $widgetIndexConfig = [
                     'triggerChange' => true,
                     'minimumInputLength' => 3,
                     'ajax'          => [
-                        'url'           => yii\helpers\Url::to(['seller-list']),
+                        'url'           => yii\helpers\Url::to(['/client/client/seller-list']),
                         'dataType'      => 'json',
                         'data'          => new JsExpression('function(term,page) { return {search:term}; }'),
                         'results'       => new JsExpression('function(data,page) { return {results:data.results}; }'),
                     ],
                     'initSelection' => new JsExpression('function (elem, callback) {
                         var id=$(elem).val();
-                        $.ajax("' . yii\helpers\Url::to(['seller-list']) . '?id=" + id, {
+                        $.ajax("' . yii\helpers\Url::to(['/client/client/seller-list']) . '?id=" + id, {
                             dataType: "json"
                         }).done(function(data) {
                             callback(data.results);
                         });
                     }')
                 ],
-            ]),
-        ],
-        [
-            'attribute' => 'type',
-            'label'     => Yii::t('app','Type'),
-            'filter' => Html::activeDropDownList($searchModel, 'type', \frontend\models\Ref::getList('type,client', true), [
-                'class' => 'form-control',
-                'prompt' => Yii::t('app', '--'),
-            ]),
-        ],
-        [
-            'attribute' => 'state',
-            'label'     => Yii::t('app','State'),
-            'filter' => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,client', true), [
-                'class' => 'form-control',
-                'prompt' => Yii::t('app', '--'),
             ]),
         ],
         'email',

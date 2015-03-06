@@ -55,6 +55,7 @@ class AccountController extends HipanelController
                 'title' => $model->login,
                 'text'  => \Yii::t('app', 'Password changing task has been successfully added to queue'),
             ]);
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             /// TODO: do
@@ -62,19 +63,36 @@ class AccountController extends HipanelController
         }
     }
 
+    /**
+     * @param $id
+     * @return string|yii\web\Response
+     * @throws NotFoundHttpException
+     */
     public function actionSetAllowedIps ($id) {
         $model           = $this->findModel($id);
         $model->scenario = 'set-allowed-ips';
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
-            \Yii::$app->getSession()->addFlash('success', [
-                'title' => $model->login,
-                'text'  => \Yii::t('app', 'Allowed IPs changing task has been successfully added to queue'),
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
+            $flash = [
+                'type' => 'success',
+                'text' => \Yii::t('app', 'Allowed IPs changing task has been successfully added to queue')
+            ];
         } else {
-            /// TODO: do
-            return $this->render('view', ['model' => $model]);
+            $flash['type'] = 'error';
+            if ($model->hasErrors()) {
+                $flash['text'] = $model->getFirstError('sshftp_ips');
+            } else {
+                $flash['text'] = \Yii::t('app', 'An error occurred when trying to change allowed IPs');
+            }
         }
+
+        \Yii::$app->getSession()->addFlash($flash['type'], $flash['text']);
+
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+    public function actionDelete ($id) {
+        $model = $this->findModel($id)->delete();
+        return $this->redirect(['index']);
     }
 
     /**
@@ -100,8 +118,9 @@ class AccountController extends HipanelController
     }
 
     public function actionTest () {
-        $search = new AccountSearch();
-        $accounts = $search->search(['AccountSearch' => ['login_like' => 'asdf', 'device' => 'AVDS123860']])->getModels();
+        $search   = new AccountSearch();
+        $accounts = $search->search(['AccountSearch' => ['login_like' => 'asdf', 'device' => 'AVDS123860']])
+                           ->getModels();
 
         foreach ($accounts as &$account) {
             /* @var $account Account */
@@ -110,6 +129,7 @@ class AccountController extends HipanelController
 
         $collection = new Collection(['scenario' => 'set-password', 'attributes' => ['id', 'password']]);
         $collection->load($accounts)->save();
+
         return $this->renderJson(['ok' => 'aha']);
     }
 }

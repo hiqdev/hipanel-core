@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace frontend\widgets;
+namespace frontend\components\widgets;
 
 use raoul2000\widget\pnotify\PNotify;
 

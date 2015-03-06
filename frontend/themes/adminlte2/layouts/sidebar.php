@@ -6,7 +6,7 @@
  * Time: 18:13
  */
 
-use frontend\widgets\Menu;
+use frontend\components\widgets\Menu;
 use Yii;
 ?>
 

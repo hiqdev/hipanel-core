@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\widgets;
+namespace frontend\components\grid;
 use Yii;
 use yii\helpers\Json;
 
@@ -8,7 +8,7 @@ use yii\helpers\Json;
  * Class DataColumn
  * Our DataColumn widget.
  */
-class DataColumn extends \yii\grid\DataColumn
+class EditableColumn extends \kartik\grid\EditableColumn
 {
     /**
      * @inheritdoc

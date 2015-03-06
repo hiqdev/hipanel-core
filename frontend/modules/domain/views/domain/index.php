@@ -1,8 +1,8 @@
 <?php
 
-use frontend\widgets\GridView;
-use frontend\modules\object\widgets\RequestState;
-use frontend\widgets\Select2;
+use frontend\components\widgets\GridView;
+use frontend\components\widgets\RequestState;
+use frontend\components\widgets\Select2;
 use frontend\components\Re;
 use yii\helpers\Url;
 use yii\jui\DatePicker;
@@ -24,7 +24,7 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'full list' 
     'filterModel'  => $searchModel,
     'columns'      => [
         [
-            'class' => 'frontend\widgets\CheckboxColumn',
+            'class' => 'frontend\components\grid\CheckboxColumn',
         ],
         [
             'visible'               => false,
@@ -65,32 +65,44 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'full list' 
             },
         ],
         [
-            'attribute' => 'whois_protected',
-            'label'     => Yii::t('app', 'Whois'),
-            'popover'   => 'WHOIS protected',
-            'format'    => 'raw',
-            'value'     => function ($model) {
+            'attribute'     => 'whois_protected',
+            'popover'       => 'WHOIS protection',
+            'headerOptions' => ['style' => 'width:1em'],
+            'format'        => 'raw',
+            'value'         => function ($model) {
                 return SwitchInput::widget([
-                    'attribute'     => 'whois_protected',
                     'name'          => 'wpc'.$model->id,
                     'pluginOptions' => [
                         'size'              => 'mini',
-                        'state'             => false,
+                        'onColor'           => 'success',
+                        'offColor'          => 'danger',
+                        'state'             => (boolean)$model->whois_protected,
                         'onSwitchChange'    => new JsExpression('function () { console.log("hello"); }'),
                     ],
                 ]);
             },
         ],
         [
-            #'class'             => 'frontend\widgets\EditableColumn',
             'attribute'         => 'is_secured',
-            'label'             => Yii::t('app', 'Locked'),
             'popover'           => Yii::t('app', 'Protection from transfer'),
+            'headerOptions' => ['style' => 'width:1em'],
+#           'class'             => 'frontend\widgets\EditableColumn',
 #           'editableOptions'   => function ($model, $key, $index, $widget) {
 #               return [
 #                   'inputType'     => Editable::INPUT_SWITCH,
 #               ];
 #           },
+            'format'    => 'raw',
+            'value'     => function ($model) {
+                return SwitchInput::widget([
+                    'name'          => 'isc'.$model->id,
+                    'pluginOptions' => [
+                        'size'              => 'mini',
+                        'state'             => (boolean)$model->is_secured,
+                        'onSwitchChange'    => new JsExpression('function () { console.log("hello"); }'),
+                    ],
+                ]);
+            },
         ],
         [
             'attribute' => 'state',

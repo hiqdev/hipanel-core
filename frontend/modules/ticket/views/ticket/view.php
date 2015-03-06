@@ -18,7 +18,7 @@ $this->registerCss('
 
 <div class="box box-danger">
     <div class="box-header">
-    <?= Html::a('<i class="fa fa-reply"></i>&nbsp;&nbsp;'.Yii::t('app', 'Replay'), '#', ['class'=>'btn btn-default', 'onClick' => new \yii\web\JsExpression('
+    <?= Html::a('<i class="fa fa-reply"></i>&nbsp;&nbsp;'.Yii::t('app', 'Reply'), '#', ['class'=>'btn btn-default', 'onClick' => new \yii\web\JsExpression('
     $("html, body").animate({
         scrollTop: $(".ticket-update").offset().top
     }, 500);
