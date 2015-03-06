@@ -47,10 +47,10 @@ class GridView extends \yii\grid\GridView
         $view->registerJs(<<<'JS'
 $(function () {
     var checkAll = $('input.select-on-check-all');
-    var checkboxes = $('input.check');
+    var checkboxes = $('input.icheck');
 
     //$('input').iCheck();
-    $('input').iCheck({
+    $('input.icheck, input.select-on-check-all ').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass: 'iradio_minimal-blue'
     });

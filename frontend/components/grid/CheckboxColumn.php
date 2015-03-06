@@ -14,6 +14,6 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      * @var array
      */
     public $checkboxOptions = [
-        'class' => 'check',
+        'class' => 'icheck',
     ];
 }
