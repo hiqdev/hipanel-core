@@ -26,7 +26,7 @@ echo GridView::widget([
     'filterModel'  => $searchModel,
     'columns'      => [
         [
-            'class' => 'yii\grid\CheckboxColumn',
+            'class' => 'frontend\components\grid\CheckboxColumn',
         ],
         [
             'attribute'          => 'seller_id',

@@ -47,7 +47,7 @@ $widgetIndexConfig = [
     'filterModel'   => $searchModel,
     'columns'       => [
         [
-            'class'         => 'yii\grid\CheckboxColumn',
+            'class'         => 'frontend\components\grid\CheckboxColumn',
             'name'          => 'ids',
         ],
         [

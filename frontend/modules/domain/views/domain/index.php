@@ -21,7 +21,7 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'full list' 
     'filterModel'  => $searchModel,
     'columns'      => [
         [
-            'class' => 'yii\grid\CheckboxColumn',
+            'class' => 'frontend\components\grid\CheckboxColumn',
         ],
         [
             'visible'               => false,
