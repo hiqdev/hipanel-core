@@ -108,6 +108,9 @@ return [
         ],
     ],
     'modules' => [
+        'gridview' => [
+            'class' => 'kartik\grid\Module',
+        ],
         'markdown' => [
             'class' => 'kartik\markdown\Module',
         ],
