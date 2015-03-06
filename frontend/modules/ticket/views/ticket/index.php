@@ -170,8 +170,7 @@ $this->params['subtitle'] = 'full list';
                     ],
                 ],
                 [
-                    'class' => 'frontend\widgets\CheckboxColumn',
-                    'checkboxOptions' => ['class' => 'check']
+                    'class' => 'frontend\components\grid\CheckboxColumn',
                 ],
             ],
         ]); ?>
