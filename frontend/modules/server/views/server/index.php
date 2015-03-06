@@ -30,7 +30,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                 'filterModel'  => $searchModel,
                 'columns'      => [
                     [
-                        'class' => 'yii\grid\CheckboxColumn',
+                        'class' => 'frontend\components\grid\CheckboxColumn',
                     ],
                     [
                         'attribute'          => 'seller_id',

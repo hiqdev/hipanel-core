@@ -6,9 +6,7 @@
  * Time: 13:46
  */
 
-namespace frontend\components\widgets;
-
-use frontend\assets\iCheckAsset;
+namespace frontend\components\grid;
 
 class CheckboxColumn extends \yii\grid\CheckboxColumn
 {
@@ -16,6 +14,6 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      * @var array
      */
     public $checkboxOptions = [
-        ['class' => 'check']
+        'class' => 'check',
     ];
 }
