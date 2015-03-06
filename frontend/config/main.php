@@ -79,15 +79,15 @@ return [
             ],
         ],
         'view' => [
-//            'theme' => [
-//                'pathMap' => ['@app/views' => '@app/themes/adminlte'],
-//                'baseUrl'   => '@web/themes/adminlte'
-//            ],
+ //           'theme' => [
+ //               'pathMap' => ['@app/views' => '@app/themes/adminlte'],
+ //               'baseUrl'   => '@web/themes/adminlte'
+ //           ],
 
-            'theme' => [
-                'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
-//                'baseUrl' => '@web/themes/adminlte2',
-            ],
+          'theme' => [
+              'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
+                'baseUrl' => '@web/themes/adminlte2',
+          ],
         ],
         'i18n' => [
             'translations' => [
@@ -120,9 +120,9 @@ return [
         'server' => [
             'class' => 'app\modules\server\Module',
         ],
-//      'domain' => [
-//          'class' => 'app\modules\domain\Module',
-//      ],
+        'domain' => [
+            'class' => 'app\modules\domain\Module',
+        ],
         'hosting' => [
             'class' => 'app\modules\hosting\Module',
         ],

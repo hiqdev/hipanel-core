@@ -67,7 +67,7 @@ echo Menu::widget(
                     ],
                     [
                         'label' => Yii::t('app', 'Name Servers'),
-                        'url' => ['/domain/nameservers/index'],
+                        'url' => ['/domain/host/index'],
                     ],
                     [
                         'label' => Yii::t('app', 'Contacts'),

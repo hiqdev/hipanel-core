@@ -277,7 +277,7 @@ class ClientController extends CrudController {
     }
 
     public function actionSetTmpPwd () {
-        y
+//        y
     }
 
 }

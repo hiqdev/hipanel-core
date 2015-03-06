@@ -2,6 +2,7 @@
 
 namespace frontend\modules\hosting\controllers;
 
+use frontend\components\hiresource\Collection;
 use frontend\modules\hosting\models\Account;
 use frontend\modules\hosting\models\AccountSearch;
 use frontend\controllers\HipanelController;
@@ -61,7 +62,6 @@ class AccountController extends HipanelController
         }
     }
 
-
     public function actionSetAllowedIps ($id) {
         $model           = $this->findModel($id);
         $model->scenario = 'set-allowed-ips';
@@ -99,4 +99,17 @@ class AccountController extends HipanelController
         return Ref::getList('type,account');
     }
 
+    public function actionTest () {
+        $search = new AccountSearch();
+        $accounts = $search->search(['AccountSearch' => ['login_like' => 'asdf', 'device' => 'AVDS123860']])->getModels();
+
+        foreach ($accounts as &$account) {
+            /* @var $account Account */
+            $account->password = 'newtestpassword';
+        }
+
+        $collection = new Collection(['scenario' => 'set-password', 'attributes' => ['id', 'password']]);
+        $collection->load($accounts)->save();
+        return $this->renderJson(['ok' => 'aha']);
+    }
 }

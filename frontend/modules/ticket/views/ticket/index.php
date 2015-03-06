@@ -39,6 +39,7 @@ $this->params['subtitle'] = 'full list';
                 // ['class' => 'yii\grid\SerialColumn'],
                 [
                     'attribute' => 'subject',
+                    'popover' => 'Subject',
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Html::tag('b', Html::a('#' . $data->id . '&nbsp;' . $data->subject, $data->threadUrl)) . Topic::widget(['topic' => $data->topic]);
