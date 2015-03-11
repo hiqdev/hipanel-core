@@ -182,3 +182,22 @@ Chats
 .chats li .attachment .file > div i {
     color: #666;
 }
+
+/* ASC/DESC state  */
+
+a.asc:after, a.desc:after {
+    position: relative;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    padding-left: 5px;
+}
+
+a.desc:after {
+    content: "\e152";
+}
+
+a.asc:after {
+    content: "\e151";
+}
