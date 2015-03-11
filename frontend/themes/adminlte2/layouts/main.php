@@ -7,6 +7,7 @@
  * @var string $content Content
  */
 
+use common\models\Skin;
 use Yii;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
@@ -19,7 +20,7 @@ use frontend\components\widgets\Alert;
     <?= $this->render('//layouts/head') ?>
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
-<body class="skin-green">
+<body class="<?= Skin::layoutClass(); ?> <?= Skin::sidebarClass(); ?> <?= Skin::skinClass(); ?>">
 <?php $this->beginBody(); ?>
 <!-- Site wrapper -->
 <div class="wrapper">

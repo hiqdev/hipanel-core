@@ -1,5 +1,6 @@
 <?php
 namespace frontend\components\widgets;
+use common\models\Skin;
 use frontend\assets\DataTablesAsset;
 use frontend\assets\iCheckAsset;
 use yii\web\JsExpression;
@@ -18,7 +19,7 @@ class GridView extends \yii\grid\GridView
      * @inheritdoc
      */
     public $tableOptions = [
-        'class' => 'table table-condensed table-bordered table-hover dataTable'
+        'class' => 'table table-bordered table-hover dataTable'
     ];
     /**
      * @inheritdoc
@@ -36,7 +37,8 @@ class GridView extends \yii\grid\GridView
      */
     public function run()
     {
-        \yii\grid\GridView::run();
+        $this->tableOptions['class'] = sprintf('%s %s', $this->tableOptions['class'], Skin::tableClass());
+        parent::run();
         $this->registerClientScript();
     }
 

@@ -10,5 +10,8 @@ return [
                 'pjax-contaiter' => true,
             ],
         ],
-    ]
+    ],
+    'skin' => [
+        'default-skin' => 'skin-blue',
+    ],
 ];

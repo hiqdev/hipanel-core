@@ -42,6 +42,19 @@ class Skin extends Model
      */
     public $collapsed_sidebar;
 
+    /**
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            [['layout', 'skin', 'table_condensed', 'collapsed_sidebar'], 'safe'],
+        ];
+    }
+
+    /**
+     * @return array
+     */
     public function formLayoutData() {
         return [
             'none' => Yii::t('app', 'Default'),
@@ -50,12 +63,18 @@ class Skin extends Model
         ];
     }
 
+    /**
+     * @return array
+     */
     public function attributeLabels() {
         return [
             'verifyCode' => 'Verification Code',
         ];
     }
 
+    /**
+     * @return array
+     */
     public function skinSampleArray() {
         return [
             [
@@ -97,6 +116,10 @@ class Skin extends Model
         ];
     }
 
+    /**
+     * todo: cache implement, AR save method
+     * @return bool
+     */
     public function saveLayoutSettings() {
         $session = \Yii::$app->session;
         $session->set('user.layout', $this->layout);
@@ -110,8 +133,52 @@ class Skin extends Model
     public function loadLayoutSettings() {
         $session = \Yii::$app->session;
         $this->layout = $session->get('user.layout');
-        $this->skin = $session->get('user.layout');
+        $this->skin = $session->get('user.skin');
         $this->table_condensed = $session->get('user.table_condensed');
         $this->collapsed_sidebar = $session->get('user.collapsed_sidebar');
+    }
+
+    /**
+     * @param $entity
+     * @param string $default
+     * @return mixed|string
+     */
+    private static function cssClassProvider($entity, $default = '') {
+        switch ($entity) {
+            case 'skin':
+                $lc = \Yii::$app->session->get(sprintf('user.%s', $entity), null);
+                return $lc != null ? $lc : $default;
+                break;
+            case 'layout':
+                $lc = \Yii::$app->session->get(sprintf('user.%s', $entity), null);
+                return $lc != null ? $lc : $default;
+                break;
+            case 'table_condensed':
+                $lc = \Yii::$app->session->get(sprintf('user.%s', $entity), 0);
+                return $lc != 0 ? 'table-condensed' : $default;
+                break;
+            case 'collapsed_sidebar':
+                $lc = \Yii::$app->session->get(sprintf('user.%s', $entity), 0);
+                return $lc != 0 ? 'sidebar-collapse' : $default;
+                break;
+            default:
+                throw new \LogicException('Skin class has error input data');
+        }
+    }
+
+    public static function skinClass() {
+        return self::cssClassProvider('skin', \Yii::$app->params['skin']['default-skin']);
+    }
+
+    public static function layoutClass() {
+        return self::cssClassProvider('layout');
+    }
+
+    public static function tableClass() {
+        return self::cssClassProvider('table_condensed');
+    }
+
+    public static function sidebarClass() {
+        return self::cssClassProvider('collapsed_sidebar');
     }
 }

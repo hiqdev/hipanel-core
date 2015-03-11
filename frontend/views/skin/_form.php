@@ -57,6 +57,7 @@ function change_skin(cls) {
         $("body").removeClass(my_skins[i]);
     });
     $("body").addClass(cls);
+    $("#skin-skin").val(cls);
     //store('skin', cls);
     return false;
 }
@@ -79,6 +80,7 @@ JS
             <?= $this->render('_skin-sample', ['data' => $itemData]); ?>
         <?php endforeach; ?>
     </ul>
+<?= $form->field($model, 'skin')->hiddenInput()->label(false); ?>
     <div class="clearfix"></div>
     <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-default']); ?>
 <?php $form::end(); ?>
