@@ -33,6 +33,12 @@ class SkinController extends Controller
         return $this->render('index', [
             'model' => $model,
         ]);
+    }
 
+    public function actionChangeTheme($theme) {
+        if (in_array($theme, ['adminlte', 'adminlte2'])) {
+            Yii::$app->session->set('user.theme', $theme);
+        }
+        $this->redirect(['/skin/index']);
     }
 }
