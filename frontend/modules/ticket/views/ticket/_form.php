@@ -173,7 +173,7 @@ use yii\helpers\Url;
         <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php $form::end(); ?>
 
 </div><!-- ticket-_form -->
 </div>

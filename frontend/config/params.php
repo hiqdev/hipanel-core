@@ -10,5 +10,9 @@ return [
                 'pjax-contaiter' => true,
             ],
         ],
-    ]
+    ],
+    'skin' => [
+        'default-skin' => 'skin-blue',
+        'default-theme' => 'adminlte2',
+    ],
 ];

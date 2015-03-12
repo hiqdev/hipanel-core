@@ -50,6 +50,6 @@ class Pjax extends \yii\widgets\Pjax
     $('.content-header').html($('#{$this->id} #breadcrumb').html());
     $('#{$this->id} #breadcrumb').remove();
 JS
-            , \yii\web\View::POS_READY));
+        ), \yii\web\View::POS_READY);
     }
 }
