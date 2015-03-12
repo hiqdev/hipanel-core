@@ -3,6 +3,7 @@
 namespace frontend\components\grid;
 use Yii;
 use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class DataColumn
@@ -17,11 +18,6 @@ class EditableColumn extends \kartik\grid\EditableColumn
     /**
      * @inheritdoc
      */
-    public $headerOptions = [
-        'data-toggle'   => 'popover',
-        'data-trigger'  => 'hover',
-    ];
-
     public $popoverOptions = [
         'placement'     => 'bottom',
         'selector'      => 'a',
@@ -40,14 +36,18 @@ class EditableColumn extends \kartik\grid\EditableColumn
     }
 
     public function renderHeaderCellContent () {
-        $this->headerOptions['data-content'] = $this->popover;
+        $this->headerOptions = ArrayHelper::merge($this->headerOptions,[
+            'data-toggle'  => 'popover',
+            'data-trigger' => 'hover',
+            'data-content' => $this->popover,
+        ]);
         return parent::renderHeaderCellContent();
     }
 
     public function registerClientScript () {
         $view = Yii::$app->getView();
         $ops = Json::encode($this->popoverOptions);
-        $view->registerJs("$('#{$this->grid->id} thead th[data-toggle=\"popover\"]').popover($ops);",\yii\web\View::POS_READY);
+        $view->registerJs("$('#{$this->grid->id} thead th[data-toggle=\"popover\"]').popover($ops);", \yii\web\View::POS_READY);
     }
 
 }

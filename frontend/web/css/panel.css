@@ -182,3 +182,6 @@ Chats
 .chats li .attachment .file > div i {
     color: #666;
 }
+.bold {
+    font-weight: bold;
+}

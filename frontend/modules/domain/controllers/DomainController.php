@@ -24,14 +24,15 @@ class DomainController extends CrudController
             'verbs' => [
                 'class'   => VerbFilter::className(),
                 'actions' => [
-                    'enableVnc'         => ['post'],
-                    'reboot'            => ['post'],
-                    'reset'             => ['post'],
-                    'shutdown'          => ['post'],
-                    'powerOff'          => ['post'],
-                    'bootLive'          => ['post'],
-                    'regenRootPassword' => ['post'],
-                    'reinstall'         => ['post'],
+                    'setNote'               => ['post'],
+                    'setNSs'                => ['post'],
+                    'setContacts'           => ['post'],
+                    'enableWhoisProtect'    => ['post'],
+                    'disableWhoisProtect'   => ['post'],
+                    'enableAutorenewal'     => ['post'],
+                    'disableAutorenewal'    => ['post'],
+                    'enableLock'            => ['post'],
+                    'disableLock'           => ['post'],
                 ],
             ],
         ];
@@ -40,7 +41,6 @@ class DomainController extends CrudController
     public function actionIndex () {
         $searchModel  = new DomainSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
@@ -48,7 +48,7 @@ class DomainController extends CrudController
     }
 
     public function actionView ($id) {
-        $model      = $this->findModel($id);
+        $model = $this->findModel($id);
         return $this->render('view', compact('model'));
     }
 

@@ -3,6 +3,7 @@
 namespace frontend\components\grid;
 use Yii;
 use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class DataColumn
@@ -17,14 +18,9 @@ class DataColumn extends \yii\grid\DataColumn
     /**
      * @inheritdoc
      */
-    public $headerOptions = [
-        'data-toggle'  => 'popover',
-        'data-trigger' => 'hover',
-    ];
-
     public $popoverOptions = [
-        'placement' => 'bottom',
-        'selector'  => 'a',
+        'placement'     => 'bottom',
+        'selector'      => 'a',
     ];
     /**
      * @inheritdoc
@@ -33,19 +29,24 @@ class DataColumn extends \yii\grid\DataColumn
     /**
      * @inheritdoc
      */
-    public function init () {
-        \yii\grid\DataColumn::init();
+    public function init()
+    {
+        parent::init();
         $this->registerClientScript();
     }
 
     public function renderHeaderCellContent () {
-        $this->headerOptions['data-content'] = $this->popover;
-        return \yii\grid\DataColumn::renderHeaderCellContent();
+        $this->headerOptions = ArrayHelper::merge($this->headerOptions,[
+            'data-toggle'  => 'popover',
+            'data-trigger' => 'hover',
+            'data-content' => $this->popover,
+        ]);
+        return parent::renderHeaderCellContent();
     }
 
     public function registerClientScript () {
         $view = Yii::$app->getView();
-        $ops  = Json::encode($this->popoverOptions);
+        $ops = Json::encode($this->popoverOptions);
         $view->registerJs("$('#{$this->grid->id} thead th[data-toggle=\"popover\"]').popover($ops);", \yii\web\View::POS_READY);
     }
 
