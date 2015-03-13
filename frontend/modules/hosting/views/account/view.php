@@ -10,9 +10,7 @@ use yii\web\JsExpression;
 use yii\widgets\DetailView;
 
 
-$this->title                   = Yii::t('app', 'Account {modelClass}', [
-    'modelClass' => $model->login,
-]);
+$this->title                   = $model->login;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Accounts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

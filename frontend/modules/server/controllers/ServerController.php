@@ -42,7 +42,7 @@ class ServerController extends HipanelController
     public function actions() {
         return [
             'requests-state' => [
-                'class' => 'frontend\modules\object\actions\RequestStateAction',
+                'class' => 'frontend\components\actions\RequestStateAction',
                 'model' => Server::className()
             ],
         ];
