@@ -42,7 +42,6 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
         ],
         [
             'attribute'         => 'state',
-            'headerOptions'     => ['style' => 'width:10em'],
             'filter'            => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,domain'), [
                 'class'  => 'form-control',
                 'prompt' => Yii::t('app', '---'),
@@ -84,7 +83,6 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
         ],
         [
             'attribute'         => 'created_date',
-            'headerOptions'     => ['style' => 'width:7em'],
             'format'            => 'date',
         ],
         [
