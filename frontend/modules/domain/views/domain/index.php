@@ -77,6 +77,9 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'popover'           => Yii::t('app','Make any notes for your convenience'),
             'editableOptions'   => function ($model) {
                 return [
+                    'formOptions'   => [
+                        'action'            => '/domain/domain/set-note',
+                    ],
                     'inputType'     => Editable::INPUT_TEXT,
                 ];
             },

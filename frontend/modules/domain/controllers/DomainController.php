@@ -5,6 +5,7 @@ namespace frontend\modules\domain\controllers;
 use frontend\modules\domain\models\DomainSearch;
 use frontend\modules\domain\models\Domain;
 use frontend\components\hiresource\HiResException;
+use frontend\components\hiresource\Collection;
 use frontend\components\CrudController;
 use frontend\models\Ref;
 use yii\base\NotSupportedException;
@@ -50,6 +51,47 @@ class DomainController extends CrudController
     public function actionView ($id) {
         $model = $this->findModel($id);
         return $this->render('view', compact('model'));
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return \frontend\modules\server\models\Domain|null
+     * @throws NotFoundHttpException
+     */
+    protected function findModel ($id) {
+        $model = Domain::findOne(['id' => $id]);
+        if ($model===null) throw new NotFoundHttpException('The requested page does not exist.');
+        return $model;
+    }
+
+    public function actionSwitchLock        ($id,$enable) { return $this->_switch('Lock',           $id,$enable); }
+    public function actionSwitchWhois       ($id,$enable) { return $this->_switch('Whois',          $id,$enable); }
+    public function actionSwitchAutorenewal ($id,$enable) { return $this->_switch('Autorenewal',    $id,$enable); }
+
+    public function _switch ($what,$id,$enable) {
+        d(compact('what','id','enable'));
+    }
+
+    public function actionSetNote () {
+        //$model->id = \Yii::$app->request->post('editableKey');
+        $search   = new DomainSearch();
+        $domains = $search->search(['DomainSearch' => ['ids' => \Yii::$app->request->post('editableKey') ]])->getModels();
+d($domains);
+
+        $collection = new Collection(['scenario'=>'set-note','attributes'=>['id','note']]);
+        Domain::loadMultiple($models,\Yii::$app->request->post());
+        $collection->load($models);
+d($models);
+d($models);
+        //$model->perform('SetNote',
+        return $this->renderJson(['message' => '']);
+    }
+
+    public function getEditable ($fields) {
+        $res = [];
+        $res['id'] = \Yii::$app->request->post('editableKey');
+        if (!is_array($fields)) $fields = [$fields];
     }
 
     /**
@@ -203,18 +245,6 @@ class DomainController extends CrudController
         }
 
         return $this->actionView($options['id']);
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return \frontend\modules\server\models\Domain|null
-     * @throws NotFoundHttpException
-     */
-    protected function findModel ($id) {
-        $model = Domain::findOne(['id' => $id]);
-        if ($model===null) throw new NotFoundHttpException('The requested page does not exist.');
-        return $model;
     }
 
     protected function getOsimages () {
