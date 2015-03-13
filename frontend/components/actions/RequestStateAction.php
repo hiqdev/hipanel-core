@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\actions\widgets;
+namespace frontend\components\actions;
 
 use frontend\components\widgets\RequestState;
 use yii\base\Action;
