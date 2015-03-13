@@ -335,4 +335,8 @@ class ActiveRecord extends BaseActiveRecord
     public function scenarioCommands () {
         return [];
     }
+
+    public function getIsNewRecord () {
+        return !$this->getPrimaryKey();
+    }
 }
