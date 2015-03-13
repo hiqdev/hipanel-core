@@ -5,8 +5,7 @@
  * Date: 26.02.15
  * Time: 16:18
  */
-use common\models\File;
-use frontend\widgets\FileRender as FR;
+use frontend\components\widgets\FileRender as FR;
 ?>
 
 <div class="attachment">

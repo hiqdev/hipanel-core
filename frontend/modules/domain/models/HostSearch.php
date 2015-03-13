@@ -9,7 +9,7 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class DomainSearch extends \frontend\modules\domain\models\Domain
+class HostSearch extends \frontend\modules\domain\models\Host
 {
 
     public $with_request;
@@ -17,7 +17,8 @@ class DomainSearch extends \frontend\modules\domain\models\Domain
     public function attributes () {
         return array_merge(parent::attributes(), [
             'ids',
-            'host_like',
+            'domains','hosts',
+            'domain_like','host_like','ip_like',
         ]);
     }
 
@@ -25,20 +26,11 @@ class DomainSearch extends \frontend\modules\domain\models\Domain
      * @inheritdoc
      */
     public function rules () {
-        return [
-            [
-                ['ids', 'client', 'client_id', 'seller', 'seller_id', 'name'],
-                'safe'
-            ],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios () {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        return array_merge([
+            [['ids'],                               'safe'], /// XXX should be ids
+            [['domains','hosts'],                   'safe'], /// XXX should be ids
+            [['domain_like','host_like','ip_like'], 'safe'], /// XXX should be label
+        ], parent::rules());
     }
 
     /**
@@ -49,7 +41,7 @@ class DomainSearch extends \frontend\modules\domain\models\Domain
      * @return ActiveDataProvider
      */
     public function search ($params = []) {
-        $query = Domain::find();
+        $query = Host::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -61,13 +53,17 @@ class DomainSearch extends \frontend\modules\domain\models\Domain
         }
 
         $query->andFilterWhere([
-            'ids'          => $this->ids,
-            'clients'      => $this->client,
-            'client_ids'   => $this->client_id,
-            'seller'       => $this->seller,
-            'seller_ids'   => $this->seller_id,
-            'host'         => $this->host,
-            'host_like'    => $this->domain_like,
+            'ids'           => $this->ids ?: $this->id,
+            'seller_ids'    => $this->seller_id,
+            'client_ids'    => $this->client_id,
+            'domain_ids'    => $this->domain_id,
+            'sellers'       => $this->seller,
+            'clients'       => $this->client,
+            'domains'       => $this->domains,
+            'hosts'         => $this->hosts,
+            'domain_like'   => $this->domain_like ?: $this->domain,
+            'host_like'     => $this->host_like ?: $this->host,
+            'ip_like'       => $this->ip_like ?: $this->ips,
         ]);
 
         return $dataProvider;

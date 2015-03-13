@@ -79,15 +79,16 @@ return [
             ],
         ],
         'view' => [
+            'class' => 'frontend\components\View'
  //           'theme' => [
  //               'pathMap' => ['@app/views' => '@app/themes/adminlte'],
  //               'baseUrl'   => '@web/themes/adminlte'
  //           ],
 
-          'theme' => [
-              'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
-                'baseUrl' => '@web/themes/adminlte2',
-          ],
+//          'theme' => [
+//              'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
+//                'baseUrl' => '@web/themes/adminlte2',
+//          ],
         ],
         'i18n' => [
             'translations' => [
@@ -108,8 +109,11 @@ return [
         ],
     ],
     'modules' => [
-        'markdown'  => [
-            'class'     => 'kartik\markdown\Module',
+        'gridview' => [
+            'class' => 'kartik\grid\Module',
+        ],
+        'markdown' => [
+            'class' => 'kartik\markdown\Module',
         ],
         'client'    => [
             'class'     => 'app\modules\client\Module',
