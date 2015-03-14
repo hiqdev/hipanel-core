@@ -4,6 +4,7 @@ namespace frontend\components;
 
 use frontend\components\Controller;
 use frontend\components\hiresource\HiResException;
+use frontend\components\hiresource\Collection;
 use frontend\components\Re;
 use frontend\models\Ref;
 use yii\helpers\ArrayHelper;
@@ -15,6 +16,16 @@ class CrudController extends Controller {
     protected $class    = 'Default';
     protected $path     = '\frontend\modules\client\models';
     protected $tpl      = [];
+
+    public function performEditable ($config) {
+        $model = static::newModel();
+        $model->id = \Yii::$app->request->post('editableKey');
+        $models = [\Yii::$app->request->post('editableIndex') => $model];
+        $model->loadMultiple($models,\Yii::$app->request->post());
+        $coll = new Collection($config);
+        $message = $coll->load($models)->save() ? '' : 'failed';
+        return $this->renderJson(compact('message'));
+    }
 
     protected function objectGetParameters ($ref) {
         return Ref::find()->where(['gtype' => $ref . "," . strtolower($this->class)])->getList();
@@ -56,8 +67,7 @@ class CrudController extends Controller {
     }
 
     public function actionView ($id) {
-        $params = [];
-        return $this->render('view', ['model' => $this->findModel($id, $params),]);
+        return $this->render('view', ['model' => $this->findModel($id),]);
     }
 
     public function actionUpdate ($id) {
@@ -74,15 +84,6 @@ class CrudController extends Controller {
     public function actionDelete ($id) {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
-    }
-
-    protected function findModel ($id, $params = []) {
-        $class = "{$this->path}\\{$this->class}";
-        if (($model = $class::findOne(ArrayHelper::merge($params, [ 'id'=>$id ]))) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 
     protected function prepareDataToUpdate ($action, $params, $scenario) {

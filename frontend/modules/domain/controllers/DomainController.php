@@ -39,6 +39,10 @@ class DomainController extends CrudController
         ];
     }
 
+    static protected function newModel () {
+        return new Domain;
+    }
+
     public function actionIndex () {
         $searchModel  = new DomainSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
@@ -53,18 +57,6 @@ class DomainController extends CrudController
         return $this->render('view', compact('model'));
     }
 
-    /**
-     * @param int $id
-     *
-     * @return \frontend\modules\server\models\Domain|null
-     * @throws NotFoundHttpException
-     */
-    protected function findModel ($id) {
-        $model = Domain::findOne(['id' => $id]);
-        if ($model===null) throw new NotFoundHttpException('The requested page does not exist.');
-        return $model;
-    }
-
     public function actionSwitchLock        ($id,$enable) { return $this->_switch('Lock',           $id,$enable); }
     public function actionSwitchWhois       ($id,$enable) { return $this->_switch('Whois',          $id,$enable); }
     public function actionSwitchAutorenewal ($id,$enable) { return $this->_switch('Autorenewal',    $id,$enable); }
@@ -74,24 +66,7 @@ class DomainController extends CrudController
     }
 
     public function actionSetNote () {
-        //$model->id = \Yii::$app->request->post('editableKey');
-        $search   = new DomainSearch();
-        $domains = $search->search(['DomainSearch' => ['ids' => \Yii::$app->request->post('editableKey') ]])->getModels();
-d($domains);
-
-        $collection = new Collection(['scenario'=>'set-note','attributes'=>['id','note']]);
-        Domain::loadMultiple($models,\Yii::$app->request->post());
-        $collection->load($models);
-d($models);
-d($models);
-        //$model->perform('SetNote',
-        return $this->renderJson(['message' => '']);
-    }
-
-    public function getEditable ($fields) {
-        $res = [];
-        $res['id'] = \Yii::$app->request->post('editableKey');
-        if (!is_array($fields)) $fields = [$fields];
+        return $this->performEditable(['scenario'=>'set-note','attributes'=>['id','note']]);
     }
 
     /**

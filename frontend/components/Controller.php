@@ -30,6 +30,21 @@ class Controller extends \yii\web\Controller
         ];
     }
 
+    static protected function newModel () {
+        throw new InvalidConfigException('Define newModel function');
+    }
+
+    /**
+     * @param int $id
+     * @throws NotFoundHttpException
+     */
+    protected function findModel ($id) {
+        $model = static::newModel()->findOne(['id' => $id]);
+        if ($model===null) throw new NotFoundHttpException('The requested page does not exist.');
+        return $model;
+    }
+
+
     public function actionIndex()
     {
         return $this->render('index');
