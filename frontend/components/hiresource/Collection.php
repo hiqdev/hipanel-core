@@ -6,6 +6,7 @@ use common\components\Err;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidValueException;
+use yii\base\Model;
 use yii\base\ModelEvent;
 use yii\helpers\Json;
 
@@ -62,7 +63,11 @@ class Collection extends Component
     public $attributes;
 
     public function setModel ($value) {
-        $this->model = \Yii::createObject($value);
+        if ($value instanceof Model) {
+            $this->model = $value;
+        } else {
+            $this->model = \Yii::createObject($value);
+        }
         $this->updateFormName();
     }
 

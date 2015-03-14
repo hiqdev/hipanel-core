@@ -39,8 +39,8 @@ class DomainController extends CrudController
         ];
     }
 
-    static protected function newModel () {
-        return new Domain;
+    static protected function newModel ($params = []) {
+        return \Yii::createObject(Domain::className(), $params);
     }
 
     public function actionIndex () {
@@ -66,7 +66,7 @@ class DomainController extends CrudController
     }
 
     public function actionSetNote () {
-        return $this->performEditable(['scenario'=>'set-note','attributes'=>['id','note']]);
+        return $this->performEditable(['scenario' => 'set-note', 'attributes' => ['id', 'note']]);
     }
 
     /**

@@ -2,7 +2,10 @@
 
 namespace frontend\components;
 
+use yii\base\InvalidConfigException;
+use yii\base\Model;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
@@ -30,7 +33,12 @@ class Controller extends \yii\web\Controller
         ];
     }
 
-    static protected function newModel () {
+    /**
+     * @param array $params - params array the will be used to create the model
+     * @returns Model
+     * @throws InvalidConfigException
+     */
+    static protected function newModel ($params = []) {
         throw new InvalidConfigException('Define newModel function');
     }
 
@@ -39,6 +47,7 @@ class Controller extends \yii\web\Controller
      * @throws NotFoundHttpException
      */
     protected function findModel ($id) {
+        /** @noinspection PhpVoidFunctionResultUsedInspection */
         $model = static::newModel()->findOne(['id' => $id]);
         if ($model===null) throw new NotFoundHttpException('The requested page does not exist.');
         return $model;
