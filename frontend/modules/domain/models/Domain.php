@@ -65,7 +65,7 @@ class Domain extends \frontend\components\hiresource\ActiveRecord
             [['domain'],        'safe'],
             [['id'],            'safe'],
             [['is_secured'],    'safe'],
-            [['note'],          'safe'],
+            [['note'],          'safe',  'on' => ['set-note']],
         ];
     }
 

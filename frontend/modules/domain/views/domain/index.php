@@ -1,12 +1,17 @@
 <?php
 
+use frontend\components\grid\CheckboxColumn;
+use frontend\components\grid\ClientColumn;
+use frontend\components\grid\EditableColumn;
+use frontend\components\grid\ResellerColumn;
+use frontend\components\grid\SwitchColumn;
 use frontend\components\widgets\GridView;
-use frontend\components\widgets\RequestState;
-use frontend\components\widgets\Select2;
-use frontend\components\Re;
-use yii\helpers\Url;
+use frontend\models\Ref;
+use frontend\modules\domain\widgets\Expires;
+use frontend\modules\domain\widgets\State;
 use yii\helpers\Html;
 use kartik\editable\Editable;
+use yii\helpers\Url;
 
 $this->title                    = Yii::t('app', 'Domains');
 $this->params['breadcrumbs'][]  = $this->title;
@@ -21,15 +26,15 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
     'filterModel'  => $searchModel,
     'columns'      => [
         [
-            'class'                 => 'frontend\components\grid\CheckboxColumn',
+            'class'                 => CheckboxColumn::className(),
             'headerOptions'         => ['style' => 'width:1em'],
         ],
         [
-            'class'                 => 'frontend\components\grid\ResellerColumn',
+            'class'                 => ResellerColumn::className(),
             'label'                 => 'RRRR',
         ],
         [
-            'class'                 => 'frontend\components\grid\ClientColumn',
+            'class'                 => ClientColumn::className(),
             'label'                 => 'RRRR',
         ],
         [
@@ -42,17 +47,17 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
         ],
         [
             'attribute'         => 'state',
-            'filter'            => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,domain'), [
+            'filter'            => Html::activeDropDownList($searchModel, 'state', Ref::getList('state,domain'), [
                 'class'  => 'form-control',
                 'prompt' => Yii::t('app', '---'),
             ]),
             'format'            => 'raw',
             'value'             => function ($model) {
-                return \frontend\modules\domain\widgets\State::widget(compact('model'));
+                return State::widget(compact('model'));
             },
         ],
         [
-            'class'             => 'frontend\components\grid\SwitchColumn',
+            'class'             => SwitchColumn::className(),
             'attribute'         => 'whois_protected',
             'popover'           => 'WHOIS protection',
             'headerOptions'     => ['style' => 'width:1em'],
@@ -63,7 +68,7 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             ],
         ],
         [
-            'class'             => 'frontend\components\grid\SwitchColumn',
+            'class'             => SwitchColumn::className(),
             'attribute'         => 'is_secured',
             'popover'           => Yii::t('app', 'Protection from transfer'),
             'headerOptions'     => ['style' => 'width:1em'],
@@ -72,13 +77,13 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             ],
         ],
         [
-            'class'             => 'frontend\components\grid\EditableColumn',
+            'class'             => EditableColumn::className(),
             'attribute'         => 'note',
             'popover'           => Yii::t('app','Make any notes for your convenience'),
             'editableOptions'   => function ($model) {
                 return [
                     'formOptions'   => [
-                        'action'            => '/domain/domain/set-note',
+                        'action'            => Url::to('set-note'),
                     ],
                     'inputType'     => Editable::INPUT_TEXT,
                 ];
@@ -93,11 +98,11 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'headerOptions'     => ['style' => 'width:1em'],
             'format'            => 'raw',
             'value'             => function ($model) {
-                return \frontend\modules\domain\widgets\Expires::widget(compact('model'));
+                return Expires::widget(compact('model'));
             },
         ],
         [
-            'class'             => 'frontend\components\grid\SwitchColumn',
+            'class'             => SwitchColumn::className(),
             'attribute'         => 'autorenewal',
             'label'             => 'Autorenew',
             'popover'           => 'The domain will be autorenewed for one year in a week before it expires if you have enough credit on your account',

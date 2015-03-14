@@ -22,6 +22,7 @@ class EditableColumn extends \kartik\grid\EditableColumn
         'placement'     => 'bottom',
         'selector'      => 'a',
     ];
+
     /**
      * @inheritdoc
      */

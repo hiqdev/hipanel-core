@@ -282,6 +282,15 @@ class ActiveRecord extends BaseActiveRecord
         return $result;
     }
 
+    /**
+     * Creates the command name for the specified scenario name
+     *
+     * @param string $default
+     * @param bool $bulk
+     * @return string
+     * @throws InvalidConfigException
+     * @throws NotSupportedException
+     */
     public function getScenarioCommand ($default = '', $bulk = false) {
         if ($this->isScenarioDefault()) {
             if ($default !== '') {

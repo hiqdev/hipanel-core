@@ -4,8 +4,10 @@ namespace frontend\components\hiresource;
 
 use common\components\Err;
 use yii\base\Component;
+use yii\base\InvalidConfigException;
 use yii\base\InvalidValueException;
 use yii\base\ModelEvent;
+use yii\helpers\Json;
 
 class Collection extends Component
 {
@@ -26,9 +28,23 @@ class Collection extends Component
     public $formName;
 
     /**
-     * @var string
+     * @var callable the function to format loaded data. Gets three attributes:
+     *  - model (instance of operating model)
+     *  - key   - the key of the loaded item
+     *  - value - the value of the loaded item
+     *
+     * Should return array, where the first item is the new key, and the second - a new value. Example:
+     *
+     * ```
+     * return [$key, $value];
+     * ```
      */
-    public $formClass;
+    public $loadFormatter;
+
+    /**
+     * @var \yii\base\Model
+     */
+    protected $model;
 
     /**
      * @var string
@@ -45,16 +61,68 @@ class Collection extends Component
      */
     public $attributes;
 
-    public function load (array $models) {
+    public function setModel ($value) {
+        $this->model = \Yii::createObject($value);
+        $this->updateFormName();
+    }
+
+    public function updateFormName () {
+        $this->formName = $this->model->formName();
+    }
+
+    /**
+     * @param array|callable $data - the data to be proceeded. If is callable - gets agruments:
+     *   - model
+     *   - fromName
+     * @return Collection
+     * @throws InvalidConfigException
+     */
+    public function load ($data = null) {
+        $models    = [];
+        $finalData = [];
+
+        if ($data === null) {
+            $data = \Yii::$app->request->post($this->formName);
+        } elseif ($data instanceof \Closure) {
+            $data = call_user_func($data, $this->model, $this->formName);
+        }
+
+        foreach ($data as $key => $value) {
+            if ($this->loadFormatter instanceof \Closure) {
+                $item = call_user_func($this->loadFormatter, $this->model, $key, $value);
+            } else {
+                $item = [$key, $value];
+            }
+            $models[$item[0]]    = \Yii::createObject([
+                'class'    => $this->model->className(),
+                'scenario' => $this->scenario
+            ]);
+            $finalData[$this->formName][$item[0]] = $item[1];
+        }
+        $this->model->loadMultiple($models, $finalData);
+
+        return $this->set($models);
+    }
+
+    /**
+     * Sets the array of AR models to the collection
+     *
+     * @param array $models - array of AR Models
+     * @return $this
+     */
+    public function set (array $models) {
         /* @var $first ActiveRecord */
         $first = reset($models);
         if ($first === false) {
             return $this;
         }
-        $this->first     = $first;
-        $this->formName  = $first->formName();
-        $this->formClass = $first->className();
-        $this->models    = $models;
+        $this->first = $first;
+
+        /// redo
+        $this->formName = $first->formName();
+        $this->model    = $first->className();
+
+        $this->models = $models;
         if (!$this->isConsistent()) {
             throw new InvalidValueException('Models are not objects of same class or not follow same operation');
         }
