@@ -32,12 +32,14 @@ Chats
 }
 .chats li .name {
     color: #3590c1;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
 }
-.chats li .datetime {
+.chats li .datetime,
+.chats li .spent-time
+{
     color: #333;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
 }
 .chats li .message {
@@ -47,6 +49,7 @@ Chats
 }
 .chats li .message .body {
     font-size: 1.5rem;
+    margin-top: 1em;
 }
 .chats li.in .message {
     text-align: left;
@@ -181,6 +184,21 @@ Chats
 
 .chats li .attachment .file > div i {
     color: #666;
+}
+
+.chats li .message .buttons {
+    padding: 10px;
+    margin-right: 15px;
+}
+
+.chats li.in .message .info,
+.chats li.out .message .buttons {
+    float: left;
+}
+
+.chats li.out .message .info,
+.chats li.in .message .buttons {
+    float: right;
 }
 
 /* ASC/DESC state  */
