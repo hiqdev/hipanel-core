@@ -109,12 +109,12 @@ use Yii;
                             ],
                             [
                                 'label' => Yii::t('app', 'Name Servers'),
-                                'url' => ['/domain/nameservers/index'],
+                                'url' => ['/domain/host/index'],
                                 'icon' => 'fa-circle-o',
                             ],
                             [
                                 'label' => Yii::t('app', 'Contacts'),
-                                'url' => ['/client/contacts/index'],
+                                'url' => ['/client/contact/index'],
                                 'icon' => 'fa-circle-o',
                             ],
                             [

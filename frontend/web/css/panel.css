@@ -1,6 +1,4 @@
-/***
-Chats
-***/
+/* Chats */
 .chats {
     margin: 0;
     padding: 0;
@@ -200,6 +198,13 @@ Chats
 .chats li.in .message .buttons {
     float: right;
 }
+
+/* COMMON */
+
+.bold {
+    font-weight: bold;
+}
+
 
 /* ASC/DESC state  */
 

@@ -5,6 +5,7 @@ namespace frontend\modules\domain\controllers;
 use frontend\modules\domain\models\DomainSearch;
 use frontend\modules\domain\models\Domain;
 use frontend\components\hiresource\HiResException;
+use frontend\components\hiresource\Collection;
 use frontend\components\CrudController;
 use frontend\models\Ref;
 use yii\base\NotSupportedException;
@@ -24,23 +25,27 @@ class DomainController extends CrudController
             'verbs' => [
                 'class'   => VerbFilter::className(),
                 'actions' => [
-                    'enableVnc'         => ['post'],
-                    'reboot'            => ['post'],
-                    'reset'             => ['post'],
-                    'shutdown'          => ['post'],
-                    'powerOff'          => ['post'],
-                    'bootLive'          => ['post'],
-                    'regenRootPassword' => ['post'],
-                    'reinstall'         => ['post'],
+                    'setNote'               => ['post'],
+                    'setNSs'                => ['post'],
+                    'setContacts'           => ['post'],
+                    'enableWhoisProtect'    => ['post'],
+                    'disableWhoisProtect'   => ['post'],
+                    'enableAutorenewal'     => ['post'],
+                    'disableAutorenewal'    => ['post'],
+                    'enableLock'            => ['post'],
+                    'disableLock'           => ['post'],
                 ],
             ],
         ];
     }
 
+    static protected function newModel ($params = []) {
+        return \Yii::createObject(Domain::className(), $params);
+    }
+
     public function actionIndex () {
         $searchModel  = new DomainSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
@@ -48,8 +53,20 @@ class DomainController extends CrudController
     }
 
     public function actionView ($id) {
-        $model      = $this->findModel($id);
+        $model = $this->findModel($id);
         return $this->render('view', compact('model'));
+    }
+
+    public function actionSwitchLock        ($id,$enable) { return $this->_switch('Lock',           $id,$enable); }
+    public function actionSwitchWhois       ($id,$enable) { return $this->_switch('Whois',          $id,$enable); }
+    public function actionSwitchAutorenewal ($id,$enable) { return $this->_switch('Autorenewal',    $id,$enable); }
+
+    public function _switch ($what,$id,$enable) {
+        d(compact('what','id','enable'));
+    }
+
+    public function actionSetNote () {
+        return $this->performEditable(['scenario' => 'set-note', 'attributes' => ['id', 'note']]);
     }
 
     /**
@@ -203,18 +220,6 @@ class DomainController extends CrudController
         }
 
         return $this->actionView($options['id']);
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return \frontend\modules\server\models\Domain|null
-     * @throws NotFoundHttpException
-     */
-    protected function findModel ($id) {
-        $model = Domain::findOne(['id' => $id]);
-        if ($model===null) throw new NotFoundHttpException('The requested page does not exist.');
-        return $model;
     }
 
     protected function getOsimages () {

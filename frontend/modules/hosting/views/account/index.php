@@ -54,8 +54,9 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                     [
                         'attribute' => 'device_like',
                         'label'     => Yii::t('app', 'Server'),
+                        'format'    => 'raw',
                         'value'     => function ($model) {
-                            return $model->device;
+                            return Html::a($model->device, ['/server/server/view', 'id' => $model->device_id]);
                         },
                         'filter'    => Select2::widget([
                             'attribute' => 'device_id',
@@ -99,8 +100,8 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                         'buttons'  => [
                             'view' => function ($url, $model, $key) {
                                 return GridActionButton::widget([
-                                    'url' => $url,
-                                    'icon' => '<i class="fa fa-eye"></i>',
+                                    'url'   => $url,
+                                    'icon'  => '<i class="fa fa-eye"></i>',
                                     'label' => Yii::t('app', 'Details'),
                                 ]);
                             },

@@ -7,13 +7,12 @@ use yii\web\JsExpression;
 
 /**
  * Class GridView
- * @package vova07\themes\admin\widgets
  * Theme GridView widget.
  */
-class GridView extends \yii\grid\GridView
+class GridView extends \kartik\grid\GridView
 {
 
-    public $dataColumnClass = 'frontend\components\widgets\DataColumn';
+    public $dataColumnClass = 'frontend\components\grid\DataColumn';
 
     /**
      * @inheritdoc

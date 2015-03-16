@@ -3,9 +3,13 @@
 namespace frontend\components\hiresource;
 
 use common\components\Err;
+use frontend\components\helpers\ArrayHelper;
 use yii\base\Component;
+use yii\base\InvalidConfigException;
 use yii\base\InvalidValueException;
+use yii\base\Model;
 use yii\base\ModelEvent;
+use yii\helpers\Json;
 
 class Collection extends Component
 {
@@ -26,14 +30,29 @@ class Collection extends Component
     public $formName;
 
     /**
-     * @var string
+     * @var callable the function to format loaded data. Gets three attributes:
+     *  - model (instance of operating model)
+     *  - key   - the key of the loaded item
+     *  - value - the value of the loaded item
+     *
+     * Should return array, where the first item is the new key, and the second - a new value. Example:
+     *
+     * ```
+     * return [$key, $value];
+     * ```
      */
-    public $formClass;
+    public $loadFormatter;
 
     /**
-     * @var string
+     * @var \yii\base\Model
      */
-    public $scenario;
+    protected $model;
+
+    /**
+     * @var array options that will be passed to the new model when loading data in [[load]]
+     * @see load()
+     */
+    public $modelOptions = [];
 
     /**
      * @var ActiveRecord
@@ -45,16 +64,80 @@ class Collection extends Component
      */
     public $attributes;
 
-    public function load (array $models) {
+    public function setModel ($value) {
+        if ($value instanceof Model) {
+            $this->model = $value;
+        } else {
+            $this->model = \Yii::createObject($value);
+        }
+        $this->updateFormName();
+    }
+
+    public function setScenario ($value) {
+        $this->modelOptions['scenario'] = $value;
+    }
+
+    public function getScenario () {
+        return $this->modelOptions['scenario'];
+    }
+
+    public function updateFormName () {
+        $this->formName = $this->model->formName();
+    }
+
+    /**
+     * @param array|callable $data - the data to be proceeded. If is callable - gets agruments:
+     *   - model
+     *   - fromName
+     * @return Collection
+     * @throws InvalidConfigException
+     */
+    public function load ($data = null) {
+        $models    = [];
+        $finalData = [];
+
+        if ($data === null) {
+            $data = \Yii::$app->request->post($this->formName);
+        } elseif ($data instanceof \Closure) {
+            $data = call_user_func($data, $this->model, $this->formName);
+        }
+
+        foreach ($data as $key => $value) {
+            if ($this->loadFormatter instanceof \Closure) {
+                $item = call_user_func($this->loadFormatter, $this->model, $key, $value);
+            } else {
+                $item = [$key, $value];
+            }
+
+            $options = ArrayHelper::merge(['class' => $this->model->className()], $this->modelOptions);
+
+            $models[$item[0]]                     = \Yii::createObject($options);
+            $finalData[$this->formName][$item[0]] = $item[1];
+        }
+        $this->model->loadMultiple($models, $finalData);
+
+        return $this->set($models);
+    }
+
+    /**
+     * Sets the array of AR models to the collection
+     *
+     * @param array $models - array of AR Models
+     * @return $this
+     */
+    public function set (array $models) {
         /* @var $first ActiveRecord */
         $first = reset($models);
         if ($first === false) {
             return $this;
         }
-        $this->first     = $first;
-        $this->formName  = $first->formName();
-        $this->formClass = $first->className();
-        $this->models    = $models;
+        $this->first = $first;
+
+        /// redo
+        $this->formName = $first->formName();
+        $this->model    = $first->className();
+
+        $this->models = $models;
         if (!$this->isConsistent()) {
             throw new InvalidValueException('Models are not objects of same class or not follow same operation');
         }
@@ -181,11 +264,6 @@ class Collection extends Component
 
     public function beforeValidate () {
         $event = new ModelEvent();
-        foreach ($this->models as $model) {
-            /* @var $model ActiveRecord */
-            $model->scenario = $this->scenario;
-        }
-
         $this->trigger(self::EVENT_BEFORE_VALIDATE, $event);
 
         return $event->isValid;

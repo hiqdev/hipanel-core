@@ -33,6 +33,7 @@ class Select2Asset extends AssetBundle
      */
     public $js = [
         'select2-3.5.2/select2.js',
+        'js/hiSelect2.js',
 //        'select2-3.5.2/select2-kv.js',
     ];
 

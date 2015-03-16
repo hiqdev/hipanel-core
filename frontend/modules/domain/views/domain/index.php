@@ -1,119 +1,116 @@
 <?php
 
+use frontend\components\grid\CheckboxColumn;
+use frontend\components\grid\ClientColumn;
+use frontend\components\grid\EditableColumn;
+use frontend\components\grid\ResellerColumn;
+use frontend\components\grid\SwitchColumn;
 use frontend\components\widgets\GridView;
-use frontend\components\widgets\RequestState;
-use frontend\components\widgets\Select2;
-use frontend\components\Re;
+use frontend\models\Ref;
+use frontend\modules\domain\widgets\Expires;
+use frontend\modules\domain\widgets\State;
+use yii\helpers\Html;
+use kartik\editable\Editable;
 use yii\helpers\Url;
-use \yii\jui\DatePicker;
-use \yii\helpers\Html;
 
 $this->title                    = Yii::t('app', 'Domains');
 $this->params['breadcrumbs'][]  = $this->title;
-$this->params['subtitle']       = Yii::$app->request->queryParams ? 'full list' : 'filtered list';
+$this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
 
 ?>
 
 <div class="box box-primary">
-<div class="box-data">
+<div class="box-body">
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
     'columns'      => [
         [
-            'class' => 'frontend\components\grid\CheckboxColumn',
+            'class'                 => CheckboxColumn::className(),
+            'headerOptions'         => ['style' => 'width:1em'],
         ],
         [
-            'visible'               => false,
-            'attribute'             => 'seller_id',
-            'label'                 => Yii::t('app', 'Reseller'),
-            'value'                 => function ($model) {
-                return Html::a($model->seller, ['/client/client/view', 'id' => $model->seller_id]);
-            },
-            'format'                => 'html',
-            'filterInputOptions'    => ['id' => 'seller_id'],
-            'filter'                => Select2::widget([
-                'attribute' => 'seller_id',
-                'model'     => $searchModel,
-                'url'       => Url::to(['/client/client/seller-list']),
-            ]),
+            'class'                 => ResellerColumn::className(),
+            'label'                 => 'RRRR',
         ],
         [
-            'visible'               => false,
-            'attribute'             => 'client_id',
-            'label'                 => Yii::t('app', 'Client'),
-            'value'                 => function ($model) {
-                return Html::a($model->client, ['/client/client/view', 'id' => $model->client_id]);
-            },
-            'format'                => 'html',
-            'filterInputOptions'    => ['id' => 'author_id'],
-            'filter'                => Select2::widget([
-                'attribute' => 'client_id',
-                'model'     => $searchModel,
-                'url'       => Url::to(['/client/client/client-all-list'])
-            ]),
+            'class'                 => ClientColumn::className(),
+            'label'                 => 'RRRR',
         ],
         [
             'attribute' => 'domain',
             'label'     => Yii::t('app', 'Name'),
             'format'    => 'html',
             'value'     => function ($model) {
-                return Html::a($model->domain, ['view', 'id' => $model->id]);
+                return Html::a($model->domain, ['view', 'id' => $model->id], ['class' => 'bold']);
             },
         ],
         [
-            'attribute' => 'whois_protected',
-            'label'     => Yii::t('app', 'Whois'),
-            'popover'   => 'WHOIS protected',
-        ],
-        [
-            'attribute' => 'is_secured',
-            'label'     => Yii::t('app', 'Locked'),
-            'popover'   => Yii::t('app', 'Protected from transfer'),
-        ],
-        [
-            'attribute' => 'state',
-            'filter'    => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,domain'), [
+            'attribute'         => 'state',
+            'filter'            => Html::activeDropDownList($searchModel, 'state', Ref::getList('state,domain'), [
                 'class'  => 'form-control',
-                'prompt' => Yii::t('app', '--'),
+                'prompt' => Yii::t('app', '---'),
             ]),
-            'value'     => function ($model) {
-                return Re::l($model->state_label);
+            'format'            => 'raw',
+            'value'             => function ($model) {
+                return State::widget(compact('model'));
             },
         ],
         [
-            'attribute' => 'note',
-            'value'     => function ($model) {
-                return $model->note ?: ' ';
+            'class'             => SwitchColumn::className(),
+            'attribute'         => 'whois_protected',
+            'popover'           => 'WHOIS protection',
+            'headerOptions'     => ['style' => 'width:1em'],
+            'pluginOptions'     => [
+                'size'              => 'mini',
+                'onColor'           => 'success',
+                'offColor'          => 'warning',
+            ],
+        ],
+        [
+            'class'             => SwitchColumn::className(),
+            'attribute'         => 'is_secured',
+            'popover'           => Yii::t('app', 'Protection from transfer'),
+            'headerOptions'     => ['style' => 'width:1em'],
+            'pluginOptions'     => [
+                'size'              => 'mini',
+            ],
+        ],
+        [
+            'class'             => EditableColumn::className(),
+            'attribute'         => 'note',
+            'popover'           => Yii::t('app','Make any notes for your convenience'),
+            'editableOptions'   => function ($model) {
+                return [
+                    'formOptions'   => [
+                        'action'            => Url::to('set-note'),
+                    ],
+                    'inputType'     => Editable::INPUT_TEXT,
+                ];
             },
         ],
         [
-            'attribute' => 'created_date',
-            'format'    => ['date'],
+            'attribute'         => 'created_date',
+            'format'            => 'date',
         ],
         [
-            'attribute' => 'expires',
-            'format'    => 'raw',
-            'value'     => function ($model) {
-                if ($model['state'] != 'blocked') {
-                    $value = \yii::$app->formatter->asDate($model->expires);
-                } else {
-                    $value = \yii::t('app', 'Blocked') . ' ' . frontend\components\Re::l($model['block_reason_label']);
-                }
-
-                $class = ['label'];
-
-                if (strtotime("+7 days", time()) < strtotime($model->expires)) {
-                    $class[] = 'label-info';
-                } elseif (strtotime("+3 days", time()) < strtotime($model->expires)) {
-                    $class[] = 'label-warning';
-                } else {
-                    $class[] = 'label-danger';
-                }
-                $html = Html::tag('span', $value, ['class' => implode(' ', $class)]);
-
-                return $html;
-            }
+            'attribute'         => 'expires',
+            'headerOptions'     => ['style' => 'width:1em'],
+            'format'            => 'raw',
+            'value'             => function ($model) {
+                return Expires::widget(compact('model'));
+            },
+        ],
+        [
+            'class'             => SwitchColumn::className(),
+            'attribute'         => 'autorenewal',
+            'label'             => 'Autorenew',
+            'popover'           => 'The domain will be autorenewed for one year in a week before it expires if you have enough credit on your account',
+            'headerOptions'     => ['style' => 'width:1em'],
+            'pluginOptions'     => [
+                'size'              => 'mini',
+                'onColor'           => 'info',
+            ],
         ],
     ],
 ]) ?>

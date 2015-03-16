@@ -109,8 +109,11 @@ return [
         ],
     ],
     'modules' => [
-        'markdown'  => [
-            'class'     => 'kartik\markdown\Module',
+        'gridview' => [
+            'class' => 'kartik\grid\Module',
+        ],
+        'markdown' => [
+            'class' => 'kartik\markdown\Module',
         ],
         'client'    => [
             'class'     => 'app\modules\client\Module',
