@@ -3,6 +3,7 @@
 namespace frontend\components\grid;
 use Yii;
 use yii\helpers\Json;
+use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -15,6 +16,7 @@ class EditableColumn extends \kartik\grid\EditableColumn
      * @inheritdoc
      */
     public $popover = null;
+
     /**
      * @inheritdoc
      */
@@ -24,15 +26,16 @@ class EditableColumn extends \kartik\grid\EditableColumn
     ];
 
     /**
-     * @inheritdoc
+     * action for form
      */
-//    public $layout = "{items}\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
+    public $action = null;
+
     /**
      * @inheritdoc
      */
-    public function init()
-    {
+    public function init () {
         parent::init();
+        $this->prepareEditableOptions();
         $this->registerClientScript();
     }
 
@@ -49,6 +52,26 @@ class EditableColumn extends \kartik\grid\EditableColumn
         $view = Yii::$app->getView();
         $ops = Json::encode($this->popoverOptions);
         $view->registerJs("$('#{$this->grid->id} thead th[data-toggle=\"popover\"]').popover($ops);", \yii\web\View::POS_READY);
+    }
+
+    public function prepareEditableOptions () {
+        $old = $this->editableOptions;
+        $this->editableOptions = function ($model, $key, $index) use ($old) {
+            $pkey = reset($model->primaryKey());
+            $params = Html::hiddenInput($model->formName()."[$index][$pkey]", $key);
+            $ops = $old instanceof \Closure ? call_user_func($old,$model,$key,$index) : $old;
+            if (!is_array($ops)) {
+                $ops = [];
+            };
+            if ($this->action) {
+                $ops['formOptions']['action'] = $this->action;
+            };
+            $old = $ops['beforeInput'];
+            $ops['beforeInput'] = function ($form, $widget) use ($old, $params) {
+                return $params.($old instanceof \Closure ? call_user_func($old, $form, $widget) : $old);
+            };
+            return $ops;
+        };
     }
 
 }
