@@ -3,6 +3,7 @@
 namespace frontend\components\hiresource;
 
 use common\components\Err;
+use frontend\components\helpers\ArrayHelper;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidValueException;
@@ -48,9 +49,10 @@ class Collection extends Component
     protected $model;
 
     /**
-     * @var string
+     * @var array options that will be passed to the new model when loading data in [[load]]
+     * @see load()
      */
-    public $scenario;
+    public $modelOptions = [];
 
     /**
      * @var ActiveRecord
@@ -69,6 +71,14 @@ class Collection extends Component
             $this->model = \Yii::createObject($value);
         }
         $this->updateFormName();
+    }
+
+    public function setScenario ($value) {
+        $this->modelOptions['scenario'] = $value;
+    }
+
+    public function getScenario () {
+        return $this->modelOptions['scenario'];
     }
 
     public function updateFormName () {
@@ -98,10 +108,10 @@ class Collection extends Component
             } else {
                 $item = [$key, $value];
             }
-            $models[$item[0]]    = \Yii::createObject([
-                'class'    => $this->model->className(),
-                'scenario' => $this->scenario
-            ]);
+
+            $options = ArrayHelper::merge(['class' => $this->model->className()], $this->modelOptions);
+
+            $models[$item[0]]                     = \Yii::createObject($options);
             $finalData[$this->formName][$item[0]] = $item[1];
         }
         $this->model->loadMultiple($models, $finalData);
@@ -254,11 +264,6 @@ class Collection extends Component
 
     public function beforeValidate () {
         $event = new ModelEvent();
-        foreach ($this->models as $model) {
-            /* @var $model ActiveRecord */
-            $model->scenario = $this->scenario;
-        }
-
         $this->trigger(self::EVENT_BEFORE_VALIDATE, $event);
 
         return $event->isValid;
