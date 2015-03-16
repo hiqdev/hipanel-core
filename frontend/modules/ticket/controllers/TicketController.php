@@ -154,6 +154,20 @@ class TicketController extends CrudController {
         return true;
     }
 
+    public function actionGetQuotedAnswer() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            $id = $request->post('id');
+            if ($id != null) {
+                $answer = Thread::perform('GetAnswer', ['id' => $id]);
+                if (isset($answer['message'])) {
+                    return '> ' . str_replace("\n", "\n> ", $answer['message']);
+                }
+            }
+        }
+        Yii::$app->end();
+    }
+
     /**
      * @param $id
      * @param $object_id
