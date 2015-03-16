@@ -6,8 +6,6 @@ use yii\base\NotSupportedException;
 
 class Domain extends \frontend\components\hiresource\ActiveRecord
 {
-    public $key = 'id';
-
     /**
      * @return array the list of attributes for this record
      */
@@ -57,16 +55,21 @@ class Domain extends \frontend\components\hiresource\ActiveRecord
             'daysleft',
             'is_expired',
             'expires_soon',
+            'registrant','admin','tech','billing',
         ];
     }
 
+    public $enable;
+
     public function rules () {
         return [
-            [['domain'],        'safe'],
-            [['id'],            'safe'],
-            [['is_secured'],    'safe'],
-            [['note'],          'safe'],
-            [['id','note'],     'safe', 'on' => 'set-note'],
+            [['domain'],                                'safe'],
+            [['id'],                                    'safe'],
+            [['is_secured'],                            'safe'],
+            [['note'],                                  'safe'],
+            [['id','note'],                             'safe', 'on' => ['set-note']],
+            [['registrant','admin','tech','billing'],   'safe', 'on' => ['set-contacts']],
+            [['id','enable'],                           'safe', 'on' => ['set-lock','set-autorenewal','set-whois-protect']],
         ];
     }
 
