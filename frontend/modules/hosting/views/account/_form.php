@@ -20,7 +20,6 @@ $action = [
         <div class="col-md-4">
             <div class="box box-danger">
                 <div class="box-header">
-
                     <?php if ($model->scenario == 'insert_user') { ?>
                         <h4><?= Yii::t('app', 'Created account will have access via SSH and FTP to the server') ?></h4>
                     <?php } ?>
@@ -89,6 +88,50 @@ $this->registerJs("
 
 
 $this->registerJs(<<<JS
-    $('#w0').hiSelect2().add($('#account-client_id'), 'client');
+
+$(document).ready(function () {
+	$.fn.hiSelect2Config().add('client', {
+		name: 'client',
+		type: 'client',
+		pluginOptions: {
+			allowClear: true,
+			initSelection: function (element, callback) {
+				var data = {
+					id: element.val(),
+					text: element.attr('data-init-text') ? element.attr('data-init-text') : element.val()
+				};
+
+				callback(data);
+			},
+			ajax: {
+				url: "/clients/clients/list",
+				dataType: 'json',
+				quietMillis: 400,
+				data: function (term) {
+					var form = $(this).data('field').form;
+					return form.createFilter({'client_like': {format: term}});
+				},
+				results: function (data) {
+					var ret = [];
+					if (!data.error) {
+						$.each(data, function (index, value) {
+							ret.push({id: value, text: value});
+						});
+					}
+					return {results: ret};
+				}
+			},
+			onChange: function (e) {
+				return $(this).data('field').form.update(e);
+			}
+		},
+		onUpdate: function (e) {
+            alert(1);
+        }
+	});
+
+    $('#w0').hiSelect2().register('#account-client_id', 'client', {ajax:{quietMillis: 400}});
+});
+
 JS
 );
