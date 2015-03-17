@@ -150,8 +150,7 @@ class QueryBuilder extends \yii\base\Object
         $key = $operands[0];
         array_shift($operands);
 
-//        return [$item => join(',', $operands)];
-        return [$key => join(',', $operands)];
+        return [$key => join(',', reset($operands))];
     }
 
     protected function buildCompositeInCondition($operator, $columns, $values)
