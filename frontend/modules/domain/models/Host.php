@@ -31,6 +31,7 @@ class Host extends \frontend\components\hiresource\ActiveRecord
             [['domain','host'],                         'safe'],        /// XXX should be domain
             [['ip'],                                    'safe'],        /// XXX should be ip
             [['ips'],                                   'safe'],        /// XXX should be ips
+            [['id','ips'],                              'safe', 'on' => 'update'],
         ];
     }
 

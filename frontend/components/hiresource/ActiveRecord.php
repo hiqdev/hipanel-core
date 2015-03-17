@@ -299,7 +299,7 @@ class ActiveRecord extends BaseActiveRecord
                 throw new InvalidConfigException('Scenario not specified');
             }
         } else {
-            $scenarioCommands = $this->scenarioCommands();
+            $scenarioCommands = static::scenarioCommands();
             if ($command = $scenarioCommands[$this->scenario]) {
                 if ($command === false) {
                     throw new NotSupportedException('The scenario can not be saved');

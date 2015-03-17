@@ -1,12 +1,12 @@
 <?php
 
+use frontend\components\grid\CheckboxColumn;
+use frontend\components\grid\ClientColumn;
+use frontend\components\grid\EditableColumn;
+use frontend\components\grid\ResellerColumn;
 use frontend\components\widgets\GridView;
-use frontend\components\widgets\RequestState;
-use frontend\components\widgets\Select2;
-use frontend\components\Re;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use kartik\editable\Editable;
 
 $this->title                    = Yii::t('app', 'Name Servers');
 $this->params['breadcrumbs'][]  = $this->title;
@@ -21,20 +21,16 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
     'filterModel'  => $searchModel,
     'columns'      => [
         [
-            'class'                 => 'frontend\components\grid\CheckboxColumn',
-            'headerOptions'         => ['style' => 'width:1em'],
+            'class'                 => CheckboxColumn::className(),
         ],
         [
-            'class'                 => 'frontend\components\grid\ResellerColumn',
-            'headerOptions'         => ['style' => 'width:15em'],
+            'class'                 => ResellerColumn::className(),
         ],
         [
-            'class'                 => 'frontend\components\grid\ClientColumn',
-            'headerOptions'         => ['style' => 'width:15em'],
+            'class'                 => ClientColumn::className(),
         ],
         [
             'attribute'             => 'host',
-            'label'                 => Yii::t('app', 'Name Server'),
             'filter'                => true,
             'format'                => 'html',
             'value'                 => function ($model) {
@@ -42,11 +38,9 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             },
         ],
         [
-            'class'                 => 'frontend\components\grid\EditableColumn',
+            'class'                 => EditableColumn::className(),
             'attribute'             => 'ips',
-            'value'                 => function ($model) {
-                return $model->ips;
-            },
+            'action'                => Url::to('update'),
         ],
     ],
 ]) ?>

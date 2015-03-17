@@ -27,36 +27,62 @@ class CrudController extends Controller
     public function performEditable ($config) {
         $config = ArrayHelper::merge([
             'model'         => static::newModel(),
-            'loadFormatter' => function ($model, $key, $value) {
-                /** @var ActiveRecord $model */
-                $key        = \Yii::$app->request->post('editableKey');
-                $pk         = array_shift($model->primaryKey());
-                $value[$pk] = $key;
-
-                return [$key, $value];
-            },
             'errorMessage'  => Yii::t('app', 'Unknown error')
         ], $config);
 
         $errorMessage = ArrayHelper::remove($config, 'errorMessage');
 
-        $collection = new Collection($config);
-        $message    = $collection->load()->save() ? '' : $errorMessage;
-
-        return $this->renderJson(compact('message'));
+        return $this->renderJson([
+            'message' => (new Collection($config))->load()->save() ? '' : $errorMessage
+        ]);
     }
 
-    protected function objectGetParameters ($ref) {
-        return Ref::find()->where(['gtype' => $ref . "," . strtolower($this->class)])->getList();
+    /**
+     * @param array $add - additional data to be passed to render
+     */
+    public function actionView ($id,$add=[]) {
+        $model = $this->findModel($id);
+        return $this->render('view', ArrayHelper::merge(compact('model'),$add));
     }
 
-    protected function objectGetBlockReason () {
-        return Ref::find()->where(['gtype' => 'type,block'])->getList();
+    /**
+     * @param array $add - additional data to be passed to render
+     */
+    public function actionIndex ($add=[]) {
+        $searchModel  = Yii::CreateObject(static::searchModel());
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index', ArrayHelper::merge(compact('searchModel','dataProvider'),$add));
     }
 
-    protected function objectGetPriority () {
-        return Ref::find()->where(['gtype' => 'type, priority'])->getList();
+    public function actionUpdate ($id) {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
     }
+
+    /**
+     * Deletes an existing object
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete ($id) {
+        $this->newModel(compact('id'))->delete();
+        return $this->redirect(['index']);
+    }
+
+    static public function getRefs ($gtype) {
+        return Ref::find()->where(compact('gtype'))->getList();
+    }
+
+    static public function getClassRefs     ($type) { return static::getRefs($type.','.static::idName('_')); }
+    static public function getBlockReasons  () { return static::getRefs('type,block'); }
+    static public function getPriorities    () { return static::getRefs('type,priority'); }
 
     protected function actionGetClassValues ($class = "", $values, $path = "", $id = "") {
         $id         = $id ?: Yii::$app->user->id;
@@ -65,7 +91,7 @@ class CrudController extends Controller
         return $call_class::Perform("GetClassValues", ["class" => "{$class},{$values}"], false);
     }
 
-    public function actionIndex ($tpl = null) {
+    public function BR_actionIndex ($tpl = null) {
         // Fetch nessessary data from API
         $class       = "{$this->path}\\{$this->class}Search";
         $searchModel = new $class();
@@ -86,27 +112,6 @@ class CrudController extends Controller
             'searchModel'  => $searchModel,
             'tpl'          => $tpl,
         ]);
-    }
-
-    public function actionView ($id) {
-        return $this->render('view', ['model' => $this->findModel($id),]);
-    }
-
-    public function actionUpdate ($id) {
-        $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionDelete ($id) {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     protected function prepareDataToUpdate ($action, $params, $scenario) {

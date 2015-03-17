@@ -16,32 +16,23 @@ class TicketController extends CrudController {
 
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
 
-    public function actionIndex() {
-        $searchModel = new ThreadSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    static protected function mainModel     () { return Thread::className(); }
+    static protected function searchModel   () { return ThreadSearch::className(); }
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'topic_data' => $this->objectGetParameters('topic'),
-            'priority_data' => $this->objectGetPriority(),
-            'state_data' => $this->objectGetParameters('state'),
-        ]);
+    protected function prepareRefs () {
+        return [
+            'topic_data'    => $this->getClassRefs('topic'),
+            'state_data'    => $this->GetClassRefs('state'),
+            'priority_data' => $this->getPriorities(),
+        ];
     }
 
-    private function getFilters($name) {
-        return Ref::find()->where(['gtype' => 'type,' . $name])->getList();
+    public function actionIndex () {
+        return parent::actionIndex($this->prepareRefs());
     }
 
-    public function actionView($id) {
-        $model = $this->findModel($id);
-        $model->scenario = 'answer';
-        return $this->render('view', [
-            'model' => $model,
-            'topic_data' => $this->objectGetParameters('topic'),
-            'priority_data' => $this->objectGetPriority(),
-            'state_data' => $this->objectGetParameters('state'),
-        ]);
+    public function actionView ($id) {
+        return parent::actionView(array_merge(compact('id'),['with_answers' => 1, 'with_files' => 1]),$this->prepareRefs());
     }
 
     /**
@@ -49,7 +40,7 @@ class TicketController extends CrudController {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
+    public function actionCreate () {
         $model = new Thread();
         $model->scenario = 'insert';
         $model->load(Yii::$app->request->post());
@@ -57,16 +48,11 @@ class TicketController extends CrudController {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-            'topic_data' => $this->objectGetParameters('topic'),
-            'priority_data' => $this->objectGetPriority(),
-            'state_data' => $this->objectGetParameters('state'),
-        ]);
+        return $this->render('create',array_merge(compact('model'),$this->prepareRefs()));
     }
 
     public function actionUpdate($id) {
-        $model = Thread::findOne(['id' => $id]); //$this->findModel($id)
+        $model = $this->findModel($id);
         $model->scenario = 'answer';
         $model->trigger($model::EVENT_BEFORE_UPDATE);
         $model->load(Yii::$app->request->post());
@@ -76,20 +62,6 @@ class TicketController extends CrudController {
             return $this->redirect(['view', 'id' => $model->id]);
         }
         throw new \LogicException('An error has occurred');
-    }
-
-    /**
-     * Deletes an existing Thread model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     *
-     * @param integer $id
-     *
-     * @return mixed
-     */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     public function actionSubscribe($id) {
@@ -182,21 +154,18 @@ class TicketController extends CrudController {
         return true;
     }
 
-    /**
-     * Finds the Thread model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param integer $id
-     *
-     * @return Thread the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id) {
-        if (($model = Thread::findOne(['id' => $id, 'with_answers' => 1, 'with_files' => 1])) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+    public function actionGetQuotedAnswer() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            $id = $request->post('id');
+            if ($id != null) {
+                $answer = Thread::perform('GetAnswer', ['id' => $id]);
+                if (isset($answer['message'])) {
+                    return '> ' . str_replace("\n", "\n> ", $answer['message']);
+                }
+            }
         }
+        Yii::$app->end();
     }
 
     /**

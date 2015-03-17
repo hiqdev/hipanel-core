@@ -89,6 +89,11 @@ use Yii;
                                 'url' => ['/ticket/ticket/settings'],
                                 'icon' => 'fa-circle-o',
                             ],
+                            [
+                                'label' => Yii::t('app', 'Tickets statistic'),
+                                'url' => ['/ticket/ticket/statistic'],
+                                'icon' => 'fa-circle-o',
+                            ],
                         ]
                     ],
                     [

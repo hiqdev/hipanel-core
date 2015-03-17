@@ -7,6 +7,7 @@
  */
 
 namespace frontend\components\grid;
+use yii\helpers\ArrayHelper;
 
 class CheckboxColumn extends \yii\grid\CheckboxColumn
 {
@@ -16,4 +17,17 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $checkboxOptions = [
         'class' => 'icheck',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        /// XXX TODO REDO BETTER
+        $this->headerOptions = ArrayHelper::merge([
+            'style' => 'width:1em',
+        ],$this->headerOptions);
+    }
+
 }
