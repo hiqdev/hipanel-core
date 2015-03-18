@@ -97,7 +97,7 @@ class CrudController extends Controller
         return $this->render('index', ArrayHelper::merge(compact('searchModel','dataProvider'),$add));
     }
 
-    public function actionUpdate ($id) {
+    public function BR_actionUpdate ($id) {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
