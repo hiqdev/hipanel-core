@@ -63,13 +63,10 @@ class Domain extends \frontend\components\hiresource\ActiveRecord
 
     public function rules () {
         return [
-            [['domain'],                                'safe'],
             [['id'],                                    'safe'],
-            [['is_secured'],                            'safe'],
-            [['note'],                                  'safe'],
-            [['id','note'],                             'safe', 'on' => ['set-note']],
+            [['note'],                                  'safe', 'on' => ['set-note']],
             [['registrant','admin','tech','billing'],   'safe', 'on' => ['set-contacts']],
-            [['id','enable'],                           'safe', 'on' => ['set-lock','set-autorenewal','set-whois-protect']],
+            [['enable'],                                'safe', 'on' => ['set-lock','set-autorenewal','set-whois-protect']],
         ];
     }
 

@@ -5,16 +5,59 @@ namespace frontend\components;
 use frontend\components\hiresource\ActiveRecord;
 use frontend\components\hiresource\HiResException;
 use frontend\components\hiresource\Collection;
-use frontend\models\Ref;
 use frontend\components\helpers\ArrayHelper;
+use frontend\models\Ref;
 use Yii;
-
+use yii\helpers\Inflector;
+use yii\filters\VerbFilter;
 
 class CrudController extends Controller
 {
     protected $class = 'Default';
     protected $path  = '\frontend\modules\client\models';
     protected $tpl   = [];
+
+    public function actions () {
+        $actions = parent::actions();
+        $model   = static::newModel();
+        foreach ($model->scenarios() as $scenario => $attributes) {
+            if ($scenario=='default') continue;
+            if (!$this->hasAction($scenario,$actions)) {
+                $actions[$scenario] = [
+                    'class'         => PerformAction::className(),
+                    'controller'    => $this,
+                    'id'            => $scenario,
+                ];
+            };
+        };
+        return $actions;
+    }
+
+    public function behaviors () {
+        $behavs = parent::behaviors();
+        $model  = static::newModel();
+        $verbs = &$behavs['verbs'];
+        if (!is_array($verbs)) $verbs = [
+            'class' => VerbFilter::className(),
+        ];
+        $actions = &$verbs['actions'];
+        foreach ($model->scenarios() as $scenario => $attributes) {
+            if ($scenario=='default') continue;
+            if ($actions[$scenario]) continue;
+            $actions[$scenario] = ['post'];
+        };
+        return $behavs;
+    }
+
+
+    public function hasAction ($id,$actions=null) {
+        if (is_null($actions)) $actions = $this->actions();
+        $method = 'action'.Inflector::id2camel($id);
+        return isset($actions[$id]) || method_exists($this,$method);
+    }
+
+    public function actionTest ($action) {
+    }
 
     /**
      * Performs operations for some editable field
@@ -24,7 +67,7 @@ class CrudController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @see Collection
      */
-    public function performEditable ($config) {
+    public function perform ($config) {
         $config = ArrayHelper::merge([
             'model'         => static::newModel(),
             'errorMessage'  => Yii::t('app', 'Unknown error')

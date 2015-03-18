@@ -5,6 +5,7 @@ namespace frontend\components;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\helpers\Inflector;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -35,52 +36,56 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * @returns Main Model class name
-     * @throws InvalidConfigException
+     * @returns string Main Model class name
      */
-    static protected function mainModel () {
-        throw new InvalidConfigException('Define mainModel function');
+    static protected function mainModel ($postfix='') {
+        $parts = explode('\\',static::className());
+        $last  = array_pop($parts);
+        array_pop($parts);
+        return implode('\\',$parts).'\\models\\'.substr($last,0,-10).$postfix;
     }
 
     /**
-     * @returns Search Model class name
-     * @throws InvalidConfigException
+     * @returns string Search Model class name
      */
     static protected function searchModel () {
-        throw new InvalidConfigException('Define searchModel function');
+        return static::mainModel('Search');
     }
 
     /**
-     * @returns Main model's formName()
+     * @param array $config config to be used to create the [[Model]]
+     * @returns Model
+     */
+    static protected function newModel ($config = []) {
+        return \Yii::createObject(static::mainModel(), $config);
+    }
+
+    /**
+     * @returns string Main model's formName()
      */
     static protected function formName () {
         return static::newModel()->formName();
     }
 
     /**
-     * @returns Main model's camel2id'ed formName()
+     * @returns string Main model's camel2id'ed formName()
      */
     static protected function idName ($separator='-') {
         return Inflector::camel2id(static::formName(),$separator);
     }
 
     /**
-     * @param array $params - params array the will be used to create the model
-     * @returns Model
-     */
-    static protected function newModel ($params = []) {
-        return \Yii::createObject(static::mainModel(), $params);
-    }
-
-    /**
-     * @param int|array $id
+     * @param int|array $id scalar ID or array to be used for searching
+     * @param array $config config to be used to create the [[Model]]
      * @throws NotFoundHttpException
      */
-    static protected function findModel ($id) {
+    static protected function findModel ($id,$config=[]) {
+        if (isset($id['scenario'])) $scenario = ArrayHelper::remove($id,'scenario');
+        if (!isset($config['scenario'])) $config['scenario'] = $scenario;
         /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $model = static::newModel()->findOne(is_array($id) ? $id : compact('id'));
+        $model = static::newModel($config)->findOne(is_array($id) ? $id : compact('id'));
         if ($model===null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The requested object not found.');
         };
         return $model;
     }
