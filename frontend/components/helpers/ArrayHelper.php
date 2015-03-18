@@ -35,4 +35,22 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
         return $res;
     }
 
+    /**
+     * Retrieves the values of an array elements or object properties with the given key or property name.
+     * Uses [[getValue]] method.
+     *
+     * @param array|object $array array or object to extract value from
+     * @param array [string] $keys keys names of the array elements, or properties of the object.
+     * @return array
+     * @see getValue()
+     */
+    static public function getValues ($array, $keys = []) {
+        $result = [];
+        foreach ($keys as $key) {
+            $result[$key] = static::getValue($array, $key);
+        }
+
+        return $result;
+    }
+
 }

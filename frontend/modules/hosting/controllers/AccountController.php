@@ -101,7 +101,7 @@ class AccountController extends HipanelController
      * @return \frontend\modules\hosting\models\Account|null
      * @throws NotFoundHttpException
      */
-    protected function findModel ($id) {
+    protected static function findModel ($id) {
         if (($model = Account::findOne(['id' => $id])) !== null) {
             return $model;
         } else {
