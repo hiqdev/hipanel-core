@@ -2,7 +2,7 @@
 
 namespace frontend\modules\server\controllers;
 
-use frontend\components\widgets\RequestState;
+use frontend\components\actions\RequestStateAction;
 use frontend\modules\server\models\ServerSearch;
 use frontend\modules\server\models\Server;
 use frontend\modules\server\models\Osimage;
@@ -42,7 +42,7 @@ class ServerController extends HipanelController
     public function actions() {
         return [
             'requests-state' => [
-                'class' => 'frontend\components\actions\RequestStateAction',
+                'class' => RequestStateAction::className(),
                 'model' => Server::className()
             ],
         ];
