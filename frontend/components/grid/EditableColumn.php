@@ -1,60 +1,33 @@
 <?php
 
 namespace frontend\components\grid;
-use Yii;
+
+use yii\helpers\Url;
 use yii\helpers\Json;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
 /**
- * Class DataColumn
- * Our DataColumn widget.
+ * Class EditableColumn
  */
 class EditableColumn extends \kartik\grid\EditableColumn
 {
-    /**
-     * @inheritdoc
-     */
-    public $popover = null;
+    use FeaturedColumnTrait {
+        init as initFeatured;
+    }
 
     /**
-     * @inheritdoc
-     */
-    public $popoverOptions = [
-        'placement'     => 'bottom',
-        'selector'      => 'a',
-    ];
-
-    /**
-     * action for form
+     * @var string|array action for form
      */
     public $action = null;
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public function init () {
-        parent::init();
-        $this->prepareEditableOptions();
-        $this->registerClientScript();
+        $this->initFeatured();
+        $this->initEditableOptions();
     }
 
-    public function renderHeaderCellContent () {
-        $this->headerOptions = ArrayHelper::merge($this->headerOptions,[
-            'data-toggle'  => 'popover',
-            'data-trigger' => 'hover',
-            'data-content' => $this->popover,
-        ]);
-        return parent::renderHeaderCellContent();
-    }
-
-    public function registerClientScript () {
-        $view = Yii::$app->getView();
-        $ops = Json::encode($this->popoverOptions);
-        $view->registerJs("$('#{$this->grid->id} thead th[data-toggle=\"popover\"]').popover($ops);", \yii\web\View::POS_READY);
-    }
-
-    public function prepareEditableOptions () {
+    public function initEditableOptions () {
         $old = $this->editableOptions;
         $this->editableOptions = function ($model, $key, $index) use ($old) {
             $pkey = reset($model->primaryKey());
@@ -63,8 +36,9 @@ class EditableColumn extends \kartik\grid\EditableColumn
             if (!is_array($ops)) {
                 $ops = [];
             };
-            if ($this->action) {
-                $ops['formOptions']['action'] = $this->action;
+            $action = $this->action;
+            if ($action) {
+                $ops['formOptions']['action'] = is_array($action) ? Url::toRoute($action) : $action;
             };
             $old = $ops['beforeInput'];
             $ops['beforeInput'] = function ($form, $widget) use ($old, $params) {

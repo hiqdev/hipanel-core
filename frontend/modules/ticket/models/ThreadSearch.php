@@ -68,7 +68,7 @@ class ThreadSearch extends Thread
             'time_form' => $this->time_from,
         ]);
         $query->andFilterWhere(['like', 'subject', $this->subject]);
-        $query->andFilterWhere(['in', 'watchers', $this->watchers]);
+        $query->andFilterWhere(['in', 'watcher', $this->watchers]);
         return $dataProvider;
     }
 }

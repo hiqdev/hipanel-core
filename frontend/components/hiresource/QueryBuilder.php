@@ -77,6 +77,7 @@ class QueryBuilder extends \yii\base\Object
         static $builders = [
             'and'     => 'buildAndCondition',
             'between' => 'buildBetweenCondition',
+            'eq'      => 'buildEqCondition',
             'in'      => 'buildInCondition',
             'like'    => 'buildLikeCondition',
         ];
@@ -146,11 +147,15 @@ class QueryBuilder extends \yii\base\Object
 
     private function buildInCondition($operator, $operands)
     {
+        $key = array_shift($operands);
 
-        $key = $operands[0];
-        array_shift($operands);
+        return [$key.'s' => join(',', reset($operands))];
+    }
 
-        return [$key => join(',', reset($operands))];
+    private function buildEqCondition ($operator, $operands) {
+        $key = array_shift($operands);
+
+        return [$key.'s' => reset($operands)];
     }
 
     protected function buildCompositeInCondition($operator, $columns, $values)

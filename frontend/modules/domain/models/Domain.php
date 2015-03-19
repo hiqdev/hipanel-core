@@ -2,7 +2,6 @@
 namespace frontend\modules\domain\models;
 
 use Yii;
-use yii\base\NotSupportedException;
 
 class Domain extends \frontend\components\hiresource\ActiveRecord
 {
@@ -64,6 +63,8 @@ class Domain extends \frontend\components\hiresource\ActiveRecord
     public function rules () {
         return [
             [['id'],                                    'safe'],
+            [['client_id','seller_id'],                 'safe'],
+            [['state'],                                 'safe'],
             [['note'],                                  'safe', 'on' => ['set-note']],
             [['registrant','admin','tech','billing'],   'safe', 'on' => ['set-contacts']],
             [['enable'],                                'safe', 'on' => ['set-lock','set-autorenewal','set-whois-protect']],
