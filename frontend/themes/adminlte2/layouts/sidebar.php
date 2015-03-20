@@ -75,6 +75,29 @@ use Yii;
                         ]
                     ],
                     [
+                        'label' => Yii::t('app', 'Finance'),
+                        'url' => ['/finance/bill/index'],
+                        'icon' => 'fa-dollar',
+                        'visible' => true,
+                        'items' => [
+                            [
+                                'label' => Yii::t('app', 'Payments'),
+                                'url' => ['/finance/bill/index'],
+                                'icon' => 'fa-money',
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Recharge account'),
+                                'url' => ['/finance/bill/deposit'],
+                                'icon' => 'fa-credit-card',
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Tariffs'),
+                                'url' => ['/finance/tariff/index'],
+                                'icon' => 'fa-circle-o',
+                            ],
+                        ]
+                    ],
+                    [
                         'label' => Yii::t('app', 'Tickets'),
                         'url' => ['/ticket/ticket/index'],
                         'icon' => 'fa-ticket',

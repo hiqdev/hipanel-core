@@ -11,7 +11,7 @@ class ClientColumn extends DataColumn
     public function init () {
         parent::init();
         \Yii::configure($this,[
-            'visible'               => true,
+            'visible'               => \Yii::$app->user->identity->type!='client',
             'attribute'             => 'client_id',
             'label'                 => \Yii::t('app', 'Client'),
             'format'                => 'html',

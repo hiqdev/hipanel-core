@@ -130,6 +130,9 @@ return [
         'domain' => [
             'class' => 'app\modules\domain\Module',
         ],
+        'finance' => [
+            'class' => 'frontend\modules\finance\Module',
+        ],
         'hosting' => [
             'class' => 'app\modules\hosting\Module',
         ],

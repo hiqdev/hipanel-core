@@ -11,7 +11,7 @@ class ResellerColumn extends DataColumn
     public function init () {
         parent::init();
         \Yii::configure($this,[
-            'visible'               => true,
+            'visible'               => \Yii::$app->user->identity->type!='client',
             'attribute'             => 'seller_id',
             'label'                 => \Yii::t('app', 'Reseller'),
             'format'                => 'html',
