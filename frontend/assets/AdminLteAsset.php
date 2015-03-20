@@ -15,7 +15,7 @@ class AdminLteAsset extends AssetBundle
     public $sourcePath = '@app/themes/adminlte/assets';
     public $css = [
         'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',
-        'http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css',
+        'http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
         'css/morris/morris.css',
         'css/AdminLTE.css',
     ];
