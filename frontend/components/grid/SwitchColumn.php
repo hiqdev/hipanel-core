@@ -1,20 +1,17 @@
 <?php
 
 namespace frontend\components\grid;
+
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 use kartik\widgets\SwitchInput;
 
 class SwitchColumn extends DataColumn
 {
-    /**
-     * @var array
-     */
+    /** @inheritdoc */
     public $format = 'raw';
 
-    /**
-     * @var array
-     */
+    /** @inheritdoc */
     public $pluginOptions = [];
 
     public function getDataCellValue ($model, $key, $index) {

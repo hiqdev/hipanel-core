@@ -31,7 +31,7 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
         ],
         [
             'attribute'             => 'host',
-            'filter'                => true,
+            'filterAttribute'       => 'host_like',
             'format'                => 'html',
             'value'                 => function ($model) {
                 return Html::a($model->host, ['view', 'id' => $model->id], ['class' => 'bold']);
@@ -40,7 +40,9 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
         [
             'class'                 => EditableColumn::className(),
             'attribute'             => 'ips',
-            'action'                => Url::to('update'),
+            'popover'               => 'Up to 13 IP addresses',
+            'filterAttribute'       => 'ips_like',
+            'action'                => ['update'],
         ],
     ],
 ]) ?>

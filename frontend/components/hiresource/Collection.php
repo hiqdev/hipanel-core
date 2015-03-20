@@ -154,8 +154,8 @@ class Collection extends Component
     }
 
     public function insert ($runValidation = true, $attributes = null, $options = []) {
-        if ($attributes === null && $this->attributes) {
-            $attributes = $this->attributes;
+        if (!$attributes) {
+            $attributes = $this->attributes ?: $this->first->activeAttributes();
         }
         if ($runValidation && !$this->validate($attributes)) {
             return false;
@@ -193,8 +193,8 @@ class Collection extends Component
     }
 
     public function update ($runValidation = true, $attributes = null, $options = []) {
-        if ($attributes === null && $this->attributes) {
-            $attributes = $this->attributes;
+        if (!$attributes) {
+            $attributes = $this->attributes ?: $this->first->activeAttributes();
         }
         if ($runValidation && !$this->validate($attributes)) {
             return false;

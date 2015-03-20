@@ -5,16 +5,62 @@ namespace frontend\components;
 use frontend\components\hiresource\ActiveRecord;
 use frontend\components\hiresource\HiResException;
 use frontend\components\hiresource\Collection;
-use frontend\models\Ref;
 use frontend\components\helpers\ArrayHelper;
+use frontend\models\Ref;
 use Yii;
-
+use yii\helpers\Inflector;
+use yii\filters\VerbFilter;
 
 class CrudController extends Controller
 {
     protected $class = 'Default';
     protected $path  = '\frontend\modules\client\models';
     protected $tpl   = [];
+
+    public function actions () {
+        $actions = parent::actions();
+        $model   = static::newModel();
+        foreach ($model->scenarios() as $scenario => $attributes) {
+            if ($scenario == 'default') continue;
+            if (!$this->hasAction($scenario, $actions)) {
+                $actions[$scenario] = [
+                    'class'      => PerformAction::className(),
+                    'controller' => $this,
+                    'id'         => $scenario,
+                ];
+            };
+        };
+
+        return $actions;
+    }
+
+    public function behaviors () {
+        $behaviors = parent::behaviors();
+        $model     = static::newModel();
+        $verbs     = &$behaviors['verbs'];
+        if (!is_array($verbs)) $verbs = [
+            'class' => VerbFilter::className(),
+        ];
+        $actions = &$verbs['actions'];
+        foreach ($model->scenarios() as $scenario => $attributes) {
+            if ($scenario == 'default') continue;
+            if ($actions[$scenario]) continue;
+            $actions[$scenario] = ['post'];
+        };
+
+        return $behaviors;
+    }
+
+
+    public function hasAction ($id, $actions = null) {
+        if (is_null($actions)) $actions = $this->actions();
+        $method = 'action' . Inflector::id2camel($id);
+
+        return isset($actions[$id]) || method_exists($this, $method);
+    }
+
+    public function actionTest ($action) {
+    }
 
     /**
      * Performs operations for some editable field
@@ -24,10 +70,10 @@ class CrudController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @see Collection
      */
-    public function performEditable ($config) {
+    public function perform ($config) {
         $config = ArrayHelper::merge([
-            'model'         => static::newModel(),
-            'errorMessage'  => Yii::t('app', 'Unknown error')
+            'model'        => static::newModel(),
+            'errorMessage' => Yii::t('app', 'Unknown error')
         ], $config);
 
         $errorMessage = ArrayHelper::remove($config, 'errorMessage');
@@ -38,23 +84,46 @@ class CrudController extends Controller
     }
 
     /**
-     * @param array $add - additional data to be passed to render
+     * Searches the data in the model
+     * @return mixed
      */
-    public function actionView ($id,$add=[]) {
-        $model = $this->findModel($id);
-        return $this->render('view', ArrayHelper::merge(compact('model'),$add));
+    public function actionSearch () {
+        $result                = [];
+        $search                = \Yii::$app->request->get();
+        $attributes            = ArrayHelper::remove($search, 'return');
+        $searchModel           = static::searchModel();
+        $formName              = $searchModel->formName();
+        $searchCond[$formName] = $search;
+
+        $data = $searchModel->search($searchCond)->getModels();
+
+        foreach ($data as $k => $v) {
+            $result[$k] = ArrayHelper::getValues($v, $attributes);
+        }
+
+        return $this->renderJson($result);
     }
 
     /**
      * @param array $add - additional data to be passed to render
      */
-    public function actionIndex ($add=[]) {
-        $searchModel  = Yii::CreateObject(static::searchModel());
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('index', ArrayHelper::merge(compact('searchModel','dataProvider'),$add));
+    public function actionView ($id, $add = []) {
+        $model = $this->findModel($id);
+
+        return $this->render('view', ArrayHelper::merge(compact('model'), $add));
     }
 
-    public function actionUpdate ($id) {
+    /**
+     * @param array $add - additional data to be passed to render
+     */
+    public function actionIndex ($add = []) {
+        $searchModel  = static::searchModel();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', ArrayHelper::merge(compact('searchModel', 'dataProvider'), $add));
+    }
+
+    public function BR_actionUpdate ($id) {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -68,11 +137,13 @@ class CrudController extends Controller
     /**
      * Deletes an existing object
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
      * @return mixed
      */
     public function actionDelete ($id) {
         $this->newModel(compact('id'))->delete();
+
         return $this->redirect(['index']);
     }
 
@@ -80,9 +151,11 @@ class CrudController extends Controller
         return Ref::find()->where(compact('gtype'))->getList();
     }
 
-    static public function getClassRefs     ($type) { return static::getRefs($type.','.static::idName('_')); }
-    static public function getBlockReasons  () { return static::getRefs('type,block'); }
-    static public function getPriorities    () { return static::getRefs('type,priority'); }
+    static public function getClassRefs ($type) { return static::getRefs($type . ',' . static::idName('_')); }
+
+    static public function getBlockReasons () { return static::getRefs('type,block'); }
+
+    static public function getPriorities () { return static::getRefs('type,priority'); }
 
     protected function actionGetClassValues ($class = "", $values, $path = "", $id = "") {
         $id         = $id ?: Yii::$app->user->id;

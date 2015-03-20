@@ -104,12 +104,15 @@ $(document).ready(function () {
 				callback(data);
 			},
 			ajax: {
-				url: "/clients/clients/list",
+				url: "/clients/clients/search",
 				dataType: 'json',
 				quietMillis: 400,
 				data: function (term) {
 					var form = $(this).data('field').form;
-					return form.createFilter({'client_like': {format: term}});
+					return form.createFilter({
+					    'client_like': {format: term},
+					    'return': {format: ['id', 'login']}
+					});
 				},
 				results: function (data) {
 					var ret = [];

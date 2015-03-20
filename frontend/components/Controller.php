@@ -2,9 +2,10 @@
 
 namespace frontend\components;
 
+use frontend\components\hiresource\ActiveRecord;
 use yii\base\InvalidConfigException;
-use yii\base\Model;
 use yii\helpers\Inflector;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -17,17 +18,16 @@ class Controller extends \yii\web\Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors () {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index'],
+                'only'  => ['index'],
                 'rules' => [
                     [
                         'actions' => ['index'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
                     ],
                 ],
             ],
@@ -35,68 +35,81 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * @returns Main Model class name
-     * @throws InvalidConfigException
+     * @param string $submodel the submodel that will be added to the ClassName
+     * @return string Main Model class name
      */
-    static protected function mainModel () {
-        throw new InvalidConfigException('Define mainModel function');
+    static protected function modelClassName ($submodel = '') {
+        $parts = explode('\\', static::className());
+        $last  = array_pop($parts);
+        array_pop($parts);
+        $parts[] = 'models';
+        $parts[] = substr($last, 0, -10);
+
+        return implode('\\', $parts) . $submodel;
     }
 
     /**
-     * @returns Search Model class name
-     * @throws InvalidConfigException
+     * @param array $config config to be used to create the [[Model]]
+     * @returns ActiveRecord
      */
-    static protected function searchModel () {
-        throw new InvalidConfigException('Define searchModel function');
+    static protected function newModel ($config = [], $submodel = '') {
+        return \Yii::createObject(static::modelClassName($submodel), $config);
     }
 
     /**
-     * @returns Main model's formName()
+     * @param array $config config to be used to create the [[Model]]
+     * @returns ActiveRecord Search Model object
+     */
+    static protected function searchModel ($config = []) {
+        return static::newModel($config, 'Search');
+    }
+
+    /**
+     * @returns string Main model's formName()
      */
     static protected function formName () {
         return static::newModel()->formName();
     }
 
     /**
-     * @returns Main model's camel2id'ed formName()
+     * @param string $separator
+     * @return string Main model's camel2id'ed formName()
      */
-    static protected function idName ($separator='-') {
-        return Inflector::camel2id(static::formName(),$separator);
+    static protected function idName ($separator = '-') {
+        return Inflector::camel2id(static::formName(), $separator);
     }
 
     /**
-     * @param array $params - params array the will be used to create the model
-     * @returns Model
-     */
-    static protected function newModel ($params = []) {
-        return \Yii::createObject(static::mainModel(), $params);
-    }
-
-    /**
-     * @param int|array $id
+     * @param int|array $id scalar ID or array to be used for searching
+     * @param array $config config to be used to create the [[Model]]
      * @throws NotFoundHttpException
      */
-    static protected function findModel ($id) {
+    static protected function findModel ($id, $config = []) {
+        if (isset($id['scenario'])) $scenario = ArrayHelper::remove($id, 'scenario');
+        if (!isset($config['scenario'])) $config['scenario'] = $scenario;
         /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $model = static::newModel()->findOne(is_array($id) ? $id : compact('id'));
-        if ($model===null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        $model = static::newModel($config)->findOne(is_array($id) ? $id : compact('id'));
+        if ($model === null) {
+            throw new NotFoundHttpException('The requested object not found.');
         };
+
         return $model;
     }
 
     static public function renderJson ($data) {
         \Yii::$app->response->format = Response::FORMAT_JSON;
+
         return $data;
     }
 
     static public function renderJsonp ($data) {
         \Yii::$app->response->format = Response::FORMAT_JSONP;
+
         return $data;
     }
 
-     public function actionIndex () {
-         return $this->render('index');
-     }
+    public function actionIndex () {
+        return $this->render('index');
+    }
 
 }

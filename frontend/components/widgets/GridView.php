@@ -14,26 +14,21 @@ class GridView extends \kartik\grid\GridView
 
     public $dataColumnClass = 'frontend\components\grid\DataColumn';
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public $tableOptions = [
         'class' => 'table table-bordered table-hover dataTable'
     ];
-    /**
-     * @inheritdoc
-     */
+
+    /** @inheritdoc */
     public $options = [
         'class' => 'dataTables_wrapper form-inline',
         'role' => 'grid'
     ];
-    /**
-     * @inheritdoc
-     */
+
+    /** @inheritdoc */
     public $layout = "<div class='table-responsive'>{items}</div>\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
-    /**
-     * @inheritdoc
-     */
+
+    /** @inheritdoc */
     public function run()
     {
         $this->tableOptions['class'] = sprintf('%s %s', $this->tableOptions['class'], Skin::tableClass());

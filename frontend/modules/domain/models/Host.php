@@ -2,13 +2,10 @@
 namespace frontend\modules\domain\models;
 
 use Yii;
-use yii\base\NotSupportedException;
 
 class Host extends \frontend\components\hiresource\ActiveRecord
 {
-    /**
-     * @return array the list of attributes for this record
-     */
+    /** @inheritdoc */
     public function attributes () {
         return [
             'id','remoteid',
@@ -22,6 +19,7 @@ class Host extends \frontend\components\hiresource\ActiveRecord
         ];
     }
 
+    /** @inheritdoc */
     public function rules () {
         return [
             [['host'],                                  'safe'],
@@ -50,9 +48,7 @@ class Host extends \frontend\components\hiresource\ActiveRecord
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public function attributeLabels () {
         return [
             'id'                    => Yii::t('app', 'ID'),
