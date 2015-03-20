@@ -12,6 +12,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     public $time_from;
     public $time_till;
     public $search_form;
+    public $answer_spent;
 
     public function behaviors() {
         return [
@@ -83,7 +84,7 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             [['message'], 'required', 'on' => ['answer']],
             [
                 [
-                    'topic',
+                    'topics',
                     'state',
                     'priority',
                     'responsible_id',
@@ -98,16 +99,17 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
             ],
             [
                 [
-                    'topic',
+                    'topics',
                     'state',
                     'priority',
                     'responsible_id',
                     'recipient_id',
                     'watchers',
-                    'spent',
-                    'spent_hours',
+//                    'spent',
+//                    'spent_hours',
                     'is_private',
                     'file_ids',
+                    'answer_spent',
                 ],
                 'safe',
                 'on' => 'answer'
@@ -212,17 +214,23 @@ class Thread extends \frontend\components\hiresource\ActiveRecord
     }
 
     public function prepareSpentTime() {
-        list($this->spent_hours, $this->spent) = explode(":", $this->spent, 2);
+        list($this->spent_hours, $this->spent) = explode(":", $this->isNewRecord ? $this->spent : $this->answer_spent, 2);
     }
 
     public function prepareTopic() {
-        $this->topic = implode(',', $this->topic);
+        $this->topics = implode(',', $this->topics);
     }
 
     public function afterFind() {
-        if (is_array($this->topic)) $this->topic = array_keys($this->topic);
+        // if (is_array($this->topics)) $this->topics = array_keys($this->topics);
         if (is_array($this->watchers)) $this->watchers = array_keys($this->watchers);
 
         parent::afterFind();
+    }
+
+    public function scenarioCommands() {
+        return [
+            'insert' => 'create'
+        ];
     }
 }

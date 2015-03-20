@@ -85,14 +85,14 @@ JS
                 'allowClear' => true,
                 'minimumInputLength' => 3,
                 'ajax' => [
-                    'url' => Url::to(['/client/client/client-all-list']),
+                    'url' => Url::to(['/client/client/can-manage-list']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                     'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                 ],
                 'initSelection' => new JsExpression('function (elem, callback) {
                     var id=$(elem).val();
-                    $.ajax("' . Url::to(['/client/client/client-all-list']) . '?id=" + id, {
+                    $.ajax("' . Url::to(['/client/client/can-manage-list']) . '?id=" + id, {
                         dataType: "json"
                     }).done(function(data) {
                         callback(data.results);
@@ -117,14 +117,14 @@ JS
                 'allowClear' => true,
                 'minimumInputLength' => 3,
                 'ajax' => [
-                    'url' => Url::to(['/client/client/can-manage-list']),
+                    'url' => Url::to(['/client/client/client-all-list']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                     'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                 ],
                 'initSelection' => new JsExpression('function (elem, callback) {
                     var id=$(elem).val();
-                    $.ajax("' . Url::to(['/client/client/can-manage-list']) . '?id=" + id, {
+                    $.ajax("' . Url::to(['/client/client/client-all-list']) . '?id=" + id, {
                         dataType: "json"
                     }).done(function(data) {
                         callback(data.results);
@@ -141,14 +141,14 @@ JS
                 'minimumInputLength' => 3,
                 'multiple' => true,
                 'ajax' => [
-                    'url' => Url::to(['/client/client/can-manage-list']),
+                    'url' => Url::to(['/client/client/client-all-list']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(term,page) { return {search:term}; }'),
                     'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
                 ],
                 'initSelection' => new JsExpression('function (elem, callback) {
                                                             var id=$(elem).val();
-                                                            $.ajax("' . Url::to(['/client/client/can-manage-list']) . '?id=" + id, {
+                                                            $.ajax("' . Url::to(['/client/client/client-all-list']) . '?id=" + id, {
                                                                 dataType: "json"
                                                             }).done(function(data) {
                                                                 callback(data.results);
