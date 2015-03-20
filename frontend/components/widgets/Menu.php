@@ -1,6 +1,7 @@
 <?php
 namespace frontend\components\widgets;
 
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -11,6 +12,7 @@ use yii\helpers\Html;
  */
 class Menu extends \yii\widgets\Menu
 {
+
     /**
      * @inheritdoc
      */
@@ -27,6 +29,13 @@ class Menu extends \yii\widgets\Menu
      * @inheritdoc
      */
     public $activateParents = true;
+
+
+    public function run() {
+        $this->items = $this->menuItems();
+        parent::run();
+    }
+
     /**
      * @inheritdoc
      */
@@ -136,5 +145,166 @@ class Menu extends \yii\widgets\Menu
             }
         }
         return array_values($items);
+    }
+
+    private function menuItems() {
+        return [
+            [
+                'label' => Yii::t('app', 'MAIN NAVIGATION'),
+                'options' => ['class' => 'header'],
+            ],
+            [
+                'label' => 'Dashboard',
+                'url' => ['/hipanel'],
+                'icon' => 'fa-dashboard',
+                'active' => Yii::$app->request->url === Yii::$app->homeUrl
+            ],
+            [
+                'label' => Yii::t('app', 'Clients'),
+                'url' => ['/client/client/index'],
+                'icon' => 'fa-group',
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Clients list'),
+                        'url' => ['/client/client/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Mailings'),
+                        'url' => ['/client/mailing/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'News and articles'),
+                        'url' => ['/client/article/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                ]
+            ],
+            [
+                'label' => Yii::t('app', 'Finance'),
+                'url' => ['/finance/bill/index'],
+                'icon' => 'fa-dollar',
+                'visible' => true,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Payments'),
+                        'url' => ['/finance/bill/index'],
+                        'icon' => 'fa-money',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Recharge account'),
+                        'url' => ['/finance/bill/deposit'],
+                        'icon' => 'fa-credit-card',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Tariffs'),
+                        'url' => ['/finance/tariff/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                ]
+            ],
+            [
+                'label' => Yii::t('app', 'Tickets'),
+                'url' => ['/ticket/ticket/index'],
+                'icon' => 'fa-ticket',
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Tickets'),
+                        'url' => ['/ticket/ticket/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Tickets settings'),
+                        'url' => ['/ticket/ticket/settings'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Tickets statistic'),
+                        'url' => ['/ticket/ticket/statistic'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                ]
+            ],
+            [
+                'label' => Yii::t('app', 'Domains'),
+                'url' => ['/domains/default/index'],
+                'icon' => 'fa-globe',
+                'visible' => true,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'My domains'),
+                        'url' => ['/domain/domain/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Name Servers'),
+                        'url' => ['/domain/host/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Contacts'),
+                        'url' => ['/client/contact/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'SEO'),
+                        'url' => ['/domain/domain/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                ]
+            ],
+            [
+                'label' => Yii::t('app', 'Servers'),
+                'url' => ['/server/server/index'],
+                'icon' => 'fa-server',
+                'visible' => true,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Servers'),
+                        'url' => ['/server/server/index'],
+                    ],
+                ]
+            ],
+            [
+                'label' => Yii::t('app', 'Hosting'),
+                'url' => '#',
+                'icon' => 'fa-sitemap',
+                'visible' => true,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Accounts'),
+                        'url' => ['/hosting/account/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
+                ]
+            ],
+            [
+                'label' => Yii::t('app', 'Access control'),
+                'url' => '#',
+                'icon' => 'fa-gavel',
+                'visible' => false,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Permissions'),
+                        'url' => ['/rbac/permissions/index'],
+                        'icon' => 'fa-circle-o',
+                        //     'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewPermissions')
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Roles'),
+                        'url' => ['/rbac/roles/index'],
+                        'icon' => 'fa-circle-o',
+                        //                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRoles')
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Rules'),
+                        'url' => ['/rbac/rules/index'],
+                        'icon' => 'fa-circle-o',
+                        //                        'visible' => Yii::$app->user->can('administrateRbac') || Yii::$app->user->can('BViewRules')
+                    ]
+                ]
+            ],
+        ];
     }
 }
