@@ -4,6 +4,7 @@ namespace frontend\components;
 
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\base\Model;
 
 trait SearchModelTrait
 {
