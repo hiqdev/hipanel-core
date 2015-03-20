@@ -38,14 +38,14 @@ class Controller extends \yii\web\Controller
      * @param string $submodel the submodel that will be added to the ClassName
      * @return string Main Model class name
      */
-    static protected function modelClassName ($submodel = '') {
+    static protected function modelClassName () {
         $parts = explode('\\', static::className());
         $last  = array_pop($parts);
         array_pop($parts);
         $parts[] = 'models';
         $parts[] = substr($last, 0, -10);
 
-        return implode('\\', $parts) . $submodel;
+        return implode('\\', $parts);
     }
 
     /**
@@ -53,7 +53,7 @@ class Controller extends \yii\web\Controller
      * @returns ActiveRecord
      */
     static protected function newModel ($config = [], $submodel = '') {
-        return \Yii::createObject(static::modelClassName($submodel), $config);
+        return \Yii::createObject(static::modelClassName().$submodel, $config);
     }
 
     /**

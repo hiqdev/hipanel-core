@@ -17,9 +17,7 @@ class TicketController extends CrudController
 
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
 
-    static protected function mainModel() { return Thread::className(); }
-
-    static protected function searchModel() { return ThreadSearch::className(); }
+    static protected function modelClassName () { return Thread::className(); }
 
     protected function prepareRefs() {
         return [
