@@ -212,17 +212,17 @@ class Menu extends \yii\widgets\Menu
                     [
                         'label' => Yii::t('app', 'Tickets'),
                         'url' => ['/ticket/ticket/index'],
-                        'icon' => 'fa-circle-o',
+                        'icon' => 'fa-ticket',
                     ],
                     [
                         'label' => Yii::t('app', 'Tickets settings'),
                         'url' => ['/ticket/ticket/settings'],
-                        'icon' => 'fa-circle-o',
+                        'icon' => 'fa-gears',
                     ],
                     [
                         'label' => Yii::t('app', 'Tickets statistic'),
                         'url' => ['/ticket/ticket/statistic'],
-                        'icon' => 'fa-circle-o',
+                        'icon' => 'fa-bar-chart',
                     ],
                 ]
             ],
@@ -275,7 +275,12 @@ class Menu extends \yii\widgets\Menu
                     [
                         'label' => Yii::t('app', 'Accounts'),
                         'url' => ['/hosting/account/index'],
-                        'icon' => 'fa-circle-o',
+                        'icon' => 'fa-user',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'DataBases'),
+                        'url' => ['/hosting/database/index'],
+                        'icon' => 'fa-database',
                     ],
                 ]
             ],
