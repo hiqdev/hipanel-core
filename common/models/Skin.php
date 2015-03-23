@@ -27,6 +27,7 @@ class Skin extends Model
      *      skin-green
      *      skin-red
      *      skin-black
+     *      skin-ebony
      * @var string
      */
     public $skin;
@@ -112,6 +113,12 @@ class Skin extends Model
                 'label' => Yii::t('app', 'Skin Yellow'),
                 'color' => '#367fa9',
                 'bg' => 'bg-yellow'
+            ],
+            [
+                'attribute' => 'skin-ebony',
+                'label' => Yii::t('app', 'Skin Ebony'),
+                'color' => '#fff',
+                'bg' => 'bg-black'
             ],
         ];
     }

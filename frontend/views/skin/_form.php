@@ -38,7 +38,7 @@ CSS
 );
 
 $this->registerJs(<<<JS
-var my_skins = ["skin-blue", "skin-black", "skin-red", "skin-yellow", "skin-purple", "skin-green"];
+var my_skins = ["skin-blue", "skin-black", "skin-red", "skin-yellow", "skin-purple", "skin-green", 'skin-ebony'];
 var my_layout = ["fixed", "layout-boxed"];
 function change_layout(cls) {
     if (cls != 'sidebar-collapse') {
