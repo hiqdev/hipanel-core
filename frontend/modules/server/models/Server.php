@@ -39,6 +39,7 @@ class Server extends \frontend\components\hiresource\ActiveRecord
             'osimage',
             'rcp',
             'vnc',
+
             'statuses',
             'running_task'
         ];
@@ -46,8 +47,33 @@ class Server extends \frontend\components\hiresource\ActiveRecord
 
     public function rules () {
         return [
-            [['name'], 'required'],
-            [['id'], 'safe']
+            [
+                ['state'],
+                'isOperable',
+                'on' => [
+                    'reinstall',
+                    'reboot',
+                    'reset',
+                    'shutdown',
+                    'power-off',
+                    'power-on',
+                    'boot-live',
+                    'regen-root-password'
+                ]
+            ]
+        ];
+    }
+
+    public function scenarios () {
+        return [
+            'reinstall'           => ['id', 'osimage', 'panel'],
+            'boot-live'           => ['id', 'osimange'],
+            'reboot'              => ['id'],
+            'reset'               => ['id'],
+            'shutdown'            => ['id'],
+            'power-off'           => ['id'],
+            'power-on'            => ['id'],
+            'regen-root-password' => ['id'],
         ];
     }
 
@@ -117,6 +143,15 @@ class Server extends \frontend\components\hiresource\ActiveRecord
             'expires'             => Yii::t('app', 'Expires'),
             'block_reason_label'  => Yii::t('app', 'Block reason label'),
             'request_state_label' => Yii::t('app', 'Request state label'),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarioCommands () {
+        return [
+            'reinstall' => 'resetup'
         ];
     }
 }

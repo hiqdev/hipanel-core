@@ -80,6 +80,7 @@ class Controller extends \yii\web\Controller
     /**
      * @param int|array $id scalar ID or array to be used for searching
      * @param array $config config to be used to create the [[Model]]
+     * @return array|ActiveRecord|null|static
      * @throws NotFoundHttpException
      */
     static protected function findModel ($id, $config = []) {
