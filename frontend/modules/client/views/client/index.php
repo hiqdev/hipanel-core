@@ -1,7 +1,14 @@
 <?php
 
-use yii\bootstrap\ButtonGroup;
+use frontend\components\grid\CheckboxColumn;
+use frontend\components\grid\CurrentColumn;
+use frontend\components\grid\EditableColumn;
+use frontend\components\grid\ResellerColumn;
+use frontend\components\grid\SwitchColumn;
 use frontend\components\widgets\GridView;
+use frontend\modules\domain\widgets\State;
+
+use yii\bootstrap\ButtonGroup;
 use yii\web\View;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -12,7 +19,7 @@ use yii\bootstrap\Modal;
 use frontend\modules\thread\widgets\Label;
 use frontend\components\Re;
 
-$this->title = 'Clients';
+$this->title = 'Client';
 $this->params['breadcrumbs'][] = $this->title;
 
 $widgetButtonConfig = [
@@ -47,82 +54,18 @@ $widgetIndexConfig = [
     'filterModel'   => $searchModel,
     'columns'       => [
         [
-            'class'         => 'frontend\components\grid\CheckboxColumn',
-            'name'          => 'ids',
+            'class'         => CheckboxColumn::className(),
         ],
         [
+            'class'         => CurrentColumn::className(),
             'attribute'     => 'login',
             'label'         => Yii::t('app', 'Client'),
-            'value'         => function ($data) {
-                return  Html::a($data->login, ['/client/client/view','id'=>$data->id]);
+            'value'         => function ($model) {
+                return Html::a($model->login, ['view', 'id' => $model->id]); 
             },
-            'format'        => 'html',
-            'filterInputOptions'=> ['id' => 'id'],
-            'filter'            => \frontend\components\widgets\Select2::widget([
-                'attribute'     =>'id',
-                'model'         => $searchModel,
-                'options'       => [
-                    'id'            => 'id',
-                ],
-                'settings'      => [
-                    'allowClear'    => true,
-                    'placeholder'   =>'Type name ...',
-                    'width'         =>'100%',
-                    'triggerChange' => true,
-                    'minimumInputLength' => 3,
-                    'ajax'          => [
-                        'url'           => yii\helpers\Url::to(['client-all-list']),
-                        'dataType'      => 'json',
-                        'data'          => new JsExpression('function(term,page) { return {search:term}; }'),
-                        'results'       => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                    ],
-                    'initSelection' => new JsExpression('function (elem, callback) {
-                        var id=$(elem).val();
-                        $.ajax("' . yii\helpers\Url::to(['client-all-list']) . '?id=" + id, {
-                            dataType: "json"
-                        }).done(function(data) {
-                            callback(data.results);
-                        });
-                    }')
-                ],
-            ]),
         ],
         [
-            'attribute'     => 'seller_id',
-            'label'         => Yii::t('app','Seller'),
-            'value'         => function ($data) {
-                return  Html::a($data->seller, ['/client/client/view','id'=>$data->seller_id]);
-            },
-            'format'        => 'html',
-            'filterInputOptions'=> ['id' => 'seller_id'],
-            'filter'            => \frontend\components\widgets\Select2::widget([
-                'attribute'     =>'seller_id',
-                'model'         => $searchModel,
-                'options'       => [
-                    'id'            => 'seller_id',
-                ],
-                'settings'      => [
-                    'allowClear'    => true,
-                    'placeholder'   =>'Type name ...',
-                    'width'         =>'100%',
-                    'triggerChange' => true,
-                    'minimumInputLength' => 3,
-                    'ajax'          => [
-                        'url'           => yii\helpers\Url::to(['seller-list']),
-                        'dataType'      => 'json',
-                        'data'          => new JsExpression('function(term,page) { return {search:term}; }'),
-                        'results'       => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                    ],
-                    'initSelection' => new JsExpression('function (elem, callback) {
-                        var id=$(elem).val();
-                        $.ajax("' . yii\helpers\Url::to(['seller-list']) . '?id=" + id, {
-                            dataType: "json"
-                        }).done(function(data) {
-                            callback(data.results);
-                        });
-                    }')
-                ],
-            ]),
+            'class'         => ResellerColumn::className(),
         ],
         [
             'attribute' => 'type',
@@ -217,7 +160,11 @@ $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConf
 ]);
 
 ?>
-<?= GridView::widget($widgetIndexConfig); ?>
+<div class="box box-primary">
+    <div class="box-body"
+        <?= GridView::widget($widgetIndexConfig); ?>
+    </div>
+</div>
 
 <?php
 echo Html::beginForm([

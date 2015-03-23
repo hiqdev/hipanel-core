@@ -2,33 +2,10 @@
 
 namespace frontend\modules\client\controllers;
 
-use frontend\components\CrudController;
-use yii\base\Model;
-use frontend\modules\client\models\ClientSearch;
-use frontend\modules\client\models\Client;
-use frontend\components\hiresource\HiResException;
-use yii\helpers\ArrayHelper;
-use Yii;
-use yii\web\Response;
-use yii\web\NotFoundHttpException;
+class ClientController extends \frontend\components\CrudController {
 
-class ClientController extends CrudController {
-
-    protected $class    = 'Client';
-    protected $path     = 'frontend\modules\client\models';
-    protected $tpl      = [
-        '_tariff'   => '_tariff',
-        '_card'     => '_card',
-    ];
-
-    public function actionView ($id) {
-        $params = [
-            'with_contact'          => 1,
-            'with_domains_count'    => 1,
-            'with_servers_count'    => 1,
-            'with_contacts_count'   => 1,
-        ];
-        return $this->render('view', ['model' => $this->findModel($id, $params),]);
+    public function actionList ($format = 'json') {
+        return $this->actionSearch();
     }
 
     private function actionUserList ($input) {
