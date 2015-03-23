@@ -3,92 +3,34 @@ namespace frontend\modules\domain\models;
 
 use Yii;
 
-class Domain extends \frontend\components\hiresource\ActiveRecord
+class Domain extends \frontend\components\Model
 {
-    /**
-     * @return array the list of attributes for this record
-     */
-    public function attributes () {
-        return [
-            'id',
-            'epp_client_id',
-            'remoteid',
-            'state',
-            'state_label',
-            'statuses',
-            'errors',
-            'name',
-            'zone_id',
-            'zone',
-            'domain',
-            'note',
-            'nameservers',
-            'created_date',
-            'updated_date',
-            'transfer_date',
-            'expiration_date',
-            'expires',
-            'since',
-            'lastop',
-            'operated',
-            'whois_protected',
-            'block',
-            'is_secured',
-            'is_holded',
-            'autorenewal',
-            'is_freezed',
-            'client_id',
-            'client',
-            'client_name',
-            'seller_id',
-            'seller',
-            'seller_name',
-            'foa_sent_to',
-            'is_premium',
-            'prem_expires',
-            'prem_daysleft',
-            'premium_autorenewal',
-            'url_fwval',
-            'mailval',
-            'parkval',
-            'daysleft',
-            'is_expired',
-            'expires_soon',
-            'registrant','admin','tech','billing',
-        ];
-    }
 
-    public $enable;
+    use \frontend\components\ModelTrait;
 
+    /** @inheritdoc */
     public function rules () {
         return [
-            [['id'],                                    'safe'],
-            [['client_id','seller_id'],                 'safe'],
-            [['state'],                                 'safe'],
-            [['note'],                                  'safe', 'on' => ['set-note']],
-            [['registrant','admin','tech','billing'],   'safe', 'on' => ['set-contacts']],
-            [['enable'],                                'safe', 'on' => ['set-lock','set-autorenewal','set-whois-protect']],
+            [['id'],                                            'safe'],
+            [['domain'],                                        'safe'],
+            [['remoteid','epp_client_id'],                      'safe'],
+            [['seller_id','client_id'],                         'safe'],
+            [['seller','client'],                               'safe'],
+            [['state','block','lastop'],                        'safe'],
+            [['state_label'],                                   'safe'],
+            [['registrant','admin','tech','billing'],           'safe'],
+            [['whois_protected','is_secured','autorenewal'],    'safe'],
+            [['is_holded','is_freezed','is_premium'],           'safe'],
+            [['created_date','updated_date'],                   'safe'],
+            [['transfer_date','expiration_date'],               'safe'],
+            [['expires','since','operated'],                    'safe'],
+            [['note'],                                          'safe', 'on' => ['set-note','default']],
+            [['registrant','admin','tech','billing'],           'safe', 'on' => ['set-contacts']],
+            [['enable'],                                        'safe', 'on' => ['set-lock','set-autorenewal','set-whois-protect']],
         ];
     }
 
-    public function goodStates () {
-        return ['ok', 'disabled'];
-    }
-
-    /**
-     * @return bool
-     */
-    public function isOperable () {
-        if ($this->running_task || !in_array($this->state, $this->goodStates())) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public function attributeLabels () {
         return [
             'id'                    => Yii::t('app', 'ID'),

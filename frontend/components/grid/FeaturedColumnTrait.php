@@ -29,9 +29,17 @@ trait FeaturedColumnTrait
      */
     public $filterAttribute;
 
+    /** @var array default options for someOptions */
+/*
+    public $defaultOptions = [];
+*/
+
     /** @inheritdoc */
     public function init () {
         parent::init();
+        if ($this->hasProperty('defaultOptions')) foreach ($this->defaultOptions as $k => $v) {
+            $this->{$k} = ArrayHelper::merge($v,$this->{$k});
+        };
         $this->registerClientScript();
     }
 
@@ -50,11 +58,20 @@ trait FeaturedColumnTrait
         return parent::renderHeaderCellContent();
     }
 
-    public function renderFilterCellContent () {
-        $save = $this->attribute;
-        if ($this->filterAttribute) $this->attribute = $this->filterAttribute;
+    public function getFilterAttribute () {
+        return $this->filterAttribute ?: $this->attribute;
+    }
+
+    /// XXX better change yii
+    protected function renderFilterCellContent () {
+        if ($this->hasProperty('attribute')) {
+            $save = $this->attribute;
+            $this->attribute = $this->getFilterAttribute();
+        };
         $out = parent::renderFilterCellContent();
-        $this->attribute = $save;
+        if ($this->hasProperty('attribute')) {
+            $this->attribute = $save;
+        };
         return $out;
     }
 

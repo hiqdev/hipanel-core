@@ -1,11 +1,11 @@
 <?php
 
 use kartik\widgets\Select2;
-use yii\helpers\Html;
+use kartik\widgets\DatePicker;
 use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
-use kartik\widgets\DatePicker;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 $this->registerJs(new JsExpression(<<<JS
 // Button handle

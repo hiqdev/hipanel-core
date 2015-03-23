@@ -1,12 +1,5 @@
 <?php
 
-use frontend\components\grid\CheckboxColumn;
-use frontend\components\grid\CurrentColumn;
-use frontend\components\grid\EditableColumn;
-use frontend\components\grid\ResellerColumn;
-use frontend\components\grid\SwitchColumn;
-use frontend\modules\domain\widgets\State;
-
 use yii\bootstrap\ButtonGroup;
 use frontend\components\grid\GridView;
 use yii\web\View;
@@ -19,76 +12,89 @@ use yii\bootstrap\Modal;
 use frontend\modules\thread\widgets\Label;
 use frontend\components\Re;
 
-$this->title = 'Client';
+$this->title = 'Contacts';
 $this->params['breadcrumbs'][] = $this->title;
 
-$widgetButtonConfig = [
-    'buttons'   => [
-        [
-            'label'     => Yii::t('app','Tariff'),
-            'options'   => [
-                'class'     => 'btn-xs' . ($tpl=='_tariff' ? ' active' : ''),
-                'data-view' => '_tariff'
-            ],
-        ],
-        [
-            'label'     => Yii::t('app','Card'),
-            'options'   => [
-                'class'     => 'btn-xs' . ($tpl=='_card' ? ' active' : ''),
-                'data-view' => '_card',
-            ],
-        ],
-    ],
-    'options'   => ['class'=>'change-view-button']
-];
-?>
-<div class="row">
-    <div class="col-md-1 col-md-offset-11" style="margin: 10px">
-        <?= ButtonGroup::widget($widgetButtonConfig); ?>
-    </div>
-</div>
-
-<?php
 $widgetIndexConfig = [
     'dataProvider'  => $dataProvider,
     'filterModel'   => $searchModel,
     'columns'       => [
         [
-            'class'         => CheckboxColumn::className(),
+            'class'         => 'frontend\components\grid\CheckboxColumn',
+            'name'          => 'ids',
         ],
         [
-            'class'         => CurrentColumn::className(),
-            'uses'          => [
-                'rename'       => [
-                    'text'         => 'login',
-                ],
-                'return'        => ['id'],
-                'term'          => 'client_like:term',
-                'wrapper'       => 'results',
-            ],
-            'attribute'     => 'login',
+            'attribute'     => 'client',
             'label'         => Yii::t('app', 'Client'),
-            'value'         => function ($model) {
-                return Html::a($model->login, ['view', 'id' => $model->id]); 
+            'value'         => function ($data) {
+                return  Html::a($data->client, ['/client/client/view','id'=>$data->client_id]);
             },
-        ],
-        [
-            'class'         => ResellerColumn::className(),
-        ],
-        [
-            'attribute' => 'type',
-            'label'     => Yii::t('app','Type'),
-            'filter' => Html::activeDropDownList($searchModel, 'type', \frontend\models\Ref::getList('type,client', true), [
-                'class' => 'form-control',
-                'prompt' => Yii::t('app', '--'),
+            'format'        => 'html',
+            'filterInputOptions'=> ['id' => 'id'],
+            'filter'            => \frontend\components\widgets\Select2::widget([
+                'attribute'     =>'id',
+                'model'         => $searchModel,
+                'options'       => [
+                    'id'            => 'id',
+                ],
+                'settings'      => [
+                    'allowClear'    => true,
+                    'placeholder'   =>'Type name ...',
+                    'width'         =>'100%',
+                    'triggerChange' => true,
+                    'minimumInputLength' => 3,
+                    'ajax'          => [
+                        'url'           => yii\helpers\Url::to(['/client/client/client-all-list']),
+                        'dataType'      => 'json',
+                        'data'          => new JsExpression('function(term,page) { return {search:term}; }'),
+                        'results'       => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                    ],
+                    'initSelection' => new JsExpression('function (elem, callback) {
+                        var id=$(elem).val();
+                        $.ajax("' . yii\helpers\Url::to(['/client/client/client-all-list']) . '?id=" + id, {
+                            dataType: "json"
+                        }).done(function(data) {
+                            callback(data.results);
+                        });
+                    }')
+                ],
             ]),
         ],
         [
-            'attribute' => 'state',
-            'label'     => Yii::t('app','State'),
-            'filter' => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,client', true), [
-                'class' => 'form-control',
-                'prompt' => Yii::t('app', '--'),
+            'attribute'     => 'seller_id',
+            'label'         => Yii::t('app','Seller'),
+            'value'         => function ($data) {
+                return  Html::a($data->seller, ['/client/client/view','id'=>$data->seller_id]);
+            },
+            'format'        => 'html',
+            'filterInputOptions'=> ['id' => 'seller_id'],
+            'filter'            => \frontend\components\widgets\Select2::widget([
+                'attribute'     =>'seller_id',
+                'model'         => $searchModel,
+                'options'       => [
+                    'id'            => 'seller_id',
+                ],
+                'settings'      => [
+                    'allowClear'    => true,
+                    'placeholder'   =>'Type name ...',
+                    'width'         =>'100%',
+                    'triggerChange' => true,
+                    'minimumInputLength' => 3,
+                    'ajax'          => [
+                        'url'           => yii\helpers\Url::to(['/client/client/seller-list']),
+                        'dataType'      => 'json',
+                        'data'          => new JsExpression('function(term,page) { return {search:term}; }'),
+                        'results'       => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                    ],
+                    'initSelection' => new JsExpression('function (elem, callback) {
+                        var id=$(elem).val();
+                        $.ajax("' . yii\helpers\Url::to(['/client/client/seller-list']) . '?id=" + id, {
+                            dataType: "json"
+                        }).done(function(data) {
+                            callback(data.results);
+                        });
+                    }')
+                ],
             ]),
         ],
         'email',
@@ -168,11 +174,7 @@ $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConf
 ]);
 
 ?>
-<div class="box box-primary">
-    <div class="box-body"
-        <?= GridView::widget($widgetIndexConfig); ?>
-    </div>
-</div>
+<?= GridView::widget($widgetIndexConfig); ?>
 
 <?php
 echo Html::beginForm([
