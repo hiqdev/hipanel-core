@@ -7,7 +7,7 @@ use common\components\Lang;
 
 class Topic extends Widget
 {
-    public $topic;
+    public $topics;
 
    private function _getColor($item) {
        $colors = [
@@ -24,10 +24,10 @@ class Topic extends Widget
 
     public function init() {
         parent::init();
-        if ($this->topic) {
+        if ($this->topics) {
             $html = '';
             $html .= '<ul class="list-inline">';
-                foreach ($this->topic as $item=>$label) {
+                foreach ($this->topics as $item=>$label) {
                     $html .= Html::tag('li', '<span class="label '.$this->_getColor($item).'">'.Lang::l($label).'</span>');
                 }
             $html .= '</ul>';

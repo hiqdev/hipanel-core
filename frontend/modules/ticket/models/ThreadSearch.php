@@ -1,11 +1,9 @@
 <?php
-
 namespace frontend\modules\ticket\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-
 
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
@@ -67,8 +65,10 @@ class ThreadSearch extends Thread
             'time_till' => $this->time_till,
             'time_form' => $this->time_from,
         ]);
+
         $query->andFilterWhere(['like', 'subject', $this->subject]);
-        $query->andFilterWhere(['in', 'watchers', $this->watchers]);
+        $query->andFilterWhere(['in', 'watcher', $this->watchers]);
+        $query->andFilterWhere(['in', 'topic', $this->topics]);
         return $dataProvider;
     }
 }

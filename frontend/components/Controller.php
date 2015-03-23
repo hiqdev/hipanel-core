@@ -35,15 +35,25 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * @param string $postfix the postfix that will be added to the ClassName
+     * @param string $submodel the submodel that will be added to the ClassName
      * @return string Main Model class name
      */
-    static protected function modelClassName ($postfix = '') {
+    static protected function modelClassName () {
         $parts = explode('\\', static::className());
         $last  = array_pop($parts);
         array_pop($parts);
+        $parts[] = 'models';
+        $parts[] = substr($last, 0, -10);
 
-        return implode('\\', $parts) . '\\models\\' . substr($last, 0, -10) . $postfix;
+        return implode('\\', $parts);
+    }
+
+    /**
+     * @param array $config config to be used to create the [[Model]]
+     * @returns ActiveRecord
+     */
+    static protected function newModel ($config = [], $submodel = '') {
+        return \Yii::createObject(static::modelClassName().$submodel, $config);
     }
 
     /**
@@ -51,15 +61,7 @@ class Controller extends \yii\web\Controller
      * @returns ActiveRecord Search Model object
      */
     static protected function searchModel ($config = []) {
-        return \Yii::createObject(static::modelClassName('Search'), $config);
-    }
-
-    /**
-     * @param array $config config to be used to create the [[Model]]
-     * @returns ActiveRecord
-     */
-    static protected function newModel ($config = []) {
-        return \Yii::createObject(static::modelClassName(), $config);
+        return static::newModel($config, 'Search');
     }
 
     /**

@@ -10,7 +10,6 @@ use frontend\modules\domain\widgets\Expires;
 use frontend\modules\domain\widgets\State;
 use frontend\models\Ref;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 $this->title                    = Yii::t('app', 'Domains');
 $this->params['breadcrumbs'][]  = $this->title;
@@ -76,7 +75,7 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'class'                 => EditableColumn::className(),
             'attribute'             => 'note',
             'popover'               => Yii::t('app','Make any notes for your convenience'),
-            'action'                => Url::to('set-note'),
+            'action'                => ['set-note'],
         ],
         [
             'attribute'             => 'created_date',

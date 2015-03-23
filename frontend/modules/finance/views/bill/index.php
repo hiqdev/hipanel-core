@@ -5,10 +5,11 @@ use frontend\components\grid\ClientColumn;
 use frontend\components\grid\EditableColumn;
 use frontend\components\grid\ResellerColumn;
 use frontend\components\widgets\GridView;
+use frontend\components\Re;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-$this->title                    = Yii::t('app', 'Name Servers');
+$this->title                    = Yii::t('app', 'Payments');
 $this->params['breadcrumbs'][]  = $this->title;
 $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
 
@@ -30,19 +31,32 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'class'                 => ClientColumn::className(),
         ],
         [
-            'attribute'             => 'host',
-            'filterAttribute'       => 'host_like',
+            'attribute'             => 'time',
+            'format'                => 'datetime',
+        ],
+        [
+            'attribute'             => 'sum',
+            'filter'                => false,
             'format'                => 'html',
+            'contentOptions'        => ['align' => 'right'],
             'value'                 => function ($model) {
-                return Html::a($model->host, ['view', 'id' => $model->id], ['class' => 'bold']);
+                return Html::tag('b','$ '.$model->sum);
             },
         ],
         [
-            'class'                 => EditableColumn::className(),
-            'attribute'             => 'ips',
-            'popover'               => 'Up to 13 IP addresses',
-            'filterAttribute'       => 'ips_like',
-            'action'                => ['update'],
+            'attribute'             => 'balance',
+            'filter'                => false,
+            'contentOptions'        => ['align' => 'right'],
+            'value'                 => function ($model) {
+                return '$ '.$model->balance;
+            },
+        ],
+        [
+            'attribute'             => 'descr',
+            'format'                => 'html',
+            'value'                 => function ($model) {
+                return Html::tag('b',Re::l($model->type_label)).' '.$model->object;
+            },
         ],
     ],
 ]) ?>
