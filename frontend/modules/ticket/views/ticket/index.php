@@ -1,8 +1,8 @@
 <?
 
 use frontend\components\Re;
+use frontend\components\grid\GridView;
 use frontend\components\grid\RefColumn;
-use frontend\components\widgets\GridView;
 use frontend\components\widgets\Select2;
 use frontend\components\widgets\GridActionButton;
 use frontend\modules\ticket\widgets\Label;

@@ -1,5 +1,6 @@
 <?php
 
+use frontend\components\grid\GridView;
 use frontend\components\grid\CheckboxColumn;
 use frontend\components\grid\ClientColumn;
 use frontend\components\grid\EditableColumn;
@@ -7,7 +8,6 @@ use frontend\components\grid\ResellerColumn;
 use frontend\components\grid\SwitchColumn;
 use frontend\components\grid\MainColumn;
 use frontend\components\grid\RefColumn;
-use frontend\components\widgets\GridView;
 use yii\helpers\Html;
 
 $this->title                    = Yii::t('app', 'Tariffs');

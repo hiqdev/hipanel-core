@@ -1,9 +1,10 @@
 <?php
-namespace frontend\components\widgets;
+
+namespace frontend\components\grid;
+
 use common\models\Skin;
 use frontend\assets\DataTablesAsset;
 use frontend\assets\iCheckAsset;
-use yii\web\JsExpression;
 
 /**
  * Class GridView

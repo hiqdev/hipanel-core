@@ -1,11 +1,12 @@
 <?php
-use frontend\components\widgets\GridActionButton;
-use frontend\modules\server\widgets\StateFormatter;
-use frontend\components\widgets\GridView;
-use frontend\modules\server\widgets\DiscountFormatter;
-use frontend\components\widgets\RequestState;
+
+use frontend\components\grid\GridView;
 use frontend\components\widgets\Pjax;
 use frontend\components\widgets\Select2;
+use frontend\components\widgets\RequestState;
+use frontend\components\widgets\GridActionButton;
+use frontend\modules\server\widgets\StateFormatter;
+use frontend\modules\server\widgets\DiscountFormatter;
 use yii\helpers\Url;
 use \yii\helpers\Html;
 

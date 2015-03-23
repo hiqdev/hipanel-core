@@ -1,11 +1,11 @@
 <?php
 
+use frontend\components\Re;
+use frontend\components\grid\GridView;
 use frontend\components\grid\CheckboxColumn;
 use frontend\components\grid\ClientColumn;
 use frontend\components\grid\EditableColumn;
 use frontend\components\grid\ResellerColumn;
-use frontend\components\widgets\GridView;
-use frontend\components\Re;
 use yii\helpers\Url;
 use yii\helpers\Html;
 

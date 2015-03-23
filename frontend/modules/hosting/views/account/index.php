@@ -1,7 +1,8 @@
 <?php
+
 use frontend\components\Re;
+use frontend\components\grid\GridView;
 use frontend\components\widgets\GridActionButton;
-use frontend\components\widgets\GridView;
 use frontend\components\widgets\RequestState;
 use frontend\components\widgets\Pjax;
 use frontend\components\widgets\Select2;
