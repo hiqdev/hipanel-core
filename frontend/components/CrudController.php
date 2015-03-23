@@ -5,7 +5,7 @@ namespace frontend\components;
 use frontend\components\hiresource\ActiveRecord;
 use frontend\components\hiresource\HiResException;
 use frontend\components\hiresource\Collection;
-use frontend\components\helpers\ArrayHelper;
+use frontend\components\helpers\ArrayHelper as AH;
 use frontend\models\Ref;
 use Yii;
 use yii\helpers\Inflector;
@@ -13,10 +13,6 @@ use yii\filters\VerbFilter;
 
 class CrudController extends Controller
 {
-    protected $class = 'Default';
-    protected $path  = '\frontend\modules\client\models';
-    protected $tpl   = [];
-
     public function actions () {
         $actions = parent::actions();
         $model   = static::newModel();
@@ -71,37 +67,61 @@ class CrudController extends Controller
      * @see Collection
      */
     public function perform ($config) {
-        $config = ArrayHelper::merge([
-            'model'        => static::newModel(),
-            'errorMessage' => Yii::t('app', 'Unknown error')
+        $config = AH::merge([
+            'model'          => static::newModel(),
+            'errorMessage'   => Yii::t('app', 'Unknown error'),
+            'successMessage' => Yii::t('app', 'The operation was successful')
         ], $config);
 
-        $errorMessage = ArrayHelper::remove($config, 'errorMessage');
+        $message = [
+            'success' => AH::remove($config, 'successMessage'),
+            'error'   => AH::remove($config, 'errorMessage')
+        ];
 
-        return $this->renderJson([
-            'message' => (new Collection($config))->load()->save() ? '' : $errorMessage
-        ]);
+        $result = (new Collection($config))->load()->save();
+        if (Yii::$app->request->isAjax && !in_array('application/json', Yii::$app->request->acceptableContentTypes)) {
+            return $this->renderJson([
+                'message' => $result ? '' : $message['success']
+            ]);
+        } else {
+            /// TODO: non-ajax behaviour
+            return $this->renderJson([
+                'message' => $result ? '' : $message['error']
+            ]);
+        }
     }
 
     /**
      * Searches the data in the model
+     *
      * @return mixed
      */
     public function actionSearch () {
-        $result                = [];
-        $search                = \Yii::$app->request->get();
-        $attributes            = ArrayHelper::remove($search, 'return');
-        $searchModel           = static::searchModel();
-        $formName              = $searchModel->formName();
-        $searchCond[$formName] = $search;
+        $result      = [];
+        $search      = \Yii::$app->request->get();
+        $searchModel = static::searchModel();
+        $formName    = $searchModel->formName();
+
+        $wrapper = AH::remove($search, 'wrapper');
+
+        $props[static::modelClassName()] = AH::merge($search['return'] ? AH::remove($search, 'return') : ['id'], AH::remove($search, 'rename'));
+        $searchCond[$formName]           = $search;
 
         $data = $searchModel->search($searchCond)->getModels();
 
         foreach ($data as $k => $v) {
-            $result[$k] = ArrayHelper::getValues($v, $attributes);
+            if ($wrapper) $result[$wrapper][$k] = AH::toArray($v, $props);
+            else $result[$k] = AH::toArray($v, $props);
         }
-
         return $this->renderJson($result);
+    }
+
+    public function actionInfo () {
+        return static::actionSearch();
+    }
+
+    public function actionList () {
+        return static::actionSearch();
     }
 
     /**
@@ -110,7 +130,7 @@ class CrudController extends Controller
     public function actionView ($id, $add = []) {
         $model = $this->findModel($id);
 
-        return $this->render('view', ArrayHelper::merge(compact('model'), $add));
+        return $this->render('view', AH::merge(compact('model'), $add));
     }
 
     /**
@@ -120,7 +140,7 @@ class CrudController extends Controller
         $searchModel  = static::searchModel();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', ArrayHelper::merge(compact('searchModel', 'dataProvider'), $add));
+        return $this->render('index', AH::merge(compact('searchModel', 'dataProvider'), $add));
     }
 
     public function BR_actionUpdate ($id) {
@@ -157,6 +177,15 @@ class CrudController extends Controller
 
     static public function getPriorities () { return static::getRefs('type,priority'); }
 
+
+    ////// TODO::: XXX DROP LEGACY
+
+
+    protected $class = 'Default';
+    protected $path  = '\frontend\modules\client\models';
+    protected $tpl   = [];
+
+
     protected function actionGetClassValues ($class = "", $values, $path = "", $id = "") {
         $id         = $id ?: Yii::$app->user->id;
         $call_class = $path ? "{$path}\\" . ucfirst($class) : "{$this->path}\\{$this->class}";
@@ -169,8 +198,8 @@ class CrudController extends Controller
         $class       = "{$this->path}\\{$this->class}Search";
         $searchModel = new $class();
         if (!Yii::$app->request->queryParams['clear']) {
-            $queryParams = ArrayHelper::merge(\Yii::$app->getSession()
-                                                        ->get("{$class}[query]") ?: [], Yii::$app->request->queryParams ?: []);
+            $queryParams = AH::merge(\Yii::$app->getSession()
+                                               ->get("{$class}[query]") ?: [], Yii::$app->request->queryParams ?: []);
         } else {
             $queryParams = [];
         }
@@ -219,7 +248,7 @@ class CrudController extends Controller
 
     protected function recursiveSearch ($array, $field) {
         if (is_array($array)) {
-            if (\yii\helpers\BaseArrayHelper::keyExists($field, $array)) return true; else {
+            if (\yii\helpers\BaseAH::keyExists($field, $array)) return true; else {
                 foreach ($array as $key => $value) {
                     if (is_array($value)) $res = $res ?: $this->recursiveSearch($value, $field);
                 }
@@ -238,7 +267,7 @@ class CrudController extends Controller
     }
 
     protected function renderingPage ($page, $queryParams, $action = [], $addFunc = []) {
-        return Yii::$app->request->isAjax ? $this->renderPartial($page, ArrayHelper::merge($this->actionPrepareRender($queryParams, $addFunc), $action)) : $this->render($page, ArrayHelper::merge($this->actionPrepareRender($queryParams, $addFunc), $action));
+        return Yii::$app->request->isAjax ? $this->renderPartial($page, AH::merge($this->actionPrepareRender($queryParams, $addFunc), $action)) : $this->render($page, AH::merge($this->actionPrepareRender($queryParams, $addFunc), $action));
     }
 
     protected function performRequest ($row) {

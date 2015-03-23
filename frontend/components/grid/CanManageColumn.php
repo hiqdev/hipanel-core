@@ -8,26 +8,26 @@ use yii\helpers\Html;
 
 use yii\web\JsExpression;
 
-class ClientColumn extends DataColumn
+class CanManageColumn extends DataColumn
 {
     public function init () {
         parent::init();
         \Yii::configure($this,[
             'visible'               => \Yii::$app->user->identity->type!='client',
-            'attribute'             => 'client_id',
-            'label'                 => \Yii::t('app', 'Client'),
+            'attribute'             => 'seller_id',
+            'label'                 => \Yii::t('app', 'Can Manage'),
             'format'                => 'html',
             'value'                 => function ($model) {
                 return Html::a($model->client, ['/client/client/view', 'id' => $model->client_id]);
             },
             'filterInputOptions'    => ['id' => 'client_id'],
             'filter'                => Select2::widget([
-                'attribute' => 'client_id',
+                'attribute' => 'seller_id',
                 'model'     => $this->grid->filterModel,
                 'url'       => Url::toRoute(['/client/client/list']),
                 'settings'  => [
                     'ajax'      => [
-                        'data'      => new JsExpression('function(term,page) { return {"rename[text]":"login",wrapper:"results", client_like:term}; }'),
+                        'data'      => new JsExpression('function(term,page) { return {"rename[text]":"login",wrapper:"results", manager_only:true, client_like:term}; }'),
                     ],
                     'initSelection'      => new JsExpression('function (elem, callback) {
                         $.ajax("' . Url::toRoute(['/client/client/list']) . '?id=" + id, {
@@ -36,7 +36,7 @@ class ClientColumn extends DataColumn
                         }).done(function(data) {
                             callback(data.results[0]);
                         });
-                    }'),
+                    }')
                 ],
             ]),
         ]);

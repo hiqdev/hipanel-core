@@ -58,6 +58,14 @@ $widgetIndexConfig = [
         ],
         [
             'class'         => CurrentColumn::className(),
+            'uses'          => [
+                'rename'       => [
+                    'text'         => 'login',
+                ],
+                'return'        => ['id'],
+                'term'          => 'client_like:term',
+                'wrapper'       => 'results',
+            ],
             'attribute'     => 'login',
             'label'         => Yii::t('app', 'Client'),
             'value'         => function ($model) {

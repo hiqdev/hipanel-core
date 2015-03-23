@@ -11,9 +11,8 @@ class Client extends \frontend\components\hiresource\ActiveRecord
     public function attributes()
     {
         return [
-            'id', 'like',
+            'id', 'seller_id',
             'client', 'seller',
-            'seller_id',
             'type', 'state',
             'tariff_id',
             'balance',
@@ -34,6 +33,7 @@ class Client extends \frontend\components\hiresource\ActiveRecord
             'count',
             'contact',
             'comment',
+            'login_like',
         ];
     }
 
@@ -45,7 +45,8 @@ class Client extends \frontend\components\hiresource\ActiveRecord
             [[ 'id', 'language', ], 'safe', 'on' => 'setlanguage' ],
             [[ 'id', 'seller_id',], 'integer', 'on' => 'setseller' ],
             [[ 'type' ], 'safe' ],
-            [[ 'client', 'like' ], 'safe' ],
+            [[ 'client', 'seller' ], 'safe' ],
+            [[ 'id','seller_id' ], 'integer'],
         ];
     }
 
