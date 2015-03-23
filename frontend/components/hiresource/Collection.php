@@ -97,7 +97,7 @@ class Collection extends Component
         $finalData = [];
 
         if ($data === null) {
-            $data = \Yii::$app->request->post($this->formName);
+            $data = \Yii::$app->request->post($this->formName) ?: [\Yii::$app->request->post()];
         } elseif ($data instanceof \Closure) {
             $data = call_user_func($data, $this->model, $this->formName);
         }

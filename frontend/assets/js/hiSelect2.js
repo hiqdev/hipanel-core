@@ -36,8 +36,7 @@
 				'form': this,
 				'pluginOptions': options
 			});
-			field.element = element;
-			element.select2(field.getConfig());
+			field.setElement(element).attachListeners();
 			element.data('field', field);
 			this.fields.push({
 				type: type,
@@ -79,7 +78,8 @@
 	     *      },
 	     *      'someStaticValue': {
 	     *          format: 'test'
-	     *      }
+	     *      },
+	     *      'return': ['id', 'value']
 		 *  }
 		 * ```
 		 *
@@ -94,12 +94,15 @@
 				}
 				if (typeof v === 'string') {
 					v = {field: v};
+				} else if ($.isArray(v) || (typeof v === 'object' && v.format === undefined)) {
+					v = {format: v};
 				}
-				if (v.format == 'id') {
+
+				if (v.format === 'id') {
 					v.format = function (id, text) {
 						return id;
 					};
-				} else if (typeof v.field !== 'string' && typeof v.format === 'string') {
+				} else if (typeof v.field !== 'string' && (typeof v.format === 'string' || $.isArray(v.format) || typeof v.format === 'object')) {
 					/// If the result is a static value
 					filters[k] = v.format;
 					return true;
@@ -110,7 +113,10 @@
 				}
 
 				var field = _this.getField(v.field);
+				if (!field) return true;
 				var data = field.getData();
+				if (!data) return true;
+
 				filters[k] = v.format(data['id'], data['text'], field);
 			});
 			return filters;
@@ -118,8 +124,26 @@
 		getData: function (type) {
 			return this.getField(type).getData();
 		},
+		setValue: function (type, data) {
+			return this.getField(type).setValue(data);
+		},
+		unsetValue: function (type) {
+			return this.setValue(type, '');
+		},
+		getId: function (type) {
+			return this.getData(type).id;
+		},
 		getValue: function (type) {
 			return this.getData(type).text;
+		},
+		isSet: function (type) {
+			return this.getValue(type).length > 0;
+		},
+		disable: function (type) {
+			return this.getField(type).disable();
+		},
+		enable: function (type) {
+			return this.getField(type).enable();
 		},
 		getField: function (type) {
 			var result = {};
@@ -131,13 +155,45 @@
 			});
 			return result;
 		},
+		checkActive: function (fields) {
+			var isActive = true;
+			var _this = this;
+			$.each(fields, function (k, v) {
+				if (!isActive) {
+					return false;
+				}
+				if ($.isFunction(v)) {
+					isActive = v(_this);
+				} else {
+					isActive = _this.isSet(v);
+				}
+			});
+			return isActive;
+		},
 		update: function (event) {
 			var _this = this;
 			//var event = new Event(originalEvent.element, originalEvent);
 			$.each(this.fields, function (k, v) {
-				if (v.element != event.element) {
-					v.field.trigger('update', event);
+				var field = v.field;
+
+				if (v.element == event.element) return true;
+
+				if (field.activeWhen) {
+					var isActive = true;
+					if (!$.isArray(v.activeWhen)) {
+						field.activeWhen = [field.activeWhen];
+					}
+
+					if ($.isFunction(field.activeWhen)) {
+						isActive = field.activeWhen(field.name, _this);
+					} else {
+						isActive = _this.checkActive(field.activeWhen);
+					}
+
+					isActive ? _this.enable(field.type) : _this.disable(field.type);
 				}
+
+				field.trigger('update', event);
 			});
 		}
 	};
@@ -223,7 +279,28 @@
 		this.form = null;
 		this.element = null;
 		this.config = null;
+		this.activeWhen = null;
 		this.pluginOptions = {
+			placeholder: 'Enter a value',
+			allowClear: true,
+			initSelection: function (element, callback) {
+				var data = {
+					id: element.val(),
+					text: element.attr('data-init-text') ? element.attr('data-init-text') : element.val()
+				};
+				callback(data);
+			},
+			ajax: {
+				dataType: 'json',
+				quietMillis: 400,
+				results: function (data) {
+					var ret = [];
+					$.each(data, function (k, v) {
+						ret.push(v);
+					});
+					return {results: ret};
+				}
+			},
 			onChange: function (e) {
 				return $(this).data('field').form.update(e);
 			}
@@ -241,15 +318,29 @@
 			var field = this;
 			$.each(config, function (k, v) {
 				if (field[k] !== undefined) {
-					if (typeof field[k] == 'object' && v.noextend === undefined) {
+					if (typeof field[k] == 'object' && v.noextend === undefined && field[k] !== null) {
 						$.extend(true, field[k], v);
 					} else {
 						field[k] = v;
 					}
 				} else if (k.substr(0, 2) == 'on') {
-					field.events[k.substr(3)] = v;
+					field.events[k.substr(2)] = v;
 				} else {
 					throw "Trying to set unknown property " + k;
+				}
+			});
+			return this;
+		},
+		setElement: function (element) {
+			this.element = element;
+			element.select2(this.getConfig());
+			return this;
+		},
+		attachListeners: function () {
+			var element = this.element;
+			$.each(this.getConfig(), function (k, v) {
+				if (k.substr(0,2) == 'on') {
+					element.on(k.substr(2).toLowerCase(), v);
 				}
 			});
 			return this;
@@ -270,8 +361,17 @@
 		getData: function () {
 			return this.element.select2('data');
 		},
+		setValue: function (data) {
+			return this.element.select2('val', data);
+		},
 		trigger: function (name, e) {
 			return $.isFunction(this.events[name]) ? this.events[name](e) : true;
+		},
+		disable: function () {
+			return this.element.select2('enable', false);
+		},
+		enable: function () {
+			return this.element.select2('enable', true);
 		}
 	};
 

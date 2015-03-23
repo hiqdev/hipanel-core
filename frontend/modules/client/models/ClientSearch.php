@@ -23,7 +23,7 @@ class ClientSearch extends \frontend\modules\client\models\Client
             [['id', 'seller_id'], 'integer'],
             [['type', 'state'], 'string'],
             [['create_time'], 'date'],
-            [['login_like'], 'safe'],
+            [['client_like'], 'safe'],
         ];
     }
 

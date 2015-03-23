@@ -40,11 +40,7 @@ $action = [
                         <?php
                         print $form->field($model, 'client_id');
 
-                        print $form->field($model, 'server_id')->widget(Select2::classname(), [
-                            'attribute' => 'server_id',
-                            'model'     => $model,
-                            'url'       => Url::to(['/server/server/list'])
-                        ]);
+                        print $form->field($model, 'server_id');
                         print $form->field($model, 'login');
 
                         $spell = [
@@ -86,6 +82,7 @@ $this->registerJs("
     $('#account-sshftp_ips').popover({placement: 'top', trigger: 'focus'});
 ");
 
+\frontend\assets\Select2Asset::register($this);
 
 $this->registerJs(<<<JS
 
@@ -94,46 +91,40 @@ $(document).ready(function () {
 		name: 'client',
 		type: 'client',
 		pluginOptions: {
-			allowClear: true,
-			initSelection: function (element, callback) {
-				var data = {
-					id: element.val(),
-					text: element.attr('data-init-text') ? element.attr('data-init-text') : element.val()
-				};
-
-				callback(data);
-			},
 			ajax: {
-				url: "/clients/clients/search",
-				dataType: 'json',
-				quietMillis: 400,
+				url: "/client/client/search",
 				data: function (term) {
-					var form = $(this).data('field').form;
-					return form.createFilter({
+					return $(this).data('field').form.createFilter({
 					    'client_like': {format: term},
-					    'return': {format: ['id', 'login']}
+					    'return': ['id'],
+					    'rename': {'text': 'login'}
 					});
-				},
-				results: function (data) {
-					var ret = [];
-					if (!data.error) {
-						$.each(data, function (index, value) {
-							ret.push({id: value, text: value});
-						});
-					}
-					return {results: ret};
 				}
-			},
-			onChange: function (e) {
-				return $(this).data('field').form.update(e);
 			}
-		},
-		onUpdate: function (e) {
-            alert(1);
-        }
+		}
 	});
 
-    $('#w0').hiSelect2().register('#account-client_id', 'client', {ajax:{quietMillis: 400}});
+	$.fn.hiSelect2Config().add('server', {
+		name: 'server',
+		type: 'server',
+		activeWhen: 'client',
+		pluginOptions: {
+			ajax: {
+				url: "/server/server/search",
+				data: function (term) {
+					return $(this).data('field').form.createFilter({
+					    'client': 'client',
+					    'server_like': {format: term},
+					    'return': ['id', 'client'],
+					    'rename': {'text': 'name'}
+					});
+				}
+			}
+		}
+	});
+
+    $('#w0').hiSelect2().register('#account-client_id', 'client');
+    $('#w0').hiSelect2().register('#account-server_id', 'server');
 });
 
 JS

@@ -112,10 +112,8 @@ Pjax::begin(Yii::$app->params['pjax']);
             <div class="box-header"><?= \Yii::t('app', 'Power management') ?></div>
             <div class="box-body">
                 <?php
-                echo Html::beginForm([
-                    'reboot',
-                    'id' => $model->id
-                ], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::beginForm(['reboot'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::hiddenInput('id', $model->id);
                 Modal::begin([
                     'toggleButton'  => [
                         'label'    => Yii::t('app', 'Reboot'),
@@ -127,7 +125,7 @@ Pjax::begin(Yii::$app->params['pjax']);
                     'footer'        => Html::button(Yii::t('app', 'Reboot'), [
                         'class'             => 'btn btn-warning',
                         'data-loading-text' => Yii::t('app', 'Rebooting...'),
-                        'onClick'           => new \yii\web\JsExpression("$(this).closest('form').submit(); $(this).button('loading')")
+                        'onClick'           => new \yii\web\JsExpression("$(this).closest('form').submit();")
                     ])
                 ]);
                 ?>
@@ -140,10 +138,8 @@ Pjax::begin(Yii::$app->params['pjax']);
                 echo Html::endForm(); ?>
 
                 <?php
-                echo Html::beginForm([
-                    'reset',
-                    'id' => $model->id
-                ], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::beginForm(['reset'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::hiddenInput('id', $model->id);
                 Modal::begin([
                     'toggleButton'  => [
                         'label'    => Yii::t('app', 'Reset'),
@@ -168,10 +164,8 @@ Pjax::begin(Yii::$app->params['pjax']);
                 echo Html::endForm(); ?>
 
                 <?php
-                echo Html::beginForm([
-                    'shutdown',
-                    'id' => $model->id
-                ], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::beginForm(['shutdown'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::hiddenInput('id', $model->id);
                 Modal::begin([
                     'toggleButton'  => [
                         'label'    => Yii::t('app', 'Shutdown'),
@@ -196,10 +190,8 @@ Pjax::begin(Yii::$app->params['pjax']);
                 echo Html::endForm(); ?>
 
                 <?php
-                echo Html::beginForm([
-                    'power-off',
-                    'id' => $model->id
-                ], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::beginForm(['power-off'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::hiddenInput('id', $model->id);
                 Modal::begin([
                     'toggleButton'  => [
                         'label'    => Yii::t('app', 'Power off'),
@@ -224,10 +216,8 @@ Pjax::begin(Yii::$app->params['pjax']);
                 echo Html::endForm(); ?>
 
                 <?php
-                echo Html::beginForm([
-                    'power-on',
-                    'id' => $model->id
-                ], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::beginForm(['power-on'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::hiddenInput('id', $model->id);
                 Modal::begin([
                     'toggleButton' => [
                         'label'    => Yii::t('app', 'Power on'),
@@ -254,10 +244,9 @@ Pjax::begin(Yii::$app->params['pjax']);
             <div class="box-header"><?= \Yii::t('app', 'System management') ?></div>
             <div class="box-body">
                 <? if ($model->isLiveCDSupported()) {
-                    echo Html::beginForm([
-                        'boot-live',
-                        'id' => $model->id
-                    ], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                    echo Html::beginForm(['boot-live'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                    echo Html::hiddenInput('id', $model->id);
+
                     $os_items = [];
                     foreach ($osimageslivecd as $item) {
                         $js         = "$(this).closest('form').find('.livecd-osimage').val({$item['osimage']}).end().submit(); $(this).closest('button').button('loading');";
@@ -291,13 +280,13 @@ Pjax::begin(Yii::$app->params['pjax']);
                     Это приведет к отключению сервера и загрузке образа Live CD.
                     <?php Modal::end();
                     echo Html::endForm();
-                } ?>
+                }
 
-                <?= Html::beginForm([
-                    'power-off',
-                    'id' => $model->id
-                ], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']) ?>
-                <?php Modal::begin([
+
+                echo Html::beginForm(['power-off'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::hiddenInput('id', $model->id);
+
+                Modal::begin([
                     'toggleButton'  => [
                         'label'    => Yii::t('app', 'Reset password'),
                         'class'    => 'btn btn-default',
@@ -317,10 +306,8 @@ Pjax::begin(Yii::$app->params['pjax']);
                 <?= Html::endForm() ?>
 
                 <?php
-                echo Html::beginForm([
-                    'reinstall',
-                    'id' => $model->id
-                ], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::beginForm(['reinstall'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
+                echo Html::hiddenInput('id', $model->id);
                 Modal::begin([
                     'toggleButton'  => [
                         'label'    => Yii::t('app', 'Reinstall OS'),
@@ -418,6 +405,4 @@ $this->registerJs("var osparams = " . Json::encode($grouped_osimages['oses']) . 
     osparams: osparams
     });
     ", \yii\web\View::POS_READY, 'os-selector-init'); ?>
-</div>
-</div>
 <?php Pjax::end();
