@@ -1,6 +1,9 @@
 <?php
+
 namespace frontend\models;
-class Ref extends \frontend\components\hiresource\ActiveRecord {
+
+class Ref extends \frontend\components\hiresource\ActiveRecord
+{
 
     public static function getList($name, $translate=true)
     {

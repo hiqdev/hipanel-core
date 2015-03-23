@@ -5,6 +5,8 @@ use frontend\components\grid\ClientColumn;
 use frontend\components\grid\EditableColumn;
 use frontend\components\grid\ResellerColumn;
 use frontend\components\grid\SwitchColumn;
+use frontend\components\grid\MainColumn;
+use frontend\components\grid\RefColumn;
 use frontend\components\widgets\GridView;
 use frontend\modules\domain\widgets\Expires;
 use frontend\modules\domain\widgets\State;
@@ -33,31 +35,23 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'class'                 => ClientColumn::className(),
         ],
         [
+            'class'                 => MainColumn::className(),
             'attribute'             => 'domain',
-            'label'                 => Yii::t('app', 'Name'),
-            'format'                => 'html',
-            'value'                 => function ($model) {
-                return Html::a($model->domain, ['view', 'id' => $model->id], ['class' => 'bold']);
-            },
         ],
         [
+            'class'                 => RefColumn::className(),
             'attribute'             => 'state',
             'format'                => 'raw',
             'value'                 => function ($model) {
                 return State::widget(compact('model'));
             },
-            'filter'                => Html::activeDropDownList($searchModel, 'state', Ref::getList('state,domain'), [
-                'class'     => 'form-control',
-                'prompt'    => Yii::t('app', '---'),
-            ]),
+            'gtype'                 => 'state,domain',
         ],
         [
             'class'                 => SwitchColumn::className(),
             'attribute'             => 'whois_protected',
             'popover'               => 'WHOIS protection',
-            'headerOptions'         => ['style' => 'width:1em'],
             'pluginOptions'         => [
-                'size'      => 'mini',
                 'onColor'   => 'success',
                 'offColor'  => 'warning',
             ],
@@ -66,20 +60,19 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'class'                 => SwitchColumn::className(),
             'attribute'             => 'is_secured',
             'popover'               => Yii::t('app', 'Protection from transfer'),
-            'headerOptions'         => ['style' => 'width:1em'],
-            'pluginOptions'         => [
-                'size'      => 'mini',
-            ],
         ],
         [
             'class'                 => EditableColumn::className(),
             'attribute'             => 'note',
+            'filter'                => true,
             'popover'               => Yii::t('app','Make any notes for your convenience'),
             'action'                => ['set-note'],
         ],
         [
             'attribute'             => 'created_date',
             'format'                => 'date',
+            'filter'                => false,
+            'contentOptions'        => ['class' => 'text-nowrap'],
         ],
         [
             'attribute'             => 'expires',
@@ -88,15 +81,14 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'value'                 => function ($model) {
                 return Expires::widget(compact('model'));
             },
+            'filter'                => false,
         ],
         [
             'class'                 => SwitchColumn::className(),
             'attribute'             => 'autorenewal',
             'label'                 => 'Autorenew',
             'popover'               => 'The domain will be autorenewed for one year in a week before it expires if you have enough credit on your account',
-            'headerOptions'         => ['style' => 'width:1em'],
             'pluginOptions'         => [
-                'size'      => 'mini',
                 'onColor'   => 'info',
             ],
         ],

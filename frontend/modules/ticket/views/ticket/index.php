@@ -1,17 +1,18 @@
 <?
 
-use frontend\components\widgets\GridActionButton;
 use frontend\components\Re;
-use frontend\modules\ticket\widgets\Label;
-use frontend\modules\ticket\widgets\Topic;
+use frontend\components\grid\RefColumn;
 use frontend\components\widgets\GridView;
 use frontend\components\widgets\Select2;
+use frontend\components\widgets\GridActionButton;
+use frontend\modules\ticket\widgets\Label;
+use frontend\modules\ticket\widgets\Topic;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = Yii::t('app', 'Tickets');
-$this->params['breadcrumbs'][] = $this->title;
-$this->params['subtitle'] = 'full list';
+$this->title                    = Yii::t('app', 'Tickets');
+$this->params['breadcrumbs'][]  = $this->title;
+$this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
 ?>
 <div class="box">
     <div class="box-header">
@@ -28,10 +29,8 @@ $this->params['subtitle'] = 'full list';
         ]); ?>
     </div>
     <div class="box-body">
-
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            //    'tableOptions' => ['class' => 'table-condensed'],
             'filterModel' => $searchModel,
             'id' => 'ticket-grid',
             'columns' => [
@@ -86,34 +85,30 @@ $this->params['subtitle'] = 'full list';
                     ]),
                 ],
                 [
-                    'attribute' => 'priority',
-                    'format' => 'raw',
-                    'value' => function ($data) {
+                    'class'                 => RefColumn::className(),
+                    'attribute'             => 'priority',
+                    'gtype'                 => 'type,priority',
+                    'format'                => 'raw',
+                    'value'                 => function ($data) {
                         return Label::widget([
                             'type' => 'priority',
                             'label' => Re::l($data->priority_label),
                             'value' => $data->priority,
                         ]);
                     },
-                    'filter' => Html::activeDropDownList($searchModel, 'priority', \frontend\models\Ref::getList('type,priority'), [
-                        'class' => 'form-control',
-                        'prompt' => Yii::t('app', '--'),
-                    ]),
                 ],
                 [
-                    'attribute' => 'state',
-                    'format' => 'html',
-                    'value' => function ($data) {
+                    'class'                 => RefColumn::className(),
+                    'attribute'             => 'state',
+                    'gtype'                 => 'state,thread',
+                    'format'                => 'raw',
+                    'value'                 => function ($data) {
                         return Label::widget([
                             'type' => 'state',
                             'label' => Re::l($data->state_label),
                             'value' => $data->state,
                         ]);
                     },
-                    'filter' => Html::activeDropDownList($searchModel, 'state', $state_data, [
-                        'class' => 'form-control',
-                        'prompt' => Yii::t('app', '--')
-                    ]),
                 ],
                 [
                     'attribute' => 'responsible_id',

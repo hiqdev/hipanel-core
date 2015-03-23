@@ -6,19 +6,7 @@ use Yii;
 
 class Tariff extends \frontend\components\hiresource\ActiveRecord
 {
-    /** @inheritdoc */
-    public function attributes () {
-        return [
-            'id',
-            'seller_id','client_id',
-            'seller','client',
-            'name',
-            'note','included_in',
-            'type','state',
-            'label','descr','type_label',
-            'used',
-        ];
-    }
+    use \frontend\components\ModelTrait;
 
     /** @inheritdoc */
     public function rules () {

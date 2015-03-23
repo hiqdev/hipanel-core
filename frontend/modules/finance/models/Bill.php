@@ -1,24 +1,13 @@
 <?php
+
 namespace frontend\modules\finance\models;
 
 use Yii;
 
-class Bill extends \frontend\components\hiresource\ActiveRecord
+class Bill extends \frontend\components\Model
 {
-    /** @inheritdoc */
-    public function attributes () {
-        return [
-            'id',
-            'seller_id','client_id',
-            'seller','client',
-            'sum','balance',
-            'quantity',
-            'type','gtype','currency',
-            'label','descr','object','type_label',
-            'time',
-            'txn',
-        ];
-    }
+
+    use \frontend\components\ModelTrait;
 
     /** @inheritdoc */
     public function rules () {
