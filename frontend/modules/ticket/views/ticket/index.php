@@ -1,4 +1,4 @@
-<?
+<?php
 
 use frontend\components\Re;
 use frontend\components\grid\GridView;

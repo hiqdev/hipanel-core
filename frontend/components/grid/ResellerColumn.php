@@ -6,8 +6,13 @@ use frontend\components\widgets\Select2;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-class ResellerColumn extends DataColumn
+class ResellerColumn extends ClientColumn
 {
+    public $attribute = 'seller_id';
+
+    public $listAction = 'seller-list';
+
+/*
     public function init () {
         parent::init();
         \Yii::configure($this,[
@@ -26,4 +31,5 @@ class ResellerColumn extends DataColumn
             ]),
         ]);
     }
+*/
 }
