@@ -14,6 +14,7 @@ class Client extends \frontend\components\hiresource\ActiveRecord
             'id', 'seller_id',
             'client', 'seller',
             'type', 'state',
+            'type_id', 'state_id',
             'tariff_id',
             'balance',
             'credit',
@@ -40,13 +41,13 @@ class Client extends \frontend\components\hiresource\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'id', 'credit', ], 'integer', 'on' => 'setcredit' ],
-            [[ 'id', 'type', 'comment', ], 'safe', 'on' => 'setblock' ],
-            [[ 'id', 'language', ], 'safe', 'on' => 'setlanguage' ],
-            [[ 'id', 'seller_id',], 'integer', 'on' => 'setseller' ],
+            [[ 'id', 'credit', 'seller_id', 'state_id', 'type_id'], 'integer'],
+            [[ 'id', 'credit', ], 'required', 'on' => 'set-credit' ],
+            [[ 'id', 'type', 'comment', ], 'safe', 'on' => 'set-block' ],
+            [[ 'id', 'language', ], 'safe', 'on' => 'set-language' ],
+            [[ 'id', 'seller_id',], 'integer', 'on' => 'set-seller' ],
             [[ 'type' ], 'safe' ],
             [[ 'client', 'seller' ], 'safe' ],
-            [[ 'id','seller_id' ], 'integer'],
         ];
     }
 

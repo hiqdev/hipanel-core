@@ -27,14 +27,14 @@ $widgetButtonConfig = [
         [
             'label'     => Yii::t('app','Tariff'),
             'options'   => [
-                'class'     => 'btn-xs' . ($tpl=='_tariff' ? ' active' : ''),
+                'class'     => 'btn-xs' . ($add['tpl'] == '_tariff' ? ' active' : ''),
                 'data-view' => '_tariff'
             ],
         ],
         [
             'label'     => Yii::t('app','Card'),
             'options'   => [
-                'class'     => 'btn-xs' . ($tpl=='_card' ? ' active' : ''),
+                'class'     => 'btn-xs' . ($add['tpl'] == '_card' ? ' active' : ''),
                 'data-view' => '_card',
             ],
         ],
@@ -94,7 +94,7 @@ $widgetIndexConfig = [
         'email',
     ],
 ];
-switch ($tpl) {
+switch ($add['tpl']) {
     case '_card':
         $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConfig['columns'], [
             [
@@ -105,10 +105,18 @@ switch ($tpl) {
                 'label'     => Yii::t('app','Balance'),
                 'format'    => 'html',
                 'value'     => function ($data) {
-                    return Yii::t('app','Balance') . ": " . HTML::tag('span', $data->balance, $data->balance < 0 ? 'color="red"' : '') .
-                    "<br/>" .
-                    Yii::t('app','Credit') .": ". HTML::a($data->credit, ['/client/client/set-credit','id'=>$data->id, [] ]);
+                    return Yii::t('app','Balance') . ": " . HTML::tag('span', $data->balance, $data->balance < 0 ? 'color="red"' : '');
                 },
+            ],
+            [
+                'class'                 => EditableColumn::className(),
+                'attribute'             => 'credit',
+                'filter'                => false,
+                'popover'               => Yii::t('app','Set credit'),
+                'action'                => ['set-credit']
+            ],
+            [
+                'label'     => Yii::t('app','Credit'),
             ],
         ]);
         break;
@@ -127,7 +135,34 @@ switch ($tpl) {
                     ]
                 ),
             ],
-       ]);
+        ]);
+        break;
+    default:
+        $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConfig['columns'], [
+            [
+                'attribute' => 'name',
+                'label'     => Yii::t('app','Name'),
+            ],
+            [
+                'label'     => Yii::t('app','Balance'),
+                'format'    => 'html',
+                'value'     => function ($data) {
+                    return Yii::t('app','Balance') . ": " . HTML::tag('span', $data->balance, $data->balance < 0 ? 'color="red"' : '');
+                },
+            ],
+            [
+                'class'                 => EditableColumn::className(),
+                'attribute'             => 'credit',
+                'filter'                => false,
+                'popover'               => Yii::t('app','Set credit'),
+                'action'                => ['set-credit']
+            ],
+            [
+                'label'     => Yii::t('app','Credit'),
+            ],
+        ]);
+        break;
+
 }
 
 $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConfig['columns'], [

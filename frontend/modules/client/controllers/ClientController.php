@@ -4,6 +4,7 @@ namespace frontend\modules\client\controllers;
 
 class ClientController extends \frontend\components\CrudController {
 
+
     public function actionSetCredit ($id = null, $ids = []) {
         return $this->performRequest([
             'id'        => $id,
