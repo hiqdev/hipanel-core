@@ -32,17 +32,11 @@ class Domain extends \frontend\components\Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'                    => Yii::t('app', 'ID'),
+        return $this->margeAttributeLabels([
             'epp_client_id'         => Yii::t('app', 'EPP client ID'),
             'remoteid'              => Yii::t('app', 'Remote ID'),
-            'state'                 => Yii::t('app', 'Status'),
-            'state_label'           => Yii::t('app', 'Status'),
             'statuses'              => Yii::t('app', 'Statuses'),
-            'errors'                => Yii::t('app', 'Errors'),
-            'name'                  => Yii::t('app', 'Name'),
             'zone_id'               => Yii::t('app', 'Zone ID'),
-            'zone'                  => Yii::t('app', 'Zone'),
             'domain'                => Yii::t('app', 'Domain Name'),
             'note'                  => Yii::t('app', 'Notes'),
             'nameservers'           => Yii::t('app', 'Name Servers'),
@@ -57,13 +51,8 @@ class Domain extends \frontend\components\Model
             'whois_protected'       => Yii::t('app', 'WHOIS'),
             'is_secured'            => Yii::t('app', 'Lock'),
             'is_holded'             => Yii::t('app', ' label'),
-            'autorenewal'           => Yii::t('app', 'Autorenewal'),
             'is_freezed'            => Yii::t('app', ' label'),
-            'client_id'             => Yii::t('app', 'Client ID'),
-            'client'                => Yii::t('app', 'Client'),
             'client_name'           => Yii::t('app', 'Client Name'),
-            'seller_id'             => Yii::t('app', 'Seller ID'),
-            'seller'                => Yii::t('app', 'Seller'),
             'seller_name'           => Yii::t('app', 'Seller Name'),
             'foa_sent_to'           => Yii::t('app', ' label'),
             'is_premium'            => Yii::t('app', ' label'),
@@ -76,6 +65,6 @@ class Domain extends \frontend\components\Model
             'daysleft'              => Yii::t('app', ' label'),
             'is_expired'            => Yii::t('app', ' label'),
             'expires_soon'          => Yii::t('app', ' label'),
-        ];
+        ]);
     }
 }

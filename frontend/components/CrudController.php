@@ -110,10 +110,9 @@ class CrudController extends Controller
         $data = $searchModel->search($searchCond)->getModels();
 
         foreach ($data as $k => $v) {
-            if ($wrapper) $result[$wrapper][$k] = AH::toArray($v, $props);
-            else $result[$k] = AH::toArray($v, $props);
+            $result[$k] = AH::toArray($v, $props);
         }
-        return $this->renderJson($result);
+        return $this->renderJson($wrapper ? [$wrapper => $result] : $result);
     }
 
     public function actionInfo () {

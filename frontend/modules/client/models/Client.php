@@ -1,54 +1,30 @@
 <?php
+
 namespace frontend\modules\client\models;
 
 use Yii;
 
-class Client extends \frontend\components\hiresource\ActiveRecord
-{
-    /**
-     * @return array the list of attributes for this record
-     */
-    public function attributes()
-    {
-        return [
-            'id', 'seller_id',
-            'client', 'seller',
-            'type', 'state',
-            'type_id', 'state_id',
-            'tariff_id',
-            'balance',
-            'credit',
-            'tariff_name',
-            'create_time',
-            // create/update
-            'email',
-            'referer',
-            'language',
-            'confirm_url',
-            // with_contact
-            'login',
-            'name',
-            'first_name',
-            'last_name',
-            // count
-            'count',
-            'contact',
-            'comment',
-            'login_like',
-        ];
-    }
+class Client extends \frontend\components\Model {
+
+    use \frontend\components\ModelTrait;
 
     public function rules()
     {
         return [
-            [[ 'id', 'credit', 'seller_id', 'state_id', 'type_id'], 'integer'],
-            [[ 'id', 'credit', ], 'required', 'on' => 'set-credit' ],
-            [[ 'id', 'type', 'comment', ], 'safe', 'on' => 'set-block' ],
-            [[ 'id', 'language', ], 'safe', 'on' => 'set-language' ],
-            [[ 'id', 'seller_id',], 'integer', 'on' => 'set-seller' ],
-            [[ 'type' ], 'safe' ],
-            [[ 'client', 'seller' ], 'safe' ],
+            [[ 'id', 'credit', 'balance', 'seller_id', 'state_id', 'type_id', 'state_id', 'tariff_id', 'profile_id'],   'integer'],
+            [[ 'login', 'seller', 'state', 'type', 'tariff', 'profile'],                                                'safe'],
+            [[ 'count', 'confirm_url', 'language', 'comment' ], 'safe'],
+            [[ 'create_time', 'update_time'], 'date'],
+            [[ 'email'], 'email'],
+            [[ 'id', 'credit', ],           'required', 'on' => 'set-credit' ],
+            [[ 'id', 'type', 'comment', ],  'required', 'on' => 'set-block' ],
+            [[ 'id', 'language', ],         'required', 'on' => 'set-language' ],
+            [[ 'id', 'seller_id',],         'required', 'on' => 'set-seller' ],
         ];
+    }
+
+    public function attributeLabels () {
+        return $this->margeAttributeLabels([]);
     }
 
 }

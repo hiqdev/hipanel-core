@@ -26,17 +26,8 @@ class Bill extends \frontend\components\Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'                    => Yii::t('app', 'ID'),
-            'seller_id'             => Yii::t('app', 'Reseller ID'),
-            'client_id'             => Yii::t('app', 'Client ID'),
-            'seller'                => Yii::t('app', 'Reseller'),
-            'client'                => Yii::t('app', 'Client'),
-            'state'                 => Yii::t('app', 'State'),
-            'quantity'              => Yii::t('app', 'Quantity'),
-            'time'                  => Yii::t('app', 'Time'),
-            'label'                 => Yii::t('app', 'Label'),
+        return $this->margeAttributeLabels([
             'descr'                 => Yii::t('app', 'Description'),
-        ];
+        ]);
     }
 }
