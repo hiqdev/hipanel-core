@@ -1,7 +1,8 @@
 <?php
+
 use frontend\components\Re;
+use frontend\components\grid\GridView;
 use frontend\components\widgets\GridActionButton;
-use frontend\components\widgets\GridView;
 use frontend\components\widgets\RequestState;
 use frontend\components\widgets\Pjax;
 use frontend\components\widgets\Select2;
@@ -79,7 +80,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                                 'model' => $model
                             ]);
                         },
-                        'filter'    => Html::activeDropDownList($searchModel, 'state', $states, [
+                        'filter'    => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,account', true), [
                             'class'  => 'form-control',
                             'prompt' => Yii::t('app', '--'),
                         ]),
@@ -89,7 +90,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                         'value'     => function ($model) {
                             return Re::l($model->type_label);
                         },
-                        'filter'    => Html::activeDropDownList($searchModel, 'type', $types, [
+                        'filter'    => Html::activeDropDownList($searchModel, 'type', \frontend\models\Ref::getList('type,account', true), [
                             'class'  => 'form-control',
                             'prompt' => Yii::t('app', '---')
                         ])

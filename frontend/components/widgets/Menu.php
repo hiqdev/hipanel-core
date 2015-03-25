@@ -179,6 +179,11 @@ class Menu extends \yii\widgets\Menu
                         'url' => ['/client/article/index'],
                         'icon' => 'fa-circle-o',
                     ],
+                    [
+                        'label' => Yii::t('app', 'Contact list'),
+                        'url' => ['/client/contact/index'],
+                        'icon' => 'fa-circle-o',
+                    ],
                 ]
             ],
             [
@@ -279,7 +284,7 @@ class Menu extends \yii\widgets\Menu
                     ],
                     [
                         'label' => Yii::t('app', 'DataBases'),
-                        'url' => ['/hosting/database/index'],
+                        'url' => ['/hosting/db/index'],
                         'icon' => 'fa-database',
                     ],
                 ]

@@ -11,17 +11,29 @@ class SwitchColumn extends DataColumn
     /** @inheritdoc */
     public $format = 'raw';
 
-    /** @inheritdoc */
+    /** @var boolean Filtering is disabled for SwitchColumn */
+    public $filter = false;
+
+    /** @var array pluginOptions for widget */
     public $pluginOptions = [];
 
+    /** @inheritdoc */
+    public $defaultOptions = [
+        'headerOptions' => [
+            'style' => 'width:1em !important',
+        ],
+        'pluginOptions'         => [
+            'size'      => 'mini',
+        ],
+    ];
+
     public function getDataCellValue ($model, $key, $index) {
-        $options = ArrayHelper::merge($this->pluginOptions,[
-            'state'             => (boolean)parent::getDataCellValue($model,$key,$index),
-            'onSwitchChange'    => new JsExpression('function () { console.log("hello"); }'),
-        ]);
         return SwitchInput::widget([
             'name'          => 'swc'.$key.$model->id,
-            'pluginOptions' => $options,
+            'pluginOptions' => ArrayHelper::merge($this->pluginOptions,[
+                'state'             => (boolean)parent::getDataCellValue($model,$key,$index),
+                'onSwitchChange'    => new JsExpression('function () { console.log("hello"); }'),
+            ]),
         ]);
     }
 }

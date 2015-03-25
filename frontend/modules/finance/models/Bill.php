@@ -1,24 +1,13 @@
 <?php
+
 namespace frontend\modules\finance\models;
 
 use Yii;
 
-class Bill extends \frontend\components\hiresource\ActiveRecord
+class Bill extends \frontend\components\Model
 {
-    /** @inheritdoc */
-    public function attributes () {
-        return [
-            'id',
-            'seller_id','client_id',
-            'seller','client',
-            'sum','balance',
-            'quantity',
-            'type','gtype','currency',
-            'label','descr','object','type_label',
-            'time',
-            'txn',
-        ];
-    }
+
+    use \frontend\components\ModelTrait;
 
     /** @inheritdoc */
     public function rules () {
@@ -37,17 +26,8 @@ class Bill extends \frontend\components\hiresource\ActiveRecord
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'                    => Yii::t('app', 'ID'),
-            'seller_id'             => Yii::t('app', 'Reseller ID'),
-            'client_id'             => Yii::t('app', 'Client ID'),
-            'seller'                => Yii::t('app', 'Reseller'),
-            'client'                => Yii::t('app', 'Client'),
-            'state'                 => Yii::t('app', 'State'),
-            'quantity'              => Yii::t('app', 'Quantity'),
-            'time'                  => Yii::t('app', 'Time'),
-            'label'                 => Yii::t('app', 'Label'),
+        return $this->margeAttributeLabels([
             'descr'                 => Yii::t('app', 'Description'),
-        ];
+        ]);
     }
 }

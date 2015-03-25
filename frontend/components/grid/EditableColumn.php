@@ -3,9 +3,7 @@
 namespace frontend\components\grid;
 
 use yii\helpers\Url;
-use yii\helpers\Json;
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class EditableColumn

@@ -6,6 +6,8 @@ use frontend\components\widgets\Select2;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
+use yii\web\JsExpression;
+
 class ClientColumn extends DataColumn
 {
     public function init () {
@@ -22,7 +24,21 @@ class ClientColumn extends DataColumn
             'filter'                => Select2::widget([
                 'attribute' => 'client_id',
                 'model'     => $this->grid->filterModel,
-                'url'       => Url::toRoute(['/client/client/client-all-list']),
+                'url'       => Url::toRoute(['/client/client/list']),
+                'settings'  => [
+                    'ajax'      => [
+                        'data'      => new JsExpression('function(term,page) { return {"rename[text]":"login",wrapper:"results", client_like:term}; }'),
+                    ],
+                    'initSelection'      => new JsExpression('function (elem, callback) {
+                        var id=$(elem).val();
+                        $.ajax("' . Url::toRoute(['/client/client/list']) . '?id=" + id, {
+                            dataType: "json",
+                            data : {"rename[text]":"login",wrapper:"results" }
+                        }).done(function(data) {
+                            callback(data.results[0]);
+                        });
+                    }'),
+                ],
             ]),
         ]);
     }
