@@ -22,17 +22,9 @@ class Backup extends \frontend\components\Model
     /** @inheritdoc */
     public function attributeLabels () {
         return $this->margeAttributeLabels([
-            'id'                    => Yii::t('app', 'ID'),
-            'service_id'            => Yii::t('app', 'Service ID'),
             'object_id'             => Yii::t('app', 'Object ID'),
-            'server_id'             => Yii::t('app', 'Server ID'),
-            'account_id'            => Yii::t('app', 'Account ID'),
-            'client_id'             => Yii::t('app', 'Client ID'),
             'ty_id'                 => Yii::t('app', 'Type ID'),
             'ty'                    => Yii::t('app', 'Type'),
-            'type_label'            => Yii::t('app', 'Type label'),
-            'state_id'              => Yii::t('app', 'State ID'),
-            'state_label'           => Yii::t('app', 'State label'),
             'size_gb'               => Yii::t('app', 'Size in GB'),
             'method_label'          => Yii::t('app', 'Method label'),
         ]);

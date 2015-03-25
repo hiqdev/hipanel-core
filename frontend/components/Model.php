@@ -54,6 +54,7 @@ class Model extends hiresource\ActiveRecord
         $attributeLabels = [];
         $default = $this->defaultAttributeLabels();
         foreach ($this->rules() as $d) {
+            if (is_string(reset($d))) continue;
             foreach (reset($d) as $k) $attributeLabels[$k] = $labels[$k] ? : $default[$k] ? : Yii::t('app', ucfirst($k));
         }
         return $attributeLabels;

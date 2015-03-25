@@ -6,43 +6,16 @@ use frontend\components\validators\IpAddressValidator;
 use frontend\modules\server\models\Server;
 use Yii;
 
-class Account extends \frontend\components\hiresource\ActiveRecord
+class Account extends \frontend\components\Model
 {
-    /**
-     * @return array the list of attributes for this record
-     */
-    public function attributes () {
-        return [
-            'id',
-            'login',
-            'password',
-            'uid',
-            'gid',
-            'shell',
-            'client_id',
-            'client',
-            'path',
-            'home',
-            'device_id',
-            'device',
-            'ip',
-            'type',
-            'type_label',
-            'state',
-            'state_label',
-            'allowed_ips',
-            'sshftp_ips',
-            'objects_count',
-            'request_state',
-            'request_state_label',
-            'mail_settings',
-            'server',
-            'server_id',
-        ];
-    }
+    use \frontend\components\ModelTrait;
 
     public function rules () {
         return [
+            [['id', 'client_id', 'device_id', 'server_id'],                                                     'integer'],
+            [['login','password','uid','gid','shell','client','path','home','device'],                          'safe'],
+            [['type', 'type_label', 'state', 'state_label'],                                                    'safe'],
+            [['ip', 'allowed_ips', 'objects_count', 'request_state', 'request_state_label', 'mail_settings'],   'safe'],
             [
                 [
                     'login',
@@ -111,21 +84,14 @@ class Account extends \frontend\components\hiresource\ActiveRecord
      * @inheritdoc
      */
     public function attributeLabels () {
-        return [
-            'id'          => Yii::t('app', 'ID'),
-            'login'       => Yii::t('app', 'Login'),
+        return $this->margeAttributeLabels([
             'login_like'  => Yii::t('app', 'Login'),
-            'shell'       => Yii::t('app', 'Shell'),
-            'client'      => Yii::t('app', 'Client'),
-            'path'        => Yii::t('app', 'Path'),
-            'home'        => Yii::t('app', 'Home'),
-            'device'      => Yii::t('app', 'Device'),
             'type_label'  => Yii::t('app', 'state'),
             'state_label' => Yii::t('app', 'state'),
             'allowed_ips' => Yii::t('app', 'Allowed IPs'),
             'sshftp_ips'  => Yii::t('app', 'IP to access on the server via SSH or FTP'),
             'server_id'   => Yii::t('app', 'Server'),
-        ];
+        ]);
     }
 
     public function goodStates () {

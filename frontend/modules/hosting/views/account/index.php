@@ -80,7 +80,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                                 'model' => $model
                             ]);
                         },
-                        'filter'    => Html::activeDropDownList($searchModel, 'state', $states, [
+                        'filter'    => Html::activeDropDownList($searchModel, 'state', \frontend\models\Ref::getList('state,account', true), [
                             'class'  => 'form-control',
                             'prompt' => Yii::t('app', '--'),
                         ]),
@@ -90,7 +90,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                         'value'     => function ($model) {
                             return Re::l($model->type_label);
                         },
-                        'filter'    => Html::activeDropDownList($searchModel, 'type', $types, [
+                        'filter'    => Html::activeDropDownList($searchModel, 'type', \frontend\models\Ref::getList('type,account', true), [
                             'class'  => 'form-control',
                             'prompt' => Yii::t('app', '---')
                         ])
