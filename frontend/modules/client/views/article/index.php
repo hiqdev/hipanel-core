@@ -1,6 +1,6 @@
 <?php
-use frontend\components\widgets\GridView;
 
+use frontend\components\grid\GridView;
 use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'News and articles');

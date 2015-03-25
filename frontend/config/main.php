@@ -118,9 +118,6 @@ return [
         'client'    => [
             'class'     => 'app\modules\client\Module',
         ],
-        'contact'   => [
-            'class'     => 'app\modules\contact\Module',
-        ],
         'ticket'    => [
             'class'     => 'app\modules\ticket\Module',
         ],

@@ -1,7 +1,14 @@
 <?php
 
+use frontend\components\grid\CheckboxColumn;
+use frontend\components\grid\CurrentColumn;
+use frontend\components\grid\EditableColumn;
+use frontend\components\grid\ResellerColumn;
+use frontend\components\grid\SwitchColumn;
+use frontend\modules\domain\widgets\State;
+
 use yii\bootstrap\ButtonGroup;
-use frontend\components\widgets\GridView;
+use frontend\components\grid\GridView;
 use yii\web\View;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -12,7 +19,7 @@ use yii\bootstrap\Modal;
 use frontend\modules\thread\widgets\Label;
 use frontend\components\Re;
 
-$this->title = 'Clients';
+$this->title = 'Client';
 $this->params['breadcrumbs'][] = $this->title;
 
 $widgetButtonConfig = [
@@ -20,14 +27,14 @@ $widgetButtonConfig = [
         [
             'label'     => Yii::t('app','Tariff'),
             'options'   => [
-                'class'     => 'btn-xs' . ($tpl=='_tariff' ? ' active' : ''),
+                'class'     => 'btn-xs' . ($add['tpl'] == '_tariff' ? ' active' : ''),
                 'data-view' => '_tariff'
             ],
         ],
         [
             'label'     => Yii::t('app','Card'),
             'options'   => [
-                'class'     => 'btn-xs' . ($tpl=='_card' ? ' active' : ''),
+                'class'     => 'btn-xs' . ($add['tpl'] == '_card' ? ' active' : ''),
                 'data-view' => '_card',
             ],
         ],
@@ -47,82 +54,26 @@ $widgetIndexConfig = [
     'filterModel'   => $searchModel,
     'columns'       => [
         [
-            'class'         => 'frontend\components\grid\CheckboxColumn',
-            'name'          => 'ids',
+            'class'         => CheckboxColumn::className(),
         ],
         [
+            'class'         => CurrentColumn::className(),
+            'uses'          => [
+                'rename'       => [
+                    'text'         => 'login',
+                ],
+                'return'        => ['id'],
+                'term'          => 'client_like:term',
+                'wrapper'       => 'results',
+            ],
             'attribute'     => 'login',
             'label'         => Yii::t('app', 'Client'),
-            'value'         => function ($data) {
-                return  Html::a($data->login, ['/client/client/view','id'=>$data->id]);
+            'value'         => function ($model) {
+                return Html::a($model->login, ['view', 'id' => $model->id]); 
             },
-            'format'        => 'html',
-            'filterInputOptions'=> ['id' => 'id'],
-            'filter'            => \frontend\components\widgets\Select2::widget([
-                'attribute'     =>'id',
-                'model'         => $searchModel,
-                'options'       => [
-                    'id'            => 'id',
-                ],
-                'settings'      => [
-                    'allowClear'    => true,
-                    'placeholder'   =>'Type name ...',
-                    'width'         =>'100%',
-                    'triggerChange' => true,
-                    'minimumInputLength' => 3,
-                    'ajax'          => [
-                        'url'           => yii\helpers\Url::to(['client-all-list']),
-                        'dataType'      => 'json',
-                        'data'          => new JsExpression('function(term,page) { return {search:term}; }'),
-                        'results'       => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                    ],
-                    'initSelection' => new JsExpression('function (elem, callback) {
-                        var id=$(elem).val();
-                        $.ajax("' . yii\helpers\Url::to(['client-all-list']) . '?id=" + id, {
-                            dataType: "json"
-                        }).done(function(data) {
-                            callback(data.results);
-                        });
-                    }')
-                ],
-            ]),
         ],
         [
-            'attribute'     => 'seller_id',
-            'label'         => Yii::t('app','Seller'),
-            'value'         => function ($data) {
-                return  Html::a($data->seller, ['/client/client/view','id'=>$data->seller_id]);
-            },
-            'format'        => 'html',
-            'filterInputOptions'=> ['id' => 'seller_id'],
-            'filter'            => \frontend\components\widgets\Select2::widget([
-                'attribute'     =>'seller_id',
-                'model'         => $searchModel,
-                'options'       => [
-                    'id'            => 'seller_id',
-                ],
-                'settings'      => [
-                    'allowClear'    => true,
-                    'placeholder'   =>'Type name ...',
-                    'width'         =>'100%',
-                    'triggerChange' => true,
-                    'minimumInputLength' => 3,
-                    'ajax'          => [
-                        'url'           => yii\helpers\Url::to(['seller-list']),
-                        'dataType'      => 'json',
-                        'data'          => new JsExpression('function(term,page) { return {search:term}; }'),
-                        'results'       => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                    ],
-                    'initSelection' => new JsExpression('function (elem, callback) {
-                        var id=$(elem).val();
-                        $.ajax("' . yii\helpers\Url::to(['seller-list']) . '?id=" + id, {
-                            dataType: "json"
-                        }).done(function(data) {
-                            callback(data.results);
-                        });
-                    }')
-                ],
-            ]),
+            'class'         => ResellerColumn::className(),
         ],
         [
             'attribute' => 'type',
@@ -143,7 +94,7 @@ $widgetIndexConfig = [
         'email',
     ],
 ];
-switch ($tpl) {
+switch ($add['tpl']) {
     case '_card':
         $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConfig['columns'], [
             [
@@ -154,10 +105,18 @@ switch ($tpl) {
                 'label'     => Yii::t('app','Balance'),
                 'format'    => 'html',
                 'value'     => function ($data) {
-                    return Yii::t('app','Balance') . ": " . HTML::tag('span', $data->balance, $data->balance < 0 ? 'color="red"' : '') .
-                    "<br/>" .
-                    Yii::t('app','Credit') .": ". HTML::a($data->credit, ['/client/client/set-credit','id'=>$data->id, [] ]);
+                    return Yii::t('app','Balance') . ": " . HTML::tag('span', $data->balance, $data->balance < 0 ? 'color="red"' : '');
                 },
+            ],
+            [
+                'class'                 => EditableColumn::className(),
+                'attribute'             => 'credit',
+                'filter'                => false,
+                'popover'               => Yii::t('app','Set credit'),
+                'action'                => ['set-credit']
+            ],
+            [
+                'label'     => Yii::t('app','Credit'),
             ],
         ]);
         break;
@@ -176,7 +135,34 @@ switch ($tpl) {
                     ]
                 ),
             ],
-       ]);
+        ]);
+        break;
+    default:
+        $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConfig['columns'], [
+            [
+                'attribute' => 'name',
+                'label'     => Yii::t('app','Name'),
+            ],
+            [
+                'label'     => Yii::t('app','Balance'),
+                'format'    => 'html',
+                'value'     => function ($data) {
+                    return Yii::t('app','Balance') . ": " . HTML::tag('span', $data->balance, $data->balance < 0 ? 'color="red"' : '');
+                },
+            ],
+            [
+                'class'                 => EditableColumn::className(),
+                'attribute'             => 'credit',
+                'filter'                => false,
+                'popover'               => Yii::t('app','Set credit'),
+                'action'                => ['set-credit']
+            ],
+            [
+                'label'     => Yii::t('app','Credit'),
+            ],
+        ]);
+        break;
+
 }
 
 $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConfig['columns'], [
@@ -217,7 +203,11 @@ $widgetIndexConfig['columns'] = \yii\helpers\ArrayHelper::merge($widgetIndexConf
 ]);
 
 ?>
-<?= GridView::widget($widgetIndexConfig); ?>
+<div class="box box-primary">
+    <div class="box-body"
+        <?= GridView::widget($widgetIndexConfig); ?>
+    </div>
+</div>
 
 <?php
 echo Html::beginForm([

@@ -4,23 +4,20 @@ namespace frontend\components;
 
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
-use yii\base\Model;
 
 trait SearchModelTrait
 {
-    public $additional;
-    
     public function attributes () {
         return array_merge(parent::attributes(),$this->search_attributes());
     }
 
     protected function search_attributes () {
-        $res = [];
+        $attributes = [];
         foreach (parent::attributes() as $k) {
-            $res[] = $k.'_in';
-            $res[] = $k.'_like';
+            $attributes[] = $k.'_in';
+            $attributes[] = $k.'_like';
         };
-        return $res;
+        return $attributes;
     }
 
     public function rules () {
@@ -31,7 +28,7 @@ trait SearchModelTrait
 
     public function scenarios () {
         // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        return \yii\base\Model::scenarios();
     }
 
     /**

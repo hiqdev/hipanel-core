@@ -99,11 +99,12 @@ class CrudController extends Controller
     public function actionSearch () {
         $result      = [];
         $search      = \Yii::$app->request->get();
-        $searchModel = static::searchMo
-        del();
+        $searchModel = static::searchModel();
         $formName    = $searchModel->formName();
 
-        $props[static::modelClassName()] = AH::merge(AH::remove($search, 'return'), AH::remove($search, 'rename'));
+        $wrapper = AH::remove($search, 'wrapper');
+
+        $props[static::modelClassName()] = AH::merge($search['return'] ? AH::remove($search, 'return') : ['id'], AH::remove($search, 'rename'));
         $searchCond[$formName]           = $search;
 
         $data = $searchModel->search($searchCond)->getModels();
@@ -111,12 +112,15 @@ class CrudController extends Controller
         foreach ($data as $k => $v) {
             $result[$k] = AH::toArray($v, $props);
         }
-
-        return $this->renderJson($result);
+        return $this->renderJson($wrapper ? [$wrapper => $result] : $result);
     }
 
     public function actionInfo () {
-        static::actionSearch();
+        return static::actionSearch();
+    }
+
+    public function actionList () {
+        return static::actionSearch();
     }
 
     /**

@@ -1,14 +1,13 @@
 <?php
 
+use frontend\components\grid\GridView;
 use frontend\components\grid\CheckboxColumn;
 use frontend\components\grid\ClientColumn;
 use frontend\components\grid\EditableColumn;
 use frontend\components\grid\ResellerColumn;
 use frontend\components\grid\SwitchColumn;
-use frontend\components\widgets\GridView;
-use frontend\modules\domain\widgets\Expires;
-use frontend\modules\domain\widgets\State;
-use frontend\models\Ref;
+use frontend\components\grid\MainColumn;
+use frontend\components\grid\RefColumn;
 use yii\helpers\Html;
 
 $this->title                    = Yii::t('app', 'Tariffs');
@@ -33,15 +32,13 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'class'                 => ClientColumn::className(),
         ],
         [
+            'class'                 => RefColumn::className(),
             'attribute'             => 'type',
+            'gtype'                 => 'type,tariff',
         ],
         [
+            'class'                 => MainColumn::className(),
             'attribute'             => 'name',
-            'label'                 => Yii::t('app', 'Name'),
-            'format'                => 'html',
-            'value'                 => function ($model) {
-                return Html::a($model->name, ['view', 'id' => $model->id], ['class' => 'bold']);
-            },
         ],
         [
             'class'                 => EditableColumn::className(),
@@ -52,6 +49,7 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
         [
             'attribute'             => 'included_in',
             'label'                 => 'Included in profiles',
+            'filter'                => false,
         ],
         [
             'attribute'             => 'used',
