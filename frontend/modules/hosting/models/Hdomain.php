@@ -18,18 +18,8 @@ class Hdomain extends \frontend\components\Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'                    => Yii::t('app', 'ID'),
-            'state'                 => Yii::t('app', 'Status'),
+        return $this->margeAttributeLabels([
             'hdomain'               => Yii::t('app', 'Domain Name'),
-            'client_id'             => Yii::t('app', 'Client ID'),
-            'client'                => Yii::t('app', 'Client'),
-            'client_name'           => Yii::t('app', 'Client Name'),
-            'seller_id'             => Yii::t('app', 'Seller ID'),
-            'seller'                => Yii::t('app', 'Seller'),
-            'seller_name'           => Yii::t('app', 'Seller Name'),
-            'aliase'                => Yii::t('app', 'Aliase'),
-            'account'               => Yii::t('app', 'Account'),
-        ];
+        ]);
     }
 }
