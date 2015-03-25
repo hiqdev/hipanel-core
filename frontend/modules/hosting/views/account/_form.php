@@ -4,7 +4,8 @@
 /* @var $model frontend\modules\hosting\models\Account */
 /* @var $type string */
 
-use frontend\components\widgets\Select2;
+use frontend\components\widgets\PasswordInput;
+use frontend\components\widgets\Combo2;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
@@ -38,20 +39,11 @@ $action = [
                         <!-- Properties -->
 
                         <?php
-                        print $form->field($model, 'client_id');
+                        print $form->field($model, 'client_id')->widget(Combo2::className(), ['type' => 'client']);
+                        print $form->field($model, 'server_id')->widget(Combo2::className(), ['type' => 'server']);
 
-                        print $form->field($model, 'server_id');
                         print $form->field($model, 'login');
-
-                        $spell = [
-                            'random'   => Yii::t('app', 'Random'),
-                            'good'     => Yii::t('app', 'Good'),
-                            'better'   => Yii::t('app', 'Better'),
-                            'the best' => Yii::t('app', 'The best'),
-                        ];
-
-                        print $form->field($model, 'password')
-                                   ->widget(\frontend\components\widgets\PasswordInput::className());
+                        print $form->field($model, 'password')->widget(PasswordInput::className());
 
                         print $form->field($model, 'sshftp_ips')
                                    ->hint(Yii::t('app', 'Access to the account is opened by default. Please input the IPs, for which the access to the server will be granted'))
@@ -81,51 +73,3 @@ $action = [
 $this->registerJs("
     $('#account-sshftp_ips').popover({placement: 'top', trigger: 'focus'});
 ");
-
-\frontend\assets\Select2Asset::register($this);
-
-$this->registerJs(<<<JS
-
-$(document).ready(function () {
-	$.fn.hiSelect2Config().add('client', {
-		name: 'client',
-		type: 'client',
-		pluginOptions: {
-			ajax: {
-				url: "/client/client/search",
-				data: function (term) {
-					return $(this).data('field').form.createFilter({
-					    'client_like': {format: term},
-					    'return': ['id'],
-					    'rename': {'text': 'login'}
-					});
-				}
-			}
-		}
-	});
-
-	$.fn.hiSelect2Config().add('server', {
-		name: 'server',
-		type: 'server',
-		activeWhen: 'client',
-		pluginOptions: {
-			ajax: {
-				url: "/server/server/search",
-				data: function (term) {
-					return $(this).data('field').form.createFilter({
-					    'client': 'client',
-					    'server_like': {format: term},
-					    'return': ['id', 'client'],
-					    'rename': {'text': 'name'}
-					});
-				}
-			}
-		}
-	});
-
-    $('#w0').hiSelect2().register('#account-client_id', 'client');
-    $('#w0').hiSelect2().register('#account-server_id', 'server');
-});
-
-JS
-);

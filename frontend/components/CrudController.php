@@ -99,7 +99,8 @@ class CrudController extends Controller
     public function actionSearch () {
         $result      = [];
         $search      = \Yii::$app->request->get();
-        $searchModel = static::searchModel();
+        $searchModel = static::searchMo
+        del();
         $formName    = $searchModel->formName();
 
         $props[static::modelClassName()] = AH::merge(AH::remove($search, 'return'), AH::remove($search, 'rename'));

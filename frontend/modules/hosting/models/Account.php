@@ -117,6 +117,7 @@ class Account extends \frontend\components\hiresource\ActiveRecord
             'login_like'  => Yii::t('app', 'Login'),
             'shell'       => Yii::t('app', 'Shell'),
             'client'      => Yii::t('app', 'Client'),
+            'client_id'   => Yii::t('app', 'Client'),
             'path'        => Yii::t('app', 'Path'),
             'home'        => Yii::t('app', 'Home'),
             'device'      => Yii::t('app', 'Device'),
