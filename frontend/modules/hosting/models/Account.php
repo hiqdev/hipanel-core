@@ -86,11 +86,6 @@ class Account extends \frontend\components\Model
     public function attributeLabels () {
         return $this->margeAttributeLabels([
             'login_like'  => Yii::t('app', 'Login'),
-            'shell'       => Yii::t('app', 'Shell'),
-            'client'      => Yii::t('app', 'Client'),
-            'path'        => Yii::t('app', 'Path'),
-            'home'        => Yii::t('app', 'Home'),
-            'device'      => Yii::t('app', 'Device'),
             'type_label'  => Yii::t('app', 'state'),
             'state_label' => Yii::t('app', 'state'),
             'allowed_ips' => Yii::t('app', 'Allowed IPs'),
