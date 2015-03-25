@@ -11,25 +11,22 @@ class Ip extends \frontend\components\Model
     /** @inheritdoc */
     public function rules () {
         return [
-            [['id'],                                'integer'],
-            [['ip','objects_count', 'tags'],        'safe'],
+            [['id', 'client_id'],                       'integer'],
+            [['ip','objects_count', 'tags', 'client'],  'safe'],
+            [['prefix', 'family'],                      'safe'],
+            [['type', 'state', 'state_label'],          'safe'],
+            [['links', 'expanded_ips', 'ip_normalized'],'safe'],
+            [['is_single'],                             'bool'],
         ];
     }
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'                    => Yii::t('app', 'ID'),
-            'state'                 => Yii::t('app', 'Status'),
-            'hdomain'               => Yii::t('app', 'Domain Name'),
-            'client_id'             => Yii::t('app', 'Client ID'),
-            'client'                => Yii::t('app', 'Client'),
-            'client_name'           => Yii::t('app', 'Client Name'),
-            'seller_id'             => Yii::t('app', 'Seller ID'),
-            'seller'                => Yii::t('app', 'Seller'),
-            'seller_name'           => Yii::t('app', 'Seller Name'),
-            'aliase'                => Yii::t('app', 'Aliase'),
-            'account'               => Yii::t('app', 'Account'),
-        ];
+        return $this->margeAttributeLabels([
+            'objects_count'         => Yii::t('app', 'Count of objects'),
+            'is_single'             => Yii::t('app', 'Single'),
+            'ip_normalized'         => Yii::t('app', 'Normalized IP'),
+            'expanded_ips'          => Yii::t('app', 'Expanded IPs'),
+        ]);
     }
 }
