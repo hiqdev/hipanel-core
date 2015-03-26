@@ -3,18 +3,13 @@
 use frontend\components\grid\GridView;
 use frontend\components\grid\CheckboxColumn;
 use frontend\components\grid\ClientColumn;
-use frontend\components\grid\EditableColumn;
-use frontend\components\grid\ResellerColumn;
+use frontend\components\grid\AccountColumn;
 use frontend\components\grid\ServerColumn;
 use frontend\components\grid\SwitchColumn;
 use frontend\components\grid\MainColumn;
-use frontend\components\grid\RefColumn;
-use frontend\modules\domain\widgets\Expires;
-use frontend\modules\domain\widgets\State;
-use frontend\models\Ref;
 use yii\helpers\Html;
 
-$this->title                    = Yii::t('app', 'IP');
+$this->title                    = Yii::t('app', 'Backuping');
 $this->params['breadcrumbs'][]  = $this->title;
 $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
 
@@ -30,30 +25,37 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'class'                 => CheckboxColumn::className(),
         ],
         [
+            'class'                 => ClientColumn::className(),
+        ],
+        [
+            'class'                 => AccountColumn::className(),
+        ],
+        [
+            'attribute'             => 'object',
+        ],
+        [
             'class'                 => MainColumn::className(),
-            'attribute'             => 'ip',
+            'attribute'             => 'name',
         ],
         [
-            'attribute'             => 'tags',
-            'format'                => 'html',
-            'value'                 => function ($model) {
-                if (!$model->tags) return "";
-                $html = "";
-                foreach ($model->tags as $tag) $html .= "<div class='$tag'>$tag</div>";
-                return $html;
-            },
+            'attribute'             => 'backup_count',
         ],
         [
-            'attribute'             => 'objects_count',
-            'format'                => 'html',
-            'label'                 => Yii::t('app', 'Links'),
-            'value'                 => function ($model) {
-                $links = "";
-                foreach ($model->objects_count as $class => $stat) {
-                    $links .= Html::a("ok", "$class/$class/index");
-                }
-                return $links;
-            }
+            'class'                 => SwitchColumn::className(),
+            'attribute'             => 'type_label',
+        ],
+        [
+            'attribute'             => 'state_label',
+        ],
+        [
+            'attribute'             => 'backup_last',
+        ],
+        [
+            'attribute'             => 'total_du_gb',
+        ],
+        [
+            'class'                 => 'yii\grid\ActionColumn',
+            'template'              => '{enable} {disable} {delete}',
         ],
     ],
 ]) ?>

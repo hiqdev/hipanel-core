@@ -13,25 +13,21 @@ class Request extends Model
     /** @inheritdoc */
     public function rules () {
         return [
-            [['id'], 'integer'],
-            [['ip', 'objects_count', 'tags'], 'safe'],
+            [['id', 'object_id', 'service_id', 'client_id', 'account_id', 'server_id'], 'integer'],
+            [['realm', 'object', 'service', 'client', 'account', 'server'],             'safe'],
+            [['type', 'type_label', 'state', 'state_label'],                            'safe'],
+            [['tries_left', 'pid', 'time_lag'],                                         'integer'],
+            [['object_name'],                                                           'safe'],
+            [['time'],                                                                  'date'],
         ];
     }
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'          => Yii::t('app', 'ID'),
-            'state'       => Yii::t('app', 'Status'),
-            'hdomain'     => Yii::t('app', 'Domain Name'),
-            'client_id'   => Yii::t('app', 'Client ID'),
-            'client'      => Yii::t('app', 'Client'),
-            'client_name' => Yii::t('app', 'Client Name'),
-            'seller_id'   => Yii::t('app', 'Seller ID'),
-            'seller'      => Yii::t('app', 'Seller'),
-            'seller_name' => Yii::t('app', 'Seller Name'),
-            'alias'       => Yii::t('app', 'Alias'),
-            'account'     => Yii::t('app', 'Account'),
-        ];
+        return $this->margeAttributeLabels([
+            'object_name'           => Yii::t('app', 'Object Name'),
+            'tries_left'            => Yii::t('app', 'Tries left'),
+            'time_lag'              => Yii::t('app', 'Time lag'),
+        ]);
     }
 }

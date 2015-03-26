@@ -13,25 +13,19 @@ class Service extends Model
     /** @inheritdoc */
     public function rules () {
         return [
-            [['id'], 'integer'],
-            [['ip', 'objects_count', 'tags'], 'safe'],
+            [['id', 'server_id', 'device_id', 'client_id', 'soft_id'],  'integer'],
+            [['name', 'server', 'device', 'client', 'soft'],            'safe'],
+            [['ip','bin','etc'],                                        'safe'],
+            [['soft_type', 'soft_type_label', 'state', 'state_label'],  'safe'],
         ];
     }
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'          => Yii::t('app', 'ID'),
-            'state'       => Yii::t('app', 'Status'),
-            'hdomain'     => Yii::t('app', 'Domain Name'),
-            'client_id'   => Yii::t('app', 'Client ID'),
-            'client'      => Yii::t('app', 'Client'),
-            'client_name' => Yii::t('app', 'Client Name'),
-            'seller_id'   => Yii::t('app', 'Seller ID'),
-            'seller'      => Yii::t('app', 'Seller'),
-            'seller_name' => Yii::t('app', 'Seller Name'),
-            'alias'       => Yii::t('app', 'Alias'),
-            'account'     => Yii::t('app', 'Account'),
-        ];
+        return $this->margeAttributeLabels([
+            'soft_id'           => Yii::t('app', 'Soft ID'),
+            'soft_type'         => Yii::t('app', 'Soft Type'),
+            'soft_type_label'   => Yii::t('app', 'Soft type label'),
+        ]);
     }
 }

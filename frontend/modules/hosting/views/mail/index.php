@@ -14,14 +14,19 @@ use frontend\modules\domain\widgets\State;
 use frontend\models\Ref;
 use yii\helpers\Html;
 
-$this->title                    = Yii::t('app', 'IP');
+$this->title                    = Yii::t('app', 'Mail');
 $this->params['breadcrumbs'][]  = $this->title;
 $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
 
 ?>
 
-<div class="box box-primary">
-<div class="box-body">
+<div class="box">
+    <div class="box-header">
+        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
+            'modelClass' => 'mail',
+        ]), ['create'], ['class' => 'btn btn-success']); ?>
+    </div>
+    <div class="box-body">
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
@@ -30,32 +35,26 @@ $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered li
             'class'                 => CheckboxColumn::className(),
         ],
         [
-            'class'                 => MainColumn::className(),
-            'attribute'             => 'ip',
+            'class'                 => ClientColumn::className(),
         ],
         [
-            'attribute'             => 'tags',
-            'format'                => 'html',
-            'value'                 => function ($model) {
-                if (!$model->tags) return "";
-                $html = "";
-                foreach ($model->tags as $tag) $html .= "<div class='$tag'>$tag</div>";
-                return $html;
-            },
+            'class'                 => ServerColumn::className(),
         ],
         [
-            'attribute'             => 'objects_count',
-            'format'                => 'html',
-            'label'                 => Yii::t('app', 'Links'),
-            'value'                 => function ($model) {
-                $links = "";
-                foreach ($model->objects_count as $class => $stat) {
-                    $links .= Html::a("ok", "$class/$class/index");
-                }
-                return $links;
-            }
+            'class'                 => AccountColumn::className(),
         ],
-    ],
+        [
+            'attribute'             => 'mail',
+        ],
+        [
+            'attribute'             => 'state',
+        ],
+        [
+            'class'                 => 'yii\grid\ActionColumn',
+            'template'              => '{block} {unblock} {update} {enable} {disable} {delete}',
+        ],
+
+   ],
 ]) ?>
-</div>
+    </div>
 </div>

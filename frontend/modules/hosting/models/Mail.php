@@ -13,25 +13,21 @@ class Mail extends Model
     /** @inheritdoc */
     public function rules () {
         return [
-            [['id'], 'integer'],
-            [['ip', 'objects_count', 'tags'], 'safe'],
+            [['id', 'hdomain_id', 'client_id', 'account_id', 'server_id'],          'integer'],
+            [['mail', 'nick', 'hdomain', 'client', 'account', 'server', 'domain'],  'safe'],
+            [['type', 'state', 'state_label'],                                      'safe'],
+            [['forwards', 'spam_action', 'autoanswer', 'du_limit'],                 'safe'],
         ];
     }
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'          => Yii::t('app', 'ID'),
-            'state'       => Yii::t('app', 'Status'),
-            'hdomain'     => Yii::t('app', 'Domain Name'),
-            'client_id'   => Yii::t('app', 'Client ID'),
-            'client'      => Yii::t('app', 'Client'),
-            'client_name' => Yii::t('app', 'Client Name'),
-            'seller_id'   => Yii::t('app', 'Seller ID'),
-            'seller'      => Yii::t('app', 'Seller'),
-            'seller_name' => Yii::t('app', 'Seller Name'),
-            'alias'       => Yii::t('app', 'Alias'),
-            'account'     => Yii::t('app', 'Account'),
-        ];
+        return $this->margeAttributeLabels([
+            'hdomain'               => Yii::t('app', 'Domain Name'),
+            'domain'                => Yii::t('app', 'Domain Name'),
+            'forwards'              => Yii::t('app', 'Forward'),
+            'spam_action'           => Yii::t('app', 'Spam action'),
+            'du_limit'              => Yii::t('app', 'Disck usage limit'),
+        ]);
     }
 }

@@ -13,11 +13,11 @@ class Backup extends Model
     /** @inheritdoc */
     public function rules () {
         return [
-            [['id', 'service_id','object_id', 'server_id','account_id', 'client_id', 'ty_id', 'state_id'],    'integer'],
-            [['time'],                                                                                                      'date'],
-            [['size', 'size_gb'],                                                                                           'integer'],
-            [['service', 'method', 'server', 'account', 'client', 'name', 'ty', 'state'],                                   'safe'],
-            [['method_label', 'type_label', 'state_label'],                                                                 'safe'],
+            [['id', 'service_id','object_id', 'server_id','account_id', 'client_id', 'ty_id', 'state_id'],  'integer'],
+            [['time'],                                                                                      'date'],
+            [['size', 'size_gb'],                                                                           'integer'],
+            [['service', 'method', 'server', 'account', 'client', 'name', 'ty', 'state'],                   'safe'],
+            [['method_label', 'type_label', 'state_label'],                                                 'safe'],
         ];
     }
 
