@@ -13,6 +13,7 @@ use yii\helpers\Url;
 $this->title                    = Yii::t('app', 'Tickets');
 $this->params['breadcrumbs'][]  = $this->title;
 $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
+
 ?>
 <div class="box">
     <div class="box-header">
