@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\models;
 
+use frontend\components\SearchModelTrait;
+
 class BackupSearch extends Backup
 {
-    use \frontend\components\SearchModelTrait;
+    use SearchModelTrait;
 }

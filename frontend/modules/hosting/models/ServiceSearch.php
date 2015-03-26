@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\models;
 
+use frontend\components\SearchModelTrait;
+
 class ServiceSearch extends Service
 {
-    use \frontend\components\SearchModelTrait;
+    use SearchModelTrait;
 }

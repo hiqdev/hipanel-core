@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\models;
 
+use frontend\components\SearchModelTrait;
+
 class DbSearch extends Db
 {
-    use \frontend\components\SearchModelTrait;
+    use SearchModelTrait;
 }

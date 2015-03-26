@@ -1,12 +1,14 @@
 <?php
 namespace frontend\modules\hosting\models;
 
+use frontend\components\Model;
+use frontend\components\ModelTrait;
 use Yii;
 
-class Backuping extends \frontend\components\Model
+class Backuping extends Model
 {
 
-    use \frontend\components\ModelTrait;
+    use ModelTrait;
 
     /** @inheritdoc */
     public function rules () {
@@ -36,8 +38,8 @@ class Backuping extends \frontend\components\Model
             'skip_lock'             => Yii::t('app', 'Skip lock'),
             'backup_last'           => Yii::t('app', 'Last backup'),
             'backup_count'          => Yii::t('app', 'Count'),
-            'total_du'              => Yii::t('app', 'Total of backuk uses'),
-            'total_du_gb'           => Yii::t('app', 'Total of backuk uses in GB'),
+            'total_du'              => Yii::t('app', 'Total of backup uses'),
+            'total_du_gb'           => Yii::t('app', 'Total of backup uses in GB'),
             'method_label'          => Yii::t('app', 'Method label'),
         ]);
     }

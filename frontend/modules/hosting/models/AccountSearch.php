@@ -9,7 +9,7 @@ use yii\data\ActiveDataProvider;
 /**
  * GallerySearch represents the model behind the search form about `app\models\Gallery`.
  */
-class AccountSearch extends \frontend\modules\hosting\models\Account
+class AccountSearch extends Account
 {
     public function attributes () {
         return array_merge(parent::attributes(), [

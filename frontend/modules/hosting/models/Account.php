@@ -2,13 +2,15 @@
 namespace frontend\modules\hosting\models;
 
 use frontend\components\helpers\ArrayHelper;
+use frontend\components\Model;
+use frontend\components\ModelTrait;
 use frontend\components\validators\IpAddressValidator;
 use frontend\modules\server\models\Server;
 use Yii;
 
-class Account extends \frontend\components\Model
+class Account extends Model
 {
-    use \frontend\components\ModelTrait;
+    use ModelTrait;
 
     public function rules () {
         return [

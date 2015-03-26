@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\controllers;
 
-class DbController extends \frontend\components\CrudController
+use frontend\components\CrudController;
+
+class DbController extends CrudController
 {
 
 }

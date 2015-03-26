@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\controllers;
 
-class IpController extends \frontend\components\CrudController
+use frontend\components\CrudController;
+
+class IpController extends CrudController
 {
 
 }

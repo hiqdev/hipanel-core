@@ -10,8 +10,9 @@ use yii\helpers\Html;
 class Combo2 extends Widget
 {
     public static $builtInCombos = [
-        'client' => '\frontend\modules\client\assets\combo2\Client',
-        'server' => '\frontend\modules\server\assets\combo2\Server',
+        'client'  => 'frontend\modules\client\assets\combo2\Client',
+        'server'  => 'frontend\modules\server\assets\combo2\Server',
+        'account' => 'frontend\modules\hosting\assets\combo2\Account',
     ];
 
     /**
@@ -65,7 +66,7 @@ class Combo2 extends Widget
     /**
      * Register widget asset.
      */
-    public function registerClientScript() {
+    public function registerClientScript () {
         $view = $this->getView();
         $this->registerClientCombo2Config();
 
@@ -73,7 +74,7 @@ class Combo2 extends Widget
         $view->registerJs("$('$selector').closest('form').combo2().register('$selector', '{$this->type}');");
     }
 
-    public function registerClientCombo2Config() {
+    public function registerClientCombo2Config () {
         if (!empty(static::$builtInCombos[$this->type])) {
             Yii::createObject(static::$builtInCombos[$this->type])->register($this->clientOptions);
         } else {

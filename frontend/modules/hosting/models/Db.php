@@ -1,12 +1,14 @@
 <?php
 namespace frontend\modules\hosting\models;
 
+use frontend\components\Model;
+use frontend\components\ModelTrait;
 use Yii;
 
-class Db extends \frontend\components\Model
+class Db extends Model
 {
 
-    use \frontend\components\ModelTrait;
+    use ModelTrait;
 
     /** @inheritdoc */
     public function rules () {

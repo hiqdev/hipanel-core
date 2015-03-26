@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\controllers;
 
-class BackupController extends \frontend\components\CrudController
+use frontend\components\CrudController;
+
+class BackupController extends CrudController
 {
 
 }

@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\models;
 
+use frontend\components\SearchModelTrait;
+
 class MailSearch extends Mail
 {
-    use \frontend\components\SearchModelTrait;
+    use SearchModelTrait;
 }

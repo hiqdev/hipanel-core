@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\controllers;
 
-class MailController extends \frontend\components\CrudController
+use frontend\components\CrudController;
+
+class MailController extends CrudController
 {
 
 }

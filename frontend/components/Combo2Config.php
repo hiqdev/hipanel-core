@@ -24,7 +24,7 @@ class Combo2Config extends Object
     /** @inheritdoc */
     public function init () {
         if (!$this->url) {
-            $this->url = [implode('/', ['/' . $this->type, $this->type, 'search'])];
+            $this->url = '/' . implode('/', [$this->type, $this->type, 'search']);
         }
     }
 
@@ -42,7 +42,7 @@ class Combo2Config extends Object
                 'width'       => '100%',
                 'placeholder' => \Yii::t('app', 'Start typing here'),
                 'ajax'        => [
-                    'url'  => Url::to($this->url),
+                    'url'  => Url::toRoute($this->url),
                     'type' => 'POST',
                     'data' => new JsExpression("
                         function (term) {

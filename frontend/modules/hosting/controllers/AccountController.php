@@ -2,11 +2,12 @@
 
 namespace frontend\modules\hosting\controllers;
 
+use frontend\components\CrudController;
 use yii\web\NotFoundHttpException;
 use Yii;
 use \frontend\modules\hosting\models\Account;
 
-class AccountController extends \frontend\components\CrudController
+class AccountController extends CrudController
 {
     public function actionCreateFtp () {
         return $this->actionCreate('ftponly');
@@ -29,7 +30,7 @@ class AccountController extends \frontend\components\CrudController
         $model           = $this->findModel($id);
         $model->scenario = 'set-password';
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
-            \Yii::$app->getSession()->addFlash('success', [
+            Yii::$app->getSession()->addFlash('success', [
                 'title' => $model->login,
                 'text'  => \Yii::t('app', 'Password changing task has been successfully added to queue'),
             ]);
@@ -52,18 +53,18 @@ class AccountController extends \frontend\components\CrudController
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             $flash = [
                 'type' => 'success',
-                'text' => \Yii::t('app', 'Allowed IPs changing task has been successfully added to queue')
+                'text' => Yii::t('app', 'Allowed IPs changing task has been successfully added to queue')
             ];
         } else {
             $flash['type'] = 'error';
             if ($model->hasErrors()) {
                 $flash['text'] = $model->getFirstError('sshftp_ips');
             } else {
-                $flash['text'] = \Yii::t('app', 'An error occurred when trying to change allowed IPs');
+                $flash['text'] = Yii::t('app', 'An error occurred when trying to change allowed IPs');
             }
         }
 
-        \Yii::$app->getSession()->addFlash($flash['type'], $flash['text']);
+        Yii::$app->getSession()->addFlash($flash['type'], $flash['text']);
 
         return $this->redirect(['view', 'id' => $model->id]);
     }

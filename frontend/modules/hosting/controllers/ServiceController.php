@@ -2,7 +2,9 @@
 
 namespace frontend\modules\hosting\controllers;
 
-class ServiceController extends \frontend\components\CrudController
+use frontend\components\CrudController;
+
+class ServiceController extends CrudController
 {
 
 }
