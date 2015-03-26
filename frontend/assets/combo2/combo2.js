@@ -1,5 +1,5 @@
 (function ($, window, document, undefined) {
-	var pluginName = "hiSelect2",
+	var pluginName = "combo2",
 		defaults = {};
 
 	function Plugin(element, options) {
@@ -17,21 +17,20 @@
 			return this;
 		},
 		/**
-		 * Registers the element in the hiSelect2 form handler
+		 * Registers the element in the combo2 form handler
 		 *
 		 * @param {object} element the element's selector or the jQuery object with the element
 		 * @param {string} type the type the field (according to the config storage)
 		 * @param {object=} [options={}] the additional options that will be passed directly to the select2 config
 		 * @returns {Plugin}
-		 * @see $.fn.hiSelect2Config
+		 * @see $.fn.Combo2Config
 		 */
 		register: function (element, type, options) {
 			options = options !== undefined ? options : {};
 			if (typeof element == 'string') {
 				element = this.form.find(element);
 			}
-
-			var field = $.fn.hiSelect2Config().get({
+			var field = $.fn.combo2Config().get({
 				'type': type,
 				'form': this,
 				'pluginOptions': options
@@ -43,6 +42,7 @@
 				field: field,
 				element: element
 			});
+			this.update(new Event(element, {force: 1}));
 			return this;
 		},
 		/**
@@ -122,28 +122,32 @@
 			return filters;
 		},
 		getData: function (type) {
-			return this.getField(type).getData();
+			return $.extend(true, {}, this.getField(type).getData());
 		},
 		setValue: function (type, data) {
 			return this.getField(type).setValue(data);
 		},
-		unsetValue: function (type) {
-			return this.setValue(type, '');
-		},
 		getId: function (type) {
-			return this.getData(type).id;
+			var data = this.getData(type);
+			return !$.isEmptyObject(data) ? data.id : '';
 		},
 		getValue: function (type) {
-			return this.getData(type).text;
+			var data = this.getData(type);
+			return !$.isEmptyObject(data) ? data.text : '';
 		},
 		isSet: function (type) {
 			return this.getValue(type).length > 0;
 		},
-		disable: function (type) {
+		disable: function (type, clear) {
+			if (clear) this.clear(type);
 			return this.getField(type).disable();
 		},
-		enable: function (type) {
+		enable: function (type, clear) {
+			if (clear) this.clear(type);
 			return this.getField(type).enable();
+		},
+		clear: function (type) {
+			return this.getField(type).clear();
 		},
 		getField: function (type) {
 			var result = {};
@@ -155,42 +159,96 @@
 			});
 			return result;
 		},
-		checkActive: function (fields) {
-			var isActive = true;
+		hasField: function (type) {
+			return !$.isEmptyObject(this.getField(type));
+		},
+		areSet: function (names) {
+			var isSet = true;
 			var _this = this;
-			$.each(fields, function (k, v) {
-				if (!isActive) {
+			if (typeof names === 'string') {
+				names = [names];
+			}
+			$.each(names, function (k, v) {
+				if (!isSet) {
 					return false;
 				}
 				if ($.isFunction(v)) {
-					isActive = v(_this);
+					isSet = v(_this);
 				} else {
-					isActive = _this.isSet(v);
+					isSet = _this.isSet(v);
 				}
 			});
-			return isActive;
+			return isSet;
 		},
+		updateAffected: function (event) {
+			var _this = this;
+			var updated_field = event.element.data('field');
+			var data = event.added;
+			if (!updated_field.affects) return this;
+
+			$.each(updated_field.affects, function (k, v) {
+				var field = _this.getField(k);
+				var keys = {};
+				if ($.isEmptyObject(k)) return true;
+
+				if (typeof v == 'string') {
+					keys = {id: v + '_id', value: v};
+				} else if ($.isFunction(v)) {
+					keys = v(updated_field);
+				} else {
+					keys = v;
+				}
+
+				var id = data[keys.id];
+				var value = data[keys.value];
+				field.setData({id: id, value: value});
+			});
+			return this;
+		},
+		/**
+		 * Updates select2 states
+		 * @param event
+		 */
 		update: function (event) {
 			var _this = this;
-			//var event = new Event(originalEvent.element, originalEvent);
+			var element = event.element;
+
+			if (event.added || event.removed) {
+				this.updateAffected(event);
+			}
+
 			$.each(this.fields, function (k, v) {
 				var field = v.field;
+				var isActive = true;
+				var needsClear = false;
 
-				if (v.element == event.element) return true;
+				if (v.element[0] == element[0] && !event.force) return true;
 
 				if (field.activeWhen) {
-					var isActive = true;
-					if (!$.isArray(v.activeWhen)) {
-						field.activeWhen = [field.activeWhen];
-					}
-
 					if ($.isFunction(field.activeWhen)) {
 						isActive = field.activeWhen(field.name, _this);
 					} else {
-						isActive = _this.checkActive(field.activeWhen);
+						isActive = _this.areSet(field.activeWhen);
 					}
+				}
 
-					isActive ? _this.enable(field.type) : _this.disable(field.type);
+				if (field.clearWhen) {
+					if ($.isFunction(field.clearWhen)) {
+						needsClear = field.clearWhen(field.name, _this);
+					} else {
+						needsClear = !_this.areSet(field.clearWhen);
+					}
+					needsClear = needsClear || field.clearWhen.indexOf(element.data('field').type) >= 0;
+				}
+
+				if (isActive) {
+					_this.enable(field.type)
+				} else {
+					_this.disable(field.type, true);
+				}
+
+				if (needsClear) {
+					_this.clear(field.type);
 				}
 
 				field.trigger('update', event);
@@ -200,8 +258,8 @@
 
 	function Event(element, options) {
 		this.element = element;
-		this.options = options;
-		this.init();
+		this.options = $.extend(true, {}, options);
+		this.force = options.force;
 	}
 
 	$.fn[pluginName] = function (options) {
@@ -280,15 +338,20 @@
 		this.element = null;
 		this.config = null;
 		this.activeWhen = null;
+		this.clearWhen = null;
+		this.affects = null;
+
 		this.pluginOptions = {
 			placeholder: 'Enter a value',
 			allowClear: true,
 			initSelection: function (element, callback) {
-				var data = {
-					id: element.val(),
-					text: element.attr('data-init-text') ? element.attr('data-init-text') : element.val()
-				};
-				callback(data);
+				if (element.data('init-text')) {
+					var text = element.data('init-text');
+					element.removeData('init-text');
+				} else {
+					text = element.val();
+				}
+				callback({id: element.val(), text: text});
 			},
 			ajax: {
 				dataType: 'json',
@@ -302,9 +365,11 @@
 				}
 			},
 			onChange: function (e) {
+				e.element = $(this);
 				return $(this).data('field').form.update(e);
 			}
-		};
+		}
+		;
 		this.events = {};
 		this.configure(config);
 		this.init();
@@ -339,7 +404,7 @@
 		attachListeners: function () {
 			var element = this.element;
 			$.each(this.getConfig(), function (k, v) {
-				if (k.substr(0,2) == 'on') {
+				if (k.substr(0, 2) == 'on') {
 					element.on(k.substr(2).toLowerCase(), v);
 				}
 			});
@@ -361,6 +426,19 @@
 		getData: function () {
 			return this.element.select2('data');
 		},
+		setData: function (data) {
+			var setValue;
+			if (typeof data !== 'string') {
+				this.element.data('init-text', data.value);
+				setValue = data.id ? data.id : data.value;
+			} else {
+				setValue = data;
+			}
+
+			this.setValue(setValue);
+
+			return this;
+		},
 		setValue: function (data) {
 			return this.element.select2('val', data);
 		},
@@ -372,10 +450,14 @@
 		},
 		enable: function () {
 			return this.element.select2('enable', true);
+		},
+		clear: function () {
+			return this.setValue('');
 		}
 	};
 
-	$.fn['hiSelect2Config'] = function (type) {
+	$.fn['combo2Config'] = function (type) {
 		return new Plugin(type);
 	};
-})(jQuery, window, document);
+})
+(jQuery, window, document);

@@ -2,34 +2,13 @@
 
 namespace frontend\modules\hosting\controllers;
 
-use frontend\components\hiresource\Collection;
-use frontend\modules\hosting\models\Account;
-use frontend\modules\hosting\models\AccountSearch;
-use frontend\controllers\HipanelController;
-use frontend\models\Ref;
+use frontend\components\CrudController;
 use yii\web\NotFoundHttpException;
-use yii;
+use Yii;
+use \frontend\modules\hosting\models\Account;
 
-class AccountController extends HipanelController
+class AccountController extends CrudController
 {
-    public function actionIndex () {
-        $searchModel  = new AccountSearch();
-        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel'  => $searchModel,
-            'dataProvider' => $dataProvider,
-            'states'       => $this->getStates(),
-            'types'        => $this->getTypes(),
-        ]);
-    }
-
-    public function actionView ($id) {
-        $model = $this->findModel($id);
-
-        return $this->render('view', compact('model'));
-    }
-
     public function actionCreateFtp () {
         return $this->actionCreate('ftponly');
     }
@@ -51,7 +30,7 @@ class AccountController extends HipanelController
         $model           = $this->findModel($id);
         $model->scenario = 'set-password';
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
-            \Yii::$app->getSession()->addFlash('success', [
+            Yii::$app->getSession()->addFlash('success', [
                 'title' => $model->login,
                 'text'  => \Yii::t('app', 'Password changing task has been successfully added to queue'),
             ]);
@@ -74,62 +53,20 @@ class AccountController extends HipanelController
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             $flash = [
                 'type' => 'success',
-                'text' => \Yii::t('app', 'Allowed IPs changing task has been successfully added to queue')
+                'text' => Yii::t('app', 'Allowed IPs changing task has been successfully added to queue')
             ];
         } else {
             $flash['type'] = 'error';
             if ($model->hasErrors()) {
                 $flash['text'] = $model->getFirstError('sshftp_ips');
             } else {
-                $flash['text'] = \Yii::t('app', 'An error occurred when trying to change allowed IPs');
+                $flash['text'] = Yii::t('app', 'An error occurred when trying to change allowed IPs');
             }
         }
 
-        \Yii::$app->getSession()->addFlash($flash['type'], $flash['text']);
+        Yii::$app->getSession()->addFlash($flash['type'], $flash['text']);
 
         return $this->redirect(['view', 'id' => $model->id]);
     }
 
-    public function actionDelete ($id) {
-        $model = $this->findModel($id)->delete();
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return \frontend\modules\hosting\models\Account|null
-     * @throws NotFoundHttpException
-     */
-    protected static function findModel ($id) {
-        if (($model = Account::findOne(['id' => $id])) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    protected function getStates () {
-        return Ref::getList('state,account');
-    }
-
-    protected function getTypes () {
-        return Ref::getList('type,account');
-    }
-
-    public function actionTest () {
-        $search   = new AccountSearch();
-        $accounts = $search->search(['AccountSearch' => ['login_like' => 'asdf', 'device' => 'AVDS123860']])
-                           ->getModels();
-
-        foreach ($accounts as &$account) {
-            /* @var $account Account */
-            $account->password = 'newtestpassword';
-        }
-
-        $collection = new Collection(['scenario' => 'set-password', 'attributes' => ['id', 'password']]);
-        $collection->load($accounts)->save();
-
-        return $this->renderJson(['ok' => 'aha']);
-    }
 }

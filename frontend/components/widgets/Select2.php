@@ -38,7 +38,7 @@ class Select2 extends Widget
                 'url'      => $this->url,
                 'dataType' => 'json',
                 'data'     => new JsExpression('function(term,page) { return {search:term}; }'),
-                'results'  => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                'results'  => new JsExpression('function(data,page) { return {results:data. results}; }'),
             ],
             'initSelection'      => new JsExpression('function (elem, callback) {
                 var id=$(elem).val();

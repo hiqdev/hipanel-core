@@ -42,7 +42,8 @@ class ClientColumn extends DataColumn
                         }; }'),
                     ],
                     'initSelection' => new JsExpression('function (elem, callback) {
-                        $.ajax("' . Url::toRoute([$this->listAction]) . '?id=" + elem.val(), {
+                        var id=$(elem).val();
+                        $.ajax("' . Url::toRoute(['/client/client/list']) . '?id=" + id, {
                             dataType: "json",
                             data : {"rename[text]":"login",wrapper:"results" }
                         }).done(function(data) {

@@ -284,7 +284,7 @@ class Menu extends \yii\widgets\Menu
                     ],
                     [
                         'label' => Yii::t('app', 'DataBases'),
-                        'url' => ['/hosting/database/index'],
+                        'url' => ['/hosting/db/index'],
                         'icon' => 'fa-database',
                     ],
                 ]
