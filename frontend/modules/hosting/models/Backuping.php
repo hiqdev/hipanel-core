@@ -12,7 +12,7 @@ class Backuping extends \frontend\components\Model
     public function rules () {
         return [
             [['id', 'service_id', 'server_id', 'account_id', 'client_id'],                          'integer'],
-            [['skip_lock'],                                                                         'bool'],
+            [['skip_lock'],                                                                         'boolean'],
             [['day','hour', 'path', 'include', 'exclude'],                                          'safe'],
             [['method', 'method_label','server', 'account', 'client', 'name', 'object', 'service'], 'safe'],
             [['backup_last' ],                                                                      'date'],
@@ -24,13 +24,6 @@ class Backuping extends \frontend\components\Model
     /** @inheritdoc */
     public function attributeLabels () {
         return $this->margeAttributeLabels([
-            'id'                    => Yii::t('app', 'ID'),
-            'service_id'            => Yii::t('app', 'Service ID'),
-            'server_id'             => Yii::t('app', 'Server ID'),
-            'account_id'            => Yii::t('app', 'Account ID'),
-            'client_id'             => Yii::t('app', 'Client ID'),
-            'type_label'            => Yii::t('app', 'Type label'),
-            'state_label'           => Yii::t('app', 'State label'),
             'day'                   => Yii::t('app', 'Date'),
             'hour'                  => Yii::t('app', 'Time'),
             'skip_lock'             => Yii::t('app', 'Skip lock'),

@@ -16,7 +16,7 @@ class Ip extends \frontend\components\Model
             [['prefix', 'family'],                      'safe'],
             [['type', 'state', 'state_label'],          'safe'],
             [['links', 'expanded_ips', 'ip_normalized'],'safe'],
-            [['is_single'],                             'bool'],
+            [['is_single'],                             'boolean'],
         ];
     }
 

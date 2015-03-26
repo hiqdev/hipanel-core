@@ -14,7 +14,7 @@ use frontend\modules\domain\widgets\State;
 use frontend\models\Ref;
 use yii\helpers\Html;
 
-$this->title                    = Yii::t('app', 'IP');
+$this->title                    = Yii::t('app', 'Service');
 $this->params['breadcrumbs'][]  = $this->title;
 $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
 
