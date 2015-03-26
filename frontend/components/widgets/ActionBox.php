@@ -25,6 +25,7 @@ class ActionBox extends Box
     public function beginBulkActions() {
         if ($this->bulk == false)
             throw new InvalidConfigException("'bulk' property is false, turn this on ('true' statement), if you want use bulk actions.");
+
         print Html::beginTag('div', ['class' => 'pull-right box-bulk-actions', 'style' => 'display: none;']) . "\n";
     }
 
