@@ -10,15 +10,21 @@ use yii\helpers\Html;
 class Combo2 extends Widget
 {
     public static $builtInCombos = [
-        'client'  => 'frontend\modules\client\assets\combo2\Client',
-        'server'  => 'frontend\modules\server\assets\combo2\Server',
-        'account' => 'frontend\modules\hosting\assets\combo2\Account',
+        'client'   => 'frontend\modules\client\assets\combo2\Client',
+        'reseller' => 'frontend\modules\client\assets\combo2\Reseller',
+        'server'   => 'frontend\modules\server\assets\combo2\Server',
+        'account'  => 'frontend\modules\hosting\assets\combo2\Account',
     ];
 
     /**
      * @var array the additional options that will be passed to the Combo init JS
      */
-    public $clientOptions = [];
+    public $fieldOptions = [];
+
+    /**
+     * @var string the outer element selector, that holds all of related Combos
+     */
+    public $formElementSelector = 'form';
 
     /**
      * @var Model
@@ -40,6 +46,9 @@ class Combo2 extends Widget
      */
     public $inputOptions;
 
+    /**
+     * @var string the language. Default is application language
+     */
     public $language;
 
     /**
@@ -71,15 +80,24 @@ class Combo2 extends Widget
         $this->registerClientCombo2Config();
 
         $selector = '#' . Html::getInputId($this->model, $this->attribute);
-        $view->registerJs("$('$selector').closest('form').combo2().register('$selector', '{$this->type}');");
+        $js       = "$('$selector').closest('{$this->formElementSelector}').combo2().register('$selector', '{$this->type}');";
+
+        $view->registerJs($js);
     }
 
     public function registerClientCombo2Config () {
-        if (!empty(static::$builtInCombos[$this->type])) {
-            Yii::createObject(static::$builtInCombos[$this->type])->register($this->clientOptions);
-        } else {
-            throw new InvalidConfigException('The combo2 type is not registered');
+        $type = $this->type;
+
+        if (isset(static::$builtInCombos[$type])) {
+            $type = static::$builtInCombos[$type];
         }
+        if (is_array($type)) {
+            $params = array_merge($type, $this->params);
+        } else {
+            $params['class'] = $type;
+        }
+
+        return Yii::createObject($params)->register($this->fieldOptions);
     }
 }
 

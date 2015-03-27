@@ -23,13 +23,13 @@ class Server extends Combo2Config
             ],
             'pluginOptions' => [
                 'ajax' => [
-                    'data' => new JsExpression("
+                    'return' => ['id', 'client', 'client_id'],
+                    'rename' => ['text' => 'name'],
+                    'data'   => new JsExpression("
                         function (term) {
                             return $(this).data('field').form.createFilter({
                                 'client': 'client',
                                 'server_like': {format: term},
-                                'return': ['id', 'client', 'client_id'],
-					            'rename': {'text': 'name'}
                             });
                         }
                     ")

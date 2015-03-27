@@ -35,8 +35,8 @@
 				'form': this,
 				'pluginOptions': options
 			});
-			field.setElement(element).attachListeners();
 			element.data('field', field);
+			field.setElement(element).attachListeners();
 			this.fields.push({
 				type: type,
 				field: field,
@@ -44,82 +44,6 @@
 			});
 			this.update(new Event(element, {force: 1}));
 			return this;
-		},
-		/**
-		 * Generates filters
-		 * @param fields Acceptable formats:
-		 *
-		 * A simple list of attributes
-		 * ```
-		 *  ['login', 'client', 'server']
-		 * ```
-		 *
-		 * Array of relations between the returned key and requested field
-		 * ```
-		 *  {'login_like': 'login', 'type': 'type'}
-		 * ```
-		 *
-		 * With custom format
-		 * ```
-		 *  {
-		 *      'server_ids': {
-		 *          field: 'server',
-		 *          format: function (id, text, field) { return id; }
-		 *      },
-		 *      'client_ids': {
-		 *          field: 'client',
-		 *          format: 'id'
-	     *      },
-	     *      'extremely_unusual_filter': {
-	     *          field: 'login',
-	     *          format: function (id, text, field) {
-	     *              return field.form.getValue('someOtherField') == '1';
-	     *          }
-	     *      },
-	     *      'someStaticValue': {
-	     *          format: 'test'
-	     *      },
-	     *      'return': ['id', 'value']
-		 *  }
-		 * ```
-		 *
-		 * @returns {{}} the object of generated filters
-		 */
-		createFilter: function (fields) {
-			var _this = this;
-			var filters = {};
-			$.each(fields, function (k, v) {
-				if (isNaN(parseInt(k)) === false) {
-					k = v;
-				}
-				if (typeof v === 'string') {
-					v = {field: v};
-				} else if ($.isArray(v) || (typeof v === 'object' && v.format === undefined)) {
-					v = {format: v};
-				}
-
-				if (v.format === 'id') {
-					v.format = function (id, text) {
-						return id;
-					};
-				} else if (typeof v.field !== 'string' && (typeof v.format === 'string' || $.isArray(v.format) || typeof v.format === 'object')) {
-					/// If the result is a static value
-					filters[k] = v.format;
-					return true;
-				} else if ($.isFunction(v.format) == false) {
-					v.format = function (id, text) {
-						return text;
-					};
-				}
-
-				var field = _this.getField(v.field);
-				if (!field) return true;
-				var data = field.getData();
-				if (!data) return true;
-
-				filters[k] = v.format(data['id'], data['text'], field);
-			});
-			return filters;
 		},
 		getData: function (type) {
 			return $.extend(true, {}, this.getField(type).getData());
@@ -192,7 +116,7 @@
 				if ($.isEmptyObject(k)) return true;
 
 				if (typeof v == 'string') {
-					keys = {id: v + '_id', value: v};
+					keys = {id: v + '_' + field.getPk(), value: v};
 				} else if ($.isFunction(v)) {
 					keys = v(updated_field);
 				} else {
@@ -301,11 +225,7 @@
 				});
 			}
 
-			if (this.exists(type)) {
-				return this.get(type);
-			} else {
-				return this.fields[type] = config;
-			}
+			return this.fields[type] = config;
 		},
 		/**
 		 * Returns the requested config by the type, may extend the config with the user-defined
@@ -338,20 +258,63 @@
 		this.element = null;
 		this.config = null;
 		this.activeWhen = null;
+		/**
+		 * The array of fields, cleaning of which makes this field cleared too.
+		 * @type {array}
+		 */
 		this.clearWhen = null;
+		/**
+		 * The object-array of fields, that may be affected after the current field update
+		 * The key is the type of the field to be affected
+		 * For example:
+		 *
+		 * ```
+		 *   {
+		 *      affects: {
+		 *          'client': 'client',
+		 *          'server': function (field) {
+		 *              return {id: field.id, value: field.text};
+		 *          }
+		 *      }
+		 *   }
+		 * ```
+		 * @type {object}
+		 */
 		this.affects = null;
+
+		/**
+		 * Whether the field has an ID. Used by [[initSelection]]
+		 * @type {boolean|string}
+		 */
+		this.hasId = true;
 
 		this.pluginOptions = {
 			placeholder: 'Enter a value',
 			allowClear: true,
 			initSelection: function (element, callback) {
-				if (element.data('init-text')) {
+				var field = element.data('field');
+
+				if (field.hasId && element.data('init-text')) {
 					var text = element.data('init-text');
 					element.removeData('init-text');
+					callback({id: element.val(), text: text});
+				} else if (field.hasId) {
+					var requestData = {};
+					requestData[field.getPk()] = {format: element.val()};
+					requestData = field.createFilter(requestData);
+
+					$.ajax({
+						url: field.pluginOptions.ajax.url,
+						method: 'post',
+						data: requestData,
+						success: function (data) {
+							callback(data[0]);
+						}
+					});
 				} else {
 					text = element.val();
+					callback({id: text, text: text});
 				}
-				callback({id: element.val(), text: text});
 			},
 			ajax: {
 				dataType: 'json',
@@ -378,6 +341,86 @@
 	Field.prototype = {
 		init: function () {
 			return this;
+		},
+		/**
+		 * Generates filters
+		 * @param fields Acceptable formats:
+		 *
+		 * A simple list of attributes
+		 * ```
+		 *  ['login', 'client', 'server']
+		 * ```
+		 *
+		 * Array of relations between the returned key and requested field
+		 * ```
+		 *  {'login_like': 'login', 'type': 'type'}
+		 * ```
+		 *
+		 * With custom format
+		 * ```
+		 *  {
+		 *      'server_ids': {
+		 *          field: 'server',
+		 *          format: function (id, text, field) { return id; }
+		 *      },
+		 *      'client_ids': {
+		 *          field: 'client',
+		 *          format: 'id'
+	     *      },
+	     *      'extremely_unusual_filter': {
+	     *          field: 'login',
+	     *          format: function (id, text, field) {
+	     *              return field.form.getValue('someOtherField') == '1';
+	     *          }
+	     *      },
+	     *      'someStaticValue': {
+	     *          format: 'test'
+	     *      },
+	     *      'return': ['id', 'value']
+		 *  }
+		 * ```
+		 *
+		 * @returns {{}} the object of generated filters
+		 */
+		createFilter: function (fields) {
+			var form = this.form;
+			var filters = {};
+
+			if (!fields.return) fields['return'] = this.pluginOptions.ajax.return;
+			if (!fields.rename) fields['rename'] = this.pluginOptions.ajax.rename;
+
+			$.each(fields, function (k, v) {
+				if (isNaN(parseInt(k)) === false) {
+					k = v;
+				}
+				if (typeof v === 'string') {
+					v = {field: v};
+				} else if ($.isArray(v) || (typeof v === 'object' && v.format === undefined)) {
+					v = {format: v};
+				}
+
+				if (v.format === 'id') {
+					v.format = function (id, text) {
+						return id;
+					};
+				} else if (typeof v.field !== 'string' && (typeof v.format === 'string' || $.isArray(v.format) || typeof v.format === 'object')) {
+					/// If the result is a static value - just set and skip all below
+					filters[k] = v.format;
+					return true;
+				} else if ($.isFunction(v.format) == false) {
+					v.format = function (id, text) {
+						return text;
+					};
+				}
+
+				var field = form.getField(v.field);
+				if (!field) return true;
+				var data = field.getData();
+				if (!data) return true;
+
+				filters[k] = v.format(data['id'], data['text'], field);
+			});
+			return filters;
 		},
 		configure: function (config) {
 			var field = this;
@@ -453,6 +496,15 @@
 		},
 		clear: function () {
 			return this.setValue('');
+		},
+		getPk: function () {
+			if (this.hasId === true) {
+				return 'id';
+			} else if (this.hasId === string) {
+				return this.hasId;
+			} else {
+				return false;
+			}
 		}
 	};
 

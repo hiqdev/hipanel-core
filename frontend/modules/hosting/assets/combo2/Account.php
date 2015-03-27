@@ -24,13 +24,13 @@ class Account extends Combo2Config
             ],
             'pluginOptions' => [
                 'ajax' => [
-                    'data' => new JsExpression("
+                    'return' => ['id', 'client', 'client_id', 'device', 'device_id'],
+                    'rename' => ['text' => 'name'],
+                    'data'   => new JsExpression("
                         function (term) {
                             return $(this).data('field').form.createFilter({
                                 'client': 'client',
                                 'server': 'server',
-                                'return': ['id', 'client', 'client_id', 'device', 'device_id'],
-					            'rename': {'text': 'name'}
                             });
                         }
                     ")

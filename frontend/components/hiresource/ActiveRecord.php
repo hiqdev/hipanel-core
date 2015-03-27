@@ -345,6 +345,9 @@ class ActiveRecord extends BaseActiveRecord
         return [];
     }
 
+    /**
+     * @return boolean
+     */
     public function getIsNewRecord () {
         return !$this->getPrimaryKey();
     }

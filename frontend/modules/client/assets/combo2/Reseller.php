@@ -6,10 +6,10 @@ use frontend\components\Combo2Config;
 use frontend\components\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
-class Client extends Combo2Config
+class Reseller extends Combo2Config
 {
     /** @inheritdoc */
-    public $type = 'client';
+    public $type = 'reseller';
 
     /** @inheritdoc */
     public $url = '/client/client/search';
@@ -24,7 +24,8 @@ class Client extends Combo2Config
                     'data' => new JsExpression("
                         function (term) {
                             return $(this).data('field').createFilter({
-                                'client_like': {format: term}
+                                'client_like': {format: term},
+                                'type': {format: 'reseller'}
                             });
                         }
                     ")

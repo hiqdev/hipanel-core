@@ -40,7 +40,6 @@ class Model extends hiresource\ActiveRecord
             'ip'            => Yii::t('app', 'IP'),
             'mail_id'       => Yii::t('app', 'Mail ID'),
             'request_id'    => Yii::t('app', 'Request ID'),
-            'service_id'    => Yii::t('app', 'Service ID'),
             'db_id'         => Yii::t('app', 'DataBase ID'),
             'db'            => Yii::t('app', 'DataBase'),
             'state_id'      => Yii::t('app', 'State ID'),

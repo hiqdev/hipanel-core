@@ -2,27 +2,39 @@
 
 namespace frontend\components;
 
+use frontend\components\hiresource\ActiveQuery;
+use frontend\components\hiresource\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Trait SearchModelTrait
+ *
+ * @package frontend\components
+ */
 trait SearchModelTrait
 {
+    static $filterConditions = ['in', 'like'];
+
     public function attributes () {
-        return array_merge(parent::attributes(),$this->search_attributes());
+        return array_merge(parent::attributes(), $this->searchAttributes());
     }
 
-    protected function search_attributes () {
+    protected function searchAttributes () {
         $attributes = [];
         foreach (parent::attributes() as $k) {
-            $attributes[] = $k.'_in';
-            $attributes[] = $k.'_like';
+            foreach (static::$filterConditions as $condition) {
+                $attributes[$k] = $k . "_$condition";
+            }
         };
+
         return $attributes;
     }
 
     public function rules () {
-        $rules = parent::rules();
-        $rules[] = [$this->search_attributes(),'safe'];
+        $rules   = parent::rules();
+        $rules[] = [$this->searchAttributes(), 'safe'];
+
         return $rules;
     }
 
@@ -33,27 +45,34 @@ trait SearchModelTrait
 
     /**
      * Creates data provider instance with search query applied
+     *
      * @param array $params
      * @return ActiveDataProvider
      */
     public function search ($params) {
-        $class = get_parent_class();
-        $query = $class::find();
+        /**
+         * @var ActiveRecord $this
+         * @var ActiveRecord $class
+         * @var ActiveQuery $query
+         */
+        $class        = get_parent_class();
+        $query        = $class::find();
         $dataProvider = new ActiveDataProvider(compact('query'));
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
-        foreach (parent::attributes() as $k) {
-            foreach (['eq','in','like'] as $cmp) {
-                $name = $k.($cmp=='eq' ? '' : '_'.$cmp);
-                $v = ArrayHelper::getValue($this,$name);
-                if (is_null($v)) continue;
-                $vals[$name] = $v;
-                $query->andFilterWhere([$cmp,$k,$v]);
-            };
-        };
+        foreach ($this as $k => $v) {
+            if (empty($v)) continue;
+            preg_match('/^(.*?)(_((?:.(?!_))+))?$/', $k, $matches);
+            if ($matches[3] && in_array($matches[3], static::$filterConditions)) {
+                $cmp = $matches[3];
+            } else {
+                $cmp = 'eq';
+            }
+            $query->andFilterWhere([$cmp, $matches[1], $v]);
+        }
 
         return $dataProvider;
     }

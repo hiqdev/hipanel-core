@@ -5,12 +5,18 @@ namespace frontend\components\hiresource;
 use common\components\Err;
 use frontend\components\helpers\ArrayHelper;
 use yii\base\Component;
+use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidValueException;
 use yii\base\Model;
 use yii\base\ModelEvent;
 use yii\helpers\Json;
 
+/**
+ * Class Collection manages the collection of the models
+ *
+ * @package frontend\components\hiresource
+ */
 class Collection extends Component
 {
     const EVENT_BEFORE_INSERT   = 'beforeInsert';
@@ -20,12 +26,12 @@ class Collection extends Component
     const EVENT_AFTER_SAVE      = 'afterSave';
 
     /**
-     * @var array
+     * @var array of models
      */
     public $models;
 
     /**
-     * @var string
+     * @var string the name of the form
      */
     public $formName;
 
@@ -64,29 +70,57 @@ class Collection extends Component
      */
     public $attributes;
 
-    public function setModel ($value) {
-        if ($value instanceof Model) {
-            $this->model = $value;
+    /**
+     * Sets the model of the collection
+     *
+     * @param Model|array $model if the model is an instance of [[Model]] - sets it, otherwise - creates the model
+     * using given options array
+     * @return object|Model
+     * @throws InvalidConfigException
+     */
+    public function setModel ($model) {
+        if ($model instanceof Model) {
+            $this->model = $model;
         } else {
-            $this->model = \Yii::createObject($value);
+            $this->model = \Yii::createObject($model);
         }
         $this->updateFormName();
+
+        return $this->model;
     }
 
+    /**
+     * Sets the scenario of the default model
+     * @param $value string scenario
+     */
     public function setScenario ($value) {
         $this->modelOptions['scenario'] = $value;
     }
 
+    /**
+     * Gets the scenario the default model
+     * @return string the scenario
+     */
     public function getScenario () {
         return $this->modelOptions['scenario'];
     }
 
+    /**
+     * Updates [[formName]] from the current [[model]]
+     *
+     * @return string the form name
+     */
     public function updateFormName () {
-        $this->formName = $this->model->formName();
+        if (!($this->model instanceof Model)) {
+            throw new InvalidCallException('The model should be set first');
+        }
+
+        return $this->formName = $this->model->formName();
     }
 
     /**
-     * @param array|callable $data - the data to be proceeded. If is callable - gets agruments:
+     * @param array|callable $data - the data to be proceeded.
+     * If is callable - gets arguments:
      *   - model
      *   - fromName
      * @return Collection
@@ -145,6 +179,20 @@ class Collection extends Component
         return $this;
     }
 
+    /**
+     * Saves the current collection
+     *
+     * This method will call [[insert()]] or [[update()]].
+     *
+     * @param boolean $runValidation whether to perform validation before saving the collection.
+     * @param array $attributes list of attribute names that need to be saved. Defaults to null,
+     * meaning all attributes that are loaded will be saved. If the scenario is specified, will use only
+     * fields from the scenario
+     * @param array $options the array of options that will be passed to [[insert]] or [[update]] methods to override
+     * model parameters.
+     * @return boolean whether the saving succeeds
+     * @throws HiResException
+     */
     public function save ($runValidation = true, $attributes = null, $options = []) {
         if ($this->first->getIsNewRecord()) {
             return $this->insert($runValidation, $attributes, $options);
@@ -228,13 +276,23 @@ class Collection extends Component
         return true;
     }
 
-
+    /**
+     * Collects data from the stored models
+     *
+     * @param array $attributes list of attributes names
+     * @param callable|array $options overrides the model attributes
+     * If is array - merges with the model attributes
+     * If is callable - gets two arguments:
+     *   1) the array of model attributes
+     *   2) the model object
+     * @return array
+     */
     public function collectData ($attributes = null, $options = []) {
         $data = [];
         foreach ($this->models as $model) {
             /* @var $model ActiveRecord */
             $key = $model->getPrimaryKey();
-            if (is_callable($options)) {
+            if ($options instanceof \Closure) {
                 $row = call_user_func($options, $model->getAttributes($attributes), $model);
             } else {
                 $row = array_merge($model->getAttributes($attributes), $options);
@@ -288,6 +346,13 @@ class Collection extends Component
         $this->trigger(self::EVENT_AFTER_SAVE);
     }
 
+    /**
+     * Iterates over all of the models and triggers some event
+     *
+     * @param string $name the event name
+     * @param ModelEvent $event
+     * @return bool whether is valid
+     */
     public function triggerAll ($name, ModelEvent $event = null) {
         if ($event == null) {
             $event = new ModelEvent();

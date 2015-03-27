@@ -3,7 +3,7 @@
 use frontend\components\grid\CheckboxColumn;
 use frontend\components\grid\CurrentColumn;
 use frontend\components\grid\EditableColumn;
-use frontend\components\grid\ResellerColumn;
+use frontend\modules\client\grid\ResellerColumn;
 use frontend\components\grid\SwitchColumn;
 use frontend\modules\domain\widgets\State;
 

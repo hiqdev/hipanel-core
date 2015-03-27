@@ -14,10 +14,13 @@ class Account extends Model
 
     public function rules () {
         return [
-            [['id', 'client_id', 'device_id', 'server_id'],                                                     'integer'],
-            [['login','password','uid','gid','shell','client','path','home','device'],                          'safe'],
-            [['type', 'type_label', 'state', 'state_label'],                                                    'safe'],
-            [['ip', 'allowed_ips', 'objects_count', 'request_state', 'request_state_label', 'mail_settings'],   'safe'],
+            [['id', 'client_id', 'device_id', 'server_id'], 'integer'],
+            [
+                ['login', 'password', 'uid', 'gid', 'shell', 'client', 'path', 'home', 'device', 'seller', 'seller_id'],
+                'safe'
+            ],
+            [['type', 'type_label', 'state', 'state_label'], 'safe'],
+            [['ip', 'allowed_ips', 'objects_count', 'request_state', 'request_state_label', 'mail_settings'], 'safe'],
             [
                 [
                     'login',

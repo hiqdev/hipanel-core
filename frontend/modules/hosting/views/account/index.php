@@ -1,5 +1,8 @@
 <?php
 
+use frontend\modules\client\grid\ClientColumn;
+use frontend\components\grid\MainColumn;
+use frontend\modules\client\grid\ResellerColumn;
 use frontend\components\Re;
 use frontend\components\grid\GridView;
 use frontend\components\widgets\GridActionButton;
@@ -39,18 +42,10 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                         'class' => 'frontend\components\grid\CheckboxColumn',
                     ],
                     [
-                        'attribute'          => 'client_id',
-                        'label'              => Yii::t('app', 'Client'),
-                        'format'             => 'html',
-                        'value'              => function ($model) {
-                            return Html::a($model->client, ['/client/client/view', 'id' => $model->client_id]);
-                        },
-                        'filter'             => Select2::widget([
-                            'attribute' => 'client_id',
-                            'model'     => $searchModel,
-                            'url'       => Url::to(['/client/client/client-all-list'])
-                        ]),
-                        'filterInputOptions' => ['id' => 'client_id'],
+                        'class'                 => ResellerColumn::className(),
+                    ],
+                    [
+                        'class'                 => ClientColumn::className(),
                     ],
                     [
                         'attribute' => 'device_like',
@@ -64,6 +59,10 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                             'model'     => $searchModel,
                             'url'       => Url::to(['/server/server/list'])
                         ]),
+                    ],
+                    [
+                        'class'                 => MainColumn::className(),
+                        'attribute'             => 'login',
                     ],
                     [
                         'attribute' => 'login_like',

@@ -2,7 +2,7 @@
 
 use frontend\components\grid\GridView;
 use frontend\components\grid\CheckboxColumn;
-use frontend\components\grid\ClientColumn;
+use frontend\modules\client\grid\ClientColumn;
 use frontend\components\grid\ServerColumn;
 
 $this->title                    = Yii::t('app', 'Crontab');

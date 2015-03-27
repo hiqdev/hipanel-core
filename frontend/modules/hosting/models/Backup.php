@@ -7,7 +7,6 @@ use Yii;
 
 class Backup extends Model
 {
-
     use ModelTrait;
 
     /** @inheritdoc */

@@ -2,8 +2,8 @@
 
 use frontend\components\grid\GridView;
 use frontend\components\grid\CheckboxColumn;
-use frontend\components\grid\ClientColumn;
-use frontend\components\grid\ResellerColumn;
+use frontend\modules\client\grid\ClientColumn;
+use frontend\modules\client\grid\ResellerColumn;
 use frontend\components\grid\EditableColumn;
 use frontend\components\grid\MainColumn;
 
