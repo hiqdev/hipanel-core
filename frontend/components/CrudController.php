@@ -122,6 +122,16 @@ class CrudController extends Controller
         return static::actionSearch();
     }
 
+    public function actionGetList () {
+        $search      = \Yii::$app->request->get();
+        $searchModel = static::searchModel();
+        $formName    = $searchModel->formName();
+        $searchCond  = [$formName => $search];
+
+        $data = $searchModel->search($searchCond)->getList();
+    d($data);
+    }
+
     /**
      * @param array $add - additional data to be passed to render
      */

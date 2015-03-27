@@ -4,31 +4,40 @@ namespace frontend\modules\client\grid;
 
 use frontend\components\grid\DataColumn;
 use frontend\components\widgets\Combo2;
-use frontend\components\widgets\Select2;
-use yii\helpers\Url;
 use yii\helpers\Html;
 
-use yii\web\JsExpression;
 
 class ClientColumn extends DataColumn
 {
+    public $attribute = 'client_id';
+
+    public $nameAttribute = 'client';
+
+    public $format = 'html';
+
+    public $listAction = '/client/client/list';
+
+    public $clientType = '';
+
     public function init () {
         parent::init();
-        \Yii::configure($this, [
-            'visible'            => \Yii::$app->user->identity->type != 'client',
-            'attribute'          => 'client_id',
-            'label'              => \Yii::t('app', 'Client'),
-            'format'             => 'html',
-            'value'              => function ($model) {
-                return Html::a($model->client, ['/client/client/view', 'id' => $model->client_id]);
-            },
-            'filterInputOptions' => ['id' => 'client_id'],
-            'filter'             => Combo2::widget([
+        if (is_null($this->visible)) {
+            $this->visible = \Yii::$app->user->identity->type != 'client';
+        };
+        if (!$this->filterInputOptions['id']) {
+            $this->filterInputOptions['id'] = $this->attribute;
+        }
+        if (!$this->filter) {
+            $this->filter = Combo2::widget([
                 'type'                => 'client',
-                'attribute'           => 'client_id',
+                'attribute'           => $this->attribute,
                 'model'               => $this->grid->filterModel,
                 'formElementSelector' => 'td',
-            ]),
-        ]);
+            ]);
+        };
+    }
+
+    public function getDataCellValue ($model, $key, $index) {
+        return Html::a($model->{$this->nameAttribute}, ['/client/client/view', 'id' => $model->{$this->attribute}]);
     }
 }

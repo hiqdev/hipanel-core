@@ -2,8 +2,6 @@
 
 namespace frontend\modules\client\models;
 
-use Yii;
-
 class Client extends \frontend\components\Model {
 
     use \frontend\components\ModelTrait;

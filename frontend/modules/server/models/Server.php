@@ -127,7 +127,9 @@ class Server extends \frontend\components\hiresource\ActiveRecord
         return [
             'id'                  => Yii::t('app', 'ID'),
             'name'                => Yii::t('app', 'Name'),
-            'seller'              => Yii::t('app', 'Seller'),
+            'seller_id'           => Yii::t('app', 'Reseller'),
+            'seller'              => Yii::t('app', 'Reseller'),
+            'client_id'           => Yii::t('app', 'Client'),
             'client'              => Yii::t('app', 'Client'),
             'panel'               => Yii::t('app', 'Panel'),
             'parent_tariff'       => Yii::t('app', 'Parent tariff'),

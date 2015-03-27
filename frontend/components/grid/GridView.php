@@ -12,7 +12,6 @@ use frontend\assets\iCheckAsset;
  */
 class GridView extends \kartik\grid\GridView
 {
-
     public $dataColumnClass = 'frontend\components\grid\DataColumn';
 
     /** @inheritdoc */
@@ -27,7 +26,7 @@ class GridView extends \kartik\grid\GridView
     ];
 
     /** @inheritdoc */
-    public $layout = "<div class='table-responsive'>{items}</div>\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
+    public $layout = "{items}\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
 
     /** @inheritdoc */
     public function run()
