@@ -6,6 +6,11 @@ use frontend\components\Combo2Config;
 use frontend\components\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
+/**
+ * Class Server
+ *
+ * @package frontend\modules\server\assets\combo2
+ */
 class Server extends Combo2Config
 {
     /** @inheritdoc */
@@ -14,26 +19,18 @@ class Server extends Combo2Config
     /** @inheritdoc */
     public $url = '/server/server/search';
 
+    public $_return = ['id', 'client', 'client_id'];
+
+    public $_rename = ['text' => 'name'];
+
+    public $_filter = ['client' => 'client'];
+
     /** @inheritdoc */
     function getConfig ($config = []) {
         $config = ArrayHelper::merge([
-            'clearWhen'     => ['client'],
-            'affects'       => [
+            'clearWhen' => ['client'],
+            'affects'   => [
                 'client' => 'client'
-            ],
-            'pluginOptions' => [
-                'ajax' => [
-                    'return' => ['id', 'client', 'client_id'],
-                    'rename' => ['text' => 'name'],
-                    'data'   => new JsExpression("
-                        function (term) {
-                            return $(this).data('field').form.createFilter({
-                                'client': 'client',
-                                'server_like': {format: term},
-                            });
-                        }
-                    ")
-                ]
             ]
         ], $config);
 

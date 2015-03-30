@@ -149,13 +149,13 @@ class QueryBuilder extends \yii\base\Object
     {
         $key = array_shift($operands);
 
-        return [$key.'s' => join(',', reset($operands))];
+        return [$key.'_in  ' => join(',', reset($operands))];
     }
 
     private function buildEqCondition ($operator, $operands) {
         $key = array_shift($operands);
 
-        return [$key.'s' => reset($operands)];
+        return [$key => reset($operands)];
     }
 
     protected function buildCompositeInCondition($operator, $columns, $values)

@@ -388,6 +388,9 @@
 
 			if (!fields.return) fields['return'] = this.pluginOptions.ajax.return;
 			if (!fields.rename) fields['rename'] = this.pluginOptions.ajax.rename;
+			if (this.pluginOptions.ajax.filter) {
+				$.extend(true, fields, this.pluginOptions.ajax.filter);
+			}
 
 			$.each(fields, function (k, v) {
 				if (isNaN(parseInt(k)) === false) {

@@ -52,6 +52,11 @@ class Combo2 extends Widget
     public $language;
 
     /**
+     * @var array the params used to create field object
+     */
+    public $options;
+
+    /**
      * @inheritdoc
      */
     public function init () {
@@ -92,12 +97,12 @@ class Combo2 extends Widget
             $type = static::$builtInCombos[$type];
         }
         if (is_array($type)) {
-            $params = array_merge($type, $this->params);
+            $options = array_merge($type, $this->options);
         } else {
-            $params['class'] = $type;
+            $options['class'] = $type;
         }
 
-        return Yii::createObject($params)->register($this->fieldOptions);
+        return Yii::createObject($options)->register($this->fieldOptions);
     }
 }
 
