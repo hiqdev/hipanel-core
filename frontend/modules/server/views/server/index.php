@@ -9,6 +9,8 @@ use frontend\modules\server\widgets\StateFormatter;
 use frontend\modules\server\widgets\DiscountFormatter;
 use yii\helpers\Url;
 use \yii\helpers\Html;
+use frontend\modules\server\grid\ServerColumn;
+use frontend\modules\client\grid\ClientColumn;
 
 /**
  * @var frontend\modules\server\models\OsimageSearch $osimages
@@ -31,42 +33,21 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                 'filterModel'  => $searchModel,
                 'columns'      => [
                     [
-                        'class' => 'frontend\components\grid\CheckboxColumn',
+                        'class'         => 'frontend\components\grid\CheckboxColumn',
                     ],
                     [
-                        'attribute'          => 'seller_id',
-                        'value'              => function ($model) {
-                            return Html::a($model->seller, ['/client/client/view', 'id' => $model->seller_id]);
-                        },
-                        'format'             => 'html',
-                        'filterInputOptions' => ['id' => 'seller_id'],
-                        'label'              => Yii::t('app', 'Seller'),
-                        'filter'             => Select2::widget([
-                            'attribute' => 'seller_id',
-                            'model'     => $searchModel,
-                            'url'       => Url::to(['/client/client/seller-list'])
-                        ]),
+                        'class'         => ClientColumn::className(),
+                        'clientType'    => 'reseller',
+                        'nameAttribute' => 'seller',
+                        'attribute'     => 'seller_id',
                     ],
                     [
-                        'attribute'          => 'client_id',
-                        'value'              => function ($model) {
-                            return Html::a($model->client, ['/client/client/view', 'id' => $model->client_id]);
-                        },
-                        'format'             => 'html',
-                        'filterInputOptions' => ['id' => 'author_id'],
-                        'label'              => Yii::t('app', 'Client'),
-                        'filter'             => Select2::widget([
-                            'attribute' => 'client_id',
-                            'model'     => $searchModel,
-                            'url'       => Url::to(['/client/client/client-all-list'])
-                        ]),
+                        'class'         => ClientColumn::className(),
+                        'clientType'    => 'ALL',
                     ],
                     [
-                        'attribute' => 'server_like',
-                        'label'     => Yii::t('app', 'Name'),
-                        'value'     => function ($model) {
-                            return $model->name;
-                        }
+                        'class'         => ServerColumn::className(),
+                        'attribute'     => 'id'
                     ],
                     [
                         'attribute'      => 'panel',
