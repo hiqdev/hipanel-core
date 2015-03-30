@@ -27,10 +27,10 @@ class ClientColumn extends DataColumn
         }
         if (!$this->filter) {
             $this->filter = Combo2::widget([
-                'type'                => 'client',
-                'attribute'           => $this->attribute,
-                'model'               => $this->grid->filterModel,
-                'formElementSelector' => 'td',
+                'type'                  => $this->clientType == 'ALL' ? '' : 'client',
+                'attribute'             => $this->attribute,
+                'model'                 => $this->grid->filterModel,
+                'formElementSelector'   => 'td',
             ]);
         };
     }
