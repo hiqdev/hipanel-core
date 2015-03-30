@@ -15,8 +15,6 @@ class ClientColumn extends DataColumn
 
     public $format = 'html';
 
-    public $listAction = '/client/client/list';
-
     public $clientType = '';
 
     public function init () {

@@ -63,15 +63,26 @@ trait SearchModelTrait
             return $dataProvider;
         }
 
-        foreach ($this as $k => $v) {
-            if (empty($v)) continue;
+        foreach ($this as $k => $value) {
+            if (empty($value)) continue;
+            /*
+             * Extracts underscore suffix from the key.
+             *
+             * Examples:
+             * client_id -> 0 - client_id, 1 - client, 2 - _id, 3 - id
+             * server_owner_like -> 0 - server_owner_like, 1 - server_owner, 2 - _like, 3 - like
+             */
             preg_match('/^(.*?)(_((?:.(?!_))+))?$/', $k, $matches);
+
+            /// If the suffix is in the list of acceptable suffix filer conditions
             if ($matches[3] && in_array($matches[3], static::$filterConditions)) {
                 $cmp = $matches[3];
+                $attribute = $matches[1];
             } else {
                 $cmp = 'eq';
+                $attribute = $matches[0];
             }
-            $query->andFilterWhere([$cmp, $matches[1], $v]);
+            $query->andFilterWhere([$cmp, $attribute, $value]);
         }
 
         return $dataProvider;

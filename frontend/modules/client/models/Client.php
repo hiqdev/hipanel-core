@@ -2,9 +2,12 @@
 
 namespace frontend\modules\client\models;
 
-class Client extends \frontend\components\Model {
+use frontend\components\Model;
+use frontend\components\ModelTrait;
 
-    use \frontend\components\ModelTrait;
+class Client extends Model {
+
+    use ModelTrait;
 
     public function rules()
     {
