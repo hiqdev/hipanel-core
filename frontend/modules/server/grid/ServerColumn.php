@@ -9,9 +9,7 @@ use yii\helpers\Html;
 class ServerColumn extends DataColumn
 {
     public $attribute = 'device_id';
-
     public $nameAttribute = 'device';
-
     public $format = 'html';
 
     public function init () {

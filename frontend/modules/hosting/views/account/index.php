@@ -9,6 +9,7 @@ use frontend\components\widgets\GridActionButton;
 use frontend\components\widgets\RequestState;
 use frontend\components\widgets\Pjax;
 use frontend\components\widgets\Select2;
+use frontend\modules\server\grid\ServerColumn;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
@@ -48,17 +49,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                         'class'                 => ClientColumn::className(),
                     ],
                     [
-                        'attribute' => 'device_like',
-                        'label'     => Yii::t('app', 'Server'),
-                        'format'    => 'raw',
-                        'value'     => function ($model) {
-                            return Html::a($model->device, ['/server/server/view', 'id' => $model->device_id]);
-                        },
-                        'filter'    => Select2::widget([
-                            'attribute' => 'device_id',
-                            'model'     => $searchModel,
-                            'url'       => Url::to(['/server/server/list'])
-                        ]),
+                        'class'                 => ServerColumn::className(),
                     ],
                     [
                         'class'                 => MainColumn::className(),

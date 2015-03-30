@@ -19,10 +19,13 @@ class Server extends Combo2Config
     /** @inheritdoc */
     public $url = '/server/server/search';
 
+    /** @inheritdoc */
     public $_return = ['id', 'client', 'client_id'];
 
+    /** @inheritdoc */
     public $_rename = ['text' => 'name'];
 
+    /** @inheritdoc */
     public $_filter = ['client' => 'client'];
 
     /** @inheritdoc */

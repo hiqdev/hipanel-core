@@ -46,6 +46,9 @@
 			return this;
 		},
 		getData: function (type) {
+			var field = this.getField(type);
+			if ($.isEmptyObject(field)) return {};
+
 			return $.extend(true, {}, this.getField(type).getData());
 		},
 		setValue: function (type, data) {
@@ -112,8 +115,8 @@
 
 			$.each(updated_field.affects, function (k, v) {
 				var field = _this.getField(k);
+				if ($.isEmptyObject(field)) return true;
 				var keys = {};
-				if ($.isEmptyObject(k)) return true;
 
 				if (typeof v == 'string') {
 					keys = {id: v + '_' + field.getPk(), value: v};
@@ -417,7 +420,7 @@
 				}
 
 				var field = form.getField(v.field);
-				if (!field) return true;
+				if ($.isEmptyObject(field)) return true;
 				var data = field.getData();
 				if (!data) return true;
 
