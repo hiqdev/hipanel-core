@@ -80,16 +80,14 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * @param int|array $id scalar ID or array to be used for searching
+     * @param int|array $condition scalar ID or array to be used for searching
      * @param array $config config to be used to create the [[Model]]
      * @return array|ActiveRecord|null|static
      * @throws NotFoundHttpException
      */
-    static protected function findModel ($id, $config = []) {
-        if (isset($id['scenario'])) $scenario = ArrayHelper::remove($id, 'scenario');
-        if (!isset($config['scenario'])) $config['scenario'] = $scenario;
+    static protected function findModel ($condition, $config = []) {
         /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $model = static::newModel($config)->findOne(is_array($id) ? $id : compact('id'));
+        $model = static::newModel($config)->findOne(is_array($condition) ? $condition : compact('condition'));
         if ($model === null) {
             throw new NotFoundHttpException('The requested object not found.');
         };
