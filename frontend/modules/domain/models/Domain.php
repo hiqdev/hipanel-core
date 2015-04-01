@@ -24,6 +24,7 @@ class Domain extends \frontend\components\Model
             [['created_date','updated_date'],                   'safe'],
             [['transfer_date','expiration_date'],               'safe'],
             [['expires','since','operated'],                    'safe'],
+            [['nameservers'],                                   'safe'],
             [['note'],                                          'safe', 'on' => ['set-note','default']],
             [['registrant','admin','tech','billing'],           'safe', 'on' => ['set-contacts']],
             [['enable'],                                        'safe', 'on' => ['set-lock','set-autorenewal','set-whois-protect']],
