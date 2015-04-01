@@ -7,10 +7,10 @@
  */
 if (\Yii::$app->user->identity->email) {
     print \cebe\gravatar\Gravatar::widget([
-        'email'        => \Yii::$app->user->identity->email,
+        'email'        => isset($email) ? $email : \Yii::$app->user->identity->email,
         'defaultImage' => 'identicon',
         'options'      => [
-            'alt' => \Yii::$app->user->identity->username,
+            'alt' => isset($alt) ? $alt : \Yii::$app->user->identity->username,
             'class' => !isset($class) ? 'img-circle' : $class,
         ],
         'size'         => !isset($size) ? 25 : $size,

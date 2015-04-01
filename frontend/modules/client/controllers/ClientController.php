@@ -2,6 +2,8 @@
 
 namespace frontend\modules\client\controllers;
 
+use frontend\components\helpers\ArrayHelper;
+
 class ClientController extends \frontend\components\CrudController {
 
 
@@ -105,4 +107,8 @@ class ClientController extends \frontend\components\CrudController {
     public function actionSetTmpPwd () {
     }
 
+    public function actionView($id) {
+        $model = $this->findModel(['id' => $id, 'with_domains_count' => 1, 'with_servers_count' => 1, 'with_contacts_count' => 1, 'with_contact' => 1]);
+        return $this->render('view', ['model' => $model]);
+    }
 }

@@ -42,8 +42,9 @@ class Model extends hiresource\ActiveRecord
             'request_id'    => Yii::t('app', 'Request ID'),
             'db_id'         => Yii::t('app', 'DataBase ID'),
             'db'            => Yii::t('app', 'DataBase'),
-            'state_id'      => Yii::t('app', 'State ID'),
-            'state_label'   => Yii::t('app', 'State label'),
+            'state_id'      => Yii::t('app', 'Status ID'),
+            'state_label'   => Yii::t('app', 'Status label'),
+            'state'         => Yii::t('app', 'Status'),
             'type_id'       => Yii::t('app', 'Type ID'),
             'type_label'    => Yii::t('app', 'Type label'),
        ];
