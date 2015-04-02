@@ -87,7 +87,7 @@ class Controller extends \yii\web\Controller
      */
     static protected function findModel ($condition, $config = []) {
         /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $model = static::newModel($config)->findOne(is_array($condition) ? $condition : compact('condition'));
+        $model = static::newModel($config)->findOne(is_array($condition) ? $condition : ['id'=>$condition]);
         if ($model === null) {
             throw new NotFoundHttpException('The requested object not found.');
         };

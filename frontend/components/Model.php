@@ -19,8 +19,8 @@ class Model extends hiresource\ActiveRecord
     public function defaultAttributeLabels () {
         return [
             'id'            => Yii::t('app', 'ID'),
-            'client_id'     => Yii::t('app', 'Client ID'),
-            'seller_id'     => Yii::t('app', 'Seller ID'),
+            'client_id'     => Yii::t('app', 'Client'),
+            'seller_id'     => Yii::t('app', 'Seller'),
             'domain_id'     => Yii::t('app', 'Domain ID'),
             'domain'        => Yii::t('app', 'Domain Name'),
             'hdomain_id'    => Yii::t('app', 'Domain ID'),
