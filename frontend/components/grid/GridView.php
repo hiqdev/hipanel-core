@@ -6,6 +6,9 @@ use common\models\Skin;
 use frontend\assets\DataTablesAsset;
 use frontend\assets\iCheckAsset;
 
+use frontend\modules\client\grid\ClientColumn;
+use frontend\modules\client\grid\ResellerColumn;
+
 /**
  * Class GridView
  * Theme GridView widget.
@@ -13,6 +16,8 @@ use frontend\assets\iCheckAsset;
 class GridView extends \kartik\grid\GridView
 {
     public $dataColumnClass = 'frontend\components\grid\DataColumn';
+
+    static public $detailViewClass = 'frontend\components\grid\DetailView';
 
     /** @inheritdoc */
     public $tableOptions = [
@@ -27,6 +32,59 @@ class GridView extends \kartik\grid\GridView
 
     /** @inheritdoc */
     public $layout = "{items}\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
+
+    static public function detailView(array $config = [])
+    {
+        $class = static::$detailViewClass ?: DetailView::className();
+        return call_user_func([$class,'widget'],array_merge(['gridViewClass' => get_called_class()],$config));
+    }
+
+    static protected $_defaultColumns;
+    static protected function defaultColumns()
+    {
+        return [
+            'checkbox'  => ['class' => CheckboxColumn::className()],
+            'seller_id' => ['class' => ResellerColumn::className()],
+            'client_id' => ['class' => ClientColumn::className()],
+        ];
+    }
+
+    /**
+     * Getter for $_defaultColumns. Scans recursively by hierarchy for defaultColumns
+     * and caches to $_defaultColumns
+     */
+    static public function getDefaultColumns()
+    {
+        if (is_array(static::$_defaultColumns)) {
+            return static::$_defaultColumns;
+        };
+        $columns = static::defaultColumns();
+        $parent = (new \ReflectionClass(get_called_class()))->getParentClass();
+        if ($parent->hasMethod('getDefaultColumns')) {
+            $columns = array_merge(call_user_func([$parent->getName(),'getDefaultColumns']),$columns);
+        };
+        return static::$_defaultColumns = $columns;
+    }
+
+    /**
+     * Returns column from $_defaultColumns
+     */
+    public function column($name, array $config = [])
+    {
+        $column = static::getDefaultColumns()[$name];
+        return is_array($column) ? array_merge($column,$config) : null;
+    }
+
+    /** @inheritdoc */
+    protected function createDataColumn($text)
+    {
+        $column = static::column($text);
+        if (is_array($column)) {
+            $column['attribute'] = $column['attribute'] ?: $text;
+            return $this->createColumnObject($column);
+        };
+        return parent::createDataColumn($text);
+    }
 
     /** @inheritdoc */
     public function run()

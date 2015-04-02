@@ -2,9 +2,10 @@
 
 namespace frontend\modules\finance\models;
 
+use frontend\components\Model;
 use Yii;
 
-class Tariff extends \frontend\components\hiresource\ActiveRecord
+class Tariff extends Model
 {
     use \frontend\components\ModelTrait;
 
@@ -24,19 +25,11 @@ class Tariff extends \frontend\components\hiresource\ActiveRecord
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return [
-            'id'                    => Yii::t('app', 'ID'),
-            'seller_id'             => Yii::t('app', 'Reseller ID'),
-            'client_id'             => Yii::t('app', 'Client ID'),
-            'seller'                => Yii::t('app', 'Reseller'),
-            'client'                => Yii::t('app', 'Client'),
-            'type'                  => Yii::t('app', 'Type'),
-            'type_label'            => Yii::t('app', 'Type'),
-            'state'                 => Yii::t('app', 'State'),
+        return $this->margeAttributeLabels([
             'quantity'              => Yii::t('app', 'Quantity'),
             'time'                  => Yii::t('app', 'Time'),
             'label'                 => Yii::t('app', 'Label'),
             'descr'                 => Yii::t('app', 'Description'),
-        ];
+        ]);
     }
 }

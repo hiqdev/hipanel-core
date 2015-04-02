@@ -12,6 +12,7 @@ use frontend\components\widgets\Box;
 
 class BoxedGridView extends GridView
 {
+    static public $detailViewClass = 'frontend\components\grid\BoxedDetailView';
     /**
      * To grid options, for example, you may add something like this for customize boxes:
      *  'boxOptions' => ['options' => ['class' => 'box-primary']],

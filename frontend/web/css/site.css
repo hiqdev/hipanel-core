@@ -89,3 +89,207 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+
+
+/* --- */
+
+.portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content i {
+    margin-top: -12px;
+}
+
+.portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h3,
+.portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h4 {
+    margin: 0;
+}
+
+.portfolio .portfolio-item .portfolio-caption {
+    margin: 0 auto;
+    padding: 25px;
+    max-width: 400px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.portfolio .portfolio-item .portfolio-caption h4 {
+    margin: 0;
+    text-transform: none;
+}
+
+.portfolio .portfolio-item .portfolio-caption p {
+    margin: 0;
+    font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.portfolio * {
+    z-index: 2;
+}
+
+@media(min-width:767px) {
+    .portfolio .portfolio-item {
+        margin: 0 0 30px;
+    }
+}
+
+.intro-text .btn-xl {
+    background-color: transparent;
+}
+
+/* --- */
+.contact-grid {
+    font-weight: 400;
+    font-size: 1.2em;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.7em;
+    color: #FFF;
+    margin-bottom: 1.8em;
+    display: block;
+}
+.contact-grid p,
+.contact-grid p a {
+    color: #FFF;
+    font-weight: 300;
+    font-size: 1.1em;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin: 0.8em 0;
+}
+.contact-grid p a {
+    text-decoration:none;
+}
+.contact-grid p a:hover{
+    color:#35C2F8;
+}
+.contact-grid p span,
+.contact-grid p i {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.3em;
+}
+/* --- */
+
+/***
+Pricing table
+***/
+.pricing {
+    position: relative;
+    margin-bottom: 15px;
+    border: 3px solid #eee;
+}
+
+.pricing-active {
+    border: 3px solid #fec503;
+    margin-top: -10px;
+    box-shadow: 7px 7px rgba(215, 193, 54, 0.2);
+}
+
+.pricing:hover {
+    border: 3px solid #fec503;
+}
+
+.pricing:hover h4 {
+    color: #fec503;
+}
+
+.pricing-head {
+    text-align: center;
+}
+
+.pricing-head h3,
+.pricing-head h4 {
+    margin: 0;
+    line-height: normal;
+}
+
+.pricing-head h3 span,
+.pricing-head h4 span {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.pricing-head h3 {
+    font-weight: 300;
+    color: #fafafa;
+    padding: 12px 0;
+    font-size: 27px;
+    background: #fed136;
+    border-bottom: solid 1px #A7A7A7;
+}
+
+.pricing-head h4 {
+    color: #C3B89F;
+    padding: 5px 0;
+    font-size: 54px;
+    font-weight: 300;
+    background: #FFFCDA;
+    border-bottom: solid 1px #FBD348;
+}
+
+.pricing-head-active h4 {
+    color: #fec503;
+}
+
+.pricing-head h4 i {
+    top: -8px;
+    font-size: 28px;
+    font-style: normal;
+    position: relative;
+}
+
+.pricing-head h4 span {
+    top: -10px;
+    font-size: 14px;
+    font-style: normal;
+    position: relative;
+}
+
+/*Pricing Content*/
+.pricing-content li {
+    color: #888;
+    font-size: 12px;
+    padding: 7px 15px;
+    border-bottom: solid 1px #f5f9e7;
+}
+
+.pricing-content li i {
+    top: 2px;
+    color: #fed136;
+    font-size: 16px;
+    margin-right: 5px;
+    position: relative;
+}
+
+/*Pricing Footer*/
+.pricing-footer {
+    color: #777;
+    font-size: 11px;
+    line-height: 17px;
+    text-align: center;
+    padding: 0 20px 19px;
+}
+
+/*Priceing Active*/
+.price-active,
+.pricing:hover {
+    z-index: 9;
+}
+
+.price-active h4 {
+    color: #36d7ac;
+}
+
+.no-space-pricing .pricing:hover {
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.no-space-pricing .price-active .pricing-head h4,
+.no-space-pricing .pricing:hover .pricing-head h4 {
+    color: #36d7ac;
+    padding: 15px 0;
+    font-size: 80px;
+    transition: color 0.5s ease-in-out;
+}
+/* --- */

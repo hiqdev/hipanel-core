@@ -13,7 +13,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "yiisoft/yii2": "*",
+        "yiisoft/yii2": "*@dev",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "*",
@@ -31,7 +31,9 @@
         "michelf/php-smartypants": "1.6.*@dev",
         "raoul2000/yii2-pnotify-widget": "*",
         "yiisoft/yii2-imagine": "~2.0",
-        "bower-asset/admin-lte": "2.*"
+        "bower-asset/admin-lte": "2.*",
+        "bower-asset/flag-icon-css": "*",
+        "bower-asset/startbootstrap-agency": "1.*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
@@ -39,6 +41,12 @@
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*"
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/hiqdev/yii2"
+        }
+    ],
     "config": {
         "process-timeout": 1800
     },

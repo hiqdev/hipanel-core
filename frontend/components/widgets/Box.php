@@ -19,19 +19,10 @@ class Box extends Widget
     public $title = null;
 
     /**
-     * @var array Widget buttons array
-     * Possible index:
-     * `label` - Link label
-     * `icon` - Link icon class
-     * `options` - Link options array
+     * Small helper for title
+     * @var null
      */
-    public $boxTools = [];
-
-    /**
-     * @var string|null Widget buttons template
-     * Example: '{create} {delete}'
-     */
-    public $buttonsTemplate;
+    public $small = null;
 
     /**
      * @var array the HTML attributes for the widget container tag.
@@ -65,32 +56,51 @@ class Box extends Widget
     public function init() {
         parent::init();
         $this->initOptions();
-        $this->initBoxTools();
+        $this->getView()->registerCss('
+        .box-title-helper {
+            padding: 0;
+            margin: 0;
+            line-height: 13px;
+            color: #9eacb4;
+            font-size: 13px;
+            font-weight: 400;
+        }
+        ');
         // Begin box
-        echo Html::beginTag('div', $this->options) . "\n";
-        if ($this->title !== null) { // || !empty($this->boxTools)
+        print Html::beginTag('div', $this->options) . "\n";
+        if ($this->title !== null) {
             // Begin box header
-            echo Html::beginTag('div', ['class' => 'box-header']);
+            print Html::beginTag('div', ['class' => 'box-header']);
             // Box title
             if ($this->title !== null) {
-                echo Html::tag('h3', $this->title, ['class' => 'box-title']);
+                print $this->renderTitle($this->title);
             }
-            // Render buttons
-            $this->renderButtons();
             // End box header
-            echo Html::endTag('div');
+            print Html::endTag('div');
         }
         if ($this->renderBody === true) {
             // Beign box body
-            echo Html::beginTag('div', $this->bodyOptions) . "\n";
+            print Html::beginTag('div', $this->bodyOptions) . "\n";
         }
+    }
+
+    /**
+     * @param $title
+     * @param null $small
+     * @return string
+     */
+    public function renderTitle($title, $small = null) {
+        $resultTitle = Html::tag('h3', $title, ['class' => 'box-title']);
+        $resultSmall = ($small == null) ? '' : Html::tag('span', $small, ['class' => 'box-title-helper']);
+        return sprintf('%s %s', $resultTitle, $resultSmall);
+
     }
 
     /**
      * Start header section, render title if not exist
      */
     public function beginHeader() {
-        echo Html::beginTag('div', $this->headerOptions) . "\n";
+        print Html::beginTag('div', $this->headerOptions) . "\n";
         if ($this->title !== null) {
             print Html::tag('h3', $this->title, ['class' => 'box-title']);
         }
@@ -147,82 +157,27 @@ class Box extends Widget
      */
     protected function initOptions() {
         $this->options['class'] = isset($this->options['class']) ? 'box ' . $this->options['class'] : 'box';
+        $this->headerOptions['class'] = isset($this->headerOptions['class']) ? 'box-header ' . $this->options['class'] : 'box-header';
         $this->bodyOptions['class'] = isset($this->bodyOptions['class']) ? 'box-body ' . $this->bodyOptions['class'] : 'box-body';
         $this->footerOptions['class'] = isset($this->footerOptions['class']) ? 'box-footer ' . $this->footerOptions['class'] : 'box-footer';
     }
 
     /**
-     * Initializes the widget buttons.
+     * Start box-container
+     * Only in header container!
+     * Examples:
+     * <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+     * <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove"><i class="fa fa-times"></i></button>
      */
-    protected function initBoxTools() {
-        if (!isset($this->boxTools['create'])) {
-            $this->boxTools['create'] = [
-                'url' => ['create'],
-                'icon' => 'fa-plus',
-                'options' => [
-                    'class' => 'btn-default',
-                    'title' => Yii::t('app', 'Create')
-                ]
-            ];
-        }
-        //        if (!isset($this->buttons['delete'])) {
-        //            $this->buttons['delete'] = [
-        //                'url'     => ['delete', $this->deleteParam => Yii::$app->request->get($this->deleteParam)],
-        //                'icon'    => 'fa-trash-o',
-        //                'options' => [
-        //                    'class'        => 'btn-default',
-        //                    'title'        => Yii::t('app', 'Delete'),
-        //                    'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-        //                    'data-method'  => 'delete'
-        //                ]
-        //            ];
-        //        }
-        //        if (!isset($this->buttons['batch-delete'])) {
-        //            $this->buttons['batch-delete'] = [
-        //                'url'     => ['batch-delete'],
-        //                'icon'    => 'fa-trash-o',
-        //                'options' => [
-        //                    'id'    => 'batch-delete',
-        //                    'class' => 'btn-default',
-        //                    'title' => Yii::t('app', 'Delete selected')
-        //                ]
-        //            ];
-        //        }
-        //        if (!isset($this->buttons['cancel'])) {
-        //            $this->buttons['cancel'] = [
-        //                'url'     => ['index'],
-        //                'icon'    => 'fa-reply',
-        //                'options' => [
-        //                    'class' => 'btn-default',
-        //                    'title' => Yii::t('app', 'Cancel')
-        //                ]
-        //            ];
-        //        }
+    public function beginTools() {
+        print "\n".Html::beginTag('div', ['class' => 'box-tools pull-right']);
     }
 
     /**
-     * Render widget tools button.
+     * End box-tools container
      */
-    protected function renderButtons() {
-        // Box tools
-        if ($this->boxTools) {
-            // Begin box tools
-            print Html::beginTag('div', ['class' => 'box-tools pull-right']);
-            print preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) {
-                $name = $matches[1];
-                if (isset($this->boxTools[$name])) {
-                    $label                                    = isset($this->boxTools[$name]['label']) ? $this->boxTools[$name]['label'] : '';
-                    $icon                                     = isset($this->boxTools[$name]['icon']) ? Html::tag('i', '', ['class' => 'fa ' . $this->boxTools[$name]['icon']]) : '';
-                    $label                                    = $icon . ' ' . $label;
-                    $this->boxTools[$name]['options']['class'] = isset($this->boxTools[$name]['options']['class']) ? 'btn btn-sm ' . $this->boxTools[$name]['options']['class'] : 'btn btn-sm';
-
-                    return Html::a($label, $url, $this->boxTools[$name]['options']);
-                } else {
-                    return '';
-                }
-            }, $this->buttonsTemplate);
-            // End box tools
-            print Html::endTag('div');
-        }
+    public function endTools() {
+        print "\n" . Html::endTag('div');
     }
+
 }

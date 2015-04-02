@@ -7,20 +7,16 @@ use Yii;
 class Model extends hiresource\ActiveRecord
 {
 
-    /***
-        return default rules
-    ***/
     public function rules() { return []; }
 
-    /***
-        return default labels for attribute
-    ***/
-
+    /**
+     * return default labels for attribute
+     */
     public function defaultAttributeLabels () {
         return [
             'id'            => Yii::t('app', 'ID'),
-            'client_id'     => Yii::t('app', 'Client ID'),
-            'seller_id'     => Yii::t('app', 'Seller ID'),
+            'client_id'     => Yii::t('app', 'Client'),
+            'seller_id'     => Yii::t('app', 'Seller'),
             'domain_id'     => Yii::t('app', 'Domain ID'),
             'domain'        => Yii::t('app', 'Domain Name'),
             'hdomain_id'    => Yii::t('app', 'Domain ID'),
@@ -42,17 +38,18 @@ class Model extends hiresource\ActiveRecord
             'request_id'    => Yii::t('app', 'Request ID'),
             'db_id'         => Yii::t('app', 'DataBase ID'),
             'db'            => Yii::t('app', 'DataBase'),
-            'state_id'      => Yii::t('app', 'State ID'),
-            'state_label'   => Yii::t('app', 'State label'),
+            'state_id'      => Yii::t('app', 'Status ID'),
+            'state_label'   => Yii::t('app', 'Status label'),
+            'state'         => Yii::t('app', 'Status'),
             'type_id'       => Yii::t('app', 'Type ID'),
             'type_label'    => Yii::t('app', 'Type label'),
        ];
     }
 
-    /***
-        Merge Attribute labels for Model
-    ***/
-
+    /// TODO rename to merge
+    /**
+     * Merge Attribute labels for Model
+     */
     public function margeAttributeLabels($labels) {
         $attributeLabels = [];
         $default = $this->defaultAttributeLabels();

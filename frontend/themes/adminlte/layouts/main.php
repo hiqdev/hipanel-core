@@ -42,7 +42,7 @@ use frontend\components\widgets\Alert;
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <?php if (!Yii::$app->user->identity->id) { ?>
-                        <a href="/site/login">
+                        <a href="/site/auth?authclient=hi3a">
                             <i class="glyphicon glyphicon-user"></i>
                             Login
                         </a>

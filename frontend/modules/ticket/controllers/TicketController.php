@@ -32,8 +32,7 @@ class TicketController extends CrudController
     }
 
     public function actionView($id) {
-        $model = $this->findModel(ArrayHelper::merge(compact('id'), ['with_answers' => 1, 'with_files' => 1]));
-        $model->scenario = 'answer';
+        $model = $this->findModel(ArrayHelper::merge(compact('id'), ['with_answers' => 1, 'with_files' => 1]), ['scenario' => 'answer']);
         return $this->render('view', ArrayHelper::merge(compact('model'), $this->prepareRefs()));
     }
 

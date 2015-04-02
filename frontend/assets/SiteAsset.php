@@ -15,18 +15,10 @@ use yii\web\AssetBundle;
  */
 class SiteAsset extends AssetBundle
 {
-    public $publishOptions = [
-
-    ];
     public $basePath = '@webroot';
     public $baseUrl = '@web';
+
     public $css = [
-        'css/site.css',
-    ];
-    public $depends = [
-//        'yii\web\JqueryAsset',
-//         'yii\web\YiiAsset',
-//         'yii\bootstrap\BootstrapAsset',
-//         'yii\bootstrap\BootstrapPluginAsset'
+        'css/site.css'
     ];
 }
