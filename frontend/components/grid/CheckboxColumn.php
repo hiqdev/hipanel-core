@@ -8,6 +8,8 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
 {
     use FeaturedColumnTrait;
 
+    public $attribute;
+
     /** @inheritdoc */
     public $defaultOptions = [
         'headerOptions' => [

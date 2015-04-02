@@ -7,15 +7,11 @@ use Yii;
 class Model extends hiresource\ActiveRecord
 {
 
-    /***
-        return default rules
-    ***/
     public function rules() { return []; }
 
-    /***
-        return default labels for attribute
-    ***/
-
+    /**
+     * return default labels for attribute
+     */
     public function defaultAttributeLabels () {
         return [
             'id'            => Yii::t('app', 'ID'),
@@ -50,10 +46,10 @@ class Model extends hiresource\ActiveRecord
        ];
     }
 
-    /***
-        Merge Attribute labels for Model
-    ***/
-
+    /// TODO rename to merge
+    /**
+     * Merge Attribute labels for Model
+     */
     public function margeAttributeLabels($labels) {
         $attributeLabels = [];
         $default = $this->defaultAttributeLabels();

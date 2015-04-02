@@ -8,6 +8,7 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Trait FeaturedColumnTrait
+ * Adds popover and filterAttribute
  */
 trait FeaturedColumnTrait
 {
@@ -50,11 +51,13 @@ trait FeaturedColumnTrait
     }
 
     public function renderHeaderCellContent () {
-        $this->headerOptions = ArrayHelper::merge($this->headerOptions,[
-            'data-toggle'  => 'popover',
-            'data-trigger' => 'hover',
-            'data-content' => $this->popover,
-        ]);
+        if ($this->popover) {
+            $this->headerOptions = ArrayHelper::merge($this->headerOptions,[
+                'data-toggle'  => 'popover',
+                'data-trigger' => 'hover',
+                'data-content' => $this->popover,
+            ]);
+        };
         return parent::renderHeaderCellContent();
     }
 

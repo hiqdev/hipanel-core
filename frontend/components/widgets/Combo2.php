@@ -101,6 +101,7 @@ class Combo2 extends Widget
         } else {
             $options['class'] = $type;
         }
+if (!$options['class']) d($this);
 
         return Yii::createObject($options)->register($this->fieldOptions);
     }
