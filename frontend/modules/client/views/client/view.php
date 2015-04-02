@@ -1,4 +1,5 @@
 <?php
+use frontend\assets\FlagIconCssAsset;
 use frontend\components\widgets\Box;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -6,6 +7,7 @@ use yii\widgets\DetailView;
 $this->title = \yii\helpers\Inflector::titleize($model->name, true);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Clients'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+FlagIconCssAsset::register($this);
 //\yii\helpers\VarDumper::dump($model, 10, true);
 ?>
 
@@ -35,9 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::a('<i class="ion-at"></i>'.Yii::t('app', 'Mailings'), '#'); ?>
                 </li>
                 <li>
-                    <?= Html::a('<i class="ion-person"></i>'.Yii::t('app', 'Change reseller'), '#'); ?>
-                </li>
-                <li>
                     <?= Html::a('<i class="ion-compose"></i>'.Yii::t('app', 'Change login'), '#'); ?>
                 </li>
                 <li>
@@ -62,6 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $model->contact,
                     'attributes' => [
                         //
+                        [
+                            'attribute' => 'country_name',
+                            'format' => 'raw',
+                            'value' => Html::tag('span', '', ['class' => 'flag-icon flag-icon-' . $model->contact['country']]) . '&nbsp;&nbsp;' . $model->contact['country_name'],
+                        ],
                         'country_name',
                         'province',
                         'province_name',
