@@ -11,7 +11,7 @@ function d ($a) { die(var_dump($a)); }
 
 return [
     'id' => 'app-frontend',
-    'name'=>'hi Panel',
+    'name'=>'HiPanel',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'defaultRoute' => 'site',
