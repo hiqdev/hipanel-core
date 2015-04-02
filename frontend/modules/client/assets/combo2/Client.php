@@ -16,6 +16,9 @@ class Client extends Combo2Config
     public $type = 'client';
 
     /** @inheritdoc */
+    public $_primaryFilter = 'login_like';
+
+    /** @inheritdoc */
     public $url = '/client/client/search';
 
     /** @inheritdoc */
@@ -27,7 +30,7 @@ class Client extends Combo2Config
     /**
      * @var string the type of client
      */
-    public $clientType = 'client';
+    public $clientType;
 
     /** @inheritdoc */
     public function getFilter () {

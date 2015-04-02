@@ -5,7 +5,6 @@ namespace frontend\components;
 use frontend\components\hiresource\ActiveQuery;
 use frontend\components\hiresource\ActiveRecord;
 use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 
 /**
  * Trait SearchModelTrait
@@ -14,17 +13,17 @@ use yii\helpers\ArrayHelper;
  */
 trait SearchModelTrait
 {
-    static $filterConditions = ['in', 'like'];
+    static $filterConditions = ['', 'in', 'like'];
 
     public function attributes () {
-        return array_merge(parent::attributes(), $this->searchAttributes());
+        return $this->searchAttributes();
     }
 
     protected function searchAttributes () {
         $attributes = [];
         foreach (parent::attributes() as $k) {
             foreach (static::$filterConditions as $condition) {
-                $attributes[$k] = $k . "_$condition";
+                $attributes[] = $k . ($condition == '' ? '' : "_$condition");
             }
         };
 
@@ -63,7 +62,8 @@ trait SearchModelTrait
             return $dataProvider;
         }
 
-        foreach ($this as $k => $value) {
+        foreach ($this->attributes() as $attribute) {
+            $value = $this->{$attribute};
             if (empty($value)) continue;
             /*
              * Extracts underscore suffix from the key.
@@ -72,15 +72,14 @@ trait SearchModelTrait
              * client_id -> 0 - client_id, 1 - client, 2 - _id, 3 - id
              * server_owner_like -> 0 - server_owner_like, 1 - server_owner, 2 - _like, 3 - like
              */
-            preg_match('/^(.*?)(_((?:.(?!_))+))?$/', $k, $matches);
+            preg_match('/^(.*?)(_((?:.(?!_))+))?$/', $attribute, $matches);
 
             /// If the suffix is in the list of acceptable suffix filer conditions
             if ($matches[3] && in_array($matches[3], static::$filterConditions)) {
-                $cmp = $matches[3];
+                $cmp       = $matches[3];
                 $attribute = $matches[1];
             } else {
                 $cmp = 'eq';
-                $attribute = $matches[0];
             }
             $query->andFilterWhere([$cmp, $attribute, $value]);
         }
