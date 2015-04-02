@@ -19,9 +19,9 @@ class SwitchColumn extends DataColumn
 
     /** @inheritdoc */
     public $defaultOptions = [
-        'headerOptions' => [
-            'style' => 'width:1em !important',
-        ],
+//        'headerOptions' => [
+//            'style' => 'width:1em !important',
+//        ],
         'pluginOptions'         => [
             'size'      => 'mini',
         ],

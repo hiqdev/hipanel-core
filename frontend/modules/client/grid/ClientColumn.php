@@ -15,23 +15,25 @@ class ClientColumn extends DataColumn
 
     public $format = 'html';
 
-    public $clientType = '';
+    public $clientType = 'client';
 
     public function init () {
         parent::init();
         if (is_null($this->visible)) {
             $this->visible = \Yii::$app->user->identity->type != 'client';
         };
-        if (!$this->filterInputOptions['id']) {
-            $this->filterInputOptions['id'] = $this->attribute;
-        }
-        if (!$this->filter) {
-            $this->filter = Combo2::widget([
-                'type'                => 'client',
-                'attribute'           => $this->attribute,
-                'model'               => $this->grid->filterModel,
-                'formElementSelector' => 'td',
-            ]);
+        if ($this->grid->hasProperty('filterModel')) {
+            if (!$this->filterInputOptions['id']) {
+                $this->filterInputOptions['id'] = $this->attribute;
+            }
+            if (!$this->filter) {
+                $this->filter = Combo2::widget([
+                    'type'                => $this->clientType,
+                    'attribute'           => $this->attribute,
+                    'model'               => $this->grid->filterModel,
+                    'formElementSelector' => 'td',
+                ]);
+            };
         };
     }
 
