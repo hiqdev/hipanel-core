@@ -39,7 +39,7 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/auth', 'authclient' => 'hi3a']];
 }
 else {
-    $menuItems[] = ['label' => Yii::t('app', 'Panel'), 'url' => ['/hipanel'], 'active' => true];
+    $menuItems[] = ['label' => Yii::t('app', 'Panel'), 'url' => ['/hipanel'], 'template' => '<a href="{url}" style="color: #fed136;">{label}</a>'];
     $menuItems[] = [
         'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
         'url' => ['/site/logout'],
