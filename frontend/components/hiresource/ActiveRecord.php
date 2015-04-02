@@ -16,10 +16,6 @@ use yii\helpers\Json;
 use yii\helpers\StringHelper;
 use common\components\Err;
 
-//use yii\base\InvalidCallException;
-//use yii\base\NotSupportedException;
-//use yii\helpers\ArrayHelper;
-
 class ActiveRecord extends BaseActiveRecord
 {
     public $gl_key;

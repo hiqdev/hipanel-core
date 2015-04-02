@@ -17,10 +17,13 @@ class Server extends Combo2Config
     public $type = 'server';
 
     /** @inheritdoc */
+    public $_primaryFilter = 'name_like';
+
+    /** @inheritdoc */
     public $url = '/server/server/search';
 
     /** @inheritdoc */
-    public $_return = ['id', 'client', 'client_id'];
+    public $_return = ['id', 'client', 'client_id', 'seller', 'seller_id'];
 
     /** @inheritdoc */
     public $_rename = ['text' => 'name'];
@@ -33,7 +36,8 @@ class Server extends Combo2Config
         $config = ArrayHelper::merge([
             'clearWhen' => ['client'],
             'affects'   => [
-                'client' => 'client'
+                'client' => 'client',
+                'seller' => 'seller'
             ]
         ], $config);
 

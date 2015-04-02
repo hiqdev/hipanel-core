@@ -1,13 +1,14 @@
 <?php
 
+use frontend\components\grid\CheckboxColumn;
 use frontend\components\grid\GridView;
 use frontend\components\widgets\Pjax;
 use frontend\components\widgets\Select2;
 use frontend\components\widgets\RequestState;
 use frontend\components\widgets\GridActionButton;
+use frontend\modules\client\grid\ResellerColumn;
 use frontend\modules\server\widgets\StateFormatter;
 use frontend\modules\server\widgets\DiscountFormatter;
-use yii\helpers\Url;
 use \yii\helpers\Html;
 use frontend\modules\server\grid\ServerColumn;
 use frontend\modules\client\grid\ClientColumn;
@@ -33,21 +34,19 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                 'filterModel'  => $searchModel,
                 'columns'      => [
                     [
-                        'class'         => 'frontend\components\grid\CheckboxColumn',
+                        'class' => CheckboxColumn::className(),
                     ],
                     [
-                        'class'         => ClientColumn::className(),
-                        'clientType'    => 'reseller',
-                        'nameAttribute' => 'seller',
-                        'attribute'     => 'seller_id',
+                        'class' => ResellerColumn::className(),
                     ],
                     [
-                        'class'         => ClientColumn::className(),
-                        'clientType'    => 'ALL',
+                        'class'      => ClientColumn::className(),
+                        'clientType' => 'ALL',
                     ],
                     [
                         'class'         => ServerColumn::className(),
-                        'attribute'     => 'id'
+                        'attribute'     => 'id',
+                        'nameAttribute' => 'name'
                     ],
                     [
                         'attribute'      => 'panel',

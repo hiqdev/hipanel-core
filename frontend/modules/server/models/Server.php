@@ -13,7 +13,6 @@ class Server extends \frontend\components\hiresource\ActiveRecord
         return [
             'id',
             'name',
-            'server_like',
             'seller',
             'seller_id',
             'client',
@@ -39,7 +38,6 @@ class Server extends \frontend\components\hiresource\ActiveRecord
             'osimage',
             'rcp',
             'vnc',
-
             'statuses',
             'running_task'
         ];
@@ -60,14 +58,14 @@ class Server extends \frontend\components\hiresource\ActiveRecord
                     'boot-live',
                     'regen-root-password'
                 ]
-            ]
+            ],
         ];
     }
 
     public function scenarios () {
         return [
             'reinstall'           => ['id', 'osimage', 'panel'],
-            'boot-live'           => ['id', 'osimange'],
+            'boot-live'           => ['id', 'osimage'],
             'reboot'              => ['id'],
             'reset'               => ['id'],
             'shutdown'            => ['id'],
