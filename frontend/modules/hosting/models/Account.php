@@ -5,7 +5,6 @@ use frontend\components\helpers\ArrayHelper;
 use frontend\components\Model;
 use frontend\components\ModelTrait;
 use frontend\components\validators\IpAddressValidator;
-use frontend\modules\server\models\Server;
 use Yii;
 
 class Account extends Model
@@ -16,7 +15,7 @@ class Account extends Model
         return [
             [['id', 'client_id', 'device_id', 'server_id'], 'integer'],
             [
-                ['login', 'password', 'uid', 'gid', 'shell', 'client', 'path', 'home', 'device', 'seller', 'seller_id'],
+                ['login', 'password', 'uid', 'gid', 'shell', 'client', 'path', 'home', 'device', 'server', 'seller', 'seller_id'],
                 'safe'
             ],
             [['type', 'type_label', 'state', 'state_label'], 'safe'],

@@ -10,10 +10,12 @@ use yii\helpers\Html;
 class Combo2 extends Widget
 {
     public static $builtInCombos = [
-        'client'   => 'frontend\modules\client\assets\combo2\Client',
-        'reseller' => 'frontend\modules\client\assets\combo2\Reseller',
-        'server'   => 'frontend\modules\server\assets\combo2\Server',
-        'account'  => 'frontend\modules\hosting\assets\combo2\Account',
+        'client'    => 'frontend\modules\client\assets\combo2\Client',
+        'reseller'  => 'frontend\modules\client\assets\combo2\Reseller',
+        'server'    => 'frontend\modules\server\assets\combo2\Server',
+        'account'   => 'frontend\modules\hosting\assets\combo2\Account',
+        'service'   => 'frontend\modules\hosting\assets\combo2\Service',
+        'dbService' => 'frontend\modules\hosting\assets\combo2\DbService',
     ];
 
     /**
@@ -101,7 +103,7 @@ class Combo2 extends Widget
         } else {
             $options['class'] = $type;
         }
-if (!$options['class']) d($this);
+        if (!$options['class']) d($this);
 
         return Yii::createObject($options)->register($this->fieldOptions);
     }
