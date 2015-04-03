@@ -10,7 +10,7 @@ function d ($a) { die(var_dump($a)); }
 
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'hipanel',
     'name'=>'HiPanel',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],

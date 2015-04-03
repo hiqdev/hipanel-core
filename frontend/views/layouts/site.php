@@ -27,9 +27,9 @@ StartAgencyAsset::register($this);
 <?php
 $menuItems = [
     ['label' => '', 'url' => '#page-top', 'options' => ['class' => 'hidden']],
-    ['label' => 'Features', 'url' => '#features', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
-    ['label' => 'Screenshots', 'url' => '#screenshots', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
-    ['label' => 'Pricing', 'url' => '#pricing', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
+//    ['label' => 'Features', 'url' => '#features', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
+//    ['label' => 'Screenshots', 'url' => '#screenshots', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
+//    ['label' => 'Pricing', 'url' => '#pricing', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
     ['label' => 'About', 'url' => '#about', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
     ['label' => 'Team', 'url' => '#team', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
     ['label' => 'Contact', 'url' => '#contact', 'template' => '<a href="{url}" class="page-scroll">{label}</a>'],
@@ -39,7 +39,7 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/auth', 'authclient' => 'hi3a']];
 }
 else {
-    $menuItems[] = ['label' => Yii::t('app', 'Panel'), 'url' => ['/hipanel'], 'active' => true];
+    $menuItems[] = ['label' => Yii::t('app', 'Panel'), 'url' => ['/hipanel']];
     $menuItems[] = [
         'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
         'url' => ['/site/logout'],
@@ -83,10 +83,10 @@ else {
             <div class="intro-heading">It's Nice To Meet You</div>
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-2">
-                    <a href="#features" class="page-scroll btn btn-xl btn-block">Tell Me More</a>
+                    <a href="#about" class="page-scroll btn btn-xl btn-block">About</a>
                 </div>
                 <div class="col-sm-4">
-                    <a href="#" class="page-scroll btn btn-xl btn-block">Try it out</a>
+                    <a href="#" class="page-scroll btn btn-xl btn-block">Login</a>
                 </div>
             </div>
 

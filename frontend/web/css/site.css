@@ -94,6 +94,11 @@ a.desc:after {
 
 /* --- */
 
+header {
+    background-image: url(../img/header-bg-2.jpg)!important;
+}
+
+
 .portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content i {
     margin-top: -12px;
 }
