@@ -13,6 +13,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -28,7 +29,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup','lockscreen'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -36,9 +37,9 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
-                        'allow' => true,
+                        'actions' => ['logout','lockscreen'],
                         'roles' => ['@'],
+                        'allow' => true,
                     ],
                 ],
             ],
@@ -85,6 +86,11 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionLockscreen ()
+    {
+        return $this->render('lockscreen');
+    }
+
     public function actionLogin () {
         if (!\Yii::$app->user->isGuest) {
             return $this->goBack();
@@ -100,11 +106,12 @@ class SiteController extends Controller
         };
     }
 
-    public function actionLogout()
-    {
+    public function actionLogout () {
+        $back = Yii::$app->request->getHostInfo();
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return Yii::$app->getResponse()->redirect('https://sol-hi3a-master.ahnames.com/site/logout?'.http_build_query(compact('back')));
+
     }
 
     public function actionContact()
