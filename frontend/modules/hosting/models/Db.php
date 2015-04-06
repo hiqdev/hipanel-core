@@ -12,21 +12,28 @@ class Db extends Model
     /** @inheritdoc */
     public function rules () {
         return [
-            [['id', 'account_id', 'client_id', 'seller_id', 'service_id', 'device_id'],             'integer'],
-            [['name', 'account', 'client', 'seller', 'service', 'device'],                          'safe'],
-            [['service_ip', 'description'],                                                         'safe'],
-            [['type', 'state', 'backuping_type','type_label','state_label','backuping_type_label'], 'safe'],
-            [['password'],                                                                          'safe'],
+            [['id', 'account_id', 'client_id', 'seller_id', 'service_id', 'device_id', 'server_id'], 'integer'],
+            [['name', 'account', 'client', 'seller', 'service', 'device', 'server'], 'safe'],
+            [['service_ip', 'description'], 'safe'],
+            [['type', 'state', 'backuping_type', 'type_label', 'state_label', 'backuping_type_label'], 'safe'],
+            [['password'], 'safe'],
+        ];
+    }
+
+    public function scenarios () {
+        return [
+            'create'          => ['server_id', 'client_id', 'account_id', 'service_id', 'name', 'password', 'description'],
+            'set-description' => ['id', 'description'],
         ];
     }
 
     /** @inheritdoc */
     public function attributeLabels () {
         return $this->margeAttributeLabels([
-            'name'                  => Yii::t('app', 'DB name'),
-            'service_ip'            => Yii::t('app', 'Service IP'),
-            'backuping_type'        => Yii::t('app', 'Type of backuping'),
-            'backuping_type_label'  => Yii::t('app', 'Backuping type label'),
+            'name'                 => Yii::t('app', 'DB name'),
+            'service_ip'           => Yii::t('app', 'Service IP'),
+            'backuping_type'       => Yii::t('app', 'Type of backuping'),
+            'backuping_type_label' => Yii::t('app', 'Backuping type label'),
         ]);
     }
 }

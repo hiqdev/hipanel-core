@@ -81,7 +81,7 @@ class CrudController extends Controller
         $result = (new Collection($config))->load()->save();
         if (Yii::$app->request->isAjax && !in_array('application/json', Yii::$app->request->acceptableContentTypes)) {
             return $this->renderJson([
-                'message' => $result ? '' : $message['success']
+                'message' => $result ? '' : $message['error']
             ]);
         } else {
             /// TODO: non-ajax behaviour

@@ -30,7 +30,6 @@ class DomainGridView extends BoxedGridView
             ],
             'whois_protected' => [
                 'class'                 => SwitchColumn::className(),
-                'attribute'             => 'whois_protected',
                 'popover'               => 'WHOIS protection',
                 'pluginOptions'         => [
                     'onColor'   => 'success',
@@ -65,7 +64,6 @@ class DomainGridView extends BoxedGridView
             ],
             'autorenewal' => [
                 'class'                 => SwitchColumn::className(),
-                'attribute'             => 'autorenewal',
                 'label'                 => 'Autorenew',
                 'popover'               => 'The domain will be autorenewed for one year in a week before it expires if you have enough credit on your account',
                 'pluginOptions'         => [

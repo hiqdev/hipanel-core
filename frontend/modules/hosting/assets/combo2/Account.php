@@ -17,11 +17,14 @@ class Account extends Combo2Config
     public $type = 'account';
 
     /** @inheritdoc */
+    public $_primaryFilter = 'login_like';
+
+    /** @inheritdoc */
     public $url = '/hosting/account/search';
 
     public $_return = ['id', 'client', 'client_id', 'device', 'device_id'];
 
-    public $_rename = ['text' => 'name'];
+    public $_rename = ['text' => 'login'];
 
     public $_filter = [
         'client' => 'client',

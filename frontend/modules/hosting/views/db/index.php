@@ -1,7 +1,9 @@
 <?php
 
+use frontend\components\grid\EditableColumn;
 use frontend\components\grid\GridView;
 use frontend\components\grid\CheckboxColumn;
+use frontend\components\grid\MainColumn;
 use frontend\components\grid\RefColumn;
 use frontend\modules\client\grid\ClientColumn;
 use frontend\components\widgets\GridActionButton;
@@ -11,7 +13,7 @@ use frontend\modules\hosting\widgets\db\State;
 use frontend\modules\server\grid\ServerColumn;
 use yii\helpers\Html;
 
-$this->title                   = Yii::t('app', 'DataBase');
+$this->title                   = Yii::t('app', 'Databases');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['subtitle']      = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
 
@@ -22,7 +24,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
 <div class="box">
     <div class="box-header">
         <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-            'modelClass' => 'db',
+            'modelClass' => 'database',
         ]), ['create'], ['class' => 'btn btn-success']); ?>
     </div>
     <div class="box-body">
@@ -43,18 +45,21 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                     'class' => ServerColumn::className(),
                 ],
                 [
-                    'attribute' => 'name'
+                    'class'           => MainColumn::className(),
+                    'attribute'       => 'name',
+                    'filterAttribute' => 'name_like'
                 ],
                 [
                     'attribute' => 'service_ip',
+                    'filter'    => false
 
                 ],
                 [
-                    'attribute' => 'name',
-                    'label'     => Yii::t('app', 'Username')
-                ],
-                [
-                    'attribute' => 'description'
+                    'class'     => EditableColumn::className(),
+                    'attribute' => 'description',
+                    'filter'    => true,
+                    'popover'   => Yii::t('app', 'Make any notes for your convenience'),
+                    'action'    => ['set-description'],
                 ],
                 [
                     'class'     => RefColumn::className(),
@@ -75,7 +80,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                                 'icon'  => '<i class="fa fa-eye"></i>',
                                 'label' => Yii::t('app', 'Details'),
                             ]);
-                        },
+                        }
                     ],
                 ],
             ],
