@@ -36,7 +36,7 @@ $menuItems = [
 ];
 if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-    $menuItems[] = ['label' => 'Login', 'url' => ['/site/auth', 'authclient' => 'hi3a']];
+    $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 }
 else {
     $menuItems[] = ['label' => Yii::t('app', 'Panel'), 'url' => ['/hipanel']];

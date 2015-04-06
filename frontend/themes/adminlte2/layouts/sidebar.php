@@ -16,7 +16,7 @@ use Yii;
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <?= $this->render('gravatar'); ?>
+                <?= $this->render('gravatar',['size'=>45]); ?>
             </div>
             <div class="pull-left info">
                 <p><?= Yii::$app->user->identity->username ?></p>

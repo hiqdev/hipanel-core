@@ -83,7 +83,7 @@ class User extends Model implements IdentityInterface
 
     /** @inheritdoc */
     public function getAccessToken () {
-        return \Yii::$app->authClientCollection->getClient('hi3a')->getAccessToken()->getParam('access_token');
+        return \Yii::$app->authClientCollection->getClient()->getAccessToken()->getParam('access_token');
     }
 
     /**

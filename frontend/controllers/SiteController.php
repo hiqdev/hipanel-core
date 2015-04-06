@@ -21,9 +21,7 @@ use yii\helpers\Url;
 class SiteController extends Controller
 {
     public $layout = 'site';
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors()
     {
         return [
@@ -83,7 +81,8 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->redirect(['/hipanel/index']);
+        // return $this->render('index');
     }
 
     public function actionLockscreen ()
@@ -92,26 +91,27 @@ class SiteController extends Controller
     }
 
     public function actionLogin () {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goBack();
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['/hipanel/index']);
         };
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        };
+        return $this->redirect(['/site/auth', 'authclient' => 'hi3a']);
     }
 
     public function actionLogout () {
         $back = Yii::$app->request->getHostInfo();
+        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/logout',compact('back'));
         Yii::$app->user->logout();
 
-        return Yii::$app->getResponse()->redirect('https://sol-hi3a-master.ahnames.com/site/logout?'.http_build_query(compact('back')));
+        return Yii::$app->response->redirect($url);
 
+    }
+
+    public function actionSignup () {
+        $back = Yii::$app->request->getHostInfo();
+        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/signup',compact('back'));
+
+        return Yii::$app->response->redirect($url);
     }
 
     public function actionContact()
@@ -135,22 +135,6 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
-    }
-
-    public function actionSignup()
-    {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
-            }
-        }
-
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
     }
 
     public function actionRequestPasswordReset()

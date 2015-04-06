@@ -56,13 +56,11 @@ return [
         ],
 
         'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
+            'class' => 'hi3a\authclient\Collection',
             'clients' => [
                 'hi3a' => [
-                    'class'         => 'common\components\hi3aOauth2Client',
-                    'authUrl'       => 'https://sol-hi3a-master.ahnames.com/oauth2/authorize',
-                    'tokenUrl'      => 'https://sol-hi3a-master.ahnames.com/oauth2/token',
-                    'apiBaseUrl'    => 'https://sol-hi3a-master.ahnames.com/api',
+                    'class'         => 'hi3a\authclient\Oauth2Client',
+                    'site'          => 'sol-hi3a-master.ahnames.com',
                     'clientId'      => 'sol-hipanel-master',
                     'clientSecret'  => 'MdQybNMHMJ',
                 ],

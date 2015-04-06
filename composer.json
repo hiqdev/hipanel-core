@@ -2,14 +2,39 @@
     "name": "hiqdev/hipanel",
     "description": "hiPanel",
     "keywords": ["hipanel", "control panel"],
-    "homepage": "http://hipanel.com/",
+    "homepage": "https://hipanel.com/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "http://hipanel.com/issues",
-        "forum": "http://yiiframework.com/forum",
-        "wiki": "http://hipanel.com/wiki"
+        "email": "support@hipanel.com",
+        "source": "https://github.com/hiqdev/hipanel",
+        "issues": "https://hipanel.com/issues",
+        "forum": "https://hipanel.com/forum",
+        "wiki": "https://hipanel.com/wiki"
     },
+    "authors": [
+        {
+            "name": "Andrii Vasyliev",
+            "email": "sol@hipanel.com",
+            "homepage": "https://hipanel.com/",
+            "role": "Founder and project lead"
+        },
+        {
+            "name": "Dmitry Naumenko",
+            "email": "silverfire@hipanel.com",
+            "role": "Lead backend developer"
+        },
+        {
+            "name": "Andrey Klochok",
+            "email": "tafid@hipanel.com",
+            "role": "Lead frontend developer"
+        },
+        {
+            "name": "Yuriy Myronchuk",
+            "email": "bladeroot@hipanel.com",
+            "role": "QA Lead"
+        }
+    ],
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
@@ -17,7 +42,7 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "*",
-        "yiisoft/yii2-authclient": "*",
+        "hiqdev/yii2-hi3a-authclient": "*",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
         "kartik-v/yii2-field-range": "*",
@@ -43,8 +68,12 @@
     },
     "repositories": [
         {
-            "type": "git",
+            "type": "vcs",
             "url": "https://github.com/hiqdev/yii2"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/hiqdev/yii2-hi3a-authclient"
         }
     ],
     "config": {

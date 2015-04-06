@@ -26,7 +26,7 @@ use frontend\components\widgets\Alert;
 <div class="wrapper">
 
     <header class="main-header">
-        <a href="<?= Yii::$app->homeUrl; ?>" class="logo"><b>HiP</b>anel</a>
+        <a href="<?= Yii::$app->homeUrl; ?>" class="logo">Hi<b>Panel</b></a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Sidebar toggle button-->
