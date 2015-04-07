@@ -20,7 +20,7 @@ use yii\helpers\Url;
  */
 class SiteController extends Controller
 {
-    public $layout = 'site';
+//    public $layout = 'site';
 
     public function behaviors()
     {
