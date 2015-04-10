@@ -2,7 +2,6 @@
 
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
-use yii\grid\DetailView;
 use frontend\modules\domain\grid\DomainGridView;
 use frontend\components\widgets\RequestState;
 use frontend\components\widgets\Pjax;

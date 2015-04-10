@@ -22,7 +22,7 @@ class ClientColumn extends DataColumn
         if (is_null($this->visible)) {
             $this->visible = \Yii::$app->user->identity->type != 'client';
         };
-        if ($this->grid->hasProperty('filterModel')) {
+        if (!empty($this->grid->filterModel)) {
             if (!$this->filterInputOptions['id']) {
                 $this->filterInputOptions['id'] = $this->attribute;
             }

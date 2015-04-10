@@ -13,7 +13,7 @@ use frontend\modules\client\grid\ResellerColumn;
  * Class GridView
  * Theme GridView widget.
  */
-class GridView extends \kartik\grid\GridView
+class GridView extends \hiqdev\higrid\GridView
 {
     public $dataColumnClass = 'frontend\components\grid\DataColumn';
 

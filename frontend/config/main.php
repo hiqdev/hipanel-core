@@ -35,7 +35,7 @@ return [
         'hiresource'=>[
             'class' => 'frontend\components\hiresource\Connection',
             'config' => [
-                'api_url' => 'http://localhost-api.ahnames.com',
+                'api_url' => 'https://sol-ahcore-oauth.ahnames.com',
             ],
         ],
         'user' => [

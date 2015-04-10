@@ -2,7 +2,7 @@
 
 namespace frontend\components\grid;
 
-class DetailView extends \yii\grid\DetailView
+class DetailView extends \hiqdev\higrid\DetailView
 {
     public $gridViewClass;
 
