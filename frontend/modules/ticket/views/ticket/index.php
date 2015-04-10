@@ -141,17 +141,17 @@ $this->params['subtitle'] = Yii::$app->request->queryParams ? Yii::t('app', 'fil
             }
         ],
         [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => '{state}', // {view}
+            'class' => \frontend\components\grid\ActionColumn::className(),
+            'template' => '{view}', // {state}
             'header' => Yii::t('app', 'Actions'),
             'buttons' => [
-                'view' => function ($url, $model, $key) {
-                    return GridActionButton::widget([
-                        'url' => $url,
-                        'icon' => '<i class="fa fa-eye"></i>',
-                        'label' => Yii::t('app', 'Details'),
-                    ]);
-                },
+//                'view' => function ($url, $model, $key) {
+//                    return GridActionButton::widget([
+//                        'url' => $url,
+//                        'icon' => '<i class="fa fa-eye"></i>',
+//                        'label' => Yii::t('app', 'Details'),
+//                    ]);
+//                },
                 'state' => function ($url, $model, $key) {
                     if ($model->state == 'opened') {
                         //                        $title = Yii::t('app', 'Close');
@@ -159,11 +159,12 @@ $this->params['subtitle'] = Yii::$app->request->queryParams ? Yii::t('app', 'fil
                         //                            ['close', 'id' => $model->id],
                         //                            ['title' => $title, 'class' => 'btn btn-default btn-xs', 'data-pjax' => 0]
                         //                        );
-                        return GridActionButton::widget([
-                            'url' => ['close', 'id' => $model->id],
-                            'icon' => '<i class="fa fa-times"></i>',
-                            'label' => Yii::t('app', 'Close'),
-                        ]);
+                        return Html::a('Close', ['close', 'id' => $model->id]);
+//                        GridActionButton::widget([
+//                            'url' => ['close', 'id' => $model->id],
+//                            'icon' => '<i class="fa fa-times"></i>',
+//                            'label' => Yii::t('app', 'Close'),
+//                        ]);
                     }
                 },
             ],
