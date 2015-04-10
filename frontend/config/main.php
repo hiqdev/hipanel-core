@@ -60,7 +60,7 @@ return [
             'clients' => [
                 'hi3a' => [
                     'class'         => 'hi3a\authclient\Oauth2Client',
-                    'site'          => 'sol-hi3a-master.ahnames.com',
+                    'site'          => 'sol-hi3a-new.ahnames.com',
                     'clientId'      => 'sol-hipanel-master',
                     'clientSecret'  => 'MdQybNMHMJ',
                 ],
