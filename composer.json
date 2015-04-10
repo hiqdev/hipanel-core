@@ -15,23 +15,23 @@
     "authors": [
         {
             "name": "Andrii Vasyliev",
-            "email": "sol@hipanel.com",
+            "email": "sol@hiqdev.com",
             "homepage": "https://hipanel.com/",
             "role": "Project lead"
         },
         {
             "name": "Dmitry Naumenko",
-            "email": "silverfire@hipanel.com",
+            "email": "silverfire@hiqdev.com",
             "role": "Lead backend developer"
         },
         {
             "name": "Andrey Klochok",
-            "email": "tafid@hipanel.com",
+            "email": "tafid@hiqdev.com",
             "role": "Lead frontend developer"
         },
         {
             "name": "Yuriy Myronchuk",
-            "email": "bladeroot@hipanel.com",
+            "email": "bladeroot@hiqdev.com",
             "role": "QA Lead"
         }
     ],
@@ -42,7 +42,8 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "*",
-        "hiqdev/yii2-hi3a-authclient": "*",
+        "hiqdev/yii2-hi3a-authclient": "*@dev",
+        "hiqdev/yii2-higrid": "*@dev",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
         "kartik-v/yii2-field-range": "*",
