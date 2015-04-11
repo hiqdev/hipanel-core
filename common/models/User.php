@@ -34,13 +34,13 @@ class User extends Model implements IdentityInterface
 
     public function save () {
         static::$_users[$this->id]       = $this;
-        \Yii::$app->session->set('identity:'.$this->id,$this);
+        Yii::$app->session->set('identity:'.$this->id,$this);
     }
 
     public function findOne ($id) {
         $find = static::$_users[$id];
         if ($find) return $find;
-        $find = \Yii::$app->session->get('identity:'.$id);
+        $find = Yii::$app->session->get('identity:'.$id);
         return $find;
     }
 
@@ -83,7 +83,7 @@ class User extends Model implements IdentityInterface
 
     /** @inheritdoc */
     public function getAccessToken () {
-        return \Yii::$app->authClientCollection->getClient()->getAccessToken()->getParam('access_token');
+        return Yii::$app->authClientCollection->getClient()->getAccessToken()->getParam('access_token');
     }
 
     /**
