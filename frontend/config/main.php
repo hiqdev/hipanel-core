@@ -8,7 +8,6 @@ $params = array_merge(
 
 function d ($a) { die(var_dump($a)); }
 
-
 return [
     'id' => 'hipanel',
     'name'=>'HiPanel',
@@ -59,10 +58,10 @@ return [
             'class' => 'hi3a\authclient\Collection',
             'clients' => [
                 'hi3a' => [
-                    'class'         => 'hi3a\authclient\Oauth2Client',
+                    'class'         => 'hi3a\authclient\Hi3aClient',
                     'site'          => 'sol-hi3a-new.ahnames.com',
-                    'clientId'      => 'sol-hipanel-master',
-                    'clientSecret'  => 'MdQybNMHMJ',
+                    'clientId'      => $params['hi3a_client_id'],
+                    'clientSecret'  => $params['hi3a_client_secret'],
                 ],
             ],
         ],
