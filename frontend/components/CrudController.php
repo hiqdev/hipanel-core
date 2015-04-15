@@ -2,9 +2,9 @@
 
 namespace frontend\components;
 
-use frontend\components\hiresource\ActiveRecord;
-use frontend\components\hiresource\HiResException;
-use frontend\components\hiresource\Collection;
+use hiqdev\hiar\ActiveRecord;
+use hiqdev\hiar\HiResException;
+use hiqdev\hiar\Collection;
 use frontend\components\helpers\ArrayHelper as AH;
 use frontend\models\Ref;
 use Yii;

@@ -8,7 +8,7 @@ use yii\base\Action;
 class RequestStateAction extends Action {
 
     /**
-     * @var \frontend\components\hiresource\ActiveRecord
+     * @var \hiqdev\hiar\ActiveRecord
      */
     public $model;
 

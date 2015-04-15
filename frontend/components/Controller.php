@@ -2,7 +2,7 @@
 
 namespace frontend\components;
 
-use frontend\components\hiresource\ActiveRecord;
+use hiqdev\hiar\ActiveRecord;
 use yii\base\InvalidConfigException;
 use yii\helpers\Inflector;
 use yii\helpers\ArrayHelper;

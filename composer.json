@@ -59,7 +59,8 @@
         "yiisoft/yii2-imagine": "~2.0",
         "bower-asset/admin-lte": "2.*",
         "bower-asset/flag-icon-css": "*",
-        "bower-asset/startbootstrap-agency": "1.*"
+        "bower-asset/startbootstrap-agency": "1.*",
+        "hiqdev/yii2-hiar": "*@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

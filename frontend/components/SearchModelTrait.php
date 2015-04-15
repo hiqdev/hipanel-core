@@ -2,8 +2,8 @@
 
 namespace frontend\components;
 
-use frontend\components\hiresource\ActiveQuery;
-use frontend\components\hiresource\ActiveRecord;
+use hiqdev\hiar\ActiveQuery;
+use hiqdev\hiar\ActiveRecord;
 use yii\data\ActiveDataProvider;
 
 /**
