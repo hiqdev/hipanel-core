@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),
@@ -31,8 +37,8 @@ return [
 //            'queryCacheId'=>'SomeCacheComponent'
 //        ],
 
-        'hiresource'=>[
-            'class' => 'frontend\components\hiresource\Connection',
+        'hiresource' => [
+            'class' => 'hiqdev\hiar\Connection',
             'config' => [
                 'api_url' => 'https://sol-ahcore-oauth.ahnames.com',
             ],

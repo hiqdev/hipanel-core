@@ -1,13 +1,24 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace frontend\components;
 
 use Yii;
 
-class Model extends hiresource\ActiveRecord
+class Model extends \hiqdev\hiar\ActiveRecord
 {
 
-    public function rules() { return []; }
+    /**
+     * No rules be default
+     */
+    public function rules ()
+    {
+        return [];
+    }
 
     /**
      * return default labels for attribute
@@ -46,9 +57,9 @@ class Model extends hiresource\ActiveRecord
        ];
     }
 
-    /// TODO rename to merge
     /**
      * Merge Attribute labels for Model
+     * TODO rename to merge
      */
     public function margeAttributeLabels($labels) {
         $attributeLabels = [];

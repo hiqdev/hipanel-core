@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace frontend\modules\server\controllers;
 
@@ -6,7 +11,6 @@ use frontend\components\actions\RequestStateAction;
 use frontend\components\CrudController;
 use frontend\modules\server\models\Server;
 use frontend\modules\server\models\Osimage;
-use frontend\components\hiresource\HiResException;
 use frontend\models\Ref;
 use frontend\components\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;

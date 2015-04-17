@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\ticket\controllers;
 
 use frontend\modules\ticket\models\TicketSettings;
@@ -6,7 +12,7 @@ use Yii;
 use frontend\modules\ticket\models\Thread;
 use frontend\modules\ticket\models\ThreadSearch;
 use common\models\File;
-use frontend\components\hiresource\HiResException;
+use hiqdev\hiar\HiResException;
 use frontend\components\CrudController;
 use yii\helpers\ArrayHelper;
 

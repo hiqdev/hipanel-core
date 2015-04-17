@@ -1,10 +1,16 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\server\models;
 
 use Yii;
 use yii\base\NotSupportedException;
 
-class Server extends \frontend\components\hiresource\ActiveRecord
+class Server extends \hiqdev\hiar\ActiveRecord
 {
     /**
      * @return array the list of attributes for this record

@@ -5,7 +5,7 @@ use frontend\modules\client\grid\ClientColumn;
 use frontend\components\grid\EditableColumn;
 use frontend\modules\client\grid\ResellerColumn;
 use frontend\components\grid\SwitchColumn;
-use frontend\components\widgets\GridView;
+use frontend\components\grid\GridView;
 use frontend\modules\domain\widgets\Expires;
 use frontend\modules\domain\widgets\State;
 use frontend\models\Ref;

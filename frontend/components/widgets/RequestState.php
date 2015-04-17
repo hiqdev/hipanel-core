@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\components\widgets;
 
 use frontend\assets\RequestStateAsset;
@@ -14,7 +20,7 @@ class RequestState extends Widget
     public $module;
 
     /**
-     * @var \frontend\components\hiresource\ActiveRecord
+     * @var \hiqdev\hiar\ActiveRecord
      */
     public $model;
 

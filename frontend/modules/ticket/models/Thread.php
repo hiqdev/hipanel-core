@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace frontend\modules\ticket\models;
 
@@ -6,7 +11,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\helpers\Markdown;
 
-class Thread extends \frontend\components\hiresource\ActiveRecord
+class Thread extends \hiqdev\hiar\ActiveRecord
 {
 
     public $time_from;

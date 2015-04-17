@@ -1,9 +1,16 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\client\models;
 
-use Yii, frontend\models\Ref;
+use Yii;
+use frontend\models\Ref;
 
-class Article extends \frontend\components\hiresource\ActiveRecord
+class Article extends \hiqdev\hiar\ActiveRecord
 {
 
     public function getArticleExtraFields() {

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\server\models;
 
 use Yii;
@@ -11,7 +17,7 @@ use Yii;
  * @property string panel
  * @property array softpack
  */
-class Osimage extends \frontend\components\hiresource\ActiveRecord
+class Osimage extends \hiqdev\hiar\ActiveRecord
 {
     /**
      * @return array the list of attributes for this record

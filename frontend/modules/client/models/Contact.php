@@ -1,10 +1,15 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace frontend\modules\client\models;
 
 use Yii;
 
-class Contact extends \frontend\components\hiresource\ActiveRecord
+class Contact extends \hiqdev\hiar\ActiveRecord
 {
     /**
      * @return array the list of attributes for this record

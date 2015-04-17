@@ -1,8 +1,13 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace frontend\models;
 
-class Ref extends \frontend\components\hiresource\ActiveRecord
+class Ref extends \hiqdev\hiar\ActiveRecord
 {
 
     public static function getList($name, $translate=true)
