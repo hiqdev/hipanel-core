@@ -1,7 +1,10 @@
 HiPanel changelog
 -----------------
 
-### 0.1.0 under development
+### 0.0.2 under development
 
+### 0.0.1-alpha 2015-04-19
+
+- first shown to somebody else :)
 - inited
 
