@@ -8,10 +8,10 @@
 namespace hipanel\widgets;
 
 use Yii;
-use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\Widget;
 use yii\helpers\Html;
+use frontend\components\helpers\ArrayHelper;
 
 class Combo2 extends Widget
 {
@@ -109,10 +109,16 @@ class Combo2 extends Widget
         } else {
             $options['class'] = $type;
         }
-        if (!$options['class']) d($this);
 
-        return Yii::createObject($options)->register($this->fieldOptions);
+        return Yii::createObject($options)->register($this->getFieldOptions());
     }
+
+    public function getFieldOptions() {
+        return ArrayHelper::merge([
+            'hasId' => substr($this->attribute, -3) == '_id'
+        ], $this->fieldOptions);
+    }
+
 }
 
 ?>

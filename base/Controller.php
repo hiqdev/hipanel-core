@@ -43,7 +43,7 @@ class Controller extends \yii\web\Controller
      * @param string $submodel the submodel that will be added to the ClassName
      * @return string Main Model class name
      */
-    static protected function modelClassName () {
+    static public function modelClassName () {
         $parts = explode('\\', static::className());
         $last  = array_pop($parts);
         array_pop($parts);
@@ -57,7 +57,7 @@ class Controller extends \yii\web\Controller
      * @param array $config config to be used to create the [[Model]]
      * @returns ActiveRecord
      */
-    static protected function newModel ($config = [], $submodel = '') {
+    static public function newModel ($config = [], $submodel = '') {
         return \Yii::createObject(static::modelClassName().$submodel, $config);
     }
 
@@ -65,14 +65,14 @@ class Controller extends \yii\web\Controller
      * @param array $config config to be used to create the [[Model]]
      * @returns ActiveRecord Search Model object
      */
-    static protected function searchModel ($config = []) {
+    static public function searchModel ($config = []) {
         return static::newModel($config, 'Search');
     }
 
     /**
      * @returns string Main model's formName()
      */
-    static protected function formName () {
+    static public function formName () {
         return static::newModel()->formName();
     }
 
@@ -80,7 +80,7 @@ class Controller extends \yii\web\Controller
      * @param string $separator
      * @return string Main model's camel2id'ed formName()
      */
-    static protected function idName ($separator = '-') {
+    static public function idName ($separator = '-') {
         return Inflector::camel2id(static::formName(), $separator);
     }
 
@@ -90,7 +90,7 @@ class Controller extends \yii\web\Controller
      * @return array|ActiveRecord|null|static
      * @throws NotFoundHttpException
      */
-    static protected function findModel ($condition, $config = []) {
+    static public function findModel ($condition, $config = []) {
         /** @noinspection PhpVoidFunctionResultUsedInspection */
         $model = static::newModel($config)->findOne(is_array($condition) ? $condition : ['id'=>$condition]);
         if ($model === null) {

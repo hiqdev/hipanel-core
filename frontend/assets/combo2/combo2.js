@@ -45,14 +45,14 @@
 			this.update(new Event(element, {force: 1}));
 			return this;
 		},
+		setValue: function (type, data) {
+			return this.getField(type).setValue(data);
+		},
 		getData: function (type) {
 			var field = this.getField(type);
 			if ($.isEmptyObject(field)) return {};
 
 			return $.extend(true, {}, this.getField(type).getData());
-		},
-		setValue: function (type, data) {
-			return this.getField(type).setValue(data);
 		},
 		getId: function (type) {
 			var data = this.getData(type);
@@ -62,8 +62,17 @@
 			var data = this.getData(type);
 			return !$.isEmptyObject(data) ? data.text : '';
 		},
+		getListeners: function (type) {
+			var listeners = [];
+			$.each(this.fields, function (k, v) {
+				if (v.type == type) {
+					listeners.push(v);
+				}
+			});
+			return listeners;
+		},
 		isSet: function (type) {
-			return this.getValue(type).length > 0;
+			return this.getId(type).length > 0;
 		},
 		disable: function (type, clear) {
 			if (clear) this.clear(type);
@@ -73,8 +82,14 @@
 			if (clear) this.clear(type);
 			return this.getField(type).enable();
 		},
+		isEnabled: function (type) {
+			return this.getField(type).isEnabled();
+		},
 		clear: function (type) {
 			return this.getField(type).clear();
+		},
+		isEmpty: function (type) {
+			return this.getValue(type) == '';
 		},
 		getField: function (type) {
 			var result = {};
@@ -110,8 +125,8 @@
 		updateAffected: function (event) {
 			var _this = this;
 			var updated_field = event.element.data('field');
-			var data = event.added;
-			if (!updated_field.affects) return this;
+			var data = $.extend(true, {}, event.added);
+			if (!updated_field.affects || $.isEmptyObject(data)) return this;
 
 			$.each(updated_field.affects, function (k, v) {
 				var field = _this.getField(k);
@@ -133,18 +148,20 @@
 			return this;
 		},
 		/**
-		 * Updates select2 states
+		 * Updates select2 states, trigger 'update' trigger for each field
 		 * @param event
 		 */
 		update: function (event) {
 			var _this = this;
 			var element = event.element;
+			var reUpdate = false;
 
-			if (event.added || event.removed) {
+			if (!event.noAffect && (event.added || event.removed)) {
 				this.updateAffected(event);
 			}
 
 			$.each(this.fields, function (k, v) {
+				if (reUpdate) return false;
 				var field = v.field;
 				var isActive = true;
 				var needsClear = false;
@@ -159,7 +176,7 @@
 					}
 				}
 
-				if (field.clearWhen) {
+				if (field.clearWhen && !event.noAffect) {
 					if ($.isFunction(field.clearWhen)) {
 						needsClear = field.clearWhen(field.name, _this);
 					} else {
@@ -168,8 +185,15 @@
 					needsClear = needsClear || field.clearWhen.indexOf(element.data('field').type) >= 0;
 				}
 
+				if (isActive != _this.isEnabled(field.type)) {
+					reUpdate = true;
+				}
+				if (needsClear && !_this.isEmpty(field.type)) {
+					reUpdate = true;
+				}
+
 				if (isActive) {
-					_this.enable(field.type)
+					_this.enable(field.type);
 				} else {
 					_this.disable(field.type, true);
 				}
@@ -180,8 +204,11 @@
 
 				field.trigger('update', event);
 			});
+
+			if (reUpdate) return this.update(event);
 		}
-	};
+	}
+	;
 
 	function Event(element, options) {
 		this.element = element;
@@ -196,7 +223,8 @@
 
 		return $(this).data('plugin_' + pluginName);
 	};
-})(jQuery, window, document);
+})
+(jQuery, window, document);
 
 (function ($, window, document, undefined) {
 	/**
@@ -296,11 +324,20 @@
 			allowClear: true,
 			initSelection: function (element, callback) {
 				var field = element.data('field');
+				var callback_trigger = function (data) {
+					var oldData = field.getData();
+					callback(data);
+					field.triggerChange({
+						added: data,
+						removed: oldData,
+						noAffect: true
+					});
+				};
 
 				if (field.hasId && element.data('init-text')) {
 					var text = element.data('init-text');
 					element.removeData('init-text');
-					callback({id: element.val(), text: text});
+					callback_trigger({id: element.val(), text: text});
 				} else if (field.hasId) {
 					var requestData = {};
 					requestData[field.getPk()] = {format: element.val()};
@@ -311,12 +348,12 @@
 						method: 'post',
 						data: requestData,
 						success: function (data) {
-							callback(data[0]);
+							callback_trigger(data[0]);
 						}
 					});
 				} else {
 					text = element.val();
-					callback({id: text, text: text});
+					callback_trigger({id: text, text: text});
 				}
 			},
 			ajax: {
@@ -333,6 +370,15 @@
 			onChange: function (e) {
 				e.element = $(this);
 				return $(this).data('field').form.update(e);
+			},
+			'onSelect2-selecting': function (event) {
+				var field = $(event.target).data('field');
+				var data = event.object;
+				if (field.getPk()) {
+					data.id = data[field.getPk()];
+				} else {
+					data.id = data.text;
+				}
 			}
 		}
 		;
@@ -475,7 +521,7 @@
 		getData: function () {
 			return this.element.select2('data');
 		},
-		setData: function (data) {
+		setData: function (data, triggerChange) {
 			var setValue;
 			if (typeof data !== 'string') {
 				this.element.data('init-text', data.value);
@@ -484,12 +530,15 @@
 				setValue = data;
 			}
 
-			this.setValue(setValue);
+			this.setValue(setValue, triggerChange);
 
 			return this;
 		},
-		setValue: function (data) {
-			return this.element.select2('val', data);
+		setValue: function (data, triggerChange) {
+			return this.element.select2('val', data, triggerChange);
+		},
+		getValue: function () {
+			return this.element.select2('val');
 		},
 		trigger: function (name, e) {
 			return $.isFunction(this.events[name]) ? this.events[name](e) : true;
@@ -500,17 +549,29 @@
 		enable: function () {
 			return this.element.select2('enable', true);
 		},
+		isEnabled: function () {
+			return this.element.data('select2').isInterfaceEnabled();
+		},
 		clear: function () {
 			return this.setValue('');
+		},
+		isEmpty: function () {
+			return this.getValue() === '';
 		},
 		getPk: function () {
 			if (this.hasId === true) {
 				return 'id';
-			} else if (this.hasId === string) {
+			} else if (this.hasId === 'string') {
 				return this.hasId;
 			} else {
 				return false;
 			}
+		},
+		triggerChange: function (options) {
+			var data = $.extend(true, {
+				'added': this.getData()
+			}, options);
+			return this.element.data('select2').triggerChange(data);
 		}
 	};
 
