@@ -7,11 +7,9 @@
 
 namespace hipanel\base;
 
-/**
- * HiPanel Base Module
- * All HiPanel Modules must inherit from here
- */
-class Module extends \yii\base\Module
+class PerformAction extends \yii\base\Action
 {
-    /// nothing here temporary
+    public function run () {
+        return $this->controller->perform(['scenario' => $this->id]);
+    }
 }
