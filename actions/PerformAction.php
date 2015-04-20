@@ -7,9 +7,8 @@
 
 namespace hipanel\actions;
 
-use frontend\components\CrudController;
-use frontend\components\helpers\ArrayHelper as AH;
-use frontend\components\helpers\ArrayHelper;
+use hipanel\CrudController;
+use hipanel\helpers\ArrayHelper;
 use hiqdev\hiar\ActiveRecord;
 use hiqdev\hiar\Collection;
 use hiqdev\hiar\HiResException;

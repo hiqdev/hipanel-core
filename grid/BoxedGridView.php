@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2015 HiQDev
  */
 
-namespace hipanel\components\grid;
+namespace hipanel\grid;
 
 use hipanel\widgets\Box;
 

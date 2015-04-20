@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 /**
  * Theme main layout.
@@ -11,7 +16,8 @@ use common\models\Skin;
 use Yii;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
-use frontend\components\widgets\Alert;
+use hipanel\widgets\Alert;
+
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>

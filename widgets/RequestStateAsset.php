@@ -1,10 +1,13 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
-namespace frontend\assets;
+namespace hipanel\widgets;
 
-use yii\web\AssetBundle;
-
-class RequestStateAsset extends AssetBundle
+class RequestStateAsset extends \yii\web\AssetBundle
 {
     /**
      * @var string

@@ -7,7 +7,6 @@
 
 namespace hipanel\widgets;
 
-use frontend\assets\RequestStateAsset;
 use hipanel\base\Re;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;

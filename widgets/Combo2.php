@@ -11,7 +11,7 @@ use Yii;
 use yii\base\Model;
 use yii\base\Widget;
 use yii\helpers\Html;
-use frontend\components\helpers\ArrayHelper;
+use hipanel\helpers\ArrayHelper;
 
 class Combo2 extends Widget
 {

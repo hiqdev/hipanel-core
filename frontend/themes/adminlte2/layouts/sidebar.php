@@ -1,15 +1,14 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: tofid
- * Date: 03.03.15
- * Time: 18:13
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
  */
 
-use frontend\components\widgets\Menu;
+use hipanel\widgets\Menu;
 use Yii;
-?>
 
+?>
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">

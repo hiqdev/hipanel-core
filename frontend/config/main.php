@@ -82,7 +82,7 @@ return [
             ],
         ],
         'view' => [
-            'class' => 'frontend\components\View'
+            'class' => 'hipanel\base\View'
  //           'theme' => [
  //               'pathMap' => ['@app/views' => '@app/themes/adminlte'],
  //               'baseUrl'   => '@web/themes/adminlte'
@@ -119,7 +119,7 @@ return [
             'class' => 'kartik\markdown\Module',
         ],
         'client'    => [
-            'class'     => 'app\modules\client\Module',
+            'class'     => 'hipanel\modules\client\Module',
         ],
         'ticket'    => [
             'class'     => 'app\modules\ticket\Module',

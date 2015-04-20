@@ -1,10 +1,13 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
-namespace frontend\assets;
+namespace hipanel\widgets;
 
-use yii\web\AssetBundle;
-
-class Combo2Asset extends AssetBundle {
+class Combo2Asset extends \yii\web\AssetBundle {
     public $sourcePath = '@frontend/assets';
 
     public $js = [
@@ -12,6 +15,6 @@ class Combo2Asset extends AssetBundle {
     ];
 
     public $depends = [
-        'frontend\assets\Select2Asset'
+        'hipanel\widgets\Select2Asset'
     ];
 }

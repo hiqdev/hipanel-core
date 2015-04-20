@@ -7,7 +7,7 @@
 
 namespace hipanel\base;
 
-use frontend\components\actions\PerformAction;
+use hipanel\actions\PerformAction;
 use hiqdev\hiar\HiResException;
 use hiqdev\hiar\Collection;
 use hipanel\helpers\ArrayHelper as AH;

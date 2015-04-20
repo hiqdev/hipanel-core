@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\assets;
+namespace hipanel\widgets;
 
 use yii\web\AssetBundle;
 

@@ -7,7 +7,6 @@
 
 namespace hipanel\widgets;
 
-use frontend\assets\Select2Asset;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;

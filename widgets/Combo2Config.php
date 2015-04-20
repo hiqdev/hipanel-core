@@ -1,7 +1,13 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace hipanel\widgets;
 
+use hipanel\base\View;
 use hipanel\helpers\ArrayHelper;
 use yii\base\Object;
 use yii\helpers\Json;
