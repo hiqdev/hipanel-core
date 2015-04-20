@@ -5,6 +5,7 @@ use frontend\components\helpers\ArrayHelper;
 use frontend\components\Model;
 use frontend\components\ModelTrait;
 use frontend\components\validators\IpAddressValidator;
+use frontend\modules\client\validators\LoginValidator;
 use Yii;
 
 class Account extends Model
@@ -57,8 +58,7 @@ class Account extends Model
             ],
             [
                 'login',
-                'match',
-                'pattern' => '/^[a-z][a-z0-9_]{2,31}$/',
+                LoginValidator::className(),
                 'on'      => ['insert-user', 'insert-ftponly', 'set-password']
             ],
             [

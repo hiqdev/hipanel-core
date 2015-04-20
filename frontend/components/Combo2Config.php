@@ -89,6 +89,14 @@ class Combo2Config extends Object
      */
     protected $_primaryFilter;
 
+    /**
+     * @var boolean|string whether the combo has a primary key
+     *   true (default) - the combo has an id in field id
+     *            false - the combo does not have an id. The value is equal to the id
+     *      some string - the name of the id field
+     */
+    public $hasId = true;
+
     /** @inheritdoc */
     public function init () {
         if (!$this->url) {
@@ -112,6 +120,7 @@ class Combo2Config extends Object
         return ArrayHelper::merge([
             'name'          => $this->type,
             'type'          => $this->type,
+            'hasId'         => $this->hasId,
             'pluginOptions' => [
                 'width'       => '100%',
                 'placeholder' => \Yii::t('app', 'Start typing here'),

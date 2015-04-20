@@ -42,6 +42,9 @@ class Service extends Combo2Config
                 'seller' => 'seller',
                 'client' => 'client',
                 'server' => 'device'
+            ],
+            'activeWhen' => [
+                'server'
             ]
         ], $config);
 

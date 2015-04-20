@@ -2,7 +2,7 @@
 
 namespace frontend\components;
 
-use hiqdev\hiar\ActiveRecord;
+use frontend\components\actions\PerformAction;
 use hiqdev\hiar\HiResException;
 use hiqdev\hiar\Collection;
 use frontend\components\helpers\ArrayHelper as AH;
@@ -59,36 +59,17 @@ class CrudController extends Controller
     }
 
     /**
-     * Performs operations for some editable field
+     * Performs operations
      *
-     * @param $config - config, which will be passed to [[Collection]]
-     * @return mixed
+     * @param array $options
+     * @return
      * @throws \yii\base\InvalidConfigException
-     * @see Collection
      */
-    public function perform ($config) {
-        $config = AH::merge([
-            'model'          => static::newModel(),
-            'errorMessage'   => Yii::t('app', 'Unknown error'),
-            'successMessage' => Yii::t('app', 'The operation was successful')
-        ], $config);
-
-        $message = [
-            'success' => AH::remove($config, 'successMessage'),
-            'error'   => AH::remove($config, 'errorMessage')
-        ];
-
-        $result = (new Collection($config))->load()->save();
-        if (Yii::$app->request->isAjax && !in_array('application/json', Yii::$app->request->acceptableContentTypes)) {
-            return $this->renderJson([
-                'message' => $result ? '' : $message['error']
-            ]);
-        } else {
-            /// TODO: non-ajax behaviour
-            return $this->renderJson([
-                'message' => $result ? '' : $message['error']
-            ]);
-        }
+    public function perform ($options = []) {
+        return Yii::createObject([
+            'class'   => PerformAction::className(),
+            'options' => $options
+        ], [$this->action->id, $this])->run();
     }
 
     /**
@@ -129,13 +110,16 @@ class CrudController extends Controller
         $searchCond  = [$formName => $search];
 
         $data = $searchModel->search($searchCond)->getList();
-    d($data);
+        d($data); /// TODO: XXX WTF?? 
     }
 
     /**
+     * @param $id integer the ID of requested model
      * @param array $add - additional data to be passed to render
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
      */
-    public function actionView ($id, $add = []) {
+    public function actionView ($id, $add = []) { /// TODO: XXX REMOVE $add! VULNERABLE!
         $model = $this->findModel($id);
 
         return $this->render('view', AH::merge(compact('model'), $add));
@@ -143,8 +127,9 @@ class CrudController extends Controller
 
     /**
      * @param array $add - additional data to be passed to render
+     * @return string
      */
-    public function actionIndex ($add = []) {
+    public function actionIndex ($add = []) { /// TODO: XXX REMOVE $add! VULNERABLE!
         $searchModel  = static::searchModel();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -206,8 +191,7 @@ class CrudController extends Controller
         $class       = "{$this->path}\\{$this->class}Search";
         $searchModel = new $class();
         if (!Yii::$app->request->queryParams['clear']) {
-            $queryParams = AH::merge(\Yii::$app->getSession()
-                                               ->get("{$class}[query]") ?: [], Yii::$app->request->queryParams ?: []);
+            $queryParams = AH::merge(\Yii::$app->getSession()->get("{$class}[query]") ?: [], Yii::$app->request->queryParams ?: []);
         } else {
             $queryParams = [];
         }
