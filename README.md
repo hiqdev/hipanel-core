@@ -1,11 +1,12 @@
 Next Generation Control Panel
 =============================
 
-- Integrateable
-- Extensible
-- Friendly
-- Reliable
-- Secure
+Goals:
+- Integration
+- Extensibility
+- Friendliness
+- Reliability
+- Security
 
 For more info see wiki:
 https://github.com/hiqdev/hipanel/wiki
