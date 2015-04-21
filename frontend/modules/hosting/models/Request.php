@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\hosting\models;
 
 use frontend\components\Model;
@@ -24,7 +30,7 @@ class Request extends Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([
+        return $this->mergeAttributeLabels([
             'object_name'           => Yii::t('app', 'Object Name'),
             'tries_left'            => Yii::t('app', 'Tries left'),
             'time_lag'              => Yii::t('app', 'Time lag'),

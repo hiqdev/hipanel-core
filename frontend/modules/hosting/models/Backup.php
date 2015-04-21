@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\hosting\models;
 
 use frontend\components\Model;
@@ -22,7 +28,7 @@ class Backup extends Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([
+        return $this->mergeAttributeLabels([
             'object_id'             => Yii::t('app', 'Object ID'),
             'ty_id'                 => Yii::t('app', 'Type ID'),
             'ty'                    => Yii::t('app', 'Type'),

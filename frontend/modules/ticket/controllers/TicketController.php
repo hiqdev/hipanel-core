@@ -10,10 +10,9 @@ namespace frontend\modules\ticket\controllers;
 use frontend\modules\ticket\models\TicketSettings;
 use Yii;
 use frontend\modules\ticket\models\Thread;
-use frontend\modules\ticket\models\ThreadSearch;
 use common\models\File;
 use hiqdev\hiar\HiResException;
-use frontend\components\CrudController;
+use hipanel\base\CrudController;
 use yii\helpers\ArrayHelper;
 
 class TicketController extends CrudController
@@ -23,7 +22,7 @@ class TicketController extends CrudController
 
     private $_subscribeAction = ['subscribe' => 'add_watchers', 'unsubscribe' => 'del_watchers'];
 
-    static protected function modelClassName () { return Thread::className(); }
+    static public function modelClassName () { return Thread::className(); }
 
     protected function prepareRefs() {
         return [

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\hosting\models;
 
 use frontend\components\Model;
@@ -22,6 +28,6 @@ class Crontab extends Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([]);
+        return $this->mergeAttributeLabels([]);
     }
 }

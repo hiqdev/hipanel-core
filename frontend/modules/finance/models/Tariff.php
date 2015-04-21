@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace frontend\modules\finance\models;
 
@@ -25,7 +30,7 @@ class Tariff extends Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([
+        return $this->mergeAttributeLabels([
             'quantity'              => Yii::t('app', 'Quantity'),
             'time'                  => Yii::t('app', 'Time'),
             'label'                 => Yii::t('app', 'Label'),

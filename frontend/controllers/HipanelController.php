@@ -1,8 +1,13 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace frontend\controllers;
 
-use frontend\components\Controller;
+use hipanel\base\Controller;
 use yii\filters\AccessControl;
 use yii\web\Response;
 

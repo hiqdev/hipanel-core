@@ -14,25 +14,28 @@
     "license": "BSD-3-Clause",
     "authors": [
         {
-            "name": "Andrii Vasyliev",
-            "email": "sol@hiqdev.com",
-            "homepage": "https://hipanel.com/",
-            "role": "Project lead"
+            "role":     "Project lead",
+            "name":     "Andrii Vasyliev",
+            "email":    "sol@hiqdev.com",
+            "homepage": "https://hipanel.com/"
         },
         {
-            "name": "Dmitry Naumenko",
-            "email": "silverfire@hiqdev.com",
-            "role": "Lead backend developer"
+            "role":     "Lead backend developer",
+            "name":     "Dmitry Naumenko",
+            "email":    "silverfire@hiqdev.com",
+            "homepage": "http://silverfire.me/"
         },
         {
-            "name": "Andrey Klochok",
-            "email": "tafid@hiqdev.com",
-            "role": "Lead frontend developer"
+            "role":     "Lead frontend developer",
+            "name":     "Andrey Klochok",
+            "email":    "tafid@hiqdev.com",
+            "homepage": "https://hiqdev.com/"
         },
         {
-            "name": "Yuriy Myronchuk",
-            "email": "bladeroot@hiqdev.com",
-            "role": "QA Lead"
+            "role":     "QA Lead",
+            "name":     "Yuriy Myronchuk",
+            "email":    "bladeroot@hiqdev.com",
+            "homepage": "https://hiqdev.com/"
         }
     ],
     "minimum-stability": "stable",
@@ -46,6 +49,8 @@
         "hiqdev/yii2-hi3a-authclient": "*@dev",
         "hiqdev/yii2-hiar": "*@dev",
         "hiqdev/yii2-higrid": "*@dev",
+        "hiqdev/hipanel-module-client": "*@dev",
+        "hiqdev/hipanel-module-domain": "*@dev",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
         "kartik-v/yii2-field-range": "*",
