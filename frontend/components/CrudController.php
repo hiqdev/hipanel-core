@@ -4,7 +4,6 @@ namespace frontend\components;
 
 use frontend\components\actions\PerformAction;
 use hiqdev\hiar\HiResException;
-use hiqdev\hiar\Collection;
 use frontend\components\helpers\ArrayHelper as AH;
 use frontend\models\Ref;
 use Yii;

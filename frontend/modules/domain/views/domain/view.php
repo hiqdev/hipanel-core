@@ -1,11 +1,8 @@
 <?php
 
-use yii\bootstrap\Modal;
 use yii\helpers\Html;
-use frontend\modules\domain\grid\DomainGridView;
-use frontend\components\widgets\RequestState;
 use frontend\components\widgets\Pjax;
-use yii\helpers\Json;
+use frontend\modules\domain\grid\DomainGridView;
 
 $this->title                   = Html::encode($model->domain);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Domains'), 'url' => ['index']];

@@ -5,8 +5,6 @@ namespace frontend\modules\client\controllers;
 use frontend\components\helpers\ArrayHelper;
 
 class ClientController extends \frontend\components\CrudController {
-
-
     public function actionSetCredit ($id = null, $ids = []) {
         return $this->performRequest([
             'id'        => $id,

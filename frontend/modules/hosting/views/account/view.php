@@ -147,7 +147,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format'    => 'raw',
                                 'value'     => \frontend\components\widgets\ArraySpoiler::widget([
                                     'data'          => $model->sshftp_ips,
-                                    'visible_count' => 3
+                                    'visibleCount' => 3
                                 ])
                             ]
                         ]

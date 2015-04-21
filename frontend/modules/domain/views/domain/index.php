@@ -2,12 +2,9 @@
 
 use frontend\modules\domain\grid\DomainGridView;
 
-use yii\helpers\Html;
-
 $this->title                    = Yii::t('app', 'Domains');
 $this->params['breadcrumbs'][]  = $this->title;
 $this->params['subtitle']       = Yii::$app->request->queryParams ? 'filtered list' : 'full list';
-
 ?>
 
 <?= DomainGridView::widget([
