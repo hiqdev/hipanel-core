@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\hosting\models;
 
 use frontend\components\Model;
@@ -21,7 +27,7 @@ class Service extends Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([
+        return $this->mergeAttributeLabels([
             'soft_id'         => Yii::t('app', 'Soft ID'),
             'soft_type'       => Yii::t('app', 'Soft Type'),
             'soft_type_label' => Yii::t('app', 'Soft type label'),

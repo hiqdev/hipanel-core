@@ -59,9 +59,8 @@ class Model extends \hiqdev\hiar\ActiveRecord
 
     /**
      * Merge Attribute labels for Model
-     * TODO rename to merge
      */
-    public function margeAttributeLabels($labels) {
+    public function mergeAttributeLabels($labels) {
         $attributeLabels = [];
         $default = $this->defaultAttributeLabels();
         foreach ($this->rules() as $d) {

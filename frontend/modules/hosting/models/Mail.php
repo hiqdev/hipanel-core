@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\hosting\models;
 
 use frontend\components\Model;
@@ -22,7 +28,7 @@ class Mail extends Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([
+        return $this->mergeAttributeLabels([
             'hdomain'               => Yii::t('app', 'Domain Name'),
             'domain'                => Yii::t('app', 'Domain Name'),
             'forwards'              => Yii::t('app', 'Forward'),
