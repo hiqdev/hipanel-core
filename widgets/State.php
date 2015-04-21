@@ -8,6 +8,7 @@
 namespace hipanel\widgets;
 
 use hipanel\base\Re;
+use yii\helpers\ArrayHelper;
 
 class State extends \hipanel\widgets\Label {
 
@@ -33,10 +34,10 @@ class State extends \hipanel\widgets\Label {
         $state = $this->model->state;
 
         foreach ($this->defaultStates as $type => $states) {
-            $possibleStates[$type] = \yii\helpers\ArrayHelper::merge($states, $this->states[$type] ? : []);
+            $possibleStates[$type] = ArrayHelper::merge($states, $this->states[$type] ? : []);
         }
 
-        $this->states = \yii\helpers\ArrayHelper::merge($possibleStates, $this->states);
+        $this->states = ArrayHelper::merge($possibleStates, $this->states);
 
         foreach ($this->states as $class => $states) {
             if (in_array($state, $states)) { break; }
