@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\hosting\models;
 
 use frontend\components\Model;
@@ -25,7 +31,7 @@ class Backuping extends Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([
+        return $this->mergeAttributeLabels([
             'day'                   => Yii::t('app', 'Date'),
             'hour'                  => Yii::t('app', 'Time'),
             'skip_lock'             => Yii::t('app', 'Skip lock'),

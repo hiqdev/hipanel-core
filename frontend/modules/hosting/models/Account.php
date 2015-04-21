@@ -1,10 +1,17 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
+
 namespace frontend\modules\hosting\models;
 
 use frontend\components\helpers\ArrayHelper;
 use frontend\components\Model;
 use frontend\components\ModelTrait;
 use frontend\components\validators\IpAddressValidator;
+use frontend\modules\client\validators\LoginValidator;
 use Yii;
 
 class Account extends Model
@@ -57,8 +64,7 @@ class Account extends Model
             ],
             [
                 'login',
-                'match',
-                'pattern' => '/^[a-z][a-z0-9_]{2,31}$/',
+                LoginValidator::className(),
                 'on'      => ['insert-user', 'insert-ftponly', 'set-password']
             ],
             [
@@ -88,7 +94,7 @@ class Account extends Model
      * @inheritdoc
      */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([
+        return $this->mergeAttributeLabels([
             'login_like'  => Yii::t('app', 'Login'),
             'type_label'  => Yii::t('app', 'state'),
             'state_label' => Yii::t('app', 'state'),

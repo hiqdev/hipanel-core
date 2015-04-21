@@ -27,10 +27,10 @@ use Yii;
                         <!-- Properties -->
 
                         <?php
-                        print $form->field($model, 'client_id')->widget(Combo2::className(), ['type' => 'client']);
-                        print $form->field($model, 'server_id')->widget(Combo2::className(), ['type' => 'server']);
-                        print $form->field($model, 'account_id')->widget(Combo2::className(), ['type' => 'account']);
-                        print $form->field($model, 'service_id')->widget(Combo2::className(), ['type' => 'dbService']);
+                        print $form->field($model, 'client')->widget(Combo2::className(), ['type' => 'client']);
+                        print $form->field($model, 'server')->widget(Combo2::className(), ['type' => 'server']);
+                        print $form->field($model, 'account')->widget(Combo2::className(), ['type' => 'account']);
+                        print $form->field($model, 'service_id')->widget(Combo2::className(), ['type' => 'dbService', ]);
 
                         print $form->field($model, 'name');
                         print $form->field($model, 'password')->widget(PasswordInput::className());

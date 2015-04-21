@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link    http://hiqdev.com/hipanel
+ * @license http://hiqdev.com/hipanel/license
+ * @copyright Copyright (c) 2015 HiQDev
+ */
 
 namespace frontend\modules\finance\models;
 
@@ -26,7 +31,7 @@ class Bill extends \frontend\components\Model
 
     /** @inheritdoc */
     public function attributeLabels () {
-        return $this->margeAttributeLabels([
+        return $this->mergeAttributeLabels([
             'descr'                 => Yii::t('app', 'Description'),
         ]);
     }
