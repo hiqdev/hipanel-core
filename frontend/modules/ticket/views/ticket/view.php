@@ -1,5 +1,5 @@
 <?php
-use frontend\components\Re;
+use hipanel\base\Re;
 use frontend\modules\ticket\widgets\Label;
 use frontend\modules\ticket\widgets\Topic;
 use frontend\modules\ticket\widgets\Watcher;

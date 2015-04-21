@@ -4,13 +4,13 @@
  * @copyright Copyright (c) 2015 HiQDev
  * @license http://hiqdev.com/.../license
  */
-use frontend\components\widgets\Box;
+use hipanel\widgets\Box;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use frontend\modules\ticket\widgets\Label;
 use frontend\modules\ticket\widgets\Topic;
 use frontend\modules\ticket\widgets\Watcher;
-use frontend\components\Re;
+use hipanel\base\Re;
 
 //\yii\helpers\VarDumper::dump($model, 10, true);
 ?>
