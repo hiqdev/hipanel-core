@@ -1,5 +1,7 @@
 <?php
 /* @var $this yii\web\View */
+use frontend\components\widgets\Box;
+
 /* @var $model frontend\modules\ticket\models\Thread */
 
 $this->title = Yii::t('app', 'Create {modelClass}', [
@@ -8,7 +10,7 @@ $this->title = Yii::t('app', 'Create {modelClass}', [
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
+<?php $box = Box::begin(); ?>
 <div class="ticket-create">
 
     <?= $this->render('_form', [
@@ -19,3 +21,4 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+<?php $box::end(); ?>
