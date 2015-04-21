@@ -25,9 +25,9 @@ class State extends \hipanel\widgets\Label {
      **/
     public $states = [];
 
-    /** @var defoultStates[] inherits $states */
+    /** @var defaultStates[] inherits $states */
 
-    public $defoultStates = [];
+    public $defaultStates = [];
 
     public function run () {
         $state = $this->model->state;
