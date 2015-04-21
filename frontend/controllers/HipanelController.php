@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use frontend\components\Controller;
+use \hipanel\base\Controller;
 use yii\filters\AccessControl;
 use yii\web\Response;
 
