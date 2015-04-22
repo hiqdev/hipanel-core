@@ -52,6 +52,7 @@
         "hiqdev/hipanel-module-client": "*@dev",
         "hiqdev/hipanel-module-domain": "*@dev",
         "hiqdev/hipanel-module-ticket": "*@dev",
+        "hiqdev/hipanel-module-server": "*@dev",
         "hiqdev/hipanel-module-finance": "*@dev",
         "hiqdev/hipanel-module-hosting": "*@dev",
         "kartik-v/yii2-widgets": "*",
