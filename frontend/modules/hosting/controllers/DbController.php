@@ -2,7 +2,6 @@
 
 namespace frontend\modules\hosting\controllers;
 
-use frontend\components\actions\PerformAction;
 use frontend\components\CrudController;
 use frontend\modules\hosting\models\Db;
 use Yii;
@@ -30,22 +29,41 @@ class DbController extends CrudController
         return $this->render('create', ['model' => $model]);
     }
 
-    public function actionSetDescription () {
-        return $this->perform();
+    public function actionDelete () {
+        return $this->perform([
+            'success'  => [
+                'message' => Yii::t('app', 'DB deleting task has been created successfully'),
+                'result'  => [
+                    'POST pjax' => ['action', ['index'], 'addFlash' => true, 'changeUrl' => function ($model) {
+                        return ['index'];
+                    }]
+                ],
+                'addFlash' => true
+            ],
+            'error'    => [
+                'message' => Yii::t('app', 'Error while deleting DB'),
+                'result'  => [
+                    'POST pjax' => ['action', ['view', function ($model) { return ['id' => $model->id]; }], 'addFlash' => true]
+                ],
+            ],
+        ]);
     }
 
     public function actionTruncate () {
         return $this->perform([
-            'success' => [
+            'success'  => [
                 'message' => Yii::t('app', 'DB truncate task has been created successfully'),
             ],
-            'error'   => [
+            'error'    => [
                 'message' => Yii::t('app', 'Error while truncating DB'),
             ],
-            'result'  => [
-                'ajax'  => ['return', 'ajax'],
-                'pjax'  => ['action', ['view', 'id' => '{id}']],
-            ]
+            'result'   => [
+                'pjax' => [
+                    'action',
+                    ['view', function ($model) { return ['id' => $model->id]; }],
+                ]
+            ],
+            'addFlash' => true
         ]);
     }
 }

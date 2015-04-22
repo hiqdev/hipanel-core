@@ -1,12 +1,12 @@
 <?php
 
+use hipanel\grid\ActionColumn;
 use Yii;
-use frontend\components\Re;
-use frontend\components\grid\BoxedGridView;
-use frontend\components\grid\RefColumn;
-use frontend\components\widgets\ActionBox;
-use frontend\components\widgets\Select2;
-use frontend\components\widgets\GridActionButton;
+use hipanel\base\Re;
+use hipanel\grid\BoxedGridView;
+use hipanel\grid\RefColumn;
+use hipanel\widgets\ActionBox;
+use hipanel\widgets\Select2;
 use frontend\modules\ticket\widgets\Label;
 use frontend\modules\ticket\widgets\Topic;
 use yii\helpers\Html;
@@ -141,7 +141,7 @@ $this->params['subtitle'] = Yii::$app->request->queryParams ? Yii::t('app', 'fil
             }
         ],
         [
-            'class' => \frontend\components\grid\ActionColumn::className(),
+            'class' => ActionColumn::className(),
             'template' => '{view}', // {state}
             'header' => Yii::t('app', 'Actions'),
             'buttons' => [
@@ -170,7 +170,7 @@ $this->params['subtitle'] = Yii::$app->request->queryParams ? Yii::t('app', 'fil
             ],
         ],
         [
-            'class' => 'frontend\components\grid\CheckboxColumn',
+            'class' => 'hipanel\grid\CheckboxColumn',
         ],
     ],
 ]); ?>

@@ -36,6 +36,7 @@ class Thread extends \hiqdev\hiar\ActiveRecord
             'subject',
             'state',
             'state_label',
+            'email',
             'author',
             'author_id',
             'responsible_id',

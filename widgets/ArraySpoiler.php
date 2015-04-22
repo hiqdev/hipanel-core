@@ -23,9 +23,9 @@ use yii\helpers\Html;
  *      'formatter' => function ($v) {
  *          return Html::tag('b', $v);
  *      },
- *      'visible_count' => 2,
+ *      'visibleCount' => 2,
  *      'delimiter'     => '; ',
- *      'popover_options' => ['html' => true]
+ *      'popoverOptions' => ['html' => true]
  * ]);
  * ~~~
  *
@@ -43,36 +43,35 @@ class ArraySpoiler extends Widget
     /**
      * @var callable the function will be called for every element to format it. Accepts the only argument - value
      */
-    public $formatter       = null;
+    public $formatter = null;
 
     /**
      * @var int count of elements, that are visible out of spoiler
      */
-    public $visible_count   = 1;
+    public $visibleCount = 1;
 
     /**
      * @var string delimiter to join elements
      */
-    public $delimiter       = ', ';
+    public $delimiter = ', ';
 
     /**
      * @var string string to display on badge. Use sprintf format, the only var is count of additional elements
      */
-    public $badge_format    = "+%s";
+    public $badgeFormat = "+%s";
 
     /**
      * @var array will be passed to javascript popover function as options.
      * @see http://getbootstrap.com/javascript/#popovers-options
      */
-    public $popover_options = [];
+    public $popoverOptions = [];
 
     /**
      * @var array HTML attributes for badge tag
      */
-    public $badge           = ['class' => 'badge'];
+    public $badgeOptions = ['class' => 'badge'];
 
-    public function init()
-    {
+    public function init () {
         parent::init();
 
         if (empty($this->data)) return '';
@@ -93,10 +92,9 @@ class ArraySpoiler extends Widget
     /**
      * Renders visible part
      */
-    private function renderVisible()
-    {
+    private function renderVisible () {
         $visible = [];
-        for ($i = 0; $i < $this->visible_count; $i++) {
+        for ($i = 0; $i < $this->visibleCount; $i++) {
             if (!count($this->data)) {
                 break;
             }
@@ -109,24 +107,23 @@ class ArraySpoiler extends Widget
     /**
      * Renders spoiler
      */
-    private function renderSpoiler()
-    {
+    private function renderSpoiler () {
         if (!count($this->data)) return;
         echo ' ';
         $options = array_merge([
             'data-content' => Html::decode(implode($this->delimiter, $this->data)),
-            'id' => $this->id
-        ], $this->badge);
+            'id'           => $this->id
+        ], $this->badgeOptions);
 
-        echo Html::tag('a', sprintf($this->badge_format, count($this->data)), $options);
-        $this->getView()->registerJs("$('#{$this->id}').popover(" . json_encode($this->popover_options, JSON_FORCE_OBJECT) . ");", \yii\web\View::POS_READY);
+        echo Html::tag('a', sprintf($this->badgeFormat, count($this->data)), $options);
+        $this->getView()
+             ->registerJs("$('#{$this->id}').popover(" . json_encode($this->popoverOptions, JSON_FORCE_OBJECT) . ");", \yii\web\View::POS_READY);
     }
 
     /**
      * Renders the all the widget
      */
-    public function run()
-    {
+    public function run () {
         $this->renderVisible();
         $this->renderSpoiler();
     }

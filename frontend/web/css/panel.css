@@ -466,4 +466,50 @@ a.asc:after {
     margin-left: -2px;
 }
 
+.page-ticket .profile-block {
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.page-ticket .profile-photo {
+    padding: 6px;
+    display: inline-block;
+    margin-bottom: 10px;
+    border-radius: 999999px
+}
+
+.page-ticket .profile-photo img {
+    display: block;
+    max-width: 100%;
+    border-radius: 999999px;
+}
+
+.panel-transparent {
+    background: none!important;
+    border: none!important;
+}
+
+hr {
+    border-color: #e2e2e2;
+}
+
+.panel-wide {
+    margin-left: -20px!important;
+    margin-right: -20px!important;
+}
+
+/*.panel, .panel-default {*/
+    /*border-color: #e4e4e4;*/
+    /*margin-bottom: 22px;*/
+    /*position: relative;*/
+    /*-webkit-box-shadow: none;*/
+    /*box-shadow: none;*/
+/*}*/
+
+/*.page-ticket .panel .panel-heading {*/
+    /*padding-left: 10px;*/
+    /*padding-right: 10px;*/
+    /*padding-top: 11px;*/
+    /*border-bottom: 2px solid #ececec;*/
+/*}*/
 /* END USER PROFILE*/

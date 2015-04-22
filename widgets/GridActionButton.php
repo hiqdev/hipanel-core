@@ -47,15 +47,23 @@ class GridActionButton extends Widget
      */
     public $linkClasses = 'btn btn-default btn-xs';
 
-    public function run()
-    {
+    /**
+     * @var array
+     */
+    public $buttonOptions = [];
+
+    public function run () {
         parent::run();
         $this->renderButton();
     }
 
-    private function renderButton() {
-        print Html::a(sprintf('%s&nbsp;&nbsp;%s', $this->icon, Html::encode($this->label)), $this->url,
-            ['title' => Html::encode($this->label), 'class' => $this->linkClasses, 'data-pjax' => $this->dataPjax]
-        );
+    private function renderButton () {
+        $options = ArrayHelper::merge([
+            'title'     => Html::encode($this->label),
+            'class'     => $this->linkClasses,
+            'data-pjax' => $this->dataPjax
+        ], $this->buttonOptions);
+
+        print Html::a(sprintf('%s&nbsp;&nbsp;%s', $this->icon, Html::encode($this->label)), $this->url, $options);
     }
 }

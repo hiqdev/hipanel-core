@@ -8,8 +8,10 @@
 namespace hipanel\widgets;
 
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\web\JsExpression;
 use yii\widgets\Breadcrumbs;
+use yii\widgets\PjaxAsset;
 
 class Pjax extends \yii\widgets\Pjax
 {
@@ -22,8 +24,24 @@ class Pjax extends \yii\widgets\Pjax
     }
 
     public function registerClientScript () {
-        \yii\widgets\Pjax::registerClientScript();
-        \Yii::$app->getView()->registerJs('$.pjax.defaults.timeout = 0;');
+        $id = $this->options['id'];
+        $this->clientOptions['push'] = $this->enablePushState;
+        $this->clientOptions['replace'] = $this->enableReplaceState;
+        $this->clientOptions['timeout'] = $this->timeout;
+        $this->clientOptions['scrollTo'] = $this->scrollTo;
+        $options = Json::encode($this->clientOptions);
+        $linkSelector = Json::encode($this->linkSelector !== null ? $this->linkSelector : '#' . $id . ' a');
+        $formSelector = Json::encode($this->formSelector !== null ? $this->formSelector : '#' . $id . ' form[data-pjax]');
+        $view = $this->getView();
+        PjaxAsset::register($view);
+        $js = "jQuery(document).pjax($linkSelector, \"#$id\", $options);";
+        $js .= "\njQuery(document).on('submit', $formSelector, function (event) {
+            var options = $options;
+            $.extend(true, options, event.pjaxOptions);
+            jQuery.pjax.submit(event, '#$id', options);
+        });";
+        $view->registerJs($js);
+        $view->registerJs('$.pjax.defaults.timeout = 0;');
     }
 
     public function addBreadcrumbs () {

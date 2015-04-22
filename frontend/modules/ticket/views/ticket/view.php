@@ -1,5 +1,5 @@
 <?php
-use frontend\components\Re;
+use hipanel\base\Re;
 use frontend\modules\ticket\widgets\Label;
 use frontend\modules\ticket\widgets\Topic;
 use frontend\modules\ticket\widgets\Watcher;
@@ -16,7 +16,23 @@ $this->registerCss('
     }
 ');
 ?>
+<div class="row">
+    <div class="col-md-3">
+        <?= $this->render('_leftBlock', [
+            'model' => $model
+        ]); ?>
+    </div>
+    <div class="col-md-9">
+        <?= $this->render('_rightBlock', [
+            'model' => $model,
+            'topic_data' => $topic_data,
+            'state_data' => $state_data,
+            'priority_data' => $priority_data,
+        ]); ?>
+    </div>
+</div>
 
+<?php /*
 <div class="box box-danger">
     <div class="box-header">
         <?= Html::a('<i class="fa fa-reply"></i>&nbsp;&nbsp;'.Yii::t('app', 'Reply'), '#', ['id' => 'ticket-reply-button', 'class'=>'btn btn-default', 'onClick' => new \yii\web\JsExpression('

@@ -17,6 +17,7 @@ use yii\base\Controller;
 use yii\base\Exception;
 use yii\base\InvalidCallException;
 use yii\db\IntegrityException;
+use yii\helpers\Inflector;
 use yii\helpers\Json;
 
 /**
@@ -68,7 +69,7 @@ class PerformAction extends \yii\base\Action
             'controller' => Yii::$app->controller,
             'scenario'   => $this->id,
             'success'    => [
-                'message' => 'The {scenario} was successful',
+                'message' => '{scenario} was successful',
             ],
             'error'      => [
                 'message' => 'An error occurred during {scenario}',
@@ -90,19 +91,10 @@ class PerformAction extends \yii\base\Action
     public function getResultBehaviours () {
         if (empty($this->_resultBehaviours)) {
             return [
-                'ajax'         => [
-                    '*' => ['return', 'json', 'addFlash' => false]
-                ],
-                'pjax'         => [
-                    '*' => ['action', ['view', 'id' => '{id}'], 'addFlash' => true],
-                ],
-                'html'         => [
-                    '*' => ['action', ['view', 'id' => '{id}'], 'addFlash' => true]
-                ],
                 'editableAjax' => [
                     '*' => [
                         'renderJson',
-                        'format' => function ($model, $saveResult) {
+                        'format'   => function ($model, $saveResult) {
                             $return = ['id' => $model->id];
                             if ($saveResult['success'] === false) {
                                 $return['message'] = $saveResult['message'];
@@ -110,7 +102,7 @@ class PerformAction extends \yii\base\Action
 
                             return $return;
                         },
-                        'reduce' => true,
+                        'addFlash' => false
                     ]
                 ]
             ];
@@ -129,13 +121,12 @@ class PerformAction extends \yii\base\Action
         foreach (['success', 'error'] as $group) {
             $rules = ArrayHelper::merge($this->options['result'], $this->options[$group]['result']);
             foreach ($rules as $condition => $rule) {
-                $method = '*';
-
                 $condition = explode(' ', $condition); /// Try to extract request method from the behaviour description
                 if ($condition[1]) {
                     $method = $condition[0];
                     $type   = $condition[1];
                 } else {
+                    $method = '*';
                     $type = $condition[0];
                 }
 
@@ -176,14 +167,14 @@ class PerformAction extends \yii\base\Action
             /* @var $model ActiveRecord */
             $saveResult = $this->createSaveResult($model);
             $behaviour  = $this->getBehaviour($saveResult);
-            if ($behaviour['addFlash'] !== false) {
+            if (isset($behaviour['addFlash']) && $behaviour['addFlash'] !== false) {
                 $this->addFlash($model, $saveResult);
             }
             $result = $this->runBehaviour($behaviour, $saveResult, $model);
-            if ($behaviour['reduce']) {
-                return $result;
-            } else {
+            if ($behaviour['bulk']) {
                 $results[$model->getPrimaryKey()] = $result;
+            } else {
+                return $result;
             }
         }
 
@@ -199,13 +190,18 @@ class PerformAction extends \yii\base\Action
             $saveResult = ['success' => false, 'message' => $model->getErrors()]; /// For validation errors
         } elseif (is_bool($this->saveResult)) {
             $saveResult = ['success' => $this->saveResult];
-        } elseif (is_string($this->saveResult)) {
+        } elseif (is_string($this->saveResult) && !empty($this->saveResult)) {
             $saveResult = ['success' => false, 'message' => $this->saveResult];
         } else {
             $saveResult = ['success' => true];
         }
-        $saveResult['class']   = $saveResult['type'] ? 'success' : 'error';
-        $saveResult['message'] = $saveResult['message'] ?: Yii::t('app', $this->options[$saveResult['success']]['message'], $model->getAttributes());
+        $saveResult['class'] = $saveResult['success'] ? 'success' : 'error';
+
+        if (empty($saveResult['message'])) {
+            $saveResult['message'] = Yii::t('app', $this->options[$saveResult['class']]['message'], \yii\helpers\ArrayHelper::merge($model->getAttributes(), [
+                'scenario' => Inflector::camel2words(Inflector::id2camel($this->options['scenario']))
+            ]));
+        }
 
         return $saveResult;
     }
@@ -227,6 +223,8 @@ class PerformAction extends \yii\base\Action
     }
 
     public function runBehaviour ($rule, $saveResult, $model) {
+        /** @var ActiveRecord $model */
+
         $format    = ArrayHelper::remove($rule, 'format', null);
         $behaviour = array_shift($rule);
         $params    = array_shift($rule);
@@ -234,7 +232,7 @@ class PerformAction extends \yii\base\Action
         if ($format instanceof \Closure) {
             $data = call_user_func($format, $model, $saveResult);
         } else {
-            $data = (array)$model;
+            $data = $model->getAttributes();
         }
 
         if ($behaviour === 'return') {
@@ -255,12 +253,24 @@ class PerformAction extends \yii\base\Action
             return $this->controller->renderJson($data);
         } elseif ($behaviour === 'redirect') {
             /// ['redirect', 'url/to']
+            if ($params instanceof \Closure) {
+                $params = call_user_func($params, $model, $saveResult);
+            }
+
             return $this->controller->redirect($params);
         } elseif ($behaviour === 'action') {
             /// ['view', ['someparam' => 1]]
             $action = $params[0];
             $params = $params[1];
 
+            if ($params instanceof \Closure) {
+                $params = call_user_func($params, $model, $saveResult);
+            }
+
+            if ($rule['changeUrl']) { /// TODO: something is wrong here
+                $rule['changeUrl'] = call_user_func($rule['changeUrl'], $model, $saveResult);
+                $this->controller->redirect($rule['changeUrl']);
+            }
             return $this->controller->runAction($action, $params);
         } elseif ($behaviour === 'custom' && $params instanceof \Closure) { /// function ($action, $model) { return $model; }
             return call_user_func($params, $this, $model);

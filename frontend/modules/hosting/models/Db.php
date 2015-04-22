@@ -41,6 +41,8 @@ class Db extends Model
             'create'          => ['server', 'account', 'service_id', 'name', 'password', 'description'],
             'truncate'        => ['id'],
             'set-description' => ['id', 'description'],
+            'set-password'    => ['id', 'password'],
+            'delete'          => ['id'],
         ];
     }
 
