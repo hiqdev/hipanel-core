@@ -69,7 +69,9 @@
         "raoul2000/yii2-pnotify-widget": "*",
         "bower-asset/admin-lte": "2.*",
         "bower-asset/flag-icon-css": "*",
-        "bower-asset/startbootstrap-agency": "1.*"
+        "bower-asset/startbootstrap-agency": "1.*",
+        "guzzlehttp/guzzle": "4.*",
+        "2amigos/yii2-google-maps-library" : "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
