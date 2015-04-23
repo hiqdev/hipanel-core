@@ -1,37 +1,40 @@
-<?
+<?php
+
+use frontend\assets\AutosizeAsset;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use yii\web\JsExpression;
-use kartik\markdown\MarkdownEditor;
 use frontend\assets\iCheckAsset;
 use yii\helpers\Url;
 
 iCheckAsset::register($this);
+AutosizeAsset::register($this);
 
-$dopScript = "
+$dopScript = <<< JS
 // Init iCheck
 $('input.icheck').iCheck({
     checkboxClass: 'icheckbox_minimal-blue',
     radioClass: 'iradio_minimal-blue'
 });
+
 // Expand message textarea
-$('#leave-comment-form').expandingInput({
-    target: 'textarea',
-    hidden_content: '> div',
-    placeholder: 'Write message',
-    onAfterExpand: function () {
-        $('#leave-comment-form textarea').attr('rows', '3').autosize();
-    }
+$('.leave-comment-form textarea').one('focus', function(e) {
+    var ta = document.querySelectorAll('.leave-comment-form textarea');
+    $(this).attr('rows', '5');
+    autosize(this);
 });
-";
-$this->registerCss(".checkbox label {padding-left: 0}");
-$this->registerJs($dopScript, \yii\web\View::POS_READY);
-//iCheckAsset::register($this);
-//$this->registerJs("$('input.icheckbox').iCheck({
-//    checkboxClass: 'icheckbox_minimal-blue',
-//    radioClass: 'iradio_minimal-blue'
-//});", \frontend\components\View::POS_READY);
+JS;
+$this->registerCss(<<< CSS
+.checkbox label {
+    padding-left: 0
+}
+input:focus, textarea:focus {
+    outline-style: solid;
+    outline-width: 2px;
+}
+CSS
+);
 ?>
 
 <div class="ticket-form">
@@ -40,7 +43,7 @@ $this->registerJs($dopScript, \yii\web\View::POS_READY);
             'update',
             'id' => $model->id
         ]),
-        'options' => ['enctype' => 'multipart/form-data']
+        'options' => ['enctype' => 'multipart/form-data', 'class' => 'leave-comment-form']
     ]); ?>
 
     <?php
@@ -48,37 +51,23 @@ $this->registerJs($dopScript, \yii\web\View::POS_READY);
         print $form->field($model, 'subject');
     ?>
 
-    <?= $form->field($model, 'message')->widget(MarkdownEditor::classname(), [
+    <?= $form->field($model, 'message')->textarea(['rows' => 1, 'placeholder' => 'Leave message hare']); ?>
+
+    <?php /* $form->field($model, 'message')->widget(MarkdownEditor::classname(), [
         'height' => 300,
         'encodeLabels' => false,
-        'toolbar' => [
-            [
-                'buttons' => [
-                    MarkdownEditor::BTN_BOLD => ['icon' => 'bold', 'title' => 'Bold'],
-                    MarkdownEditor::BTN_ITALIC => ['icon' => 'italic', 'title' => 'Italic'],
-                ]
-            ],
-            [
-                'buttons' => [
-                    MarkdownEditor::BTN_MAXIMIZE => ['icon' => 'fullscreen', 'title' => 'Fullscreen'],
-                ],
-                'options' => ['class' => 'pull-right']
-            ],
-        ]
-    ]); ?>
+    ]); */?>
 
 
-
-    <div class="form-group">
-        <div class="pull-left">
-            <?php if (!$model->isNewRecord)
-                print $form->field($model, 'is_private')->checkbox(['class' => 'icheck']); ?>
-        </div>
-        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary pull-right']); ?>
+    <div class="pull-left">
+        <?php if (!$model->isNewRecord)
+            print $form->field($model, 'is_private')->checkbox(['class' => 'icheck']); ?>
     </div>
+    <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary pull-right']); ?>
     <div class="clearfix"></div>
+    </div>
 
-    <div class="row">
+    <div class="row" style="margin-top: 1em">
         <div class="col-md-12">
             <div class="box-group" id="accordion">
                 <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->

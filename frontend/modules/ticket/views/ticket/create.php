@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
-use frontend\components\widgets\Box;
+use hipanel\widgets\Box;
+
 
 /* @var $model frontend\modules\ticket\models\Thread */
 
