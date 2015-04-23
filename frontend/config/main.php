@@ -15,130 +15,126 @@ $params = array_merge(
 function d ($a) { die(var_dump($a)); }
 
 return [
-    'id' => 'hipanel',
-    'name'=>'HiPanel',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
-    'defaultRoute' => 'site',
+    'id'                  => 'hipanel',
+    'name'                => 'HiPanel',
+    'basePath'            => dirname(__DIR__),
+    'bootstrap'           => ['log'],
+    'defaultRoute'        => 'site',
     'controllerNamespace' => 'frontend\controllers',
-    'components' => [
-//        'assetManager' => [
-//            'bundles' => false,
-//        ],
-
-        're'=>[
-            'class'=>'app\components\Re',
+    'components'          => [
+        're'                   => [
+            'class' => 'app\components\Re',
         ],
-//        'activeresource'=>[
-//            'class'=>'frontend\components\ActiveResource\EActiveResource\EActiveResourceConnection',
-//            'site'=>'http://api.ahnames.com',
-//            'contentType'=>'application/json',
-//            'acceptType'=>'application/json',
-//            'queryCacheId'=>'SomeCacheComponent'
-//        ],
-
-        'hiresource' => [
-            'class' => 'hiqdev\hiar\Connection',
+        //        'assetManager' => [
+        //            'bundles' => false,
+        //        ],
+        //        'activeresource'=>[
+        //            'class'=>'frontend\components\ActiveResource\EActiveResource\EActiveResourceConnection',
+        //            'site'=>'http://api.ahnames.com',
+        //            'contentType'=>'application/json',
+        //            'acceptType'=>'application/json',
+        //            'queryCacheId'=>'SomeCacheComponent'
+        //        ],
+        'hiresource'           => [
+            'class'  => 'hiqdev\hiar\Connection',
             'config' => [
                 'api_url' => 'https://sol-ahcore-oauth.ahnames.com',
             ],
         ],
-        'user' => [
-            'identityClass' => 'common\models\User',
+        'user'                 => [
+            'identityClass'   => 'common\models\User',
             'enableAutoLogin' => true,
         ],
-        'log' => [
+        'log'                  => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
+            'targets'    => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class'  => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
             ],
         ],
-        'errorHandler' => [
+        'errorHandler'         => [
             'errorAction' => 'site/error',
         ],
-
         'authClientCollection' => [
-            'class' => 'hi3a\authclient\Collection',
+            'class'   => 'hi3a\authclient\Collection',
             'clients' => [
                 'hi3a' => [
-                    'class'         => 'hi3a\authclient\Hi3aClient',
-                    'site'          => 'sol-hi3a-new.ahnames.com',
-                    'clientId'      => $params['hi3a_client_id'],
-                    'clientSecret'  => $params['hi3a_client_secret'],
+                    'class'        => 'hi3a\authclient\Hi3aClient',
+                    'site'         => 'sol-hi3a-new.ahnames.com',
+                    'clientId'     => $params['hi3a_client_id'],
+                    'clientSecret' => $params['hi3a_client_secret'],
                 ],
             ],
         ],
-
-        'urlManager' => [
+        'urlManager'           => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
-                '<_c:[\w\-]+>' => '<_c>/index',
+            'showScriptName'  => false,
+            'rules'           => [
+                '<_c:[\w\-]+>/<id:\d+>'              => '<_c>/view',
+                '<_c:[\w\-]+>'                       => '<_c>/index',
                 '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',
             ],
         ],
-        'view' => [
+        'view'                 => [
             'class' => 'hipanel\base\View'
- //           'theme' => [
- //               'pathMap' => ['@app/views' => '@app/themes/adminlte'],
- //               'baseUrl'   => '@web/themes/adminlte'
- //           ],
+            //           'theme' => [
+            //               'pathMap' => ['@app/views' => '@app/themes/adminlte'],
+            //               'baseUrl'   => '@web/themes/adminlte'
+            //           ],
 
-//          'theme' => [
-//              'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
-//                'baseUrl' => '@web/themes/adminlte2',
-//          ],
+            //          'theme' => [
+            //              'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
+            //                'baseUrl' => '@web/themes/adminlte2',
+            //          ],
         ],
-        'i18n' => [
+        'i18n'                 => [
             'translations' => [
                 'app*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                    'class'   => 'yii\i18n\PhpMessageSource',
                     //'basePath' => '@app/messages',
                     //'sourceLanguage' => 'en-US',
                     'fileMap' => [
-                        'app' => 'app.php',
+                        'app'       => 'app.php',
                         'app/error' => 'error.php',
                     ],
                 ],
             ],
         ],
-        'request' => [
-            'cookieValidationKey' => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
+        'request'              => [
+            'cookieValidationKey'  => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
             'enableCsrfValidation' => true
         ],
     ],
-    'modules' => [
+    'modules'             => [
         'gridview' => [
             'class' => 'kartik\grid\Module',
         ],
         'markdown' => [
             'class' => 'kartik\markdown\Module',
         ],
-        'client'    => [
-            'class'     => 'hipanel\modules\client\Module',
+        'client'   => [
+            'class' => 'hipanel\modules\client\Module',
         ],
-        'ticket'    => [
-            'class'     => 'app\modules\ticket\Module',
+        'ticket'   => [
+            'class' => 'app\modules\ticket\Module',
         ],
-        'server'    => [
-            'class'     => 'app\modules\server\Module',
+        'server'   => [
+            'class' => 'app\modules\server\Module',
         ],
-        'domain' => [
+        'domain'   => [
             'class' => 'hipanel\modules\domain\Module',
         ],
         'finance' => [
             'class' => 'hipanel\modules\finance\Module',
         ],
-        'hosting' => [
-            'class' => 'app\modules\hosting\Module',
+        'hosting'  => [
+            'class' => 'hipanel\modules\hosting\Module',
         ],
-        'setting'   => [
-            'class'     => 'app\modules\setting\Module',
+        'setting'  => [
+            'class' => 'app\modules\setting\Module',
         ],
     ],
-    'params' => $params,
+    'params'              => $params,
 ];
