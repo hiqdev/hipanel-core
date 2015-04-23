@@ -131,7 +131,7 @@ return [
             'class' => 'hipanel\modules\domain\Module',
         ],
         'finance' => [
-            'class' => 'frontend\modules\finance\Module',
+            'class' => 'hipanel\modules\finance\Module',
         ],
         'hosting' => [
             'class' => 'app\modules\hosting\Module',
