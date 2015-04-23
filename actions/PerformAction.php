@@ -7,23 +7,22 @@
 
 namespace hipanel\actions;
 
-use hipanel\CrudController;
-use hipanel\helpers\ArrayHelper;
+use hipanel\base\CrudController;
 use hiqdev\hiar\ActiveRecord;
 use hiqdev\hiar\Collection;
 use hiqdev\hiar\HiResException;
-use Yii;
+use yii\base\Action;
 use yii\base\Controller;
-use yii\base\Exception;
 use yii\base\InvalidCallException;
-use yii\db\IntegrityException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
+use Yii;
 
 /**
  * @property mixed resultBehaviours
  */
-class PerformAction extends \yii\base\Action
+class PerformAction extends Action
 {
     /**
      * @var CrudController|Controller|\yii\web\Controller the controller that owns this action
@@ -76,8 +75,8 @@ class PerformAction extends \yii\base\Action
             ],
         ];
 
-        $this->options           = AH::merge($defaults, $this->options);
-        $this->collectionOptions = AH::merge([
+        $this->options           = ArrayHelper::merge($defaults, $this->options);
+        $this->collectionOptions = ArrayHelper::merge([
             'class'    => Collection::className(),
             'model'    => $this->controller->newModel(),
             'scenario' => $this->options['scenario']
