@@ -38,6 +38,7 @@
             "homepage": "https://hiqdev.com/"
         }
     ],
+    "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "2.*",
@@ -48,6 +49,7 @@
         "hiqdev/yii2-hi3a-authclient": "*@dev",
         "hiqdev/yii2-hiar": "*@dev",
         "hiqdev/yii2-higrid": "*@dev",
+        "hiqdev/yii2-collection": "*@dev",
         "hiqdev/yii2-menumanager": "*@dev",
         "hiqdev/hipanel-module-client": "*@dev",
         "hiqdev/hipanel-module-domain": "*@dev",
