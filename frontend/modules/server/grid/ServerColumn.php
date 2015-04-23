@@ -2,8 +2,8 @@
 
 namespace frontend\modules\server\grid;
 
-use frontend\components\grid\DataColumn;
-use frontend\components\widgets\Combo2;
+use hipanel\grid\DataColumn;
+use hipanel\widgets\Combo2;
 use yii\helpers\Html;
 
 class ServerColumn extends DataColumn

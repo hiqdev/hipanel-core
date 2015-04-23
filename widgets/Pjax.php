@@ -37,7 +37,10 @@ class Pjax extends \yii\widgets\Pjax
         $js = "jQuery(document).pjax($linkSelector, \"#$id\", $options);";
         $js .= "\njQuery(document).on('submit', $formSelector, function (event) {
             var options = $options;
-            $.extend(true, options, event.pjaxOptions);
+            var \$form = $(event.target);
+            if (\$form.data('pjaxPush') !== undefined) {
+                options.push = \$form.data('pjaxPush')
+            }
             jQuery.pjax.submit(event, '#$id', options);
         });";
         $view->registerJs($js);
