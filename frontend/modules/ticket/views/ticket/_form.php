@@ -19,12 +19,13 @@ $('input.icheck').iCheck({
 });
 
 // Expand message textarea
-$('.leave-comment-form textarea').one('focus', function(e) {
-    var ta = document.querySelectorAll('.leave-comment-form textarea');
+$('.leave-comment-form textarea').on('focus', function(e) {
+    $('.hidden-form-inputs').toggle();
     $(this).attr('rows', '5');
     autosize(this);
 });
 JS;
+$this->registerJs($dopScript, \yii\web\View::POS_READY);
 $this->registerCss(<<< CSS
 .checkbox label {
     padding-left: 0
@@ -32,6 +33,9 @@ $this->registerCss(<<< CSS
 input:focus, textarea:focus {
     outline-style: solid;
     outline-width: 2px;
+}
+.hidden-form-inputs {
+    display: none;
 }
 CSS
 );
@@ -58,13 +62,13 @@ CSS
         'encodeLabels' => false,
     ]); */?>
 
-
-    <div class="pull-left">
-        <?php if (!$model->isNewRecord)
-            print $form->field($model, 'is_private')->checkbox(['class' => 'icheck']); ?>
-    </div>
-    <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary pull-right']); ?>
-    <div class="clearfix"></div>
+    <div class="hidden-form-inputs">
+        <div class="pull-left">
+            <?php if (!$model->isNewRecord)
+                print $form->field($model, 'is_private')->checkbox(['class' => 'icheck']); ?>
+        </div>
+        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary pull-right']); ?>
+        <div class="clearfix"></div>
     </div>
 
     <div class="row" style="margin-top: 1em">
