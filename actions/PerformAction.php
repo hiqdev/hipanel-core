@@ -166,9 +166,7 @@ class PerformAction extends Action
             /* @var $model ActiveRecord */
             $saveResult = $this->createSaveResult($model);
             $behaviour  = $this->getBehaviour($saveResult);
-            if (isset($behaviour['addFlash']) && $behaviour['addFlash'] !== false) {
-                $this->addFlash($model, $saveResult);
-            }
+            $this->addFlash($model, $behaviour, $saveResult);
             $result = $this->runBehaviour($behaviour, $saveResult, $model);
             if ($behaviour['bulk']) {
                 $results[$model->getPrimaryKey()] = $result;
@@ -246,12 +244,13 @@ class PerformAction extends Action
                 return $data;
             }
         } elseif ($behaviour === 'render') { /// ['render', ['view', 'id' => 123]]
-            return $this->controller->render($params);
+            $view = array_shift($params);
+            $params = array_shift($params);
+            return $this->controller->render($view, $params);
         } elseif ($behaviour === 'renderJson') {
             /// ['renderJson', ['view', 'id' => 123], 'format' => function ($model, $success) {  return ['message' => $success ? '' : $model->getFirstError()]; ]
             return $this->controller->renderJson($data);
         } elseif ($behaviour === 'redirect') {
-            /// ['redirect', 'url/to']
             if ($params instanceof \Closure) {
                 $params = call_user_func($params, $model, $saveResult);
             }
@@ -266,9 +265,9 @@ class PerformAction extends Action
                 $params = call_user_func($params, $model, $saveResult);
             }
 
-            if ($rule['changeUrl']) { /// TODO: something is wrong here
-                $rule['changeUrl'] = call_user_func($rule['changeUrl'], $model, $saveResult);
-                $this->controller->redirect($rule['changeUrl']);
+            if ($rule['setUrl']) {
+                $rule['setUrl'] = call_user_func($rule['setUrl'], $model, $saveResult);
+                $this->controller->redirect($rule['setUrl']);
             }
             return $this->controller->runAction($action, $params);
         } elseif ($behaviour === 'custom' && $params instanceof \Closure) { /// function ($action, $model) { return $model; }
@@ -293,11 +292,21 @@ class PerformAction extends Action
         }
     }
 
-    public function addFlash ($model, $saveResult) {
-        Yii::$app->session->addFlash($saveResult['class'], [
-            'title' => $model->getPrimaryValue(),
-            'text'  => $saveResult['message']
-        ]);
+    public function addFlash ($model, $behaviour, $saveResult) {
+        if (isset($behaviour['addFlash'])) {
+            $addFlash = $behaviour['addFlash'];
+        } elseif (isset($this->options['addFlash'])) {
+            $addFlash = $this->options['addFlash'];
+        } else {
+            $addFlash = false;
+        }
+
+        if ($addFlash) {
+            Yii::$app->session->addFlash($saveResult['class'], [
+                'title' => $model->getPrimaryValue(),
+                'text'  => $saveResult['message']
+            ]);
+        }
     }
 
     public function getRequestMethod () {
