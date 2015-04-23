@@ -4,8 +4,7 @@
  * @copyright Copyright (c) 2015 HiQDev
  * @license http://hiqdev.com/.../license
  */
-use cebe\gravatar\Gravatar;
-use frontend\modules\ticket\models\Thread;
+
 use hipanel\widgets\Box;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -47,73 +46,27 @@ JS
     , View::POS_READY));
 ?>
 
-
 <?php if (is_array($model->answers)) : ?>
-    <?php // print $this->render('_chat',['model'=>$model]); ?>
     <!-- Chat box -->
-    <?php $box = Box::begin(); ?>
-    <div class="box-body chat" id="chat-box">
-        <div class="box-header">
-            <i class="fa fa-comments-o"></i>
-            <h3 class="box-title">Chat</h3>
-        </div>
-        <div class="ticket-update">
-            <?= $this->render('_form', [
-                'model' => $model,
-                'topic_data' => $topic_data,
-                'priority_data' => $priority_data,
-                'state_data' => $state_data,
-            ]) ?>
-        </div>
-
-        <hr class="no-panel-padding-h panel-wide padding-bottom">
-
-        <ul class="chats">
+    <?php $box = Box::begin([
+        'options' => [
+            'class' => 'box-primary'
+        ]
+    ]); ?>
+    <?= $this->render('_form', [
+        'form' => $form,
+        'model' => $model,
+        'topic_data' => $topic_data,
+        'priority_data' => $priority_data,
+        'state_data' => $state_data,
+    ]) ?>
+    <hr class="no-panel-padding-h panel-wide padding-bottom">
+        <div class="widget-article-comments tab-pane panel no-padding no-border fade in active">
             <?php foreach ($model->answers as $answer_id => $answer) : ?>
                 <?php if (ArrayHelper::getValue($answer, 'message') != null) : ?>
-                    <?= Html::beginTag('li', ['class' => ($answer['is_answer']) ? 'out' : 'in', 'id' => 'answer-' . $answer['answer_id']]) ?>
-                    <?php if (isset($answer['email']) && filter_var($answer['email'], FILTER_VALIDATE_EMAIL)) : ?>
-                        <?= Gravatar::widget([
-                            'email' => $answer['email'],
-                            'defaultImage' => 'identicon',
-                            'options' => [
-                                'alt' => $answer['author'],
-                                'class' => 'avatar',
-                            ],
-                            'size' => 45
-                        ]); ?>
-                    <?php endif; ?>
-
-                    <div class="message">
-                        <span class="arrow"></span>
-
-                        <div class="info">
-                            <?= Html::a($answer['author'], [
-                                '/client/client/view',
-                                'id' => $answer['author_id']
-                            ], ['class' => 'name']); ?>&nbsp;
-                            <?= Html::tag('span', Yii::$app->formatter->asDatetime($answer['create_time']), ['class' => 'datetime']) ?>&nbsp;
-                            <?php if ($answer['spent']) print Html::tag('span', Yii::t('app', 'Time spent: {n}', ['n' => $answer['spent']]), ['class' => 'spent-time']); ?>&nbsp;
-                        </div>
-
-                        <!--div class="buttons">
-                            <?= Html::button(Yii::t('app', '{i}Quote', ['i' => '<span class="fa fa-quote-left"></span>&nbsp;&nbsp;']), ['class' => 'quote-answer btn btn-xs btn-default', 'data' => ['answer-id' => $answer['answer_id']]]); ?>
-                            <?= Html::button(Yii::t('app', '{i}Hide', ['i' => '<span class="fa fa-minus"></span>&nbsp;&nbsp;']), ['class' => 'hide-answer btn btn-xs btn-default', 'data' => ['answer-id' => $answer['answer_id']]]); ?>
-                            <?= Html::button(Yii::t('app', '{i}Show', ['i' => '<span class="fa fa-plus"></span>&nbsp;&nbsp;']), ['class' => 'show-answer btn btn-xs btn-default', 'data' => ['answer-id' => $answer['answer_id']], 'style' => 'display: none;']); ?>
-                            <? /* = Html::button(Yii::t('app', '{i}Split', ['i' => '<span class="fa fa-scissors"></span>&nbsp;&nbsp;']), ['class' => 'split-answer btn btn-xs btn-default', 'data' => ['answer-id' => $answer['answer_id']]]); */ ?>
-                        </div-->
-
-                        <?= Html::tag('span', Thread::parseMessage($answer['message']), ['class' => 'body']); ?>
-                        <?php if (ArrayHelper::getValue($answer, 'files') != null) : ?>
-                            <?= $this->render('_attachment', ['attachment' => $answer['files'], 'object_id' => $model->id, 'object_name' => 'thread', 'answer_id' => $answer_id]); ?>
-                        <?php endif; ?>
-
-                    </div>
-                    <?= Html::endTag('li'); ?>
+                    <?= $this->render('_comment', ['answer_id' => $answer_id, 'answer' => $answer]); ?>
                 <?php endif; ?>
             <?php endforeach; ?>
-        </ul>
-    </div><!-- /.chat -->
-    <?php $box::end(); ?><!-- /.box (chat box) -->
-
+            <?php $box::end(); ?><!-- /.box (chat box) -->
+        </div>
 <?php endif; ?>
