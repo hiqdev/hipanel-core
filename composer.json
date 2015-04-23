@@ -49,6 +49,7 @@
         "hiqdev/yii2-hi3a-authclient": "*@dev",
         "hiqdev/yii2-hiar": "*@dev",
         "hiqdev/yii2-higrid": "*@dev",
+        "hiqdev/yii2-menumanager": "*@dev",
         "hiqdev/hipanel-module-client": "*@dev",
         "hiqdev/hipanel-module-domain": "*@dev",
         "hiqdev/hipanel-module-ticket": "*@dev",
