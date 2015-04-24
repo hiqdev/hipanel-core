@@ -8,8 +8,6 @@ use yii\web\JsExpression;
 
 /**
  * Class Server
- *
- * @package frontend\modules\server\assets\combo2
  */
 class Server extends Combo2Config
 {

@@ -369,6 +369,10 @@
 			},
 			onChange: function (e) {
 				e.element = $(this);
+				if (e.noAffect) {
+					e.stopPropagation();
+				}
+
 				return $(this).data('field').form.update(e);
 			},
 			'onSelect2-selecting': function (event) {

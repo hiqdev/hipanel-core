@@ -121,7 +121,7 @@ return [
             'class' => 'app\modules\ticket\Module',
         ],
         'server'   => [
-            'class' => 'app\modules\server\Module',
+            'class' => 'hipanel\modules\server\Module',
         ],
         'domain'   => [
             'class' => 'hipanel\modules\domain\Module',

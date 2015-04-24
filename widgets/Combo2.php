@@ -25,7 +25,7 @@ class Combo2 extends Widget
     ];
 
     /**
-     * @var array the additional options that will be passed to the Combo init JS
+     * @var array the additional JS options that will be passed to the Combo init JS
      */
     public $fieldOptions = [];
 
@@ -50,7 +50,7 @@ class Combo2 extends Widget
     public $type;
 
     /**
-     * @var array the options for the input
+     * @var array the HTML options for the input
      */
     public $inputOptions;
 
@@ -100,6 +100,7 @@ class Combo2 extends Widget
 
     public function registerClientCombo2Config () {
         $type = $this->type;
+        $options = $this->options;
 
         if (isset(static::$builtInCombos[$type])) {
             $type = static::$builtInCombos[$type];
