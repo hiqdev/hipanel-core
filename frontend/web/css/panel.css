@@ -1,3 +1,157 @@
+/* Comments */
+
+.widget-comments .comment {
+    padding: 0 0 10px
+}
+
+.widget-comments .comment+.comment {
+    padding-top: 10px;
+    border-top: 1px solid;
+    border-top-color: #e4e4e4
+}
+
+.widget-comments .comment:last-child {
+    padding-bottom: 0
+}
+
+.widget-comments .comment-avatar {
+    display: block;
+    float: left;
+    height: 32px;
+    margin-top: 5px;
+    width: 32px;
+    border-radius: 99999px
+}
+
+.widget-comments .comment-body {
+    margin-left: 45px
+}
+
+.widget-comments .actions,.widget-comments .comment-by {
+    color: #aaa;
+    display: block
+}
+
+.widget-comments .comment-by {
+    font-style: italic
+}
+
+.widget-comments .comment-by a {
+    font-style: normal
+}
+
+.widget-comments .comment-text {
+    padding: 4px 0
+}
+
+.widget-comments .comment-actions i {
+    display: inline-block;
+    margin-right: 5px;
+    text-decoration: none
+}
+
+.widget-comments .comment-actions,.widget-comments .comment-actions a {
+    color: #aaa;
+    font-size: 12px
+}
+
+.widget-comments .comment-actions a {
+    margin-right: 10px;
+    display: inline-block
+}
+
+.widget-comments .comment-actions a:hover {
+    color: #555
+}
+
+.panel .widget-comments .comment,.panel.widget-comments .comment {
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px
+}
+
+.widget-article-comments .comment {
+    padding-top: 13px
+}
+
+.widget-article-comments .comment:first-child {
+    padding-top: 0
+}
+
+.widget-article-comments .comment>.comment, .widget-article-comments .comment.answer {
+    margin-left: 26px!important
+}
+
+.widget-article-comments .comment-avatar {
+    border-radius: 999999px;
+    display: block;
+    float: left;
+    height: 32px;
+    position: relative;
+    width: 32px
+}
+
+.widget-article-comments .comment-heading {
+    font-size: 12px;
+    padding-bottom: 2px
+}
+
+.widget-article-comments .comment-heading span {
+    color: #aaa;
+    display: inline-block;
+    font-size: 11px;
+    margin-left: 5px
+}
+
+.widget-article-comments .comment-body {
+    float: none;
+    margin-left: 46px;
+    position: relative
+}
+
+.widget-article-comments .comment-body:before {
+    border-color: transparent #e4e4e4 transparent transparent;
+    border-style: solid;
+    border-width: 6px 6px 6px 0;
+    content: "";
+    display: block;
+    height: 0;
+    left: -6px;
+    position: absolute;
+    top: 11px;
+    width: 0
+}
+
+.widget-article-comments .comment-text {
+    border: 1px solid #e4e4e4;
+    border-radius: 2px;
+    padding: 7px 12px 8px
+}
+
+.widget-article-comments .comment-footer {
+    display: block;
+    font-size: 12px;
+    padding: 4px 12px 0
+}
+
+.widget-article-comments .comment-footer,.widget-article-comments .comment-footer a {
+    color: #aaa
+}
+
+.widget-article-comments .comment-footer a:hover {
+    color: #555
+}
+
+.widget-article-comments .comment-footer i {
+    font-size: 13px
+}
+
+.panel .widget-article-comments .comment,.panel.widget-article-comments .comment {
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px
+}
+
 /* Chats */
 .chats {
     margin: 0;
@@ -189,15 +343,15 @@
     margin-right: 15px;
 }
 
-.chats li.in .message .info,
-.chats li.out .message .buttons {
-    float: left;
-}
+/*.chats li.in .message .info,*/
+/*.chats li.out .message .buttons {*/
+    /*float: left;*/
+/*}*/
 
-.chats li.out .message .info,
-.chats li.in .message .buttons {
-    float: right;
-}
+/*.chats li.out .message .info,*/
+/*.chats li.in .message .buttons {*/
+    /*float: right;*/
+/*}*/
 
 /* COMMON */
 
@@ -513,3 +667,65 @@ hr {
     /*border-bottom: 2px solid #ececec;*/
 /*}*/
 /* END USER PROFILE*/
+
+.padding-bottom {
+    padding-bottom: 20px;
+}
+
+/** Expanding input **/
+
+
+.expanding-input {
+    position: relative
+}
+
+.expanding-input-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 28px;
+    cursor: pointer
+}
+
+.expanding-input-placeholder {
+    padding: 7px 13px;
+    color: #999;
+    font-size: 13px;
+    line-height: 1.42857143
+}
+
+.expanding-input-hidden {
+    display: none
+}
+
+.expanding-input.expanded .expanding-input-content,.expanding-input.expanded .expanding-input-hidden {
+    display: block
+}
+
+.expanding-input.expanded .expanding-input-content:after,.expanding-input.expanded .expanding-input-content:before,.expanding-input.expanded .expanding-input-hidden:after,.expanding-input.expanded .expanding-input-hidden:before {
+    content: " ";
+    display: table
+}
+
+.expanding-input.expanded .expanding-input-content:after,.expanding-input.expanded .expanding-input-hidden:after {
+    clear: both
+}
+
+.expanding-input.expanding-input-sm .expanding-input-placeholder {
+    padding: 6px 11px;
+    font-size: 12px;
+    line-height: 1.5
+}
+
+.expanding-input.expanding-input-lg .expanding-input-placeholder {
+    padding: 11px 17px;
+    font-size: 17px;
+    line-height: 1.33
+}
+
+.form-control {
+    border-top-color: #c2c2c2;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

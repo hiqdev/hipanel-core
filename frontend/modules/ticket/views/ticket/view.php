@@ -1,11 +1,9 @@
 <?php
-use hipanel\base\Re;
-use frontend\modules\ticket\widgets\Label;
-use frontend\modules\ticket\widgets\Topic;
-use frontend\modules\ticket\widgets\Watcher;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\StringHelper;
+use yii\helpers\Url;
 
 $this->title = StringHelper::truncateWords($model->threadViewTitle, 5);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
@@ -16,14 +14,27 @@ $this->registerCss('
     }
 ');
 ?>
+<?php $form = ActiveForm::begin([
+    'action' => $model->scenario == 'insert' ? Url::toRoute(['create']) : Url::toRoute([
+        'update',
+        'id' => $model->id
+    ]),
+    'options' => ['enctype' => 'multipart/form-data', 'class' => 'leave-comment-form']
+]); ?>
 <div class="row">
     <div class="col-md-3">
         <?= $this->render('_leftBlock', [
-            'model' => $model
+            'model' => $model,
+            'form' => $form,
+            'topic_data' => $topic_data,
+            'state_data' => $state_data,
+            'priority_data' => $priority_data,
+
         ]); ?>
     </div>
     <div class="col-md-9">
         <?= $this->render('_rightBlock', [
+            'form' => $form,
             'model' => $model,
             'topic_data' => $topic_data,
             'state_data' => $state_data,
@@ -31,7 +42,7 @@ $this->registerCss('
         ]); ?>
     </div>
 </div>
-
+<?php $form::end(); ?>
 <?php /*
 <div class="box box-danger">
     <div class="box-header">

@@ -126,8 +126,8 @@ return [
         'domain'   => [
             'class' => 'hipanel\modules\domain\Module',
         ],
-        'finance'  => [
-            'class' => 'frontend\modules\finance\Module',
+        'finance' => [
+            'class' => 'hipanel\modules\finance\Module',
         ],
         'hosting'  => [
             'class' => 'hipanel\modules\hosting\Module',

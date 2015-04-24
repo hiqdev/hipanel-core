@@ -71,6 +71,7 @@
         "raoul2000/yii2-pnotify-widget": "*",
         "bower-asset/admin-lte": "2.*",
         "bower-asset/flag-icon-css": "*",
+        "bower-asset/autosize": "*",
         "guzzlehttp/guzzle": "4.*",
         "2amigos/yii2-google-maps-library" : "*"
     },
