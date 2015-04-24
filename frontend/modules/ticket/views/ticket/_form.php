@@ -42,11 +42,7 @@ CSS
 <?= $form->field($model, 'message')->textarea(['rows' => 1, 'placeholder' => 'Leave message here']); ?>
 <div class="hidden-form-inputs">
     <div class="row">
-        <div class="col-md-3">
-            <?php if (!$model->isNewRecord)
-                print $form->field($model, 'is_private')->checkbox(['class' => 'icheck']); ?>
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             <?= $form->field($model, 'file[]')->widget(\kartik\widgets\FileInput::className(), [
                 'options' => [
                     'accept' => 'image/*',
@@ -60,7 +56,14 @@ CSS
                     'maxFileCount' => 5,
                     'msgFilesTooMany' => 'Number of files selected for upload ({n}) exceeds maximum allowed limit of {m}. Please retry your upload!',
                 ]
-            ])->label(false); ?>
+            ]); ?>
+        </div>
+        <div class="col-md-3">
+            <?php if (!$model->isNewRecord)
+                print $form->field($model, 'is_private')->checkbox(['class' => 'icheck']); ?>
+        </div>
+        <div class="col-md-9">
+            <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary margin-bottom pull-right']); ?>
         </div>
     </div>
 </div>

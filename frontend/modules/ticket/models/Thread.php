@@ -136,7 +136,7 @@ class Thread extends \hiqdev\hiar\ActiveRecord
             'state' => Yii::t('app', 'State'),
             'state_label' => Yii::t('app', 'State'),
             'author_id' => Yii::t('app', 'Author'),
-            'responsible_id' => Yii::t('app', 'Responsible'),
+            'responsible_id' => Yii::t('app', 'Assignee'),
             'author' => Yii::t('app', 'Author'),
             'author_seller' => Yii::t('app', 'Seller'),
             'recipient_id' => Yii::t('app', 'Recipient'),

@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-md-3">
-            <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-block margin-bottom']); ?>
+            <?= Html::a( Yii::t('app', 'Back to index'), ['index'], ['class' => 'btn btn-primary btn-block margin-bottom']); ?>
             <?php $box = Box::begin([
                 'options' => [
                     'class' => 'box-solid'

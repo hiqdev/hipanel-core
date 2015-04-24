@@ -17,12 +17,17 @@ use hipanel\base\Re;
 ?>
 <div class="row page-ticket">
     <div class="col-md-12">
-        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-block margin-bottom']); ?>
+        <?php if (is_array($model->watcher) && in_array(Yii::$app->user->identity->username, $model->watcher)) : ?>
+            <?= Html::a('<i class="fa fa-eye-slash"></i>&nbsp;&nbsp;'.Yii::t('app', 'Unsubscribe'), ['unsubscribe', 'id' => $model->id], ['class' => 'btn  btn-primary btn-block margin-bottom']) ?>
+        <?php else : ?>
+            <?= Html::a('<i class="fa fa-eye"></i>&nbsp;&nbsp;'.Yii::t('app', 'Subscribe'), ['subscribe', 'id' => $model->id], ['class' => 'btn  btn-primary btn-block margin-bottom']) ?>
+        <?php endif; ?>
         <?php $box = Box::begin([
             'options' => [
                 'class' => 'box-solid'
             ],
         ]); ?>
+
         <?= $this->render('_advanced_form', [
             'form' => $form,
             'model' => $model,
@@ -31,11 +36,7 @@ use hipanel\base\Re;
             'state_data' => $state_data,
         ]); ?>
 
-        <?php if (is_array($model->watcher) && in_array(Yii::$app->user->identity->username, $model->watcher)) : ?>
-            <?= Html::a('<i class="fa fa-eye-slash"></i>&nbsp;&nbsp;'.Yii::t('app', 'Unsubscribe'), ['unsubscribe', 'id' => $model->id], ['class' => 'btn  btn-default btn-block']) ?>
-        <?php else : ?>
-            <?= Html::a('<i class="fa fa-eye"></i>&nbsp;&nbsp;'.Yii::t('app', 'Subscribe'), ['subscribe', 'id' => $model->id], ['class' => 'btn  btn-default btn-block']) ?>
-        <?php endif; ?>
+
         <?php /*
         <?php if ($model->priority == 'medium') : ?>
             <?= Html::a('<span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;'.Yii::t('app', 'Increase'), ['priority-up', 'id' => $model->id], ['class' => 'btn btn-primary btn-block']) ?>
@@ -43,6 +44,7 @@ use hipanel\base\Re;
             <?= Html::a('<span class="glyphicon glyphicon-arrow-down"></span>&nbsp;&nbsp;'.Yii::t('app', 'Lower'), ['priority-down', 'id' => $model->id], ['class' => 'btn btn-primary btn-block']) ?>
         <?php endif; ?>
         */ ?>
+        <?php /*
         <?php if ($model->state=='opened') : ?>
             <?= Html::a('<i class="fa fa-close"></i>&nbsp;&nbsp;'.Yii::t('app', 'Close'), ['close', 'id' => $model->id], [
                 'class' => 'btn btn-danger btn-block',
@@ -60,6 +62,7 @@ use hipanel\base\Re;
                 ],
             ]) ?>
         <?php endif; ?>
+        */ ?>
 
         <?php $box::end(); ?>
     </div>
