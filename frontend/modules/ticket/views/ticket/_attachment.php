@@ -1,11 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tofid
- * Date: 26.02.15
- * Time: 16:18
- */
-use frontend\components\widgets\FileRender as FR;
+
+use hipanel\widgets\FileRender as FR;
 ?>
 
 <div class="attachment">
