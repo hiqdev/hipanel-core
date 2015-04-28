@@ -78,7 +78,7 @@ use hipanel\widgets\Alert;
         </section>
 
         <!-- Main content -->
-        <section class="content">
+        <section class="content container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <?= Alert::widget(); ?>

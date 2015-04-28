@@ -118,7 +118,8 @@ return [
             'class' => 'hipanel\modules\client\Module',
         ],
         'ticket'   => [
-            'class' => 'app\modules\ticket\Module',
+//            'class' => 'app\modules\ticket\Module',
+            'class' => 'hipanel\modules\ticket\Module',
         ],
         'server'   => [
             'class' => 'hipanel\modules\server\Module',
