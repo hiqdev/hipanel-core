@@ -62,7 +62,12 @@ class Combo2 extends Widget
     /**
      * @var array the params used to create field object
      */
-    public $options;
+    public $options = [];
+
+    /**
+     * @var Combo2Config the Combo2 that will be created
+     */
+    public $combo2Config;
 
     /**
      * @inheritdoc
@@ -74,6 +79,13 @@ class Combo2 extends Widget
         if ($this->language === null && ($language = Yii::$app->language) !== 'en-US') {
             $this->language = substr($language, 0, 2);
         }
+
+        if (isset(static::$builtInCombos[$this->type])) {
+            $config['class'] = static::$builtInCombos[$this->type];
+        } else {
+            $config['class'] = $this->type;
+        }
+        $this->combo2Config = \Yii::createObject($config);
     }
 
     /**
@@ -90,28 +102,15 @@ class Combo2 extends Widget
      */
     public function registerClientScript () {
         $view = $this->getView();
-        $this->registerClientCombo2Config();
-
+        $this->registerClientCombo2();
         $selector = '#' . Html::getInputId($this->model, $this->attribute);
-        $js       = "$('$selector').closest('{$this->formElementSelector}').combo2().register('$selector', '{$this->type}');";
+        $js       = "$('$selector').closest('{$this->formElementSelector}').combo2().register('$selector', '{$this->combo2Config->className()}');";
 
         $view->registerJs($js);
     }
 
-    public function registerClientCombo2Config () {
-        $type = $this->type;
-        $options = $this->options;
-
-        if (isset(static::$builtInCombos[$type])) {
-            $type = static::$builtInCombos[$type];
-        }
-        if (is_array($type)) {
-            $options = array_merge($type, $this->options);
-        } else {
-            $options['class'] = $type;
-        }
-
-        return Yii::createObject($options)->register($this->getFieldOptions());
+    public function registerClientCombo2 () {
+        return $this->combo2Config->register($this->getFieldOptions());
     }
 
     public function getFieldOptions() {

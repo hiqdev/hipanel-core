@@ -156,7 +156,7 @@ class Combo2Config extends Object
         $config_json = Json::encode(static::getConfig($config));
         $view        = \Yii::$app->getView();
         Combo2Asset::register($view);
-        $view->registerJs("$.fn.combo2Config().add('{$this->type}', $config_json);", View::POS_READY, 'combo2Config_' . $this->type);
+        $view->registerJs("$.fn.combo2Config().add('{$this->className()}', $config_json);", View::POS_READY, 'combo2Config_' . $this->type);
 
         return true;
     }
