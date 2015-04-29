@@ -49,11 +49,18 @@ class PerformAction extends Action
      */
     public $collectionOptions;
 
-    public function init () {
+    /**
+     * @var array of request methods, that
+     */
+    public static $readOnlyRequestMethods = ["GET"];
+
+    public function init()
+    {
         $this->initOptions();
     }
 
-    public function run () {
+    public function run()
+    {
         $this->createCollection();
         $this->loadCollection();
         if (!$this->collection->isEmpty()) {
@@ -63,7 +70,8 @@ class PerformAction extends Action
         return $this->formatResult();
     }
 
-    public function initOptions () {
+    public function initOptions()
+    {
         $defaults = [
             'controller' => Yii::$app->controller,
             'scenario'   => $this->id,
@@ -87,7 +95,8 @@ class PerformAction extends Action
 
     public $_resultBehaviours;
 
-    public function getResultBehaviours () {
+    public function getResultBehaviours()
+    {
         if (empty($this->_resultBehaviours)) {
             return [
                 'editableAjax' => [
@@ -110,11 +119,13 @@ class PerformAction extends Action
         }
     }
 
-    public function setResultBehaviours ($value) {
+    public function setResultBehaviours($value)
+    {
         $this->_resultBehaviours = $value;
     }
 
-    public function initResultBehaviours () {
+    public function initResultBehaviours()
+    {
         $behaviours = $this->getResultBehaviours();
 
         foreach (['success', 'error'] as $group) {
@@ -126,7 +137,7 @@ class PerformAction extends Action
                     $type   = $condition[1];
                 } else {
                     $method = '*';
-                    $type = $condition[0];
+                    $type   = $condition[0];
                 }
 
                 $behaviours[$type][$method][$group] = $rule;
@@ -136,15 +147,18 @@ class PerformAction extends Action
         $this->_resultBehaviours = $behaviours;
     }
 
-    public function createCollection () {
+    public function createCollection()
+    {
         return $this->collection = Yii::createObject($this->collectionOptions);
     }
 
-    public function loadCollection () {
+    public function loadCollection()
+    {
         return $this->collection->load();
     }
 
-    public function saveCollection () {
+    public function saveCollection()
+    {
         try {
             return $this->saveResult = $this->collection->save();
         } catch (HiResException $e) {
@@ -152,24 +166,39 @@ class PerformAction extends Action
         }
     }
 
-    public function isSaveEmpty () {
+    public function isSaveEmpty()
+    {
         return $this->saveResult === null;
     }
 
-    public function isSaveSuccess () {
+    public function isSaveSuccess()
+    {
         return $this->collection->hasErrors();
     }
 
-    public function formatResult () {
+    public function formatResult()
+    {
         $results = [];
-        foreach ($this->collection->models as $model) {
-            /* @var $model ActiveRecord */
-            $saveResult = $this->createSaveResult($model);
+
+        if (!$this->collection->isEmpty()) {
+            foreach ($this->collection->models as $model) {
+                /* @var $model ActiveRecord */
+                $saveResult = $this->createSaveResult($model);
+                $behaviour  = $this->getBehaviour($saveResult);
+                $this->addFlash($model, $behaviour, $saveResult);
+                $result = $this->runBehaviour($behaviour, $saveResult, $model);
+                if ($behaviour['bulk']) {
+                    $results[$model->getPrimaryKey()] = $result;
+                } else {
+                    return $result;
+                }
+            }
+        } else {
+            $saveResult = $this->createSaveResult();
             $behaviour  = $this->getBehaviour($saveResult);
-            $this->addFlash($model, $behaviour, $saveResult);
-            $result = $this->runBehaviour($behaviour, $saveResult, $model);
+            $result     = $this->runBehaviour($behaviour, $saveResult);
             if ($behaviour['bulk']) {
-                $results[$model->getPrimaryKey()] = $result;
+                $results[] = $result;
             } else {
                 return $result;
             }
@@ -182,8 +211,9 @@ class PerformAction extends Action
      * @param ActiveRecord $model
      * @return array
      */
-    public function createSaveResult ($model) {
-        if ($model->hasErrors()) {
+    public function createSaveResult($model = null)
+    {
+        if ($model !== null && $model->hasErrors()) {
             $saveResult = ['success' => false, 'message' => $model->getErrors()]; /// For validation errors
         } elseif (is_bool($this->saveResult)) {
             $saveResult = ['success' => $this->saveResult];
@@ -195,15 +225,17 @@ class PerformAction extends Action
         $saveResult['class'] = $saveResult['success'] ? 'success' : 'error';
 
         if (empty($saveResult['message'])) {
-            $saveResult['message'] = Yii::t('app', $this->options[$saveResult['class']]['message'], \yii\helpers\ArrayHelper::merge($model->getAttributes(), [
-                'scenario' => Inflector::camel2words(Inflector::id2camel($this->options['scenario']))
-            ]));
+            $saveResult['message'] = Yii::t('app', $this->options[$saveResult['class']]['message'],
+                \yii\helpers\ArrayHelper::merge($model->getAttributes(), [
+                    'scenario' => Inflector::camel2words(Inflector::id2camel($this->options['scenario']))
+                ]));
         }
 
         return $saveResult;
     }
 
-    public function getBehaviour ($saveResult) {
+    public function getBehaviour($saveResult)
+    {
         $type       = $this->getRequestType();
         $method     = $this->getRequestMethod();
         $behaviours = $this->resultBehaviours;
@@ -219,7 +251,8 @@ class PerformAction extends Action
         }
     }
 
-    public function runBehaviour ($rule, $saveResult, $model) {
+    public function runBehaviour($rule, $saveResult, $model = null)
+    {
         /** @var ActiveRecord $model */
 
         $format    = ArrayHelper::remove($rule, 'format', null);
@@ -244,8 +277,9 @@ class PerformAction extends Action
                 return $data;
             }
         } elseif ($behaviour === 'render') { /// ['render', ['view', 'id' => 123]]
-            $view = array_shift($params);
+            $view   = array_shift($params);
             $params = array_shift($params);
+
             return $this->controller->render($view, $params);
         } elseif ($behaviour === 'renderJson') {
             /// ['renderJson', ['view', 'id' => 123], 'format' => function ($model, $success) {  return ['message' => $success ? '' : $model->getFirstError()]; ]
@@ -269,6 +303,7 @@ class PerformAction extends Action
                 $rule['setUrl'] = call_user_func($rule['setUrl'], $model, $saveResult);
                 $this->controller->redirect($rule['setUrl']);
             }
+
             return $this->controller->runAction($action, $params);
         } elseif ($behaviour === 'custom' && $params instanceof \Closure) { /// function ($action, $model) { return $model; }
             return call_user_func($params, $this, $model);
@@ -277,7 +312,8 @@ class PerformAction extends Action
         }
     }
 
-    public function getRequestType () {
+    public function getRequestType()
+    {
         $request = Yii::$app->request;
         if ($request->isPjax) {
             return 'pjax';
@@ -292,7 +328,8 @@ class PerformAction extends Action
         }
     }
 
-    public function addFlash ($model, $behaviour, $saveResult) {
+    public function addFlash($model, $behaviour, $saveResult)
+    {
         if (isset($behaviour['addFlash'])) {
             $addFlash = $behaviour['addFlash'];
         } elseif (isset($this->options['addFlash'])) {
@@ -309,7 +346,8 @@ class PerformAction extends Action
         }
     }
 
-    public function getRequestMethod () {
+    public function getRequestMethod()
+    {
         return Yii::$app->request->method;
     }
 }
