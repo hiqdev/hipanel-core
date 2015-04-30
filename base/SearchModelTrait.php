@@ -10,6 +10,7 @@ namespace hipanel\base;
 use hiqdev\hiar\ActiveQuery;
 use hiqdev\hiar\ActiveRecord;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 
 /**
  * Trait SearchModelTrait
@@ -48,19 +49,20 @@ trait SearchModelTrait
 
     /**
      * Creates data provider instance with search query applied
-     *
-     * @param array $params
+     * @param $params
+     * @param array $dataProviderConfig
      * @return ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
      */
-    public function search ($params) {
+    public function search ($params, $dataProviderConfig = []) {
         /**
          * @var ActiveRecord $this
          * @var ActiveRecord $class
          * @var ActiveQuery $query
          */
         $class        = get_parent_class();
-        $query        = $class::find();
-        $dataProvider = new ActiveDataProvider(compact('query'));
+        $query        = $class::find(); // $class::find()->orderBy($sort->orders)->all(); if $sort is Sort obj
+        $dataProvider = new ActiveDataProvider(ArrayHelper::merge(compact('query'), $dataProviderConfig));
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
