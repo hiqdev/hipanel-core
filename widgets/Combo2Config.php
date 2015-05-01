@@ -15,7 +15,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 
 /**
- * Class Combo2Config
+ * Class Combo2Config.
  *
  * @property mixed $return see [[_return]]
  * @property mixed $rename see [[_rename]]
@@ -30,9 +30,30 @@ class Combo2Config extends Object
     public $url;
 
     /**
-     * @var string the type of the field
+     * @var string the type of the field.
+     * Usual should be module/comboName.
+     * For example: client/client, hosting/account, domain/domain.
+     * In case of the combo overriding with some specific filters,
+     * the type should represent the filter.
+     * For example: if the hosting/service combo is extended with filter
+     * to show only DB services, the type should be hosting/service/db or hosting/dbService.
+     * The decision of the style depends on overall code style and readability.
      */
     public $type;
+
+    /**
+     * @var string the name of the representative field in the model.
+     * Used by [[getPrimaryFilter]] to create the name of the filtering field.
+     * @see getPrimaryFilter()
+     */
+    public $name;
+
+    /**
+     * @var string md5 of the configuration.
+     * Appears only after the combo registration in [[register]]
+     * @see register()
+     */
+    public $configId;
 
     /**
      * @var mixed returning arguments
@@ -102,7 +123,8 @@ class Combo2Config extends Object
     public $hasId = true;
 
     /** @inheritdoc */
-    public function init () {
+    public function init()
+    {
         if (!$this->url) {
             $this->url = '/' . implode('/', [$this->type, $this->type, 'search']);
         }
@@ -120,7 +142,8 @@ class Combo2Config extends Object
      * @param array $config
      * @return array
      */
-    public function getConfig ($config = []) {
+    public function getConfig($config = [])
+    {
         return ArrayHelper::merge([
             'name'          => $this->type,
             'type'          => $this->type,
@@ -152,51 +175,60 @@ class Combo2Config extends Object
      * @param array $config
      * @return bool
      */
-    public function register ($config = []) {
-        $config_json = Json::encode(static::getConfig($config));
-        $view        = \Yii::$app->getView();
+    public function register($config = [])
+    {
+        $view = \Yii::$app->getView();
         Combo2Asset::register($view);
-        $view->registerJs("$.fn.combo2Config().add('{$this->className()}', $config_json);", View::POS_READY, 'combo2Config_' . $this->type);
 
-        return true;
+        $config_json    = Json::encode(static::getConfig($config));
+        $this->configId = md5($this->type . $config_json);
+        $view->registerJs("$.fn.combo2Config().add('{$this->configId}', $config_json);", View::POS_READY, 'combo2Config_' . $this->configId);
+
+        return $this->configId;
     }
 
-    public function getReturn () {
+    public function getReturn()
+    {
         return $this->_return;
     }
 
     /**
      * @return mixed
      */
-    public function getRename () {
+    public function getRename()
+    {
         return $this->_rename;
     }
 
     /**
      * @return mixed
      */
-    public function getFilter () {
+    public function getFilter()
+    {
         return $this->_filter;
     }
 
     /**
      * @param mixed $filter
      */
-    public function setFilter ($filter) {
+    public function setFilter($filter)
+    {
         $this->_filter = $filter;
     }
 
     /**
      * @param mixed $rename
      */
-    public function setRename ($rename) {
+    public function setRename($rename)
+    {
         $this->_rename = $rename;
     }
 
     /**
      * @param mixed $return
      */
-    public function setReturn ($return) {
+    public function setReturn($return)
+    {
         $this->_return = $return;
     }
 
@@ -204,15 +236,17 @@ class Combo2Config extends Object
      * @return string
      * @see _primaryFilter
      */
-    public function getPrimaryFilter () {
-        return $this->_primaryFilter ?: $this->type . '_like';
+    public function getPrimaryFilter()
+    {
+        return $this->_primaryFilter ?: $this->name . '_like';
     }
 
     /**
      * @param $primaryFilter
      * @see _primaryFilter
      */
-    public function setPrimaryFilter ($primaryFilter) {
+    public function setPrimaryFilter($primaryFilter)
+    {
         $this->_primaryFilter = $primaryFilter;
     }
 }

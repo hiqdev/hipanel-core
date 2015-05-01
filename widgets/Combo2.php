@@ -25,7 +25,7 @@ class Combo2 extends Widget
     ];
 
     /**
-     * @var array the additional JS options that will be passed to the Combo init JS
+     * @var array the additional JS options that will be passed directly to the Combo init JS
      */
     public $fieldOptions = [];
 
@@ -50,7 +50,7 @@ class Combo2 extends Widget
     public $type;
 
     /**
-     * @var array the HTML options for the input
+     * @var array the HTML options for the input element
      */
     public $inputOptions;
 
@@ -67,12 +67,13 @@ class Combo2 extends Widget
     /**
      * @var Combo2Config the Combo2 that will be created
      */
-    public $combo2Config;
+    public $combo2;
 
     /**
      * @inheritdoc
      */
-    public function init () {
+    public function init()
+    {
         parent::init();
 
         // Set language
@@ -80,18 +81,21 @@ class Combo2 extends Widget
             $this->language = substr($language, 0, 2);
         }
 
+        $config = $this->options;
+
         if (isset(static::$builtInCombos[$this->type])) {
             $config['class'] = static::$builtInCombos[$this->type];
         } else {
             $config['class'] = $this->type;
         }
-        $this->combo2Config = \Yii::createObject($config);
+        $this->combo2 = \Yii::createObject($config);
     }
 
     /**
      * @inheritdoc
      */
-    public function run () {
+    public function run()
+    {
         $this->registerClientScript();
 
         return Html::activeTextInput($this->model, $this->attribute, $this->inputOptions);
@@ -100,20 +104,23 @@ class Combo2 extends Widget
     /**
      * Register widget asset.
      */
-    public function registerClientScript () {
-        $view = $this->getView();
-        $this->registerClientCombo2();
-        $selector = '#' . Html::getInputId($this->model, $this->attribute);
-        $js       = "$('$selector').closest('{$this->formElementSelector}').combo2().register('$selector', '{$this->combo2Config->className()}');";
+    public function registerClientScript()
+    {
+        $view      = $this->getView();
+        $config_id = $this->registerClientCombo2();
+        $selector  = '#' . Html::getInputId($this->model, $this->attribute);
+        $js        = "$('$selector').closest('{$this->formElementSelector}').combo2().register('$selector', '$config_id');";
 
         $view->registerJs($js);
     }
 
-    public function registerClientCombo2 () {
-        return $this->combo2Config->register($this->getFieldOptions());
+    public function registerClientCombo2()
+    {
+        return $this->combo2->register($this->getFieldOptions());
     }
 
-    public function getFieldOptions() {
+    public function getFieldOptions()
+    {
         return ArrayHelper::merge([
             'hasId' => substr($this->attribute, -3) == '_id'
         ], $this->fieldOptions);

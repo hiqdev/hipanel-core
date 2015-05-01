@@ -244,18 +244,11 @@
 		/**
 		 * Adds a field behaviors to the config storage.
 		 *
-		 * @param {(string|object)} type the type of the field or the array of fields
+		 * @param {string} type the type of the field
 		 * @param {object=} config
 		 * @returns {*}
 		 */
 		add: function (type, config) {
-			var _this = this;
-			if (config == undefined && typeof type == 'object') {
-				$.each(type, function (k, v) {
-					_this.add(k, v);
-				});
-			}
-
 			return this.fields[type] = config;
 		},
 		/**
@@ -406,18 +399,18 @@
 		 *
 		 * Array of relations between the returned key and requested field
 		 * ```
-		 *  {'login_like': 'login', 'type': 'type'}
+		 *  {'login_like': 'hosting/account', 'type': 'type'}
 		 * ```
 		 *
 		 * With custom format
 		 * ```
 		 *  {
 		 *      'server_ids': {
-		 *          field: 'server',
+		 *          field: 'server/server',
 		 *          format: function (id, text, field) { return id; }
 		 *      },
 		 *      'client_ids': {
-		 *          field: 'client',
+		 *          field: 'client/client',
 		 *          format: 'id'
 	     *      },
 	     *      'extremely_unusual_filter': {
