@@ -107,7 +107,8 @@
     text-decoration: none
 }
 
-.widget-comments .comment-actions,.widget-comments .comment-actions a {
+.widget-comments .comment-actions,
+.widget-comments .comment-actions a {
     color: #aaa;
     font-size: 12px
 }
@@ -191,11 +192,14 @@
     padding: 4px 12px 0
 }
 
-.widget-article-comments .comment-footer,.widget-article-comments .comment-footer a {
+.widget-article-comments .comment-footer,
+.widget-article-comments .comment-footer a,
+.widget-article-comments .comment-footer button.link-button {
     color: #aaa
 }
 
-.widget-article-comments .comment-footer a:hover {
+.widget-article-comments .comment-footer a:hover,
+.widget-article-comments .comment-footer button.link-button:hover {
     color: #555
 }
 
@@ -733,4 +737,13 @@ hr {
     border-top-color: #c2c2c2;
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+
+button.link-button {
+    background:none!important;
+    border:none;
+    padding:0!important;
+    font: inherit;
+    /*border is optional*/
+    cursor: pointer;
 }
