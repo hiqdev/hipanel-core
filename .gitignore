@@ -1,19 +1,15 @@
 # yii console command
 /yii
 
-# phpstorm project files
+# IDE & OS files
+.*.swp
 .idea
-
-# netbeans project files
 nbproject
-
-# zend studio for eclipse project files
 .buildpath
 .project
 .settings
-
-# windows thumbnail cache
 Thumbs.db
+.DS_Store
 
 # composer vendor dir
 /vendor
@@ -22,8 +18,6 @@ Thumbs.db
 composer.phar
 composer.lock
 
-# Mac DS_Store Files
-.DS_Store
 
 # phpunit itself is not needed
 phpunit.phar
