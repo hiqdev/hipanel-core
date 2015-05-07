@@ -7,6 +7,7 @@
 
 namespace hipanel\base;
 
+use Yii;
 use hiqdev\hiar\ActiveRecord;
 use yii\base\InvalidConfigException;
 use yii\helpers\Inflector;
@@ -20,6 +21,11 @@ use yii\web\Response;
  */
 class Controller extends \yii\web\Controller
 {
+    /**
+     * @var array internal actions.
+     */
+    protected $_internalActions;
+
     /**
      * @inheritdoc
      */
@@ -114,6 +120,17 @@ class Controller extends \yii\web\Controller
 
     public function actionIndex () {
         return $this->render('index');
+    }
+
+    public function setInternalAction($id, $action)
+    {
+        $this->_internalActions[$id] = $action;
+    }
+
+    public function createAction($id)
+    {
+        $config = $this->_internalActions[$id];
+        return $config ? Yii::createObject($config, [$id, $this]) : parent::createAction($id);
     }
 
 }

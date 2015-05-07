@@ -7,14 +7,12 @@
 
 namespace frontend\controllers;
 
-use hipanel\base\Controller;
-use yii\filters\AccessControl;
-use yii\web\Response;
+use Yii;
 
 /**
  * HiPanel controller
  */
-class HipanelController extends Controller
+class HipanelController extends \hipanel\base\Controller
 {
     /**
      * @inheritdoc
@@ -23,7 +21,7 @@ class HipanelController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => 'yii\filters\AccessControl',
                 'only' => ['index'],
                 'rules' => [
                     [
@@ -32,6 +30,42 @@ class HipanelController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
+            ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'switch' => [
+                'class'     => 'hipanel\actions\SwitchAction',
+                'addFlash'  => true,
+                'success'   => Yii::t('app', 'DB truncate task has been created successfully'),
+                'error'     => Yii::t('app', 'Error while truncating DB'),
+                'POST html' => [
+                    'class'     => 'hipanel\actions\ProxyAction',
+                    'action'    => 'index',
+                ],
+                'GET'       => [
+                    'class'     => 'hipanel\actions\RenderAction',
+                    'view'      => 'index',
+                ],
+                'default'   => [
+                    'class'     => 'hipanel\actions\RedirectAction',
+                    'url'       => ['index'],
+                ],
+            ],
+            'proxy' => [
+                'class'     => 'hipanel\actions\ProxyAction',
+                'action'    => 'index',
+            ],
+            'render' => [
+                'class'     => 'hipanel\actions\RenderAction',
+                'view'      => 'index',
+            ],
+            'redirect' => [
+                'class'     => 'hipanel\actions\RedirectAction',
+                'url'       => ['index'],
             ],
         ];
     }
