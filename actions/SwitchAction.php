@@ -50,10 +50,11 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     public function getItemConfig($name = null, array $config = [])
     {
         return [
-            'class'  => 'hipanel\actions\SwitchRule',
-            'name'   => $name,
-            'parent' => $this,
-            'action' => $config,
+            'class'     => 'hipanel\actions\SwitchRule',
+            'name'      => $name,
+            'parent'    => $this,
+            'success'   => ArrayHelper::remove($config, 'success', $config),
+            'error'     => ArrayHelper::remove($config, 'error'),
         ];
     }
 
@@ -89,10 +90,8 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         foreach ($this->keys() as $k) {
             $rule = $this->getItem($k);
             if ($rule->isApplicable()) {
-                $error = $rule->perform();
-                if ($error === false) {
-                    return $this->success();
-                }
+                $error = $this->perform($rule);
+                return $rule->runAction($error ? 'error' : 'success');
             }
         }
 
@@ -100,24 +99,17 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     }
 
     public function perform ($rule) {
-        if ($this->success) {
-
+        if (!$this->perform) {
+            return false;
         }
-        return $this->controller->runAction($rule->id);
+
+        $this->collection->load();
+
+        try {
+            $save = $this->collection->save();
+        } catch (HiResException $e) {
+            $save = $e->getMessage();
+        }
     }
-//
-//    public function perform ($rule) {
-//        if (!$this->perform()) {
-//            return false;
-//        }
-//
-//        $this->collection->load();
-//
-//        try {
-//            $save = $this->collection->save();
-//        } catch (HiResException $e) {
-//            $save = $e->getMessage();
-//        }
-//    }
 
 }

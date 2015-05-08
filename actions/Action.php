@@ -16,6 +16,10 @@ class Action extends \yii\base\Action
 {
     protected $_type;
 
+    public function getModel()
+    {
+    }
+
     public function run()
     {
         d('base Action');

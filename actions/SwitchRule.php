@@ -46,18 +46,38 @@ class SwitchRule extends \yii\base\Component
     /**
      * Synthetic ID for the ruled action.
      */
-    public function getId()
+    public function getId($postfix = null)
     {
-        return $this->parent->id . ' ' . $this->name;
+        return $this->parent->id . ' ' . $this->name . ($postfix ? ' '.$postfix : '');
+    }
+
+    /**
+     * Run action
+     */
+    public function runAction($postfix = null)
+    {
+        $longId = $this->getId($postfix);
+        $action = $this->parent->controller->hasInternalAction($longId) ? $longId : $this->id;
+        return $this->parent->controller->runAction($action);
     }
 
     /**
      * Setter for action. Saves the action to the controller.
      * @param mixed $action action config.
      */
-    public function setAction($action)
+    public function setAction($action, $postfix = null)
     {
-        $this->parent->controller->setInternalAction($this->id, $action);
+        $this->parent->controller->setInternalAction($this->getId($postfix), $action);
+    }
+
+    public function setSuccess($success)
+    {
+        $this->setAction($success);
+    }
+
+    public function setError($error)
+    {
+        $this->setAction($error, 'error');
     }
 
     public function isApplicable()
