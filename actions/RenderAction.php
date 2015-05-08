@@ -11,15 +11,19 @@ use Yii;
 
 class RenderAction extends Action
 {
-
     /**
      * @var string view to render.
      */
     public $view;
 
+    /**
+     * @var array
+     */
+    public $params;
+
     public function run()
     {
-        return $this->controller->render($this->view);
+        return $this->controller->render($this->view, $this->params);
     }
 
 }

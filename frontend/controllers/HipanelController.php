@@ -22,12 +22,12 @@ class HipanelController extends \hipanel\base\Controller
         return [
             'access' => [
                 'class' => 'yii\filters\AccessControl',
-                'only' => ['index'],
+                'only'  => ['index'],
                 'rules' => [
                     [
                         'actions' => ['index'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
                     ],
                 ],
             ],
@@ -36,36 +36,41 @@ class HipanelController extends \hipanel\base\Controller
 
     public function actions()
     {
+//        return $this->render('index', ['model' => $model]);
         return [
-            'switch' => [
-                'class'     => 'hipanel\actions\SwitchAction',
-                'addFlash'  => true,
-                'success'   => Yii::t('app', 'DB truncate task has been created successfully'),
-                'error'     => Yii::t('app', 'Error while truncating DB'),
-                'POST html' => [
-                    'class'     => 'hipanel\actions\ProxyAction',
-                    'action'    => 'index',
+            'switch'   => [
+                'class'      => 'hipanel\actions\SwitchAction',
+                'addFlash'   => true,
+                'success'    => Yii::t('app', 'DB truncate task has been created successfully'),
+                'error'      => Yii::t('app', 'Error while truncating DB'),
+                'POST html'  => [
+                    'class'  => 'hipanel\actions\ProxyAction',
+                    'action' => 'index',
                 ],
-                'GET'       => [
-                    'class'     => 'hipanel\actions\RenderAction',
-                    'view'      => 'index',
+                'GET'        => [
+                    'class' => 'hipanel\actions\RenderAction',
+                    'view'  => 'index',
                 ],
-                'default'   => [
-                    'class'     => 'hipanel\actions\RedirectAction',
-                    'url'       => ['index'],
+                'POST pjax'  => [
+                    'class'   => 'hipanel\actions\RenderAction',
+                    'view'    => 'index',
+                ],
+                'default'    => [
+                    'class' => 'hipanel\actions\RedirectAction',
+                    'url'   => ['index'],
                 ],
             ],
-            'proxy' => [
-                'class'     => 'hipanel\actions\ProxyAction',
-                'action'    => 'index',
+            'proxy'    => [
+                'class'  => 'hipanel\actions\ProxyAction',
+                'action' => 'index',
             ],
-            'render' => [
-                'class'     => 'hipanel\actions\RenderAction',
-                'view'      => 'index',
+            'render'   => [
+                'class' => 'hipanel\actions\RenderAction',
+                'view'  => 'index',
             ],
             'redirect' => [
-                'class'     => 'hipanel\actions\RedirectAction',
-                'url'       => ['index'],
+                'class' => 'hipanel\actions\RedirectAction',
+                'url'   => ['index'],
             ],
         ];
     }

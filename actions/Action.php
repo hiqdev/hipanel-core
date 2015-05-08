@@ -20,5 +20,4 @@ class Action extends \yii\base\Action
     {
         d('base Action');
     }
-
 }
