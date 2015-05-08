@@ -10,11 +10,12 @@ namespace hipanel\actions;
 use Yii;
 use yii\base\InvalidConfigException;
 
-class SwitchAction extends ActionManager
+class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \yii\base\Arrayable
 {
+    use \hiqdev\collection\ManagerTrait;
 
     public $success;
-    
+
     public $error;
 
     public $addFlash;
