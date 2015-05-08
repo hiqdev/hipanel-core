@@ -7,7 +7,6 @@
 
 namespace hipanel\actions;
 
-use hiqdev\hiar\HiResException;
 use Yii;
 use hiqdev\hiar\Collection;
 use yii\base\InvalidConfigException;
@@ -18,12 +17,15 @@ use yii\base\InvalidConfigException;
  * @property Collection|mixed collection
  * @package hipanel\actions
  */
-class SwitchAction extends ActionManager
+class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \yii\base\Arrayable
 {
+    use \hiqdev\collection\ManagerTrait;
+
     /**
      * @var string the success message
      */
     public $success;
+
 
     /**
      * @var string the error message
