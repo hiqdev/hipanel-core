@@ -17,7 +17,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     /**
      * @var
      */
-    private $buttonOptions = [];
+    public $buttonOptions = [];
 
     /**
      * @inheritdoc
