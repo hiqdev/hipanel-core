@@ -1,5 +1,5 @@
 (function ($, window, document, undefined) {
-	var pluginName = "combo2",
+	var pluginName = "combo",
 		defaults = {};
 
 	function Plugin(element, options) {
@@ -17,23 +17,23 @@
 			return this;
 		},
 		/**
-		 * Registers the element in the combo2 form handler
+		 * Registers the element in the combo form handler
 		 *
 		 * @param {object} element the element's selector or the jQuery object with the element
 		 * @param {string} id the type the field (according to the config storage)
 		 * @param {object=} [options={}] the additional options that will be passed directly to the select2 config
 		 * @returns {Plugin}
-		 * @see $.fn.Combo2Config
+		 * @see $.fn.comboConfig
 		 */
 		register: function (element, id, options) {
 			options = options !== undefined ? options : {};
 			if (typeof element == 'string') {
 				element = this.form.find(element);
 			}
-			var field = $.fn.combo2Config().get({
+			var field = $.fn.comboConfig().get({
 				'id': id,
 				'form': this,
-				'pluginOptions': options
+				'select2Options': options
 			});
 			element.data('field', field);
 			field.setElement(element).attachListeners();
@@ -107,7 +107,7 @@
 		},
 		areSet: function (names, skipMissing) {
 			var isSet = true;
-			var _this = this;
+			var self = this;
 			skipMissing = skipMissing || false;
 
 			if (typeof names === 'string') {
@@ -118,9 +118,9 @@
 					return false;
 				}
 				if ($.isFunction(v)) {
-					isSet = v(_this);
+					isSet = v(self);
 				} else {
-					isSet = _this.isSet(v) || (skipMissing && $.isEmptyObject(_this.getField(v)));
+					isSet = self.isSet(v) || (skipMissing && !self.hasField(v));
 				}
 			});
 			return isSet;
@@ -330,7 +330,7 @@
 		 */
 		this.hasId = true;
 
-		this.pluginOptions = {
+		this.select2Options = {
 			placeholder: 'Enter a value',
 			allowClear: true,
 			initSelection: function (element, callback) {
@@ -355,7 +355,7 @@
 					requestData = field.createFilter(requestData);
 
 					$.ajax({
-						url: field.pluginOptions.ajax.url,
+						url: field.select2Options.ajax.url,
 						method: 'post',
 						data: requestData,
 						success: function (data) {
@@ -449,10 +449,10 @@
 			var form = this.form;
 			var filters = {};
 
-			if (!fields.return) fields['return'] = this.pluginOptions.ajax.return;
-			if (!fields.rename) fields['rename'] = this.pluginOptions.ajax.rename;
-			if (this.pluginOptions.ajax.filter) {
-				$.extend(true, fields, this.pluginOptions.ajax.filter);
+			if (!fields.return) fields['return'] = this.select2Options.ajax.return;
+			if (!fields.rename) fields['rename'] = this.select2Options.ajax.rename;
+			if (this.select2Options.ajax.filter) {
+				$.extend(true, fields, this.select2Options.ajax.filter);
 			}
 
 			$.each(fields, function (k, v) {
@@ -524,7 +524,7 @@
 		 * @returns {object} the Select2 plugin options for the type
 		 */
 		getConfig: function () {
-			return this.pluginOptions;
+			return this.select2Options;
 		},
 		getName: function () {
 			return this.name;
@@ -589,7 +589,7 @@
 		}
 	};
 
-	$.fn['combo2Config'] = function (type) {
+	$.fn['comboConfig'] = function (type) {
 		return new Plugin(type);
 	};
 })

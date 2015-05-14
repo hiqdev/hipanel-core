@@ -9,21 +9,36 @@ namespace hipanel\widgets;
 
 use hipanel\base\View;
 use hipanel\helpers\ArrayHelper;
+use yii\base\Model;
 use yii\base\Object;
+use yii\base\Widget;
+use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use Yii;
 
 /**
- * Class Combo2Config.
+ * Widget Combo.
  *
  * @property mixed $return see [[_return]]
  * @property mixed $rename see [[_rename]]
  * @property mixed $filter see [[_filter]]
+ * @property mixed $pluginOptions see [[_pluginOptions]]
  * @property mixed $primaryFilter see [[_primaryFilter]]
  */
-class Combo2Config extends Object
+class Combo extends Widget
 {
+    /**
+     * @var Model
+     */
+    public $model;
+
+    /**
+     * @var string the attribute name
+     */
+    public $attribute;
+
     /**
      * @var array the url that will be passed to [[Url::to()]] method to create the request URL
      */
@@ -54,6 +69,22 @@ class Combo2Config extends Object
      * @see register()
      */
     public $configId;
+
+    /**
+     * @var array the HTML options for the input element
+     */
+    public $inputOptions;
+
+    /**
+     * @var string the outer element selector, that holds all of related Combos
+     */
+    public $formElementSelector = 'form';
+
+    /**
+     * @var string the language. Default is application language
+     */
+    public $language;
+
 
     /**
      * @var mixed returning arguments
@@ -122,11 +153,19 @@ class Combo2Config extends Object
      */
     public $hasId = true;
 
+    /**
+     * @var array
+     */
+    public $_pluginOptions = [];
+
     /** @inheritdoc */
     public function init()
     {
-        if (!$this->url) {
-            $this->url = '/' . implode('/', [$this->type, $this->type, 'search']);
+        parent::init();
+
+        // Set language
+        if ($this->language === null && ($language = Yii::$app->language) !== 'en-US') {
+            $this->language = substr($language, 0, 2);
         }
         if (!$this->_return) {
             $this->return = ['id'];
@@ -136,55 +175,25 @@ class Combo2Config extends Object
         }
     }
 
-    /**
-     * Returns the config of the Combo2, merges with the passed $config
-     *
-     * @param array $config
-     * @return array
-     */
-    public function getConfig($config = [])
+    public function run()
     {
-        return ArrayHelper::merge([
-            'name'          => $this->type,
-            'type'          => $this->type,
-            'hasId'         => $this->hasId,
-            'pluginOptions' => [
-                'width'       => '100%',
-                'placeholder' => \Yii::t('app', 'Start typing here'),
-                'ajax'        => [
-                    'url'    => Url::toRoute($this->url),
-                    'type'   => 'post',
-                    'return' => $this->return,
-                    'rename' => $this->rename,
-                    'filter' => $this->filter,
-                    'data'   => new JsExpression("
-                        function (term) {
-                            return $(this).data('field').createFilter({
-                                '{$this->primaryFilter}': {format: term}
-                            });
-                        }
-                    ")
-                ]
-            ]
-        ], $config);
+        $this->registerClientScript();
+        return Html::activeTextInput($this->model, $this->attribute, $this->inputOptions);
     }
 
-    /**
-     * Registers the Combo2 config in the view
-     *
-     * @param array $config
-     * @return bool
-     */
-    public function register($config = [])
+    public function registerClientScript()
     {
         $view = \Yii::$app->getView();
-        Combo2Asset::register($view);
+        ComboAsset::register($view);
 
-        $config_json    = Json::encode(static::getConfig($config));
-        $this->configId = md5($this->type . $config_json);
-        $view->registerJs("$.fn.combo2Config().add('{$this->configId}', $config_json);", View::POS_READY, 'combo2Config_' . $this->configId);
+        $pluginOptions  = Json::encode($this->pluginOptions);
+        $this->configId = md5($this->type . $pluginOptions);
+        $view->registerJs("$.fn.comboConfig().add('{$this->configId}', $pluginOptions);", View::POS_READY, 'combo_' . $this->configId);
 
-        return $this->configId;
+        $selector = '#' . Html::getInputId($this->model, $this->attribute);
+        $js       = "$('$selector').closest('{$this->formElementSelector}').combo().register('$selector', '$this->configId');";
+
+        $view->registerJs($js);
     }
 
     public function getReturn()
@@ -248,5 +257,47 @@ class Combo2Config extends Object
     public function setPrimaryFilter($primaryFilter)
     {
         $this->_primaryFilter = $primaryFilter;
+    }
+
+    /**
+     * Returns the config of the Combo, merges with the passed $config
+     *
+     * @param array $options
+     * @return array
+     * @internal param array $config
+     */
+    public function getPluginOptions($options = [])
+    {
+        return ArrayHelper::merge([
+            'name'          => $this->type,
+            'type'          => $this->type,
+            'hasId'         => $this->hasId,
+            'select2Options' => [
+                'width'       => '100%',
+                'placeholder' => \Yii::t('app', 'Start typing here'),
+                'ajax'        => [
+                    'url'    => Url::toRoute($this->url),
+                    'type'   => 'post',
+                    'return' => $this->return,
+                    'rename' => $this->rename,
+                    'filter' => $this->filter,
+                    'data'   => new JsExpression("
+                        function (term) {
+                            return $(this).data('field').createFilter({
+                                '{$this->primaryFilter}': {format: term}
+                            });
+                        }
+                    ")
+                ]
+            ]
+        ], $this->_pluginOptions, $options);
+    }
+
+    /**
+     * @param array $pluginOptions
+     */
+    public function setPluginOptions($pluginOptions)
+    {
+        $this->_pluginOptions = $pluginOptions;
     }
 }

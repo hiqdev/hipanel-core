@@ -7,11 +7,11 @@
 
 namespace hipanel\widgets;
 
-class Combo2Asset extends \yii\web\AssetBundle {
+class ComboAsset extends \yii\web\AssetBundle {
     public $sourcePath = '@frontend/assets';
 
     public $js = [
-        'combo2/combo2.js'
+        'combo/combo.js'
     ];
 
     public $depends = [
