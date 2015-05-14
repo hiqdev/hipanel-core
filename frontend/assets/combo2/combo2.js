@@ -20,25 +20,26 @@
 		 * Registers the element in the combo2 form handler
 		 *
 		 * @param {object} element the element's selector or the jQuery object with the element
-		 * @param {string} type the type the field (according to the config storage)
+		 * @param {string} id the type the field (according to the config storage)
 		 * @param {object=} [options={}] the additional options that will be passed directly to the select2 config
 		 * @returns {Plugin}
 		 * @see $.fn.Combo2Config
 		 */
-		register: function (element, type, options) {
+		register: function (element, id, options) {
 			options = options !== undefined ? options : {};
 			if (typeof element == 'string') {
 				element = this.form.find(element);
 			}
 			var field = $.fn.combo2Config().get({
-				'type': type,
+				'id': id,
 				'form': this,
 				'pluginOptions': options
 			});
 			element.data('field', field);
 			field.setElement(element).attachListeners();
 			this.fields.push({
-				type: type,
+				id: id,
+				type: field.type,
 				field: field,
 				element: element
 			});
@@ -104,9 +105,11 @@
 		hasField: function (type) {
 			return !$.isEmptyObject(this.getField(type));
 		},
-		areSet: function (names) {
+		areSet: function (names, skipMissing) {
 			var isSet = true;
 			var _this = this;
+			skipMissing = skipMissing || false;
+
 			if (typeof names === 'string') {
 				names = [names];
 			}
@@ -117,7 +120,7 @@
 				if ($.isFunction(v)) {
 					isSet = v(_this);
 				} else {
-					isSet = _this.isSet(v);
+					isSet = _this.isSet(v) || (skipMissing && $.isEmptyObject(_this.getField(v)));
 				}
 			});
 			return isSet;
@@ -180,7 +183,7 @@
 					if ($.isFunction(field.clearWhen)) {
 						needsClear = field.clearWhen(field.name, _this);
 					} else {
-						needsClear = !_this.areSet(field.clearWhen);
+						needsClear = !_this.areSet(field.clearWhen, true);
 					}
 					needsClear = needsClear || field.clearWhen.indexOf(element.data('field').type) >= 0;
 				}
@@ -244,25 +247,28 @@
 		/**
 		 * Adds a field behaviors to the config storage.
 		 *
-		 * @param {string} type the type of the field
+		 * @param {string} id the id of the field
 		 * @param {object=} config
 		 * @returns {*}
 		 */
-		add: function (type, config) {
-			return this.fields[type] = config;
+		add: function (id, config) {
+			return this.fields[id] = config;
 		},
 		/**
-		 * Returns the requested config by the type, may extend the config with the user-defined
+		 * Returns the requested config by the type or id, may extend the config with the user-defined
 		 * @param {(string|object)} options
-		 *    string - returns the stored config for the provided type
+		 *    string - returns the stored config for the provided id
 		 *    object - have to contain the `type` field with the type of the config
 		 * @returns {*}
 		 */
 		get: function (options) {
 			if (typeof options == 'string') {
-				options['type'] = options;
+				options['id'] = options;
 			}
-			return new Field(this.fields[options.type]).configure(options);
+			if (!options.id && options.type) {
+				options.id = this.findByType(options.type);
+			}
+			return new Field(this.fields[options.id]).configure(options);
 		},
 		/**
 		 * Checks whether the requested config type is registered
@@ -271,10 +277,22 @@
 		 */
 		exists: function (type) {
 			return this.fields[type] !== undefined;
+		},
+		findByType: function (type) {
+			var result = false;
+			$.each(this.field, function (id, options) {
+				if (options.type == type) {
+					result = id;
+					return false;
+				}
+			});
+			return result;
 		}
+
 	};
 
 	function Field(config) {
+		this.id = null;
 		this.noextend = 1;
 		this.name = null;
 		this.type = null;
@@ -377,8 +395,7 @@
 					data.id = data.text;
 				}
 			}
-		}
-		;
+		};
 		this.events = {};
 		this.configure(config);
 		this.init();
