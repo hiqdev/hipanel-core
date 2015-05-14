@@ -15,6 +15,6 @@ class Combo2Asset extends \yii\web\AssetBundle {
     ];
 
     public $depends = [
-        'hipanel\widgets\Select2Asset'
+        'frontend\assets\Select2Asset'
     ];
 }

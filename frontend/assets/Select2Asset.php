@@ -1,6 +1,6 @@
 <?php
 
-namespace hipanel\widgets;
+namespace frontend\assets;
 
 use yii\web\AssetBundle;
 
@@ -17,23 +17,20 @@ class Select2Asset extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@frontend/assets';
+    public $sourcePath = '@bower/select2';
 
     /**
      * @var array
      */
     public $css = [
-        'select2-3.5.2/select2.css',
-        'select2-3.5.2/select2-kv.css',
-//        'select2-3.5.2/select2-bootstrap.css',
+        'dist/css/select2.min.css',
     ];
 
     /**
      * @var array
      */
     public $js = [
-        'select2-3.5.2/select2.js',
-//        'select2-3.5.2/select2-kv.js',
+        'dist/js/select2.full.js',
     ];
 
     /**
@@ -47,7 +44,7 @@ class Select2Asset extends AssetBundle
     public function registerAssetFiles($view)
     {
         if ($this->language !== null) {
-            $this->js[] = 'select2-3.5.2/select2_locale_' . $this->language . '.js';
+            $this->js[] = 'dist/js/i18n/' . $this->language . '.js';
         }
         parent::registerAssetFiles($view);
     }

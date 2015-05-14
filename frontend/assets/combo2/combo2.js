@@ -20,29 +20,33 @@
 		 * Registers the element in the combo2 form handler
 		 *
 		 * @param {object} element the element's selector or the jQuery object with the element
-		 * @param {string} type the type the field (according to the config storage)
+		 * @param {string} id the id of the field (according to the config storage)
 		 * @param {object=} [options={}] the additional options that will be passed directly to the select2 config
 		 * @returns {Plugin}
 		 * @see $.fn.Combo2Config
 		 */
-		register: function (element, type, options) {
+		register: function (element, id, options) {
 			options = options !== undefined ? options : {};
 			if (typeof element == 'string') {
 				element = this.form.find(element);
 			}
-			var field = $.fn.combo2Config().get({
-				'type': type,
-				'form': this,
-				'pluginOptions': options
-			});
-			element.data('field', field);
-			field.setElement(element).attachListeners();
-			this.fields.push({
-				type: type,
-				field: field,
-				element: element
-			});
-			this.update(new Event(element, {force: 1}));
+
+			if (!element.data('field')) {
+				var field = $.fn.combo2Config().get({
+					'id': id,
+					'form': this,
+					'pluginOptions': options
+				});
+				element.data('field', field);
+				field.setElement(element).attachListeners();
+				//this.fields.push({
+				//	id: id,
+				//	field: field,
+				//	type: field.type,
+				//	element: element
+				//});
+				//this.update(new Event(element, {force: 1}));
+			}
 			return this;
 		},
 		setValue: function (type, data) {
@@ -143,7 +147,7 @@
 
 				var id = data[keys.id];
 				var value = data[keys.value];
-				field.setData({id: id, value: value});
+				field.setData({id: id, value: value}, false);
 			});
 			return this;
 		},
@@ -244,12 +248,12 @@
 		/**
 		 * Adds a field behaviors to the config storage.
 		 *
-		 * @param {string} type the type of the field
+		 * @param {string} id the id of the field
 		 * @param {object=} config
 		 * @returns {*}
 		 */
-		add: function (type, config) {
-			return this.fields[type] = config;
+		add: function (id, config) {
+			return this.fields[id] = config;
 		},
 		/**
 		 * Returns the requested config by the type, may extend the config with the user-defined
@@ -260,9 +264,12 @@
 		 */
 		get: function (options) {
 			if (typeof options == 'string') {
-				options['type'] = options;
+				options['id'] = options;
 			}
-			return new Field(this.fields[options.type]).configure(options);
+			if (!options.id && options.type) {
+				options.id = this.findByType(options.type)
+			}
+			return new Field(this.fields[options.id]).configure(options);
 		},
 		/**
 		 * Checks whether the requested config type is registered
@@ -271,10 +278,21 @@
 		 */
 		exists: function (type) {
 			return this.fields[type] !== undefined;
+		},
+		findByType: function (type) {
+			var result = false;
+			$.each(this.field, function (id, options) {
+				if (options.type == type) {
+					result = id;
+					return false;
+				}
+			});
+			return result;
 		}
 	};
 
 	function Field(config) {
+		this.id = null; // The id of field in form
 		this.noextend = 1;
 		this.name = null;
 		this.type = null;
@@ -315,44 +333,10 @@
 		this.pluginOptions = {
 			placeholder: 'Enter a value',
 			allowClear: true,
-			initSelection: function (element, callback) {
-				var field = element.data('field');
-				var callback_trigger = function (data) {
-					var oldData = field.getData();
-					callback(data);
-					field.triggerChange({
-						added: data,
-						removed: oldData,
-						noAffect: true
-					});
-				};
-
-				if (field.hasId && element.data('init-text')) {
-					var text = element.data('init-text');
-					element.removeData('init-text');
-					callback_trigger({id: element.val(), text: text});
-				} else if (field.hasId) {
-					var requestData = {};
-					requestData[field.getPk()] = {format: element.val()};
-					requestData = field.createFilter(requestData);
-
-					$.ajax({
-						url: field.pluginOptions.ajax.url,
-						method: 'post',
-						data: requestData,
-						success: function (data) {
-							callback_trigger(data[0]);
-						}
-					});
-				} else {
-					text = element.val();
-					callback_trigger({id: text, text: text});
-				}
-			},
 			ajax: {
 				dataType: 'json',
 				quietMillis: 400,
-				results: function (data) {
+				processResults: function (data) {
 					var ret = [];
 					$.each(data, function (k, v) {
 						ret.push(v);
@@ -488,9 +472,11 @@
 			});
 			return this;
 		},
+
 		setElement: function (element) {
+			var config = this.getConfig();
 			this.element = element;
-			element.select2(this.getConfig());
+			element.select2(config);
 			return this;
 		},
 		attachListeners: function () {
@@ -532,22 +518,26 @@
 			return this;
 		},
 		setValue: function (data, triggerChange) {
-			return this.element.select2('val', data, triggerChange);
+			this.element.val(data);
+			if (triggerChange) {
+				this.element.trigger('change');
+			}
+			return this.element;
 		},
 		getValue: function () {
-			return this.element.select2('val');
+			return this.element.val();
 		},
 		trigger: function (name, e) {
 			return $.isFunction(this.events[name]) ? this.events[name](e) : true;
 		},
 		disable: function () {
-			return this.element.select2('enable', false);
+			return this.element.prop('disabled', true);
 		},
 		enable: function () {
-			return this.element.select2('enable', true);
+			return this.element.prop('disabled', false);
 		},
 		isEnabled: function () {
-			return this.element.data('select2').isInterfaceEnabled();
+			return this.element.prop('enabled');
 		},
 		clear: function () {
 			return this.setValue('');

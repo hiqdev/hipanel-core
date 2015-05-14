@@ -83,7 +83,7 @@ class Combo2 extends Widget
     {
         $this->registerClientScript();
 
-        return Html::activeTextInput($this->model, $this->attribute, $this->inputOptions);
+        return Html::activeDropDownList($this->model, $this->attribute, [], $this->inputOptions);
     }
 
     /**

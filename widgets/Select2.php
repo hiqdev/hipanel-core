@@ -14,6 +14,7 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use frontend\assets\Select2Asset;
 
 class Select2 extends Widget
 {
