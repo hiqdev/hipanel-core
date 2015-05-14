@@ -264,7 +264,6 @@ class Combo extends Widget
      *
      * @param array $options
      * @return array
-     * @internal param array $config
      */
     public function getPluginOptions($options = [])
     {
