@@ -15,15 +15,6 @@ use hipanel\helpers\ArrayHelper;
 
 class Combo2 extends Widget
 {
-    public static $builtInCombos = [
-        'client'    => 'hipanel\modules\client\assets\combo2\Client',
-        'reseller'  => 'hipanel\modules\client\assets\combo2\Reseller',
-        'server'    => 'hipanel\modules\server\assets\combo2\Server',
-        'account'   => 'hipanel\modules\hosting\assets\combo2\Account',
-        'service'   => 'hipanel\modules\hosting\assets\combo2\Service',
-        'dbService' => 'hipanel\modules\hosting\assets\combo2\DbService',
-    ];
-
     /**
      * @var array the additional JS options that will be passed directly to the Combo init JS
      */
@@ -45,7 +36,7 @@ class Combo2 extends Widget
     public $attribute;
 
     /**
-     * @var string the type of the Combo
+     * @var string the type of the Combo (classname with namespace)
      */
     public $type;
 
@@ -81,13 +72,7 @@ class Combo2 extends Widget
             $this->language = substr($language, 0, 2);
         }
 
-        $config = $this->options;
-
-        if (isset(static::$builtInCombos[$this->type])) {
-            $config['class'] = static::$builtInCombos[$this->type];
-        } else {
-            $config['class'] = $this->type;
-        }
+        $config       = ArrayHelper::merge($this->options, ['class' => $this->type]);
         $this->combo2 = \Yii::createObject($config);
     }
 
