@@ -7,9 +7,12 @@
 
 namespace hipanel\actions;
 
-use Yii;
+use hiqdev\hiar\HiResException;
 use hiqdev\hiar\Collection;
+use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
+use Yii;
 
 /**
  * Class SwitchAction
@@ -26,7 +29,6 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
      */
     public $success;
 
-
     /**
      * @var string the error message
      */
@@ -38,9 +40,9 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     public $addFlash = true;
 
     /**
-     * @var Collection|array the options that will be used to create the collection
+     * @var boolean whether to save data before running action
      */
-    protected $_collection;
+    public $save = false;
 
     public function init()
     {
@@ -50,39 +52,12 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     public function getItemConfig($name = null, array $config = [])
     {
         return [
-            'class'     => 'hipanel\actions\SwitchRule',
-            'name'      => $name,
-            'parent'    => $this,
-            'success'   => ArrayHelper::remove($config, 'success', $config),
-            'error'     => ArrayHelper::remove($config, 'error'),
+            'class'   => 'hipanel\actions\SwitchRule',
+            'name'    => $name,
+            'switch'  => $this,
+            'success' => ArrayHelper::remove($config, 'success', $config),
+            'error'   => ArrayHelper::remove($config, 'error'),
         ];
-    }
-
-    /**
-     * Setter for the collection
-     *
-     * @param array $collection config for the collection
-     */
-    public function setCollection($collection)
-    {
-        $this->_collection = $collection;
-    }
-
-    /**
-     * Gets the instance of the collection
-     *
-     * @return Collection
-     */
-    public function getCollection()
-    {
-        if (!is_object($this->_collection)) {
-            $this->_collection = Yii::createObject(array_merge([
-                'class'    => 'hiqdev\hiar\Collection',
-                'model'    => $this->controller->newModel(),
-                'scenario' => $this->controller->action,
-            ], $this->_collection));
-        }
-        return $this->_collection;
     }
 
     public function run()
@@ -98,18 +73,29 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         throw new InvalidConfigException('Broken SwitchAction, no applicable rule found');
     }
 
-    public function perform ($rule) {
-        if (!$this->perform) {
+    /**
+     * @param $rule
+     * @return boolean|string Whether save is success
+     *  - boolean true or sting - an error
+     *  - false - no errors
+     */
+    public function perform($rule)
+    {
+        $error = true;
+        if (!$this->save) {
             return false;
         }
 
         $this->collection->load();
 
         try {
-            $save = $this->collection->save();
+            $error = $this->collection->save();
         } catch (HiResException $e) {
-            $save = $e->getMessage();
+            $error = $e->getMessage();
+        } catch (InvalidCallException $e) {
+            $error = $e->getMessage();
         }
+        return $error;
     }
 
 }

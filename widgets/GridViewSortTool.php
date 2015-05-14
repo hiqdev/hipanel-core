@@ -12,7 +12,7 @@ use yii\data\Sort;
 
 
 /**
- * This vidget id rendered toggleable, contextual menu for displaying lists of sort links
+ * This widget id rendered toggleable, contextual menu for displaying lists of sort links
  *
  * Class GridViewSortTool
  * @package hipanel\widgets
@@ -41,14 +41,14 @@ class GridViewSortTool extends Widget
     public $linkOptions = [];
 
     /**
-     * @var \yii\data\Sort
+     * @var Sort
      */
     public $sort;
 
     public function init()
     {
         parent::init();
-        if (!($this->sort instanceof \yii\data\Sort))
+        if (!($this->sort instanceof Sort))
             throw new InvalidValueException('-sort- property must be an instance of \yii\data\Sort');
         if (empty($this->sortNames))
             throw new InvalidValueException('Sort names array can not be empty');
