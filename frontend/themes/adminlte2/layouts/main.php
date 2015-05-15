@@ -26,13 +26,16 @@ use hipanel\widgets\Alert;
     <?= $this->render('//layouts/head') ?>
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
-<body class="<?= Skin::layoutClass(); ?> <?= Skin::sidebarClass(); ?> <?= Skin::skinClass(); ?>">
+<body class="sidebar-mini <?= Skin::layoutClass(); ?> <?= Skin::sidebarClass(); ?> <?= Skin::skinClass(); ?>">
 <?php $this->beginBody(); ?>
 <!-- Site wrapper -->
 <div class="wrapper">
 
     <header class="main-header">
-        <a href="<?= Yii::$app->homeUrl; ?>" class="logo">Hi<b>Panel</b></a>
+        <a href="<?= Yii::$app->homeUrl; ?>" class="logo">
+            <span class="logo-mini"><b>Hi</b>P</span>
+            <span class="logo-lg"><b>Hi</b>Panel</span>
+        </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Sidebar toggle button-->

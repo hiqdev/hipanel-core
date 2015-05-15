@@ -22,7 +22,7 @@ class Menu extends \yii\widgets\Menu
     /**
      * @inheritdoc
      */
-    public $linkTemplate = '<a href="{url}">{icon} {label} {arrow}</a>';
+    public $linkTemplate = '<a href="{url}">{icon} <span>{label}</span> {arrow}</a>';
     /**
      * @inheritdoc
      */
