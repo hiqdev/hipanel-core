@@ -9,7 +9,7 @@
 namespace frontend\controllers;
 
 use common\models\Skin;
-use frontend\components\Controller;
+use hipanel\base\Controller;
 use Yii;
 
 class SkinController extends Controller
@@ -40,5 +40,14 @@ class SkinController extends Controller
             Yii::$app->session->set('user.theme', $theme);
         }
         $this->redirect(['/skin/index']);
+    }
+
+    public function actionCollapsedSidebar()
+    {
+        if (Yii::$app->request->isAjax) {
+            $model = new Skin();
+            $model->collapsed_sidebar = Yii::$app->request->post('collapsed_sidebar');
+            $model->saveLayoutSettings();
+        }
     }
 }

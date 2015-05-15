@@ -334,7 +334,14 @@
 			placeholder: 'Enter a value',
 			allowClear: true,
 			initSelection: function (element, callback) {
+				var text = '';
 				var field = element.data('field');
+				var value = element.val();
+				var isMultiple = field.select2Options.multiple;
+
+				/// Multiple tagging
+				value = isMultiple ? value.split(',') : [value];
+
 				var callback_trigger = function (data) {
 					var oldData = field.getData();
 					callback(data);
@@ -345,13 +352,30 @@
 					});
 				};
 
-				if (field.hasId && element.data('init-text')) {
-					var text = element.data('init-text');
+				/// Data preset
+				if (field.select2Options.data) {
+					var data = [];
+					$.each(value, function () {
+						var item_id = this;
+						var item_text = this;
+
+						$.each(field.select2Options.data, function (k, v) {
+							if (v.id == item_id) {
+								item_text = v.text;
+								return false;
+							}
+						});
+						data.push({id: item_id, text: item_text});
+					});
+
+					callback_trigger(isMultiple ? data : data[0]);
+				} else if (field.hasId && element.data('init-text')) {
+					text = element.data('init-text');
 					element.removeData('init-text');
-					callback_trigger({id: element.val(), text: text});
+					callback_trigger({id: value[0], text: text});
 				} else if (field.hasId) {
 					var requestData = {};
-					requestData[field.getPk()] = {format: element.val()};
+					requestData[field.getPk()] = {format: isMultiple ? value : value[0]};
 					requestData = field.createFilter(requestData);
 
 					$.ajax({
@@ -359,23 +383,26 @@
 						method: 'post',
 						data: requestData,
 						success: function (data) {
-							callback_trigger(data[0]);
+							var results = [];
+
+							$.each(value, function () { /// For each value find a representative text
+								var item_id = this;
+								var item_text = this;
+
+								$.each(data, function (k, v) {
+									if (v.id == item_id) {
+										item_text = v.text;
+										return false;
+									}
+								});
+								results.push({id: item_id, text: item_text});
+							});
+							callback_trigger(isMultiple ? results : results[0]);
 						}
 					});
 				} else {
-					text = element.val();
+					text = value[0];
 					callback_trigger({id: text, text: text});
-				}
-			},
-			ajax: {
-				dataType: 'json',
-				quietMillis: 400,
-				results: function (data) {
-					var ret = [];
-					$.each(data, function (k, v) {
-						ret.push(v);
-					});
-					return {results: ret};
 				}
 			},
 			onChange: function (e) {
@@ -396,6 +423,21 @@
 				}
 			}
 		};
+
+		if (config.select2Options.ajax) {
+			this.select2Options['ajax'] = {
+				dataType: 'json',
+				quietMillis: 400,
+				results: function (data) {
+					var ret = [];
+					$.each(data, function (k, v) {
+						ret.push(v);
+					});
+					return {results: ret};
+				}
+			}
+		}
+
 		this.events = {};
 		this.configure(config);
 		this.init();
