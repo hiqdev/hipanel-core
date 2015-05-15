@@ -18,7 +18,7 @@ return [
     'id'                  => 'hipanel',
     'name'                => 'HiPanel',
     'basePath'            => dirname(__DIR__),
-    'bootstrap'           => ['log'],
+    'bootstrap'           => ['log', 'menuManager'],
     'defaultRoute'        => 'site',
     'controllerNamespace' => 'frontend\controllers',
     'components'          => [
@@ -106,6 +106,27 @@ return [
             'cookieValidationKey'  => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
             'enableCsrfValidation' => true
         ],
+        'menuManager' => [
+            'class' => 'hiqdev\menumanager\Manager',
+            'items' => [
+                'sidebar' => [
+                    'items' => [
+                        'header' => [
+                            'label'     => 'MAIN NAVIGATION',
+                            'options'   => ['class' => 'header'],
+                        ],
+                        'dashboard' => [
+                            'label'     => 'Dashboard',
+                            'url'       => ['/hipanel'],
+                            'icon'      => 'fa-dashboard',
+                        ],
+                    ],
+                ],
+                'breadcrumbs' => [
+                    'saveToView' => 'breadcrumbs',
+                ],
+            ],
+        ],
     ],
     'modules'             => [
         'gridview' => [
@@ -118,7 +139,6 @@ return [
             'class' => 'hipanel\modules\client\Module',
         ],
         'ticket'   => [
-//            'class' => 'app\modules\ticket\Module',
             'class' => 'hipanel\modules\ticket\Module',
         ],
         'server'   => [
@@ -139,3 +159,4 @@ return [
     ],
     'params'              => $params,
 ];
+

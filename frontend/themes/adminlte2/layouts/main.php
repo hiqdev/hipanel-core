@@ -65,8 +65,8 @@ use hipanel\widgets\Alert;
         <section class="content-header">
             <h1>
                 <?= $this->title; ?>
-                <?php if (isset($this->params['subtitle'])) : ?>
-                    <small><?= $this->params['subtitle'] ?></small>
+                <?php if (isset($this->subtitle)) : ?>
+                    <small><?= $this->subtitle ?></small>
                 <?php endif; ?>
             </h1>
             <?= Breadcrumbs::widget([
@@ -76,8 +76,8 @@ use hipanel\widgets\Alert;
                 ],
                 'encodeLabels' => false,
                 'tag' => 'ol',
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : []
-            ]); ?>
+                'links' => $this->breadcrumbs->getItemsArray(),
+            ]) ?>
         </section>
 
         <!-- Main content -->
