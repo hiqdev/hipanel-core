@@ -51,6 +51,7 @@
         "hiqdev/yii2-higrid": "*@dev",
         "hiqdev/yii2-collection": "*@dev",
         "hiqdev/yii2-menumanager": "*@dev",
+        "hiqdev/yii2-pluginmanager": "*@dev",
         "hiqdev/hipanel-module-client": "*@dev",
         "hiqdev/hipanel-module-domain": "*@dev",
         "hiqdev/hipanel-module-ticket": "*@dev",
