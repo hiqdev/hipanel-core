@@ -58,6 +58,7 @@
         "hiqdev/hipanel-module-server": "*@dev",
         "hiqdev/hipanel-module-finance": "*@dev",
         "hiqdev/hipanel-module-hosting": "*@dev",
+        "branchonline/yii2-lightbox": "1.0",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
         "kartik-v/yii2-field-range": "*",
