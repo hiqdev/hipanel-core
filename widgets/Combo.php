@@ -26,6 +26,7 @@ use Yii;
  * @property mixed $filter see [[_filter]]
  * @property mixed $pluginOptions see [[_pluginOptions]]
  * @property mixed $primaryFilter see [[_primaryFilter]]
+ * @property mixed hasId
  */
 class Combo extends Widget
 {
@@ -151,7 +152,7 @@ class Combo extends Widget
      *            false - the combo does not have an id. The value is equal to the id
      *      some string - the name of the id field
      */
-    public $hasId = true;
+    public $_hasId;
 
     /**
      * @var array
@@ -298,5 +299,21 @@ class Combo extends Widget
     public function setPluginOptions($pluginOptions)
     {
         $this->_pluginOptions = $pluginOptions;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function getHasId()
+    {
+        return empty($this->_hasId) ? (substr($this->attribute, -3) == '_id') : $this->_hasId;
+    }
+
+    /**
+     * @param bool|string $hasId
+     */
+    public function setHasId($hasId)
+    {
+        $this->_hasId = $hasId;
     }
 }
