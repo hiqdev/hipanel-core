@@ -191,8 +191,8 @@ class Combo extends Widget
         $this->configId = md5($this->type . $pluginOptions);
         $view->registerJs("$.fn.comboConfig().add('{$this->configId}', $pluginOptions);", View::POS_READY, 'combo_' . $this->configId);
 
-        $selector = '#' . Html::getInputId($this->model, $this->attribute);
-        $js       = "$('$selector').closest('{$this->formElementSelector}').combo().register('$selector', '$this->configId');";
+        $selector = $this->inputOptions['id'] ? : Html::getInputId($this->model, $this->attribute);
+        $js       = "$('#$selector').closest('{$this->formElementSelector}').combo().register('$selector', '$this->configId');";
 
         $view->registerJs($js);
     }
