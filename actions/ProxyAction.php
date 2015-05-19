@@ -17,9 +17,31 @@ class ProxyAction extends Action
      */
     public $action;
 
+    /**
+     * @var array params
+     */
+    public $_params;
+
+    /**
+     * @return array
+     */
+    public function getParams () {
+        if ($this->_params instanceof \Closure) {
+            return call_user_func($this->params, $this, $this->getModel());
+        }
+        return $this->_params;
+    }
+
+    /**
+     * @param $params
+     */
+    public function setParams ($params) {
+        $this->_params = $params;
+    }
+
     public function run()
     {
-        return $this->controller->runAction($this->action);
+        return $this->controller->runAction($this->action, $this->params);
     }
 
 }
