@@ -129,7 +129,7 @@ class Controller extends \yii\web\Controller
 
     public function hasInternalAction($id)
     {
-        array_key_exists($id, $this->_internalActions);
+        return array_key_exists($id, $this->_internalActions);
     }
 
     public function createAction($id)
