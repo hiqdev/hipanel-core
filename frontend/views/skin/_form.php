@@ -6,7 +6,7 @@
  * Time: 13:55
  */
 
-use frontend\components\widgets\Pjax;
+use hipanel\widgets\Pjax;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\web\JsExpression;

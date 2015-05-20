@@ -71,7 +71,6 @@
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "1.6.*@dev",
         "raoul2000/yii2-pnotify-widget": "*",
-        "bower-asset/admin-lte": "2.*",
         "bower-asset/flag-icon-css": "*",
         "bower-asset/autosize": "*",
         "guzzlehttp/guzzle": "4.*",

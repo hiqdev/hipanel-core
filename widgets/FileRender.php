@@ -7,7 +7,7 @@
 
 namespace hipanel\widgets;
 
-use frontend\assets\LightBoxAsset\LightBoxAsset;
+use branchonline\lightbox\LightboxAsset;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -75,7 +75,7 @@ class FileRender extends Widget
 
     private function registerClientScript () {
         $view = $this->getView();
-        LightBoxAsset::register($view);
+        LightboxAsset::register($view);
         // Fix: Incorrect resizing of image #122
         $view->registerCss('.lightbox  .lb-image{ max-width: inherit!important; }');
     }

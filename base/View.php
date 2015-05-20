@@ -14,10 +14,12 @@ class View extends \yii\web\View
     /**
      * @inheritdoc
      */
+/*
     public function init() {
         parent::init();
         $this->initTheme();
     }
+*/
 
     /**
      * @throws \yii\base\InvalidConfigException

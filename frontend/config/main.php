@@ -18,7 +18,7 @@ return [
     'id'                  => 'hipanel',
     'name'                => 'HiPanel',
     'basePath'            => dirname(__DIR__),
-    'bootstrap'           => ['log', 'pluginManager', 'menuManager'],
+    'bootstrap'           => ['log', 'pluginManager'],
     'defaultRoute'        => 'site',
     'controllerNamespace' => 'frontend\controllers',
     'components'          => [
@@ -108,6 +108,11 @@ return [
         ],
         'pluginManager' => [
             'class' => 'hiqdev\pluginmanager\Manager',
+        ],
+        'themeManager' => [
+            'class' => 'hiqdev\thememanager\Manager',
+            'defaultTheme'  => 'adminlte2',
+            'defaultSkin'   => 'skin-blue',
         ],
         'menuManager' => [
             'class' => 'hiqdev\menumanager\Manager',
