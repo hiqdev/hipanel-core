@@ -26,6 +26,7 @@ use Yii;
  * @property mixed $filter see [[_filter]]
  * @property mixed $pluginOptions see [[_pluginOptions]]
  * @property mixed $primaryFilter see [[_primaryFilter]]
+ * @property mixed hasId
  */
 class Combo extends Widget
 {
@@ -151,7 +152,7 @@ class Combo extends Widget
      *            false - the combo does not have an id. The value is equal to the id
      *      some string - the name of the id field
      */
-    public $hasId = true;
+    public $_hasId;
 
     /**
      * @var array
@@ -190,8 +191,8 @@ class Combo extends Widget
         $this->configId = md5($this->type . $pluginOptions);
         $view->registerJs("$.fn.comboConfig().add('{$this->configId}', $pluginOptions);", View::POS_READY, 'combo_' . $this->configId);
 
-        $selector = '#' . Html::getInputId($this->model, $this->attribute);
-        $js       = "$('$selector').closest('{$this->formElementSelector}').combo().register('$selector', '$this->configId');";
+        $selector = $this->inputOptions['id'] ?: Html::getInputId($this->model, $this->attribute);
+        $js       = "$('#$selector').closest('{$this->formElementSelector}').combo().register('#$selector', '$this->configId');";
 
         $view->registerJs($js);
     }
@@ -268,9 +269,9 @@ class Combo extends Widget
     public function getPluginOptions($options = [])
     {
         return ArrayHelper::merge([
-            'name'          => $this->type,
-            'type'          => $this->type,
-            'hasId'         => $this->hasId,
+            'name'           => $this->type,
+            'type'           => $this->type,
+            'hasId'          => $this->hasId,
             'select2Options' => [
                 'width'       => '100%',
                 'placeholder' => \Yii::t('app', 'Start typing here'),
@@ -298,5 +299,21 @@ class Combo extends Widget
     public function setPluginOptions($pluginOptions)
     {
         $this->_pluginOptions = $pluginOptions;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function getHasId()
+    {
+        return empty($this->_hasId) ? (substr($this->attribute, -3) == '_id') : $this->_hasId;
+    }
+
+    /**
+     * @param bool|string $hasId
+     */
+    public function setHasId($hasId)
+    {
+        $this->_hasId = $hasId;
     }
 }

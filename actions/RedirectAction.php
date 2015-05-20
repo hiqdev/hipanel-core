@@ -8,6 +8,7 @@
 namespace hipanel\actions;
 
 use Yii;
+use yii\helpers\Url;
 
 /**
  * @property array url the URL for redirect. Every element can be a callback, which gets the model and $this pointer as arguments
@@ -26,11 +27,10 @@ class RedirectAction extends Action
      */
     public function getUrl()
     {
-        $res = [];
-        foreach ($this->_url as $k => $v) {
-            $res[$k] = $v instanceof \Closure ? call_user_func($v, $this->getModel(), $this) : $v;
+        if ($this->_url instanceof \Closure) {
+            return call_user_func($this->_url, $this, $this->getModel());
         }
-        return $res;
+        return $this->_url;
     }
 
     /**
@@ -45,5 +45,4 @@ class RedirectAction extends Action
     {
         return $this->controller->redirect($this->url);
     }
-
 }
