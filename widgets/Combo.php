@@ -191,8 +191,8 @@ class Combo extends Widget
         $this->configId = md5($this->type . $pluginOptions);
         $view->registerJs("$.fn.comboConfig().add('{$this->configId}', $pluginOptions);", View::POS_READY, 'combo_' . $this->configId);
 
-        $selector = $this->inputOptions['id'] ? : Html::getInputId($this->model, $this->attribute);
-        $js       = "$('#$selector').closest('{$this->formElementSelector}').combo().register('$selector', '$this->configId');";
+        $selector = $this->inputOptions['id'] ?: Html::getInputId($this->model, $this->attribute);
+        $js       = "$('#$selector').closest('{$this->formElementSelector}').combo().register('#$selector', '$this->configId');";
 
         $view->registerJs($js);
     }
@@ -269,9 +269,9 @@ class Combo extends Widget
     public function getPluginOptions($options = [])
     {
         return ArrayHelper::merge([
-            'name'          => $this->type,
-            'type'          => $this->type,
-            'hasId'         => $this->hasId,
+            'name'           => $this->type,
+            'type'           => $this->type,
+            'hasId'          => $this->hasId,
             'select2Options' => [
                 'width'       => '100%',
                 'placeholder' => \Yii::t('app', 'Start typing here'),
