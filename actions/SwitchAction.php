@@ -35,14 +35,14 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     public $error;
 
     /**
-     * @var boolean whether to add flash message
+     * @var
      */
-    public $addFlash = true;
+    public $_scenario;
 
     /**
-     * @var boolean whether to save data before running action
+     * @var SwitchRule instance of the running rule
      */
-    public $save = false;
+    public $rule;
 
     public function init()
     {
@@ -57,6 +57,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
             'switch'  => $this,
             'success' => ArrayHelper::remove($config, 'success', $config),
             'error'   => ArrayHelper::remove($config, 'error'),
+            'save'    => $config['save']
         ];
     }
 
@@ -65,8 +66,14 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         foreach ($this->keys() as $k) {
             $rule = $this->getItem($k);
             if ($rule->isApplicable()) {
+                $oldRule = $this->rule;
+                $this->rule = $rule;
+
                 $error = $this->perform($rule);
-                return $rule->runAction($error ? 'error' : 'success');
+                $result = $rule->run($error);
+
+                $this->rule = $oldRule;
+                return $result;
             }
         }
 
@@ -81,15 +88,14 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
      */
     public function perform($rule)
     {
-        $error = true;
-        if (!$this->save) {
+        if (!$rule->save) {
             return false;
         }
 
         $this->collection->load();
 
         try {
-            $error = $this->collection->save();
+            $error = !$this->collection->save();
         } catch (HiResException $e) {
             $error = $e->getMessage();
         } catch (InvalidCallException $e) {
@@ -97,5 +103,22 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         }
         return $error;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getScenario()
+    {
+        return !empty($this->_scenario) ? $this->_scenario : $this->id;
+    }
+
+    /**
+     * @param mixed $scenario
+     */
+    public function setScenario($scenario)
+    {
+        $this->_scenario = $scenario;
+    }
+
 
 }

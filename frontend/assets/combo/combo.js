@@ -382,6 +382,10 @@
 						url: field.select2Options.ajax.url,
 						method: 'post',
 						data: requestData,
+						beforeSend: function () {
+							var spinner = '<i class="fa fa-circle-o-notch fa-spin"></i>';
+							return field.element.data('select2').selection.find(".select2-chosen").html(spinner);
+						},
 						success: function (data) {
 							var results = [];
 

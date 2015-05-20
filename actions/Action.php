@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
 class Action extends \yii\base\Action
 {
     /**
-     * @var Action parent called action
+     * @var Action|SwitchAction parent called action
      */
     public $parent;
 
@@ -28,6 +28,11 @@ class Action extends \yii\base\Action
      * Stores collection after creating
      */
     protected $_collection;
+
+    /**
+     * @var boolean whether to add a flash
+     */
+    public $_flash;
 
     /**
      * Setter for the collection
@@ -47,10 +52,17 @@ class Action extends \yii\base\Action
     public function getCollection()
     {
         if (!is_object($this->_collection)) {
+            $action = $this->controller->action;
+            if ($action instanceof SwitchAction) {
+                $scenario = $action->getScenario();
+            } else {
+                $scenario = $action->id;
+            }
+
             $this->_collection = Yii::createObject(ArrayHelper::merge([
                 'class'    => 'hiqdev\hiar\Collection',
                 'model'    => $this->controller->newModel(),
-                'scenario' => $this->controller->action,
+                'scenario' => $scenario,
             ], $this->_collection));
         }
         return $this->_collection;
@@ -59,7 +71,7 @@ class Action extends \yii\base\Action
     public function getModel()
     {
         // TODO: getting multiple models
-        return $this->collection->first;
+        return $this->parent ? $this->parent->getModel() : $this->collection->first;
     }
 
     /** @inheritdoc */
@@ -68,8 +80,19 @@ class Action extends \yii\base\Action
         return $this->parent !== null ? $this->parent->getUniqueId() : $this->controller->getUniqueId() . '/' . $this->id;
     }
 
-    public function run()
+    /**
+     * @return boolean
+     */
+    public function getFlash()
     {
-        d('base Action');
+        return $this->_flash !== null ? $this->_flash : $this->parent->_flash;
+    }
+
+    /**
+     * @param boolean $flash
+     */
+    public function setFlash($flash)
+    {
+        $this->_flash = $flash;
     }
 }

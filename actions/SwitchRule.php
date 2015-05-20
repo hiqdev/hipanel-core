@@ -28,6 +28,11 @@ class SwitchRule extends \yii\base\Component
     public $name;
 
     /**
+     * @var boolean whether to save data before running action
+     */
+    public $save = false;
+
+    /**
      * @var mixed rule condition, can be object in future.
      */
     protected $_condition;
@@ -69,15 +74,24 @@ class SwitchRule extends \yii\base\Component
         return $this->switch->controller->runAction($action);
     }
 
+    public function run($error)
+    {
+        $postfix = $error ? 'error' : 'success';
+        $result = $this->runAction($postfix);
+        return $result;
+    }
+
     /**
      * Setter for action. Saves the action to the controller.
      *
      * @param mixed $action action config.
+     * @param null $postfix
      */
     public function setAction($action, $postfix = null)
     {
         if (!isset($action['parent'])) {
             $action['parent'] = $this->switch;
+
         }
         $this->switch->controller->setInternalAction($this->getId($postfix), $action);
     }
@@ -104,14 +118,16 @@ class SwitchRule extends \yii\base\Component
         $conditions = array_map('trim', explode('|', $this->condition));
         foreach ($conditions as $condition) {
             $condition = explode(' ', $condition);
-            if (!empty($condition[1])) {
+
+            if (!empty($condition[1])) { // Condition if full. Examples: GET html, POST ajax
                 $method = $condition[0];
                 $type   = $condition[1];
-            } else {
+            } else { // Condition is partial. Examples: GET, POST, html, ajax
                 if (ctype_upper($condition)) {
+                    // All letters are uppercase - then it is a request Method (POST, GET)
                     $method = $condition;
                     $type   = $requestType;
-                } else {
+                } else { // If not - then it is a request type. Examples: html, json
                     $method = $requestMethod;
                     $type   = $condition;
                 }
