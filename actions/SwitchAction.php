@@ -25,7 +25,8 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     use \hiqdev\collection\ManagerTrait;
 
     /**
-     * @var string the success message
+     * @var string|callable the success message or a callback, that returns string.
+     * Gets arguments
      */
     public $success;
 
@@ -55,9 +56,9 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
             'class'   => 'hipanel\actions\SwitchRule',
             'name'    => $name,
             'switch'  => $this,
+            'save'    => ArrayHelper::remove($config, 'save'),
             'success' => ArrayHelper::remove($config, 'success', $config),
             'error'   => ArrayHelper::remove($config, 'error'),
-            'save'    => $config['save']
         ];
     }
 
@@ -66,11 +67,15 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         foreach ($this->keys() as $k) {
             $rule = $this->getItem($k);
             if ($rule->isApplicable()) {
-                $oldRule = $this->rule;
+                $oldRule    = $this->rule;
                 $this->rule = $rule;
 
-                $error = $this->perform($rule);
-                $result = $rule->run($error);
+                $error  = $this->perform($rule);
+                $type   = $error ? 'error' : 'success';
+                if ($rule->save) {
+                    $this->addFlash($type, $error);
+                }
+                $result = $rule->run($type);
 
                 $this->rule = $oldRule;
                 return $result;
@@ -120,5 +125,20 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         $this->_scenario = $scenario;
     }
 
+    public function addFlash($type, $error = null)
+    {
+        if ($type == 'error' && !empty($error)) {
+            $text = Yii::t('app', $error);
+        } else {
+            $text = $this->{$type};
+        }
 
+        if ($type instanceof \Closure) {
+            $text = call_user_func($text, $text, $this);
+        }
+
+        Yii::$app->session->addFlash($type, [
+            'text' => $text
+        ]);
+    }
 }

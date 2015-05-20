@@ -30,11 +30,6 @@ class Action extends \yii\base\Action
     protected $_collection;
 
     /**
-     * @var boolean whether to add a flash
-     */
-    public $_flash;
-
-    /**
      * Setter for the collection
      *
      * @param array $collection config for the collection
@@ -78,21 +73,5 @@ class Action extends \yii\base\Action
     public function getUniqueId()
     {
         return $this->parent !== null ? $this->parent->getUniqueId() : $this->controller->getUniqueId() . '/' . $this->id;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getFlash()
-    {
-        return $this->_flash !== null ? $this->_flash : $this->parent->_flash;
-    }
-
-    /**
-     * @param boolean $flash
-     */
-    public function setFlash($flash)
-    {
-        $this->_flash = $flash;
     }
 }

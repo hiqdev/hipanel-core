@@ -74,11 +74,9 @@ class SwitchRule extends \yii\base\Component
         return $this->switch->controller->runAction($action);
     }
 
-    public function run($error)
+    public function run($postfix = null)
     {
-        $postfix = $error ? 'error' : 'success';
-        $result = $this->runAction($postfix);
-        return $result;
+        return $this->runAction($postfix);
     }
 
     /**
@@ -123,13 +121,13 @@ class SwitchRule extends \yii\base\Component
                 $method = $condition[0];
                 $type   = $condition[1];
             } else { // Condition is partial. Examples: GET, POST, html, ajax
-                if (ctype_upper($condition)) {
+                if (ctype_upper($condition[0])) {
                     // All letters are uppercase - then it is a request Method (POST, GET)
-                    $method = $condition;
+                    $method = $condition[0];
                     $type   = $requestType;
                 } else { // If not - then it is a request type. Examples: html, json
                     $method = $requestMethod;
-                    $type   = $condition;
+                    $type   = $condition[0];
                 }
             }
 
