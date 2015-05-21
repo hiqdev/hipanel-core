@@ -123,11 +123,6 @@ return [
                             'label'     => 'MAIN NAVIGATION',
                             'options'   => ['class' => 'header'],
                         ],
-                        'dashboard' => [
-                            'label'     => 'Dashboard',
-                            'url'       => ['/hipanel'],
-                            'icon'      => 'fa-dashboard',
-                        ],
                     ],
                 ],
                 'breadcrumbs' => [
