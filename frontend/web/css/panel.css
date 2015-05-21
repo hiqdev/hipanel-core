@@ -1,4 +1,10 @@
+body {
+    font-family: Arial, sans-serif !important;
+}
+
+
 /* Attachment */
+
 .comment .comment-text p {
     overflow: hidden;
     word-break: break-word;
@@ -211,6 +217,9 @@
     margin: 0 -20px;
     padding-left: 20px;
     padding-right: 20px
+}
+.widget-article-comments.panel {
+    box-shadow: none;
 }
 
 /* Chats */
