@@ -10,7 +10,8 @@ namespace frontend\controllers;
 use Yii;
 
 /**
- * HiPanel controller
+ * HiPanel controller.
+ * Just redirects to dashboard.
  */
 class HipanelController extends \hipanel\base\Controller
 {
@@ -34,10 +35,17 @@ class HipanelController extends \hipanel\base\Controller
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
-//        return $this->render('index', ['model' => $model]);
         return [
+            'index' => [
+                'class' => 'hipanel\actions\RedirectAction',
+                'url'   => ['/dashboard/dashboard'],
+            ],
+/// later just for testing
             'switch'   => [
                 'class'      => 'hipanel\actions\SwitchAction',
                 'addFlash'   => true,

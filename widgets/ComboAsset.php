@@ -14,6 +14,10 @@ class ComboAsset extends \yii\web\AssetBundle {
         'combo/combo.js'
     ];
 
+    public $css = [
+        'combo/combo.css'
+    ];
+
     public $depends = [
         'hipanel\widgets\Select2Asset'
     ];
