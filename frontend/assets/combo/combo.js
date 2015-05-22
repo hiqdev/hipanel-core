@@ -1,3 +1,9 @@
+/**
+ * @link http://hiqdev.com/yii2-combo
+ * @copyright Copyright (c) 2015 HiQDev
+ * @license http://hiqdev.com/yii2-combo/license
+ */
+
 (function ($, window, document, undefined) {
 	var pluginName = "combo",
 		defaults = {};
@@ -338,10 +344,6 @@
 				var field = element.data('field');
 				var value = element.val();
 				var isMultiple = field.select2Options.multiple;
-
-				/// Multiple tagging
-				value = isMultiple ? value.split(',') : [value];
-
 				var callback_trigger = function (data) {
 					var oldData = field.getData();
 					callback(data);
@@ -351,6 +353,9 @@
 						noAffect: true
 					});
 				};
+
+				/// Multiple tagging
+				value = isMultiple ? value.split(',') : [value];
 
 				/// Data preset
 				if (field.select2Options.data) {
@@ -375,7 +380,11 @@
 					callback_trigger({id: value[0], text: text});
 				} else if (field.hasId) {
 					var requestData = {};
-					requestData[field.getPk()] = {format: isMultiple ? value : value[0]};
+					if (isMultiple) {
+						requestData[field.getPk() + '_in'] = {format: value};
+					} else {
+						requestData[field.getPk()] = {format: value[0]};
+					}
 					requestData = field.createFilter(requestData);
 
 					$.ajax({
@@ -384,7 +393,12 @@
 						data: requestData,
 						beforeSend: function () {
 							var spinner = '<i class="fa fa-circle-o-notch fa-spin"></i>';
-							return field.element.data('select2').selection.find(".select2-chosen").html(spinner);
+							if (isMultiple) {
+								spinner = $("<li>").addClass('combo-loader select2-search-choice').html(spinner);
+								return field.element.data('select2').container.find('.select2-choices').prepend(spinner);
+							} else {
+								return field.element.data('select2').selection.find(".select2-chosen").html(spinner);
+							}
 						},
 						success: function (data) {
 							var results = [];
@@ -401,7 +415,13 @@
 								});
 								results.push({id: item_id, text: item_text});
 							});
-							callback_trigger(isMultiple ? results : results[0]);
+
+							if (isMultiple) {
+								field.element.data('select2').container.find('.combo-loader').remove();
+								callback_trigger(results);
+							} else {
+								callback_trigger(results[0]);
+							}
 						}
 					});
 				} else {
