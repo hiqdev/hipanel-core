@@ -27,7 +27,7 @@ trait SearchModelTrait
     protected function searchAttributes () {
         $attributes = [];
         foreach (parent::attributes() as $k) {
-            foreach ([''] + static::$filterConditions as $condition) {
+            foreach (array_merge([''], static::$filterConditions) as $condition) {
                 $attributes[] = $k . ($condition == '' ? '' : "_$condition");
             }
         };
