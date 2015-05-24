@@ -62,7 +62,7 @@
         "hiqdev/hipanel-module-hosting": "*@dev",
         "hiqdev/hipanel-theme-adminlte1": "*@dev",
         "hiqdev/hipanel-theme-adminlte2": "*@dev",
-        "branchonline/yii2-lightbox": "1.0",
+        "hiqdev/yii2-asset-lightbox2": "~2.7",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
         "kartik-v/yii2-field-range": "*",

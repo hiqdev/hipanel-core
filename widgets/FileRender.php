@@ -7,7 +7,7 @@
 
 namespace hipanel\widgets;
 
-use branchonline\lightbox\LightboxAsset;
+use hiqdev\assets\lightbox2\LightboxAsset;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
