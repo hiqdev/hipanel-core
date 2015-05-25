@@ -36,7 +36,7 @@ class SkinController extends Controller
     }
 
     public function actionChangeTheme($theme) {
-        if (in_array($theme, ['adminlte', 'adminlte2'])) {
+        if (in_array($theme, ['adminlte1', 'adminlte'])) {
             Yii::$app->session->set('user.theme', $theme);
         }
         $this->redirect(['/skin/index']);

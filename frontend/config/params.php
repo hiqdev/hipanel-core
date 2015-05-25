@@ -13,6 +13,6 @@ return [
     ],
     'skin' => [
         'default-skin' => 'skin-blue',
-        'default-theme' => 'adminlte2',
+        'default-theme' => 'adminlte',
     ],
 ];
