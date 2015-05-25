@@ -7,8 +7,8 @@
 
 namespace hipanel\actions;
 
-use hiqdev\hiar\Collection;
 use Yii;
+use hiqdev\hiart\Collection;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -55,7 +55,7 @@ class Action extends \yii\base\Action
             }
 
             $this->_collection = Yii::createObject(ArrayHelper::merge([
-                'class'    => 'hiqdev\hiar\Collection',
+                'class'    => 'hiqdev\hiart\Collection',
                 'model'    => $this->controller->newModel(),
                 'scenario' => $scenario,
             ], $this->_collection));

@@ -9,7 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
-class File extends \hiqdev\hiar\ActiveRecord
+class File extends \hiqdev\hiart\ActiveRecord
 {
     const MD5 = '76303fjsq06mcr234nc379z32x48';
     const SALT = 'salt';

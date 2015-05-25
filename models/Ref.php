@@ -9,7 +9,7 @@ namespace hipanel\models;
 
 use hipanel\base\Re;
 
-class Ref extends \hiqdev\hiar\ActiveRecord
+class Ref extends \hiqdev\hiart\ActiveRecord
 {
 
     public static function getList($name, $translate=true)

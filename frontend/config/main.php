@@ -36,7 +36,7 @@ return [
         //            'queryCacheId'=>'SomeCacheComponent'
         //        ],
         'hiresource'           => [
-            'class'  => 'hiqdev\hiar\Connection',
+            'class'  => 'hiqdev\hiart\Connection',
             'config' => [
                 'api_url' => 'https://sol-ahcore-oauth.ahnames.com',
             ],

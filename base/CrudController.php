@@ -8,8 +8,8 @@
 namespace hipanel\base;
 
 use hipanel\actions\PerformAction;
-use hiqdev\hiar\HiResException;
-use hiqdev\hiar\Collection;
+use hiqdev\hiart\HiResException;
+use hiqdev\hiart\Collection;
 use hipanel\helpers\ArrayHelper as AH;
 use hipanel\models\Ref;
 use Yii;

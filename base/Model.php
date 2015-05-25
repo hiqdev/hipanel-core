@@ -9,7 +9,7 @@ namespace hipanel\base;
 
 use Yii;
 
-class Model extends \hiqdev\hiar\ActiveRecord
+class Model extends \hiqdev\hiart\ActiveRecord
 {
 
     /**

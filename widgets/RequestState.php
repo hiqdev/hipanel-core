@@ -19,7 +19,7 @@ class RequestState extends Widget
     public $module;
 
     /**
-     * @var \hiqdev\hiar\ActiveRecord
+     * @var \hiqdev\hiart\ActiveRecord
      */
     public $model;
 
