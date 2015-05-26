@@ -7,8 +7,8 @@
 
 namespace hipanel\base;
 
-use hiqdev\hiar\ActiveQuery;
-use hiqdev\hiar\ActiveRecord;
+use hiqdev\hiart\ActiveQuery;
+use hiqdev\hiart\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 

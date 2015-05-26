@@ -8,9 +8,9 @@
 namespace hipanel\actions;
 
 use hipanel\base\CrudController;
-use hiqdev\hiar\ActiveRecord;
-use hiqdev\hiar\Collection;
-use hiqdev\hiar\HiResException;
+use hiqdev\hiart\ActiveRecord;
+use hiqdev\hiart\Collection;
+use hiqdev\hiart\HiResException;
 use yii\base\Action;
 use yii\base\Controller;
 use yii\base\InvalidCallException;

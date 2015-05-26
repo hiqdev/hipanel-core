@@ -8,7 +8,7 @@
 namespace hipanel\base;
 
 use Yii;
-use hiqdev\hiar\ActiveRecord;
+use hiqdev\hiart\ActiveRecord;
 use yii\base\InvalidConfigException;
 use yii\helpers\Inflector;
 use yii\helpers\ArrayHelper;

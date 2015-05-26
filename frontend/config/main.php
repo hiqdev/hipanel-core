@@ -36,7 +36,7 @@ return [
         //            'queryCacheId'=>'SomeCacheComponent'
         //        ],
         'hiresource'           => [
-            'class'  => 'hiqdev\hiar\Connection',
+            'class'  => 'hiqdev\hiart\Connection',
             'config' => [
                 'api_url' => 'https://sol-ahcore-oauth.ahnames.com',
             ],
@@ -79,15 +79,6 @@ return [
         ],
         'view'                 => [
             'class' => 'hipanel\base\View'
-            //           'theme' => [
-            //               'pathMap' => ['@app/views' => '@app/themes/adminlte'],
-            //               'baseUrl'   => '@web/themes/adminlte'
-            //           ],
-
-            //          'theme' => [
-            //              'pathMap' => ['@app/views' => '@app/themes/adminlte2'],
-            //                'baseUrl' => '@web/themes/adminlte2',
-            //          ],
         ],
         'i18n'                 => [
             'translations' => [
@@ -111,7 +102,7 @@ return [
         ],
         'themeManager' => [
             'class' => 'hiqdev\thememanager\Manager',
-            'defaultTheme'  => 'adminlte2',
+            'defaultTheme'  => 'adminlte',
             'defaultSkin'   => 'skin-blue',
         ],
         'menuManager' => [

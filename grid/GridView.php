@@ -8,8 +8,8 @@
 namespace hipanel\grid;
 
 use common\models\Skin;
-use frontend\assets\DataTablesAsset;
-use frontend\assets\iCheckAsset;
+use hiqdev\assets\icheck\iCheckAsset;
+use hiqdev\assets\datatables\DataTablesAsset;
 
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\ResellerColumn;

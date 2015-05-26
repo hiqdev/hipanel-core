@@ -13,7 +13,7 @@ use yii\base\Action;
 class RequestStateAction extends Action {
 
     /**
-     * @var \hiqdev\hiar\ActiveRecord
+     * @var \hiqdev\hiart\ActiveRecord
      */
     public $model;
 
