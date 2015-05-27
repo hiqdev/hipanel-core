@@ -61,6 +61,7 @@
         "hiqdev/hipanel-module-finance":    "*@dev",
         "hiqdev/hipanel-module-hosting":    "*@dev",
         "hiqdev/hipanel-module-dashboard":  "*@dev",
+        "hiqdev/hipanel-module-request":    "*@dev",
         "hiqdev/hipanel-theme-adminlte":    "*@dev",
         "hiqdev/hipanel-theme-adminlte1":   "*@dev",
         "hiqdev/yii2-asset-lightbox2":      "~2.7",

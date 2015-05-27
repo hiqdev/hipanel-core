@@ -66,7 +66,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     {
         foreach ($this->keys() as $k) {
             $rule = $this->getItem($k);
-            if ($rule->isApplicable()) {
+            if ($rule instanceof SwitchRule && $rule->isApplicable()) {
                 $oldRule    = $this->rule;
                 $this->rule = $rule;
 
