@@ -756,3 +756,7 @@ button.link-button {
     /*border is optional*/
     cursor: pointer;
 }
+/* CLICKABLE */
+.clickable {
+    cursor: pointer;
+}
