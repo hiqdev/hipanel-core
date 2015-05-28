@@ -7,12 +7,11 @@
 
 namespace hipanel\grid;
 
-use common\models\Skin;
 use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\assets\datatables\DataTablesAsset;
-
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\ResellerColumn;
+use Yii;
 
 /**
  * Class GridView
@@ -94,7 +93,8 @@ class GridView extends \hiqdev\higrid\GridView
 
     /** @inheritdoc */
     public function run () {
-        $this->tableOptions['class'] = sprintf('%s %s', $this->tableOptions['class'], Skin::tableClass());
+        $tableClass = Yii::$app->themeManager->theme->settings->cssClassProvider('table_condensed', 'table-condensed');
+        $this->tableOptions['class'] = sprintf('%s %s', $this->tableOptions['class'], $tableClass);
         parent::run();
         $this->registerClientScript();
     }
