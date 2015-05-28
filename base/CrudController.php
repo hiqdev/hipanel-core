@@ -18,40 +18,40 @@ use yii\filters\VerbFilter;
 
 class CrudController extends Controller
 {
-    public function actions () {
-        $actions = parent::actions();
-        $model   = static::newModel();
-        foreach ($model->scenarios() as $scenario => $attributes) {
-            if ($scenario == 'default') continue;
-            if (!$this->hasAction($scenario, $actions)) {
-                $actions[$scenario] = [
-                    'class'      => PerformAction::className(),
-                    'controller' => $this,
-                    'id'         => $scenario,
-                ];
-            };
-        };
-
-        return $actions;
-    }
-
-    public function behaviors () {
-        $behaviors = parent::behaviors();
-        $model     = static::newModel();
-        $verbs     = &$behaviors['verbs'];
-        if (!is_array($verbs)) $verbs = [
-            'class' => VerbFilter::className(),
-        ];
-        $actions = &$verbs['actions'];
-        foreach ($model->scenarios() as $scenario => $attributes) {
-            if ($scenario == 'default') continue;
-            if ($actions[$scenario]) continue;
-            $actions[$scenario] = ['post'];
-        };
-
-        return $behaviors;
-    }
-
+//    public function actions () {
+//        $actions = parent::actions();
+//        $model   = static::newModel();
+//        foreach ($model->scenarios() as $scenario => $attributes) {
+//            if ($scenario == 'default') continue;
+//            if (!$this->hasAction($scenario, $actions)) {
+//                $actions[$scenario] = [
+//                    'class'      => PerformAction::className(),
+//                    'controller' => $this,
+//                    'id'         => $scenario,
+//                ];
+//            };
+//        };
+//
+//        return $actions;
+//    }
+//
+//    public function behaviors () {
+//        $behaviors = parent::behaviors();
+//        $model     = static::newModel();
+//        $verbs     = &$behaviors['verbs'];
+//        if (!is_array($verbs)) $verbs = [
+//            'class' => VerbFilter::className(),
+//        ];
+//        $actions = &$verbs['actions'];
+//        foreach ($model->scenarios() as $scenario => $attributes) {
+//            if ($scenario == 'default') continue;
+//            if ($actions[$scenario]) continue;
+//            $actions[$scenario] = ['post'];
+//        };
+//
+//        return $behaviors;
+//    }
+//
 
     public function hasAction ($id, $actions = null) {
         if (is_null($actions)) $actions = $this->actions();
