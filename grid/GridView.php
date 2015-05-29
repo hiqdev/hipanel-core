@@ -10,7 +10,7 @@ namespace hipanel\grid;
 use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\assets\datatables\DataTablesAsset;
 use hipanel\modules\client\grid\ClientColumn;
-use hipanel\modules\client\grid\ResellerColumn;
+use hipanel\modules\client\grid\SellerColumn;
 use Yii;
 
 /**
@@ -48,7 +48,7 @@ class GridView extends \hiqdev\higrid\GridView
     static protected function defaultColumns () {
         return [
             'checkbox'  => ['class' => CheckboxColumn::className()],
-            'seller_id' => ['class' => ResellerColumn::className()],
+            'seller_id' => ['class' => SellerColumn::className()],
             'client_id' => ['class' => ClientColumn::className()],
         ];
     }
