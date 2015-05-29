@@ -93,7 +93,7 @@ class GridView extends \hiqdev\higrid\GridView
 
     /** @inheritdoc */
     public function run () {
-        $this->tableOptions['class'] .= ' ' . Yii::$app->themeManager->theme->settings->getCssClass('table_condensed');
+        $this->tableOptions['class'] .= ' ' . Yii::$app->themeManager->settings->getCssClass('table_condensed');
         parent::run();
         $this->registerClientScript();
     }
