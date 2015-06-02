@@ -7,12 +7,11 @@
 
 namespace hipanel\grid;
 
-use common\models\Skin;
 use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\assets\datatables\DataTablesAsset;
-
 use hipanel\modules\client\grid\ClientColumn;
-use hipanel\modules\client\grid\ResellerColumn;
+use hipanel\modules\client\grid\SellerColumn;
+use Yii;
 
 /**
  * Class GridView
@@ -49,7 +48,7 @@ class GridView extends \hiqdev\higrid\GridView
     static protected function defaultColumns () {
         return [
             'checkbox'  => ['class' => CheckboxColumn::className()],
-            'seller_id' => ['class' => ResellerColumn::className()],
+            'seller_id' => ['class' => SellerColumn::className()],
             'client_id' => ['class' => ClientColumn::className()],
         ];
     }
@@ -94,7 +93,7 @@ class GridView extends \hiqdev\higrid\GridView
 
     /** @inheritdoc */
     public function run () {
-        $this->tableOptions['class'] = sprintf('%s %s', $this->tableOptions['class'], Skin::tableClass());
+        $this->tableOptions['class'] .= ' ' . Yii::$app->themeManager->settings->getCssClass('table_condensed');
         parent::run();
         $this->registerClientScript();
     }

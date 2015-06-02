@@ -37,11 +37,16 @@ class Pjax extends \yii\widgets\Pjax
         $js = "jQuery(document).pjax($linkSelector, \"#$id\", $options);";
         $js .= "\njQuery(document).on('submit', $formSelector, function (event) {
             var options = $options;
+            options['beforeReplace'] = function () {
+                $('.modal-backdrop').remove();
+                /// Dirty crutch for https://github.com/twbs/bootstrap/issues/16320
+            }
             var \$form = $(event.target);
             if (\$form.data('pjaxPush') !== undefined) {
                 options.push = \$form.data('pjaxPush')
             }
             jQuery.pjax.submit(event, '#$id', options);
+            $('.modal-backdrop').remove();
         });";
         $view->registerJs($js);
         $view->registerJs('$.pjax.defaults.timeout = 0;');
