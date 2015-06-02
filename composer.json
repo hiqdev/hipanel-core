@@ -66,6 +66,7 @@
         "hiqdev/hipanel-theme-adminlte":    "*@dev",
         "hiqdev/hipanel-theme-adminlte1":   "*@dev",
         "hiqdev/yii2-asset-lightbox2":      "~2.7",
+        "hiqdev/yii2-x-editable":           "@dev",
         "kartik-v/yii2-widgets":            "*",
         "kartik-v/yii2-builder":            "dev-master",
         "kartik-v/yii2-field-range":        "*",

@@ -90,7 +90,7 @@ class Menu extends \yii\widgets\Menu
             ] : [
                 '{url}' => Url::to($item['url']),
                 '{label}' => $item['label'],
-                '{icon}' => $item['icon'] !== false ? '<i class="fa fa-angle-double-right"></i>' : '',
+                '{icon}' => $item['icon'] !== false ? '<i class="fa fa-circle-o"></i>' : '',
                 '{arrow}' => !empty($item['items']) ? '<i class="fa pull-right fa-angle-left"></i>' : ''
             ];
             return strtr($template, $replace);
@@ -102,7 +102,7 @@ class Menu extends \yii\widgets\Menu
                 '{arrow}' => !empty($item['items']) ? '<i class="fa pull-right fa-angle-left"></i>' : ''
             ] : [
                 '{label}' => $item['label'],
-                '{icon}' => $item['icon'] !== false ? '<i class="fa fa-angle-double-right"></i>' : '',
+                '{icon}' => $item['icon'] !== false ? '<i class="fa fa-circle-o"></i>' : '',
                 '{arrow}' => !empty($item['items']) ? '<i class="fa pull-right fa-angle-left"></i>' : ''
             ];
             return strtr($template, $replace);

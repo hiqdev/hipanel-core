@@ -108,10 +108,10 @@ return [
             'items' => [
                 'sidebar' => [
                     'items' => [
-                        'header' => [
-                            'label'     => 'MAIN NAVIGATION',
-                            'options'   => ['class' => 'header'],
-                        ],
+//                        'header' => [
+//                            'label'     => 'MAIN NAVIGATION',
+//                            'options'   => ['class' => 'header'],
+//                        ],
                     ],
                 ],
                 'breadcrumbs' => [
