@@ -102,8 +102,6 @@ return [
         ],
         'themeManager' => [
             'class' => 'hiqdev\thememanager\Manager',
-            'defaultTheme'  => 'adminlte',
-            'defaultSkin'   => 'skin-blue',
         ],
         'menuManager' => [
             'class' => 'hiqdev\menumanager\Manager',
