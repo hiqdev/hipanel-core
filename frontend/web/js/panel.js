@@ -12,13 +12,3 @@ function scrollTo(element, duration) {
         scrollTop: $(element).offset().top
     }, duration);
 }
-
-$( ".sidebar-toggle" ).on("click", function() {
-    var collapsed_sidebar = 1;
-    if ($('body').hasClass('sidebar-collapse')) {
-        collapsed_sidebar = 0;
-    }
-    $.post( "/skin/collapsed-sidebar", {collapsed_sidebar: collapsed_sidebar});
-});
-
-
