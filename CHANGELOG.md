@@ -1,7 +1,7 @@
-HiPanel changelog
------------------
+hiqdev/hipanel changelog
+------------------------
 
-### CURRENT TODO
+## Under development
 
 - moving to plugin modules
 - theme manager
@@ -9,13 +9,12 @@ HiPanel changelog
 - tickets new look
 - spread combo 2 widget
 - REDO EditableColumn, get rid of kartik GridView
-
-### 0.0.2 under development
-
 - GREAT renaming to hipanel
 
-### 0.0.1-alpha 2015-04-19
+## 0.0.1-alpha April 19, 2015
 
 - first shown to someone else :)
 - inited
+
+## Development started November 24, 2014
 
