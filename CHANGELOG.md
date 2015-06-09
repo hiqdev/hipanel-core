@@ -3,13 +3,13 @@ hiqdev/hipanel changelog
 
 ## Under development
 
-- moving to plugin modules
-- theme manager
 - menu manager
 - tickets new look
 - spread combo 2 widget
 - REDO EditableColumn, get rid of kartik GridView
-- GREAT renaming to hipanel
+- theme manager
+- moving to plugin modules
+- GREAT RENAMING to hipanel
 
 ## 0.0.1-alpha April 19, 2015
 
