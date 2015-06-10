@@ -1,5 +1,5 @@
-HiPanel - Next Generation Control Panel
----------------------------------------
+Next Generation Control Panel
+=============================
 
 Goals:
 - Integration
@@ -7,7 +7,6 @@ Goals:
 - Friendliness
 - Reliability
 - Security
-
 
 For more info see wiki:
 https://github.com/hiqdev/hipanel/wiki

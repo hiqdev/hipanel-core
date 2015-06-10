@@ -1,5 +1,14 @@
-# yii console command
-/yii
+# hidev parent config
+/.hidev/parent
+
+# runtime dir
+/runtime
+
+# vendor dir
+/vendor
+
+# composer lock file
+composer.lock
 
 # IDE & OS files
 .*.swp
@@ -11,15 +20,5 @@ nbproject
 Thumbs.db
 .DS_Store
 
-# composer vendor dir
-/vendor
+# Added by HiDev
 
-# composer itself and .lock are not needed
-composer.phar
-composer.lock
-
-
-# phpunit itself is not needed
-phpunit.phar
-# local phpunit config
-/phpunit.xml
