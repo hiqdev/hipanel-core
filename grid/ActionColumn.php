@@ -33,7 +33,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     }
 
     public function renderFirstButton ($item) {
-        return ($this->getCountButtons() > 1) ? $item . '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        return ($this->getCountButtons() > 1) ? $item . '<button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -54,7 +54,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                     'title'      => Yii::t('yii', 'View'),
                     'aria-label' => Yii::t('yii', 'View'),
                     'data-pjax'  => '0',
-                    'class'      => 'btn btn-default',
+                    'class'      => 'btn btn-default btn-xs',
                 ], $this->buttonOptions);
 
                 return Html::a(Yii::t('yii', 'View'), $url, $options);

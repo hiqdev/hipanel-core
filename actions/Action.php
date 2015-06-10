@@ -46,6 +46,10 @@ class Action extends \yii\base\Action
      */
     public function getCollection()
     {
+        if ($this->parent) {
+            return $this->parent->getCollection();
+        }
+
         if (!is_object($this->_collection)) {
             $action = $this->controller->action;
             if ($action instanceof SwitchAction) {
