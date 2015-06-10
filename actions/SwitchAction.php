@@ -86,7 +86,9 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     }
 
     /**
-     * @param $rule
+     * Performs action for the rule
+     *
+     * @param SwitchRule $rule
      * @return boolean|string Whether save is success
      *  - boolean true or sting - an error
      *  - false - no errors
@@ -97,16 +99,34 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
             return false;
         }
 
-        $this->collection->load();
+        $this->collectionLoad();
 
         try {
-            $error = !$this->collection->save();
+            $error = !$this->collectionSave();
         } catch (HiResException $e) {
             $error = $e->getMessage();
         } catch (InvalidCallException $e) {
             $error = $e->getMessage();
         }
         return $error;
+    }
+
+    /**
+     * Loads data to the [[collection]]
+     *
+     * @param array $data
+     */
+    public function collectionLoad($data = null) {
+        $this->collection->load($data);
+    }
+
+    /**
+     * Saves stored [[collection]]
+     *
+     * @return bool
+     */
+    public function collectionSave() {
+        return $this->collection->save();
     }
 
     /**
@@ -125,6 +145,12 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         $this->_scenario = $scenario;
     }
 
+    /**
+     * Adds flash message
+     *
+     * @param string $type the type of flash
+     * @param string $error the text of error
+     */
     public function addFlash($type, $error = null)
     {
         if ($type == 'error' && !empty($error)) {
