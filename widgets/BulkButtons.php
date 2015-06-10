@@ -10,9 +10,10 @@ class BulkButtons extends Widget
 {
     public $items = [];
 
-    public $modelFormName;
-
-    public $modelPk = 'id';
+    /**
+     * @var [[\yii\base\Model]]
+     */
+    public $model;
 
     private $defaultHtmlOptions = ['class' => 'btn btn-default'];
 
@@ -30,23 +31,26 @@ class BulkButtons extends Widget
     private function registerClintScripts()
     {
         $view = $this->getView();
+        $modelFormName = $this->model->formName();
+        $modelPk = reset($this->model->primaryKey());
+
         $view->registerJs(<<<JS
             $( "button.bulk-buttons" ).on( "click", function() {
                 var data = [],
                     attribute = $(this).data('attribute'),
                     value = $(this).data('value'),
-                    url = $(this).data('url') ? $(this).data('url') : '',
+                    url = $(this).data('url'),
                     keys = $( $('div[role=grid]') ).yiiGridView('getSelectedRows');
                 jQuery.each(keys, function(k, id) {
                     var item = {};
-                    item['$this->modelPk'] = id;
+                    item['$modelPk'] = id;
                     item[attribute] = value;
                     data.push(item);
                 });
                 console.log( data );
                 jQuery.ajax({
                     type: 'POST',
-                    data: data,
+                    data: {'$modelFormName': data},
                     url: url
                 });
             });
@@ -61,6 +65,7 @@ JS
             $htmlOptions =  ArrayHelper::merge($this->defaultHtmlOptions, $item['options'], [
                 'data-attribute' => $item['attribute'],
                 'data-value' => $item['value'],
+                'data-url' => $item['url'],
             ]);
 
             // Applay default css class
