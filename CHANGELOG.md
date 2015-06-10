@@ -3,6 +3,8 @@ hiqdev/hipanel changelog
 
 ## Under development
 
+- + Bulk Actions
+- hideved
 - menu manager
 - tickets new look
 - spread combo 2 widget
