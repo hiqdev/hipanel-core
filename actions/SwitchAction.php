@@ -102,7 +102,11 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         $this->collectionLoad();
 
         try {
-            $error = !$this->collectionSave();
+            $error = !$this->collection->save();
+
+            if ($error === true && $this->collection->hasErrors()) {
+                $error = $this->collection->getFirstError();
+            }
         } catch (HiResException $e) {
             $error = $e->getMessage();
         } catch (InvalidCallException $e) {
@@ -153,7 +157,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
      */
     public function addFlash($type, $error = null)
     {
-        if ($type == 'error' && !empty($error)) {
+        if ($type == 'error' && is_string($error) && !empty($error)) {
             $text = Yii::t('app', $error);
         } else {
             $text = $this->{$type};

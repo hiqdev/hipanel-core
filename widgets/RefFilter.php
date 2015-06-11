@@ -8,6 +8,7 @@
 namespace hipanel\widgets;
 
 use hipanel\models\Ref;
+use hiqdev\hiart\ActiveRecord;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
