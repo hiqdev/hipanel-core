@@ -1,9 +1,5 @@
 <?php
 /**
- *
- * TODO: TO BE REMOVED AFTER MERGE PR https://github.com/yiisoft/yii2/pull/7693
- *
- *
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
@@ -23,10 +19,11 @@ use yii\web\JsExpression;
  * May change attribute's value if normalization is enabled.
  *
  * @property boolean|string negationChar whether address may have an negation-character at the beginning
- *   boolean - character "!" will be used
  *   string - passed character will be used. May be a regular expression
+ *   true   - character from [[DEFAULT_NEGATION_CHAR]] (default `!`) will be used
+ *   false  - negation is not allowed
  * @author SilverFire <d.naumenko.a@gmail.com>
- * @since 2.0.4
+ * @since 2.0.5
  */
 class IpValidator extends Validator
 {
@@ -53,6 +50,12 @@ class IpValidator extends Validator
      * @see order
      */
     const ORDER_DENY_ALLOW = 1;
+
+    /**
+     * @const string default negation char when [[negationChar]] is set to `true`
+     * @see negationChar
+     */
+    const DEFAULT_NEGATION_CHAR = '!';
 
     /**
      * @var boolean whether support of IPv6 addresses is enabled
@@ -264,15 +267,14 @@ class IpValidator extends Validator
             return [$this->wrongIp, []];
         }
 
-        $negation      = null;
-        $cidr          = null;
+        $negation = null;
+        $cidr = null;
         $isCidrDefault = false;
 
-        $negationChar = $this->negationChar;
-        if (preg_match("/^($negationChar?)(.+?)(\/(\d+))?$/", $ip, $matches)) {
+        if (preg_match($this->getIpParsePattern(), $ip, $matches)) {
             $negation = ($matches[1] !== '') ? $matches[1] : null;
-            $ip       = $matches[2];
-            $cidr     = isset($matches[4]) ? $matches[4] : null;
+            $ip = $matches[2];
+            $cidr = isset($matches[4]) ? $matches[4] : null;
         }
 
         if ($this->subnet === true && $cidr === null) {
@@ -292,7 +294,7 @@ class IpValidator extends Validator
                 }
             } else {
                 $isCidrDefault = true;
-                $cidr          = static::IPV6_ADDRESS_LENGTH;
+                $cidr = static::IPV6_ADDRESS_LENGTH;
             }
 
             if (!$this->ipv6) {
@@ -312,7 +314,7 @@ class IpValidator extends Validator
                 }
             } else {
                 $isCidrDefault = true;
-                $cidr          = static::IPV4_ADDRESS_LENGTH;
+                $cidr = static::IPV4_ADDRESS_LENGTH;
             }
 
             if (!$this->ipv4) {
@@ -360,7 +362,7 @@ class IpValidator extends Validator
      */
     public function isAllowed($ip, $cidr)
     {
-        $denied  = false;
+        $denied = false;
         $allowed = true;
         if (!empty($this->deny) && $this->inRange($ip, $cidr, $this->deny)) {
             $denied = true;
@@ -406,6 +408,16 @@ class IpValidator extends Validator
     }
 
     /**
+     * Used to get the Regexp pattern for initial IP address parsing
+     * @return string
+     */
+    public function getIpParsePattern()
+    {
+        $negationChar = is_string($this->negationChar) ? $this->negationChar : static::DEFAULT_NEGATION_CHAR;
+        return '/^(' . $negationChar . '?)(.+?)(\/(\d+))?$/';
+    }
+
+    /**
      * Getter for [[_negationChar]]
      *
      * @return string
@@ -413,7 +425,7 @@ class IpValidator extends Validator
      */
     public function getNegationChar()
     {
-        return is_string($this->_negationChar) ? preg_quote($this->_negationChar, '/') : '!';
+        return $this->_negationChar;
     }
 
     /**
@@ -424,6 +436,9 @@ class IpValidator extends Validator
      */
     public function setNegationChar($negationChar)
     {
+        if (is_string($this->negationChar)) {
+            $negationChar = preg_quote($this->_negationChar, '/');
+        }
         $this->_negationChar = $negationChar;
     }
 
@@ -438,12 +453,12 @@ class IpValidator extends Validator
      */
     public function inRange($ip, $cidr, $ranges)
     {
-        $ranges    = (array)$ranges;
+        $ranges = (array)$ranges;
         $ipVersion = $this->getIpVersion($ip);
-        $binIp     = $this->ip2bin($ip);
+        $binIp = $this->ip2bin($ip);
         foreach ($ranges as $range) {
-            $parts      = explode('/', $range);
-            $net        = array_shift($parts);
+            $parts = explode('/', $range);
+            $net = array_shift($parts);
             $range_cidr = array_shift($parts);
 
             $netVersion = $this->getIpVersion($net);
@@ -475,7 +490,7 @@ class IpValidator extends Validator
         } else {
             $unpack = unpack("A16", inet_pton($ip));
             $binStr = array_shift($unpack);
-            $bytes  = static::IPV6_ADDRESS_LENGTH / 8; // 128 bit / 8 = 16 bytes
+            $bytes = static::IPV6_ADDRESS_LENGTH / 8; // 128 bit / 8 = 16 bytes
             $result = '';
             while ($bytes-- > 0) {
                 $result = sprintf("%08b", isset($binStr[$bytes]) ? ord($binStr[$bytes]) : '0') . $result;
@@ -492,8 +507,8 @@ class IpValidator extends Validator
         $messages = [
             'ipv6NotAllowed' => $this->ipv6NotAllowed,
             'ipv4NotAllowed' => $this->ipv4NotAllowed,
-            'wrongIp'        => $this->wrongIp,
-            'noSubnet'       => $this->noSubnet
+            'wrongIp' => $this->wrongIp,
+            'noSubnet' => $this->noSubnet
         ];
         foreach ($messages as &$message) {
             $message = Yii::$app->getI18n()->format($message, [
@@ -504,15 +519,38 @@ class IpValidator extends Validator
         $options = [
             'ipv4Pattern' => new JsExpression($this->ipv4Pattern),
             'ipv6Pattern' => new JsExpression($this->ipv6Pattern),
-            'messages'    => $messages,
-            'ipv4'        => (boolean)$this->ipv4,
-            'ipv6'        => (boolean)$this->ipv6,
-            'negation'    => $this->negationChar,
-            'subnet'      => $this->subnet
+            'messages' => $messages,
+            'ipv4' => (boolean)$this->ipv4,
+            'ipv6' => (boolean)$this->ipv6,
+            'ipParsePattern' => static::escapeRegexp($this->getIpParsePattern()),
+            'negationChar' => $this->negationChar,
+            'subnet' => $this->subnet
         ];
 
         ValidationAsset::register($view);
 
         return 'yii.validation.ip(value, messages, ' . Json::htmlEncode($options) . ');';
+    }
+
+    /**
+     * Escapes regular expression to use in JavaScript (client-side)
+     * @param string $regexp
+     * @return JsExpression
+     */
+    public static function escapeRegexp ($regexp) {
+        $pattern = preg_replace('/\\\\x\{?([0-9a-fA-F]+)\}?/', '\u$1', $regexp);
+        $deliminator = substr($pattern, 0, 1);
+        $pos = strrpos($pattern, $deliminator, 1);
+        $flag = substr($pattern, $pos + 1);
+        if ($deliminator !== '/') {
+            $pattern = '/' . str_replace('/', '\\/', substr($pattern, 1, $pos - 1)) . '/';
+        } else {
+            $pattern = substr($pattern, 0, $pos + 1);
+        }
+        if (!empty($flag)) {
+            $pattern .= preg_replace('/[^igm]/', '', $flag);
+        }
+
+        return new JsExpression($pattern);
     }
 }

@@ -5,10 +5,13 @@ namespace hipanel\widgets;
 use hipanel\helpers\ArrayHelper;
 use yii\base\Widget;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 class BulkButtons extends Widget
 {
     public $items = [];
+
+    public $ajaxSetup = [];
 
     /**
      * @var [[\yii\base\Model]]
@@ -47,9 +50,10 @@ class BulkButtons extends Widget
                     item[attribute] = value;
                     data.push(item);
                 });
-                console.log( data );
+                //console.log( data );
                 jQuery.ajax({
                     type: 'POST',
+                    dataType: 'json',
                     data: {'$modelFormName': data},
                     url: url
                 });
