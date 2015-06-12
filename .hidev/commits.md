@@ -3,6 +3,8 @@ hiqdev/hipanel commits history
 
 ## Under development
 
+    - b6cbd2a 2015-06-11 Some fixes in BulkButtons widget (andreyklochok@gmail.com)
+    - 6755d43 2015-06-10 Added getting of the error (d.naumenko.a@gmail.com)
 - + Bulk Actions
     - b783645 2015-06-10 Some fix in BulkButtons (andreyklochok@gmail.com)
     - a6660ec 2015-06-10 Some work with Bulck Actions and Buttons (andreyklochok@gmail.com)

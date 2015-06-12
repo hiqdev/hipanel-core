@@ -98,13 +98,16 @@ return [
             'enableCsrfValidation' => true
         ],
         'pluginManager' => [
-            'class' => 'hiqdev\pluginmanager\Manager',
+            'class' => 'hiqdev\pluginmanager\PluginManager',
         ],
         'themeManager' => [
-            'class' => 'hiqdev\thememanager\Manager',
+            'class'  => 'hiqdev\thememanager\ThemeManager',
+            'assets' => [
+                'frontend\assets\AppAsset',
+            ],
         ],
         'menuManager' => [
-            'class' => 'hiqdev\menumanager\Manager',
+            'class' => 'hiqdev\menumanager\MenuManager',
             'items' => [
                 'sidebar' => [
                     'items' => [
