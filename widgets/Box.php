@@ -54,8 +54,22 @@ class Box extends Widget
      * @inheritdoc
      */
     public function init() {
-        parent::init();
         $this->initOptions();
+        print Html::beginTag('div', $this->options) . "\n";
+        // Begin box
+        if ($this->title !== null) {
+            $this->beginHeader();
+            $this->endHeader();
+        }
+        if ($this->renderBody == true) {
+            $this->beginBody();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function run() {
         $this->getView()->registerCss('
         .box-title-helper {
             padding: 0;
@@ -66,22 +80,7 @@ class Box extends Widget
             font-weight: 400;
         }
         ');
-        // Begin box
-        print Html::beginTag('div', $this->options) . "\n";
-        if ($this->title !== null) {
-            // Begin box header
-            print Html::beginTag('div', ['class' => 'box-header']);
-            // Box title
-            if ($this->title !== null) {
-                print $this->renderTitle($this->title);
-            }
-            // End box header
-            print Html::endTag('div');
-        }
-        if ($this->renderBody === true) {
-            // Beign box body
-            print Html::beginTag('div', $this->bodyOptions) . "\n";
-        }
+        print "\n" . Html::endTag('div'); // End box
     }
 
     /**
@@ -109,18 +108,8 @@ class Box extends Widget
     /**
      * End of header section
      */
-    public function endHeader() {
+    public static function endHeader() {
         print "\n" . Html::endTag('div');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function run() {
-        if ($this->renderBody === true) {
-            print "\n" . Html::endTag('div'); // End box body
-        }
-        print "\n" . Html::endTag('div'); // End box
     }
 
     /**
@@ -157,7 +146,7 @@ class Box extends Widget
      */
     protected function initOptions() {
         $this->options['class'] = isset($this->options['class']) ? 'box ' . $this->options['class'] : 'box';
-        $this->headerOptions['class'] = isset($this->headerOptions['class']) ? 'box-header ' . $this->options['class'] : 'box-header';
+        $this->headerOptions['class'] = isset($this->headerOptions['class']) ? 'box-header ' . $this->headerOptions['class'] : 'box-header';
         $this->bodyOptions['class'] = isset($this->bodyOptions['class']) ? 'box-body ' . $this->bodyOptions['class'] : 'box-body';
         $this->footerOptions['class'] = isset($this->footerOptions['class']) ? 'box-footer ' . $this->footerOptions['class'] : 'box-footer';
     }

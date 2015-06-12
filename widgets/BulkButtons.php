@@ -4,26 +4,22 @@ namespace hipanel\widgets;
 
 use hipanel\helpers\ArrayHelper;
 use yii\base\Widget;
+use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
 class BulkButtons extends Widget
 {
-    public $items = [];
-
-    public $ajaxSetup = [];
-
     /**
      * @var [[\yii\base\Model]]
      */
     public $model;
 
-    private $defaultHtmlOptions = ['class' => 'btn btn-default'];
+    public $modelName;
 
-    public function init()
-    {
+    public $modelPk;
 
-    }
+    public $items = [];
 
     public function run()
     {
@@ -38,7 +34,8 @@ class BulkButtons extends Widget
         $modelPk = reset($this->model->primaryKey());
 
         $view->registerJs(<<<JS
-            $( "button.bulk-buttons" ).on( "click", function() {
+            $( ".bulk-action" ).on( "click", function(event) {
+                event.preventDefault();
                 var data = [],
                     attribute = $(this).data('attribute'),
                     value = $(this).data('value'),
@@ -51,33 +48,28 @@ class BulkButtons extends Widget
                     data.push(item);
                 });
                 //console.log( data );
-                jQuery.ajax({
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {'$modelFormName': data},
-                    url: url
-                });
+
+                if ($.support.pjax) {
+                    var container = $(this).closest('[data-pjax-contaiter]');
+                    if (container) {
+                        $.pjax({container: container, data: {'$modelFormName': data}, url: url, type: 'POST'})
+                    }
+                } else {
+                        jQuery.ajax({
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'$modelFormName': data},
+                        url: url
+                    });
+                }
             });
 JS
         );
     }
 
-    private function renderHtml()
+    protected function renderHtml()
     {
-        $result = '';
-        foreach ($this->items as $item) {
-            $htmlOptions =  ArrayHelper::merge($this->defaultHtmlOptions, $item['options'], [
-                'data-attribute' => $item['attribute'],
-                'data-value' => $item['value'],
-                'data-url' => $item['url'],
-            ]);
-
-            // Applay default css class
-            $htmlOptions['class'] = $htmlOptions['class'] . ' bulk-buttons';
-
-            $result .= Html::button($item['label'], $htmlOptions) . '&nbsp;';
-        }
-        return rtrim($result, '&nbsp;');
+        return implode('&nbsp;', $this->items);
     }
 }
 
