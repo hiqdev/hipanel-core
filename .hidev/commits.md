@@ -3,6 +3,14 @@ hiqdev/hipanel commits history
 
 ## Under development
 
+    - 8c50b1a 2015-06-12 updated to latests Plugin/Theme/MenuManager (sol@hiqdev.com)
+    - b6cbd2a 2015-06-11 Some fixes in BulkButtons widget (andreyklochok@gmail.com)
+    - 6755d43 2015-06-10 Added getting of the error (d.naumenko.a@gmail.com)
+- + Bulk Actions
+    - b783645 2015-06-10 Some fix in BulkButtons (andreyklochok@gmail.com)
+    - a6660ec 2015-06-10 Some work with Bulck Actions and Buttons (andreyklochok@gmail.com)
+- hideved
+    - 3b11798 2015-06-10 + docs (sol@hiqdev.com)
     - caa7f59 2015-06-09 hideved (sol@hiqdev.com)
 - menu manager
 - tickets new look
