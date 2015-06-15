@@ -61,9 +61,8 @@ class Box extends Widget
             $this->beginHeader();
             $this->endHeader();
         }
-        if ($this->renderBody == true) {
+        if ($this->renderBody == true)
             $this->beginBody();
-        }
     }
 
     /**
@@ -80,6 +79,8 @@ class Box extends Widget
             font-weight: 400;
         }
         ');
+        if ($this->renderBody)
+            $this->endBody();
         print "\n" . Html::endTag('div'); // End box
     }
 
