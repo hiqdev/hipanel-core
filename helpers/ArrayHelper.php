@@ -29,6 +29,8 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
      * @return array
      */
     static public function csplit ($string, $delimiter = ',') {
+        if (is_array($string))
+            return $string;
         $res = [];
         foreach (explode($delimiter, $string) as $k => $v) {
             $v = trim($v);

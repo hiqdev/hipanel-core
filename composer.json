@@ -89,7 +89,8 @@
         "michelf/php-smartypants": "1.6.*@dev",
         "raoul2000/yii2-pnotify-widget": "*",
         "stichoza/google-translate-php": "~3.0",
-        "2amigos/yii2-editable-widget": "dev-master"
+        "2amigos/yii2-editable-widget": "dev-master",
+        "bower-asset/paulzi-form": "~2.0"
     },
     "autoload": {
         "psr-4": {
