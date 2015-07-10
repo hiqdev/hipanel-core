@@ -75,6 +75,7 @@
         "hiqdev/yii2-asset-lightbox2": "~2.7",
         "hiqdev/yii2-asset-select2-bootstrap3-css": "~1.5",
         "ahnames/yii2-asset-ahnames": "*@dev",
+        "hiqdev/yii2-asset-paulzi-form": "*@dev",
         "ahnames/hipanel-theme-adminlte": "*@dev",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
@@ -90,7 +91,7 @@
         "raoul2000/yii2-pnotify-widget": "*",
         "stichoza/google-translate-php": "~3.0",
         "2amigos/yii2-editable-widget": "dev-master",
-        "bower-asset/paulzi-form": "~2.0"
+        "wbraganca/yii2-dynamicform": "*"
     },
     "autoload": {
         "psr-4": {
