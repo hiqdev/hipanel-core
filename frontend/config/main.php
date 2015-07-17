@@ -62,7 +62,7 @@ return [
             'clients' => [
                 'hi3a' => [
                     'class'        => 'hi3a\authclient\Hi3aClient',
-                    'site'         => 'sol-hi3a-new.ahnames.com',
+                    'site'         => 'sol-hi3a-master.ahnames.com',
                     'clientId'     => $params['hi3a_client_id'],
                     'clientSecret' => $params['hi3a_client_secret'],
                 ],
