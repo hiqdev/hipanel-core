@@ -64,7 +64,8 @@ class Controller extends \yii\web\Controller
      * @returns ActiveRecord
      */
     static public function newModel ($config = [], $submodel = '') {
-        return \Yii::createObject(static::modelClassName().$submodel, $config);
+        $config['class'] = static::modelClassName().$submodel;
+        return \Yii::createObject($config);
     }
 
     /**
@@ -104,6 +105,20 @@ class Controller extends \yii\web\Controller
         };
 
         return $model;
+    }
+
+    static public function findModels($condition, $config = [])
+    {
+        $int_keys = array_sum(array_map(function ($v) { return is_numeric($v) ? 1 : 0; }, array_keys($condition)));
+        if (!is_array($condition) || $int_keys) {
+            $condition = ['id' => $condition];
+        }
+        $models = static::newModel($config)->find()->where($condition)->all();
+        if ($models === null) {
+            throw new NotFoundHttpException('The requested object not found.');
+        };
+
+        return $models;
     }
 
     static public function renderJson ($data) {

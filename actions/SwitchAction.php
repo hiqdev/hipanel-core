@@ -9,6 +9,7 @@ namespace hipanel\actions;
 
 use hiqdev\hiart\HiResException;
 use hiqdev\hiart\Collection;
+use yii\base\Exception;
 use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
@@ -44,6 +45,13 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
      * @var SwitchRule instance of the running rule
      */
     public $rule;
+
+    /**
+     * @var callable the custom callback to load data into the collection. Gets [[$this]] as the only argument
+     * Should call `$this->collection->load()`
+     */
+    public $collectionLoad;
+    public $beforeSave;
 
     public function init()
     {
@@ -102,7 +110,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
         $this->collectionLoad();
 
         try {
-            $error = !$this->collection->save();
+            $error = !$this->collectionSave();
 
             if ($error === true && $this->collection->hasErrors()) {
                 $error = $this->collection->getFirstError();
@@ -121,7 +129,11 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
      * @param array $data
      */
     public function collectionLoad($data = null) {
-        $this->collection->load($data);
+        if ($this->collectionLoad instanceof \Closure) {
+            call_user_func($this->collectionLoad, $this);
+        } else {
+            $this->collection->load($data);
+        }
     }
 
     /**
@@ -130,7 +142,10 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
      * @return bool
      */
     public function collectionSave() {
-        return $this->collection->save();
+        if ($this->beforeSave instanceof \Closure) {
+            call_user_func($this->beforeSave, $this);
+        }
+        $this->collection->save();
     }
 
     /**
