@@ -93,6 +93,9 @@ return [
                 ],
             ],
         ],
+        'formatter' => [
+            'locale' => 'ru-RU',
+        ],
         'request'              => [
             'cookieValidationKey'  => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
             'enableCsrfValidation' => true
