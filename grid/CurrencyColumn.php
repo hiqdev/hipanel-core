@@ -9,6 +9,7 @@
 namespace hipanel\grid;
 
 use hipanel\grid\DataColumn;
+use Yii;
 use yii\helpers\Html;
 use yii\i18n\Formatter;
 
@@ -19,26 +20,19 @@ class CurrencyColumn extends DataColumn
     public $format = 'html';
     public $filter = false;
     public $compare = false;
-    private $formatter;
-
-    public function init () {
-        parent::init();
-        $this->formatter = new Formatter;
-    }
 
     public function getDataCellValue ($model, $key, $index) {
-        return Html::tag('span', $this->formatter->format($model->{$this->attribute}, [
-                'currency',
-                $model->currency,
-            ]),
-            [ 
-                'class' => 'label label-' . ($this->compare
-                ? 'label label-' . ($model->{$this->attribute} + $model->{$this->compare} < 0 
-                    ? 'danger'
-                    : ($model->{$this->attribute} < 0 ? 'warning' : 'info')
-                )
-                : 'label label-' . ($model->{$this->attribute} < 0 ? 'danger' : 'info')
-            )]
+        $value = $model->{$this->attribute};
+        $class = 'info';
+        if ($value<0) {
+            $class = 'warning';
+        };
+        if ($value < ($model->{$this->compare} ?: 0)) {
+            $class = 'danger';
+        };
+        return Html::tag('span',
+            Yii::$app->formatter->format($value, ['currency', $model->currency]),
+            ['class' => 'text-'.$class]
         );
     }
 }
