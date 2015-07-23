@@ -11,7 +11,9 @@ class DetailView extends \hiqdev\higrid\DetailView
 {
     public $gridViewClass;
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     protected function createDataColumn($text)
     {
         if ($this->gridViewClass && method_exists($this->gridViewClass,'column')) {
@@ -21,7 +23,7 @@ class DetailView extends \hiqdev\higrid\DetailView
                 return $this->createColumnObject($column);
             };
         };
-        return parent::parentCreateDataColumn($text);
+        return parent::createDataColumn($text);
     }
 
 }
