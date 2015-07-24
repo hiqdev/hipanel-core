@@ -147,7 +147,7 @@ class Box extends Widget
      */
     protected function initOptions() {
         $this->options['class'] = isset($this->options['class']) ? 'box ' . $this->options['class'] : 'box';
-        $this->headerOptions['class'] = isset($this->headerOptions['class']) ? 'box-header ' . $this->headerOptions['class'] : 'box-header';
+        $this->headerOptions['class'] = isset($this->headerOptions['class']) ? 'box-header with-border ' . $this->headerOptions['class'] : 'box-header with-border';
         $this->bodyOptions['class'] = isset($this->bodyOptions['class']) ? 'box-body ' . $this->bodyOptions['class'] : 'box-body';
         $this->footerOptions['class'] = isset($this->footerOptions['class']) ? 'box-footer ' . $this->footerOptions['class'] : 'box-footer';
     }

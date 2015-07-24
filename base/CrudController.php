@@ -155,7 +155,7 @@ class CrudController extends Controller
     }
 
     static public function getRefs ($gtype) {
-        return Ref::find()->where(compact('gtype'))->getList();
+        return Ref::find()->where(['gtype' => $gtype, 'limit' => 'ALL'])->getList();
     }
 
     static public function getClassRefs ($type) { return static::getRefs($type . ',' . static::idName('_')); }
