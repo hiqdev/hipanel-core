@@ -10,7 +10,6 @@ namespace hipanel\grid;
 /**
  * Class DataColumn
  */
-class DataColumn extends \yii\grid\DataColumn
+class DataColumn extends \hiqdev\higrid\DataColumn
 {
-    use FeaturedColumnTrait;
 }

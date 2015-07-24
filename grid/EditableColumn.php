@@ -7,6 +7,7 @@
 
 namespace hipanel\grid;
 
+use hiqdev\higrid\FeaturedColumnTrait;
 use yii\helpers\Url;
 use yii\helpers\Html;
 

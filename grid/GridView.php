@@ -14,37 +14,34 @@ use hipanel\modules\client\grid\SellerColumn;
 use Yii;
 
 /**
- * Class GridView
- * Theme GridView widget.
+ * Class GridView.
+ * HiPanel specific GridView.
  */
 class GridView extends \hiqdev\higrid\GridView
 {
-    public $dataColumnClass = 'hipanel\grid\DataColumn';
-
-    static public $detailViewClass = 'hipanel\grid\DetailView';
-
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     public $tableOptions = [
         'class' => 'table table-bordered table-hover dataTable'
     ];
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     public $options = [
         'class' => 'dataTables_wrapper form-inline',
         'role'  => 'grid'
     ];
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     public $layout = "{items}\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
 
-    static public function detailView (array $config = []) {
-        $class = static::$detailViewClass ?: DetailView::className();
-
-        return call_user_func([$class, 'widget'], array_merge(['gridViewClass' => get_called_class()], $config));
-    }
-
-    static protected $_defaultColumns;
-
+    /**
+     * @inheritdoc
+     */
     static protected function defaultColumns () {
         return [
             'checkbox'  => ['class' => CheckboxColumn::className()],
@@ -54,50 +51,17 @@ class GridView extends \hiqdev\higrid\GridView
     }
 
     /**
-     * Getter for $_defaultColumns. Scans recursively by hierarchy for defaultColumns
-     * and caches to $_defaultColumns
+     * @inheritdoc
      */
-    static public function getDefaultColumns () {
-        if (is_array(static::$_defaultColumns)) {
-            return static::$_defaultColumns;
-        };
-        $columns = static::defaultColumns();
-        $parent  = (new \ReflectionClass(get_called_class()))->getParentClass();
-        if ($parent->hasMethod('getDefaultColumns')) {
-            $columns = array_merge(call_user_func([$parent->getName(), 'getDefaultColumns']), $columns);
-        };
-
-        return static::$_defaultColumns = $columns;
-    }
-
-    /**
-     * Returns column from $_defaultColumns
-     */
-    public function column ($name, array $config = []) {
-        $column = static::getDefaultColumns()[$name];
-
-        return is_array($column) ? array_merge($column, $config) : null;
-    }
-
-    /** @inheritdoc */
-    protected function createDataColumn ($text) {
-        $column = static::column($text);
-        if (is_array($column)) {
-            $column['attribute'] = $column['attribute'] ?: $text;
-
-            return $this->createColumnObject($column);
-        };
-
-        return parent::createDataColumn($text);
-    }
-
-    /** @inheritdoc */
     public function run () {
         $this->tableOptions['class'] .= ' ' . Yii::$app->themeManager->settings->getCssClass('table_condensed');
         parent::run();
         $this->registerClientScript();
     }
 
+    /**
+     * @inheritdoc
+     */
     private function registerClientScript () {
         $view = $this->getView();
         DataTablesAsset::register($view);

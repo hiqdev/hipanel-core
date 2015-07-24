@@ -7,6 +7,8 @@
 
 namespace hipanel\grid;
 
+use hiqdev\higrid\FeaturedColumnTrait;
+
 class CheckboxColumn extends \yii\grid\CheckboxColumn
 {
     use FeaturedColumnTrait;

@@ -1,14 +1,7 @@
 <?php
 
-/**
-   * @link    http://hiqdev.com/hipanel
-   * @license http://hiqdev.com/hipanel/license
-   * @copyright Copyright (c) 2015 HiQDev
-   */
-
 namespace hipanel\grid;
 
-use hipanel\grid\DataColumn;
 use Yii;
 use yii\helpers\Html;
 use yii\i18n\Formatter;
