@@ -94,7 +94,8 @@ return [
             ],
         ],
         'formatter' => [
-            'locale' => 'ru-RU',
+            'locale'      => 'ru-RU',
+            'nullDisplay' => '&nbsp;',
         ],
         'request'              => [
             'cookieValidationKey'  => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
