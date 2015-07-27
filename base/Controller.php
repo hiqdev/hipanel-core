@@ -84,11 +84,28 @@ class Controller extends \yii\web\Controller
     }
 
     /**
+     * @returns string Main model's formName()
+     */
+    static public function searchFormName () {
+        return static::newModel()->formName() . 'Search';
+    }
+
+    /**
      * @param string $separator
      * @return string Main model's camel2id'ed formName()
      */
-    static public function idName ($separator = '-') {
+    static public function modelId ($separator = '-') {
         return Inflector::camel2id(static::formName(), $separator);
+    }
+
+    static public function moduleId()
+    {
+        return explode('\\', get_called_class())[2];
+    }
+
+    static public function controllerId()
+    {
+        return strtolower(substr(explode('\\', get_called_class())[4], 0, -10));
     }
 
     /**
@@ -153,4 +170,9 @@ class Controller extends \yii\web\Controller
         return $config ? Yii::createObject($config, [$id, $this]) : parent::createAction($id);
     }
 
+
+    static public function getSearchUrl ($search)
+    {
+        return [implode('/', ['',static::moduleId(), static::controllerId(),'index']), static::searchFormName() => $search];
+    }
 }

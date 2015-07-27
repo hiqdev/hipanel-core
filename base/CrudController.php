@@ -158,7 +158,7 @@ class CrudController extends Controller
         return Ref::find()->where(compact('gtype'))->getList();
     }
 
-    static public function getClassRefs ($type) { return static::getRefs($type . ',' . static::idName('_')); }
+    static public function getClassRefs ($type) { return static::getRefs($type . ',' . static::modelId('_')); }
 
     static public function getBlockReasons () { return static::getRefs('type,block'); }
 
