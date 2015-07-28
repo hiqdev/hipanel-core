@@ -171,15 +171,20 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * @inheritdoc
+     * Prepares array for building url to action based on given action id and parameters.
+     *
+     * @param string $action action id
+     * @param string|int|array $params ID of object to be action'ed or array of parameters
+     * @return array array suitable for Url::to
      */
-    static public function getActionUrl ($action = 'index', array $params = [])
+    static public function getActionUrl ($action = 'index', $params = [])
     {
+        $params = is_array($params) ? $params : ['id' => $params];
         return array_merge([implode('/', ['',static::moduleId(), static::controllerId(), $action])], $params);
     }
 
     /**
-     * @inheritdoc
+     * Prepares array for building url to search with given filters.
      */
     static public function getSearchUrl (array $params = [])
     {
