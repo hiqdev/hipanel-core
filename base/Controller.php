@@ -170,9 +170,19 @@ class Controller extends \yii\web\Controller
         return $config ? Yii::createObject($config, [$id, $this]) : parent::createAction($id);
     }
 
-
-    static public function getSearchUrl ($search)
+    /**
+     * @inheritdoc
+     */
+    static public function getActionUrl ($action = 'index', array $params = [])
     {
-        return [implode('/', ['',static::moduleId(), static::controllerId(),'index']), static::searchFormName() => $search];
+        return array_merge([implode('/', ['',static::moduleId(), static::controllerId(), $action])], $params);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    static public function getSearchUrl (array $params = [])
+    {
+        return static::getActionUrl('index', [static::searchFormName() => $params]);
     }
 }
