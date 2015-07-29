@@ -77,14 +77,14 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * @returns string Main model's formName()
+     * @returns string main model's formName()
      */
     static public function formName () {
         return static::newModel()->formName();
     }
 
     /**
-     * @returns string Main model's formName()
+     * @returns string search model's formName()
      */
     static public function searchFormName () {
         return static::newModel()->formName() . 'Search';
