@@ -12,7 +12,7 @@ use yii\web\NotFoundHttpException;
 
 class BootstrapSwitchAction extends SwitchAction
 {
-//    public function collectionLoad($data = null)
+//    public function loadCollection($data = null)
 //    {
 //        \yii\helpers\VarDumper::dump($_POST, 10, true);die();
 //        $this->collection->load($data);
