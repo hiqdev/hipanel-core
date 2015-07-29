@@ -76,9 +76,12 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options = array_merge([
                     'title'        => Yii::t('yii', 'Delete'),
                     'aria-label'   => Yii::t('yii', 'Delete'),
-                    'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
-                    'data-method'  => 'post',
-                    'data-pjax'    => '0',
+                    'data' => [
+                        'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                        'method'  => 'POST',
+                        'data-pjax' => '0',
+                    ],
+
                 ], $this->buttonOptions);
 
                 return Html::a(Yii::t('yii', 'Delete'), $url, $options);
