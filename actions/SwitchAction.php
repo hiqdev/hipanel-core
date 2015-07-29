@@ -37,26 +37,9 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     public $error;
 
     /**
-     * @var
-     */
-    public $_scenario;
-
-    /**
-     * @var SwitchRule instance of the running rule
+     * @var SwitchRule instance of the current running rule
      */
     public $rule;
-
-    /**
-     * @var callable the custom callback to load data into the collection. Gets [[$this]] as the only argument
-     * Should call `$this->collection->load()`
-     */
-    public $collectionLoad;
-    public $beforeSave;
-
-    public function init()
-    {
-
-    }
 
     public function getItemConfig($name = null, array $config = [])
     {
@@ -77,15 +60,14 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
             if ($rule instanceof SwitchRule && $rule->isApplicable()) {
                 $oldRule    = $this->rule;
                 $this->rule = $rule;
-
-                $error  = $this->perform($rule);
-                $type   = $error ? 'error' : 'success';
+                $error      = $this->perform($rule);
+                $type       = $error ? 'error' : 'success';
                 if ($rule->save) {
                     $this->addFlash($type, $error);
                 }
-                $result = $rule->run($type);
-
+                $result     = $rule->run($type);
                 $this->rule = $oldRule;
+
                 return $result;
             }
         }
@@ -107,83 +89,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
             return false;
         }
 
-        $this->collectionLoad();
-
-        try {
-            $error = !$this->collectionSave();
-
-            if ($error === true && $this->collection->hasErrors()) {
-                $error = $this->collection->getFirstError();
-            }
-        } catch (HiResException $e) {
-            $error = $e->getMessage();
-        } catch (InvalidCallException $e) {
-            $error = $e->getMessage();
-        }
-        return $error;
+        return parent::perform();
     }
 
-    /**
-     * Loads data to the [[collection]]
-     *
-     * @param array $data
-     */
-    public function collectionLoad($data = null) {
-        if ($this->collectionLoad instanceof \Closure) {
-            call_user_func($this->collectionLoad, $this);
-        } else {
-            $this->collection->load($data);
-        }
-    }
-
-    /**
-     * Saves stored [[collection]]
-     *
-     * @return bool
-     */
-    public function collectionSave() {
-        if ($this->beforeSave instanceof \Closure) {
-            call_user_func($this->beforeSave, $this);
-        }
-        $this->collection->save();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getScenario()
-    {
-        return !empty($this->_scenario) ? $this->_scenario : $this->id;
-    }
-
-    /**
-     * @param mixed $scenario
-     */
-    public function setScenario($scenario)
-    {
-        $this->_scenario = $scenario;
-    }
-
-    /**
-     * Adds flash message
-     *
-     * @param string $type the type of flash
-     * @param string $error the text of error
-     */
-    public function addFlash($type, $error = null)
-    {
-        if ($type == 'error' && is_string($error) && !empty($error)) {
-            $text = Yii::t('app', $error);
-        } else {
-            $text = $this->{$type};
-        }
-
-        if ($type instanceof \Closure) {
-            $text = call_user_func($text, $text, $this);
-        }
-
-        Yii::$app->session->addFlash($type, [
-            'text' => $text
-        ]);
-    }
 }

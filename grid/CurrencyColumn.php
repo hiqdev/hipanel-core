@@ -20,7 +20,7 @@ class CurrencyColumn extends DataColumn
         if ($value<0) {
             $class = 'warning';
         };
-        if ($value < ($model->{$this->compare} ?: 0)) {
+        if ($value < -($model->{$this->compare} ?: 0)) {
             $class = 'danger';
         };
         return Html::tag('span',

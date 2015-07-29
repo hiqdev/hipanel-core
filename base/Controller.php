@@ -77,18 +77,35 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * @returns string Main model's formName()
+     * @returns string main model's formName()
      */
     static public function formName () {
         return static::newModel()->formName();
     }
 
     /**
+     * @returns string search model's formName()
+     */
+    static public function searchFormName () {
+        return static::newModel()->formName() . 'Search';
+    }
+
+    /**
      * @param string $separator
      * @return string Main model's camel2id'ed formName()
      */
-    static public function idName ($separator = '-') {
+    static public function modelId ($separator = '-') {
         return Inflector::camel2id(static::formName(), $separator);
+    }
+
+    static public function moduleId()
+    {
+        return explode('\\', get_called_class())[2];
+    }
+
+    static public function controllerId()
+    {
+        return strtolower(substr(explode('\\', get_called_class())[4], 0, -10));
     }
 
     /**
@@ -153,4 +170,24 @@ class Controller extends \yii\web\Controller
         return $config ? Yii::createObject($config, [$id, $this]) : parent::createAction($id);
     }
 
+    /**
+     * Prepares array for building url to action based on given action id and parameters.
+     *
+     * @param string $action action id
+     * @param string|int|array $params ID of object to be action'ed or array of parameters
+     * @return array array suitable for Url::to
+     */
+    static public function getActionUrl ($action = 'index', $params = [])
+    {
+        $params = is_array($params) ? $params : ['id' => $params];
+        return array_merge([implode('/', ['',static::moduleId(), static::controllerId(), $action])], $params);
+    }
+
+    /**
+     * Prepares array for building url to search with given filters.
+     */
+    static public function getSearchUrl (array $params = [])
+    {
+        return static::getActionUrl('index', [static::searchFormName() => $params]);
+    }
 }
