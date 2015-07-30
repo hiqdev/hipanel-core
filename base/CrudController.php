@@ -64,20 +64,6 @@ class CrudController extends Controller
     }
 
     /**
-     * Performs operations
-     *
-     * @param array $options
-     * @return
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function perform ($options = []) {
-        return Yii::createObject([
-            'class'   => PerformAction::className(),
-            'options' => $options
-        ], [$this->action->id, $this])->run();
-    }
-
-    /**
      * Searches the data in the model
      *
      * @return mixed
