@@ -3,6 +3,15 @@ body {
 }
 
 
+.btn-group-fix {
+    white-space: nowrap;
+}
+
+.btn-group-fix .btn {
+    float: none;
+    display: inline-block;
+}
+
 /* Attachment */
 
 .comment .comment-text p {

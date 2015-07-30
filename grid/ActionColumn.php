@@ -25,7 +25,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     public function init () {
         parent::init();
         $this->getCountButtons();
-        $this->template = ($this->getCountButtons() > 1) ? '<div class="btn-group">' . $this->template . '</ul></div>' : '<div class="btn-group">' . $this->template . '</div>';
+        $this->template = ($this->getCountButtons() > 1) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
     }
 
     public function getCountButtons () {
