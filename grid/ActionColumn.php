@@ -57,7 +57,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                     'class'      => 'btn btn-default btn-xs',
                 ], $this->buttonOptions);
 
-                return Html::a(Yii::t('yii', 'View'), $url, $options);
+                return Html::a('<i class="fa fa-eye"></i>&nbsp;&nbsp;' . Yii::t('yii', 'View'), $url, $options);
             };
         }
         if (!isset($this->buttons['update'])) {
@@ -68,7 +68,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                     'data-pjax'  => '0',
                 ], $this->buttonOptions);
 
-                return Html::a(Yii::t('yii', 'Update'), $url, $options);
+                return Html::a('<i class="fa fa-pencil"></i>' . Yii::t('yii', 'Update'), $url, $options);
             };
         }
         if (!isset($this->buttons['delete'])) {
@@ -84,7 +84,7 @@ class ActionColumn extends \yii\grid\ActionColumn
 
                 ], $this->buttonOptions);
 
-                return Html::a(Yii::t('yii', 'Delete'), $url, $options);
+                return Html::a('<i class="fa fa-trash-o"></i>' . Yii::t('yii', 'Delete'), $url, $options);
             };
         }
     }
