@@ -57,7 +57,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                     'class'      => 'btn btn-default btn-xs',
                 ], $this->buttonOptions);
 
-                return Html::a(Yii::t('yii', 'View'), $url, $options);
+                return Html::a('<i class="fa fa-eye"></i>&nbsp;&nbsp;' . Yii::t('yii', 'View'), $url, $options);
             };
         }
         if (!isset($this->buttons['update'])) {
@@ -68,7 +68,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                     'data-pjax'  => '0',
                 ], $this->buttonOptions);
 
-                return Html::a(Yii::t('yii', 'Update'), $url, $options);
+                return Html::a('<i class="fa fa-pencil"></i>' . Yii::t('yii', 'Update'), $url, $options);
             };
         }
         if (!isset($this->buttons['delete'])) {
@@ -76,12 +76,15 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options = array_merge([
                     'title'        => Yii::t('yii', 'Delete'),
                     'aria-label'   => Yii::t('yii', 'Delete'),
-                    'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
-                    'data-method'  => 'post',
-                    'data-pjax'    => '0',
+                    'data' => [
+                        'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                        'method'  => 'POST',
+                        'data-pjax' => '0',
+                    ],
+
                 ], $this->buttonOptions);
 
-                return Html::a(Yii::t('yii', 'Delete'), $url, $options);
+                return Html::a('<i class="fa fa-trash-o"></i>' . Yii::t('yii', 'Delete'), $url, $options);
             };
         }
     }
