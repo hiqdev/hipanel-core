@@ -152,8 +152,12 @@ class Action extends \yii\base\Action
 
     public function getModel()
     {
-        // TODO: getting multiple models
         return $this->parent ? $this->parent->getModel() : $this->collection->first;
+    }
+
+    public function getModels()
+    {
+        return $this->parent ? $this->parent->getModels() : $this->collection->models;
     }
 
     /**
