@@ -10,27 +10,11 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /**
- * Class FormValidateAction
- * @package hipanel\actions
- *
- * @property
+ * Class ValidateFormAction
  */
-class FormValidateAction extends \yii\base\Action
+class ValidateFormAction extends Action
 {
-    /**
-     * @var \hipanel\base\CrudController|\yii\web\Controller the controller that owns this action
-     */
-    public $controller;
-
     public $allowDynamicScenario = true;
-
-    public $scenario;
-
-
-    public function resolveScenario()
-    {
-        return $this->scenario ?: $this->id;
-    }
 
     public function getModel($options = [])
     {
@@ -49,10 +33,8 @@ class FormValidateAction extends \yii\base\Action
 
     public function run($scenario = null)
     {
-        if ($scenario !== null && $this->allowDynamicScenario) {
+        if ($scenario && $this->allowDynamicScenario) {
             $this->scenario = $scenario;
-        } else {
-            $this->scenario = $this->resolveScenario();
         }
 
         if (Yii::$app->request->isPost) {
@@ -61,6 +43,6 @@ class FormValidateAction extends \yii\base\Action
             return $this->controller->renderJson(ActiveForm::validateMultiple($collection->models));
         }
 
-        throw new InvalidRouteException('Unable to run this action with such request type');
+        throw new InvalidRouteException('Must be POST request');
     }
 }
