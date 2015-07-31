@@ -7,6 +7,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\helpers\ArrayHelper;
 use yii\base\Widget;
 use yii\helpers\Html;
 

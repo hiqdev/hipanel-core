@@ -2,6 +2,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\base\Model;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -37,7 +38,7 @@ class AdvancedSearch extends Widget
     /**
      * @var string request method
      */
-    public $method = 'get';
+    public $method = 'GET';
 
     /**
      * @var array options passed to ActiveForm
@@ -46,6 +47,9 @@ class AdvancedSearch extends Widget
         'data-pjax' => true,
     ];
 
+    /**
+     * @var ActiveForm
+     */
     protected $_form;
 
     /**
