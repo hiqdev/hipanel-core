@@ -6,11 +6,20 @@ use yii\helpers\Html;
 
 class LinkSorter extends \yii\widgets\LinkSorter
 {
+    public $show = false;
+
     public $containerClass = 'dropdown';
 
-    public $buttonClass = 'btn btn-default btn-sm dropdown-toggle';
+    public $buttonClass = 'btn btn-default dropdown-toggle';
 
     public $options = ['class' => 'dropdown-menu', 'role' => 'menu', 'aria-labelledby' => ''];
+
+    public function run()
+    {
+        if ($this->show) {
+            parent::run();
+        }
+    }
 
     /**
      * Renders the sort links.

@@ -3,7 +3,7 @@ use yii\helpers\Html;
 
 ?>
 
-<div class="<?= $containerClass; ?>">
+<div class="<?= $containerClass; ?>" style="display: inline-block;">
     <button class="<?= $buttonClass; ?>" type="button" id="<?= $id; ?>" data-toggle="dropdown" aria-expanded="true">
         <?= Yii::$app->request->get('sort') ? Yii::t('app', 'Sort: ') . $attributes[ltrim(Yii::$app->request->get('sort'), '+-')]['label'] : Yii::t('app', 'Sort'); ?>&nbsp;&nbsp;
         <span class="caret"></span>

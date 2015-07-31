@@ -19,6 +19,10 @@ use Yii;
  */
 class GridView extends \hiqdev\higrid\GridView
 {
+    public $sorter = [
+        'class' => '\hipanel\widgets\LinkSorter',
+    ];
+
     /**
      * @inheritdoc
      */
