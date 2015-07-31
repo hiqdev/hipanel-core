@@ -11,6 +11,11 @@ use Yii;
 class IndexAction extends Action
 {
     /**
+     * @var string view to render.
+     */
+    public $view = 'index';
+
+    /**
      * @var array|Closure additional data passed to view
      */
     public $data = [];
@@ -46,7 +51,7 @@ class IndexAction extends Action
 
     public function run()
     {
-        return $this->controller->render('index', array_merge([
+        return $this->controller->render($this->view, array_merge([
             'model'        => $this->getModel(),
             'dataProvider' => $this->getDataProvider(),
         ], $this->prepareData()));
