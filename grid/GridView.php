@@ -37,7 +37,7 @@ class GridView extends \hiqdev\higrid\GridView
     /**
      * @inheritdoc
      */
-    public $layout = "{items}\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
+    public $layout = "<div class='row'><div class='col-xs-12'>{sorter}</div></div>{items}\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
 
     /**
      * @inheritdoc
