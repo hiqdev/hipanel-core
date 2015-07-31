@@ -30,10 +30,22 @@ class SmartUpdateAction extends SwitchAction
                 'save'    => true,
                 'success' => [
                     'class' => 'hipanel\actions\RedirectAction',
-                    'url'   => function ($action, $model) {
-                        return ['view', 'id' => $model->id];
+                    'url'   => function ($action) {
+                        return count($action->collection->models)>1
+                            ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
+                            : $action->controller->getActionUrl('view', ['id' => $action->model->id])
+                        ;
                     }
-                ]
+                ],
+                'error'   => [
+                    'class'  => 'hipanel\actions\RenderAction',
+                    'view'   => 'update',
+                    'params' => [
+                        'models' => function ($action) {
+                            return $action->collection->models;
+                        },
+                    ],
+                ],
             ],
             'POST pjax' => [
                 'save'    => true,

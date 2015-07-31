@@ -11,6 +11,7 @@ use hipanel\widgets\Box;
 
 class BoxedDetailView extends DetailView
 {
+    public $boxed = true;
     /**
      * To grid options, for example, you may add something like this for customize boxes:
      *  'boxOptions' => ['options' => ['class' => 'box-primary']],
@@ -19,8 +20,11 @@ class BoxedDetailView extends DetailView
     public $boxOptions = [];
 
     public function run() {
-        Box::begin($this->boxOptions);
+        if ($this->boxed)  {
+            Box::begin($this->boxOptions);
+                parent::run();
+            Box::end();
+        } else
             parent::run();
-        Box::end();
     }
 }
