@@ -101,7 +101,7 @@ class Action extends \yii\base\Action
      */
     public function loadCollection($data = null) {
         if ($this->collectionLoader instanceof \Closure) {
-            call_user_func($this->collectionLoader, $this);
+            call_user_func($this->collectionLoader, $this, $data);
         } else {
             $this->collection->load($data);
         }

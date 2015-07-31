@@ -60,7 +60,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
             if ($rule instanceof SwitchRule && $rule->isApplicable()) {
                 $oldRule    = $this->rule;
                 $this->rule = $rule;
-                $error      = $this->perform($rule);
+                $error      = $this->perform();
                 $type       = $error ? 'error' : 'success';
                 if ($rule->save) {
                     $this->addFlash($type, $error);
@@ -76,16 +76,11 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     }
 
     /**
-     * Performs action for the rule
-     *
-     * @param SwitchRule $rule
-     * @return boolean|string Whether save is success
-     *  - boolean true or sting - an error
-     *  - false - no errors
+     * Does perform only if rule has 'save' enabled.
      */
-    public function perform($rule)
+    public function perform()
     {
-        if (!$rule->save) {
+        if (!$this->rule->save) {
             return false;
         }
 

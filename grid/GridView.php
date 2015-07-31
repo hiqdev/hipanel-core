@@ -44,9 +44,9 @@ class GridView extends \hiqdev\higrid\GridView
      */
     static protected function defaultColumns () {
         return [
-            'checkbox'  => ['class' => CheckboxColumn::className()],
             'seller_id' => ['class' => SellerColumn::className()],
             'client_id' => ['class' => ClientColumn::className()],
+            'checkbox'  => ['class' => CheckboxColumn::className()],
         ];
     }
 

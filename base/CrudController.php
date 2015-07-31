@@ -8,13 +8,10 @@
 namespace hipanel\base;
 
 use hipanel\actions\PerformAction;
-use hiqdev\hiart\HiResException;
-use hiqdev\hiart\Collection;
 use hipanel\helpers\ArrayHelper as AH;
 use hipanel\models\Ref;
 use Yii;
 use yii\helpers\Inflector;
-use yii\filters\VerbFilter;
 
 class CrudController extends Controller
 {
@@ -61,20 +58,6 @@ class CrudController extends Controller
     }
 
     public function actionTest ($action) {
-    }
-
-    /**
-     * Performs operations
-     *
-     * @param array $options
-     * @return
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function perform ($options = []) {
-        return Yii::createObject([
-            'class'   => PerformAction::className(),
-            'options' => $options
-        ], [$this->action->id, $this])->run();
     }
 
     /**
@@ -135,10 +118,11 @@ class CrudController extends Controller
      * @return string
      */
     public function actionIndex ($add = []) { /// TODO: XXX REMOVE $add! VULNERABLE!
-        $searchModel  = static::searchModel();
+        $model        = static::searchModel();
+        $searchModel  = $model; /// TODO: XXX remove use of searchModel
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', AH::merge(compact('searchModel', 'dataProvider'), $add));
+        return $this->render('index', AH::merge(compact('model', 'searchModel', 'dataProvider'), $add));
     }
 
     /**
