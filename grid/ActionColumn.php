@@ -57,7 +57,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                     'class'      => 'btn btn-default btn-xs',
                 ], $this->buttonOptions);
 
-                return Html::a('<i class="fa fa-eye"></i>&nbsp;&nbsp;' . Yii::t('yii', 'View'), $url, $options);
+                return Html::a('<i class="fa fa-eye"></i>&nbsp;' . Yii::t('yii', 'View'), $url, $options);
             };
         }
         if (!isset($this->buttons['update'])) {

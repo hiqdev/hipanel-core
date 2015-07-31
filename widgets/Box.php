@@ -57,11 +57,11 @@ class Box extends Widget
         $this->initOptions();
         print Html::beginTag('div', $this->options) . "\n";
         // Begin box
-        if ($this->title !== null) {
+        if ($this->title != null) {
             $this->beginHeader();
             $this->endHeader();
         }
-        if ($this->renderBody == true)
+        if ($this->renderBody)
             $this->beginBody();
     }
 
@@ -79,8 +79,9 @@ class Box extends Widget
             font-weight: 400;
         }
         ');
-        if ($this->renderBody)
+        if ($this->renderBody) {
             $this->endBody();
+        }
         print "\n" . Html::endTag('div'); // End box
     }
 
