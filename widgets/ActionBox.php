@@ -26,7 +26,7 @@ class ActionBox extends Box
         if ($this->bulk == false)
             throw new InvalidConfigException("'bulk' property is false, turn this on ('true' statement), if you want use bulk actions.");
 
-        print Html::beginTag('div', ['class' => 'pull-right box-bulk-actions', 'style' => 'display: none;']) . "\n";
+        print Html::beginTag('div', ['class' => 'pull-right box-bulk-actions']) . "\n";
     }
 
     public function endBulkActions() {
@@ -43,12 +43,14 @@ class ActionBox extends Box
         $view = $this->getView();
         $view->registerJs(<<<JS
         var checkboxes = $('input[type="checkbox"]');
-        var bulkcontainer = $('.box-bulk-actions');
+        var bulkcontainer = $('.box-bulk-actions fieldset');
         checkboxes.on('ifChecked ifUnchecked', function(event) {
             if (event.type == 'ifChecked') {
-                bulkcontainer.toggle(true);
+                console.log('123');
+                bulkcontainer.prop('disabled', false);
             } else if (!checkboxes.filter(':checked').length > 0) {
-                bulkcontainer.toggle(false);
+                console.log('321');
+                bulkcontainer.prop('disabled', true);
             }
         });
 JS
