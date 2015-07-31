@@ -2,6 +2,9 @@ body {
     font-family: Arial, sans-serif !important;
 }
 
+table.dataTable thead > tr > th:first-child {
+    padding-right: 0px;
+}
 
 .btn-group-fix {
     white-space: nowrap;
