@@ -7,14 +7,14 @@
 
 namespace hipanel\widgets;
 
+use hipanel\base\Model;
 use hipanel\base\Re;
 use \yii\helpers\ArrayHelper as AH;
 
 class Type extends \hipanel\widgets\Label {
 
-    /** @var model[] An array of ActiveRecord */
-
-    public $model = [];
+    /** @var Model */
+    public $model;
 
     /** @var $states[] which contains:
       * key - css class name which will be used to highlight label
@@ -30,11 +30,11 @@ class Type extends \hipanel\widgets\Label {
 
     public $defaultValues = [];
 
-    /** @var field string */
+    /** @var string field  */
     public $field = 'state';
 
     public function run () {
-        $field = $this->model->$field;
+        $field = $this->model->{$this->field};
 
         foreach ($this->defaultValues as $key => $values) {
             $possible[$key] = AH::merge($values, $this->values[$key] ? : []);
