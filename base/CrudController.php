@@ -121,10 +121,11 @@ class CrudController extends Controller
      * @return string
      */
     public function actionIndex ($add = []) { /// TODO: XXX REMOVE $add! VULNERABLE!
-        $searchModel  = static::searchModel();
+        $model        = static::searchModel();
+        $searchModel  = $model; /// TODO: XXX remove use of searchModel
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', AH::merge(compact('searchModel', 'dataProvider'), $add));
+        return $this->render('index', AH::merge(compact('model', 'searchModel', 'dataProvider'), $add));
     }
 
     /**
