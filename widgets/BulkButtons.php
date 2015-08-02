@@ -69,7 +69,7 @@ JS
 
     protected function renderHtml()
     {
-        return implode('&nbsp;', $this->items);
+        return Html::tag('fieldset', implode('&nbsp;', $this->items), ['disabled' => 'disabled']);
     }
 }
 
