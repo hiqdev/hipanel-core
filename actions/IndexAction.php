@@ -3,10 +3,14 @@
 namespace hipanel\actions;
 
 use Closure;
+use hipanel\base\Model;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class IndexAction
+ *
+ * @property Model model
  */
 class IndexAction extends Action
 {
@@ -20,6 +24,14 @@ class IndexAction extends Action
      */
     public $data = [];
 
+    /**
+     * @var array additional data that will be passed to the search query
+     */
+    public $findOptions = [];
+
+    /**
+     * @var Model
+     */
     public $_model;
 
     public function setModel($model)
@@ -27,6 +39,9 @@ class IndexAction extends Action
         $this->_model = $model;
     }
 
+    /**
+     * @return Model
+     */
     public function getModel()
     {
         if (is_null($this->_model)) {
@@ -37,7 +52,10 @@ class IndexAction extends Action
 
     public function getDataProvider()
     {
-        return $this->getModel()->search(Yii::$app->request->queryParams);
+        $params            = Yii::$app->request->queryParams;
+        $formName          = $this->model->formName();
+        $params[$formName] = ArrayHelper::merge($params[$formName], $this->findOptions);
+        return $this->model->search(Yii::$app->request->queryParams);
     }
 
     public function prepareData()

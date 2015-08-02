@@ -21,7 +21,7 @@ class ViewAction extends Action
     public $data = [];
 
     /**
-     * @var array|Closure additional data passed to view
+     * @var array additional data passed to model find method
      */
     public $findOptions = [];
 
@@ -41,9 +41,11 @@ class ViewAction extends Action
 
     public function run($id)
     {
+        $model = $this->findModel($id);
+        $this->collection->set($model);
+
         return $this->controller->render('view', array_merge([
-            'model' => $this->findModel($id),
+            'model' => $model,
         ], $this->prepareData($id)));
     }
-
 }
