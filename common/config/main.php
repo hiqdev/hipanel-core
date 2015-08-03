@@ -11,6 +11,9 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'auth' => [
+            'class' => 'hipanel\base\AuthManager',
+        ],
     ],
     'aliases' => [
         '@hipanel' => dirname(dirname(__DIR__)),

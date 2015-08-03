@@ -29,13 +29,30 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
      * @return array
      */
     static public function csplit ($string, $delimiter = ',') {
-        if (is_array($string))
+        if (is_array($string)) {
             return $string;
+        }
         $res = [];
         foreach (explode($delimiter, $string) as $k => $v) {
             $v = trim($v);
             if (strlen($v)) {
                 array_push($res, $v);
+            }
+        }
+
+        return $res;
+    }
+
+    static public function ksplit($string, $delimiter = ',')
+    {
+        if (is_array($string)) {
+            return $string;
+        }
+        $res = [];
+        foreach (explode($delimiter, $string) as $k => $v) {
+            $v = trim($v);
+            if (strlen($v)) {
+                $res[$v] = $v;
             }
         }
 
