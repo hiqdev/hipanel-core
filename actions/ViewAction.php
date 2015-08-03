@@ -16,6 +16,11 @@ class ViewAction extends Action
     public $view = 'view';
 
     /**
+     * @var string|integer ID of object to be viewed
+     */
+    protected $_id;
+
+    /**
      * @var array|Closure additional data passed to view
      */
     public $data = [];
@@ -25,9 +30,19 @@ class ViewAction extends Action
      */
     public $findOptions = [];
 
+    /**
+     * @var array configuration array for new model creation
+     */
+    public $modelConfig = [];
+
+    public function getId()
+    {
+        return $this->_id;
+    }
+
     public function findModel($id)
     {
-        return $this->controller->findModel(array_merge(['id' => $id], $this->findOptions));
+        return $this->controller->findModel(array_merge(['id' => $id], $this->findOptions), $this->modelConfig);
     }
 
     public function prepareData($id)
@@ -41,6 +56,7 @@ class ViewAction extends Action
 
     public function run($id)
     {
+        $this->_id = $id;
         $model = $this->findModel($id);
         $this->collection->set($model);
 
