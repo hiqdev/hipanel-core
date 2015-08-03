@@ -55,7 +55,7 @@ class IndexAction extends Action
         $params            = Yii::$app->request->queryParams;
         $formName          = $this->model->formName();
         $params[$formName] = ArrayHelper::merge($params[$formName], $this->findOptions);
-        return $this->model->search(Yii::$app->request->queryParams);
+        return $this->model->search($params);
     }
 
     public function prepareData()
