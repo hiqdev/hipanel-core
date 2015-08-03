@@ -119,7 +119,7 @@ JS
 
     public function beginBulkForm()
     {
-        print Html::beginForm('' , '', ['id' => $this->bulkFormId()]);
+        print Html::beginForm('' , 'POST', ['id' => $this->bulkFormId()]);
     }
 
     public function endBulkForm()
