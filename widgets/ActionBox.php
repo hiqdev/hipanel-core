@@ -75,11 +75,21 @@ JS
         return AdvancedSearch::begin(['model' => $this->model]);
     }
 
-    public function printSearchForm()
+    public function renderSearchForm()
     {
-        $search = $this->beginSearchForm();
-        print Yii::$app->view->render('_search', compact('search'));
-        $search::end();
+
+        ob_start();
+        ob_implicit_flush(false);
+        try {
+            $search = $this->beginSearchForm();
+            print Yii::$app->view->render('_search', compact('search'));
+            $search::end();
+        } catch(\Exception $e) {
+            ob_end_clean();
+            throw $e;
+        }
+
+        return ob_get_clean() . $out;
     }
 
     public function renderBulkActions(array $options)
@@ -105,5 +115,15 @@ JS
     public function bulkFormId()
     {
         return 'bulk-' . Inflector::camel2id($this->model->formName());
+    }
+
+    public function beginBulkForm()
+    {
+        print Html::beginForm('' , '', ['id' => $this->bulkFormId()]);
+    }
+
+    public function endBulkForm()
+    {
+        print Html::endForm();
     }
 }
