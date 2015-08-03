@@ -60,7 +60,8 @@ class AdvancedSearch extends Widget
         $this->registerMyJs();
         $display_none = Yii::$app->request->get($this->model->formName())['search_form'] ? '' : 'display:none';
         echo Html::beginTag('div', [
-            'class' => $this->formId() . ' row',
+            'class' => 'row',
+            'id' => $this->formId(),
             'style' => 'margin-bottom: 20px;' . $display_none,
         ]);
         $this->_form = ActiveForm::begin([
@@ -88,7 +89,7 @@ class AdvancedSearch extends Widget
         $form_id = $this->formId();
         Yii::$app->getView()->registerJs(new JsExpression(<<<JS
 $('.search-button').click(function () {
-    $('.${form_id}').toggle();
+    $('#${form_id}').toggle();
     return false;
 });
 $('#search-form-ticket-pjax').on('pjax:end', function () {
