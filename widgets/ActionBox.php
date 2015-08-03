@@ -55,9 +55,11 @@ JS
             throw new InvalidConfigException("'bulk' property is false, turn this on ('true' statement), if you want use bulk actions.");
 
         print Html::beginTag('div', ['class' => 'pull-right box-bulk-actions']) . "\n";
+        print Html::beginTag('fieldset', ['disabled' => 'disabled']) . "\n";
     }
 
     public function endBulkActions() {
+        print "\n" . Html::endTag('fieldset');
         print "\n" . Html::endTag('div');
         print Html::tag('div', '', ['class' => 'clearfix']);
     }
