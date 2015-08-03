@@ -16,9 +16,6 @@ use yii\web\JsExpression;
  * Usage:
  * <? $form = AdvancedSearch::begin([
  *      'model' => $model,
- *      'class' => 'warning',
- *      'label' => \Yii::t('app', 'Some label'),
- *      'tag'   => 'span',
  * ]) ?>
  *      <? $form->field('domain') ?>
  * <? $form::end() ?>
@@ -48,7 +45,7 @@ class AdvancedSearch extends Widget
     ];
 
     /**
-     * @var ActiveForm
+     * @var ActiveForm form to be used
      */
     protected $_form;
 
@@ -60,12 +57,12 @@ class AdvancedSearch extends Widget
         $this->registerMyJs();
         $display_none = Yii::$app->request->get($this->model->formName())['search_form'] ? '' : 'display:none';
         echo Html::beginTag('div', [
+            'id'    => $this->divId(),
             'class' => 'row',
-            'id' => $this->formId(),
             'style' => 'margin-bottom: 20px;' . $display_none,
         ]);
         $this->_form = ActiveForm::begin([
-            'id'        => $this->formId(),
+            'id'        => 'form-' . $this->divId(),
             'action'    => $this->action,
             'method'    => $this->method,
             'options'   => $this->options,
@@ -73,8 +70,18 @@ class AdvancedSearch extends Widget
         echo $this->_form->field($this->model, 'search_form')->hiddenInput(['value' => 1])->label(false);
     }
 
+    static public function renderButton()
+    {
+        return Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-info', 'id' => 'advancedsearch-button']);
+    }
+
     public function run()
     {
+        echo Html::beginTag('div', ['class' => 'col-md-12']);
+            echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-info']);
+            echo '&nbsp';
+            echo Html::a(Yii::t('app', 'Clear'), $this->action, ['class' => 'btn btn-default']);
+        echo Html::endTag('div');
         $this->_form->end();
         echo Html::endTag('div');
     }
@@ -86,10 +93,10 @@ class AdvancedSearch extends Widget
 
     public function registerMyJs()
     {
-        $form_id = $this->formId();
+        $div_id = $this->divId();
         Yii::$app->getView()->registerJs(new JsExpression(<<<JS
-$('.search-button').click(function () {
-    $('#${form_id}').toggle();
+$('#advancedsearch-button').click(function () {
+    $('#${div_id}').toggle();
     return false;
 });
 $('#search-form-ticket-pjax').on('pjax:end', function () {
@@ -99,8 +106,8 @@ JS
         ), \yii\web\View::POS_READY);
     }
 
-    public function formId()
+    public function divId()
     {
-        return Inflector::camel2id($this->model->formName());
+        return 'advancedsearch-'.Inflector::camel2id($this->model->formName());
     }
 }
