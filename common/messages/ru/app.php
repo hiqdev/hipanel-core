@@ -232,7 +232,7 @@ return [
     'Protection from transfer' => 'Защита от передачи',
     'Push domain' => 'Нажмите домена',
     'Quantity' => 'количество',
-    'Qute' => 'Qute',
+    'Quote' => 'Цитировать',
     'Random' => 'случайный',
     'Reboot' => 'перезагружать',
     'Rebooting...' => 'Перезагрузка ...',
