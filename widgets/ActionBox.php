@@ -7,6 +7,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\widgets\LinkSorter;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\Html;
@@ -17,7 +18,13 @@ class ActionBox extends Box
 {
     public $model;
 
-    public $bulk = false;
+    public $dataProvider;
+
+    public $bulk = true;
+
+    public $options = [
+        'class' => 'box-info',
+    ];
 
     public function run() {
         parent::run();
@@ -94,6 +101,14 @@ JS
         return ob_get_clean() . $out;
     }
 
+    public function renderSorter(array $options)
+    {
+        return LinkSorter::widget(array_merge([
+            'show'  => true,
+            'sort'  => $this->dataProvider->getSort(),
+        ], $options));
+    }
+
     public function renderBulkActions(array $options)
     {
         $this->beginBulkActions();
@@ -103,15 +118,20 @@ JS
         $this->endBulkActions();
     }
 
+    public function renderBulkButton($text, $action, $color = 'default')
+    {
+        return Html::submitButton($text, [
+            'class'         => "btn btn-$color",
+            'form'          => $this->bulkFormId(),
+            'formmethod'    => 'POST',
+            'formaction'    => Url::to($action),
+        ]);
+    }
+
     public function renderDeleteButton($text = null)
     {
         $text = $text ?: Yii::t('app', 'Delete');
-        return Html::submitButton($text, [
-            'class'         => 'btn btn-danger',
-            'form'          => $this->bulkFormId(),
-            'formmethod'    => 'POST',
-            'formaction'    => Url::to('delete'),
-        ]);
+        return $this->renderBulkButton($text, 'delete', 'danger');
     }
 
     public function bulkFormId()
