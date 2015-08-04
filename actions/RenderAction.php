@@ -7,6 +7,7 @@
 
 namespace hipanel\actions;
 
+use Closure;
 use Yii;
 
 /**
@@ -35,11 +36,15 @@ class RenderAction extends Action
      */
     public function getParams()
     {
-        $res = [];
-        foreach ($this->_params as $k => $v) {
-            $res[$k] = $v instanceof \Closure ? call_user_func($v, $this, $this->getModel()) : $v;
+        if ($this->_params instanceof Closure) {
+            return call_user_func($this->_params, $this);
+        } else {
+            $res = [];
+            foreach ($this->_params as $k => $v) {
+                $res[$k] = $v instanceof Closure ? call_user_func($v, $this, $this->getModel()) : $v;
+            }
+            return $res;
         }
-        return $res;
     }
 
     /**

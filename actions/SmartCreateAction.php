@@ -16,14 +16,13 @@ class SmartCreateAction extends SwitchAction
             'GET' => [
                 'class'  => 'hipanel\actions\RenderAction',
                 'view'   => 'create',
-                'params' => [
-                    'models' => function ($action) {
-                        return [$action->controller->newModel(['scenario' => $action->scenario])];
-                    },
-                ],
-            ],
-            'POST validate' => [
-                'class'  => 'hipanel\actions\ValidateAction',
+                'params' => function ($action) {
+                    $model = $action->controller->newModel(['scenario' => $action->scenario]);
+                    return [
+                        'model'  => $model,
+                        'models' => [$model],
+                    ];
+                },
             ],
             'POST' => [
                 'save'    => true,
