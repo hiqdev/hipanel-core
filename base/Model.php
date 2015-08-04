@@ -69,4 +69,24 @@ class Model extends \hiqdev\hiart\ActiveRecord
         }
         return $attributeLabels;
     }
+
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    public function getClientId()
+    {
+        return $this->client_id;
+    }
+
+    public function getSeller()
+    {
+        return $this->seller;
+    }
+
+    public function getSellerId()
+    {
+        return $this->seller_id;
+    }
 }
