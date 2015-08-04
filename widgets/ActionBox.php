@@ -124,7 +124,7 @@ JS
             'class'         => "btn btn-$color",
             'form'          => $this->bulkFormId(),
             'formmethod'    => 'POST',
-            'formaction'    => Url::to($action),
+            'formaction'    => $action,
         ]);
     }
 
