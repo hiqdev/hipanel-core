@@ -2,6 +2,7 @@
 
 namespace hipanel\actions;
 
+use Closure;
 use Yii;
 
 /**
@@ -9,6 +10,17 @@ use Yii;
  */
 class SmartCreateAction extends SwitchAction
 {
+    public $data;
+
+    public function prepareData()
+    {
+        if ($this->data instanceof Closure) {
+            return call_user_func($this->data, $this);
+        } else {
+            return (array)$this->data;
+        }
+    }
+
     public function init()
     {
         parent::init();
@@ -18,10 +30,10 @@ class SmartCreateAction extends SwitchAction
                 'view'   => 'create',
                 'params' => function ($action) {
                     $model = $action->controller->newModel(['scenario' => $action->scenario]);
-                    return [
+                    return array_merge([
                         'model'  => $model,
                         'models' => [$model],
-                    ];
+                    ], $this->prepareData());
                 },
             ],
             'POST' => [
