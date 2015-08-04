@@ -11,7 +11,7 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'auth' => [
+        'authManager' => [
             'class' => 'hipanel\base\AuthManager',
         ],
     ],

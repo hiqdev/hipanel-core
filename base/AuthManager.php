@@ -4,13 +4,15 @@ namespace hipanel\base;
 
 use hipanel\helpers\ArrayHelper;
 use Yii;
+use yii\base\Component;
+use yii\base\InvalidParamException;
 
-class AuthManager extends \yii\base\Component
+class AuthManager extends Component
 {
 
-    public function canSeeSeller()
+    public function init()
     {
-        return $this->canSupport();
+        parent::init();
     }
 
     public function canSupport()
@@ -31,18 +33,69 @@ class AuthManager extends \yii\base\Component
         return $this->isType($types);
     }
 
+    /**
+     * Current user.
+     */
+    protected $_user;
+
+    public function getUser()
+    {
+        if (!$this->_user) {
+            $this->_user = Yii::$app->user;
+        }
+        return $this->_user;
+    }
+
+    /**
+     * Current user.
+     */
+    protected $_identity;
+
+    public function getIdentity()
+    {
+        if (!$this->_identity) {
+            $this->_identity = $this->getUser()->identity;
+        }
+        return $this->_identity;
+    }
+
+    /**
+     * Current user id.
+     */
+    protected $_id;
+
+    public function getId()
+    {
+        if (!$this->_id) {
+            $this->_id = $this->getIdentity()->id;
+        }
+        return $this->_id;
+    }
+
+    /**
+     * Current user type.
+     */
     protected $_type;
 
     public function getType()
     {
         if (!$this->_type) {
-            $this->_type = Yii::$app->user->identity->type;
+            $this->_type = $this->getIdentity()->type;
         }
         return $this->_type;
     }
 
-    public function isType($list)
+    public function isType($list, $type = null)
     {
-        return ArrayHelper::ksplit($list)[$this->getType()];
+        $type = is_null($type) ? $this->getType() : $type;
+        return ArrayHelper::ksplit($list)[$type];
+    }
+
+    public function checkAccess($userId, $permissionName, $params = [])
+    {
+        if ($userId !== $this->id) {
+            throw new InvalidParamException("only current user check access is available for the moment");
+        }
+        return $this->{'can' . ucfirst($permissionName)}($params);
     }
 }
