@@ -53,9 +53,9 @@ class IndexAction extends Action
     public function getDataProvider()
     {
         $params            = Yii::$app->request->queryParams;
-        $formName          = $this->model->formName();
+        $formName          = $this->getModel()->formName();
         $params[$formName] = ArrayHelper::merge($params[$formName], $this->findOptions);
-        return $this->model->search($params);
+        return $this->getModel()->search($params);
     }
 
     public function prepareData()
