@@ -84,14 +84,14 @@ JS
         return AdvancedSearch::begin(['model' => $this->model]);
     }
 
-    public function renderSearchForm()
+    public function renderSearchForm(array $data = [])
     {
 
         ob_start();
         ob_implicit_flush(false);
         try {
             $search = $this->beginSearchForm();
-            print Yii::$app->view->render('_search', compact('search'));
+            print Yii::$app->view->render('_search', array_merge(compact('search'), $data));
             $search::end();
         } catch(\Exception $e) {
             ob_end_clean();
