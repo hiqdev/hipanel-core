@@ -63,7 +63,7 @@ class IndexAction extends Action
         if ($this->data instanceof Closure) {
             return call_user_func($this->data, $this);
         } else {
-            return $this->data;
+            return (array)$this->data;
         }
     }
 
