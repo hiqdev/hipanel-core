@@ -33,6 +33,18 @@ class AuthManager extends Component
         return $this->isType($types);
     }
 
+    public function canResell()
+    {
+        static $types = ['reseller' => 1, 'owner' => 1];
+        return $this->isType($types);
+    }
+
+    public function canOwn()
+    {
+        static $types = ['owner' => 1];
+        return $this->isType($types);
+    }
+
     /**
      * Current user.
      */
