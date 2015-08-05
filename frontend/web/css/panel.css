@@ -6,6 +6,11 @@ table.dataTable thead > tr > th:first-child {
     padding-right: 0px;
 }
 
+.dropdown-content {
+    padding: 5px;
+    margin: 0 auto;
+}
+
 .btn-group-fix {
     white-space: nowrap;
 }
