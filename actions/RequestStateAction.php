@@ -17,9 +17,14 @@ class RequestStateAction extends Action {
      */
     public $model;
 
+    public function init() {
+        if (!$this->model) {
+            $this->model = $this->controller->newModel();
+        }
+    }
+
     public function run (array $ids) {
-        $model = $this->model;
-        $data = $model::find()->where(['id' => $ids, 'with_request' => true])->all();
+        $data = $this->model->find()->where(['id' => $ids, 'with_request' => true])->all();
 
         foreach ($data as $item) {
             $res[$item->id] = [
