@@ -4,6 +4,7 @@ namespace hipanel\actions;
 
 use Closure;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ViewAction
@@ -57,11 +58,9 @@ class ViewAction extends Action
     public function run($id)
     {
         $this->_id = $id;
-        $model = $this->findModel($id);
+        $model     = $this->findModel($id);
         $this->collection->set($model);
 
-        return $this->controller->render('view', array_merge([
-            'model' => $model,
-        ], $this->prepareData($id)));
+        return $this->controller->render('view', ArrayHelper::merge(['model' => $model], $this->prepareData($id)));
     }
 }
