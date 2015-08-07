@@ -37,7 +37,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
-            <ul class="dropdown-menu" role="menu">' : $item;
+            <ul class="dropdown-menu pull-right" role="menu">' : $item;
     }
 
     public function renderOtherButtons ($item) {
