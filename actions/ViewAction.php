@@ -5,6 +5,8 @@ namespace hipanel\actions;
 use Closure;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class ViewAction
@@ -55,12 +57,25 @@ class ViewAction extends Action
         }
     }
 
-    public function run($id)
+    public function run($id = null)
     {
-        $this->_id = $id;
-        $model     = $this->findModel($id);
+        $this->id = $this->_id ?: $id ?: Yii::$app->request->get('id');
+        if (empty($this->id)) {
+            throw new BadRequestHttpException('Id is missing');
+        }
+
+
+        $model    = $this->findModel($id);
         $this->collection->set($model);
 
         return $this->controller->render($this->view, ArrayHelper::merge(['model' => $model], $this->prepareData($id)));
+    }
+
+    /**
+     * @param int|string $id
+     */
+    public function setId($id)
+    {
+        $this->_id = (int)$id;
     }
 }
