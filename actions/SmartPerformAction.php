@@ -22,7 +22,6 @@ class SmartPerformAction extends SwitchAction
                     'class' => 'hipanel\actions\ViewAction',
                     'view'  => $this->pjaxView
                 ],
-
             ],
             'POST' => [
                 'save'    => true,
