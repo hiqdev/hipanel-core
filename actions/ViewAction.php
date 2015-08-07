@@ -59,23 +59,16 @@ class ViewAction extends Action
 
     public function run($id = null)
     {
-        $this->id = $this->_id ?: $id ?: Yii::$app->request->get('id');
-        if (empty($this->id)) {
+        $this->_id = $this->_id ?: $id ?: Yii::$app->request->get('id');
+
+        $id = $this->_id;
+        if (empty($id)) {
             throw new BadRequestHttpException('Id is missing');
         }
-
 
         $model    = $this->findModel($id);
         $this->collection->set($model);
 
         return $this->controller->render($this->view, ArrayHelper::merge(['model' => $model], $this->prepareData($id)));
-    }
-
-    /**
-     * @param int|string $id
-     */
-    public function setId($id)
-    {
-        $this->_id = (int)$id;
     }
 }
