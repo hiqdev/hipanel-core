@@ -61,6 +61,6 @@ class ViewAction extends Action
         $model     = $this->findModel($id);
         $this->collection->set($model);
 
-        return $this->controller->render('view', ArrayHelper::merge(['model' => $model], $this->prepareData($id)));
+        return $this->controller->render($this->view, ArrayHelper::merge(['model' => $model], $this->prepareData($id)));
     }
 }
