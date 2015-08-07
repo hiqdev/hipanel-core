@@ -9,10 +9,20 @@ use Yii;
  */
 class SmartPerformAction extends SwitchAction
 {
+    /** @var string The name of view, that will be rendered for pjax request */
+    public $pjaxView = 'view';
+
     public function init()
     {
         parent::init();
         $this->setItems([
+            'POST pjax' => [
+                'save'    => true,
+                'success' => [
+                    'class' => 'hipanel\actions\ViewAction',
+                    'view'  => $this->pjaxView
+                ],
+            ],
             'POST' => [
                 'save'    => true,
                 'success' => [
