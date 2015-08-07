@@ -55,6 +55,11 @@ class Pjax extends \yii\widgets\Pjax
     public function addBreadcrumbs () {
         $view = \Yii::$app->getView();
 
+        // No need to add breadcrumbs, if they are completely empty
+        if (!isset($view->params['breadcrumbs']) || $view->params['breadcrumbs']->count() == 0) {
+            return null;
+        }
+
         $header      = Html::tag('h1', $view->title . ($view->params['subtitle'] ? Html::tag('small', $view->params['subtitle']) : ''));
         $breadcrumbs = Breadcrumbs::widget([
             'homeLink'     => [
@@ -68,12 +73,12 @@ class Pjax extends \yii\widgets\Pjax
         echo Html::tag('div', $header . $breadcrumbs, ['id' => 'breadcrumb']);
 
         \Yii::$app->getView()->registerJs(new JsExpression(<<< JS
-    $('.content-header li a').on('click', function (event) {
-        var container = $('#{$this->id}');
-        $.pjax.click(event, {container: container});
-    });
-    $('.content-header').html($('#{$this->id} #breadcrumb').html());
-    $('#{$this->id} #breadcrumb').remove();
+            $('.content-header li a').on('click', function (event) {
+                var container = $('#{$this->id}');
+                $.pjax.click(event, {container: container});
+            });
+            $('.content-header .breadcrumb').html($('#{$this->id} #breadcrumb').html());
+            $('#{$this->id} #breadcrumb').remove();
 JS
         ), \yii\web\View::POS_READY);
     }
