@@ -57,7 +57,7 @@ class RenderAction extends Action
 
     public function run()
     {
-        return $this->controller->render($this->view, $this->params);
+        return $this->controller->render($this->view ?: $this->getScenario(), $this->params);
     }
 
 }

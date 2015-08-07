@@ -18,7 +18,6 @@ class SmartUpdateAction extends SwitchAction
             ],
             'GET' => [
                 'class'  => 'hipanel\actions\RenderAction',
-                'view'   => 'update',
                 'params' => [
                     'models' => function ($action) {
                         $ids = Yii::$app->request->get('selection') ?: Yii::$app->request->get('id');
@@ -31,7 +30,7 @@ class SmartUpdateAction extends SwitchAction
                 'success' => [
                     'class' => 'hipanel\actions\RedirectAction',
                     'url'   => function ($action) {
-                        return count($action->collection->models)>1
+                        return $action->collection->count()
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
                             : $action->controller->getActionUrl('view', ['id' => $action->model->id])
                         ;
@@ -39,7 +38,6 @@ class SmartUpdateAction extends SwitchAction
                 ],
                 'error'   => [
                     'class'  => 'hipanel\actions\RenderAction',
-                    'view'   => 'update',
                     'params' => [
                         'models' => function ($action) {
                             return $action->collection->models;

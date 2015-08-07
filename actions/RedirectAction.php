@@ -7,6 +7,7 @@
 
 namespace hipanel\actions;
 
+use Closure;
 use Yii;
 use yii\helpers\Url;
 
@@ -23,14 +24,14 @@ class RedirectAction extends Action
     /**
      * Collects the URL array, executing callable functions.
      *
-     * @return array
+     * @return string|array default return to previous page (referer)
      */
     public function getUrl()
     {
-        if ($this->_url instanceof \Closure) {
-            return call_user_func($this->_url, $this, $this->getModel());
+        if ($this->_url instanceof Closure) {
+            return call_user_func($this->_url, $this);
         }
-        return $this->_url;
+        return $this->_url ?: Yii::$app->request->referrer;
     }
 
     /**
@@ -43,6 +44,6 @@ class RedirectAction extends Action
 
     public function run()
     {
-        return $this->controller->redirect($this->url);
+        return $this->controller->redirect($this->getUrl());
     }
 }
