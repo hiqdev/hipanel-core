@@ -22,30 +22,11 @@ return [
     'defaultRoute'        => 'site',
     'controllerNamespace' => 'frontend\controllers',
     'components'          => [
-        're'                   => [
-            'class' => 'app\components\Re',
-        ],
-        //        'assetManager' => [
-        //            'bundles' => false,
-        //        ],
-        //        'activeresource'=>[
-        //            'class'=>'frontend\components\ActiveResource\EActiveResource\EActiveResourceConnection',
-        //            'site'=>'http://api.ahnames.com',
-        //            'contentType'=>'application/json',
-        //            'acceptType'=>'application/json',
-        //            'queryCacheId'=>'SomeCacheComponent'
-        //        ],
-        'hiresource'           => [
-            'class'  => 'hiqdev\hiart\Connection',
-            'config' => [
-                'api_url' => 'https://sol-ahcore-oauth.ahnames.com',
-            ],
-        ],
-        'user'                 => [
+        'user' => [
             'identityClass'   => 'common\models\User',
             'enableAutoLogin' => true,
         ],
-        'log'                  => [
+        'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets'    => [
                 [
@@ -54,21 +35,21 @@ return [
                 ],
             ],
         ],
-        'errorHandler'         => [
+        'errorHandler' => [
             'errorAction' => 'site/error',
         ],
         'authClientCollection' => [
             'class'   => 'hiam\authclient\Collection',
             'clients' => [
                 'hiam' => [
-                    'class'        => 'hiam\authclient\Hi3aClient',
-                    'site'         => 'sol-hiam-master.ahnames.com',
+                    'class'        => 'hiam\authclient\HiamClient',
+                    'site'         => 'hiam.ahnames.com',
                     'clientId'     => $params['hiam_client_id'],
                     'clientSecret' => $params['hiam_client_secret'],
                 ],
             ],
         ],
-        'urlManager'           => [
+        'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'rules'           => [
@@ -77,10 +58,10 @@ return [
                 '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',
             ],
         ],
-        'view'                 => [
+        'view' => [
             'class' => 'hipanel\base\View'
         ],
-        'i18n'                 => [
+        'i18n' => [
             'translations' => [
                 'app*' => [
                     'class'   => 'yii\i18n\PhpMessageSource',
@@ -97,7 +78,7 @@ return [
             'locale'      => 'ru-RU',
             'nullDisplay' => '&nbsp;',
         ],
-        'request'              => [
+        'request' => [
             'cookieValidationKey'  => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
             'enableCsrfValidation' => true
         ],
@@ -128,7 +109,7 @@ return [
             ],
         ],
     ],
-    'modules'             => [
+    'modules' => [
         'gridview' => [
             'class' => 'kartik\grid\Module',
         ],
@@ -139,6 +120,6 @@ return [
             'class' => 'app\modules\setting\Module',
         ],
     ],
-    'params'              => $params,
+    'params' => $params,
 ];
 

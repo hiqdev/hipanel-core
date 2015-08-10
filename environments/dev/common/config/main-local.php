@@ -1,12 +1,11 @@
 <?php
 return [
     'components' => [
-        'db' => [
-            'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8',
+        'hiresource' => [
+            'class'  => 'hiqdev\hiart\Connection',
+            'config' => [
+                'api_url' => 'https://sol-ahcore-oauth.ahnames.com',
+            ],
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
