@@ -15,21 +15,21 @@ class SmartPerformAction extends SwitchAction
     public function init()
     {
         parent::init();
-        $this->setItems([
+        $this->addItems([
             'POST pjax' => [
                 'save'    => true,
                 'success' => [
-                    'class' => 'hipanel\actions\ViewAction',
-                    'view'  => $this->pjaxView
+                    'class'       => 'hipanel\actions\ViewAction',
+                    'view'        => $this->pjaxView,
                 ],
             ],
-            'POST' => [
+            'POST'      => [
                 'save'    => true,
                 'success' => [
                     'class' => 'hipanel\actions\RedirectAction',
                 ],
             ],
-            'GET' => [
+            'GET'       => [
                 'class' => 'hipanel\actions\RedirectAction',
             ],
         ]);

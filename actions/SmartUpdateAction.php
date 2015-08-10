@@ -12,7 +12,7 @@ class SmartUpdateAction extends SwitchAction
     public function init()
     {
         parent::init();
-        $this->setItems([
+        $this->addItems([
             'POST xeditable' => [
                 'class' => 'hipanel\actions\XEditableAction',
             ],

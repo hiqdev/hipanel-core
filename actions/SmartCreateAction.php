@@ -24,7 +24,7 @@ class SmartCreateAction extends SwitchAction
     public function init()
     {
         parent::init();
-        $this->setItems([
+        $this->addItems([
             'GET' => [
                 'class'  => 'hipanel\actions\RenderAction',
                 'view'   => 'create',
