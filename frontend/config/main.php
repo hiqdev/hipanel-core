@@ -58,13 +58,13 @@ return [
             'errorAction' => 'site/error',
         ],
         'authClientCollection' => [
-            'class'   => 'hi3a\authclient\Collection',
+            'class'   => 'hiam\authclient\Collection',
             'clients' => [
-                'hi3a' => [
-                    'class'        => 'hi3a\authclient\Hi3aClient',
-                    'site'         => 'sol-hi3a-master.ahnames.com',
-                    'clientId'     => $params['hi3a_client_id'],
-                    'clientSecret' => $params['hi3a_client_secret'],
+                'hiam' => [
+                    'class'        => 'hiam\authclient\Hi3aClient',
+                    'site'         => 'sol-hiam-master.ahnames.com',
+                    'clientId'     => $params['hiam_client_id'],
+                    'clientSecret' => $params['hiam_client_secret'],
                 ],
             ],
         ],

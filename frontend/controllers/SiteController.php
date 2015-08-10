@@ -95,7 +95,7 @@ class SiteController extends Controller
             return $this->redirect(['/hipanel/index']);
         };
 
-        return $this->redirect(['/site/auth', 'authclient' => 'hi3a']);
+        return $this->redirect(['/site/auth', 'authclient' => 'hiam']);
     }
 
     public function actionLogout () {

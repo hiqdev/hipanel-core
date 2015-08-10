@@ -50,7 +50,7 @@
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "*",
         "yiisoft/yii2-imagine": "~2.0",
-        "hiqdev/yii2-hi3a-authclient": "*@dev",
+        "hiqdev/yii2-hiam-authclient": "*@dev",
         "hiqdev/yii2-hiart": "*@dev",
         "hiqdev/yii2-combo": "*@dev",
         "hiqdev/yii2-higrid": "*@dev",
