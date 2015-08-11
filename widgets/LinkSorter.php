@@ -2,6 +2,10 @@
 
 namespace hipanel\widgets;
 
+use Yii;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 class LinkSorter extends \yii\widgets\LinkSorter
 {
     /**
@@ -41,7 +45,6 @@ class LinkSorter extends \yii\widgets\LinkSorter
             $links[] = $this->sort->link($name);
         }
 
-//        return Html::ul($links, array_merge($this->options, ['encode' => false]));
         return $this->render('LinkSorterView', [
             'id'             => $this->id,
             'links'          => $links,
