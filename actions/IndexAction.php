@@ -55,7 +55,7 @@ class IndexAction extends Action
         $params            = Yii::$app->request->queryParams;
         $formName          = $this->getModel()->formName();
         $params[$formName] = ArrayHelper::merge($params[$formName], $this->findOptions);
-        return $this->getModel()->search($params);
+        return $this->getModel()->search($params, ['pagination' => ['pageSize' => Yii::$app->request->get('per_page') ? : 25]]);
     }
 
     public function prepareData()
