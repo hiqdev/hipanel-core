@@ -78,7 +78,7 @@ JS
     }
 
     public function renderSearchButton() {
-        return AdvancedSearch::renderButton();
+        return AdvancedSearch::renderButton() . "\n";
     }
 
     public function beginSearchForm() {
