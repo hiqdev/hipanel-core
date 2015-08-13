@@ -94,7 +94,7 @@
     },
     "autoload": {
         "psr-4": {
-            "hipanel\\": ""
+            "hipanel\\": "src"
         }
     },
     "require-dev": {
