@@ -16,7 +16,7 @@ class SmartUpdateAction extends SwitchAction
             'POST xeditable' => [
                 'class' => 'hipanel\actions\XEditableAction',
             ],
-            'GET' => [
+            'GET | POST selection' => [
                 'class'  => 'hipanel\actions\RenderAction',
                 'params' => [
                     'models' => function ($action) {

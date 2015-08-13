@@ -152,6 +152,8 @@ class SwitchRule extends \yii\base\Component
                 return 'editableAjax';
             } elseif ($request->post('pk') && $request->post('name')) {
                 return 'xeditable';
+            if (is_array($request->post('selection'))) {
+                return 'selection';
             } else {
                 return 'ajax';
             }
