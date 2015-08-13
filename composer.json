@@ -59,24 +59,12 @@
         "hiqdev/yii2-thememanager": "*@dev",
         "hiqdev/yii2-pluginmanager": "*@dev",
         "hiqdev/yii2-theme-adminlte": "*@dev",
-        "hiqdev/hipanel-module-client": "*@dev",
-        "hiqdev/hipanel-module-domain": "*@dev",
-        "hiqdev/hipanel-module-ticket": "*@dev",
-        "hiqdev/hipanel-module-server": "*@dev",
-        "hiqdev/hipanel-module-finance": "*@dev",
-        "hiqdev/hipanel-module-hosting": "*@dev",
-        "hiqdev/hipanel-module-dashboard": "*@dev",
-        "hiqdev/hipanel-module-request": "*@dev",
-        "hiqdev/hipanel-theme-adminlte": "*@dev",
-        "hiqdev/hipanel-theme-adminlte1": "*@dev",
         "hiqdev/yii2-x-editable": "*@dev",
         "hiqdev/yii2-bootstrap-switch": "*@dev",
         "hiqdev/yii2-asset-hipanel": "*@dev",
         "hiqdev/yii2-asset-lightbox2": "~2.7",
         "hiqdev/yii2-asset-select2-bootstrap3-css": "~1.5",
-        "ahnames/yii2-asset-ahnames": "*@dev",
         "hiqdev/yii2-asset-paulzi-form": "*@dev",
-        "ahnames/hipanel-theme-adminlte": "*@dev",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",
         "kartik-v/yii2-field-range": "*",
@@ -92,16 +80,16 @@
         "2amigos/yii2-editable-widget": "dev-master",
         "wbraganca/yii2-dynamicform": "*"
     },
-    "autoload": {
-        "psr-4": {
-            "hipanel\\": "src"
-        }
-    },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "hipanel\\": "src"
+        }
     },
     "extra": {
         "asset-installer-paths": {
