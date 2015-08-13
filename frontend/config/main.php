@@ -21,6 +21,8 @@ return [
     'bootstrap'           => ['log', 'pluginManager'],
     'defaultRoute'        => 'site',
     'controllerNamespace' => 'frontend\controllers',
+    'language'            => 'en',
+    'sourceLanguage'      => 'en-US',
     'components'          => [
         'user' => [
             'identityClass'   => 'common\models\User',
@@ -50,8 +52,14 @@ return [
             ],
         ],
         'urlManager' => [
+            'class' => 'common\components\LanguageUrlManager',
+            'languages' => [
+                'en' => 'en-US',
+                'ru' => 'ru-RU'
+            ],
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
+            'enableStrictParsing' => false,
             'rules'           => [
                 '<_c:[\w\-]+>/<id:\d+>'              => '<_c>/view',
                 '<_c:[\w\-]+>'                       => '<_c>/index',

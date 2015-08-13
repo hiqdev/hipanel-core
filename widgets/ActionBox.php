@@ -10,6 +10,7 @@ namespace hipanel\widgets;
 use hipanel\widgets\LinkSorter;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
@@ -77,7 +78,7 @@ JS
     }
 
     public function renderSearchButton() {
-        return AdvancedSearch::renderButton();
+        return AdvancedSearch::renderButton() . "\n";
     }
 
     public function beginSearchForm() {
@@ -99,6 +100,23 @@ JS
         }
 
         return ob_get_clean() . $out;
+    }
+
+    public function renderPerPage()
+    {
+        return ButtonDropdown::widget([
+            'label' => Yii::t('app', 'Per page') . ': ' . ((Yii::$app->request->get('per_page')) ? : 25),
+            'options' => ['class' => 'btn-default'],
+            'dropdown' => [
+                'items' => [
+                    ['label' => '25', 'url' => Url::current(['per_page' => null])],
+                    ['label' => '50', 'url' => Url::current(['per_page' => 50])],
+                    ['label' => '100', 'url' => Url::current(['per_page' => 100])],
+                    ['label' => '200', 'url' => Url::current(['per_page' => 200])],
+                    ['label' => '500', 'url' => Url::current(['per_page' => 500])],
+                ],
+            ],
+        ]);
     }
 
     public function renderSorter(array $options)
