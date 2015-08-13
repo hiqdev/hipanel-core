@@ -12,7 +12,7 @@ $params = array_merge(
     require(__DIR__ . '/params-local.php')
 );
 
-function d ($a) { var_dump($a); debug_print_backtrace(0,3); die(); }
+function d ($a) { print "<pre>"; var_dump($a); debug_print_backtrace(0,3); die(); }
 
 return [
     'id'                  => 'hipanel',
