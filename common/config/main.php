@@ -14,6 +14,7 @@ return [
         'authManager' => [
             'class' => 'hipanel\base\AuthManager',
         ],
+    /// IMPORTANT: hiresource and mail configured at common/config/main-local.php
     ],
     'aliases' => [
         '@hipanel' => dirname(dirname(__DIR__)),
