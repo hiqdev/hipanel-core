@@ -33,7 +33,7 @@ return [
             'clients' => [
                 'hiam' => [
                     'class'        => 'hiam\authclient\HiamClient',
-                    'site'         => 'hiam.ahnames.com',
+                    'site'         => $params['hiam_site'],
                     'clientId'     => $params['hiam_client_id'],
                     'clientSecret' => $params['hiam_client_secret'],
                 ],
