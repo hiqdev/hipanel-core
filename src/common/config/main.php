@@ -12,7 +12,7 @@ $params = array_merge(
 );
 
 $config = [
-    'vendorPath' => Yii::getAlias('@project/vendor'),
+    'vendorPath' => '@project/vendor',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
