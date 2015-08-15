@@ -1,6 +1,18 @@
 <?php
 
+function d ($a) { print "<pre>"; var_dump($a); debug_print_backtrace(0,3); die(); }
+
+Yii::setAlias('@hipanel', dirname(dirname(__DIR__)));
+Yii::setAlias('@project', dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))));
+
+$params = array_merge(
+    require(Yii::getAlias('@hipanel/common/config/params.php')),
+    require(Yii::getAlias('@project/common/config/params.php')),
+    require(Yii::getAlias('@project/common/config/params-local.php'))
+);
+
 $config = [
+    'vendorPath' => Yii::getAlias('@project/vendor'),
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -25,9 +37,6 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
-    ],
-    'aliases' => [
-        '@hipanel' => dirname(dirname(__DIR__)) . '/src',
     ],
 ];
 

@@ -1,5 +1,14 @@
 <?php
 
+$params = array_merge(
+    require(Yii::getAlias('@hipanel/common/config/params.php')),
+    require(Yii::getAlias('@project/common/config/params.php')),
+    require(Yii::getAlias('@project/common/config/params-local.php')),
+    require(Yii::getAlias('@hipanel/backend/config/params.php')),
+    require(Yii::getAlias('@project/backend/config/params.php')),
+    require(Yii::getAlias('@project/backend/config/params-local.php'))
+);
+
 return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
@@ -24,4 +33,5 @@ return [
             'errorAction' => 'site/error',
         ],
     ],
+    'params' => $params,
 ];

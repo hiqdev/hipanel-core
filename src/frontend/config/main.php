@@ -1,6 +1,13 @@
 <?php
 
-function d ($a) { print "<pre>"; var_dump($a); debug_print_backtrace(0,3); die(); }
+$params = array_merge(
+    require(Yii::getAlias('@hipanel/common/config/params.php')),
+    require(Yii::getAlias('@project/common/config/params.php')),
+    require(Yii::getAlias('@project/common/config/params-local.php')),
+    require(Yii::getAlias('@hipanel/frontend/config/params.php')),
+    require(Yii::getAlias('@project/frontend/config/params.php')),
+    require(Yii::getAlias('@project/frontend/config/params-local.php'))
+);
 
 return [
     'id'                  => 'hipanel',
@@ -116,5 +123,6 @@ return [
             'class' => 'app\modules\setting\Module',
         ],
     ],
+    'params' => $params,
 ];
 
