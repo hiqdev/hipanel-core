@@ -38,8 +38,8 @@ return [
             'yii',
         ],
         'setCookieValidationKey' => [
-            'backend/config/main-local.php',
-            'frontend/config/main-local.php',
+            'backend/config/params-local.php',
+            'frontend/config/params-local.php',
         ],
     ],
     'Production' => [
@@ -54,8 +54,8 @@ return [
             'yii',
         ],
         'setCookieValidationKey' => [
-            'backend/config/main-local.php',
-            'frontend/config/main-local.php',
+            'backend/config/params-local.php',
+            'frontend/config/params-local.php',
         ],
     ],
 ];
