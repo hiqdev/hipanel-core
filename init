@@ -76,7 +76,7 @@ foreach ($files as $file) {
 $callbacks = ['setCookieValidationKey', 'setWritable', 'setExecutable'];
 foreach ($callbacks as $callback) {
     if (!empty($env[$callback])) {
-        $callback($root, $env[$callback]);
+        $callback($dest, $env[$callback]);
     }
 }
 
@@ -166,27 +166,27 @@ function getParams()
     return $params;
 }
 
-function setWritable($root, $paths)
+function setWritable($dest, $paths)
 {
     foreach ($paths as $writable) {
         echo "      chmod 0777 $writable\n";
-        @chmod("$root/$writable", 0777);
+        @chmod("$dest/$writable", 0777);
     }
 }
 
-function setExecutable($root, $paths)
+function setExecutable($dest, $paths)
 {
     foreach ($paths as $executable) {
         echo "      chmod 0755 $executable\n";
-        @chmod("$root/$executable", 0755);
+        @chmod("$dest/$executable", 0755);
     }
 }
 
-function setCookieValidationKey($root, $paths)
+function setCookieValidationKey($dest, $paths)
 {
     foreach ($paths as $file) {
         echo "   generate cookie validation key in $file\n";
-        $file = $root . '/' . $file;
+        $file = $dest . '/' . $file;
         $length = 32;
         $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
         $key = strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.');

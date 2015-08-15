@@ -1,6 +1,6 @@
 <?php
 
-namespace common\components;
+namespace hipanel\base;
 
 use Yii;
 use yii\helpers\Url;

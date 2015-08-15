@@ -6,7 +6,6 @@
  */
 
 return [
-    'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -17,6 +16,6 @@ return [
     /// IMPORTANT: hiresource and mail configured at common/config/main-local.php
     ],
     'aliases' => [
-        '@hipanel' => dirname(dirname(__DIR__)),
+        '@hipanel' => dirname(dirname(__DIR__)) . '/src',
     ],
 ];

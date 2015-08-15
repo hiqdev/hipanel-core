@@ -1,16 +1,4 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
- */
-
-$params = array_merge(
-    require(__DIR__ . '/../../common/config/params.php'),
-    require(__DIR__ . '/../../common/config/params-local.php'),
-    require(__DIR__ . '/params.php'),
-    require(__DIR__ . '/params-local.php')
-);
 
 function d ($a) { print "<pre>"; var_dump($a); debug_print_backtrace(0,3); die(); }
 
@@ -52,7 +40,7 @@ return [
             ],
         ],
         'urlManager' => [
-            'class' => 'common\components\LanguageUrlManager',
+            'class' => 'hipanel\base\LanguageUrlManager',
             'languages' => [
                 'en' => 'en-US',
                 'ru' => 'ru-RU'
@@ -128,6 +116,5 @@ return [
             'class' => 'app\modules\setting\Module',
         ],
     ],
-    'params' => $params,
 ];
 

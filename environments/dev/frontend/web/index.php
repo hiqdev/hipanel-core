@@ -4,14 +4,14 @@ defined('YII_ENV') or define('YII_ENV', 'dev');
 
 require(__DIR__ . '/../../vendor/autoload.php');
 require(__DIR__ . '/../../vendor/yiisoft/yii2/Yii.php');
-require(__DIR__ . '/../../vendor/hiqdev/hipanel/common/config/bootstrap.php');
-require(__DIR__ . '/../../vendor/hiqdev/hipanel/frontend/config/bootstrap.php');
+require(__DIR__ . '/../../vendor/hiqdev/hipanel/src/common/config/bootstrap.php');
+require(__DIR__ . '/../../vendor/hiqdev/hipanel/src/frontend/config/bootstrap.php');
 
 $config = yii\helpers\ArrayHelper::merge(
-    require(__DIR__ . '/../../vendor/hiqdev/hipanel/common/config/main.php'),
+    require(__DIR__ . '/../../vendor/hiqdev/hipanel/src/common/config/main.php'),
     require(__DIR__ . '/../../common/config/main.php'),
     require(__DIR__ . '/../../common/config/main-local.php'),
-    require(__DIR__ . '/../../vendor/hiqdev/hipanel/frontend/config/main.php'),
+    require(__DIR__ . '/../../vendor/hiqdev/hipanel/src/frontend/config/main.php'),
     require(__DIR__ . '/../../frontend/config/main.php'),
     require(__DIR__ . '/../../frontend/config/main-local.php')
 );
