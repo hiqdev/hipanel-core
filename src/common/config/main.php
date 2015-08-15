@@ -1,14 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
- */
 
-return [
+$config = [
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
+        ],
+        'request' => [
+            'cookieValidationKey' => $params['cookieValidationKey'],
         ],
         'authManager' => [
             'class' => 'hipanel\base\AuthManager',
@@ -32,3 +30,14 @@ return [
         '@hipanel' => dirname(dirname(__DIR__)) . '/src',
     ],
 ];
+
+if (YII_DEBUG && !YII_ENV_TEST) {
+    // configuration adjustments for 'dev' environment
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = 'yii\debug\Module';
+
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = 'yii\gii\Module';
+}
+
+return $config;
