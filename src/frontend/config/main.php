@@ -13,6 +13,7 @@ return [
     'id'                  => 'hipanel',
     'name'                => 'HiPanel',
     'basePath'            => dirname(__DIR__),
+    'runtimePath'         => '@project/frontend/runtime',
     'bootstrap'           => ['log', 'pluginManager'],
     'defaultRoute'        => 'site',
     'controllerNamespace' => 'frontend\controllers',

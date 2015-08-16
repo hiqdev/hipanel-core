@@ -12,6 +12,7 @@ $params = array_merge(
 return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
+    'runtimePath' => '@project/console/runtime',
     'bootstrap' => ['log', 'gii'],
     'controllerNamespace' => 'console\controllers',
     'modules' => [
