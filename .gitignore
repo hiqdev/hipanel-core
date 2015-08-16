@@ -1,14 +1,14 @@
-# hidev parent config
-/.hidev/parent
+# vendor dirs
+vendor
+
+# composer lock files
+composer.lock
 
 # runtime dir
-/runtime
+runtime
 
-# vendor dir
-/vendor
-
-# composer lock file
-composer.lock
+# hidev composer.json
+.hidev/composer.json
 
 # IDE & OS files
 .*.swp
@@ -19,6 +19,3 @@ nbproject
 .settings
 Thumbs.db
 .DS_Store
-
-# Added by HiDev
-
