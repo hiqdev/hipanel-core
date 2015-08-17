@@ -4,6 +4,7 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Changed: REDONE to hipanel-core
+    - e2d6874 2015-08-17 fixed project type to yii2-extension (sol@hiqdev.com)
     - c8c8520 2015-08-17 redone to hipanel-core (sol@hiqdev.com)
 - Fixed breadcrumbs
 - Added client, seller columns to GridView
