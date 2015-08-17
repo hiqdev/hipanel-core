@@ -3,7 +3,7 @@ package:
     namespace:      hipanel
     label:          HiPanel
     title:          HiPanel - Next Generation Control Panel
-    type:           project
+    type:           yii2-extension
     homepage:       https://hipanel.com/
     keywords:       hipanel, control panel, hosting, domains
     description: |
