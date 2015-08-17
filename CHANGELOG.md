@@ -1,8 +1,11 @@
-hiqdev/hipanel changelog
-------------------------
+hiqdev/hipanel-core changelog
+-----------------------------
 
 ## Under development
 
+- Fixed breadcrumbs
+- Added client, seller columns to GridView
+- Fixed configs for remaking this project to core extension
 - + Bulk Actions
 - hideved
 - menu manager
@@ -17,6 +20,7 @@ hiqdev/hipanel changelog
 
 - first shown to someone else :)
 - inited
+- Inited
 
 ## Development started November 24, 2014
 

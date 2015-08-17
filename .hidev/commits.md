@@ -1,8 +1,27 @@
-hiqdev/hipanel commits history
-------------------------------
+hiqdev/hipanel-core commits history
+-----------------------------------
 
 ## Under development
 
+- Fixed breadcrumbs
+- Added client, seller columns to GridView
+    - ec445df 2015-08-17 Fix breadcrumbs, add new base column to GridView (client, seller), add new condition to SwitchRule class at the getRequestType() (andreyklochok@gmail.com)
+- Fixed configs for remaking this project to core extension
+    - 5a78957 2015-08-16 still making configs (sol@hiqdev.com)
+    - acbef96 2015-08-16 Merge branch 'PROD' (sol@hiqdev.com)
+    - 9b7bc6b 2015-08-16 + proper runtimePath (sol@hiqdev.com)
+    - a44dc87 2015-08-15 making configs (sol@hiqdev.com)
+    - 4a017a1 2015-08-15 making configs (sol@hiqdev.com)
+    - 502f562 2015-08-15 making configs (sol@hiqdev.com)
+    - 171cd20 2015-08-15 making configs (sol@hiqdev.com)
+    - 81a80c2 2015-08-15 making configs (sol@hiqdev.com)
+    - 693321d 2015-08-15 hiam_client_id/secret moved to common/config/params-local.php (sol@hiqdev.com)
+    - eea1ee8 2015-08-15 NOT FINISHED: fixing to work (sol@hiqdev.com)
+    - 9e652be 2015-08-15 * index.php (sol@hiqdev.com)
+    - c7b1307 2015-08-15 * init: + dest for destination different from root (sol@hiqdev.com)
+    - ff7dc10 2015-08-13 rehideved (sol@hiqdev.com)
+    - dc9b921 2015-08-13 + POST selection for SmartUpdateAction (sol@hiqdev.com)
+    - 295a83c 2015-08-13 Add new lang function like Yii (andreyklochok@gmail.com)
     - ba035ac 2015-08-13 moving to src (sol@hiqdev.com)
     - 29eda72 2015-08-13 preparing config files (sol@hiqdev.com)
     - a88275f 2015-08-13 * Gravatar widget: allowed empty email (sol@hiqdev.com)
@@ -505,6 +524,7 @@ hiqdev/hipanel commits history
     - a2743e9 2014-11-25 create frontend theme (andrey.klochok@gmail.com)
     - 0cd6b65 2014-11-24 Add black panel (andrey.klochok@gmail.com)
     - eaf7ad3 2014-11-24 add gitignore (andrey.klochok@gmail.com)
+- Inited
     - 5e5d8f0 2014-11-24 Initial commit (andrey.klochok@gmail.com)
 
 ## Development started November 24, 2014

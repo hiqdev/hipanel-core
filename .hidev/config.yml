@@ -1,5 +1,5 @@
 package:
-    name:           hipanel
+    name:           hipanel-core
     namespace:      hipanel
     label:          HiPanel
     title:          HiPanel - Next Generation Control Panel
