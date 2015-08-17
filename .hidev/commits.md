@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Changed: REDONE to hipanel-core
+    - c8c8520 2015-08-17 redone to hipanel-core (sol@hiqdev.com)
 - Fixed breadcrumbs
 - Added client, seller columns to GridView
     - ec445df 2015-08-17 Fix breadcrumbs, add new base column to GridView (client, seller), add new condition to SwitchRule class at the getRequestType() (andreyklochok@gmail.com)

@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Changed: REDONE to hipanel-core
 - Fixed breadcrumbs
 - Added client, seller columns to GridView
 - Fixed configs for remaking this project to core extension
