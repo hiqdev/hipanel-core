@@ -49,6 +49,9 @@ class GridView extends \hiqdev\higrid\GridView
             'seller_id' => ['class' => 'hipanel\modules\client\grid\SellerColumn'],
             'client_id' => ['class' => 'hipanel\modules\client\grid\ClientColumn'],
             'checkbox'  => ['class' => 'hipanel\grid\CheckboxColumn'],
+            'seller' => ['class' => 'hipanel\modules\client\grid\SellerColumn'],
+            'client' => ['class' => 'hipanel\modules\client\grid\ClientColumn'],
+
         ];
     }
 

@@ -77,7 +77,8 @@ class Pjax extends \yii\widgets\Pjax
                 var container = $('#{$this->id}');
                 $.pjax.click(event, {container: container});
             });
-            $('.content-header .breadcrumb').html($('#{$this->id} #breadcrumb').html());
+            //$('.content-header .breadcrumb').html($('#{$this->id} #breadcrumb').html());
+            $('.content-header .breadcrumb').replaceWith($('#{$this->id} #breadcrumb').html());
             $('#{$this->id} #breadcrumb').remove();
 JS
         ), \yii\web\View::POS_READY);

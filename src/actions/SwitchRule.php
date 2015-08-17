@@ -145,7 +145,9 @@ class SwitchRule extends \yii\base\Component
     public function getRequestType()
     {
         $request = Yii::$app->request;
-        if ($request->isPjax) {
+        if (is_array($request->post('selection'))) {
+            return 'selection';
+        } elseif ($request->isPjax) {
             return 'pjax';
         } elseif ($request->isAjax) {
             if ($request->post('hasEditable')) {
