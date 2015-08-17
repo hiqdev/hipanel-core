@@ -4,6 +4,7 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Changed: REDONE to hipanel-core
+    - e69016d 2015-08-17 fixed configs after renamed (sol@hiqdev.com)
     - e2d6874 2015-08-17 fixed project type to yii2-extension (sol@hiqdev.com)
     - c8c8520 2015-08-17 redone to hipanel-core (sol@hiqdev.com)
 - Fixed breadcrumbs
