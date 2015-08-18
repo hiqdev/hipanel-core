@@ -3,6 +3,11 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed composer.json type to yii2-extension
+    - 1187f52 2015-08-18 fixed composer.json type to yii2-extension <- project (sol@hiqdev.com)
+- Changed default columns definition in GridView
+    - f11e70c 2015-08-18 Fix syntax error (andreyklochok@gmail.com)
+    - ea8254c 2015-08-18 Changed default columns definition in GridView (d.naumenko.a@gmail.com)
 - Fixed frontend/assets/AppAsset
     - 414859e 2015-08-18 fixed frontend/assets/AppAsset to work (sol@hiqdev.com)
     - 1aeb3cd 2015-08-18 * frontend\assets -> hipanel\frontend\assets (sol@hiqdev.com)
