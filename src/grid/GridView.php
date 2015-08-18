@@ -33,7 +33,7 @@ class GridView extends \hiqdev\higrid\GridView
      */
     public $options = [
         'class' => 'dataTables_wrapper form-inline',
-        'role'  => 'grid'
+        'role' => 'grid'
     ];
 
     /**
@@ -44,21 +44,28 @@ class GridView extends \hiqdev\higrid\GridView
     /**
      * @inheritdoc
      */
-    static protected function defaultColumns () {
+    static protected function defaultColumns()
+    {
         return [
             'seller_id' => ['class' => 'hipanel\modules\client\grid\SellerColumn'],
             'client_id' => ['class' => 'hipanel\modules\client\grid\ClientColumn'],
-            'checkbox'  => ['class' => 'hipanel\grid\CheckboxColumn'],
-            'seller' => ['class' => 'hipanel\modules\client\grid\SellerColumn'],
-            'client' => ['class' => 'hipanel\modules\client\grid\ClientColumn'],
-
+            'checkbox' => ['class' => 'hipanel\grid\CheckboxColumn'],
+            'seller' => [
+                'class' => 'hipanel\modules\client\grid\SellerColumn',
+                'attribute' => 'seller_id'
+            ],
+            'client' => [
+                'class' => 'hipanel\modules\client\grid\ClientColumn',
+                'attribute' => 'client_id'
+            ],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function run () {
+    public function run()
+    {
         $this->tableOptions['class'] .= ' ' . Yii::$app->themeManager->settings->getCssClass('table_condensed');
         parent::run();
         $this->registerClientScript();
@@ -67,7 +74,8 @@ class GridView extends \hiqdev\higrid\GridView
     /**
      * @inheritdoc
      */
-    private function registerClientScript () {
+    private function registerClientScript()
+    {
         $view = $this->getView();
         DataTablesAsset::register($view);
         iCheckAsset::register($view);
