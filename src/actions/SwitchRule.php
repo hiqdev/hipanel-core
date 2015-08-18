@@ -33,6 +33,11 @@ class SwitchRule extends \yii\base\Component
     public $save = false;
 
     /**
+     * @var boolean whether to generate a flash notification with success or error message
+     */
+    public $flash = true;
+
+    /**
      * @var mixed rule condition, can be object in future.
      */
     protected $_condition;

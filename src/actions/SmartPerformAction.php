@@ -16,6 +16,16 @@ class SmartPerformAction extends SwitchAction
     {
         parent::init();
         $this->addItems([
+            'POST ajax' => [
+                'save' => true,
+                'flash' => false,
+                'success' => [
+                    'class' => 'hipanel\actions\RenderJsonAction',
+                    'return' => function ($action) {
+                        return $action->collection->models;
+                    }
+                ]
+            ],
             'POST pjax' => [
                 'save'    => true,
                 'success' => [

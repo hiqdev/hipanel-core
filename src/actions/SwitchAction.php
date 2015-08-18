@@ -50,6 +50,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
             'save'    => ArrayHelper::remove($config, 'save'),
             'success' => ArrayHelper::remove($config, 'success', $config),
             'error'   => ArrayHelper::remove($config, 'error'),
+            'flash'   => ArrayHelper::remove($config, 'flash', true),
         ];
     }
 
@@ -62,7 +63,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
                 $this->rule = $rule;
                 $error      = $this->perform();
                 $type       = $error ? 'error' : 'success';
-                if ($rule->save) {
+                if ($rule->save && $rule->flash) {
                     $this->addFlash($type, $error);
                 }
                 $result     = $rule->run($type);
