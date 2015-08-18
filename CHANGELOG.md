@@ -3,6 +3,8 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Fixed composer.json type to yii2-extension
+- Changed default columns definition in GridView
 - Fixed frontend/assets/AppAsset
 - Changed: REDONE to hipanel-core
 - Fixed breadcrumbs
