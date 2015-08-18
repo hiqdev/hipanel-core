@@ -3,6 +3,10 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed frontend/assets/AppAsset
+    - 414859e 2015-08-18 fixed frontend/assets/AppAsset to work (sol@hiqdev.com)
+    - 1aeb3cd 2015-08-18 * frontend\assets -> hipanel\frontend\assets (sol@hiqdev.com)
+    - 373daa5 2015-08-18 - defaultTheme at themeManager config (sol@hiqdev.com)
 - Changed: REDONE to hipanel-core
     - e69016d 2015-08-17 fixed configs after renamed (sol@hiqdev.com)
     - e2d6874 2015-08-17 fixed project type to yii2-extension (sol@hiqdev.com)

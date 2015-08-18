@@ -781,3 +781,8 @@ button.link-button {
 .clickable {
     cursor: pointer;
 }
+
+.markdown-supported {
+    padding-left:25px;
+    background: url(../img/github_markdown-16.png) 4px 0px no-repeat;
+}
