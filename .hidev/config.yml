@@ -6,6 +6,7 @@ package:
     type:           yii2-extension
     homepage:       https://hipanel.com/
     keywords:       hipanel, control panel, hosting, domains
+    year:           2014
     description: |
         Goals:
         - Integration
@@ -13,8 +14,8 @@ package:
         - Friendliness
         - Reliability
         - Security
-    year:           2014
 
 require:
-    hiqdev/hidev-config-php:    "*@dev"
+    hiqdev/hidev-config:        "*"
+    hiqdev/hidev-config-php:    "*"
 

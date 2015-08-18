@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Fixed frontend/assets/AppAsset
 - Changed: REDONE to hipanel-core
 - Fixed breadcrumbs
 - Added client, seller columns to GridView
