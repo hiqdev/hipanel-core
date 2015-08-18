@@ -91,9 +91,8 @@ return [
         ],
         'themeManager' => [
             'class'  => 'hiqdev\thememanager\ThemeManager',
-            'defaultTheme' => 'adminlte',
             'assets' => [
-                'frontend\assets\AppAsset',
+                'hipanel\frontend\assets\AppAsset',
             ],
         ],
         'menuManager' => [
