@@ -10,6 +10,7 @@ namespace hipanel\widgets;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\Widget;
+use yii\bootstrap\ActiveForm;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -48,13 +49,15 @@ class ModalButton extends Widget
     public $scenario;
 
     /**
-     * @var array The options for the HTML form.
+     * @var array|ActiveForm The options for the HTML form.
      * The following special options are supported:
      *
      * - action: string|array, the action, that will be passed as first argument to [[Html::beginForm()]]
      * - method: string, the method, that will be passed as second argument to [[Html::beginForm()]]
      *
-     * The rest of the options will be rendered as the HTML attributes of the form.
+     * The rest of the options will be passed to the [[ActiveForm::begin()]] method
+     *
+     * If the property was not false, it will contain [[ActiveForm]] instance after [[ModalButton::begin()]].
      */
     public $form = [];
 
@@ -141,14 +144,18 @@ class ModalButton extends Widget
 
         if ($this->form !== false) {
             $this->form = ArrayHelper::merge([
-                'data'  => ['pjax' => 1, 'pjax-push' => 0],
-                'class' => 'inline'
+                'method' => 'POST',
+                'action' => $this->scenario,
+                'options' => [
+                    'data' => ['pjax' => 1, 'pjax-push' => 0],
+                    'class' => 'inline'
+                ]
             ], $this->form);
         }
 
         if (is_array($footer = $this->modal['footer'])) {
-            $tag    = ArrayHelper::remove($footer, 'tag', 'button');
-            $label  = ArrayHelper::remove($footer, 'label', 'OK');
+            $tag = ArrayHelper::remove($footer, 'tag', 'button');
+            $label = ArrayHelper::remove($footer, 'label', 'OK');
             $footer = ArrayHelper::merge([
                 'onClick' => new \yii\web\JsExpression("
                     $(this).closest('form').trigger('submit');
@@ -160,7 +167,7 @@ class ModalButton extends Widget
         }
 
         $this->modal = ArrayHelper::merge([
-            'id'           => $this->getModalId(),
+            'id' => $this->getModalId(),
             'toggleButton' => ($this->button['position'] === static::BUTTON_IN_MODAL) ? $this->button : false,
         ], $this->modal);
     }
@@ -183,8 +190,9 @@ class ModalButton extends Widget
     public function renderButton()
     {
         if (($button = $this->button) !== false) {
-            $tag   = ArrayHelper::remove($button, 'tag', 'a');
-            $label = ArrayHelper::remove($button, 'label', Inflector::camel2words(Inflector::id2camel($this->scenario)));
+            $tag = ArrayHelper::remove($button, 'tag', 'a');
+            $label = ArrayHelper::remove($button, 'label',
+                Inflector::camel2words(Inflector::id2camel($this->scenario)));
             if ($tag === 'button' && !isset($button['type'])) {
                 $toggleButton['type'] = 'button';
             }
@@ -217,9 +225,7 @@ class ModalButton extends Widget
      */
     public function beginForm()
     {
-        $action = ArrayHelper::remove($this->form, 'action', $this->scenario);
-        $method = ArrayHelper::remove($this->form, 'method', "POST");
-        echo Html::beginForm($action, $method, $this->form);
+        $this->form = ActiveForm::begin($this->form);
         echo Html::activeHiddenInput($this->model, 'id');
     }
 
@@ -228,7 +234,7 @@ class ModalButton extends Widget
      */
     public function endForm()
     {
-        echo Html::endForm();
+        $this->form->end();
     }
 
     /**
