@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added POST PJAX rule at SmartPerformAction
+    - c780b3a 2015-08-18 post ajax action (andreyklochok@gmail.com)
 - Fixed composer.json type to yii2-extension
     - 1187f52 2015-08-18 fixed composer.json type to yii2-extension <- project (sol@hiqdev.com)
 - Changed default columns definition in GridView

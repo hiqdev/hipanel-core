@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added POST PJAX rule at SmartPerformAction
 - Fixed composer.json type to yii2-extension
 - Changed default columns definition in GridView
 - Fixed frontend/assets/AppAsset
