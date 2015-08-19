@@ -20,7 +20,7 @@ class SmartUpdateAction extends SwitchAction
                 'class'  => 'hipanel\actions\RenderAction',
                 'params' => [
                     'models' => function ($action) {
-                        $ids = Yii::$app->request->get('selection') ?: Yii::$app->request->get('id');
+                        $ids = Yii::$app->request->post('selection') ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('id');
                         return $action->controller->findModels($ids);
                     },
                 ],
