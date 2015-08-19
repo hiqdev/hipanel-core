@@ -161,7 +161,7 @@ class Box extends Widget
      * <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove"><i class="fa fa-times"></i></button>
      */
     public function beginTools() {
-        print "\n".Html::beginTag('div', ['class' => 'box-tools pull-right']);
+        print "\n".Html::beginTag('div', ['class' => 'box-tools pull-right btn-group']);
     }
 
     /**
