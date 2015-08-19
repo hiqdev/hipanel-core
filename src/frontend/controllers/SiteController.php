@@ -98,6 +98,10 @@ class SiteController extends Controller
         return $this->redirect(['/site/auth', 'authclient' => 'hiam']);
     }
 
+    public function actionProfile () {
+        return $this->redirect(['@client/view', 'id' => Yii::$app->user->identity->id]);
+    }
+
     public function actionLogout () {
         $back = Yii::$app->request->getHostInfo();
         $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/logout',compact('back'));
