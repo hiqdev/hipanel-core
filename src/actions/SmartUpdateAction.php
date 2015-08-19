@@ -30,7 +30,7 @@ class SmartUpdateAction extends SwitchAction
                 'success' => [
                     'class' => 'hipanel\actions\RedirectAction',
                     'url'   => function ($action) {
-                        return $action->collection->count()
+                        return count($action->collection->count()) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
                             : $action->controller->getActionUrl('view', ['id' => $action->model->id])
                         ;
