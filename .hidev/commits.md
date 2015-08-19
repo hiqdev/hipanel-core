@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added /site/profile redirect to user user profile page at /client/client/view/id
+    - ca4fdce 2015-08-19 + SiteController::actionProfile for redirect to user profile (sol@hiqdev.com)
 - Fixed SmartUpdateAction to take selection from POST too
     - a2c312f 2015-08-19 fixed SmartUpdateAction to take selection from POST too (sol@hiqdev.com)
 - Added POST PJAX rule at SmartPerformAction
