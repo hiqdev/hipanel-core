@@ -11,21 +11,20 @@ hiqdev/hipanel-core changelog
 - Fixed breadcrumbs
 - Added client, seller columns to GridView
 - Fixed configs for remaking this project to core extension
-- + Bulk Actions
-- hideved
-- menu manager
-- tickets new look
-- spread combo 2 widget
-- REDO EditableColumn, get rid of kartik GridView
-- theme manager
-- moving to plugin modules
-- GREAT RENAMING to hipanel
+- Added Bulk Actions
+- Changed: hideved
+- Added menu manager
+- Added tickets new look
+- Changed: spread combo 2 widget
+- Changed: redone EditableColumn, get rid of kartik GridView
+- Added theme manager
+- Changed: moving to plugin modules
+- Changed: GREAT RENAMING to hipanel
 
-## 0.0.1-alpha April 19, 2015
+## 0.0.1-alpha 2015-04-19
 
-- first shown to someone else :)
-- inited
+- Added basics for first release
 - Inited
 
-## Development started November 24, 2014
+## Development started 2014-11-24
 

@@ -134,16 +134,16 @@ hiqdev/hipanel-core commits history
     - 8c50b1a 2015-06-12 updated to latests Plugin/Theme/MenuManager (sol@hiqdev.com)
     - b6cbd2a 2015-06-11 Some fixes in BulkButtons widget (andreyklochok@gmail.com)
     - 6755d43 2015-06-10 Added getting of the error (d.naumenko.a@gmail.com)
-- + Bulk Actions
+- Added Bulk Actions
     - b783645 2015-06-10 Some fix in BulkButtons (andreyklochok@gmail.com)
     - a6660ec 2015-06-10 Some work with Bulck Actions and Buttons (andreyklochok@gmail.com)
-- hideved
+- Changed: hideved
     - 3b11798 2015-06-10 + docs (sol@hiqdev.com)
     - caa7f59 2015-06-09 hideved (sol@hiqdev.com)
-- menu manager
-- tickets new look
-- spread combo 2 widget
-- REDO EditableColumn, get rid of kartik GridView
+- Added menu manager
+- Added tickets new look
+- Changed: spread combo 2 widget
+- Changed: redone EditableColumn, get rid of kartik GridView
     - 8d341e6 2015-06-08 Some fix (andreyklochok@gmail.com)
     - 780e621 2015-06-03 Move JS Collapse sidebar to theme (andreyklochok@gmail.com)
     - 3d81349 2015-06-02 IpAddressValidator -> IpValidator (d.naumenko.a@gmail.com)
@@ -162,7 +162,7 @@ hiqdev/hipanel-core commits history
     - 5a37cbc 2015-05-27 Deleted Select2 assets (d.naumenko.a@gmail.com)
     - 6842a29 2015-05-26 Added check of the rule type (d.naumenko.a@gmail.com)
     - 919d103 2015-05-25 + require hiqdev/hipanel-module-dashboard (sol@hiqdev.com)
-- theme manager
+- Added theme manager
     - e211c6f 2015-05-25 renaming adminlte themes in progress (sol@hiqdev.com)
     - 41b3e62 2015-05-25 renamed hiart <- hiar (sol@hiqdev.com)
     - e3ae457 2015-05-25 Combo moved to specific repo (d.naumenko.a@gmail.com)
@@ -253,19 +253,18 @@ hiqdev/hipanel-core commits history
     - 25fa89d 2015-04-21 Change tickets view design (andreyklochok@gmail.com)
     - 37377fa 2015-04-21 renamed to mergeAttributeLabels from margeA... (sol@hiqdev.com)
     - 9e4563a 2015-04-20 composer (sol@hiqdev.com)
-- moving to plugin modules
+- Changed: moving to plugin modules
     - 2678ac0 2015-04-20 GREAT moving to plugin modules (sol@hiqdev.com)
     - 2c1f9c7 2015-04-20 merged (sol@hiqdev.com)
-- GREAT RENAMING to hipanel
+- Changed: GREAT RENAMING to hipanel
     - 96d5c76 2015-04-20 GREAT RENAMING to hipanel (sol@hiqdev.com)
     - 6161682 2015-04-20  * combo2.js - mass logic updates  + Standalone PerformAction  * Combo2 widget - added getFieldOptions  * Combo2 config - added has_id option  * components\Controller - methods modelClassName, newModel, searchModel, formName, idName, findModel are now Public  * CrudController - redone perform with PerformAction  * modules\client\assets\combo2\Client - added default ordering  x modules\client\Grid - fixed Combo2 call  + modules\client\validators\LoginValidator - added  x  modules\hosting\assets\combo2 - added active_when condition  *  modules\hosting\controllers\DbController - under implementation  *  modules\hosting\models\Account - login validation redone with LoginValidator  *  modules\hosting\models\Db - under implementation  + modules\hosting\validators\DbNameValidator - added  *  modules\hosting\views\db\_form, view - under implementation (d.naumenko.a@gmail.com)
     - ecba90f 2015-04-19 + hipanel\base\Module (sol@hiqdev.com)
     - 4efd7ae 2015-04-19 doc (sol@hiqdev.com)
 
-## 0.0.1-alpha April 19, 2015
+## 0.0.1-alpha 2015-04-19
 
-- first shown to someone else :)
-- inited
+- Added basics for first release
     - 980d8c3 2015-03-23 * change model Client, move Contact module (bladeroot@gmail.com)
     - 071258f 2015-03-23 + Contact as client submenu (bladeroot@gmail.com)
     - d4df6f3 2015-03-23 - delete contact from config (bladeroot@gmail.com)
@@ -542,5 +541,5 @@ hiqdev/hipanel-core commits history
 - Inited
     - 5e5d8f0 2014-11-24 Initial commit (andrey.klochok@gmail.com)
 
-## Development started November 24, 2014
+## Development started 2014-11-24
 
