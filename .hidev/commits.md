@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed SmartUpdateAction to take selection from POST too
+    - a2c312f 2015-08-19 fixed SmartUpdateAction to take selection from POST too (sol@hiqdev.com)
 - Added POST PJAX rule at SmartPerformAction
     - c780b3a 2015-08-18 post ajax action (andreyklochok@gmail.com)
 - Fixed composer.json type to yii2-extension
