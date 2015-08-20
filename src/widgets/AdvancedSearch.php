@@ -67,7 +67,7 @@ class AdvancedSearch extends Widget
             'method'    => $this->method,
             'options'   => $this->options,
         ]);
-        echo $this->_form->field($this->model, 'search_form')->hiddenInput(['value' => 1])->label(false);
+        echo Html::hiddenInput(sprintf('%s[search_form]', $this->model->formName()), 1);
     }
 
     static public function renderButton()
