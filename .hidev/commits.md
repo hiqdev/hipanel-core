@@ -3,6 +3,14 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed ModalButton, ActionBox, SmartUpdateAction
+    - 6fa983a 2015-08-19  ModalButton - improved form initialisation, footer button rendering (d.naumenko.a@gmail.com)
+    - 0a158c8 2015-08-19  ActionBox - fixed static call of method of object (d.naumenko.a@gmail.com)
+    - 0d41bfb 2015-08-19  Fixed SmartUpdateAction rule (d.naumenko.a@gmail.com)
+- Added SmartDeleteAction
+    - 055efde 2015-08-19  added SmartDeleteAction (d.naumenko.a@gmail.com)
+- Fixed Pjax widget
+    - 814b9a5 2015-08-19 Pjax wiget fix (andreyklochok@gmail.com)
 - Added button grouping at Box::beginTools
     - ddd60de 2015-08-19 Added button grouping at Box::beginTools (sol@hiqdev.com)
 - Added /site/profile redirect to user user profile page at /client/client/view/id

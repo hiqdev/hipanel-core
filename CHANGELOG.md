@@ -3,6 +3,9 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Fixed ModalButton, ActionBox, SmartUpdateAction
+- Added SmartDeleteAction
+- Fixed Pjax widget
 - Added button grouping at Box::beginTools
 - Added /site/profile redirect to user user profile page at /client/client/view/id
 - Fixed SmartUpdateAction to take selection from POST too
