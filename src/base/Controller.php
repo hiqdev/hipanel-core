@@ -61,30 +61,30 @@ class Controller extends \yii\web\Controller
 
     /**
      * @param array $config config to be used to create the [[Model]]
-     * @returns ActiveRecord
+     * @return ActiveRecord
      */
     static public function newModel ($config = [], $submodel = '') {
         $config['class'] = static::modelClassName().$submodel;
-        return \Yii::createObject($config);
+        return Yii::createObject($config);
     }
 
     /**
      * @param array $config config to be used to create the [[Model]]
-     * @returns ActiveRecord Search Model object
+     * @return ActiveRecord Search Model object
      */
     static public function searchModel ($config = []) {
         return static::newModel($config, 'Search');
     }
 
     /**
-     * @returns string main model's formName()
+     * @return string main model's formName()
      */
     static public function formName () {
         return static::newModel()->formName();
     }
 
     /**
-     * @returns string search model's formName()
+     * @return string search model's formName()
      */
     static public function searchFormName () {
         return static::newModel()->formName() . 'Search';
@@ -139,13 +139,13 @@ class Controller extends \yii\web\Controller
     }
 
     static public function renderJson ($data) {
-        \Yii::$app->response->format = Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
         return $data;
     }
 
     static public function renderJsonp ($data) {
-        \Yii::$app->response->format = Response::FORMAT_JSONP;
+        Yii::$app->response->format = Response::FORMAT_JSONP;
 
         return $data;
     }
