@@ -3,7 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
-- Fixed ModalButton, ActionBox, SmartUpdateAction
+- Fixed ModalButton, ActionBox, AdvancedSearch, SmartUpdateAction
 - Added SmartDeleteAction
 - Fixed Pjax widget
 - Added button grouping at Box::beginTools
