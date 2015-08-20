@@ -130,7 +130,7 @@ class ModalButton extends Widget
             throw new InvalidConfigException('Model is required');
         }
 
-        if (empty($this->model->getPrimaryKey())) {
+        if (!($this->model->getPrimaryKey())) {
             throw new InvalidConfigException('Model has empty primary key');
         }
 
