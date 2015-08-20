@@ -16,6 +16,8 @@ use yii\helpers\VarDumper;
  */
 class TranslateController extends MessageController
 {
+    public $configFile = '@hipanel/common/config/i18n.php';
+
     public function actionIndex($message = 'hello {world} apple beta {gamma {horse, cat}} this {mysite} this is a draw {apple {beta,{cat,dog} dog} house} farm')
     {
 //        echo GoogleTranslate::staticTranslate('hello world', "en", "ru") . "\n";
@@ -45,9 +47,9 @@ class TranslateController extends MessageController
      * this file and then customize it for your needs.
      * @throws Exception on failure.
      */
-    public function actionGoogle_extract($configFile)
+    public function actionGoogle_extract($configFile = null)
     {
-        $configFile = Yii::getAlias($configFile);
+        $configFile = Yii::getAlias($configFile ? : $this->configFile);
         if (!is_file($configFile)) {
             throw new Exception("The configuration file does not exist: $configFile");
         }
