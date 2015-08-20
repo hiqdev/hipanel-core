@@ -87,19 +87,18 @@ JS
 
     public function renderSearchForm(array $data = [])
     {
-
         ob_start();
         ob_implicit_flush(false);
         try {
             $search = $this->beginSearchForm();
             print Yii::$app->view->render('_search', array_merge(compact('search'), $data));
-            $search::end();
+            $search->end();
         } catch(\Exception $e) {
             ob_end_clean();
             throw $e;
         }
 
-        return ob_get_clean() . $out;
+        return ob_get_clean();
     }
 
     public function renderPerPage()

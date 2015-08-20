@@ -70,16 +70,13 @@ class Pjax extends \yii\widgets\Pjax
             'tag'          => 'ol',
             'links'        => isset($view->params['breadcrumbs']) ? $view->params['breadcrumbs'] : []
         ]);
-        echo Html::tag('div', $header . $breadcrumbs, ['id' => 'breadcrumb']);
-
+        $content = Json::htmlEncode(Html::tag('section', $header . $breadcrumbs, ['class' => 'content-header']));
         \Yii::$app->getView()->registerJs(new JsExpression(<<< JS
             $('.content-header li a').on('click', function (event) {
                 var container = $('#{$this->id}');
                 $.pjax.click(event, {container: container});
             });
-            //$('.content-header .breadcrumb').html($('#{$this->id} #breadcrumb').html());
-            $('.content-header .breadcrumb').replaceWith($('#{$this->id} #breadcrumb').html());
-            $('#{$this->id} #breadcrumb').remove();
+            $('.content-header').replaceWith($content);
 JS
         ), \yii\web\View::POS_READY);
     }

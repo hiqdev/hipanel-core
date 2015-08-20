@@ -127,7 +127,6 @@ class Action extends \yii\base\Action
     /**
      * Performs action.
      *
-     * @param SwitchRule $rule
      * @return boolean|string Whether save is success
      *  - boolean true or sting - an error
      *  - false - no errors
