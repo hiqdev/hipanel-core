@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added button grouping at Box::beginTools
 - Added /site/profile redirect to user user profile page at /client/client/view/id
 - Fixed SmartUpdateAction to take selection from POST too
 - Added POST PJAX rule at SmartPerformAction

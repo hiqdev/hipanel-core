@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added button grouping at Box::beginTools
+    - ddd60de 2015-08-19 Added button grouping at Box::beginTools (sol@hiqdev.com)
 - Added /site/profile redirect to user user profile page at /client/client/view/id
     - ca4fdce 2015-08-19 + SiteController::actionProfile for redirect to user profile (sol@hiqdev.com)
 - Fixed SmartUpdateAction to take selection from POST too
