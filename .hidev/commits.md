@@ -3,7 +3,9 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-- Fixed ModalButton, ActionBox, SmartUpdateAction
+- Fixed ModalButton, ActionBox, AdvancedSearch, SmartUpdateAction
+    - 0438ac4 2015-08-20 ModalButton fixed syntax error (silverfire@advancedhosters.com)
+    - 812c72f 2015-08-20 Fix search_form hidden (andreyklochok@gmail.com)
     - 6fa983a 2015-08-19  ModalButton - improved form initialisation, footer button rendering (d.naumenko.a@gmail.com)
     - 0a158c8 2015-08-19  ActionBox - fixed static call of method of object (d.naumenko.a@gmail.com)
     - 0d41bfb 2015-08-19  Fixed SmartUpdateAction rule (d.naumenko.a@gmail.com)
