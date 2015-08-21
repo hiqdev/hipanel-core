@@ -3,6 +3,8 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Changed: switch to stable yii2-asset-hipanel
+- Removed defaultClasses from GridView table
 - Added default debug panel config
 - Fixed ModalButton, ActionBox, AdvancedSearch, SmartUpdateAction
 - Added SmartDeleteAction

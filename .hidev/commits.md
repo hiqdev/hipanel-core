@@ -3,6 +3,10 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Changed: switch to stable yii2-asset-hipanel
+    - 9a15b53 2015-08-21 switched to stable yii2-asset-hipanel (sol@hiqdev.com)
+- Removed defaultClasses from GridView table
+    - 6b9666b 2015-08-21 Removed defaultClasses from GridView table (andreyklochok@gmail.com)
 - Added default debug panel config
     - eb31951 2015-08-21 + debug panel to common/config/main.php (sol@hiqdev.com)
     - c09db2c 2015-08-20 Try to set config file location (andreyklochok@gmail.com)
