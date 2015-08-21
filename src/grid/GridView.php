@@ -24,9 +24,9 @@ class GridView extends \hiqdev\higrid\GridView
     /**
      * @inheritdoc
      */
-    public $tableOptions = [
-        'class' => 'table table-bordered table-hover dataTable'
-    ];
+//    public $tableOptions = [
+//        'class' => 'table table-bordered table-hover dataTable'
+//    ];
 
     /**
      * @inheritdoc
