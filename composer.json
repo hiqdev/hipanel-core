@@ -61,7 +61,6 @@
         "hiqdev/yii2-theme-adminlte": "*@dev",
         "hiqdev/yii2-x-editable": "*@dev",
         "hiqdev/yii2-bootstrap-switch": "*@dev",
-        "hiqdev/yii2-asset-hipanel": "*@dev",
         "hiqdev/yii2-asset-lightbox2": "~2.7",
         "hiqdev/yii2-asset-select2-bootstrap3-css": "~1.5",
         "hiqdev/yii2-asset-paulzi-form": "*@dev",
