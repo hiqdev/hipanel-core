@@ -59,7 +59,7 @@ class AdvancedSearch extends Widget
         echo Html::beginTag('div', [
             'id'    => $this->divId(),
             'class' => 'row',
-            'style' => 'margin-bottom: 20px;' . $display_none,
+            'style' => 'margin-bottom: 1rem; margin-top: 1rem; ' . $display_none,
         ]);
         $this->_form = ActiveForm::begin([
             'id'        => 'form-' . $this->divId(),
