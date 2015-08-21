@@ -27,6 +27,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
         return [
             'id'            => Yii::t('app', 'ID'),
             'client_id'     => Yii::t('app', 'Client'),
+            'seller'        => Yii::t('app', 'Reseller'),
             'seller_id'     => Yii::t('app', 'Reseller'),
             'domain_id'     => Yii::t('app', 'Domain ID'),
             'domain'        => Yii::t('app', 'Domain Name'),
