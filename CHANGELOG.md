@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added default debug panel config
 - Fixed ModalButton, ActionBox, AdvancedSearch, SmartUpdateAction
 - Added SmartDeleteAction
 - Fixed Pjax widget

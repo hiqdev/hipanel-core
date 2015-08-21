@@ -3,6 +3,9 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added default debug panel config
+    - eb31951 2015-08-21 + debug panel to common/config/main.php (sol@hiqdev.com)
+    - c09db2c 2015-08-20 Try to set config file location (andreyklochok@gmail.com)
 - Fixed ModalButton, ActionBox, AdvancedSearch, SmartUpdateAction
     - 0438ac4 2015-08-20 ModalButton fixed syntax error (silverfire@advancedhosters.com)
     - 812c72f 2015-08-20 Fix search_form hidden (andreyklochok@gmail.com)
