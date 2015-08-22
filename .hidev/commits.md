@@ -3,6 +3,15 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Removed runtimes
+    - aefb3d6 2015-08-22 - runtimes (sol@hiqdev.com)
+    - 1c7dc78 2015-08-22 - ignore runtime (sol@hiqdev.com)
+- Added poweredBy params
+    - 28faf7b 2015-08-22 + Plugin (sol@hiqdev.com)
+    - 3af10f0 2015-08-22 + poweredBy params (sol@hiqdev.com)
+- Added margin at AdvancedSearch
+    - 7cc6d0d 2015-08-21 AdvancedSearch - added margin (d.naumenko.a@gmail.com)
+    - 7e4acec 2015-08-21 Model - Added default translation for seller (d.naumenko.a@gmail.com)
 - Changed: switch to stable yii2-asset-hipanel
     - 9a15b53 2015-08-21 switched to stable yii2-asset-hipanel (sol@hiqdev.com)
 - Removed defaultClasses from GridView table
