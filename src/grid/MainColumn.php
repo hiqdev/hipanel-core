@@ -23,7 +23,7 @@ class MainColumn extends DataColumn
     /**
      * @var array will be passed to the ```pluginOptions``` of [[XEditable]] plugin
      */
-    public $noteOptions;
+    public $noteOptions = [];
 
     public function init()
     {

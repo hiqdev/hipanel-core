@@ -83,7 +83,7 @@ class Action extends \yii\base\Action
                 'class'    => 'hiqdev\hiart\Collection',
                 'model'    => $this->controller->newModel(),
                 'scenario' => $scenario,
-            ], $this->_collection));
+            ], (array)$this->_collection));
         }
         return $this->_collection;
     }

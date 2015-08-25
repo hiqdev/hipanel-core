@@ -43,10 +43,12 @@ class RefFilter extends Widget
     /**
      * @var array
      */
-    public $options;
+    public $options = [];
 
     static public function widget ($config = []) {
-        $options = &$config['options'];
+        if (isset($config['options'])) {
+            $options = &$config['options'];
+        }
         $vars = get_class_vars(get_class());
         foreach ($config as $k => $v) {
             if (array_key_exists($k,$vars)) continue;
@@ -65,7 +67,7 @@ class RefFilter extends Widget
         print Html::activeDropDownList($this->model, $this->attribute, Ref::getList($this->gtype), ArrayHelper::merge([
             'class'     => 'form-control',
             'prompt'    => \Yii::t('app', '---'),
-        ],$this->options));
+        ], $this->options));
     }
 
 }
