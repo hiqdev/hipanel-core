@@ -25,11 +25,12 @@ class Err
     }
 
     static public function reduce($res) {
-        if (!arr::size($res)) return err::set($res, 'nothing was done');
+        if (!count($res)) return err::set($res, 'nothing was done');
+        $errors = [];
         foreach ($res as $k => $v) if (err::is($v)) $errors[$k] = err::get($v);
-        $row_num = arr::size($res);
-        $err_num = arr::size($errors);
-        if ($err_num) $res['_error'] = $row_num < 2 ? reset($errors) : (($row_num > $err_num) ? 'partially' : 'completely') . " failed ($err_num/$row_num): " . re::cjoin(array_unique($errors));
+        $row_num = count($res);
+        $err_num = count($errors);
+        if ($err_num) $res['_error'] = $row_num < 2 ? reset($errors) : (($row_num > $err_num) ? 'partially' : 'completely') . " failed ($err_num/$row_num): " . implode(', ', array_unique($errors));
         /* if ($set_nums) {
             $res['_error_num'] = $err_num;
             $res['_total_num'] = $row_num;

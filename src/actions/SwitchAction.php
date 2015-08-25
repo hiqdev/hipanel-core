@@ -7,10 +7,7 @@
 
 namespace hipanel\actions;
 
-use hiqdev\hiart\HiResException;
 use hiqdev\hiart\Collection;
-use yii\base\Exception;
-use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use Yii;
