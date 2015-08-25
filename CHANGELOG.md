@@ -3,6 +3,9 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Removed runtimes
+- Added poweredBy params
+- Added margin at AdvancedSearch
 - Changed: switch to stable yii2-asset-hipanel
 - Removed defaultClasses from GridView table
 - Added default debug panel config

@@ -4,9 +4,6 @@ vendor
 # composer lock files
 composer.lock
 
-# runtime dir
-runtime
-
 # hidev composer.json
 .hidev/composer.json
 
