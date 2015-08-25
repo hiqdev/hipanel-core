@@ -36,6 +36,8 @@ class Menu extends \yii\widgets\Menu
      */
     public $activateParents = true;
 
+    public $defaultIcon = 'fa-angle-double-right';
+
 
     /**
      * @inheritdoc
@@ -90,7 +92,7 @@ class Menu extends \yii\widgets\Menu
             ] : [
                 '{url}' => Url::to($item['url']),
                 '{label}' => $item['label'],
-                '{icon}' => $item['icon'] !== false ? '<i class="fa fa-circle-o"></i>' : '',
+                '{icon}' => $item['icon'] !== false ? sprintf("<i class=\"fa %s\"></i>", $this->defaultIcon) : '',
                 '{arrow}' => !empty($item['items']) ? '<i class="fa pull-right fa-angle-left"></i>' : ''
             ];
             return strtr($template, $replace);
@@ -102,7 +104,7 @@ class Menu extends \yii\widgets\Menu
                 '{arrow}' => !empty($item['items']) ? '<i class="fa pull-right fa-angle-left"></i>' : ''
             ] : [
                 '{label}' => $item['label'],
-                '{icon}' => $item['icon'] !== false ? '<i class="fa fa-circle-o"></i>' : '',
+                '{icon}' => $item['icon'] !== false ? sprintf("<i class=\"fa %s\"></i>", $this->defaultIcon) : '',
                 '{arrow}' => !empty($item['items']) ? '<i class="fa pull-right fa-angle-left"></i>' : ''
             ];
             return strtr($template, $replace);
