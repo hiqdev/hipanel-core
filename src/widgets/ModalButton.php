@@ -17,6 +17,7 @@ use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\bootstrap\Modal;
 use Yii;
+use yii\web\JsExpression;
 
 /**
  * Class ModalButton
@@ -196,10 +197,17 @@ class ModalButton extends Widget
             if ($tag === 'button' && !isset($button['type'])) {
                 $toggleButton['type'] = 'button';
             }
-            $button = ArrayHelper::merge([
-                'data-toggle' => 'modal',
-                'data-target' => "#{$this->getModalId()}",
-            ], $button);
+
+            if ($button['disabled']) {
+                $button = ArrayHelper::merge([
+                    'onClick' => new JsExpression("return false"),
+                ], $button);
+            } else {
+                $button = ArrayHelper::merge([
+                    'data-toggle' => 'modal',
+                    'data-target' => "#{$this->getModalId()}",
+                ], $button);
+            }
 
             if ($tag === 'a' && empty($button['href'])) {
                 $button['href'] = '#';

@@ -46,7 +46,7 @@ class Box extends Widget
     public $headerOptions = [];
 
     /**
-     * @var boolean Whether to render or not the box body
+     * @var boolean Whether to render the box body
      */
     public $renderBody = true;
 

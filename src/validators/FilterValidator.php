@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: SilverFire
- * Date: 19.03.2015
- * Time: 13:54
- */
-
 
 /**
  * Class FilterValidator

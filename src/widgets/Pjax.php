@@ -17,7 +17,7 @@ class Pjax extends \yii\widgets\Pjax
 {
     public function init () {
         \yii\widgets\Pjax::init();
-        Alert::widget();
+        echo Alert::widget();
         if ($this->requiresPjax()) {
             $this->addBreadcrumbs();
         }
