@@ -3,6 +3,17 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed ArraySpoiler rendering
+    - 3302d26 2015-08-26 ArraySpoiler fixed render of widget when data is empty (d.naumenko.a@gmail.com)
+    - dead013 2015-08-25 ArraySpoiler improved Box, ModalButtonm - minor (d.naumenko.a@gmail.com)
+- Fixed minor errors and PHP warnings
+    - 0c3f8e7 2015-08-26 Add extra space before cret (andreyklochok@gmail.com)
+    - 0751be8 2015-08-26 Fix ccs for profile-user-img (andreyklochok@gmail.com)
+    - 8b7e5e9 2015-08-26 fixed typos (sol@hiqdev.com)
+    - a40c269 2015-08-25 Fixed Err::reduce method (d.naumenko.a@gmail.com)
+    - a2f3934 2015-08-25 Fix warnings (andreyklochok@gmail.com)
+- Added validators for Eid, Ref
+    - 72d0b3d 2015-08-25 Added Eif, Ref validators (d.naumenko.a@gmail.com)
 - Removed runtimes
     - aefb3d6 2015-08-22 - runtimes (sol@hiqdev.com)
     - 1c7dc78 2015-08-22 - ignore runtime (sol@hiqdev.com)

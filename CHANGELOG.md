@@ -3,6 +3,9 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Fixed ArraySpoiler rendering
+- Fixed minor errors and PHP warnings
+- Added validators for Eid, Ref
 - Removed runtimes
 - Added poweredBy params
 - Added margin at AdvancedSearch
