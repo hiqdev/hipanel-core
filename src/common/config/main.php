@@ -21,7 +21,7 @@ $config = [
             'class' => 'hipanel\base\AuthManager',
         ],
         'hiresource' => [
-            'class'  => 'hiqdev\hiart\Connection',
+            'class'  => 'hipanel\base\Connection',
             'config' => [
                 'api_url' => $params['api_url'],
             ],
