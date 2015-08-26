@@ -66,7 +66,7 @@ class PasswordInput extends Widget
         $html .= Html::button(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), ['class' => 'btn btn-default show-password']);
 
         if ($this->randomGenerator) {
-            $html .= Html::button(Yii::t('app', 'Random') . '<span class="caret"></span>', [
+            $html .= Html::button(Yii::t('app', 'Random') . '&nbsp;<span class="caret"></span>', [
                 'class'         => 'btn btn-default dropdown-toggle',
                 'data-toggle'   => 'dropdown',
                 'aria-expanded' => 'false'
