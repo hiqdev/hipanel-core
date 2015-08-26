@@ -82,8 +82,6 @@ class ArraySpoiler extends Widget
     {
         parent::init();
 
-        if (empty($this->data)) return '';
-
         if (is_string($this->data) || is_numeric($this->data)) {
             $this->data = ArrayHelper::csplit($this->data);
         }
@@ -118,6 +116,7 @@ class ArraySpoiler extends Widget
      */
     private function renderSpoiler()
     {
+        if (count($this->data) === 0) return null;
         echo ' ';
         $options = array_merge([
             'data-popover-group' => $this->popoverGroup,
@@ -138,9 +137,7 @@ class ArraySpoiler extends Widget
      */
     public function run()
     {
-        if (count($this->data)) {
-            $this->renderVisible();
-            $this->renderSpoiler();
-        }
+        $this->renderVisible();
+        $this->renderSpoiler();
     }
 }
