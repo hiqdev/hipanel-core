@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added hipanel\base\Connection
+    - 4194840 2015-08-26 + hipanel\base\Connection (sol@hiqdev.com)
 - Fixed ArraySpoiler rendering
     - 3302d26 2015-08-26 ArraySpoiler fixed render of widget when data is empty (d.naumenko.a@gmail.com)
     - dead013 2015-08-25 ArraySpoiler improved Box, ModalButtonm - minor (d.naumenko.a@gmail.com)

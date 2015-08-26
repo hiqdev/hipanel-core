@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added hipanel\base\Connection
 - Fixed ArraySpoiler rendering
 - Fixed minor errors and PHP warnings
 - Added validators for Eid, Ref
