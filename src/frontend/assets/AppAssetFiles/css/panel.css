@@ -615,7 +615,10 @@ a.asc:after {
     margin-bottom: 7px;
 }
 
-.profile-user-img {
+.box-body .profile-user-img {
+    width: inherit;
+    padding: inherit;
+    border: none;
     margin: 3rem 0 3rem;
 }
 
