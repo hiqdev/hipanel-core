@@ -789,3 +789,8 @@ button.link-button {
     padding-left:25px;
     background: url(../img/github_markdown-16.png) 4px 0px no-repeat;
 }
+
+.ticket-list-group .badge {
+    background-color: #FFF;
+    color: #333;
+}
