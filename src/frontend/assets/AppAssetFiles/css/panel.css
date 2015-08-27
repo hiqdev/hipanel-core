@@ -790,7 +790,7 @@ button.link-button {
     background: url(../img/github_markdown-16.png) 4px 0px no-repeat;
 }
 
-.ticket-list-group .badge {
+.ticket-list-group .badge, .ticket-responsible .badge {
     background-color: #FFF;
     color: #333;
 }
