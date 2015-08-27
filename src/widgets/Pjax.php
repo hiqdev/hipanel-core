@@ -15,12 +15,12 @@ use yii\widgets\PjaxAsset;
 
 class Pjax extends \yii\widgets\Pjax
 {
-    public function init () {
-        \yii\widgets\Pjax::init();
-        echo Alert::widget();
+    public function run () {
         if ($this->requiresPjax()) {
+            Alert::widget();
             $this->addBreadcrumbs();
         }
+        parent::run();
     }
 
     public function registerClientScript () {

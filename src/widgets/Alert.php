@@ -46,9 +46,22 @@ class Alert extends \yii\bootstrap\Widget
      */
     public $closeButton = [];
 
-    public function init () {
-        parent::init();
+    /**
+     * @param mixed $message Flash value to be normalized
+     * @return array
+     */
+    public function normalizeMessage ($message) {
+        $res = [];
+        if (is_string($message)) {
+            $res['text'] = $message;
+        } elseif (is_array($message)) {
+            $res = $message;
+        }
 
+        return $res;
+    }
+
+    public function run() {
         $session = \Yii::$app->getSession();
         $flashes = $session->getAllFlashes();
 
@@ -71,20 +84,5 @@ class Alert extends \yii\bootstrap\Widget
                 $session->removeFlash($type);
             }
         }
-    }
-
-    /**
-     * @param mixed $message Flash value to be normalized
-     * @return array
-     */
-    public function normalizeMessage ($message) {
-        $res = [];
-        if (is_string($message)) {
-            $res['text'] = $message;
-        } elseif (is_array($message)) {
-            $res = $message;
-        }
-
-        return $res;
     }
 }

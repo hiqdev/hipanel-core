@@ -18,7 +18,7 @@ use yii\web\JsExpression;
  *      'model' => $model,
  * ]) ?>
  *      <? $form->field('domain') ?>
- * <? $form::end() ?>
+ * <? $form->end() ?>
  */
 class AdvancedSearch extends Widget
 {
