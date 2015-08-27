@@ -126,8 +126,17 @@ class Controller extends \yii\web\Controller
 
     static public function findModels($condition, $config = [])
     {
-        $int_keys = array_sum(array_map(function ($v) { return is_numeric($v) ? 1 : 0; }, array_keys($condition)));
-        if (!is_array($condition) || $int_keys) {
+        $containsIntKeys = 0;
+        if (is_array($condition)) {
+            foreach (array_keys($condition) as $item) {
+                if (is_numeric($item)) {
+                    $containsIntKeys = true;
+                    break;
+                }
+            }
+        }
+
+        if (!is_array($condition) || $containsIntKeys) {
             $condition = ['id' => $condition];
         }
         $models = static::newModel($config)->find()->where($condition)->all();
