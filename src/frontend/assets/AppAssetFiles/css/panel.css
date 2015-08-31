@@ -793,4 +793,5 @@ button.link-button {
 .ticket-list-group .badge, .ticket-responsible .badge {
     background-color: #FFF;
     color: #333;
+    font-size: 14px;
 }
