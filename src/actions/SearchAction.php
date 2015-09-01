@@ -21,11 +21,6 @@ use yii\helpers\ArrayHelper;
 class SearchAction extends SwitchAction
 {
     /**
-     * @var boolean Whether to use pagination in search
-     */
-    public $pagination = true;
-
-    /**
      * @var array Options that will be passed to SearchModel by default
      */
     public $findOptions = [];
@@ -44,7 +39,14 @@ class SearchAction extends SwitchAction
     /**
      * @var Model
      */
-    public $_searchModel;
+    private $_searchModel;
+
+    /**
+     * @var callback Function to collect the response for ajax request/
+     * @param SwitchAction $action
+     * @returns array
+     */
+    public $ajaxResponseFormatter;
 
     public function init()
     {
@@ -54,20 +56,33 @@ class SearchAction extends SwitchAction
             $this->dataProviderOptions['pagination'] = false;
         }
 
+        if ($this->ajaxResponseFormatter === null) {
+            $this->ajaxResponseFormatter = function ($action) {
+                $results = [];
+
+                foreach ($action->collection->models as $k => $v) {
+                    $results[$k] = ArrayHelper::toArray($v, $this->returnOptions);
+                }
+
+                return $results;
+            };
+        }
+
         $this->addItems([
             'ajax' => [
                 'save' => true,
                 'flash' => false,
                 'success' => [
                     'class' => 'hipanel\actions\RenderJsonAction',
-                    'return' => function ($action) {
-                        return $action->collection->models;
-                    }
+                    'return' => $this->ajaxResponseFormatter
                 ]
             ]
         ]);
     }
 
+    /**
+     * @param $model
+     */
     public function setSearchModel($model)
     {
         $this->_searchModel = $model;
@@ -109,21 +124,25 @@ class SearchAction extends SwitchAction
             return false;
         }
 
-        $results = [];
+        $models = [];
         $error = false;
 
         try {
-            $results = $this->getDataProvider()->getModels();
+            $models = $this->getDataProvider()->getModels();
         } catch (ErrorResponseException $e) {
             $error = $e->getMessage();
         }
 
-        foreach ($results as $k => $v) {
-            $results[$k] = ArrayHelper::toArray($v, $this->returnOptions);
-        }
-
-        $this->collection->load($results);
+        $this->collection->set($models);
 
         return $error;
+    }
+
+    /**
+     * @return array
+     */
+    public function getReturnOptions()
+    {
+        return $this->returnOptions;
     }
 }
