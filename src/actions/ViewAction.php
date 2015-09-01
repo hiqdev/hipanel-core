@@ -59,7 +59,7 @@ class ViewAction extends Action
 
     public function run($id = null)
     {
-        $this->_id = $this->_id ?: $id ?: Yii::$app->request->get('id');
+        $this->_id = $this->_id ?: $id ?: Yii::$app->request->get('id') ?: Yii::$app->request->post($this->collection->formName)['id'];
 
         $id = $this->_id;
         if (empty($id)) {
