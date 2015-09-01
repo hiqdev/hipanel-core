@@ -10,9 +10,8 @@ use yii\helpers\ArrayHelper;
 /**
  * Class IndexAction
  *
- * @property Model model
  */
-class IndexAction extends Action
+class IndexAction extends SearchAction
 {
     /**
      * @var string view to render.
@@ -24,38 +23,32 @@ class IndexAction extends Action
      */
     public $data = [];
 
-    /**
-     * @var array additional data that will be passed to the search query
-     */
-    public $findOptions = [];
-
-    /**
-     * @var Model
-     */
-    public $_model;
-
-    public function setModel($model)
+    public function init()
     {
-        $this->_model = $model;
-    }
+        $this->addItems([
+            'html | pjax' => [
+                'save' => false,
+                'flash' => false,
+                'success' => [
+                    'class' => 'hipanel\actions\RenderAction',
+                    'view' => $this->view,
+                    'params' => function () {
+                        return ArrayHelper::merge([
+                            'model' => $this->getSearchModel(),
+                            'dataProvider' => $this->getDataProvider(),
+                        ], $this->prepareData());
+                    }
+                ]
+            ]
+        ]);
 
-    /**
-     * @return Model
-     */
-    public function getModel()
-    {
-        if (is_null($this->_model)) {
-            $this->_model = $this->controller->searchModel();
-        }
-        return $this->_model;
-    }
+        parent::init();
 
-    public function getDataProvider()
-    {
-        $params            = Yii::$app->request->queryParams;
-        $formName          = $this->getModel()->formName();
-        $params[$formName] = ArrayHelper::merge($params[$formName] ?: [], $this->findOptions);
-        return $this->getModel()->search($params, ['pagination' => ['pageSize' => Yii::$app->request->get('per_page') ? : 25]]);
+        $this->dataProviderOptions = ArrayHelper::merge($this->dataProviderOptions, [
+            'pagination' => [
+                'pageSize' => Yii::$app->request->get('per_page') ?: 25
+            ]
+        ]);
     }
 
     public function prepareData()
@@ -66,13 +59,4 @@ class IndexAction extends Action
             return (array)$this->data;
         }
     }
-
-    public function run()
-    {
-        return $this->controller->render($this->view, array_merge([
-            'model'        => $this->getModel(),
-            'dataProvider' => $this->getDataProvider(),
-        ], $this->prepareData()));
-    }
-
 }
