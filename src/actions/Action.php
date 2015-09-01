@@ -7,8 +7,11 @@
 
 namespace hipanel\actions;
 
+use hipanel\base\Controller;
+use hiqdev\hiart\ErrorResponseException;
 use Yii;
 use hiqdev\hiart\Collection;
+use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -18,6 +21,11 @@ use yii\helpers\ArrayHelper;
 */
 class Action extends \yii\base\Action
 {
+    /**
+     * @var Controller the controller that owns this action
+     */
+    public $controller;
+
     /**
      * @var Action|SwitchAction parent called action
      */
@@ -141,7 +149,7 @@ class Action extends \yii\base\Action
             if ($error === true && $this->collection->hasErrors()) {
                 $error = $this->collection->getFirstError();
             }
-        } catch (HiResException $e) {
+        } catch (ErrorResponseException $e) {
             $error = $e->getMessage();
         } catch (InvalidCallException $e) {
             $error = $e->getMessage();
