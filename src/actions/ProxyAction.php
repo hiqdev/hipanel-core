@@ -31,7 +31,7 @@ class ProxyAction extends Action
      * @var array
      * @see params
      */
-    public $_params;
+    public $_params = [];
 
     /**
      * @var boolean
