@@ -2,6 +2,7 @@
 
 namespace hipanel\actions;
 
+use hipanel\helpers\ArrayHelper;
 use Yii;
 
 /**
@@ -15,14 +16,14 @@ class XEditableAction extends Action
             $data = \Yii::$app->request->post();
         }
         return parent::loadCollection([[
-            'id'          => $data['pk'],
-            $data['name'] => $data['value'],
+            'id'          => ArrayHelper::remove($data, 'pk'),
+            $data['name'] => ArrayHelper::remove($data, 'value', []),
         ]]);
     }
 
     public function run()
     {
-        $error = $this->perform($rule);
+        $error = $this->perform();
         if ($error) {
             Yii::$app->response->statusCode = 400;
         }
