@@ -3,9 +3,10 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Removed CrudController deprecated actions: search, info, list, view, index, delete
+- Fixed minor errors and PHP warnings
 - Added hipanel\base\Connection
 - Fixed ArraySpoiler rendering
-- Fixed minor errors and PHP warnings
 - Added validators for Eid, Ref
 - Removed runtimes
 - Added poweredBy params
