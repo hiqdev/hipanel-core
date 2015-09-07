@@ -3,17 +3,33 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-- Added hipanel\base\Connection
-    - 4194840 2015-08-26 + hipanel\base\Connection (sol@hiqdev.com)
-- Fixed ArraySpoiler rendering
-    - 3302d26 2015-08-26 ArraySpoiler fixed render of widget when data is empty (d.naumenko.a@gmail.com)
-    - dead013 2015-08-25 ArraySpoiler improved Box, ModalButtonm - minor (d.naumenko.a@gmail.com)
+- Removed CrudController deprecated actions: search, info, list, view, index, delete
+    - 9db4f92 2015-09-01 INCOMPATIBLE CHANGES: CrudController - removed deprecated actions: search, info, list, view, index, delete (d.naumenko.a@gmail.com)
 - Fixed minor errors and PHP warnings
+    - e0c2f95 2015-09-03 XEditableAction - fixed value (d.naumenko.a@gmail.com)
+    - f44737f 2015-09-02 Warning fix (andreyklochok@gmail.com)
+    - 9cc4936 2015-09-01 SearchAction - fixed warnings (d.naumenko.a@gmail.com)
+    - 98cd011 2015-09-01 ViewAction can get ID param from post (andreyklochok@gmail.com)
+    - 3793089 2015-09-01 Action - changed catching exception class (d.naumenko.a@gmail.com)
+    - 392af03 2015-09-01 IndexAction redone with SearchAction (d.naumenko.a@gmail.com)
+    - 1dc8b7a 2015-09-01 Implemented SearchAction (d.naumenko.a@gmail.com)
+    - 8de3b51 2015-09-01 Added SearchAction (d.naumenko.a@gmail.com)
+    - 2783a98 2015-08-31 Increase font-size for ticket left column (andreyklochok@gmail.com)
+    - 0b1b1cc 2015-08-27 temporary hack (sol@hiqdev.com)
+    - 94a570a 2015-08-27 Add new style for ticket badge (andreyklochok@gmail.com)
+    - 59fa6e9 2015-08-27 Fixed PNotify on Pjax requests (d.naumenko.a@gmail.com)
+    - b7f1fea 2015-08-27 Fixed deprecated method calling syntax (d.naumenko.a@gmail.com)
+    - aa889dd 2015-08-27 Symplify findModels method (andreyklochok@gmail.com)
     - 0c3f8e7 2015-08-26 Add extra space before cret (andreyklochok@gmail.com)
     - 0751be8 2015-08-26 Fix ccs for profile-user-img (andreyklochok@gmail.com)
     - 8b7e5e9 2015-08-26 fixed typos (sol@hiqdev.com)
     - a40c269 2015-08-25 Fixed Err::reduce method (d.naumenko.a@gmail.com)
     - a2f3934 2015-08-25 Fix warnings (andreyklochok@gmail.com)
+- Added hipanel\base\Connection
+    - 4194840 2015-08-26 + hipanel\base\Connection (sol@hiqdev.com)
+- Fixed ArraySpoiler rendering
+    - 3302d26 2015-08-26 ArraySpoiler fixed render of widget when data is empty (d.naumenko.a@gmail.com)
+    - dead013 2015-08-25 ArraySpoiler improved Box, ModalButtonm - minor (d.naumenko.a@gmail.com)
 - Added validators for Eid, Ref
     - 72d0b3d 2015-08-25 Added Eif, Ref validators (d.naumenko.a@gmail.com)
 - Removed runtimes
