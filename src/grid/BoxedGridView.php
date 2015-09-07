@@ -26,7 +26,8 @@ class BoxedGridView extends GridView
             Box::begin($this->boxOptions);
             parent::run();
             Box::end();
-        } else
+        } else {
             parent::run();
+        }
     }
 }
