@@ -795,3 +795,10 @@ button.link-button {
     color: #333;
     font-size: 14px;
 }
+
+.profile-other-role {
+    color: #5b9bd1;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
