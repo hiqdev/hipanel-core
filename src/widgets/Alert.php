@@ -7,7 +7,9 @@
 
 namespace hipanel\widgets;
 
-use raoul2000\widget\pnotify\PNotify;
+use hipanel\helpers\ArrayHelper;
+use iutbay\yii2pnotify\PNotify;
+
 
 /**
  * Alert widget renders a message from session flash. All flash messages are displayed
@@ -34,10 +36,10 @@ class Alert extends \yii\bootstrap\Widget
      * - $value is the bootstrap alert type (i.e. danger, success, info, warning)
      */
     public $alertTypes = [
-        'error'   => 'alert-danger',
-        'danger'  => 'alert-danger',
+        'error' => 'alert-danger',
+        'danger' => 'alert-danger',
         'success' => 'alert-success',
-        'info'    => 'alert-info',
+        'info' => 'alert-info',
         'warning' => 'alert-warning'
     ];
 
@@ -50,7 +52,8 @@ class Alert extends \yii\bootstrap\Widget
      * @param mixed $message Flash value to be normalized
      * @return array
      */
-    public function normalizeMessage ($message) {
+    public function normalizeMessage($message)
+    {
         $res = [];
         if (is_string($message)) {
             $res['text'] = $message;
@@ -61,28 +64,34 @@ class Alert extends \yii\bootstrap\Widget
         return $res;
     }
 
-    public function run() {
+    public function run()
+    {
         $session = \Yii::$app->getSession();
         $flashes = $session->getAllFlashes();
+        $notifications = [];
 
         foreach ($flashes as $type => $data) {
             if (isset($this->alertTypes[$type])) {
                 $data = (array)$data;
+
                 foreach ($data as $message) {
                     $message = $this->normalizeMessage($message);
-
-                    echo PNotify::widget([
-                        'pluginOptions' => array_merge([
-                            'type'    => $type,
-                            'hide'    => true,
-                            'buttons' => [
-                                'sticker' => false
-                            ]
-                        ], $message)
-                    ]);
+                    $notifications[] = ArrayHelper::merge([
+                        'type' => $type
+                    ], $message);
                 }
                 $session->removeFlash($type);
             }
         }
+
+        echo PNotify::widget([
+            'notifications' => $notifications,
+            'clientOptions' => [
+                'hide' => true,
+                'buttons' => [
+                    'sticker' => false
+                ]
+            ]
+        ]);
     }
 }
