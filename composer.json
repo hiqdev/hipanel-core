@@ -74,7 +74,7 @@
         "vova07/yii2-select2-widget": "*",
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "1.6.*@dev",
-        "raoul2000/yii2-pnotify-widget": "*",
+        "iutbay/yii2-pnotify": "*",
         "stichoza/google-translate-php": "~3.0",
         "2amigos/yii2-editable-widget": "dev-master",
         "wbraganca/yii2-dynamicform": "*"
