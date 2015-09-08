@@ -54,7 +54,7 @@ class SmartCreateAction extends SwitchAction
                 ],
                 'error'   => [
                     'class'  => 'hipanel\actions\RenderAction',
-                    'view'   => 'create',
+                    'view'   => $this->view,
                     'params' => [
                         'models' => function ($action) {
                             return $action->collection->models;
