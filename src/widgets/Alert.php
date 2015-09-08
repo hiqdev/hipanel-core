@@ -8,7 +8,7 @@
 namespace hipanel\widgets;
 
 use hipanel\helpers\ArrayHelper;
-use iutbay\yii2pnotify\PNotify;
+use hipanel\widgets\PNotify;
 
 
 /**
