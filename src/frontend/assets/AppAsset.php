@@ -19,7 +19,6 @@ class AppAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
-        'raoul2000\widget\pnotify\PNotifyAsset',
         'hiqdev\assets\select2_bootstrap3_css\Select2Bootstrap3CssAsset',
     ];
 }

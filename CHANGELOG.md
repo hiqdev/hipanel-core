@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Changed PNotify lib to iutbay/yii2-pnotify
 - Removed CrudController deprecated actions: search, info, list, view, index, delete
 - Fixed minor errors and PHP warnings
 - Added hipanel\base\Connection

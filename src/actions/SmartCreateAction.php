@@ -12,6 +12,11 @@ class SmartCreateAction extends SwitchAction
 {
     public $data;
 
+    /**
+     * @var string View name, used for render of result on GET request
+     */
+    public $view = 'create';
+
     public function prepareData()
     {
         if ($this->data instanceof Closure) {
@@ -27,7 +32,7 @@ class SmartCreateAction extends SwitchAction
         $this->addItems([
             'GET' => [
                 'class'  => 'hipanel\actions\RenderAction',
-                'view'   => 'create',
+                'view'   => $this->view,
                 'params' => function ($action) {
                     $model = $action->controller->newModel(['scenario' => $action->scenario]);
                     return array_merge([
@@ -49,7 +54,7 @@ class SmartCreateAction extends SwitchAction
                 ],
                 'error'   => [
                     'class'  => 'hipanel\actions\RenderAction',
-                    'view'   => 'create',
+                    'view'   => $this->view,
                     'params' => [
                         'models' => function ($action) {
                             return $action->collection->models;
