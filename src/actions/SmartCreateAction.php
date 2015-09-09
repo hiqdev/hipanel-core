@@ -55,11 +55,12 @@ class SmartCreateAction extends SwitchAction
                 'error'   => [
                     'class'  => 'hipanel\actions\RenderAction',
                     'view'   => $this->view,
-                    'params' => [
-                        'models' => function ($action) {
-                            return $action->collection->models;
-                        },
-                    ],
+                    'params' => function ($action) {
+                        return array_merge([
+                            'models' => $action->collection->models,
+                            'model' => $action->collection->first
+                        ], $this->prepareData());
+                    }
                 ],
             ],
         ]);
