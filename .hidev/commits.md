@@ -3,9 +3,18 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Changed PNotify lib to iutbay/yii2-pnotify
+    - 8b998ff 2015-09-08 Added local PNotify widget (d.naumenko.a@gmail.com)
+    - 8d6c0dc 2015-09-08 Redone with iutbay/yii2-pnotify (d.naumenko.a@gmail.com)
+    - 1425253 2015-09-08 Removed raoul2000/pnotify asset dependency (d.naumenko.a@gmail.com)
+    - 6902586 2015-09-08 Replaced raoul2000/yii2-pnotify-widget with iutbay/yii2-pnotify (d.naumenko.a@gmail.com)
 - Removed CrudController deprecated actions: search, info, list, view, index, delete
     - 9db4f92 2015-09-01 INCOMPATIBLE CHANGES: CrudController - removed deprecated actions: search, info, list, view, index, delete (d.naumenko.a@gmail.com)
 - Fixed minor errors and PHP warnings
+    - 18f44a9 2015-09-09 used stable hiqdev/yii2-asset-paulzi-form (sol@hiqdev.com)
+    - b6bb4e4 2015-09-08 SmartCreateAction - view is configurable now (d.naumenko.a@gmail.com)
+    - 91514c3 2015-09-07 Fix budge class (andreyklochok@gmail.com)
+    - a136cbb 2015-09-07 Add new css style (andreyklochok@gmail.com)
     - e0c2f95 2015-09-03 XEditableAction - fixed value (d.naumenko.a@gmail.com)
     - f44737f 2015-09-02 Warning fix (andreyklochok@gmail.com)
     - 9cc4936 2015-09-01 SearchAction - fixed warnings (d.naumenko.a@gmail.com)

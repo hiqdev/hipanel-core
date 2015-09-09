@@ -11,6 +11,7 @@ Goals:
 
 [![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-core/v/stable.png)](https://packagist.org/packages/hiqdev/hipanel-core)
 [![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-core/downloads.png)](https://packagist.org/packages/hiqdev/hipanel-core)
+[![Dependency Status](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master/badge.svg)](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master)
 
 ## Installation
 
