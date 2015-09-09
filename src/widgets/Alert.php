@@ -8,7 +8,6 @@
 namespace hipanel\widgets;
 
 use hipanel\helpers\ArrayHelper;
-use hipanel\widgets\PNotify;
 
 
 /**

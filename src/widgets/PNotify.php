@@ -7,8 +7,10 @@
 
 namespace hipanel\widgets;
 
-
-class PNotify extends \iutbay\yii2pnotify\PNotify
+/**
+ * {@inheritdoc}
+ * @package hipanel\widgets
+ */
+class PNotify extends \hiqdev\pnotify\PNotify
 {
-    public $clientOptions = [];
 }
