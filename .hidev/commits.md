@@ -4,6 +4,9 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Changed PNotify lib to iutbay/yii2-pnotify
+    - 7a57e49 2015-09-09 used stable yii2-pnotify (sol@hiqdev.com)
+    - bbc7645 2015-09-09 Pnotify dependency replaced with hiqdev pnotify module (d.naumenko.a@gmail.com)
+    - d75dd4f 2015-09-09 Add additional param to getList (andreyklochok@gmail.com)
     - 8b998ff 2015-09-08 Added local PNotify widget (d.naumenko.a@gmail.com)
     - 8d6c0dc 2015-09-08 Redone with iutbay/yii2-pnotify (d.naumenko.a@gmail.com)
     - 1425253 2015-09-08 Removed raoul2000/pnotify asset dependency (d.naumenko.a@gmail.com)
