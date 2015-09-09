@@ -64,7 +64,7 @@
         "hiqdev/yii2-bootstrap-switch": "*@dev",
         "hiqdev/yii2-asset-lightbox2": "~2.7",
         "hiqdev/yii2-asset-select2-bootstrap3-css": "~1.5",
-        "hiqdev/yii2-asset-paulzi-form": "*@dev",
+        "hiqdev/yii2-asset-paulzi-form": "~2.4",
         "hiqdev/yii2-asset-pnotify": "*@dev",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-builder": "dev-master",

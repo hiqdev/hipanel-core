@@ -12,10 +12,10 @@ use hipanel\base\Re;
 class Ref extends \hiqdev\hiart\ActiveRecord
 {
 
-    public static function getList($name, $translate=true)
+    public static function getList($name, $options = [], $translate=true)
     {
         $func = ($translate) ? function ($v) { return Re::l($v->gl_value); } : function ($v) { return $v->gl_value; } ;
-        return \yii\helpers\ArrayHelper::map(self::find()->where(['gtype' => $name])->getList(false),
+        return \yii\helpers\ArrayHelper::map(self::find()->where(array_merge(['gtype' => $name], $options))->getList(false),
             'gl_key', $func);
     }
 
