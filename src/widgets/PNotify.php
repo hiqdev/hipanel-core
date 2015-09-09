@@ -13,4 +13,20 @@ namespace hipanel\widgets;
  */
 class PNotify extends \hiqdev\pnotify\PNotify
 {
+    /**
+     * {@inheritdoc}
+     */
+    public $clientOptions = [
+        'hide' => true,
+        'buttons' => [
+            'sticker' => false
+        ]
+    ];
+
+    public function init() {
+        parent::init();
+        if (!isset($this->clientOptions['styling'])) {
+             $this->clientOptions['styling'] = 'bootstrap3';
+        }
+    }
 }
