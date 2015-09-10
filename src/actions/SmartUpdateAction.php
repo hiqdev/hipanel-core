@@ -38,11 +38,12 @@ class SmartUpdateAction extends SwitchAction
                 ],
                 'error'   => [
                     'class'  => 'hipanel\actions\RenderAction',
-                    'params' => [
-                        'models' => function ($action) {
-                            return $action->collection->models;
-                        },
-                    ],
+                    'params' => function ($action) {
+                        return [
+                            'models' => $action->collection->models,
+                            'model' => $action->collection->first
+                        ];
+                    }
                 ],
             ],
             'POST pjax' => [
