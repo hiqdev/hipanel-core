@@ -107,7 +107,7 @@ class SearchAction extends SwitchAction
     public function getDataProvider()
     {
         $formName = $this->getSearchModel()->formName();
-        $search = ArrayHelper::merge($this->findOptions, Yii::$app->request->get($formName) ?: Yii::$app->request->post());
+        $search = ArrayHelper::merge($this->findOptions, Yii::$app->request->get($formName) ?: Yii::$app->request->get() ?: Yii::$app->request->post());
 
         $this->returnOptions[$this->controller->modelClassName()] = ArrayHelper::merge(
             ArrayHelper::remove($search, 'return', []),
