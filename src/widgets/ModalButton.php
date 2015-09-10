@@ -17,6 +17,7 @@ use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\bootstrap\Modal;
 use Yii;
+use yii\helpers\Json;
 use yii\web\JsExpression;
 
 /**
@@ -37,6 +38,21 @@ class ModalButton extends Widget
      * Toggle button will be rendered inside of the form with [[Modal]] widget
      */
     const BUTTON_IN_MODAL = 2;
+
+    /**
+     * Submit with HTML POST request
+     */
+    const SUBMIT_HTML = 0;
+
+    /**
+     * Submit using PJAX
+     */
+    const SUBMIT_PJAX = 1;
+
+    /**
+     * Submit using AJAX
+     */
+    const SUBMIT_AJAX = 2;
 
     /**
      * @var ActiveRecord the model. Is required.
@@ -94,6 +110,20 @@ class ModalButton extends Widget
     public $modal = [];
 
     /**
+     * @var integer determines the way of form submit.
+     * @see [[SUBMIT_HTML]]
+     * @see [[SUBMIT_AJAX]]
+     * @see [[SUBMIT_PJAX]]
+     */
+    public $submit;
+
+    /**
+     * @var array options that will be passed to ajax submit JS
+     * @see [[registerAjaxSubmit]]
+     */
+    public $ajaxOptions = [];
+
+    /**
      * @inheritdoc
      * @throws InvalidConfigException
      */
@@ -144,14 +174,26 @@ class ModalButton extends Widget
         }
 
         if ($this->form !== false) {
-            $this->form = ArrayHelper::merge([
+            $formConfig = [
                 'method' => 'POST',
                 'action' => $this->scenario,
                 'options' => [
-                    'data' => ['pjax' => 1, 'pjax-push' => 0],
                     'class' => 'inline'
                 ]
-            ], $this->form);
+            ];
+            if ($this->submit === static::SUBMIT_PJAX) {
+                $formConfig['options'] = ArrayHelper::merge($formConfig['options'], [
+                    'data' => ['pjax' => 1, 'pjax-push' => 0]
+                ]);
+            } elseif ($this->submit === static::SUBMIT_AJAX) {
+                $formConfig['options'] = ArrayHelper::merge($formConfig['options'], [
+                    'data' => ['ajax-submit' => 1]
+                ]);
+
+                $this->registerAjaxSubmit();
+            }
+
+            $this->form = ArrayHelper::merge($formConfig, $this->form);
         }
 
         if (is_array($footer = $this->modal['footer'])) {
@@ -259,5 +301,32 @@ class ModalButton extends Widget
     public function endModal()
     {
         Modal::end();
+    }
+
+    /**
+     * Registers JavaScript for ajax submit
+     * @return void
+     */
+    public function registerAjaxSubmit() {
+        $view = Yii::$app->view;
+
+        $options = ArrayHelper::merge([
+            'type' => new JsExpression("form.attr('method')"),
+            'url' => new JsExpression("form.attr('action')"),
+            'data' => new JsExpression("form.serialize()"),
+        ], $this->ajaxOptions);
+        $options = Json::encode($options);
+
+        $view->registerJs(<<<JS
+            $('form[data-ajax-submit]').on('submit', function(event) {
+                var form = $(this);
+                if (event.eventPhase === 2) {
+                    $.ajax($options);
+                    $('.modal-backdrop').remove();
+                }
+                event.preventDefault();
+            });
+JS
+        );
     }
 }
