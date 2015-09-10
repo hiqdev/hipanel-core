@@ -7,6 +7,9 @@
 
 namespace hipanel\helpers;
 
+use NumberFormatter;
+use Yii;
+
 class StringHelper extends \yii\helpers\StringHelper
 {
     /**
@@ -39,5 +42,23 @@ class StringHelper extends \yii\helpers\StringHelper
             $result = array_values(array_filter($result));
         }
         return $result;
+    }
+
+    /**
+     * Returns the symbol used for a currency.
+     *
+     * @param string $currency      A currency code (e.g. "EUR").
+     * @param string|null $locale   Optional.
+     *
+     * @return string|null The currency symbol or NULL if not found.
+     */
+    static public function getCurrencySymbol($currency, $locale = null)
+    {
+        if (null === $locale) {
+            $locale = Yii::$app->formatter->locale;
+        }
+        $fmt = new NumberFormatter( $locale."@currency=$currency", NumberFormatter::CURRENCY );
+        $symbol = $fmt->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
+        return $symbol;
     }
 }
