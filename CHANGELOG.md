@@ -3,6 +3,9 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Changed: improved smart actions
+- Added getCurrencySymbol helper
+- Change ModalButton: implemented ajax submit
 - Changed PNotify lib to iutbay/yii2-pnotify
 - Removed CrudController deprecated actions: search, info, list, view, index, delete
 - Fixed minor errors and PHP warnings

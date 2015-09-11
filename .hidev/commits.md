@@ -3,7 +3,17 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Changed: improved smart actions
+    - c279032 2015-09-11 ~ generalized preparing data for rendering at smart actions (sol@hiqdev.com)
+    - 79b4048 2015-09-10 SearchAction - added $_GET to search attributes (d.naumenko.a@gmail.com)
+    - bb061c2 2015-09-10 SmartUpdateAction - added model to POST error render params (d.naumenko.a@gmail.com)
+    - 1bd958f 2015-09-09 SmartCreateAction - fixed POST fail action (d.naumenko.a@gmail.com)
+- Added getCurrencySymbol helper
+    - 3c27968 2015-09-10 Add new static function getCurrancySymbol (andreyklochok@gmail.com)
+- Change ModalButton: implemented ajax submit
+    - 5293244 2015-09-10 ModalButton - implemented ajax submit (d.naumenko.a@gmail.com)
 - Changed PNotify lib to iutbay/yii2-pnotify
+    - 1cc2f0f 2015-09-09 PNotify - added default styling, removed styling from alert (d.naumenko.a@gmail.com)
     - 7a57e49 2015-09-09 used stable yii2-pnotify (sol@hiqdev.com)
     - bbc7645 2015-09-09 Pnotify dependency replaced with hiqdev pnotify module (d.naumenko.a@gmail.com)
     - d75dd4f 2015-09-09 Add additional param to getList (andreyklochok@gmail.com)
