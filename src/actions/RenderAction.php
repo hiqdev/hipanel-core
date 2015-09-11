@@ -30,21 +30,21 @@ class RenderAction extends Action
     public $_params;
 
     /**
-     * Collects the URL array, executing callable functions.
+     * Prepares params for rendering, executing callable functions.
      *
      * @return array
      */
     public function getParams()
     {
+        $res = [];
         if ($this->_params instanceof Closure) {
-            return call_user_func($this->_params, $this);
+            $res = call_user_func($this->_params, $this);
         } else {
-            $res = [];
             foreach ($this->_params as $k => $v) {
                 $res[$k] = $v instanceof Closure ? call_user_func($v, $this, $this->getModel()) : $v;
             }
-            return $res;
         }
+        return array_merge($res, $this->prepareData());
     }
 
     /**
@@ -57,7 +57,7 @@ class RenderAction extends Action
 
     public function run()
     {
-        return $this->controller->render($this->view ?: $this->getScenario(), $this->params);
+        return $this->controller->render($this->view ?: $this->getScenario(), $this->getParams());
     }
 
 }

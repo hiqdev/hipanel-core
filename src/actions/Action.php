@@ -9,6 +9,7 @@ namespace hipanel\actions;
 
 use hipanel\base\Controller;
 use hiqdev\hiart\ErrorResponseException;
+use Closure;
 use Yii;
 use hiqdev\hiart\Collection;
 use yii\base\InvalidCallException;
@@ -16,6 +17,7 @@ use yii\helpers\ArrayHelper;
 
 /**
  * HiPanel basic action.
+ * Holds scenario and collection. Displays flash.
  *
  * @property Collection collection
 */
@@ -108,7 +110,7 @@ class Action extends \yii\base\Action
      * @param array $data
      */
     public function loadCollection($data = null) {
-        if ($this->collectionLoader instanceof \Closure) {
+        if ($this->collectionLoader instanceof Closure) {
             call_user_func($this->collectionLoader, $this, $data);
         } else {
             $this->collection->load($data);
@@ -121,7 +123,7 @@ class Action extends \yii\base\Action
      * @return bool
      */
     public function saveCollection() {
-        if ($this->beforeSave instanceof \Closure) {
+        if ($this->beforeSave instanceof Closure) {
             call_user_func($this->beforeSave, $this);
         }
         return $this->collection->save();
@@ -165,6 +167,21 @@ class Action extends \yii\base\Action
     public function getModels()
     {
         return $this->parent ? $this->parent->getModels() : $this->collection->models;
+    }
+
+    /**
+     * @var array|Closure additional data passed when rendering
+     */
+    public $data = [];
+
+    /**
+     * Prepares additional data for render.
+     *
+     * @return array
+     */
+    public function prepareData()
+    {
+        return (array)($this->data instanceof Closure ? call_user_func($this->data, $this) : $this->data);
     }
 
     /**

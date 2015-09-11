@@ -10,21 +10,10 @@ use Yii;
  */
 class SmartCreateAction extends SwitchAction
 {
-    public $data;
-
     /**
      * @var string View name, used for render of result on GET request
      */
     public $view = 'create';
-
-    public function prepareData()
-    {
-        if ($this->data instanceof Closure) {
-            return call_user_func($this->data, $this);
-        } else {
-            return (array)$this->data;
-        }
-    }
 
     public function init()
     {
@@ -33,12 +22,13 @@ class SmartCreateAction extends SwitchAction
             'GET' => [
                 'class'  => 'hipanel\actions\RenderAction',
                 'view'   => $this->view,
+                'data'   => $this->data,
                 'params' => function ($action) {
                     $model = $action->controller->newModel(['scenario' => $action->scenario]);
-                    return array_merge([
+                    return [
                         'model'  => $model,
                         'models' => [$model],
-                    ], $this->prepareData());
+                    ];
                 },
             ],
             'POST' => [
@@ -55,11 +45,12 @@ class SmartCreateAction extends SwitchAction
                 'error'   => [
                     'class'  => 'hipanel\actions\RenderAction',
                     'view'   => $this->view,
+                    'data'   => $this->data,
                     'params' => function ($action) {
-                        return array_merge([
+                        return [
+                            'model'  => $action->collection->first,
                             'models' => $action->collection->models,
-                            'model' => $action->collection->first
-                        ], $this->prepareData());
+                        ];
                     }
                 ],
             ],

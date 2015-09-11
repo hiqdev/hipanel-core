@@ -18,11 +18,6 @@ class IndexAction extends SearchAction
      */
     public $view = 'index';
 
-    /**
-     * @var array|Closure additional data passed to view
-     */
-    public $data = [];
-
     public function init()
     {
         $this->addItems([
@@ -30,13 +25,14 @@ class IndexAction extends SearchAction
                 'save' => false,
                 'flash' => false,
                 'success' => [
-                    'class' => 'hipanel\actions\RenderAction',
-                    'view' => $this->view,
+                    'class'  => 'hipanel\actions\RenderAction',
+                    'view'   => $this->view,
+                    'data'   => $this->data,
                     'params' => function () {
-                        return ArrayHelper::merge([
-                            'model' => $this->getSearchModel(),
+                        return [
+                            'model'        => $this->getSearchModel(),
                             'dataProvider' => $this->getDataProvider(),
-                        ], $this->prepareData());
+                        ];
                     }
                 ]
             ]
@@ -51,12 +47,4 @@ class IndexAction extends SearchAction
         ]);
     }
 
-    public function prepareData()
-    {
-        if ($this->data instanceof Closure) {
-            return call_user_func($this->data, $this);
-        } else {
-            return (array)$this->data;
-        }
-    }
 }

@@ -24,11 +24,6 @@ class ViewAction extends Action
     protected $_id;
 
     /**
-     * @var array|Closure additional data passed to view
-     */
-    public $data = [];
-
-    /**
      * @var array additional data passed to model find method
      */
     public $findOptions = [];
@@ -48,15 +43,6 @@ class ViewAction extends Action
         return $this->controller->findModel(array_merge(['id' => $id], $this->findOptions), $this->modelConfig);
     }
 
-    public function prepareData($id)
-    {
-        if ($this->data instanceof Closure) {
-            return call_user_func($this->data, $this, $id);
-        } else {
-            return $this->data;
-        }
-    }
-
     public function run($id = null)
     {
         $this->_id = $this->_id ?: $id ?: Yii::$app->request->get('id') ?: Yii::$app->request->post($this->collection->formName)['id'];
@@ -69,6 +55,6 @@ class ViewAction extends Action
         $model    = $this->findModel($id);
         $this->collection->set($model);
 
-        return $this->controller->render($this->view, ArrayHelper::merge(['model' => $model], $this->prepareData($id)));
+        return $this->controller->render($this->view, array_merge(['model' => $model], $this->prepareData()));
     }
 }

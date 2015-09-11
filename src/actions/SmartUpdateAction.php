@@ -9,6 +9,11 @@ use Yii;
  */
 class SmartUpdateAction extends SwitchAction
 {
+    /**
+     * @var array|Closure additional data passed to view
+     */
+    public $data = [];
+
     public function init()
     {
         parent::init();
@@ -18,6 +23,7 @@ class SmartUpdateAction extends SwitchAction
             ],
             'GET | POST selection' => [
                 'class'  => 'hipanel\actions\RenderAction',
+                'data'   => $this->data,
                 'params' => [
                     'models' => function ($action) {
                         $ids = Yii::$app->request->post('selection') ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('id');
@@ -38,6 +44,7 @@ class SmartUpdateAction extends SwitchAction
                 ],
                 'error'   => [
                     'class'  => 'hipanel\actions\RenderAction',
+                    'data'   => $this->data,
                     'params' => function ($action) {
                         return [
                             'models' => $action->collection->models,
