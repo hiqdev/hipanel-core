@@ -3,6 +3,10 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed configuration for yii console command
+    - dc89421 2015-09-12 fixed Request configuration: moved to front/backend from common/config/main.php (sol@hiqdev.com)
+    - bbfc7be 2015-09-12 fixed yii templates at environments (sol@hiqdev.com)
+    - 46b3425 2015-09-12 Added ability to run 'init --env=dev' (sol@hiqdev.com)
 - Changed: improved smart actions
     - c279032 2015-09-11 ~ generalized preparing data for rendering at smart actions (sol@hiqdev.com)
     - 79b4048 2015-09-10 SearchAction - added $_GET to search attributes (d.naumenko.a@gmail.com)
