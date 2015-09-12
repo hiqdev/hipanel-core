@@ -14,9 +14,6 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'request' => [
-            'cookieValidationKey' => $params['cookieValidationKey'],
-        ],
         'authManager' => [
             'class' => 'hipanel\base\AuthManager',
         ],
@@ -49,7 +46,6 @@ if (YII_DEBUG && !YII_ENV_TEST) {
             ]
         ]
     ];
-
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = 'yii\gii\Module';

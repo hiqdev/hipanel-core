@@ -20,6 +20,9 @@ return [
     'language'            => 'en',
     'sourceLanguage'      => 'en-US',
     'components'          => [
+        'request' => [
+            'cookieValidationKey' => $params['cookieValidationKey'],
+        ],
         'user' => [
             'identityClass'   => 'common\models\User',
             'enableAutoLogin' => true,
