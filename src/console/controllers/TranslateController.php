@@ -47,7 +47,7 @@ class TranslateController extends MessageController
      * this file and then customize it for your needs.
      * @throws Exception on failure.
      */
-    public function actionGoogle_extract($configFile = null)
+    public function actionGoogleExtract($configFile = null)
     {
         $configFile = Yii::getAlias($configFile ? : $this->configFile);
         if (!is_file($configFile)) {
