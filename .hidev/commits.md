@@ -3,6 +3,11 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed translation
+    - 3de82ce 2015-09-15 localization (sol@hiqdev.com)
+    - ec60832 2015-09-15 redone Menu widget: used menumanager Menu widget (sol@hiqdev.com)
+    - 193eba0 2015-09-14 basic translation fix (sol@hiqdev.com)
+    - e5968f9 2015-09-13 quick fixed TranslateController (sol@hiqdev.com)
 - Fixed configuration for yii console command
     - dc89421 2015-09-12 fixed Request configuration: moved to front/backend from common/config/main.php (sol@hiqdev.com)
     - bbfc7be 2015-09-12 fixed yii templates at environments (sol@hiqdev.com)

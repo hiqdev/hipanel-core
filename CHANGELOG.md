@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Fixed translation
 - Fixed configuration for yii console command
 - Changed: improved smart actions
 - Added getCurrencySymbol helper
