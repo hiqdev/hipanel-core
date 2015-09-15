@@ -193,6 +193,23 @@ class Action extends \yii\base\Action
     }
 
     /**
+     * Returns text for flash messages, search in parent actions.
+     * Used by [[addFlash()]]
+     *
+     * @param $type string
+     * @return string
+     */
+    public function getFlashText($type) {
+        if ($this->{$type}) {
+            return $this->{$type};
+        } elseif ($this->parent) {
+            return $this->parent->getFlashText($type);
+        }
+
+        return $type;
+    }
+
+    /**
      * Adds flash message
      *
      * @param string $type the type of flash
@@ -203,7 +220,7 @@ class Action extends \yii\base\Action
         if ($type == 'error' && is_string($error) && !empty($error)) {
             $text = Yii::t('app', $error);
         } else {
-            $text = $this->{$type};
+            $text = $this->getFlashText($type);
         }
 
         if ($type instanceof \Closure) {

@@ -11,6 +11,8 @@ use hipanel\base\Re;
 
 class Ref extends \hiqdev\hiart\ActiveRecord
 {
+    public $gl_key;
+    public $gl_value;
 
     public static function getList($name, $options = [], $translate=true)
     {
