@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Fixed minor issues
 - Fixed translation
 - Fixed configuration for yii console command
 - Changed: improved smart actions

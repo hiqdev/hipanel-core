@@ -3,6 +3,9 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed minor issues
+    - e5e701a 2015-09-14 models/Ref - added gl_key, gl_value properties (d.naumenko.a@gmail.com)
+    - 3275a06 2015-09-14 actions/Action - added getFlashText method (d.naumenko.a@gmail.com)
 - Fixed translation
     - 3de82ce 2015-09-15 localization (sol@hiqdev.com)
     - ec60832 2015-09-15 redone Menu widget: used menumanager Menu widget (sol@hiqdev.com)
