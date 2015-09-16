@@ -161,7 +161,7 @@ return [
     'Create FTP account' => 'Создать аккаунт FTP',
     'Create Name Server' => 'Создать сервер имен',
     'Create Part' => 'Создать часть',
-    'Create Ticket' => 'Создать тикетов',
+    'Create Ticket' => 'Создать тикет',
     'Create Time' => 'Время создания',
     'Create account' => 'Зарегистрироваться',
     'Create alias' => 'Создать псевдоним',
