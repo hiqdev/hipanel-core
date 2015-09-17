@@ -16,7 +16,10 @@ class ClientSellerLink extends \yii\base\widget
 
     public function run()
     {
-        $res = Html::a($this->model->getClient(), ['@client/view', 'id' => $this->model->getClientId()]);
+        $res = $this->model->getClient() == 'anonym'
+            ? Html::tag('b', 'anonym')
+            : Html::a($this->model->getClient(), ['@client/view', 'id' => $this->model->getClientId()])
+        ;
         if (Yii::$app->user->can('support')) {
             $res .= ' / ' . Html::a($this->model->getSeller(), ['@client/view', 'id' => $this->model->getSellerId()]);
         }
