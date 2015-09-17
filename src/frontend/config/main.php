@@ -24,6 +24,7 @@ return [
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
         'user' => [
+            'class'           => 'hipanel\base\User',
             'identityClass'   => 'common\models\User',
             'enableAutoLogin' => true,
         ],

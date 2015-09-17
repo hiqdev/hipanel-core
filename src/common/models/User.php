@@ -147,6 +147,11 @@ class User extends Model implements IdentityInterface
         return $this->id;
     }
 
+    public function not($key)
+    {
+        return $this->id != $key && $this->username != $key;
+    }
+
     /**
      * @inheritdoc
      */
