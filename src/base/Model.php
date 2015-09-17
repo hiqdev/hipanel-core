@@ -66,7 +66,14 @@ class Model extends \hiqdev\hiart\ActiveRecord
         $default = $this->defaultAttributeLabels();
         foreach ($this->rules() as $d) {
             if (is_string(reset($d))) continue;
-            foreach (reset($d) as $k) $attributeLabels[$k] = $labels[$k] ? : $default[$k] ? : Yii::t('app', ucfirst($k));
+            foreach (reset($d) as $k) {
+                $attributeLabels[$k] = $labels[$k] ? : $default[$k];
+                if (!$attributeLabels[$k]) {
+                    $toTranslate = preg_replace(['/_id$/', '/_label$/', '/_ids$/'], ['_ID', '', ' IDs'], $k);
+                    $toTranslate = preg_replace('/_/', ' ', $toTranslate);
+                    $attributeLabels[$k] = Yii::t('app', ucfirst($toTranslate));
+                }
+            }
         }
         return $attributeLabels;
     }
