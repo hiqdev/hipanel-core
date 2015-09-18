@@ -76,7 +76,6 @@
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "1.6.*@dev",
         "stichoza/google-translate-php": "~3.0",
-        "2amigos/yii2-editable-widget": "dev-master",
         "wbraganca/yii2-dynamicform": "*"
     },
     "require-dev": {
