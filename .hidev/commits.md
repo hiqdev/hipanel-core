@@ -4,6 +4,17 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed minor issues
+    - 701938d 2015-09-18 - require 2amigos/yii2-editable-widget (sol@hiqdev.com)
+    - 181c4de 2015-09-17 * improve language (bladeroot@gmail.com)
+    - 073016e 2015-09-17 merge conflicts (bladeroot@gmail.com)
+    - 63cab9a 2015-09-17 * improve language pack; * change selecting of atttibute label (bladeroot@gmail.com)
+    - a5d48a9 2015-09-17 * improve language (bladeroot@gmail.com)
+    - fbfb6c9 2015-09-16 fixed anonym displaying (sol@hiqdev.com)
+    - 7be55a4 2015-09-16 x fix conflicts (bladeroot@gmail.com)
+    - 6b41caa 2015-09-16 * improve language pack (bladeroot@gmail.com)
+    - 6508e89 2015-09-16 translation (sol@hiqdev.com)
+    - 6d9f2c6 2015-09-16 x fix conflicts (bladeroot@gmail.com)
+    - 2e183c9 2015-09-16 * improve language pack (bladeroot@gmail.com)
     - e5e701a 2015-09-14 models/Ref - added gl_key, gl_value properties (d.naumenko.a@gmail.com)
     - 3275a06 2015-09-14 actions/Action - added getFlashText method (d.naumenko.a@gmail.com)
 - Fixed translation
