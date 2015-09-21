@@ -18,5 +18,5 @@
 */
 return [
     'Note:' => 'Примечание:',
-    'Your browser does not support {validation}. Try an alternative or more recent browser to access these features.' => 'Ваш браузер не поддерживает {validation} , Попробуйте альтернативный или более новую версию браузера, чтобы получить доступ к этим функции .',
+    'Your browser does not support {validation}. Try an alternative or more recent browser to access these features.' => 'Ваш браузер не поддерживает {validation} , Попробуйте альтернативный или более новую версию браузера, чтобы получить доступ к этим функциям .',
 ];
