@@ -23,6 +23,9 @@ return [
         'request' => [
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
+        'response' => [
+            'class' => 'hipanel\base\Response',
+        ],
         'user' => [
             'class'           => 'hipanel\base\User',
             'identityClass'   => 'common\models\User',

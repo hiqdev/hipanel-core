@@ -8,6 +8,8 @@
 namespace hipanel\models;
 
 use hipanel\base\Re;
+use Yii;
+use yii\helpers\ArrayHelper;
 
 class Ref extends \hiqdev\hiart\ActiveRecord
 {
@@ -16,9 +18,9 @@ class Ref extends \hiqdev\hiart\ActiveRecord
 
     public static function getList($name, $options = [], $translate=true)
     {
-        $func = ($translate) ? function ($v) { return Re::l($v->gl_value); } : function ($v) { return $v->gl_value; } ;
-        return \yii\helpers\ArrayHelper::map(self::find()->where(array_merge(['gtype' => $name], $options))->getList(false),
-            'gl_key', $func);
+        $func = $translate ? function ($v) { return Yii::t('app', $v->gl_value); } : function ($v) { return $v->gl_value; } ;
+        #$func = function ($v) { return $v->gl_value; };
+        return ArrayHelper::map(self::find()->where(array_merge(['gtype' => $name], $options))->getList(false), 'gl_key', $func);
     }
 
     public function attributes()
