@@ -7,7 +7,7 @@
 
 namespace hipanel\widgets;
 
-use hipanel\base\Re;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -36,11 +36,11 @@ class RequestState extends Widget
     public function init () {
         parent::init();
         if ($this->model->request_state_label) {
-            $this->model->request_state_label = Re::l($this->model->request_state_label);
+            $this->model->request_state_label = Yii::t('app', $this->model->request_state_label);
         }
 
         if ($this->model->state_label) {
-            $this->model->state_label = Re::l($this->model->state_label);
+            $this->model->state_label = Yii::t('app', $this->model->state_label);
         }
 
         if (empty($this->module)) {
@@ -67,11 +67,11 @@ class RequestState extends Widget
             $res = Html::tag('span', $this->model->state_label);
         }
 
-        RequestStateAsset::register(\Yii::$app->getView());
+        RequestStateAsset::register(Yii::$app->getView());
 
         $options   = Json::encode(array_merge(['module' => $this->module], $this->clientOptions));
         $plugin_id = 'objectStateWatcher-' . $this->module;
-        \Yii::$app->getView()->registerJs("$('{$this->elementSelector}').objectsStateWatcher($options);", \yii\web\View::POS_READY, $plugin_id);
+        Yii::$app->getView()->registerJs("$('{$this->elementSelector}').objectsStateWatcher($options);", \yii\web\View::POS_READY, $plugin_id);
 
         return $res;
     }

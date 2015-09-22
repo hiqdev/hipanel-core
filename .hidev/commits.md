@@ -3,7 +3,15 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-- Fixed minor issues
+- Addedd urlCallback for CurrencyColumn
+    - b4553ae 2015-09-22 added urlCallback for CurrencyColumn (sol@hiqdev.com)
+- Removed base/Re and common/components/Lang in favour of base/Lang and Yii::t
+    - a3497a6 2015-09-21 fixed translation, redone Re::t to Yii::t (sol@hiqdev.com)
+- Added User::not
+    - 72a9e83 2015-09-17 + User::not (sol@hiqdev.com)
+- Fixed translation and minor issues
+    - f67289e 2015-09-21 * improve language pack (bladeroot@gmail.com)
+    - c684981 2015-09-18 * improve language pack (bladeroot@gmail.com)
     - 701938d 2015-09-18 - require 2amigos/yii2-editable-widget (sol@hiqdev.com)
     - 181c4de 2015-09-17 * improve language (bladeroot@gmail.com)
     - 073016e 2015-09-17 merge conflicts (bladeroot@gmail.com)
@@ -17,7 +25,6 @@ hiqdev/hipanel-core commits history
     - 2e183c9 2015-09-16 * improve language pack (bladeroot@gmail.com)
     - e5e701a 2015-09-14 models/Ref - added gl_key, gl_value properties (d.naumenko.a@gmail.com)
     - 3275a06 2015-09-14 actions/Action - added getFlashText method (d.naumenko.a@gmail.com)
-- Fixed translation
     - 3de82ce 2015-09-15 localization (sol@hiqdev.com)
     - ec60832 2015-09-15 redone Menu widget: used menumanager Menu widget (sol@hiqdev.com)
     - 193eba0 2015-09-14 basic translation fix (sol@hiqdev.com)
