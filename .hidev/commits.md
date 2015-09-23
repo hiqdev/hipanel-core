@@ -4,6 +4,7 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed translation and minor issues
+    - 5f281cf 2015-09-23 Add localize input search from table, delete debug messages, add run() method to SmartCreateAction for calculate view attribute (andreyklochok@gmail.com)
     - 23a1661 2015-09-23 small improvements of how it looks like (sol@hiqdev.com)
     - c6a89e7 2015-09-23 * CurrencyColumn: + primary color when sum is 0 (sol@hiqdev.com)
     - 5274ff8 2015-09-23 changed Gravatar: + defaultImage = 'identicon' (sol@hiqdev.com)
