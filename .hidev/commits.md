@@ -30,7 +30,8 @@ hiqdev/hipanel-core commits history
     - ec60832 2015-09-15 redone Menu widget: used menumanager Menu widget (sol@hiqdev.com)
     - 193eba0 2015-09-14 basic translation fix (sol@hiqdev.com)
     - e5968f9 2015-09-13 quick fixed TranslateController (sol@hiqdev.com)
-- Changed Label widget zclass -> color
+- Changed Label widget zclass -> color, add 'none' color
+    - bc30115 2015-09-23 + Label none type (sol@hiqdev.com)
     - 8d1d1ba 2015-09-23 + State widget (sol@hiqdev.com)
     - 77701fa 2015-09-23 changed Label widget zclass -> color (sol@hiqdev.com)
 - Changed ModalButton: implemented ajax submit and footerButtonScript
