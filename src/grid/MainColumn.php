@@ -27,6 +27,7 @@ class MainColumn extends DataColumn
 
     public function init()
     {
+        parent::init();
         $this->noteOptions = ArrayHelper::merge([
             'emptytext' => Yii::t('app', 'set note'),
             'url'       => Url::to('set-note')
