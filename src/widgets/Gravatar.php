@@ -9,6 +9,8 @@ namespace hipanel\widgets;
 
 class Gravatar extends \cebe\gravatar\Gravatar
 {
+    public $defaultImage = 'identicon';
+
     protected $_emailHash;
 
     public function setEmailHash($hash)
