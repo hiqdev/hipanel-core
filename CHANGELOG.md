@@ -5,7 +5,7 @@ hiqdev/hipanel-core changelog
 
 - Changed ModalButton: implemented ajax submit and footerButtonScript
 - Added DynamicFormWidget
-- Addedd urlCallback for CurrencyColumn
+- Addedd urlCallback and colors substitution for CurrencyColumn
 - Removed base/Re and common/components/Lang in favour of base/Lang and Yii::t
 - Added User::is and User::not
 - Fixed translation and minor issues

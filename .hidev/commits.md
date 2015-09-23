@@ -8,7 +8,8 @@ hiqdev/hipanel-core commits history
     - 5293244 2015-09-10 ModalButton - implemented ajax submit (d.naumenko.a@gmail.com)
 - Added DynamicFormWidget
     - 70302df 2015-09-22 Added DynamicFormWidget (d.naumenko.a@gmail.com)
-- Addedd urlCallback for CurrencyColumn
+- Addedd urlCallback and colors substitution for CurrencyColumn
+    - 0f73864 2015-09-23 + colors substitution for CurrencyColumn (sol@hiqdev.com)
     - b4553ae 2015-09-22 added urlCallback for CurrencyColumn (sol@hiqdev.com)
 - Removed base/Re and common/components/Lang in favour of base/Lang and Yii::t
     - a3497a6 2015-09-21 fixed translation, redone Re::t to Yii::t (sol@hiqdev.com)
