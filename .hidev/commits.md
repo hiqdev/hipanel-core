@@ -16,6 +16,7 @@ hiqdev/hipanel-core commits history
     - 72a9e83 2015-09-17 + User::not (sol@hiqdev.com)
     - 32c83c2 2015-09-23 + function is: compare key with authId (bladeroot@gmail.com)
 - Fixed translation and minor issues
+    - 68014ee 2015-09-23 minor: fixed labels (sol@hiqdev.com)
     - 247525e 2015-09-23 fixed back running 'success' rule branch when 'error' not given (sol@hiqdev.com)
     - cf8298a 2015-09-23 x fix init: parent init require (bladeroot@gmail.com)
     - 49529b1 2015-09-23 + improve language pack (bladeroot@gmail.com)
