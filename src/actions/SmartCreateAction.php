@@ -18,7 +18,7 @@ class SmartCreateAction extends SwitchAction
     public function run()
     {
         $this->view = $this->view ?: $this->getScenario();
-        parent::run();
+        return parent::run();
     }
 
     public function init()
