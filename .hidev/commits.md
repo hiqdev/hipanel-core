@@ -3,6 +3,9 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Changed Label widget zclass -> color
+    - 8d1d1ba 2015-09-23 + State widget (sol@hiqdev.com)
+    - 77701fa 2015-09-23 changed Label widget zclass -> color (sol@hiqdev.com)
 - Changed ModalButton: implemented ajax submit and footerButtonScript
     - 11452fe 2015-09-22 ModalButton - added footeBUttonScript (d.naumenko.a@gmail.com)
     - 5293244 2015-09-10 ModalButton - implemented ajax submit (d.naumenko.a@gmail.com)

@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Changed Label widget zclass -> color
 - Changed ModalButton: implemented ajax submit and footerButtonScript
 - Added DynamicFormWidget
 - Addedd urlCallback and colors substitution for CurrencyColumn
