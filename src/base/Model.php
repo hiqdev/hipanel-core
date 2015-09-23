@@ -53,8 +53,9 @@ class Model extends \hiqdev\hiart\ActiveRecord
             'state_id'      => Yii::t('app', 'Status ID'),
             'state_label'   => Yii::t('app', 'Status label'),
             'state'         => Yii::t('app', 'Status'),
-            'type_id'       => Yii::t('app', 'Type ID'),
-            'type_label'    => Yii::t('app', 'Type label'),
+            'type'          => Yii::t('app', 'Type'),
+            'type_id'       => Yii::t('app', 'Type'),
+            'type_label'    => Yii::t('app', 'Type'),
             'descr'         => Yii::t('app', 'Description'),
        ];
     }
