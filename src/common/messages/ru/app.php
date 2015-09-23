@@ -84,7 +84,7 @@ return [
     'Author' => 'Автор',
     'Author ID' => 'ID автора',
     'Auth code' => 'Код авторизации',
-    'Autorenew' => 'Автоматическое продление',
+    'Autorenew' => 'Авто продление',
     'Autorenewal' => 'Автоматическе продление',
     'Autorenewal has been change' => 'Автоматическое продление было изменено',
     'Autorenewal has been disabled' => 'Автоматическое продление было отключено',
