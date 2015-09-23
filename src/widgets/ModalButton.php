@@ -66,6 +66,11 @@ class ModalButton extends Widget
     public $scenario;
 
     /**
+     * @var string Model scenario before widget run
+     */
+    protected $_oldScenario;
+
+    /**
      * @var array|ActiveForm The options for the HTML form.
      * The following special options are supported:
      *
@@ -112,10 +117,10 @@ class ModalButton extends Widget
     /**
      * @var integer determines the way of form submit.
      * @see [[SUBMIT_HTML]]
-     * @see [[SUBMIT_AJAX]]
      * @see [[SUBMIT_PJAX]]
+     * @see [[SUBMIT_AJAX]]
      */
-    public $submit;
+    public $submit = self::SUBMIT_PJAX;
 
     /**
      * @var array options that will be passed to ajax submit JS
@@ -130,7 +135,6 @@ class ModalButton extends Widget
     public function init()
     {
         $this->initOptions();
-
 
         if ($this->button['position'] === static::BUTTON_OUTSIDE && isset($this->button['label'])) {
             $this->renderButton();
@@ -171,6 +175,9 @@ class ModalButton extends Widget
 
         if (empty($this->scenario)) {
             $this->scenario = $this->model->scenario;
+        } else {
+            $this->_oldScenario = $this->model->scenario;
+            $this->model->scenario = $this->scenario;
         }
 
         if ($this->form !== false) {
@@ -178,8 +185,11 @@ class ModalButton extends Widget
                 'method' => 'POST',
                 'action' => $this->scenario,
                 'options' => [
-                    'class' => 'inline'
-                ]
+                    'class' => 'inline',
+                    'data' => [
+                        'modal-form' => true
+                    ]
+                ],
             ];
             if ($this->submit === static::SUBMIT_PJAX) {
                 $formConfig['options'] = ArrayHelper::merge($formConfig['options'], [
@@ -197,16 +207,18 @@ class ModalButton extends Widget
         }
 
         if (is_array($footer = $this->modal['footer'])) {
-            $tag = ArrayHelper::remove($footer, 'tag', 'button');
+            $tag = ArrayHelper::remove($footer, 'tag', 'input');
             $label = ArrayHelper::remove($footer, 'label', 'OK');
             $footer = ArrayHelper::merge([
-                'onClick' => new \yii\web\JsExpression("
-                    $(this).closest('form').trigger('submit');
-                    $(this).button('loading');
-                ")
+                'data-modal-submit' => true,
             ], $footer);
 
+            if ($tag === 'input') {
+                $footer['type']  = 'submit';
+            }
+
             $this->modal['footer'] = Html::tag($tag, $label, $footer);
+            $this->registerFooterButtonScript();
         }
 
         $this->modal = ArrayHelper::merge([
@@ -224,6 +236,10 @@ class ModalButton extends Widget
 
         if ($this->form !== false) {
             $this->endForm();
+        }
+
+        if ($this->_oldScenario !== null) {
+            $this->model->scenario = $this->_oldScenario;
         }
     }
 
@@ -328,5 +344,16 @@ class ModalButton extends Widget
             });
 JS
         );
+    }
+
+    public function registerFooterButtonScript() {
+        $view = Yii::$app->view;
+        $view->registerJs("
+            $('form[data-modal-form]').on('beforeSubmit', function (e) {
+                var submit = $(this).find('[data-modal-submit]');
+                if (!submit) return true;
+                submit.button('loading');
+            });
+        ");
     }
 }

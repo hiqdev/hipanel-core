@@ -3,13 +3,22 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Changed ModalButton: implemented ajax submit and footerButtonScript
+    - 11452fe 2015-09-22 ModalButton - added footeBUttonScript (d.naumenko.a@gmail.com)
+    - 5293244 2015-09-10 ModalButton - implemented ajax submit (d.naumenko.a@gmail.com)
+- Added DynamicFormWidget
+    - 70302df 2015-09-22 Added DynamicFormWidget (d.naumenko.a@gmail.com)
 - Addedd urlCallback for CurrencyColumn
     - b4553ae 2015-09-22 added urlCallback for CurrencyColumn (sol@hiqdev.com)
 - Removed base/Re and common/components/Lang in favour of base/Lang and Yii::t
     - a3497a6 2015-09-21 fixed translation, redone Re::t to Yii::t (sol@hiqdev.com)
-- Added User::not
+- Added User::is and User::not
     - 72a9e83 2015-09-17 + User::not (sol@hiqdev.com)
+    - 32c83c2 2015-09-23 + function is: compare key with authId (bladeroot@gmail.com)
 - Fixed translation and minor issues
+    - 247525e 2015-09-23 fixed back running 'success' rule branch when 'error' not given (sol@hiqdev.com)
+    - cf8298a 2015-09-23 x fix init: parent init require (bladeroot@gmail.com)
+    - 49529b1 2015-09-23 + improve language pack (bladeroot@gmail.com)
     - f67289e 2015-09-21 * improve language pack (bladeroot@gmail.com)
     - c684981 2015-09-18 * improve language pack (bladeroot@gmail.com)
     - 701938d 2015-09-18 - require 2amigos/yii2-editable-widget (sol@hiqdev.com)
@@ -40,8 +49,6 @@ hiqdev/hipanel-core commits history
     - 1bd958f 2015-09-09 SmartCreateAction - fixed POST fail action (d.naumenko.a@gmail.com)
 - Added getCurrencySymbol helper
     - 3c27968 2015-09-10 Add new static function getCurrancySymbol (andreyklochok@gmail.com)
-- Change ModalButton: implemented ajax submit
-    - 5293244 2015-09-10 ModalButton - implemented ajax submit (d.naumenko.a@gmail.com)
 - Changed PNotify lib to iutbay/yii2-pnotify
     - 1cc2f0f 2015-09-09 PNotify - added default styling, removed styling from alert (d.naumenko.a@gmail.com)
     - 7a57e49 2015-09-09 used stable yii2-pnotify (sol@hiqdev.com)

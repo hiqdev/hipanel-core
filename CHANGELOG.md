@@ -3,14 +3,15 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Changed ModalButton: implemented ajax submit and footerButtonScript
+- Added DynamicFormWidget
 - Addedd urlCallback for CurrencyColumn
 - Removed base/Re and common/components/Lang in favour of base/Lang and Yii::t
-- Added User::not
+- Added User::is and User::not
 - Fixed translation and minor issues
 - Fixed configuration for yii console command
 - Changed: improved smart actions
 - Added getCurrencySymbol helper
-- Change ModalButton: implemented ajax submit
 - Changed PNotify lib to iutbay/yii2-pnotify
 - Removed CrudController deprecated actions: search, info, list, view, index, delete
 - Fixed minor errors and PHP warnings
