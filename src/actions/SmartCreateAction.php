@@ -13,7 +13,13 @@ class SmartCreateAction extends SwitchAction
     /**
      * @var string View name, used for render of result on GET request
      */
-    public $view = 'create';
+    public $view;
+
+    public function run()
+    {
+        $this->view = $this->view ?: $this->getScenario();
+        parent::run();
+    }
 
     public function init()
     {
