@@ -27,11 +27,18 @@ class Label extends Widget
      */
     public $label;
 
+    public $default = 'default';
+
+    /**
+     * Available types: label, text
+     */
+    public $type = 'label';
+
     /**
      * @var string
      * Because $class is used by Yii::createObject
      */
-    public $zclass;
+    public $_color;
 
     /**
      * @var string
@@ -39,7 +46,6 @@ class Label extends Widget
     public $tag = 'span';
 
     static public function widget ($config = []) {
-        if (!$config['zclass']) $config['zclass'] = $config['class'];
         return parent::widget($config);
     }
 
@@ -49,10 +55,31 @@ class Label extends Widget
     }
 
     private function renderLabel () {
-        print Html::tag($this->tag, $this->label, ['class' => "label label-".$this->getZclass()]);
+        print Html::tag($this->tag, $this->label, ['class' => $this->buildClass()]);
     }
 
-    protected function getZclass () {
-        return $this->zclass ?: 'default';
+    public function buildClass()
+    {
+        return $this->getCssClass() . ' ' . $this->getPrefix() . '-' . $this->getColor();
+    }
+
+    public function setColor($color)
+    {
+        $this->_color = $color;
+    }
+
+    public function getColor()
+    {
+        return $this->_color ?: $this->default;
+    }
+
+    public function getCssClass()
+    {
+        return $this->type=='text' ? 'text-bold' : $this->type;
+    }
+
+    public function getPrefix()
+    {
+        return $this->type;
     }
 }

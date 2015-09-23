@@ -48,7 +48,7 @@ class Type extends \hipanel\widgets\Label {
             }
         }
 
-        $this->zclass = $class ?: 'warning';
+        $this->color = $class ?: 'warning';
         $this->label  = Yii::t('app', $this->model->{"{$this->field}_label"} ? : $this->model->{$this->field});
         parent::run();
     }
