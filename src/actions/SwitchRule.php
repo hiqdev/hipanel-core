@@ -92,9 +92,11 @@ class SwitchRule extends \yii\base\Component
      */
     public function setAction($action, $postfix = null)
     {
+        if (!$action) {
+            return;
+        }
         if (!isset($action['parent'])) {
             $action['parent'] = $this->switch;
-
         }
         $this->switch->controller->setInternalAction($this->getId($postfix), $action);
     }
