@@ -16,4 +16,14 @@ class User extends \yii\web\User
 
         return $identity->not($key);
     }
+
+    public function is($key)
+    {
+        $identity = $this->getIdentity();
+        if (!$identity) {
+            throw new InvalidConfigException();
+        }
+
+        return $identity->is($key);
+    }
 }

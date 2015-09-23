@@ -28,6 +28,8 @@ class User extends Model implements IdentityInterface
     public $email;
     public $username;
     public $type;
+    public $seller;
+    public $seller_id;
 
     private static $_users;
 
@@ -145,6 +147,11 @@ class User extends Model implements IdentityInterface
      */
     public function getId () {
         return $this->id;
+    }
+
+    public function is($key)
+    {
+        return $this->id == $key || $this->username == $key;
     }
 
     public function not($key)
