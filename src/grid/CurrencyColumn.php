@@ -14,6 +14,8 @@ class CurrencyColumn extends DataColumn
     public $filter = false;
     public $compare = false;
 
+    public $urlCallback;
+
     public function getDataCellValue ($model, $key, $index) {
         $value = $model->{$this->attribute};
         $class = 'info';
@@ -23,9 +25,9 @@ class CurrencyColumn extends DataColumn
         if ($value < -($model->{$this->compare} ?: 0)) {
             $class = 'danger';
         };
-        return Html::tag('span',
-            Yii::$app->formatter->format($value, ['currency', $model->currency]),
-            ['class' => 'text-'.$class]
-        );
+        $url = $this->urlCallback ? call_user_func($this->urlCallback, $model, $key, $index) : null;
+        $txt = Yii::$app->formatter->format($value, ['currency', $model->currency]);
+        $ops = ['class' => 'text-'.$class];
+        return $url ? Html::a($txt, $url, $ops) : Html::tag('span', $txt, $ops);
     }
 }

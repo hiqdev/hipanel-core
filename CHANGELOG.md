@@ -3,8 +3,10 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
-- Fixed minor issues
-- Fixed translation
+- Addedd urlCallback for CurrencyColumn
+- Removed base/Re and common/components/Lang in favour of base/Lang and Yii::t
+- Added User::not
+- Fixed translation and minor issues
 - Fixed configuration for yii console command
 - Changed: improved smart actions
 - Added getCurrencySymbol helper

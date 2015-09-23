@@ -8,8 +8,8 @@
 namespace hipanel\widgets;
 
 use hipanel\base\Model;
-use hipanel\base\Re;
-use \yii\helpers\ArrayHelper as AH;
+use Yii;
+use \yii\helpers\ArrayHelper;
 
 class Type extends \hipanel\widgets\Label {
 
@@ -27,7 +27,6 @@ class Type extends \hipanel\widgets\Label {
     public $values = [];
 
     /** @var defaultValues[] inherits $values */
-
     public $defaultValues = [];
 
     /** @var string field  */
@@ -37,10 +36,10 @@ class Type extends \hipanel\widgets\Label {
         $field = $this->model->{$this->field};
 
         foreach ($this->defaultValues as $key => $values) {
-            $possible[$key] = AH::merge($values, $this->values[$key] ? : []);
+            $possible[$key] = ArrayHelper::merge($values, $this->values[$key] ? : []);
         }
 
-        $this->values = AH::merge($possible, $this->values);
+        $this->values = ArrayHelper::merge($possible, $this->values);
 
         foreach ($this->values as $classes => $values) {
             if (in_array($field, $values)) {
@@ -49,8 +48,8 @@ class Type extends \hipanel\widgets\Label {
             }
         }
 
-        $this->zclass   = $class ?: 'warning';
-        $this->label    = Re::l($this->model->{"{$this->field}_label"} ? : $this->model->{$this->field});
+        $this->zclass = $class ?: 'warning';
+        $this->label  = Yii::t('app', $this->model->{"{$this->field}_label"} ? : $this->model->{$this->field});
         parent::run();
     }
 }
