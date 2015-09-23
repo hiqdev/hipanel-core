@@ -7,7 +7,6 @@
 
 namespace hipanel\widgets;
 
-use yii\base\Widget;
 use yii\helpers\Html;
 
 /**
@@ -20,7 +19,7 @@ use yii\helpers\Html;
  *      'tag'   => 'span',
  * ]);
  */
-class Label extends Widget
+class Label extends \yii\base\Widget
 {
     /**
      * @var string
