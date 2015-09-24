@@ -28,6 +28,8 @@ class Label extends \yii\base\Widget
 
     public $default = 'default';
 
+    public $none_options = ['class' => 'text-muted'];
+
     /**
      * Available types: label, text
      */
@@ -55,7 +57,7 @@ class Label extends \yii\base\Widget
 
     private function renderLabel () {
         $color = $this->getColor();
-        print $color=='none' ? Html::tag('b', $this->label) : Html::tag($this->tag, $this->label, ['class' => $this->buildClass()]);
+        print $color=='none' ? Html::tag('b', $this->label, $this->none_options) : Html::tag($this->tag, $this->label, ['class' => $this->buildClass()]);
     }
 
     public function buildClass()

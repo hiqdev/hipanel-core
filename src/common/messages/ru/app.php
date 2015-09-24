@@ -81,6 +81,7 @@ return [
     'Article Name' => 'Название статьи',
     'Assignee' => 'Исполнитель',
     'Assignee ID' => 'ID исполнителя',
+    'Recepient' => 'Получатель',
     'Author' => 'Автор',
     'Author ID' => 'ID автора',
     'Auth code' => 'Код авторизации',
