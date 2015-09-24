@@ -3,11 +3,12 @@
 namespace hipanel\base;
 
 use yii\caching\Cache as yiiCache;
+use ReflectionFunction;
 
 class Cache extends \yii\caching\FileCache
 {
     public function getTimeCached ($timeout, array $params, $func) {
-        $key = array_merge([__CLASS__], $params);
+        $key = array_merge([__CLASS__, ReflectionFunction::export($func, true)], $params);
         $res = $this->get($key);
         if ($res === false) {
             $res = call_user_func_array($func, $params);
