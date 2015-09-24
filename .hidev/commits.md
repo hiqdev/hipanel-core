@@ -4,8 +4,10 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Added caching of refs
+    - 9f97911 2015-09-24 improved Caching: + ReflectionFunction::export to cache key (sol@hiqdev.com)
     - d4966d5 2015-09-24 + base\Cache component with getTimeCached() used for caching refs (sol@hiqdev.com)
 - Fixed translation and minor issues
+    - d3afcab 2015-09-24 Fix panel.css make font-size more responsible in .profile-user-name (andreyklochok@gmail.com)
     - 33860fc 2015-09-24 + block reasons (sol@hiqdev.com)
     - c02fbd0 2015-09-23 fixed typo at SmartCreateAction::run (sol@hiqdev.com)
     - 5f281cf 2015-09-23 Add localize input search from table, delete debug messages, add run() method to SmartCreateAction for calculate view attribute (andreyklochok@gmail.com)
