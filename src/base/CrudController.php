@@ -25,18 +25,26 @@ class CrudController extends Controller
     public function actionTest ($action) {
     }
 
-    static public function getRefs ($gtype) {
-        return Ref::find()->where(['gtype' => $gtype, 'limit' => 'ALL'])->getList();
+    public function getRefs($gtype)
+    {
+        return $this->getCache()->getTimeCached(3600, [$gtype], function ($gtype) {
+            return Ref::find()->where(['gtype' => $gtype, 'limit' => 'ALL'])->getList();
+        });
     }
 
-    static public function getClassRefs ($type) { return static::getRefs($type . ',' . static::modelId('_')); }
-
-    static public function getBlockReasons () {
-        static $blockReason;
-        if ($blockReason === null) $blockReason = static::getRefs('type,block');
-        return $blockReason;
+    public function getClassRefs($type)
+    {
+        return $this->getRefs($type . ',' . static::modelId('_'));
     }
 
-    static public function getPriorities () { return static::getRefs('type,priority'); }
+    public function getBlockReasons()
+    {
+        return $this->getRefs('type,block');
+    }
+
+    public function getPriorities()
+    {
+        return $this->getRefs('type,priority');
+    }
 
 }

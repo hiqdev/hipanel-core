@@ -12,7 +12,8 @@ $config = [
     'vendorPath' => '@project/vendor',
     'components' => [
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'hipanel\base\Cache',
+            // 'cache' => 'yii\caching\FileCache',
         ],
         'authManager' => [
             'class' => 'hipanel\base\AuthManager',
