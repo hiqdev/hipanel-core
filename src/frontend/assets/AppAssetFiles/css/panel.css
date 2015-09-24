@@ -602,7 +602,7 @@ a.asc:after {
 /* USER PROFILE */
 .profile-user-name {
     color: #5a7391;
-    font-size: 18px;
+    font-size: 1.5rem; /* font-size: 18px; */
     font-weight: 600;
     margin-bottom: 7px;
 }
