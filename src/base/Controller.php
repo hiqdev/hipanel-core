@@ -9,6 +9,7 @@ namespace hipanel\base;
 
 use Yii;
 use hiqdev\hiart\ActiveRecord;
+use yii\di\Instance;
 use yii\base\InvalidConfigException;
 use yii\helpers\Inflector;
 use yii\helpers\ArrayHelper;
@@ -21,6 +22,25 @@ use yii\web\Response;
  */
 class Controller extends \yii\web\Controller
 {
+    /**
+     * @var Cache|array|string the cache object or the application component ID of the cache object.
+     */
+    protected $_cache = 'cache';
+
+    public function setCache($cache)
+    {
+        $this->_cache = $cache;
+    }
+
+    public function getCache()
+    {
+        if (!is_object($this->_cache)) {
+            $this->_cache = Instance::ensure($this->_cache, Cache::className());
+        }
+
+        return $this->_cache;
+    }
+
     /**
      * @var array internal actions.
      */
