@@ -35,14 +35,12 @@ class ActionBox extends Box
     private function registerClientScript() {
         $view = $this->getView();
         $view->registerJs(<<<JS
-        var checkboxes = $('input[type="checkbox"]');
+        var checkboxes = $('table input[type="checkbox"]');
         var bulkcontainer = $('.box-bulk-actions fieldset');
         checkboxes.on('ifChecked ifUnchecked', function(event) {
             if (event.type == 'ifChecked') {
-                console.log('123');
                 bulkcontainer.prop('disabled', false);
             } else if (!checkboxes.filter(':checked').length > 0) {
-                console.log('321');
                 bulkcontainer.prop('disabled', true);
             }
         });

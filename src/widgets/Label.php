@@ -7,7 +7,6 @@
 
 namespace hipanel\widgets;
 
-use yii\base\Widget;
 use yii\helpers\Html;
 
 /**
@@ -20,7 +19,7 @@ use yii\helpers\Html;
  *      'tag'   => 'span',
  * ]);
  */
-class Label extends Widget
+class Label extends \yii\base\Widget
 {
     /**
      * @var string
@@ -55,7 +54,8 @@ class Label extends Widget
     }
 
     private function renderLabel () {
-        print Html::tag($this->tag, $this->label, ['class' => $this->buildClass()]);
+        $color = $this->getColor();
+        print $color=='none' ? Html::tag('b', $this->label) : Html::tag($this->tag, $this->label, ['class' => $this->buildClass()]);
     }
 
     public function buildClass()

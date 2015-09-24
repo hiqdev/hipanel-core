@@ -20,6 +20,7 @@ class RefColumn extends DataColumn
             'attribute' => $this->getFilterAttribute(),
             'model'     => $this->grid->filterModel,
             'gtype'     => $this->gtype,
+            'options'   => $this->filterInputOptions,
         ]);
     }
 }

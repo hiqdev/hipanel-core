@@ -3,23 +3,12 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-- Changed Label widget zclass -> color
-    - 8d1d1ba 2015-09-23 + State widget (sol@hiqdev.com)
-    - 77701fa 2015-09-23 changed Label widget zclass -> color (sol@hiqdev.com)
-- Changed ModalButton: implemented ajax submit and footerButtonScript
-    - 11452fe 2015-09-22 ModalButton - added footeBUttonScript (d.naumenko.a@gmail.com)
-    - 5293244 2015-09-10 ModalButton - implemented ajax submit (d.naumenko.a@gmail.com)
-- Added DynamicFormWidget
-    - 70302df 2015-09-22 Added DynamicFormWidget (d.naumenko.a@gmail.com)
-- Addedd urlCallback and colors substitution for CurrencyColumn
-    - 0f73864 2015-09-23 + colors substitution for CurrencyColumn (sol@hiqdev.com)
-    - b4553ae 2015-09-22 added urlCallback for CurrencyColumn (sol@hiqdev.com)
-- Removed base/Re and common/components/Lang in favour of base/Lang and Yii::t
-    - a3497a6 2015-09-21 fixed translation, redone Re::t to Yii::t (sol@hiqdev.com)
-- Added User::is and User::not
-    - 72a9e83 2015-09-17 + User::not (sol@hiqdev.com)
-    - 32c83c2 2015-09-23 + function is: compare key with authId (bladeroot@gmail.com)
 - Fixed translation and minor issues
+    - c02fbd0 2015-09-23 fixed typo at SmartCreateAction::run (sol@hiqdev.com)
+    - 5f281cf 2015-09-23 Add localize input search from table, delete debug messages, add run() method to SmartCreateAction for calculate view attribute (andreyklochok@gmail.com)
+    - 23a1661 2015-09-23 small improvements of how it looks like (sol@hiqdev.com)
+    - c6a89e7 2015-09-23 * CurrencyColumn: + primary color when sum is 0 (sol@hiqdev.com)
+    - 5274ff8 2015-09-23 changed Gravatar: + defaultImage = 'identicon' (sol@hiqdev.com)
     - 68014ee 2015-09-23 minor: fixed labels (sol@hiqdev.com)
     - 247525e 2015-09-23 fixed back running 'success' rule branch when 'error' not given (sol@hiqdev.com)
     - cf8298a 2015-09-23 x fix init: parent init require (bladeroot@gmail.com)
@@ -43,6 +32,23 @@ hiqdev/hipanel-core commits history
     - ec60832 2015-09-15 redone Menu widget: used menumanager Menu widget (sol@hiqdev.com)
     - 193eba0 2015-09-14 basic translation fix (sol@hiqdev.com)
     - e5968f9 2015-09-13 quick fixed TranslateController (sol@hiqdev.com)
+- Changed Label widget zclass -> color, add 'none' color
+    - bc30115 2015-09-23 + Label none type (sol@hiqdev.com)
+    - 8d1d1ba 2015-09-23 + State widget (sol@hiqdev.com)
+    - 77701fa 2015-09-23 changed Label widget zclass -> color (sol@hiqdev.com)
+- Changed ModalButton: implemented ajax submit and footerButtonScript
+    - 11452fe 2015-09-22 ModalButton - added footeBUttonScript (d.naumenko.a@gmail.com)
+    - 5293244 2015-09-10 ModalButton - implemented ajax submit (d.naumenko.a@gmail.com)
+- Added DynamicFormWidget
+    - 70302df 2015-09-22 Added DynamicFormWidget (d.naumenko.a@gmail.com)
+- Addedd urlCallback and colors substitution for CurrencyColumn
+    - 0f73864 2015-09-23 + colors substitution for CurrencyColumn (sol@hiqdev.com)
+    - b4553ae 2015-09-22 added urlCallback for CurrencyColumn (sol@hiqdev.com)
+- Removed base/Re and common/components/Lang in favour of base/Lang and Yii::t
+    - a3497a6 2015-09-21 fixed translation, redone Re::t to Yii::t (sol@hiqdev.com)
+- Added User::is and User::not
+    - 72a9e83 2015-09-17 + User::not (sol@hiqdev.com)
+    - 32c83c2 2015-09-23 + function is: compare key with authId (bladeroot@gmail.com)
 - Fixed configuration for yii console command
     - dc89421 2015-09-12 fixed Request configuration: moved to front/backend from common/config/main.php (sol@hiqdev.com)
     - bbfc7be 2015-09-12 fixed yii templates at environments (sol@hiqdev.com)

@@ -66,7 +66,7 @@ class RefFilter extends Widget
     protected function renderInput () {
         print Html::activeDropDownList($this->model, $this->attribute, Ref::getList($this->gtype), ArrayHelper::merge([
             'class'     => 'form-control',
-            'prompt'    => \Yii::t('app', '---'),
+            'prompt'    => \Yii::t('app', '----------'),
         ], $this->options));
     }
 
