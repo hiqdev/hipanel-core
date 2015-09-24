@@ -39,12 +39,16 @@ class CrudController extends Controller
 
     public function getBlockReasons()
     {
-        return $this->getRefs('type,block');
+        static $blockReasons;
+        if ($blockReasons  === null) $blockReasons = $this->getRefs('type,block');
+        return $blockReasons;
     }
 
     public function getPriorities()
     {
-        return $this->getRefs('type,priority');
+        static $priorities;
+        if ($priorities === null) $priorities = $this->getRefs('type,priority');
+        return $priorities;
     }
 
 }
