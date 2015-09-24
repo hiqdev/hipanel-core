@@ -31,7 +31,11 @@ class CrudController extends Controller
 
     static public function getClassRefs ($type) { return static::getRefs($type . ',' . static::modelId('_')); }
 
-    static public function getBlockReasons () { return static::getRefs('type,block'); }
+    static public function getBlockReasons () {
+        static $blockReason;
+        if ($blockReason === null) $blockReason = static::getRefs('type,block');
+        return $blockReason;
+    }
 
     static public function getPriorities () { return static::getRefs('type,priority'); }
 
