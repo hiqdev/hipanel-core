@@ -346,7 +346,7 @@ return [
                   По умолчанию, почта приходит только подтверждение о получении тикета и ссылку на тикете.
                   ВНИМАНИЕ ! Текст может содержать конфиденциальную информацию и доступ к данным',
     'Infringement of copyright' => 'Нарушение авторских прав',
-    'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!' => 'В случае обслуживания отказе , сервер будет заблокирована и выключен {0, date, medium} , Все данные на сервере , будут удалены !',
+    'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!' => 'В случае обслуживания отказе ,сервер будет заблокирована и выключен {0, date, medium}.  Все данные на сервере будут удалены!',
     'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!' => 'В случае обслуживания отказе , сервер будет заблокирована и выключается. Все данные на сервере , будут удалены !',
     'In this field you can specify to receive email notifications of ticket. By default, the notification is used for editing the main e-mail' => 'В этом поле вы можете указать получить уведомления по электронной почте о тикете. По умолчанию, уведомление используется для редактирования основной электронной почты',
     'Intercepted' => 'Перехвачен',
