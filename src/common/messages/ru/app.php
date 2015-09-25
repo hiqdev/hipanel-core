@@ -620,7 +620,7 @@ return [
     'This may cause data loose!' => 'Это может привести к потеряете данных!',
     'This section allows you to manage the settings on mail alerts' => 'В этом разделе можно управлять настройками на предупреждений почты',
     'This will cause full data loss!' => 'Это может привести к полной потере данных!',
-    'This will immediately terminate all sessions of the user!' => 'Это немедленно прекратить все сеансы пользователя!',
+    'This will immediately terminate all sessions of the user!' => 'Это немедленно прервет все сеансы пользователя!',
     'Ticket Settings' => 'Настройки тикетов',
     'Ticket changed' => 'Тикет изменен',
     'Ticket closed' => 'Тикет закрыт',
