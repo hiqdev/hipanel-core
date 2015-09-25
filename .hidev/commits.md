@@ -3,10 +3,16 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added Block widget
+    - 8893c1c 2015-09-24 + Block widget (bladeroot@gmail.com)
 - Added caching of refs
     - 9f97911 2015-09-24 improved Caching: + ReflectionFunction::export to cache key (sol@hiqdev.com)
     - d4966d5 2015-09-24 + base\Cache component with getTimeCached() used for caching refs (sol@hiqdev.com)
 - Fixed translation and minor issues
+    - a6898f1 2015-09-24 x get params syncronous for one page load (bladeroot@gmail.com)
+    - e87370f 2015-09-25 improved Gravatar to draw default Gravatar icon when no email or hash given (sol@hiqdev.com)
+    - fde3ada 2015-09-24 * improve language pack (bladeroot@gmail.com)
+    - b4368c7 2015-09-24 * translation (sol@hiqdev.com)
     - d3afcab 2015-09-24 Fix panel.css make font-size more responsible in .profile-user-name (andreyklochok@gmail.com)
     - 33860fc 2015-09-24 + block reasons (sol@hiqdev.com)
     - c02fbd0 2015-09-23 fixed typo at SmartCreateAction::run (sol@hiqdev.com)

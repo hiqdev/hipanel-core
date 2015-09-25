@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added Block widget
 - Added caching of refs
 - Fixed translation and minor issues
 - Changed Label widget zclass -> color, added 'none' color and options
