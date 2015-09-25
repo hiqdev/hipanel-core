@@ -1,8 +1,8 @@
 <?php
+
 use hipanel\helpers\Url;
-use yii\helpers\Html;
 use hipanel\widgets\ModalButton;
-use Yii;
+use yii\helpers\Html;
 
 $modalButton = ModalButton::begin([
     'model'     => $model,
