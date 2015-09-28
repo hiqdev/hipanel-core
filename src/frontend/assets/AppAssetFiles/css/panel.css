@@ -785,6 +785,13 @@ button.link-button {
     cursor: pointer;
 }
 
+/* NAV LI A FIX */
+.profile-usermenu .nav > li > form.inline > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
 .markdown-supported {
     padding-left:25px;
     background: url(../img/github_markdown-16.png) 4px 0px no-repeat;
