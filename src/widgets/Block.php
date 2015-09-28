@@ -71,6 +71,7 @@ class Block extends Widget {
                     ? Yii::t('app', 'This will immediately terminate all active sessions and reject new connections!')
                     : Yii::t('app', 'Please check if all violations were eliminated')
         );
+        $footer['value'] = $footer['value'] ? : Yii::t('app', $footer['label']);
         return $this->render(
             'Block',
             compact(['model', 'button', 'scenario', 'validationUrl', 'header', 'headerTag', 'headerOptions', 'footer','blockReasons', 'warning'])
