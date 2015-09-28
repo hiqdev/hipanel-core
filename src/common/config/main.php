@@ -1,6 +1,12 @@
 <?php
 
-function d ($a) { print "<pre>"; var_dump($a); debug_print_backtrace(0,3); die(); }
+function d($a)
+{
+    print "<pre>";
+    var_dump($a);
+    debug_print_backtrace(0, 3);
+    die();
+}
 
 $params = array_merge(
     require(Yii::getAlias('@hipanel/common/config/params.php')),
@@ -19,7 +25,7 @@ $config = [
             'class' => 'hipanel\base\AuthManager',
         ],
         'hiresource' => [
-            'class'  => 'hipanel\base\Connection',
+            'class' => 'hipanel\base\Connection',
             'config' => [
                 'api_url' => $params['api_url'],
             ],
