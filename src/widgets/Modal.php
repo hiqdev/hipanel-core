@@ -3,6 +3,7 @@
 namespace hipanel\widgets;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -20,16 +21,26 @@ class Modal extends \yii\bootstrap\Modal
 
     public function init()
     {
+        if (!$this->scenario) {
+            throw new InvalidConfigException("Attribute 'scenario' is required");
+        }
+
         $this->initAdditionalOptions();
         $this->initPerformPjaxSubmit();
         parent::init();
+    }
+
+    private function getModalFormId()
+    {
+        return $this->modalFormId ? : $this->scenario . '-form';
     }
 
     protected function initPerformPjaxSubmit()
     {
         $view = Yii::$app->view;
         $buttonLoadingText = Yii::t('app', 'loading');
-        $formId = $this->modalFormId;
+        $formId = $this->getModalFormId();
+        $formActionUrl = Url::to($this->scenario);
         $modalId = $this->getId();
         $errorText = ($this->errorText) ? : Yii::t('app', 'An error occurred. Try again later.');
         $successText = ($this->successText) ? : Yii::t('app', 'The settings saved');
@@ -46,7 +57,7 @@ class Modal extends \yii\bootstrap\Modal
                 var form = jQuery(this);
                 var btn = jQuery('form[data-pjax] button').button('{$buttonLoadingText}');
                 jQuery.ajax({
-                    url: form.attr('action'),
+                    url: '{$formActionUrl}',
                     type: 'POST',
                     //dataType: 'json',
                     timeout: 0,
