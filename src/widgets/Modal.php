@@ -12,10 +12,73 @@ class Modal extends \yii\bootstrap\Modal
 {
     public $scenario;
 
+    public $modalFormId;
+
+    public $errorText;
+
+    public $successText;
+
     public function init()
     {
         $this->initAdditionalOptions();
+        $this->initPerformPjaxSubmit();
         parent::init();
+    }
+
+    protected function initPerformPjaxSubmit()
+    {
+        $view = Yii::$app->view;
+        $buttonLoadingText = Yii::t('app', 'loading');
+        $formId = $this->modalFormId;
+        $modalId = $this->getId();
+        $errorText = ($this->errorText) ? : Yii::t('app', 'An error occurred. Try again later.');
+        $successText = ($this->successText) ? : Yii::t('app', 'The settings saved');
+        $view->registerJs(<<<JS
+//            jQuery(document).on('pjax:beforeSend', function() {
+//                jQuery('form[data-pjax] button').button('{$buttonLoadingText}');
+//            });
+//            jQuery(document).on('pjax:end', function() {
+//                jQuery('form[data-pjax] button').button('reset');
+//            });
+
+            jQuery(document).on('submit', '#{$formId}', function(event) {
+                event.preventDefault();
+                var form = jQuery(this);
+                var btn = jQuery('form[data-pjax] button').button('{$buttonLoadingText}');
+                jQuery.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    //dataType: 'json',
+                    timeout: 0,
+                    data: form.serialize(),
+                    error: function() {
+                        new PNotify({
+                            title: 'Error',
+                            text: "{$errorText}",
+                            type: 'error',
+                            buttons: {
+                                sticker: false
+                            },
+                            icon: false
+                        });
+                    },
+                    success: function() {
+                        jQuery('#$modalId').modal('hide');
+                        new PNotify({
+                            title: 'Success',
+                            text: "{$successText}",
+                            type: 'info',
+                            buttons: {
+                                sticker: false
+                            },
+                            icon: false
+                        });
+                        btn.button('reset');
+                    }
+                });
+            });
+JS
+        );
     }
 
     protected function initAdditionalOptions()
