@@ -13,6 +13,8 @@ class Modal extends \yii\bootstrap\Modal
 {
     public $scenario;
 
+    public $actionUrl = [];
+
     public $modalFormId;
 
     public $errorText;
@@ -30,6 +32,11 @@ class Modal extends \yii\bootstrap\Modal
         parent::init();
     }
 
+    private function getActionUrl()
+    {
+        return $this->actionUrl ? Url::to($this->actionUrl) : Url::to($this->scenario);
+    }
+
     private function getModalFormId()
     {
         return $this->modalFormId ? : $this->scenario . '-form';
@@ -40,7 +47,7 @@ class Modal extends \yii\bootstrap\Modal
         $view = Yii::$app->view;
         $buttonLoadingText = Yii::t('app', 'loading');
         $formId = $this->getModalFormId();
-        $formActionUrl = Url::to($this->scenario);
+        $formActionUrl = $this->getActionUrl();
         $modalId = $this->getId();
         $errorText = ($this->errorText) ? : Yii::t('app', 'An error occurred. Try again later.');
         $successText = ($this->successText) ? : Yii::t('app', 'The settings saved');
@@ -94,11 +101,11 @@ JS
 
     protected function initAdditionalOptions()
     {
-        $scenario = Url::to($this->scenario);
+        $actionUrl = $this->getActionUrl();
         $modalId = $this->getId();
         $loadingHtml = Json::htmlEncode($this->getLoadHtml());
         $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
-            jQuery('#{$modalId} .modal-body').load('{$scenario}');
+            jQuery('#{$modalId} .modal-body').load('{$actionUrl}');
         }");
         $this->clientEvents['hidden.bs.modal'] = new JsExpression("function() {
             jQuery('#{$modalId} .modal-body').html({$loadingHtml});
