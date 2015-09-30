@@ -4,6 +4,7 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Added logo to README
+    - 9c3c650 2015-09-30 + logo link to hipanel.com (sol@hiqdev.com)
     - 91a385c 2015-09-30 testing logo (sol@hiqdev.com)
     - 2d3060a 2015-09-30 trying logo (sol@hiqdev.com)
     - cc9f1e9 2015-09-30 + logo (sol@hiqdev.com)
