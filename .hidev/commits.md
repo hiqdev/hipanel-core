@@ -3,6 +3,7 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+    - cc9f1e9 2015-09-30 + logo (sol@hiqdev.com)
     - e9b5d9d 2015-09-30 + logo (sol@hiqdev.com)
     - 76384f2 2015-09-29 Add actionUrl method (andreyklochok@gmail.com)
     - 0e57956 2015-09-29 Getting form id from scenario. (andreyklochok@gmail.com)
