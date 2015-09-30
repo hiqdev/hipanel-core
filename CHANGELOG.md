@@ -3,6 +3,8 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added logo to README
+- Added Modal widget
 - Added Block widget
 - Added caching of refs
 - Fixed translation and minor issues

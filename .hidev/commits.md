@@ -3,26 +3,30 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added logo to README
+    - 91a385c 2015-09-30 testing logo (sol@hiqdev.com)
+    - 2d3060a 2015-09-30 trying logo (sol@hiqdev.com)
     - cc9f1e9 2015-09-30 + logo (sol@hiqdev.com)
     - e9b5d9d 2015-09-30 + logo (sol@hiqdev.com)
+- Added Modal widget
     - 76384f2 2015-09-29 Add actionUrl method (andreyklochok@gmail.com)
     - 0e57956 2015-09-29 Getting form id from scenario. (andreyklochok@gmail.com)
     - e178c14 2015-09-29 Add some functionality to custom Modal (andreyklochok@gmail.com)
     - fbb67ff 2015-09-29 Some changes in Modal widget (andreyklochok@gmail.com)
     - 8ca3893 2015-09-28 Fix css, add new widget Modal (andreyklochok@gmail.com)
-    - 2549b5a 2015-09-28 x fix translation (bladeroot@gmail.com)
     - dae578b 2015-09-28 * + value to submit button (bladeroot@gmail.com)
-    - e811859 2015-09-25 fix lang pack (bladeroot@gmail.com)
-    - 1879aca 2015-09-25 fix mistakes in translation (bladeroot@gmail.com)
     - eef9725 2015-09-25 Added FormatController (d.naumenko.a@gmail.com)
-    - aad0bb5 2015-09-25 fix language (bladeroot@gmail.com)
-    - ca344f0 2015-09-25 minor fixed: - use Yii cause of php error (sol@hiqdev.com)
 - Added Block widget
     - 8893c1c 2015-09-24 + Block widget (bladeroot@gmail.com)
 - Added caching of refs
     - 9f97911 2015-09-24 improved Caching: + ReflectionFunction::export to cache key (sol@hiqdev.com)
     - d4966d5 2015-09-24 + base\Cache component with getTimeCached() used for caching refs (sol@hiqdev.com)
 - Fixed translation and minor issues
+    - 2549b5a 2015-09-28 x fix translation (bladeroot@gmail.com)
+    - e811859 2015-09-25 fix lang pack (bladeroot@gmail.com)
+    - 1879aca 2015-09-25 fix mistakes in translation (bladeroot@gmail.com)
+    - aad0bb5 2015-09-25 fix language (bladeroot@gmail.com)
+    - ca344f0 2015-09-25 minor fixed: - use Yii cause of php error (sol@hiqdev.com)
     - a6898f1 2015-09-24 x get params syncronous for one page load (bladeroot@gmail.com)
     - e87370f 2015-09-25 improved Gravatar to draw default Gravatar icon when no email or hash given (sol@hiqdev.com)
     - fde3ada 2015-09-24 * improve language pack (bladeroot@gmail.com)
