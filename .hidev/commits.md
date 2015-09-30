@@ -3,6 +3,19 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+    - e9b5d9d 2015-09-30 + logo (sol@hiqdev.com)
+    - 76384f2 2015-09-29 Add actionUrl method (andreyklochok@gmail.com)
+    - 0e57956 2015-09-29 Getting form id from scenario. (andreyklochok@gmail.com)
+    - e178c14 2015-09-29 Add some functionality to custom Modal (andreyklochok@gmail.com)
+    - fbb67ff 2015-09-29 Some changes in Modal widget (andreyklochok@gmail.com)
+    - 8ca3893 2015-09-28 Fix css, add new widget Modal (andreyklochok@gmail.com)
+    - 2549b5a 2015-09-28 x fix translation (bladeroot@gmail.com)
+    - dae578b 2015-09-28 * + value to submit button (bladeroot@gmail.com)
+    - e811859 2015-09-25 fix lang pack (bladeroot@gmail.com)
+    - 1879aca 2015-09-25 fix mistakes in translation (bladeroot@gmail.com)
+    - eef9725 2015-09-25 Added FormatController (d.naumenko.a@gmail.com)
+    - aad0bb5 2015-09-25 fix language (bladeroot@gmail.com)
+    - ca344f0 2015-09-25 minor fixed: - use Yii cause of php error (sol@hiqdev.com)
 - Added Block widget
     - 8893c1c 2015-09-24 + Block widget (bladeroot@gmail.com)
 - Added caching of refs
