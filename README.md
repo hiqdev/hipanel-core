@@ -1,7 +1,7 @@
 Next Generation Control Panel
 -----------------------------
 
-![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)
+[![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 
 Goals:
 - Integration
