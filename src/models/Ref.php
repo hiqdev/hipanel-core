@@ -18,9 +18,10 @@ class Ref extends \hiqdev\hiart\ActiveRecord
 
     public static function getList($name, $options = [], $translate=true)
     {
-        $func = $translate ? function ($v) { return Yii::t('app', $v->gl_value); } : function ($v) { return $v->gl_value; } ;
-        #$func = function ($v) { return $v->gl_value; };
-        return ArrayHelper::map(self::find()->where(array_merge(['gtype' => $name], $options))->getList(false), 'gl_key', $func);
+        return Yii::$app->get('cache')->getTimeCached(3600, [$name, $options, $translate], function ($name, $options, $translate) {
+            $func = $translate ? function ($v) { return Yii::t('app', $v->gl_value); } : function ($v) { return $v->gl_value; } ;
+            return ArrayHelper::map(self::find()->where(array_merge(['gtype' => $name], $options))->getList(false), 'gl_key', $func);
+        });
     }
 
     public function attributes()
