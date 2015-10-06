@@ -22,6 +22,7 @@ hiqdev/hipanel-core commits history
 - Added Block widget
     - 8893c1c 2015-09-24 + Block widget (bladeroot@gmail.com)
 - Added caching of refs
+    - 2990d12 2015-10-06 + caching for Ref::getList (sol@hiqdev.com)
     - 9f97911 2015-09-24 improved Caching: + ReflectionFunction::export to cache key (sol@hiqdev.com)
     - d4966d5 2015-09-24 + base\Cache component with getTimeCached() used for caching refs (sol@hiqdev.com)
 - Fixed translation and minor issues
