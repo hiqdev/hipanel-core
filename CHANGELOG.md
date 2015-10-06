@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added DomainValidator
 - Added logo to README
 - Added Modal widget
 - Added Block widget

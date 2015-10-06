@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added DomainValidator
+    - d9a46cc 2015-10-06 + DomainValidator, moved from domain module (sol@hiqdev.com)
 - Added logo to README
     - 9c3c650 2015-09-30 + logo link to hipanel.com (sol@hiqdev.com)
     - 91a385c 2015-09-30 testing logo (sol@hiqdev.com)
