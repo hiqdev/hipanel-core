@@ -3,6 +3,8 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added SettingsModalWidget
+- Added FontIcon helper
 - Added DomainValidator
 - Added logo to README
 - Added Modal widget

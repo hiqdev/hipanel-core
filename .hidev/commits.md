@@ -3,6 +3,12 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added SettingsModalWidget
+    - a8c3415 2015-10-07 + SettingsModal widget (sol@hiqdev.com)
+    - 900e408 2015-10-07 redone Modal widget (sol@hiqdev.com)
+    - 887ceec 2015-10-06 quickfixed duplicate Modal (sol@hiqdev.com)
+- Added FontIcon helper
+    - f5378f4 2015-10-07 + FontIcon helper (sol@hiqdev.com)
 - Added DomainValidator
     - d9a46cc 2015-10-06 + DomainValidator, moved from domain module (sol@hiqdev.com)
 - Added logo to README
