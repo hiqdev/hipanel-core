@@ -44,6 +44,14 @@ class RedirectAction extends Action
 
     public function run()
     {
+        if ($this->success) {
+            $this->addFlash('success', $this->success);
+        } elseif ($this->error) {
+            $this->addFlash('error', $this->error);
+        }
         return $this->controller->redirect($this->getUrl());
     }
+
+    public $error;
+    public $success;
 }
