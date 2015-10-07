@@ -6,7 +6,7 @@ use Yii;
 use yii\helpers\Html;
 use hipanel\helpers\FontIcon;
 
-class SettingsModal extends Modal {
+class SettingsModal extends AjaxModal {
     public $model;
 
     public $title;
