@@ -22,6 +22,11 @@ class CurrencyColumn extends DataColumn
         return $this->colors[$type] ?: $type;
     }
 
+    public function getUrl($model, $key, $index)
+    {
+        return $this->urlCallback ? call_user_func($this->urlCallback, $model, $key, $index) : null;
+    }
+
     public function getDataCellValue ($model, $key, $index) {
         $value = $model->{$this->attribute};
         $color = $value==0 ? 'primary' : 'success';
@@ -31,7 +36,7 @@ class CurrencyColumn extends DataColumn
         if ($value < -($model->{$this->compare} ?: 0)) {
             $color = 'danger';
         };
-        $url = $this->urlCallback ? call_user_func($this->urlCallback, $model, $key, $index) : null;
+        $url = $this->getUrl($model, $key, $index);
         $txt = Yii::$app->formatter->format($value, ['currency', $model->currency]);
         $ops = ['class' => 'text-' . $this->getColor($color)];
         return $url ? Html::a($txt, $url, $ops) : Html::tag('span', $txt, $ops);
