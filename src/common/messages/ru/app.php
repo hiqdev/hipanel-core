@@ -534,7 +534,7 @@ return [
     'Seller' => 'Продавец',
     'Send' => 'Отправить',
     'Send FOA again' => 'Отправить повторно ФАТ',
-    'Send message text' => 'Отправить текст сообщения',
+    'Send message text' => 'Отправлять текст сообщения',
     'Serial' => 'Cерийный номер',
     'Server' => 'Сервер',
     'Server ID' => 'ID сервера',
