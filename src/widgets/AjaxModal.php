@@ -9,7 +9,7 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 
-class Modal extends \yii\bootstrap\Modal
+class AjaxModal extends \yii\bootstrap\Modal
 {
     protected $_actionUrl;
 

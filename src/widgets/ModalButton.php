@@ -15,7 +15,7 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-use yii\bootstrap\Modal as yiiModal;
+use yii\bootstrap\Modal;
 use Yii;
 use yii\helpers\Json;
 use yii\web\JsExpression;
@@ -308,7 +308,7 @@ class ModalButton extends Widget
      */
     public function beginModal()
     {
-        yiiModal::begin($this->modal);
+        Modal::begin($this->modal);
     }
 
     /**
@@ -316,7 +316,7 @@ class ModalButton extends Widget
      */
     public function endModal()
     {
-        yiiModal::end();
+        Modal::end();
     }
 
     /**
