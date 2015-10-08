@@ -20,7 +20,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
     {
         return Yii::$app->get('cache')->getTimeCached(3600, [$name, $options, $translate], function ($name, $options, $translate) {
             $func = $translate ? function ($v) { return Yii::t('app', $v->gl_value); } : function ($v) { return $v->gl_value; } ;
-            return ArrayHelper::map(self::find()->where(array_merge(['gtype' => $name], $options))->getList(false), 'gl_key', $func);
+            return ArrayHelper::map(self::find()->where(array_merge(['gtype' => $name], $options))->limit('ALL')->getList(false), 'gl_key', $func);
         });
     }
 
