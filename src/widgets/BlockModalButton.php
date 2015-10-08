@@ -29,7 +29,7 @@ class BlockModalButton extends Widget
      * @see ACTION_DISABLE
      * @SEE ACTION_ENABLE
      */
-    public $action = self::ACTION_DISABLE;
+    public $action;
 
     /**
      * @var Model
@@ -103,6 +103,11 @@ class BlockModalButton extends Widget
      */
     public function initOptions()
     {
+        $model = $this->model;
+        if ($this->action === null) {
+            $this->action = $model->state === $model::STATE_BLOCKED ? BlockModalButton::ACTION_DISABLE : BlockModalButton::ACTION_ENABLE;
+        }
+
         if ($this->scenario === null) {
             $this->scenario = $this->action === static::ACTION_ENABLE ? static::SCENARIO_ENABLE : static::SCENARIO_DISABLE;
         }
@@ -116,13 +121,13 @@ class BlockModalButton extends Widget
         }
 
         if (is_array($this->button)) {
-            $this->button = array_replace([
+            $this->button = ArrayHelper::merge([
                 static::ACTION_ENABLE => [
-                    'label' => FontIcon::i('fa-lock fa-2')->fixedWidth() . Yii::t('app', 'Enable block'),
+                    'label' => FontIcon::i('fa-lock fa-2x fa-fw') . Yii::t('app', 'Enable block'),
                     'position' => ModalButton::BUTTON_OUTSIDE,
                 ],
                 static::ACTION_DISABLE => [
-                    'label' => FontIcon::i('fa-lock fa-2')->fixedWidth() . Yii::t('app', 'Disable block'),
+                    'label' => FontIcon::i('fa-unlock fa-2x fa-fw') . Yii::t('app', 'Disable block'),
                     'position' => ModalButton::BUTTON_OUTSIDE,
                 ],
             ], $this->button);
@@ -132,11 +137,11 @@ class BlockModalButton extends Widget
         if (is_array($this->header)) {
             $this->header = ArrayHelper::merge([
                 static::ACTION_ENABLE => [
-                    'label' => Yii::t('app', 'Are you sure you want to enable block'),
+                    'label' => Yii::t('app', 'Are you sure you want to block this object'),
                     'class' => 'label-danger'
                 ],
                 static::ACTION_DISABLE => [
-                    'label' => Yii::t('app', 'Are you sure you want to disable block'),
+                    'label' => Yii::t('app', 'Are you sure you want to unblock this object'),
                     'class' => 'label-info'
                 ],
             ], $this->header);
