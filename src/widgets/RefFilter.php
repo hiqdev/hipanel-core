@@ -36,6 +36,11 @@ class RefFilter extends Widget
     public $gtype;
 
     /**
+     * @var array additional find options that will be passed to [[Ref]] model
+     */
+    public $findOptions = [];
+
+    /**
      * @var string
      */
     public $attribute;
@@ -64,7 +69,7 @@ class RefFilter extends Widget
     }
 
     protected function renderInput () {
-        print Html::activeDropDownList($this->model, $this->attribute, Ref::getList($this->gtype), ArrayHelper::merge([
+        print Html::activeDropDownList($this->model, $this->attribute, Ref::getList($this->gtype, $this->findOptions), ArrayHelper::merge([
             'class'     => 'form-control',
             'prompt'    => \Yii::t('app', '----------'),
         ], $this->options));
