@@ -732,4 +732,6 @@ return [
     'Closed' => 'Закрыт',
     'Waiting answer' => 'Ожидает ответа',
     '<b>{currency}</b> account' => '<b>{currency}</b> счёт',
+    'Sum' => 'Сумма',
+    '&larr; between &rarr;' => '&larr; между &rarr;'
 ];
