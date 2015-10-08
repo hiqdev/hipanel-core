@@ -23,6 +23,9 @@ class ActionColumn extends \yii\grid\ActionColumn
      * @inheritdoc
      */
     public function init () {
+        if ($this->header === null) {
+            $this->header = Yii::t('app', 'Actions');
+        }
         parent::init();
         $this->getCountButtons();
         $this->template = ($this->getCountButtons() > 1) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
@@ -51,13 +54,13 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->buttons['view'])) {
             $this->buttons['view'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title'      => Yii::t('app', 'View'),
-                    'aria-label' => Yii::t('app', 'View'),
+                    'title'      => Yii::t('app', 'Details'),
+                    'aria-label' => Yii::t('app', 'Details'),
                     'data-pjax'  => '0',
                     'class'      => 'btn btn-default btn-xs',
                 ], $this->buttonOptions);
 
-                return Html::a('<i class="fa fa-eye"></i>&nbsp;' . Yii::t('app', 'View'), $url, $options);
+                return Html::a('<i class="fa fa-bars"></i>&nbsp;' . Yii::t('app', 'Details'), $url, $options);
             };
         }
         if (!isset($this->buttons['update'])) {
