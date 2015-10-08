@@ -18,19 +18,22 @@ use yii\helpers\ArrayHelper;
  */
 trait SearchModelTrait
 {
-    static $filterConditions = ['in', 'like'];
+    static $filterConditions = ['in', 'like', 'gt', 'lt'];
 
     public function attributes () {
         return $this->searchAttributes();
     }
 
     protected function searchAttributes () {
-        $attributes = [];
-        foreach (parent::attributes() as $k) {
-            foreach (array_merge([''], static::$filterConditions) as $condition) {
-                $attributes[] = $k . ($condition == '' ? '' : "_$condition");
+        static $attributes;
+
+        if ($attributes === NULL) {
+            foreach (parent::attributes() as $k) {
+                foreach (array_merge([''], static::$filterConditions) as $condition) {
+                    $attributes[] = $k . ($condition == '' ? '' : "_$condition");
+                }
             }
-        };
+        }
 
         return $attributes;
     }
