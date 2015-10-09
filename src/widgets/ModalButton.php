@@ -215,6 +215,7 @@ class ModalButton extends Widget
 
             if ($tag === 'input') {
                 $footer['type']  = 'submit';
+                $footer['value'] = $label;
             }
 
             $this->modal['footer'] = Html::tag($tag, $label, $footer);
