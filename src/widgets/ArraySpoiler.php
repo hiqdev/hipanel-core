@@ -11,7 +11,6 @@ use hipanel\helpers\ArrayHelper;
 use yii\base\InvalidValueException;
 use yii\base\Widget;
 use yii\helpers\Html;
-use yii\helpers\Json;
 
 /**
  * ArraySpoiler displays limited count of array's elements and hides all others behind a spoiler (badge)
