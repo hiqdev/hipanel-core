@@ -734,4 +734,8 @@ return [
     'Block server' => 'Блокировать сервер',
     'New messages first' => 'Новые сообщения сверху',
     'When checked, new answers in the ticket will be displayed first.' => 'Когда отмечено, новые ответы в тикете будут отображаться сверху.',
+    'Action' => 'Действие',
+    'Event' => 'Событие',
+    'Event log' => 'Журнал событий',
+    'No events were recorded' => 'Событий не зафиксировано'
 ];

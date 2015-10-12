@@ -72,26 +72,9 @@ return [
         'view' => [
             'class' => 'hipanel\base\View'
         ],
-        'i18n' => [
-            'translations' => [
-                'app*' => [
-                    'class'          => 'yii\i18n\PhpMessageSource',
-                    'basePath'       => '@common/messages',
-                    'sourceLanguage' => 'en-US',
-                    'fileMap'        => [
-                        'app'       => 'app.php',
-                        'app/error' => 'error.php',
-                    ],
-                ],
-            ],
-        ],
         'formatter' => [
             'locale'      => 'ru-RU',
             'nullDisplay' => '&nbsp;',
-        ],
-        'request' => [
-            'cookieValidationKey'  => 'MoMXqGrgnB3ffaQTZoaaIHRw3T_IPVaqlB',
-            'enableCsrfValidation' => true
         ],
         'pluginManager' => [
             'class' => 'hiqdev\pluginmanager\PluginManager',
