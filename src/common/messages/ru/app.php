@@ -340,11 +340,7 @@ return [
     'IP restrictions' => 'Ограничения IP',
     'IP to access on the server via SSH or FTP' => 'IP для доступа на сервере через SSH или FTP',
     'IPs' => 'IP-адреса',
-    'If you check in the mail notification will include the text of the new message in the ticket.
-                  By default, the mail comes only acknowledgment of receipt of the ticket and a link to the ticket.
-                  WARNING! The text can include confidential information and data access' => 'Если вы посмотрите в уведомлении почты будет включать в себя текст нового сообщения в тикете.
-                  По умолчанию, почта приходит только подтверждение о получении тикета и ссылку на тикете.
-                  ВНИМАНИЕ ! Текст может содержать конфиденциальную информацию и доступ к данным',
+    'When checked, mail notification includes the text of the new message. By default, the mail has only the acknowledgment of the response and a link to the ticket. Be careful, the text can include confidential information.' => 'Когда отмечено, почтовые уведомления об ответах будут включать в себя текст сообщения. По умолчанию, в письме приходит только упоминание о новом ответе и ссылка на тикет. Будьте внимательны, текст сообщения может содержать конфиденциальную информацию.',
     'Infringement of copyright' => 'Нарушение авторских прав',
     'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!' => 'В случае обслуживания отказе ,сервер будет заблокирована и выключен {0, date, medium}.  Все данные на сервере будут удалены!',
     'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!' => 'В случае обслуживания отказе , сервер будет заблокирована и выключается. Все данные на сервере , будут удалены !',
@@ -736,4 +732,6 @@ return [
     '&larr; between &rarr;' => '&larr; между &rarr;',
     'No panel' => 'Без панель управления',
     'Block server' => 'Блокировать сервер',
+    'New messages first' => 'Новые сообщения сверху',
+    'When checked, new answers in the ticket will be displayed first.' => 'Когда отмечено, новые ответы в тикете будут отображаться сверху.',
 ];
