@@ -10,7 +10,7 @@ use Yii;
 class SmartUpdateAction extends SwitchAction
 {
     /**
-     * @var array|Closure additional data passed to view
+     * @var array|\Closure additional data passed to view
      */
     public $data = [];
 
@@ -43,13 +43,11 @@ class SmartUpdateAction extends SwitchAction
                     }
                 ],
                 'error'   => [
-                    'class'  => 'hipanel\actions\RenderAction',
-                    'data'   => $this->data,
-                    'params' => function ($action) {
-                        return [
-                            'models' => $action->collection->models,
-                            'model' => $action->collection->first
-                        ];
+                    'class' => 'hipanel\actions\RedirectAction',
+                    'url'   => function ($action) {
+                        return count($action->collection->count()) > 1
+                            ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
+                            : $action->controller->getActionUrl('view', ['id' => $action->model->id]);
                     }
                 ],
             ],
