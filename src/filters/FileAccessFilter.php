@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tofid
- * Date: 02.03.15
- * Time: 17:35
- */
 
-namespace common\components\filters;
+namespace hipanel\filters;
 
 use common\components\Err;
 use common\models\File;

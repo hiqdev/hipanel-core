@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tofid
- * Date: 10.02.15
- * Time: 18:12
- */
+
 namespace frontend\controllers;
 
 use Yii;
@@ -15,6 +10,7 @@ use yii\web\Response;
 
 class FileController extends Controller
 {
+    /* XXX ask sol
     public function behaviors() {
         return [
             'fileAccess' => [
@@ -23,8 +19,9 @@ class FileController extends Controller
             ],
         ];
     }
+    */
 
-    public function actionView($id, $object_id, $object_name) {
+    public function actionView($id, $object_id=null, $object_name=null) {
         return File::renderFile($id, $object_id, $object_name);
     }
 
