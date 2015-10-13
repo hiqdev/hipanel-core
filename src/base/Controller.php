@@ -15,7 +15,6 @@ use yii\helpers\Inflector;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
 
 /**
  * Site controller
