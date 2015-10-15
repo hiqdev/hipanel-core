@@ -153,11 +153,9 @@ class ArraySpoiler extends Widget
         }
         $visible = [];
         $iterator = (new ArrayObject($this->data))->getIterator();
-        while (count($visible) < $this->visibleCount) {
-            if (!$iterator->valid()) {
-                break;
-            }
+        while (count($visible) < $this->visibleCount && $iterator->valid()) {
             $visible[] = $iterator->current();
+            $iterator->next();
         }
 
         return $visible;
