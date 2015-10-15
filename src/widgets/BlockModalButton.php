@@ -12,6 +12,11 @@ use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+/**
+ * Class BlockModalButton
+ * Used for special render of object blocking modal window with activating button
+ * @package hipanel\widgets
+ */
 class BlockModalButton extends Widget
 {
     const ACTION_ENABLE = 'enable';

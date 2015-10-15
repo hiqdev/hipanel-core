@@ -9,25 +9,60 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 
+/**
+ * Class AjaxModal
+ * @package hipanel\widgets
+ *
+ * @property $actionUrl string URL
+ * @property $modalFormId string ID for modal form
+ * @property $errorText string The error text for PNotify generation. On set will be processed through [[Yii::t()]]
+ * @property $successText string The success text for PNotify generation. On set will be processed through [[Yii::t()]]
+ * @property $loadingText string The text that will be displayed on submit button after press. On set will be processed through [[Yii::t()]]
+ * @property $loadingHtml string The HTML to be appended to the modal body
+ */
 class AjaxModal extends \yii\bootstrap\Modal
 {
+    /**
+     * @var string
+     */
+    public $scenario;
+
+    /**
+     * @var string URL
+     */
     protected $_actionUrl;
 
-    public function setActionUrl($url)
-    {
-        $this->_actionUrl = $url;
-    }
+    /**
+     * @var string ID for modal form
+     */
+    protected $_modalFormId;
+
+    /**
+     * @var string The error text for PNotify generation.
+     * On set will be processed through [[Yii::t()]]
+     */
+    protected $_errorText;
+
+    /**
+     * @var string The success text for PNotify generation.
+     * On set will be processed through [[Yii::t()]]
+     */
+    protected $_successText;
+
+    /**
+     * @var string The text that will be displayed on submit button after press.
+     * On set will be processed through [[Yii::t()]]
+     */
+    protected $_loadingText;
 
     public function getActionUrl()
     {
         return $this->_actionUrl ? Url::to($this->_actionUrl) : Url::to($this->scenario);
     }
 
-    protected $_modalFormId;
-
-    public function setModalFormId($id)
+    public function setActionUrl($url)
     {
-        $this->_modalFormId = $id;
+        $this->_actionUrl = $url;
     }
 
     public function getModalFormId()
@@ -35,11 +70,9 @@ class AjaxModal extends \yii\bootstrap\Modal
         return $this->_modalFormId ?: $this->scenario . '-form';
     }
 
-    protected $_errorText;
-
-    public function setErrorText($text)
+    public function setModalFormId($id)
     {
-        $this->_errorText = $text;
+        $this->_modalFormId = $id;
     }
 
     public function getErrorText()
@@ -47,11 +80,9 @@ class AjaxModal extends \yii\bootstrap\Modal
         return $this->_errorText ? : Yii::t('app', 'An error occurred. Try again later.');
     }
 
-    protected $_successText;
-
-    public function setSuccessText($text)
+    public function setErrorText($text)
     {
-        $this->_successText = $text;
+        $this->_errorText = Yii::t('app', $text);
     }
 
     public function getSuccessText()
@@ -59,11 +90,9 @@ class AjaxModal extends \yii\bootstrap\Modal
         return $this->_successText ? : Yii::t('app', 'Settings saved');
     }
 
-    protected $_loadingText;
-
-    public function setLoadingText($text)
+    public function setSuccessText($text)
     {
-        $this->_loadingText = $text;
+        $this->_successText = Yii::t('app', $text);
     }
 
     public function getLoadingText()
@@ -71,7 +100,10 @@ class AjaxModal extends \yii\bootstrap\Modal
         return $this->_loadingText ?: Yii::t('app', 'loading') . '...';
     }
 
-    public $scenario;
+    public function setLoadingText($text)
+    {
+        $this->_loadingText = Yii::t('app', $text);
+    }
 
     public function init()
     {
@@ -80,11 +112,21 @@ class AjaxModal extends \yii\bootstrap\Modal
         }
 
         $this->initAdditionalOptions();
-        $this->initPerformPjaxSubmit();
         parent::init();
     }
 
-    protected function initPerformPjaxSubmit()
+    protected function initAdditionalOptions()
+    {
+        $quotedHtml = Json::htmlEncode($this->loadingHtml);
+        $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+            jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}');
+        }");
+        $this->clientEvents['hidden.bs.modal'] = new JsExpression("function() {
+            jQuery('#{$this->id} .modal-body').html({$quotedHtml});
+        }");
+    }
+
+    protected function renderClientScript ()
     {
         Yii::$app->view->registerJs(<<<JS
 //            jQuery(document).on('pjax:beforeSend', function() {
@@ -106,7 +148,6 @@ class AjaxModal extends \yii\bootstrap\Modal
                     data: form.serialize(),
                     error: function() {
                         new PNotify({
-                            title: 'Error',
                             text: "{$this->errorText}",
                             type: 'error',
                             buttons: {
@@ -118,7 +159,6 @@ class AjaxModal extends \yii\bootstrap\Modal
                     success: function() {
                         jQuery('#$this->id').modal('hide');
                         new PNotify({
-                            title: 'Success',
                             text: "{$this->successText}",
                             type: 'info',
                             buttons: {
@@ -134,22 +174,6 @@ JS
         );
     }
 
-    protected function initAdditionalOptions()
-    {
-        $quotedHtml = Json::htmlEncode($this->loadingHtml);
-        $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
-            jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}');
-        }");
-        $this->clientEvents['hidden.bs.modal'] = new JsExpression("function() {
-            jQuery('#{$this->id} .modal-body').html({$quotedHtml});
-        }");
-    }
-
-    protected function renderBodyBegin()
-    {
-        return Html::beginTag('div', ['class' => 'modal-body']) . $this->loadingHtml;
-    }
-
     public function getLoadingHtml()
     {
         return <<<HTML
@@ -160,5 +184,13 @@ JS
         </div>
 HTML
         ;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function renderBodyBegin()
+    {
+        return Html::beginTag('div', ['class' => 'modal-body']) . $this->loadingHtml;
     }
 }

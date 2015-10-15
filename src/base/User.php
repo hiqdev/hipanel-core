@@ -3,7 +3,7 @@
 namespace hipanel\base;
 
 use Yii;
-use yii\web\InvalidConfigException;
+use yii\base\InvalidConfigException;
 
 class User extends \yii\web\User
 {
