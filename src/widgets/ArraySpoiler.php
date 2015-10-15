@@ -221,7 +221,7 @@ class ArraySpoiler extends Widget
      * Renders a popover-activating button.
      * Additional special options, that will be extracted from [[$this->button]]:
      *  - `data-popover-group` - Group of popovers. Is used to close all other popovers in group, when new one is opening. Default: 'main'
-     *  - `clientOptions` - Array of options that will be passed to `show.bs.popover` JS call. Refer to bootstrap docs.
+     *  - `popoverOptions` - Array of options that will be passed to `popover` JS call. Refer to bootstrap docs.
      *
      * @see http://getbootstrap.com/javascript/#popovers-options
      */
@@ -231,13 +231,13 @@ class ArraySpoiler extends Widget
             'data-popover-group' => 'main',
             'data-content' => $this->renderHiddenPopover(),
             'class' => 'badge',
-            'clientOptions' => [],
+            'popoverOptions' => [],
         ], $this->button);
 
         $label = $this->getButtonLabel(ArrayHelper::remove($options, 'label'), ArrayHelper::remove($options, 'i18n'));
 
         $this->getView()->registerJs("
-             $('#{$this->id}').popover(" . Json::htmlEncode(ArrayHelper::remove($options, 'clientOptions')) . ").on('show.bs.popover', function(e) {
+             $('#{$this->id}').popover(" . Json::htmlEncode(ArrayHelper::remove($options, 'popoverOptions')) . ").on('show.bs.popover', function(e) {
                 $('[data-popover-group=\"{$options['data-popover-group']}\"]').not(e.target).popover('hide');
              });
          ", View::POS_READY);
