@@ -14,6 +14,11 @@ class SmartUpdateAction extends SwitchAction
      */
     public $data = [];
 
+    /**
+     * @var array additional data passed to model find method
+     */
+    public $findOptions = [];
+
     public function init()
     {
         parent::init();
@@ -24,12 +29,14 @@ class SmartUpdateAction extends SwitchAction
             'GET | POST selection' => [
                 'class'  => 'hipanel\actions\RenderAction',
                 'data'   => $this->data,
-                'params' => [
-                    'models' => function ($action) {
-                        $ids = Yii::$app->request->post('selection') ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('id');
-                        return $action->controller->findModels($ids);
-                    },
-                ],
+                'params' => function ($action) {
+                    $ids = Yii::$app->request->post('selection') ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('id');
+                    $models = $action->controller->findModels($ids, $this->findOptions);
+                    return [
+                        'models' => $models,
+                        'model' => reset($models)
+                    ];
+                },
             ],
             'POST html' => [
                 'save'    => true,
