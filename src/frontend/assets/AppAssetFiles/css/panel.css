@@ -811,3 +811,14 @@ button.link-button {
     font-weight: 800;
     margin-bottom: 7px;
 }
+
+div.required label:after {
+    content: " *";
+    color: #dd4b39;
+}
+
+div.required label.radio-inline:after {
+    content: " ";
+    color: inherit;
+}
+
