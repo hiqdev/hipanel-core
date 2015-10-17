@@ -91,7 +91,7 @@ return [
     'Autorenewal has been disabled' => 'Автоматическое продление было отключено',
     'Autorenewal has been enabled' => 'Автоматическое продление было включено',
     'Back to index' => 'Вернуться к списку',
-    'Backend IP' => 'IP букэнда',
+    'Backend IP' => 'IP бэкэнда',
     'Backup ID' => 'ID резервной копии',
     'Backup periodicity' => 'Переодичность резервного копирования',
     'Backuping ID' => 'ID настройки резервного копирования',
@@ -243,7 +243,7 @@ return [
     'Description' => 'Описание',
     'Destination' => 'Назначения',
     'Details' => 'Подробности',
-    'Director\'s fool name' => 'ФИО руководителя',
+    'Director\'s full name' => 'ФИО руководителя',
     'Disable' => 'Отключить',
     'Disable Hold' => 'Отключить Hold',
     'Disable lock' => 'Отключить блокировку',
@@ -737,5 +737,7 @@ return [
     'Action' => 'Действие',
     'Event' => 'Событие',
     'Event log' => 'Журнал событий',
-    'No events were recorded' => 'Событий не зафиксировано'
+    'No events were recorded' => 'Событий не зафиксировано',
+    'Proxy settings' => 'Настройки проксирования',
+    'Block domain' => 'Заблокировать домен',
 ];
