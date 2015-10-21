@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Removed obsolete FormValidateAction
+    - a861849 2015-10-21 removed FormValidateAction (sol@hiqdev.com)
 - Fixed translation and minor issues
     - feb8c08 2015-10-21 fixed minor issue (sol@hiqdev.com)
     - 1243512 2015-10-21 - views from backend (sol@hiqdev.com)

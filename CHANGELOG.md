@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Removed obsolete FormValidateAction
 - Fixed translation and minor issues
 - Added more features to smartUpdateAction
 - Added more features to ArraySpoiler
