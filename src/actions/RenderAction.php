@@ -27,7 +27,7 @@ class RenderAction extends Action
     /**
      * @var array
      */
-    public $_params;
+    public $_params = [];
 
     /**
      * Prepares params for rendering, executing callable functions.
