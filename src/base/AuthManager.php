@@ -6,13 +6,38 @@ use hipanel\helpers\ArrayHelper;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidParamException;
+use yii\helpers\Inflector;
 
 class AuthManager extends Component
 {
+    protected $_permissions;
 
     public function init()
     {
         parent::init();
+    }
+
+    public function getPermissions()
+    {
+        if ($this->_permissions === null) {
+            $this->_permissions = Yii::$app->params['permissions'];
+        }
+
+        return $this->_permissions;
+    }
+
+    public function hasPermission($name, $params = [])
+    {
+        $allowed = $this->getPermissions()[$name];
+        if (is_array($allowed)) {
+            foreach ($allowed as $k) {
+                $k = trim($k);
+                if ($k == $this->type || $k == $this->username) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public function canSupport()
@@ -85,6 +110,19 @@ class AuthManager extends Component
     }
 
     /**
+     * Current user username.
+     */
+    protected $_username;
+
+    public function getUsername()
+    {
+        if (!$this->_username) {
+            $this->_username = $this->getIdentity()->username;
+        }
+        return $this->_username;
+    }
+
+    /**
      * Current user type.
      */
     protected $_type;
@@ -103,11 +141,18 @@ class AuthManager extends Component
         return ArrayHelper::ksplit($list)[$type];
     }
 
-    public function checkAccess($userId, $permissionName, $params = [])
+    public function checkAccess($userId, $permission, $params = [])
     {
         if ($userId !== $this->id) {
             throw new InvalidParamException("only current user check access is available for the moment");
         }
-        return $this->{'can' . ucfirst($permissionName)}($params);
+        return $this->hasPermission($permission, $params) || $this->canDo($permission, $params);
     }
+
+    public function canDo($permission, $params = [])
+    {
+        $checker = 'can' . Inflector::id2camel($permission);
+        return method_exists($this, $checker) ? $this->$checker($params) : false;
+    }
+
 }
