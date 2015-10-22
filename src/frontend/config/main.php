@@ -20,6 +20,10 @@ return [
     'language'            => 'en',
     'sourceLanguage'      => 'en-US',
     'components'          => [
+        'cart' => [
+            'class' => 'yz\shoppingcart\ShoppingCart',
+            'cartId' => 'my_application_cart',
+        ],
         'request' => [
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],

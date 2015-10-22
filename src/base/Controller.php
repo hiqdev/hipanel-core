@@ -158,10 +158,10 @@ class Controller extends \yii\web\Controller
         if (!is_array($condition) || $containsIntKeys) {
             $condition = ['id' => $condition];
         }
-        $models = static::newModel($config)->find()->where($condition)->all();
+        $models = static::searchModel($config)->search([static::searchFormName() => $condition], ['pagination' => false])->getModels();
         if ($models === null) {
             throw new NotFoundHttpException('The requested object not found.');
-        };
+        }
 
         return $models;
     }

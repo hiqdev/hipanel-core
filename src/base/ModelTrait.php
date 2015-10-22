@@ -9,6 +9,12 @@ namespace hipanel\base;
 
 trait ModelTrait
 {
+    /**
+     * Overrides default [[attributes()]] method.
+     * Extracts attributes from the validation rules described in [[rules()]] method
+     *
+     * @return array
+     */
     public function attributes () {
         $attributes = \yii\base\Model::attributes();
         foreach (self::rules() as $d) {

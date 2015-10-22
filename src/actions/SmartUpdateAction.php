@@ -6,6 +6,7 @@ use Yii;
 
 /**
  * Class SmartUpdateAction
+ * @property string view
  */
 class SmartUpdateAction extends SwitchAction
 {
@@ -13,6 +14,16 @@ class SmartUpdateAction extends SwitchAction
      * @var array|\Closure additional data passed to view
      */
     public $data = [];
+
+    /**
+     * @var string The view that represents current update action
+     */
+    public $_view;
+
+    /**
+     * @var array additional data passed to model find method
+     */
+    public $findOptions = [];
 
     public function init()
     {
@@ -24,12 +35,18 @@ class SmartUpdateAction extends SwitchAction
             'GET | POST selection' => [
                 'class'  => 'hipanel\actions\RenderAction',
                 'data'   => $this->data,
-                'params' => [
-                    'models' => function ($action) {
-                        $ids = Yii::$app->request->post('selection') ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('id');
-                        return $action->controller->findModels($ids);
-                    },
-                ],
+                'view'   => $this->view,
+                'params' => function ($action) {
+                    $ids = Yii::$app->request->post('selection') ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('id');
+                    $models = $action->controller->findModels($ids, $this->findOptions);
+                    foreach ($models as $model) {
+                        $model->scenario = $this->scenario;
+                    }
+                    return [
+                        'models' => $models,
+                        'model' => reset($models)
+                    ];
+                },
             ],
             'POST html' => [
                 'save'    => true,
@@ -38,16 +55,19 @@ class SmartUpdateAction extends SwitchAction
                     'url'   => function ($action) {
                         return count($action->collection->count()) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
-                            : $action->controller->getActionUrl('view', ['id' => $action->model->id])
+                            : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id])
                         ;
                     }
                 ],
                 'error'   => [
-                    'class' => 'hipanel\actions\RedirectAction',
-                    'url'   => function ($action) {
-                        return count($action->collection->count()) > 1
-                            ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
-                            : $action->controller->getActionUrl('view', ['id' => $action->model->id]);
+                    'class'  => 'hipanel\actions\RenderAction',
+                    'view'   => $this->view,
+                    'data'   => $this->data,
+                    'params' => function ($action) {
+                        return [
+                            'model'  => $action->collection->first,
+                            'models' => $action->collection->models,
+                        ];
                     }
                 ],
             ],
@@ -62,5 +82,21 @@ class SmartUpdateAction extends SwitchAction
                 ]
             ],
         ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getView()
+    {
+        return $this->_view ?: $this->scenario;
+    }
+
+    /**
+     * @param string $view
+     */
+    public function setView($view)
+    {
+        $this->_view = $view;
     }
 }

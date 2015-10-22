@@ -112,6 +112,7 @@ class AjaxModal extends \yii\bootstrap\Modal
         }
 
         $this->initAdditionalOptions();
+        $this->registerClientScript();
         parent::init();
     }
 
@@ -126,7 +127,7 @@ class AjaxModal extends \yii\bootstrap\Modal
         }");
     }
 
-    protected function renderClientScript ()
+    protected function registerClientScript ()
     {
         Yii::$app->view->registerJs(<<<JS
 //            jQuery(document).on('pjax:beforeSend', function() {

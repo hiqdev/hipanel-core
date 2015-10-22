@@ -3,14 +3,19 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
-- Added SettingsModalWidget
+- Removed obsolete FormValidateAction
+- Fixed translation and minor issues
+- Added more features to smartUpdateAction
+- Added more features to ArraySpoiler
+- Added more features for Ref
+- Added more features to CurrencyColumn
+- Added success/error to RedirectAction
+- Added modals: AjaxModal, BlockModalButton, SettingsModal
+- Added FormatController
 - Added FontIcon helper
 - Added DomainValidator
 - Added logo to README
-- Added Modal widget
-- Added Block widget
 - Added caching of refs
-- Fixed translation and minor issues
 - Changed Label widget zclass -> color, added 'none' color and options
 - Changed ModalButton: implemented ajax submit and footerButtonScript
 - Added DynamicFormWidget

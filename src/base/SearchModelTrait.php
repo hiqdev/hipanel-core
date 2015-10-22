@@ -20,14 +20,16 @@ trait SearchModelTrait
 {
     static $filterConditions = ['in', 'like', 'gt', 'lt'];
 
-    public function attributes () {
+    public function attributes()
+    {
         return $this->searchAttributes();
     }
 
-    protected function searchAttributes () {
+    protected function searchAttributes()
+    {
         static $attributes;
 
-        if ($attributes === NULL) {
+        if ($attributes === null) {
             foreach (parent::attributes() as $k) {
                 foreach (array_merge([''], static::$filterConditions) as $condition) {
                     $attributes[] = $k . ($condition == '' ? '' : "_$condition");
@@ -38,14 +40,16 @@ trait SearchModelTrait
         return $attributes;
     }
 
-    public function rules () {
-        $rules   = parent::rules();
+    public function rules()
+    {
+        $rules = parent::rules();
         $rules[] = [$this->searchAttributes(), 'safe'];
 
         return $rules;
     }
 
-    public function scenarios () {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return \yii\base\Model::scenarios();
     }
@@ -57,14 +61,15 @@ trait SearchModelTrait
      * @return ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public function search ($params, $dataProviderConfig = []) {
+    public function search($params, $dataProviderConfig = [])
+    {
         /**
          * @var ActiveRecord $this
          * @var ActiveRecord $class
          * @var ActiveQuery $query
          */
-        $class        = get_parent_class();
-        $query        = $class::find(); // $class::find()->orderBy($sort->orders)->all(); if $sort is Sort
+        $class = get_parent_class();
+        $query = $class::find(); // $class::find()->orderBy($sort->orders)->all(); if $sort is Sort
 
         $dataProvider = new ActiveDataProvider(ArrayHelper::merge(compact('query'), $dataProviderConfig));
 
@@ -74,7 +79,9 @@ trait SearchModelTrait
 
         foreach ($this->attributes() as $attribute) {
             $value = $this->{$attribute};
-            if (empty($value)) continue;
+            if (empty($value)) {
+                continue;
+            }
             /*
              * Extracts underscore suffix from the key.
              *
@@ -86,7 +93,7 @@ trait SearchModelTrait
 
             /// If the suffix is in the list of acceptable suffix filer conditions
             if ($matches[3] && in_array($matches[3], static::$filterConditions)) {
-                $cmp       = $matches[3];
+                $cmp = $matches[3];
                 $attribute = $matches[1];
             } else {
                 $cmp = 'eq';

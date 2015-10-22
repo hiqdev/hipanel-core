@@ -3,35 +3,25 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-- Added SettingsModalWidget
-    - a8c3415 2015-10-07 + SettingsModal widget (sol@hiqdev.com)
-    - 900e408 2015-10-07 redone Modal widget (sol@hiqdev.com)
-    - 887ceec 2015-10-06 quickfixed duplicate Modal (sol@hiqdev.com)
-- Added FontIcon helper
-    - f5378f4 2015-10-07 + FontIcon helper (sol@hiqdev.com)
-- Added DomainValidator
-    - d9a46cc 2015-10-06 + DomainValidator, moved from domain module (sol@hiqdev.com)
-- Added logo to README
-    - 9c3c650 2015-09-30 + logo link to hipanel.com (sol@hiqdev.com)
-    - 91a385c 2015-09-30 testing logo (sol@hiqdev.com)
-    - 2d3060a 2015-09-30 trying logo (sol@hiqdev.com)
-    - cc9f1e9 2015-09-30 + logo (sol@hiqdev.com)
-    - e9b5d9d 2015-09-30 + logo (sol@hiqdev.com)
-- Added Modal widget
-    - 76384f2 2015-09-29 Add actionUrl method (andreyklochok@gmail.com)
-    - 0e57956 2015-09-29 Getting form id from scenario. (andreyklochok@gmail.com)
-    - e178c14 2015-09-29 Add some functionality to custom Modal (andreyklochok@gmail.com)
-    - fbb67ff 2015-09-29 Some changes in Modal widget (andreyklochok@gmail.com)
-    - 8ca3893 2015-09-28 Fix css, add new widget Modal (andreyklochok@gmail.com)
-    - dae578b 2015-09-28 * + value to submit button (bladeroot@gmail.com)
-    - eef9725 2015-09-25 Added FormatController (d.naumenko.a@gmail.com)
-- Added Block widget
-    - 8893c1c 2015-09-24 + Block widget (bladeroot@gmail.com)
-- Added caching of refs
-    - 2990d12 2015-10-06 + caching for Ref::getList (sol@hiqdev.com)
-    - 9f97911 2015-09-24 improved Caching: + ReflectionFunction::export to cache key (sol@hiqdev.com)
-    - d4966d5 2015-09-24 + base\Cache component with getTimeCached() used for caching refs (sol@hiqdev.com)
+- Removed obsolete FormValidateAction
+    - a861849 2015-10-21 removed FormValidateAction (sol@hiqdev.com)
 - Fixed translation and minor issues
+    - feb8c08 2015-10-21 fixed minor issue (sol@hiqdev.com)
+    - 1243512 2015-10-21 - views from backend (sol@hiqdev.com)
+    - 0116dfb 2015-10-19 Fix init method. Add registerClintScript (andreyklochok@gmail.com)
+    - 2197733 2015-10-17 Translations updated, other minor changes (d.naumenko.a@gmail.com)
+    - f745d65 2015-10-16 Base Contoller - findModels enhanced to use ModelSearch (d.naumenko.a@gmail.com)
+    - ee17b82 2015-10-16 Added `*` char for required fields (d.naumenko.a@gmail.com)
+    - 7700fe8 2015-10-13 improved file viewing (sol@hiqdev.com)
+    - 8de1dc2 2015-10-13 used local Response (sol@hiqdev.com)
+    - 0603d77 2015-10-12 Added synt dictionary, translation definition moved to PluginManager (d.naumenko.a@gmail.com)
+    - a197a18 2015-10-12 Translation enhancements (d.naumenko.a@gmail.com)
+    - f739259 2015-10-09 Translation fixes (d.naumenko.a@gmail.com)
+    - 0d21ef0 2015-10-09 Translation fixes (d.naumenko.a@gmail.com)
+    - eff451f 2015-10-08 Updated translations (d.naumenko.a@gmail.com)
+    - a2cf539 2015-10-08 CHANGED ActionColumn: View -> Details (sol@hiqdev.com)
+    - d887aa3 2015-10-07 lang (sol@hiqdev.com)
+    - 3a097f4 2015-10-07 Translation fixes (d.naumenko.a@gmail.com)
     - 2549b5a 2015-09-28 x fix translation (bladeroot@gmail.com)
     - e811859 2015-09-25 fix lang pack (bladeroot@gmail.com)
     - 1879aca 2015-09-25 fix mistakes in translation (bladeroot@gmail.com)
@@ -71,6 +61,56 @@ hiqdev/hipanel-core commits history
     - ec60832 2015-09-15 redone Menu widget: used menumanager Menu widget (sol@hiqdev.com)
     - 193eba0 2015-09-14 basic translation fix (sol@hiqdev.com)
     - e5968f9 2015-09-13 quick fixed TranslateController (sol@hiqdev.com)
+- Added more features to smartUpdateAction
+    - 0ba09ae 2015-10-17 SmartUpdateAction - smarter saveing errors handling, added view attribute (d.naumenko.a@gmail.com)
+    - 705d4fe 2015-10-16 SmartUpdateAction - added findOptions (d.naumenko.a@gmail.com)
+    - c0231e9 2015-10-12 SmartUpdateAction - changed POST html error behaviour to RedirectAction (d.naumenko.a@gmail.com)
+- Added more features to ArraySpoiler
+    - 189a95d 2015-10-15 ArraySpoiler::getVisibleItems() - fixed iterator (d.naumenko.a@gmail.com)
+    - 6fe9e11 2015-10-15 ArraySpoiler - in popover mode clientOptions changed to popoverOptions (d.naumenko.a@gmail.com)
+    - 75e301c 2015-10-15 ArraySpoiler refactored (d.naumenko.a@gmail.com)
+- Added more features for Ref
+    - 718279c 2015-10-08 RefFilter, RefColumn - added passing of additional options to Ref::getList() (d.naumenko.a@gmail.com)
+    - 75e13df 2015-10-08 Ref::getList() - limit set to ALL (d.naumenko.a@gmail.com)
+- Added more features to CurrencyColumn
+    - 70f7946 2015-10-08 CurrencyColumn code style enhancements (d.naumenko.a@gmail.com)
+    - 9ef2b54 2015-10-07 improved CurrencyColumn: + getUrl() (sol@hiqdev.com)
+- Added success/error to RedirectAction
+    - 7129f8a 2015-10-07 improved RedirectAction: + success/error (sol@hiqdev.com)
+- Added modals: AjaxModal, BlockModalButton, SettingsModal
+    - 41e7a64 2015-10-15 Php code refacroted in AjaxModal, BlockModalButton, SettingsModal (d.naumenko.a@gmail.com)
+    - 82ce8c9 2015-10-09 ModalButton - fixed footer button value passing (d.naumenko.a@gmail.com)
+    - 3501624 2015-10-08 * BlockModalButton: + more defaults (sol@hiqdev.com)
+    - 4029970 2015-10-08 Changed defaults of kartik DatePicker, FieldRange (d.naumenko.a@gmail.com)
+    - 2854551 2015-10-08 Added gt,lt filter conds, searchAttributes() are now chached with `static` (d.naumenko.a@gmail.com)
+    - a8c3415 2015-10-07 + SettingsModal widget (sol@hiqdev.com)
+    - 900e408 2015-10-07 redone Modal widget (sol@hiqdev.com)
+    - 4254415 2015-10-07 Widget Block reimplemented and renamed to BlockModalButton, minor (d.naumenko.a@gmail.com)
+    - 5c48b2d 2015-10-07 Widget Modal renamed to AjaxModal (d.naumenko.a@gmail.com)
+    - 887ceec 2015-10-06 quickfixed duplicate Modal (sol@hiqdev.com)
+    - 76384f2 2015-09-29 Add actionUrl method (andreyklochok@gmail.com)
+    - 0e57956 2015-09-29 Getting form id from scenario. (andreyklochok@gmail.com)
+    - e178c14 2015-09-29 Add some functionality to custom Modal (andreyklochok@gmail.com)
+    - fbb67ff 2015-09-29 Some changes in Modal widget (andreyklochok@gmail.com)
+    - 8ca3893 2015-09-28 Fix css, add new widget Modal (andreyklochok@gmail.com)
+    - dae578b 2015-09-28 * + value to submit button (bladeroot@gmail.com)
+    - 8893c1c 2015-09-24 + Block widget (bladeroot@gmail.com)
+- Added FormatController
+    - eef9725 2015-09-25 Added FormatController (d.naumenko.a@gmail.com)
+- Added FontIcon helper
+    - f5378f4 2015-10-07 + FontIcon helper (sol@hiqdev.com)
+- Added DomainValidator
+    - d9a46cc 2015-10-06 + DomainValidator, moved from domain module (sol@hiqdev.com)
+- Added logo to README
+    - 9c3c650 2015-09-30 + logo link to hipanel.com (sol@hiqdev.com)
+    - 91a385c 2015-09-30 testing logo (sol@hiqdev.com)
+    - 2d3060a 2015-09-30 trying logo (sol@hiqdev.com)
+    - cc9f1e9 2015-09-30 + logo (sol@hiqdev.com)
+    - e9b5d9d 2015-09-30 + logo (sol@hiqdev.com)
+- Added caching of refs
+    - 2990d12 2015-10-06 + caching for Ref::getList (sol@hiqdev.com)
+    - 9f97911 2015-09-24 improved Caching: + ReflectionFunction::export to cache key (sol@hiqdev.com)
+    - d4966d5 2015-09-24 + base\Cache component with getTimeCached() used for caching refs (sol@hiqdev.com)
 - Changed Label widget zclass -> color, added 'none' color and options
     - 8b7b36a 2015-09-24 * Label widget: + none_options (sol@hiqdev.com)
     - bc30115 2015-09-23 + Label none type (sol@hiqdev.com)
