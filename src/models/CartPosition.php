@@ -2,17 +2,48 @@
 
 namespace hipanel\models;
 
-use yii\base\Object;
+use hiqdev\hiart\ActiveRecord;
+use Yii;
 use yz\shoppingcart\CartPositionInterface;
 use yz\shoppingcart\CartPositionTrait;
 
-class CartPosition extends Object implements CartPositionInterface
+class CartPosition extends ActiveRecord implements CartPositionInterface
 {
     use CartPositionTrait;
 
-    public $model;
+    protected $_model;
 
-    private $_id;
+    protected $_id;
+
+    public $model_id;
+
+    public $name;
+
+    public $description;
+
+    public function rules()
+    {
+        return [
+            [['model_id'], 'integer', 'min' => 1],
+            [['name', 'description'], 'string'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'model_id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'description' => Yii::t('app', 'Description'),
+        ];
+    }
+
+    public function attributes() {
+        return [
+            'model_id',
+            'quantity'
+        ];
+    }
 
     public function setId($id)
     {
