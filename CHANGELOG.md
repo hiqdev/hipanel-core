@@ -3,8 +3,8 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added Cart functionality
 - Added AuthManager::hasPermission for additional permissions
-- Added CartPosition model
 - Removed obsolete FormValidateAction
 - Fixed translation and minor issues
 - Added more features to smartUpdateAction

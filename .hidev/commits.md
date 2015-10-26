@@ -3,10 +3,11 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added Cart functionality
+    - 8b85c37 2015-10-22 Add CartPosition model (andreyklochok@gmail.com)
+    - d659fde 2015-10-23 Add Cart functionality (andreyklochok@gmail.com)
 - Added AuthManager::hasPermission for additional permissions
     - 4dbac00 2015-10-22 + AuthManager::hasPermission for additional permissions (sol@hiqdev.com)
-- Added CartPosition model
-    - 8b85c37 2015-10-22 Add CartPosition model (andreyklochok@gmail.com)
 - Removed obsolete FormValidateAction
     - a861849 2015-10-21 removed FormValidateAction (sol@hiqdev.com)
 - Fixed translation and minor issues
