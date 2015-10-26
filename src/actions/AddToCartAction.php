@@ -12,11 +12,16 @@ class AddToCartAction extends Action
     public function run()
     {
         $product = new $this->productClass;
+        $cart = Yii::$app->cart;
         $request = Yii::$app->request;
 
         if ($product->load($request->get())) {
-            Yii::$app->cart->put($product);
-            Yii::$app->session->addFlash('success', Yii::t('app', 'Domain is added to cart'));
+            if (!$cart->hasPosition($product->getId())) {
+                $cart->put($product);
+                Yii::$app->session->addFlash('success', Yii::t('app', 'Domain is added to cart'));
+            } else {
+                Yii::$app->session->addFlash('warning', Yii::t('app', 'Domain already exists in the cart'));
+            }
             if ($request->isAjax) {
                 Yii::$app->end();
             } else
