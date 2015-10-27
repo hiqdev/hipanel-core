@@ -4,6 +4,8 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Added Cart functionality
+    - 5d42285 2015-10-26 getQuantitityOptions (andreyklochok@gmail.com)
+    - 7cc0a0b 2015-10-26 Fix. The same ID in the cart (andreyklochok@gmail.com)
     - 8b85c37 2015-10-22 Add CartPosition model (andreyklochok@gmail.com)
     - d659fde 2015-10-23 Add Cart functionality (andreyklochok@gmail.com)
 - Added AuthManager::hasPermission for additional permissions
