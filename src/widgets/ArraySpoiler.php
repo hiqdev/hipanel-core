@@ -122,12 +122,12 @@ class ArraySpoiler extends Widget
         }
 
         if (is_string($this->button)) {
-            $this->button['label'] = $this->button;
+            $this->button = ['label' => $this->button];
         }
 
         $this->button = ArrayHelper::merge([
             'tag' => 'a',
-            'id' => $this->id
+            'id' => $this->id,
         ], $this->button);
 
         if (!is_array($this->data)) {
