@@ -4,7 +4,6 @@ namespace hipanel\models;
 
 use hiqdev\hiart\ActiveRecord;
 use Yii;
-use yii\base\InvalidConfigException;
 use yz\shoppingcart\CartPositionInterface;
 use yz\shoppingcart\CartPositionTrait;
 
