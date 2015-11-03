@@ -46,7 +46,15 @@ $config = [
             'class' => 'hipanel\base\AuthManager',
         ],
         'hiresource' => [
-            'class' => 'hipanel\base\Connection',
+            'class'  => 'hipanel\base\Connection',
+            'auth'   => function ($self) {
+                if (Yii::$app->user->identity) {
+                    return ['access_token' => Yii::$app->user->identity->getAccessToken()];
+                }
+                Yii::$app->user->loginRequired();
+
+                return [];
+            },
             'config' => [
                 'api_url' => $params['api_url'],
             ],
