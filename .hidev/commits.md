@@ -3,7 +3,10 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added HiArt 'auth' configuration
+    - a423ca5 2015-11-03 + HiArt 'auth' configuration (sol@hiqdev.com)
 - Added Cart functionality
+    - 5723def 2015-10-28 Remove unnecessary use (andreyklochok@gmail.com)
     - 5d42285 2015-10-26 getQuantitityOptions (andreyklochok@gmail.com)
     - 7cc0a0b 2015-10-26 Fix. The same ID in the cart (andreyklochok@gmail.com)
     - 8b85c37 2015-10-22 Add CartPosition model (andreyklochok@gmail.com)
@@ -13,6 +16,8 @@ hiqdev/hipanel-core commits history
 - Removed obsolete FormValidateAction
     - a861849 2015-10-21 removed FormValidateAction (sol@hiqdev.com)
 - Fixed translation and minor issues
+    - da87997 2015-10-28  x DomainValidator::init() - added parent::init() call (d.naumenko.a@gmail.com)
+    - ce9c379 2015-10-27  x ArraySpoiler::init() - fixed warning when `$this->button` is a string (d.naumenko.a@gmail.com)
     - feb8c08 2015-10-21 fixed minor issue (sol@hiqdev.com)
     - 1243512 2015-10-21 - views from backend (sol@hiqdev.com)
     - 0116dfb 2015-10-19 Fix init method. Add registerClintScript (andreyklochok@gmail.com)

@@ -3,6 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
+- Added HiArt 'auth' configuration
 - Added Cart functionality
 - Added AuthManager::hasPermission for additional permissions
 - Removed obsolete FormValidateAction

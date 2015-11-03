@@ -20,6 +20,11 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $buttonOptions = [];
 
     /**
+     * @var integer count of visible buttons that will be shown without spoiler
+     */
+    public $visibleButtonsCount = 1;
+
+    /**
      * @inheritdoc
      */
     public function init () {
@@ -28,7 +33,7 @@ class ActionColumn extends \yii\grid\ActionColumn
         }
         parent::init();
         $this->getCountButtons();
-        $this->template = ($this->getCountButtons() > 1) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
+        $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
     }
 
     public function getCountButtons () {
@@ -36,7 +41,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     }
 
     public function renderFirstButton ($item) {
-        return ($this->getCountButtons() > 1) ? $item . '<button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">
+        return ($this->getCountButtons() > $this->visibleButtonsCount) ? $item . '<button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -97,13 +102,13 @@ class ActionColumn extends \yii\grid\ActionColumn
      */
     protected function renderDataCellContent ($model, $key, $index) {
         return preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) use ($model, $key, $index) {
-            static $isFirst = true;
+            static $renderedCount = 0;
             $name = $matches[1];
             if (isset($this->buttons[$name])) {
                 $url          = $this->createUrl($name, $model, $key, $index);
                 $renderedItem = call_user_func($this->buttons[$name], $url, $model, $key);
-                $result       = ($isFirst == true) ? $this->renderFirstButton($renderedItem) : $this->renderOtherButtons($renderedItem);
-                $isFirst      = false;
+                $result       = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem) : $this->renderOtherButtons($renderedItem);
+                $renderedCount++;
 
                 return $result;
             } else {
