@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
  * Holds scenario and collection. Displays flash.
  *
  * @property Collection collection
-*/
+ */
 class Action extends \yii\base\Action
 {
     /**
@@ -90,8 +90,8 @@ class Action extends \yii\base\Action
             }
 
             $this->_collection = Yii::createObject(ArrayHelper::merge([
-                'class'    => 'hiqdev\hiart\Collection',
-                'model'    => $this->controller->newModel(),
+                'class' => 'hiqdev\hiart\Collection',
+                'model' => $this->controller->newModel(),
                 'scenario' => $scenario,
             ], (array)$this->_collection));
         }
@@ -109,7 +109,8 @@ class Action extends \yii\base\Action
      *
      * @param array $data
      */
-    public function loadCollection($data = null) {
+    public function loadCollection($data = null)
+    {
         if ($this->collectionLoader instanceof Closure) {
             call_user_func($this->collectionLoader, $this, $data);
         } else {
@@ -122,7 +123,8 @@ class Action extends \yii\base\Action
      *
      * @return bool
      */
-    public function saveCollection() {
+    public function saveCollection()
+    {
         if ($this->beforeSave instanceof Closure) {
             call_user_func($this->beforeSave, $this);
         }
@@ -199,7 +201,8 @@ class Action extends \yii\base\Action
      * @param $type string
      * @return string
      */
-    public function getFlashText($type) {
+    public function getFlashText($type)
+    {
         if ($this->{$type}) {
             return $this->{$type};
         } elseif ($this->parent) {
