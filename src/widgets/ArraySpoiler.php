@@ -308,13 +308,11 @@ class ArraySpoiler extends Widget
      * @param null $i18n boolean|string Name of dictionary to pass the value [[Yii::t()]]. When true - `app` will be used.
      * @return mixed|string
      */
-    public function getButtonLabel($label, $i18n = null) {
+    public function getButtonLabel($label) {
         if ($label instanceof \Closure) {
             $label = call_user_func($label, $this);
-        }
-
-        if ($i18n) {
-            $label = Yii::t(is_string($i18n) ? $i18n : 'app', $label);
+        } else {
+            $label = Yii::t('app', $label, ['count' => count($this->getSpoiledItems())]);
         }
 
         return $label;
