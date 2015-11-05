@@ -1,7 +1,7 @@
 <?php
 return [
     'adminEmail' => 'admin@example.com',
-    'pjax'       => [
+    'pjax'       => [ /// Config for the main PJAX page wrapper
         'id'              => 'content-pjax',
         'timeout'         => 0,
         'enablePushState' => true,

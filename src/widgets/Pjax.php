@@ -11,13 +11,13 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
 use yii\widgets\Breadcrumbs;
-use yii\widgets\PjaxAsset;
 
 class Pjax extends \yii\widgets\Pjax
 {
     public function run () {
         if ($this->requiresPjax()) {
             Alert::widget();
+            if ($this->id === \Yii::$app->params['pjax']['id'])
             $this->addBreadcrumbs();
         }
         parent::run();
