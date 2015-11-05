@@ -2,12 +2,20 @@
 
 namespace hipanel\base;
 
-use yii\caching\Cache as yiiCache;
+use Closure;
 use ReflectionFunction;
 
 class Cache extends \yii\caching\FileCache
 {
-    public function getTimeCached ($timeout, array $params, $func) {
+    /**
+     * Caches a [[\Closure]] call, invalidates on timeout
+     *
+     * @param $timeout int seconds
+     * @param array $params an array of params that will be passed to the $func
+     * @param Closure $func the function that will be called
+     * @return mixed
+     */
+    public function getTimeCached ($timeout, array $params, Closure $func) {
         $key = array_merge([__CLASS__, ReflectionFunction::export($func, true)], $params);
         $res = $this->get($key);
         if ($res === false) {
