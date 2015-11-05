@@ -8,6 +8,7 @@
  */
 function scrollTo(element, duration) {
     duration = duration || 500;
+    if (!element) return false;
     var elem = $(element).offset();
     if (elem.top) {
         $('html, body').animate({

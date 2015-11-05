@@ -643,6 +643,9 @@ a.asc:after {
     color: #93a3b5;
     font-size: 16px;
     font-weight: 400;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
 }
 
 .profile-usermenu ul li a i {
