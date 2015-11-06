@@ -77,7 +77,8 @@
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "1.6.*@dev",
         "stichoza/google-translate-php": "~3.0",
-        "wbraganca/yii2-dynamicform": "*"
+        "wbraganca/yii2-dynamicform": "*",
+        "2amigos/yii2-grid-view-library" : "*@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
