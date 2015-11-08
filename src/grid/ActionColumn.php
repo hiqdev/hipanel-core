@@ -7,11 +7,16 @@
 
 namespace hipanel\grid;
 
+use hiqdev\higrid\FeaturedColumnTrait;
 use Yii;
 use yii\helpers\Html;
 
 class ActionColumn extends \yii\grid\ActionColumn
 {
+    use FeaturedColumnTrait {
+        init as traitInit;
+    }
+
     public $attribute;
 
     /**
@@ -31,7 +36,7 @@ class ActionColumn extends \yii\grid\ActionColumn
         if ($this->header === null) {
             $this->header = Yii::t('app', 'Actions');
         }
-        parent::init();
+        $this->traitInit();
         $this->getCountButtons();
         $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
     }
