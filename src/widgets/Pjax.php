@@ -17,8 +17,10 @@ class Pjax extends \yii\widgets\Pjax
     public function run () {
         if ($this->requiresPjax()) {
             Alert::widget();
-            if ($this->id === \Yii::$app->params['pjax']['id'])
-            $this->addBreadcrumbs();
+            /// We do render breadcrumbs only for the main outer PJAX block
+            if ($this->id === \Yii::$app->params['pjax']['id']) {
+                $this->addBreadcrumbs();
+            }
         }
         parent::run();
     }
