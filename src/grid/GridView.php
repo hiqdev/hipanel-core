@@ -24,6 +24,13 @@ class GridView extends \hiqdev\higrid\GridView
     /**
      * @inheritdoc
      */
+    public $resizableColumns = [
+        'resizeFromBody' => false
+    ];
+
+    /**
+     * @inheritdoc
+     */
 //    public $tableOptions = [
 //        'class' => 'table table-bordered table-hover dataTable'
 //    ];
