@@ -78,8 +78,7 @@ trait SearchModelTrait
         }
 
         foreach ($this->attributes() as $attribute) {
-            $value = $this->{$attribute};
-            if (empty($value)) {
+            if (($value = $this->{$attribute}) === null) {
                 continue;
             }
             /*
