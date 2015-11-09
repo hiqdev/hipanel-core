@@ -7,6 +7,7 @@
 
 namespace hipanel\grid;
 
+use hipanel\helpers\ArrayHelper;
 use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\assets\datatables\DataTablesAsset;
 use Yii;
@@ -76,6 +77,15 @@ class GridView extends \hiqdev\higrid\GridView
         $this->tableOptions['class'] .= ' ' . Yii::$app->themeManager->settings->getCssClass('table_condensed');
         parent::run();
         $this->registerClientScript();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function detailView(array $config = [])
+    {
+        $config = ArrayHelper::merge(['gridOptions' => ['resizableColumns' => ['resizeFromBody' => true]]], $config);
+        return parent::detailView($config);
     }
 
     /**
