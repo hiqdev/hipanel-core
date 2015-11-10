@@ -15,12 +15,6 @@ class CartPosition extends ActiveRecord implements CartPositionInterface
 
     protected $_id;
 
-    public $model_id;
-
-    public $name;
-
-    public $description;
-
     public function rules()
     {
         return [
@@ -41,7 +35,9 @@ class CartPosition extends ActiveRecord implements CartPositionInterface
     public function attributes() {
         return [
             'model_id',
-            'quantity'
+            'name',
+            'quantity',
+            'description'
         ];
     }
 
