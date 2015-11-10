@@ -27,7 +27,7 @@ class AddToCartAction extends Action
             $data = [Yii::$app->request->post() ?: Yii::$app->request->get()];
         }
 
-        if ($collection->load($data)) {
+        if ($collection->load($data) && $collection->validate()) {
             foreach ($collection->models as $position) {
                 if (!$cart->hasPosition($position->getId())) {
                     $cart->put($position);
@@ -36,6 +36,8 @@ class AddToCartAction extends Action
                     Yii::$app->session->addFlash('warning', Yii::t('app', 'Item already exists in the cart'));
                 }
             }
+        } else {
+            Yii::$app->session->addFlash('warning', Yii::t('app', 'Item does not exists'));
         }
 
         if ($request->isAjax) {
