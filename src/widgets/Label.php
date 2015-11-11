@@ -66,13 +66,14 @@ class Label extends \yii\base\Widget
         $this->renderLabel();
     }
 
-    private function renderLabel()
+    protected function renderLabel()
     {
         $color = $this->getColor();
-        print $color == 'none'
-            ? Html::tag('b', $this->label, $this->noneOptions)
-            : Html::tag($this->tag, $this->label, $this->labelOptions)
-        ;
+        if ($color == 'none') {
+            echo Html::tag('b', $this->label, $this->noneOptions);
+        } else {
+            echo Html::tag($this->tag, $this->label, $this->labelOptions);
+        }
     }
 
     public function buildClass()
