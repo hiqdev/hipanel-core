@@ -232,7 +232,7 @@ class ArraySpoiler extends Widget
             'popoverOptions' => [],
         ], $this->button);
 
-        $label = $this->getButtonLabel(ArrayHelper::remove($options, 'label'), ArrayHelper::remove($options, 'i18n'));
+        $label = $this->getButtonLabel(ArrayHelper::remove($options, 'label'));
 
         $this->getView()->registerJs("
              $('#{$this->id}').popover(" . Json::htmlEncode(ArrayHelper::remove($options, 'popoverOptions')) . ").on('show.bs.popover', function(e) {
@@ -272,7 +272,7 @@ class ArraySpoiler extends Widget
             'data-target' => $this->button['id'] . '-body'
         ], $this->button);
 
-        $label = $this->getButtonLabel(ArrayHelper::remove($options, 'label'), ArrayHelper::remove($options, 'i18n'));
+        $label = $this->getButtonLabel(ArrayHelper::remove($options, 'label'));
 
         $this->parts['{button}'] = Html::tag(ArrayHelper::remove($options, 'tag'), $label, $options);
         $this->getView()->registerJs("
@@ -305,7 +305,6 @@ class ArraySpoiler extends Widget
      * Returns the button label.
      *
      * @param $label string|\Closure
-     * @param null $i18n boolean|string Name of dictionary to pass the value [[Yii::t()]]. When true - `app` will be used.
      * @return mixed|string
      */
     public function getButtonLabel($label) {
