@@ -26,13 +26,14 @@ class Type extends \hipanel\widgets\Label {
      **/
     public $values = [];
 
-    /** @var defaultValues[] inherits $values */
+    /** @var array inherits $values */
     public $defaultValues = [];
 
     /** @var string field  */
     public $field = 'state';
 
-    public function run () {
+    public function init() {
+        $possible = [];
         $field = $this->model->{$this->field};
 
         foreach ($this->defaultValues as $key => $values) {
@@ -48,8 +49,7 @@ class Type extends \hipanel\widgets\Label {
             }
         }
 
-        $this->color = $class ?: 'warning';
+        $this->color = isset($class) ? $class : 'warning';
         $this->label  = Yii::t('app', $this->model->{"{$this->field}_label"} ? : $this->model->{$this->field});
-        parent::run();
     }
 }

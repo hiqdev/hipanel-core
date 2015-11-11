@@ -7,6 +7,7 @@
 
 namespace hipanel\widgets;
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
@@ -28,7 +29,9 @@ class Label extends \yii\base\Widget
 
     public $default = 'default';
 
-    public $none_options = ['class' => 'text-muted'];
+    public $noneOptions = [];
+
+    public $labelOptions = [];
 
     /**
      * Available types: label, text
@@ -46,18 +49,30 @@ class Label extends \yii\base\Widget
      */
     public $tag = 'span';
 
-    static public function widget ($config = []) {
+    static public function widget($config = [])
+    {
         return parent::widget($config);
     }
 
-    public function run () {
+    public function init()
+    {
+        $this->noneOptions = ArrayHelper::merge(['class' => 'text-muted'], $this->noneOptions);
+        $this->labelOptions = ArrayHelper::merge(['class' => $this->buildClass()], $this->labelOptions);
+    }
+
+    public function run()
+    {
         parent::run();
         $this->renderLabel();
     }
 
-    private function renderLabel () {
+    private function renderLabel()
+    {
         $color = $this->getColor();
-        print $color=='none' ? Html::tag('b', $this->label, $this->none_options) : Html::tag($this->tag, $this->label, ['class' => $this->buildClass()]);
+        print $color == 'none'
+            ? Html::tag('b', $this->label, $this->noneOptions)
+            : Html::tag($this->tag, $this->label, $this->labelOptions)
+        ;
     }
 
     public function buildClass()
@@ -77,7 +92,7 @@ class Label extends \yii\base\Widget
 
     public function getCssClass()
     {
-        return $this->type=='text' ? 'text-bold' : $this->type;
+        return $this->type == 'text' ? 'text-bold' : $this->type;
     }
 
     public function getPrefix()
