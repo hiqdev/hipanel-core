@@ -16,6 +16,7 @@ hiqdev/hipanel roadmap
 
 - Integration
 - Extensibility
+- Modularity
 - Friendliness
 - Reliability
 - Security
@@ -24,5 +25,5 @@ hiqdev/hipanel roadmap
 
 - All the logic in API
 - Best available interface features
-- Automated testing with codeception
+- Automated testing
 

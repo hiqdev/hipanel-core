@@ -1,18 +1,16 @@
-Next Generation Control Panel
-=============================
+HiPanel Core
+============
 
-[![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
-
-Goals:
-- Integration
-- Extensibility
-- Friendliness
-- Reliability
-- Security
+**HiPanel core package**
 
 [![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-core/v/stable)](//packagist.org/packages/hiqdev/hipanel-core)
 [![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-core/downloads)](//packagist.org/packages/hiqdev/hipanel-core)
 [![Dependency Status](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master/badge.svg)](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master)
+
+[![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
+
+[HiPanel](http://hipanel.com) is next generation control panel for hosting, domains and more.
+This package is the core of the system.
 
 ## Installation
 
@@ -34,7 +32,7 @@ to the require section of your composer.json.
 
 ## License
 
-This project is released under the terms of the BSD-3-Clause [license](https://github.com/hiqdev/hipanel-core/blob/master/LICENSE).
+This project is released under the terms of the BSD-3-Clause [license](LICENSE).
 Read more [here](http://choosealicense.com/licenses/bsd-3-clause).
 
 Copyright © 2014-2015, HiQDev (http://hiqdev.com/)

@@ -3,6 +3,31 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+    - ad376f5 2015-11-12 cart component and AddToCartAction moved to yii2-cart (sol@hiqdev.com)
+    - 15c50d1 2015-11-11 Changed sigrature of Label::renderLabel() privat -> protected (d.naumenko.a@gmail.com)
+    - 547d980 2015-11-11 ArraySpoiler fixed PHPDoc (d.naumenko.a@gmail.com)
+    - 74b53c8 2015-11-11 Translations updated (d.naumenko.a@gmail.com)
+    - 3a34c30 2015-11-11 Label widget refactoring (d.naumenko.a@gmail.com)
+    - ae07977 2015-11-10 Add validation before Add To Cart (andreyklochok@gmail.com)
+    - 6ed3ac0 2015-11-10 Add Collection to CartAction (andreyklochok@gmail.com)
+    - 9a26cf6 2015-11-09 Fixed SearchModelTrait not to skip value `0` as an attribute (d.naumenko.a@gmail.com)
+    - 9c8373b 2015-11-09 GridView::detailView - added ResizableColumns option resizeFromBody for detail views (d.naumenko.a@gmail.com)
+    - b1c8508 2015-11-09 Added PNotifyAsset to AppAsset (d.naumenko.a@gmail.com)
+    - 7147d9e 2015-11-08 Added GridView overriding of default resizableColumns options (d.naumenko.a@gmail.com)
+    - 39f0205 2015-11-08 ActionColumn now uses FeaturedCoulmnTrait (d.naumenko.a@gmail.com)
+    - 1bd57bd 2015-11-07 Added ResizableColumnsAsset to AppAsset (d.naumenko.a@gmail.com)
+    - 4c76ab6 2015-11-06 fixed composer.json syntax error (d.naumenko.a@gmail.com)
+    - 878dc35 2015-11-06 composer.json updated - added 2amigos/yii2-grid-view-library (d.naumenko.a@gmail.com)
+    - 940acfc 2015-11-06 composer.json updated - added 2amigos/yii2-grid-view-library (d.naumenko.a@gmail.com)
+    - 2f63d5c 2015-11-05 Fixed CSS in AppAsset (d.naumenko.a@gmail.com)
+    - 358102d 2015-11-05 PjaxAsset - changed sourcePath to @bower/hiqdev-pjax (d.naumenko.a@gmail.com)
+    - 6306a3a 2015-11-05 hipanel\base\Cache::getTimeCached - Added PHPDoc (d.naumenko.a@gmail.com)
+    - 842a8e8 2015-11-05 hiqdev/jquery-pjax required version changed (d.naumenko.a@gmail.com)
+    - 5d6b51d 2015-11-05 hiqdev/jquery-pjax imported using bower (d.naumenko.a@gmail.com)
+    - 589aaf5 2015-11-05 Added hiqdev/jquery-pjax fork usage instead of original yiisoft fork (d.naumenko.a@gmail.com)
+    - 86bb3ed 2015-11-04  x ArraySpoiler - fixed getButtonLabel to translate button lanel correctly (d.naumenko.a@gmail.com)
+    - 9f0039a 2015-11-02  + ActionColumn::visibleButtonsCount - added option to set visible buttons count (d.naumenko.a@gmail.com)
+    - 87c4426 2015-10-30 Change text in flash massages (andreyklochok@gmail.com)
 - Added HiArt 'auth' configuration
     - a423ca5 2015-11-03 + HiArt 'auth' configuration (sol@hiqdev.com)
 - Added Cart functionality

@@ -1,7 +1,7 @@
 {
     "name": "hiqdev/hipanel-core",
     "type": "yii2-extension",
-    "description": "Next Generation Control Panel",
+    "description": "HiPanel core package",
     "keywords": [
         "hipanel",
         "control panel",

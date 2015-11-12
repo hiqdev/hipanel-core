@@ -1,8 +1,8 @@
 package:
     name:           hipanel-core
     namespace:      hipanel
-    label:          HiPanel
-    title:          Next Generation Control Panel
+    headline:       HiPanel Core
+    title:          HiPanel core package
     type:           yii2-extension
     homepage:       https://hipanel.com/
     keywords:       hipanel, control panel, hosting, domains
@@ -10,12 +10,8 @@ package:
     description: |
         [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 
-        Goals:
-        - Integration
-        - Extensibility
-        - Friendliness
-        - Reliability
-        - Security
+        [HiPanel](http://hipanel.com) is next generation control panel for hosting, domains and more.
+        This package is the core of the system.
 
 require:
     hiqdev/hidev-config:        "*"
