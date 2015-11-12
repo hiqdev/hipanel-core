@@ -3,6 +3,8 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Fixed minor issues and translation
+    - b7877d8 2015-11-12 improved package description (sol@hiqdev.com)
     - ad376f5 2015-11-12 cart component and AddToCartAction moved to yii2-cart (sol@hiqdev.com)
     - 15c50d1 2015-11-11 Changed sigrature of Label::renderLabel() privat -> protected (d.naumenko.a@gmail.com)
     - 547d980 2015-11-11 ArraySpoiler fixed PHPDoc (d.naumenko.a@gmail.com)
@@ -28,19 +30,6 @@ hiqdev/hipanel-core commits history
     - 86bb3ed 2015-11-04  x ArraySpoiler - fixed getButtonLabel to translate button lanel correctly (d.naumenko.a@gmail.com)
     - 9f0039a 2015-11-02  + ActionColumn::visibleButtonsCount - added option to set visible buttons count (d.naumenko.a@gmail.com)
     - 87c4426 2015-10-30 Change text in flash massages (andreyklochok@gmail.com)
-- Added HiArt 'auth' configuration
-    - a423ca5 2015-11-03 + HiArt 'auth' configuration (sol@hiqdev.com)
-- Added Cart functionality
-    - 5723def 2015-10-28 Remove unnecessary use (andreyklochok@gmail.com)
-    - 5d42285 2015-10-26 getQuantitityOptions (andreyklochok@gmail.com)
-    - 7cc0a0b 2015-10-26 Fix. The same ID in the cart (andreyklochok@gmail.com)
-    - 8b85c37 2015-10-22 Add CartPosition model (andreyklochok@gmail.com)
-    - d659fde 2015-10-23 Add Cart functionality (andreyklochok@gmail.com)
-- Added AuthManager::hasPermission for additional permissions
-    - 4dbac00 2015-10-22 + AuthManager::hasPermission for additional permissions (sol@hiqdev.com)
-- Removed obsolete FormValidateAction
-    - a861849 2015-10-21 removed FormValidateAction (sol@hiqdev.com)
-- Fixed translation and minor issues
     - da87997 2015-10-28  x DomainValidator::init() - added parent::init() call (d.naumenko.a@gmail.com)
     - ce9c379 2015-10-27  x ArraySpoiler::init() - fixed warning when `$this->button` is a string (d.naumenko.a@gmail.com)
     - feb8c08 2015-10-21 fixed minor issue (sol@hiqdev.com)
@@ -98,6 +87,18 @@ hiqdev/hipanel-core commits history
     - ec60832 2015-09-15 redone Menu widget: used menumanager Menu widget (sol@hiqdev.com)
     - 193eba0 2015-09-14 basic translation fix (sol@hiqdev.com)
     - e5968f9 2015-09-13 quick fixed TranslateController (sol@hiqdev.com)
+- Added HiArt 'auth' configuration
+    - a423ca5 2015-11-03 + HiArt 'auth' configuration (sol@hiqdev.com)
+- Added Cart functionality
+    - 5723def 2015-10-28 Remove unnecessary use (andreyklochok@gmail.com)
+    - 5d42285 2015-10-26 getQuantitityOptions (andreyklochok@gmail.com)
+    - 7cc0a0b 2015-10-26 Fix. The same ID in the cart (andreyklochok@gmail.com)
+    - 8b85c37 2015-10-22 Add CartPosition model (andreyklochok@gmail.com)
+    - d659fde 2015-10-23 Add Cart functionality (andreyklochok@gmail.com)
+- Added AuthManager::hasPermission for additional permissions
+    - 4dbac00 2015-10-22 + AuthManager::hasPermission for additional permissions (sol@hiqdev.com)
+- Removed obsolete FormValidateAction
+    - a861849 2015-10-21 removed FormValidateAction (sol@hiqdev.com)
 - Added more features to smartUpdateAction
     - 0ba09ae 2015-10-17 SmartUpdateAction - smarter saveing errors handling, added view attribute (d.naumenko.a@gmail.com)
     - 705d4fe 2015-10-16 SmartUpdateAction - added findOptions (d.naumenko.a@gmail.com)
