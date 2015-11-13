@@ -747,4 +747,12 @@ return [
     'full list' => 'полный список',
     'filtered list' => 'отфильрованный список',
     'Forwarded to' => 'Пересылается на',
+    'Do nothing' => 'Ничего не делать',
+    'Remove' => 'Удалить',
+    'Forward to' => 'Переслать на',
+    'All messages will be forwarded on the specified addresses. You can select email from the list of existing or wright down your own.' => 'Все письма будут перенаправлены на указанные адреса. Вы можете выбрать email из списка существующих, или вписать нужный адрес самостоятельно.',
+    'Auto answer' => 'Автоматический ответ',
+    'Weak' => 'Слабый',
+    'Strong' => 'Сильный',
+    'Password' => 'Пароль',
 ];
