@@ -48,9 +48,9 @@ class PasswordInput extends Widget
 
         $this->inputOptions  = ArrayHelper::merge(['class' => 'form-control'], $this->inputOptions);
         $this->randomOptions = $this->randomOptions ?: [
-            'good'     => ['label' => Yii::t('app', 'Good'), 'length' => 8, 'specialchars' => 0],
-            'better'   => ['label' => Yii::t('app', 'Better'), 'length' => 10],
-            'the best' => ['label' => Yii::t('app', 'The best'), 'length' => 14],
+            'weak'     => ['label' => Yii::t('app', 'Weak'), 'length' => 8, 'specialchars' => 0],
+            'medium'   => ['label' => Yii::t('app', 'Medium'), 'length' => 10],
+            'strong'   => ['label' => Yii::t('app', 'Strong'), 'length' => 14],
         ];
 
     }
