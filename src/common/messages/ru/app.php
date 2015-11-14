@@ -755,4 +755,16 @@ return [
     'Weak' => 'Слабый',
     'Strong' => 'Сильный',
     'Password' => 'Пароль',
+    'Mailbox information' => 'Информаци о почтовом ящике',
+    'Mailbox detailed information' => 'Информаци о почтовом ящике',
+    'Mail settings' => 'Настройки почты',
+    'Block account' => 'Заблокировать акканут',
+    'Mailbox editing' => 'Редактирование почтового ящика',
+    'Forward only' => 'Только пересылка',
+    'Mailbox with forwards' => 'Почтовый ящик с пересылкой',
+    'Mailbox' => 'Почтовый ящик',
+    'Password change is prohibited on forward-only mailboxes' => 'Смена пароля невозможна, так как этот адрес используется только для пересылки',
+    'Leave this field empty to create a forward-only mailbox' => 'Не заполняйте это поле, если вам ящик нужен только для пересылки',
+    'Fill this field only if you want to change the password' => 'Заполните это поле, только если хотите сменить пароль',
+
 ];
