@@ -63,11 +63,13 @@ class PasswordInput extends Widget
 
         $html = Html::activePasswordInput($this->model, $this->attribute, $this->inputOptions);
         $html .= '<div class="input-group-btn">';
-        $html .= Html::button(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), ['class' => 'btn btn-default show-password']);
+        $html .= Html::button(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), [
+            'class' => 'btn btn-default show-password' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
+        ]);
 
         if ($this->randomGenerator) {
             $html .= Html::button(Yii::t('app', 'Random') . '&nbsp;<span class="caret"></span>', [
-                'class'         => 'btn btn-default dropdown-toggle',
+                'class'         => 'btn btn-default dropdown-toggle' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
                 'data-toggle'   => 'dropdown',
                 'aria-expanded' => 'false'
             ]);
@@ -116,6 +118,8 @@ class PasswordInput extends Widget
 
             $('{$selector} .show-password').click(function(event, value) {
                 var input = $('{$selector}').find('input');
+                if (this.hasClass('disabled')) return true;
+
                 var type = input.attr('type');
 
                 if (value) input.val(value).select();
