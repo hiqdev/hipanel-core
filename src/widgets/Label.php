@@ -15,7 +15,7 @@ use yii\helpers\Html;
  *
  * Usage:
  * Label::widget([
- *      'class' => 'warning',
+ *      'color' => 'warning',
  *      'label' => \Yii::t('app', 'Some label'),
  *      'tag'   => 'span',
  * ]);
