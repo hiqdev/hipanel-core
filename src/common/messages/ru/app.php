@@ -766,5 +766,12 @@ return [
     'Password change is prohibited on forward-only mailboxes' => 'Смена пароля невозможна, так как этот адрес используется только для пересылки',
     'Leave this field empty to create a forward-only mailbox' => 'Не заполняйте это поле, если вам ящик нужен только для пересылки',
     'Fill this field only if you want to change the password' => 'Заполните это поле, только если хотите сменить пароль',
-
+    'Mailbox creating task has been added to queue' => 'Задача создания почтового ящика была добавлена в очередь',
+    'An error occurred when trying to create mailbox' => 'Произошла ошибка при попытке создать почтовый ящик',
+    'Mailbox updating task has been added to queue' => 'Задача редактирования почтового ящика была добавлена в очередь',
+    'An error occurred when trying to update mailbox' => 'Произошла ошибка при попытке отредактировать почтовый ящик',
+    'Mailbox password change task has been added to queue' => 'Задача смены пароля почтового ящика была добавлена в очередь',
+    'An error occurred when trying to change mailbox password' => 'Произошла ошибка при попытке сменить пароль почтового ящика',
+    'Mailbox delete task has been created successfully' => 'Задача удаления почтового ящика была добавлена в очередь',
+    'An error occurred when trying to delete mailbox' => 'Произошла ошибка при попытке удалить почтовый ящик',
 ];
