@@ -4,6 +4,14 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed minor issues and translation
+    - 8028546 2015-11-16 moved CartPosition to finance module (sol@hiqdev.com)
+    - 0e9bf1c 2015-11-15 Updated translations (d.naumenko.a@gmail.com)
+    - 7c2b7db 2015-11-15 Label widget - updated PHPDoc (d.naumenko.a@gmail.com)
+    - 0b6a807 2015-11-14 Updated translations (d.naumenko.a@gmail.com)
+    - bbee6f9 2015-11-14 PasswordInput - added proper behaviour for disabled input (d.naumenko.a@gmail.com)
+    - d930a7f 2015-11-13 Updated translation (d.naumenko.a@gmail.com)
+    - bfaf3ff 2015-11-13 PasswordInput - changed password levels to weak, medium, strong (d.naumenko.a@gmail.com)
+    - 97ff2a2 2015-11-13 Add responsive layout to GridView (andreyklochok@gmail.com)
     - b7877d8 2015-11-12 improved package description (sol@hiqdev.com)
     - ad376f5 2015-11-12 cart component and AddToCartAction moved to yii2-cart (sol@hiqdev.com)
     - 15c50d1 2015-11-11 Changed sigrature of Label::renderLabel() privat -> protected (d.naumenko.a@gmail.com)
