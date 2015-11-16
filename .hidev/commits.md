@@ -4,6 +4,7 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed minor issues and translation
+    - 1db661f 2015-11-16 + smart translation invented (sol@hiqdev.com)
     - 8028546 2015-11-16 moved CartPosition to finance module (sol@hiqdev.com)
     - 0e9bf1c 2015-11-15 Updated translations (d.naumenko.a@gmail.com)
     - 7c2b7db 2015-11-15 Label widget - updated PHPDoc (d.naumenko.a@gmail.com)
