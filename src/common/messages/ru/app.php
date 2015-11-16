@@ -19,6 +19,10 @@
 return [
     ' label' => ' метка',
     '+{0, plural, one{# alias} other{# aliases}}' => '+{0, plural, one{# алиас} few{# алиаса} other{# алиасов}}',
+    'enabled' => 'включен',
+    '{0, select, other{enabled} for{dns}}' => 'включено',
+    '{0, select, other{enabled} for{mail}}' => 'включены',
+    'Not enabled' => 'Не включен',
     '---' => '---',
     '...' => '...',
     'Abuse' => 'Жалоба',
@@ -410,7 +414,6 @@ return [
     'No domains is check' => 'Нет домены не проверка',
     'Non payment' => 'Не оплачен',
     'Normalized IP' => 'Нормализированный IP',
-    'Not enabled' => 'Не включен',
     'Note' => 'Заметка',
     'Note changed' => 'Примечание изменено',
     'Note updated' => 'Примечание изменено',
