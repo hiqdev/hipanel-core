@@ -75,7 +75,7 @@ if (YII_DEBUG && !YII_ENV_TEST) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => $params['debug_ips'],
+        'allowedIPs' => isset($params['debug_ips']) ? $params['debug_ips'] : '',
         'panels' => [
             'hiresource' => [
                 'class' => 'hiqdev\hiart\DebugPanel',

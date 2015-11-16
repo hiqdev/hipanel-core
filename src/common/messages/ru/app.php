@@ -286,7 +286,7 @@ return [
     'Enable premium' => 'Включить премиум',
     'Enable proxy (NEED MANUAL)' => 'Включить прокси (нужна инструкция)',
     'Enable suexec' => 'Включить Suexec',
-    'Enabled' => 'Включено',
+    'Enabled' => 'Включен',
     'Enabling...' => 'Включение...',
     'English' => 'English',
     'Enter a new password' => 'Введите новый пароль',
@@ -745,7 +745,6 @@ return [
     'Block domain' => 'Заблокировать домен',
     'Switched off' => 'Отключен',
     'Mailboxes' => 'Почтовые ящики',
-    'Mailboxe' => 'Почтовый ящик',
     'Create mailbox' => 'Создать почту',
     'full list' => 'полный список',
     'filtered list' => 'отфильрованный список',
@@ -777,4 +776,5 @@ return [
     'An error occurred when trying to change mailbox password' => 'Произошла ошибка при попытке сменить пароль почтового ящика',
     'Mailbox delete task has been created successfully' => 'Задача удаления почтового ящика была добавлена в очередь',
     'An error occurred when trying to delete mailbox' => 'Произошла ошибка при попытке удалить почтовый ящик',
+    'DNS is enabled' => 'DNS включен',
 ];

@@ -15,6 +15,13 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
                     'synt' => 'synt.php'
                 ]
             ],
+            'hipanel*' => [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@hipanel/common/messages',
+                'fileMap' => [
+                    'hipanel' => 'hipanel.php'
+                ]
+            ],
             'app' => [
                 'class'          => 'yii\i18n\PhpMessageSource',
                 'basePath'       => '@hipanel/common/messages',
