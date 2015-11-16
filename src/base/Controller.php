@@ -89,7 +89,7 @@ class Controller extends \yii\web\Controller
 
     /**
      * @param array $config config to be used to create the [[Model]]
-     * @return ActiveRecord Search Model object
+     * @return ActiveRecord|SearchModelTrait Search Model object
      */
     static public function searchModel ($config = []) {
         return static::newModel($config, 'Search');
