@@ -118,7 +118,9 @@ class PasswordInput extends Widget
 
             $('{$selector} .show-password').click(function(event, value) {
                 var input = $('{$selector}').find('input');
-                if (this.hasClass('disabled')) return true;
+                if ($(this).hasClass('disabled')) {
+                    return true;
+                }
 
                 var type = input.attr('type');
 
