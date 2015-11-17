@@ -71,7 +71,7 @@ trait SearchModelTrait
         $class = get_parent_class();
         $query = $class::find(); // $class::find()->orderBy($sort->orders)->all(); if $sort is Sort
 
-        $dataProvider = new ActiveDataProvider(ArrayHelper::merge(compact('query'), $dataProviderConfig));
+        $dataProvider = new ActiveDataProvider(ArrayHelper::merge(['query' => $query], $dataProviderConfig));
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
