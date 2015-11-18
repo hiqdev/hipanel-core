@@ -76,6 +76,7 @@ return [
         'formatter' => [
             'locale'      => 'ru-RU',
             'nullDisplay' => '&nbsp;',
+            'sizeFormatBase' => 1000,
         ],
         'pluginManager' => [
             'class' => 'hiqdev\pluginmanager\PluginManager',
