@@ -17,6 +17,7 @@ use yii\helpers\ArrayHelper;
  * Class SearchAction
  *
  * @package hipanel\actions
+ * @var ActiveDataProvider $dataProvider
  */
 class SearchAction extends SwitchAction
 {
@@ -47,6 +48,12 @@ class SearchAction extends SwitchAction
      * @returns array
      */
     public $ajaxResponseFormatter;
+
+    /**
+     * @var \yii\data\ActiveDataProvider stores ActiveDataProvider after creating by [[getDataProvider]]
+     * @see getDataProvider()
+     */
+    public $dataProvider;
 
     public function init()
     {
@@ -100,26 +107,32 @@ class SearchAction extends SwitchAction
     }
 
     /**
-     * Prepares DataProvider with given options list
+     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]]
      *
      * @return ActiveDataProvider
      */
     public function getDataProvider()
     {
-        $formName = $this->getSearchModel()->formName();
-        $search = ArrayHelper::merge($this->findOptions, Yii::$app->request->get($formName) ?: Yii::$app->request->get() ?: Yii::$app->request->post());
+        if ($this->dataProvider === null) {
+            $formName = $this->getSearchModel()->formName();
+            $search = ArrayHelper::merge($this->findOptions, Yii::$app->request->get($formName) ?: Yii::$app->request->get() ?: Yii::$app->request->post());
 
-        $this->returnOptions[$this->controller->modelClassName()] = ArrayHelper::merge(
-            ArrayHelper::remove($search, 'return', []),
-            ArrayHelper::remove($search, 'rename', [])
-        );
+            $this->returnOptions[$this->controller->modelClassName()] = ArrayHelper::merge(
+                ArrayHelper::remove($search, 'return', []),
+                ArrayHelper::remove($search, 'rename', [])
+            );
 
-        return $this->getSearchModel()->search([$formName => $search], $this->dataProviderOptions);
+            $this->dataProvider = $this->getSearchModel()->search([$formName => $search], $this->dataProviderOptions);
+        }
+
+        return $this->dataProvider;
     }
 
     /** @inheritdoc */
     public function perform()
     {
+        $this->beforePerform();
+
         if (!$this->rule->save) {
             return false;
         }
