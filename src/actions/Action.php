@@ -23,6 +23,10 @@ use yii\helpers\ArrayHelper;
  */
 class Action extends \yii\base\Action
 {
+    const EVENT_BEFORE_SAVE = 'beforeSave';
+    const EVENT_BEFORE_LOAD = 'beforeLoad';
+    const EVENT_BEFORE_PERFORM = 'beforePerform';
+
     /**
      * @var Controller the controller that owns this action
      */
@@ -104,6 +108,10 @@ class Action extends \yii\base\Action
      */
     public $collectionLoader;
 
+    public function beforeLoad() {
+        $this->trigger(static::EVENT_BEFORE_LOAD);
+    }
+
     /**
      * Loads data to the [[collection]]
      *
@@ -111,11 +119,17 @@ class Action extends \yii\base\Action
      */
     public function loadCollection($data = null)
     {
+        $this->beforeLoad();
+
         if ($this->collectionLoader instanceof Closure) {
             call_user_func($this->collectionLoader, $this, $data);
         } else {
             $this->collection->load($data);
         }
+    }
+
+    public function beforeSave() {
+        $this->trigger(static::EVENT_BEFORE_SAVE);
     }
 
     /**
@@ -125,16 +139,13 @@ class Action extends \yii\base\Action
      */
     public function saveCollection()
     {
-        if ($this->beforeSave instanceof Closure) {
-            call_user_func($this->beforeSave, $this);
-        }
+        $this->beforeSave();
         return $this->collection->save();
     }
 
-    /**
-     * @var callable before save callback will be called before saving
-     */
-    public $beforeSave;
+    public function beforePerform() {
+        $this->trigger(static::EVENT_BEFORE_PERFORM);
+    }
 
     /**
      * Performs action.
@@ -145,6 +156,8 @@ class Action extends \yii\base\Action
      */
     public function perform()
     {
+        $this->beforePerform();
+
         $this->loadCollection();
 
         try {
