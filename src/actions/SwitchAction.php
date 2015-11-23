@@ -20,7 +20,7 @@ use Yii;
  */
 class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \yii\base\Arrayable
 {
-    use \hiqdev\collection\ManagerTrait;
+    use \hiqdev\yii2\collection\ManagerTrait;
 
     /**
      * @var string|callable the success message or a callback, that returns string.
