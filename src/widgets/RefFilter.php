@@ -59,7 +59,7 @@ class RefFilter extends Widget
             if (array_key_exists($k,$vars)) continue;
             $options[$k] = $v;
             unset($config[$k]);
-        };
+        }
         return parent::widget($config);
     }
 
