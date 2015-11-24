@@ -16,11 +16,17 @@ class ValidateFormAction extends Action
 {
     public $allowDynamicScenario = true;
 
+    protected $model;
+
     public function getModel($options = [])
     {
-        return $this->controller->newModel(array_merge([
-            'scenario' => $this->scenario
-        ], $options));
+        if ($this->model === null) {
+            return $this->controller->newModel(array_merge([
+                'scenario' => $this->scenario
+            ], $options));
+        } else {
+            return Yii::createObject(ArrayHelper::merge(['scenario' => $this->getScenario()], $this->model));
+        }
     }
 
     public function createCollection(Model $model)
@@ -44,5 +50,19 @@ class ValidateFormAction extends Action
         }
 
         throw new InvalidRouteException('Must be POST request');
+    }
+
+    /**
+     * @param mixed $model
+     */
+    public function setModel($model)
+    {
+        if ($model instanceof Model) {
+            $this->model = $model;
+        } elseif ($model instanceof \Closure) {
+            $this->model = call_user_func($model, $this);
+        } else {
+            $this->model = is_array($model) ? $model : ['class' => $model];;
+        }
     }
 }
