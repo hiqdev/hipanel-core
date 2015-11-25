@@ -7,28 +7,31 @@ use Yii;
 class Plugin extends \hiqdev\pluginmanager\Plugin
 {
     protected $_items = [
-        'translations' => [
-            'synt' => [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'basePath' => '@hipanel/common/messages',
-                'fileMap' => [
-                    'synt' => 'synt.php'
-                ]
-            ],
-            'hipanel*' => [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'basePath' => '@hipanel/common/messages',
-                'fileMap' => [
-                    'hipanel' => 'hipanel.php'
-                ]
-            ],
-            'app' => [
-                'class'          => 'yii\i18n\PhpMessageSource',
-                'basePath'       => '@hipanel/common/messages',
-                'sourceLanguage' => 'en-US',
-                'fileMap'        => [
-                    'app'       => 'app.php',
-                    'app/error' => 'error.php',
+        'components' => [
+            'i18n' => [
+                'translations' => [
+                    'synt' => [
+                        'class'     => 'yii\i18n\PhpMessageSource',
+                        'basePath'  => '@hipanel/common/messages',
+                        'fileMap'   => [
+                            'synt' => 'synt.php'
+                        ]
+                    ],
+                    'hipanel*' => [
+                        'class'     => 'yii\i18n\PhpMessageSource',
+                        'basePath'  => '@hipanel/common/messages',
+                        'fileMap'   => [
+                            'hipanel' => 'hipanel.php'
+                        ]
+                    ],
+                    'app' => [
+                        'class'     => 'yii\i18n\PhpMessageSource',
+                        'basePath'  => '@hipanel/common/messages',
+                        'fileMap'   => [
+                            'app'       => 'app.php',
+                            'app/error' => 'error.php',
+                        ],
+                    ],
                 ],
             ],
         ],
