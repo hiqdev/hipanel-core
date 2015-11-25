@@ -4,6 +4,17 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed minor issues and translation
+    - f461217 2015-11-25 changed Plugin according to changed PluginManager (sol@hiqdev.com)
+    - a6d1b22 2015-11-25 Internal IpValidator dropped (d.naumenko.a@gmail.com)
+    - 4714f5e 2015-11-24 Add the ability to define a model (andreyklochok@gmail.com)
+    - b220634 2015-11-23 SwitchAction - changed namespace to ManagerTrait (d.naumenko.a@gmail.com)
+    - 7e3bcf4 2015-11-20 SearchAction - added DataProvider storing to support modifications of query (d.naumenko.a@gmail.com)
+    - c584a62 2015-11-20 Action - added beforeSave, beforLoad, beforePerform triggers (d.naumenko.a@gmail.com)
+    - 10053c1 2015-11-18 Changed sizeFormatBase to 1000 in Formatter component configuration (d.naumenko.a@gmail.com)
+    - 9dcfe54 2015-11-17 translations update (d.naumenko.a@gmail.com)
+    - 61c62e1 2015-11-17 SmartDeleteAction now accepts data from GET valiables in POST request (d.naumenko.a@gmail.com)
+    - a65375f 2015-11-17 PasswordInput - fixed JS (minor) (d.naumenko.a@gmail.com)
+    - fcadbaa 2015-11-16 Added hipanel messages dictonary (d.naumenko.a@gmail.com)
     - 1db661f 2015-11-16 + smart translation invented (sol@hiqdev.com)
     - 8028546 2015-11-16 moved CartPosition to finance module (sol@hiqdev.com)
     - 0e9bf1c 2015-11-15 Updated translations (d.naumenko.a@gmail.com)
@@ -159,7 +170,7 @@ hiqdev/hipanel-core commits history
     - 9f97911 2015-09-24 improved Caching: + ReflectionFunction::export to cache key (sol@hiqdev.com)
     - d4966d5 2015-09-24 + base\Cache component with getTimeCached() used for caching refs (sol@hiqdev.com)
 - Changed Label widget zclass -> color, added 'none' color and options
-    - 8b7b36a 2015-09-24 * Label widget: + none_options (sol@hiqdev.com)
+    - 8b7b36a 2015-09-24 * Label widget: + `none_options` (sol@hiqdev.com)
     - bc30115 2015-09-23 + Label none type (sol@hiqdev.com)
     - 8d1d1ba 2015-09-23 + State widget (sol@hiqdev.com)
     - 77701fa 2015-09-23 changed Label widget zclass -> color (sol@hiqdev.com)
@@ -182,7 +193,7 @@ hiqdev/hipanel-core commits history
     - 46b3425 2015-09-12 Added ability to run 'init --env=dev' (sol@hiqdev.com)
 - Changed: improved smart actions
     - c279032 2015-09-11 ~ generalized preparing data for rendering at smart actions (sol@hiqdev.com)
-    - 79b4048 2015-09-10 SearchAction - added $_GET to search attributes (d.naumenko.a@gmail.com)
+    - 79b4048 2015-09-10 SearchAction - added `$_GET` to search attributes (d.naumenko.a@gmail.com)
     - bb061c2 2015-09-10 SmartUpdateAction - added model to POST error render params (d.naumenko.a@gmail.com)
     - 1bd958f 2015-09-09 SmartCreateAction - fixed POST fail action (d.naumenko.a@gmail.com)
 - Added getCurrencySymbol helper
@@ -247,7 +258,7 @@ hiqdev/hipanel-core commits history
     - c09db2c 2015-08-20 Try to set config file location (andreyklochok@gmail.com)
 - Fixed ModalButton, ActionBox, AdvancedSearch, SmartUpdateAction
     - 0438ac4 2015-08-20 ModalButton fixed syntax error (silverfire@advancedhosters.com)
-    - 812c72f 2015-08-20 Fix search_form hidden (andreyklochok@gmail.com)
+    - 812c72f 2015-08-20 Fix `search_form` hidden (andreyklochok@gmail.com)
     - 6fa983a 2015-08-19  ModalButton - improved form initialisation, footer button rendering (d.naumenko.a@gmail.com)
     - 0a158c8 2015-08-19  ActionBox - fixed static call of method of object (d.naumenko.a@gmail.com)
     - 0d41bfb 2015-08-19  Fixed SmartUpdateAction rule (d.naumenko.a@gmail.com)
@@ -288,7 +299,7 @@ hiqdev/hipanel-core commits history
     - 502f562 2015-08-15 making configs (sol@hiqdev.com)
     - 171cd20 2015-08-15 making configs (sol@hiqdev.com)
     - 81a80c2 2015-08-15 making configs (sol@hiqdev.com)
-    - 693321d 2015-08-15 hiam_client_id/secret moved to common/config/params-local.php (sol@hiqdev.com)
+    - 693321d 2015-08-15 `hiam_client_id/secret` moved to common/config/params-local.php (sol@hiqdev.com)
     - eea1ee8 2015-08-15 NOT FINISHED: fixing to work (sol@hiqdev.com)
     - 9e652be 2015-08-15 * index.php (sol@hiqdev.com)
     - c7b1307 2015-08-15 * init: + dest for destination different from root (sol@hiqdev.com)
@@ -546,7 +557,7 @@ hiqdev/hipanel-core commits history
     - 6f29b23 2015-03-16 + width:1em (andrii.vasyliev@gmail.com)
     - ef6a876 2015-03-16 Marge fix panel.css (andreyklochok@gmail.com)
     - 3478673 2015-03-16 Add submenu Ticket statistick (andreyklochok@gmail.com)
-    - 86159bd 2015-03-16 Add some style to _chat Ticket buttons (andreyklochok@gmail.com)
+    - 86159bd 2015-03-16 Add some style to `_chat` Ticket buttons (andreyklochok@gmail.com)
     - 9987645 2015-03-16 Add function Quoted Answer to TicketController (andreyklochok@gmail.com)
     - 87ee2a5 2015-03-16  * \frontend\components\hiresource\Collection - minor changes (d.naumenko.a@gmail.com)
     - f27c066 2015-03-14  + Collection update (d.naumenko.a@gmail.com)
@@ -705,7 +716,7 @@ hiqdev/hipanel-core commits history
     - ad54df0 2015-02-11 Initial work on File Behavior (andreyklochok@gmail.com)
     - a297016 2015-02-11 + Servers deep coding * debug panel js modifications (d.naumenko.a@gmail.com)
     - 8a01eaa 2015-02-11 Servers deep coding, namespace fixes (d.naumenko.a@gmail.com)
-    - 0d72e62 2015-02-10 fix field in _form view (andreyklochok@gmail.com)
+    - 0d72e62 2015-02-10 fix field in `_form` view (andreyklochok@gmail.com)
     - 4f6cc45 2015-02-09 Downgrade MarkdownEditor to 1.3.0 (andreyklochok@gmail.com)
     - dbe4e00 2015-02-09 Server deep coding (d.naumenko.a@gmail.com)
     - 8d45be5 2015-02-01 add setcredit and enable\disable block (bladeroot@gmail.com)
