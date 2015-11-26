@@ -19,6 +19,8 @@ use yii\helpers\Html;
  *      'label' => \Yii::t('app', 'Some label'),
  *      'tag'   => 'span',
  * ]);
+ *
+ * @var string $color
  */
 class Label extends \yii\base\Widget
 {
@@ -62,7 +64,6 @@ class Label extends \yii\base\Widget
 
     public function run()
     {
-        parent::run();
         $this->renderLabel();
     }
 
