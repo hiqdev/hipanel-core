@@ -825,3 +825,6 @@ div.required label.radio-inline:after {
     color: inherit;
 }
 
+.table-responsive {
+    min-height: 40rem;
+}
