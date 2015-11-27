@@ -4,6 +4,9 @@ namespace hipanel\actions;
 
 use Closure;
 use Yii;
+use yii\base\Exception;
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
@@ -11,7 +14,7 @@ use yii\web\NotFoundHttpException;
 /**
  * Class ViewAction
  */
-class ViewAction extends Action
+class ViewAction extends SearchAction
 {
     /**
      * @var string view to render.
@@ -19,7 +22,7 @@ class ViewAction extends Action
     public $view = 'view';
 
     /**
-     * @var string|integer ID of object to be viewed
+     * @var mixed ID of object to be viewed. Defaults to `$_GET['id']`
      */
     protected $_id;
 
@@ -33,28 +36,78 @@ class ViewAction extends Action
      */
     public $modelConfig = [];
 
+    public function init()
+    {
+        $this->addItems([
+            'html | pjax' => [
+                'save' => true,
+                'flash' => false,
+                'success' => [
+                    'class' => 'hipanel\actions\RenderAction',
+                    'view' => $this->view,
+                    'data' => function () {
+                        return $this->prepareData();
+                    },
+                    'params' => function () {
+                        return [
+                            'models' => $this->collection->models,
+                            'model' => $this->collection->first,
+                        ];
+                    }
+                ]
+            ]
+        ]);
+
+        parent::init();
+    }
+
+    /**
+     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]]
+     * @return ActiveDataProvider
+     * @throws BadRequestHttpException
+     */
+    public function getDataProvider()
+    {
+        if ($this->dataProvider === null) {
+            $this->_id = $this->_id ?: Yii::$app->request->get('id');
+
+            $this->dataProvider = $this->getSearchModel()->search([]);
+            $this->dataProvider->query->andFilterWhere([
+                'id' => !is_array($this->_id) ? $this->_id : null,
+                'id_in' => is_array($this->_id) ? $this->_id : null,
+            ]);
+            $this->dataProvider->query->andFilterWhere($this->findOptions);
+        }
+
+        return $this->dataProvider;
+    }
+
+    public function beforeSave()
+    {
+        parent::beforeSave();
+        if (empty($this->dataProvider->query->where)) {
+            throw new BadRequestHttpException('Id is missing');
+        }
+    }
+
+    public function afterPerform()
+    {
+        if ($this->collection->count() === 0) {
+            throw new NotFoundHttpException('Object not found');
+        }
+        parent::afterPerform();
+    }
+
     public function getId()
     {
         return $this->_id;
     }
 
-    public function findModel($id)
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
     {
-        return $this->controller->findModel(array_merge(['id' => $id], $this->findOptions), $this->modelConfig);
-    }
-
-    public function run($id = null)
-    {
-        $this->_id = $this->_id ?: $id ?: Yii::$app->request->get('id') ?: Yii::$app->request->post($this->collection->formName)['id'];
-
-        $id = $this->_id;
-        if (empty($id)) {
-            throw new BadRequestHttpException('Id is missing');
-        }
-
-        $model    = $this->findModel($id);
-        $this->collection->set($model);
-
-        return $this->controller->render($this->view, array_merge(['model' => $model], $this->prepareData()));
+        $this->_id = $id;
     }
 }
