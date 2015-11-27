@@ -26,6 +26,7 @@ class Action extends \yii\base\Action
     const EVENT_BEFORE_SAVE = 'beforeSave';
     const EVENT_BEFORE_LOAD = 'beforeLoad';
     const EVENT_BEFORE_PERFORM = 'beforePerform';
+    const EVENT_AFTER_PERFORM = 'afterPerform';
 
     /**
      * @var Controller the controller that owns this action
@@ -147,6 +148,10 @@ class Action extends \yii\base\Action
         $this->trigger(static::EVENT_BEFORE_PERFORM);
     }
 
+    public function afterPerform() {
+        $this->trigger(static::EVENT_AFTER_PERFORM);
+    }
+
     /**
      * Performs action.
      *
@@ -171,6 +176,8 @@ class Action extends \yii\base\Action
         } catch (InvalidCallException $e) {
             $error = $e->getMessage();
         }
+
+        $this->afterPerform();
         return $error;
     }
 
