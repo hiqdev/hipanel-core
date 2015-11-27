@@ -22,6 +22,8 @@ use yii\web\JsExpression;
  */
 class AjaxModal extends \yii\bootstrap\Modal
 {
+    public $bulkPage = false;
+
     /**
      * @var string
      */
@@ -119,9 +121,16 @@ class AjaxModal extends \yii\bootstrap\Modal
     protected function initAdditionalOptions()
     {
         $quotedHtml = Json::htmlEncode($this->loadingHtml);
-        $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
-            jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}');
-        }");
+        if ($this->bulkPage) {
+            $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}', {selection: selection});
+            }");
+        } else {
+            $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}');
+            }");
+        }
         $this->clientEvents['hidden.bs.modal'] = new JsExpression("function() {
             jQuery('#{$this->id} .modal-body').html({$quotedHtml});
         }");
