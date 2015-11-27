@@ -140,14 +140,17 @@ class SearchAction extends SwitchAction
         $models = [];
         $error = false;
 
+        $dataProvider = $this->getDataProvider();
         try {
-            $models = $this->getDataProvider()->getModels();
+            $this->beforeSave();
+            $models = $dataProvider->getModels();
         } catch (ErrorResponseException $e) {
             $error = $e->getMessage();
         }
 
         $this->collection->set($models);
 
+        $this->afterPerform();
         return $error;
     }
 
