@@ -13,6 +13,7 @@ use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
+use yii\helpers\Json;
 use yii\helpers\Url;
 
 class ActionBox extends Box
@@ -33,8 +34,10 @@ class ActionBox extends Box
     }
 
     private function registerClientScript() {
+        $searchFormId = Json::htmlEncode(sprintf('#%s', $this->bulkFormId()));
         $view = $this->getView();
         $view->registerJs(<<<JS
+        // Checkbox
         var checkboxes = $('table input[type="checkbox"]');
         var bulkcontainer = $('.box-bulk-actions fieldset');
         checkboxes.on('ifChecked ifUnchecked', function(event) {
@@ -42,6 +45,15 @@ class ActionBox extends Box
                 bulkcontainer.prop('disabled', false);
             } else if (!checkboxes.filter(':checked').length > 0) {
                 bulkcontainer.prop('disabled', true);
+            }
+        });
+        // On/Off Actions
+        $(document).on('click', '.box-bulk-actions a', function (event) {
+            var link = $(this);
+            var action = link.data('action');
+            var form = $($searchFormId);
+            if (action) {
+                form.attr({'action': action, method: 'POST'}).submit();
             }
         });
 JS

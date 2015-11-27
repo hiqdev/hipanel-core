@@ -97,7 +97,6 @@ class AdvancedSearch extends Widget
         Yii::$app->getView()->registerJs(new JsExpression(<<<JS
 $('#advancedsearch-button').click(function () {
     $('#${div_id}').toggle();
-    return false;
 });
 $('#search-form-ticket-pjax').on('pjax:end', function () {
     $.pjax.reload({container:'#ticket-grid-pjax', timeout: false});
