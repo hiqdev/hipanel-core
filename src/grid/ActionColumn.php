@@ -38,14 +38,14 @@ class ActionColumn extends \yii\grid\ActionColumn
         }
         $this->traitInit();
         $this->getCountButtons();
-        $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
+        $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group dropup btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
     }
 
     public function getCountButtons () {
         return preg_match_all('/\\{([\w\-\/]+)\\}/', $this->template);
     }
 
-    public function renderFirstButton ($item) {
+    public function renderFirstButton ($item, $index) {
         return ($this->getCountButtons() > $this->visibleButtonsCount) ? $item . '<button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
@@ -112,7 +112,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             if (isset($this->buttons[$name])) {
                 $url          = $this->createUrl($name, $model, $key, $index);
                 $renderedItem = call_user_func($this->buttons[$name], $url, $model, $key);
-                $result       = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem) : $this->renderOtherButtons($renderedItem);
+                $result       = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem, $index) : $this->renderOtherButtons($renderedItem);
                 $renderedCount++;
 
                 return $result;
