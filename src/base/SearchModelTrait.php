@@ -27,16 +27,28 @@ trait SearchModelTrait
 
     protected function searchAttributes()
     {
-        static $attributes;
+        static $attributes = [];
 
-        if ($attributes === null) {
-            foreach (parent::attributes() as $k) {
-                foreach (array_merge([''], static::$filterConditions) as $condition) {
-                    $attributes[] = $k . ($condition == '' ? '' : "_$condition");
-                }
+        if ($attributes === []) {
+            foreach (parent::attributes() as $attribute) {
+                $attributes = array_merge($attributes, $this->buildAttributeConditions($attribute));
             }
         }
 
+        return $attributes;
+    }
+
+    /**
+     * Builds all possible $attribute names using [[$filterConditions]]
+     *
+     * @param $attribute
+     * @return array
+     */
+    protected function buildAttributeConditions($attribute) {
+        $attributes = [];
+        foreach (array_merge([''], static::$filterConditions) as $condition) {
+            $attributes[] = $attribute . ($condition == '' ? '' : "_$condition");
+        }
         return $attributes;
     }
 
