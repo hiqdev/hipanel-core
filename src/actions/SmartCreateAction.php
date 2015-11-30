@@ -42,7 +42,7 @@ class SmartCreateAction extends SwitchAction
                 'success' => [
                     'class' => 'hipanel\actions\RedirectAction',
                     'url'   => function ($action) {
-                        return count($action->collection->models)>1
+                        return count($action->collection->models) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
                             : $action->controller->getActionUrl('view', ['id' => $action->model->id])
                         ;
