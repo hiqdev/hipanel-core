@@ -7,7 +7,6 @@
 
 namespace hipanel\widgets;
 
-use hipanel\widgets\LinkSorter;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonDropdown;
@@ -34,7 +33,7 @@ class ActionBox extends Box
     }
 
     private function registerClientScript() {
-        $searchFormId = Json::htmlEncode(sprintf('#%s', $this->bulkFormId()));
+        $searchFormId = Json::htmlEncode("#{$this->getBulkFormId()}");
         $view = $this->getView();
         $view->registerJs(<<<JS
         // Checkbox
@@ -47,7 +46,7 @@ class ActionBox extends Box
                 bulkcontainer.prop('disabled', true);
             }
         });
-        // On/Off Actions
+        // On/Off Actions TODO: reduce scope
         $(document).on('click', '.box-bulk-actions a', function (event) {
             var link = $(this);
             var action = link.data('action');
@@ -61,11 +60,11 @@ JS
     }
 
     public function beginActions() {
-        print Html::beginTag('div', ['class' => sprintf('box-actions %s', ($this->bulk) ? 'pull-left' : '')]) . "\n";
+        print Html::beginTag('div', ['class' => 'box-actions ' . ($this->bulk ? 'pull-left' : '')]) . PHP_EOL;
     }
 
     public function endActions() {
-        print "\n" . Html::endTag('div');
+        print PHP_EOL . Html::endTag('div');
     }
 
     public function beginBulkActions() {
@@ -114,7 +113,7 @@ JS
     public function renderPerPage()
     {
         return ButtonDropdown::widget([
-            'label' => Yii::t('app', 'Per page') . ': ' . ((Yii::$app->request->get('per_page')) ? : 25),
+            'label' => Yii::t('app', 'Per page') . ': ' . (Yii::$app->request->get('per_page') ?: 25),
             'options' => ['class' => 'btn-default'],
             'dropdown' => [
                 'items' => [
@@ -149,7 +148,7 @@ JS
     {
         return Html::submitButton($text, [
             'class'         => "btn btn-$color",
-            'form'          => $this->bulkFormId(),
+            'form'          => $this->getBulkFormId(),
             'formmethod'    => 'POST',
             'formaction'    => $action,
         ]);
@@ -161,14 +160,14 @@ JS
         return $this->renderBulkButton($text, 'delete', 'danger');
     }
 
-    public function bulkFormId()
+    public function getBulkFormId()
     {
         return 'bulk-' . Inflector::camel2id($this->model->formName());
     }
 
     public function beginBulkForm()
     {
-        print Html::beginForm('' , 'POST', ['id' => $this->bulkFormId()]);
+        print Html::beginForm('' , 'POST', ['id' => $this->getBulkFormId()]);
     }
 
     public function endBulkForm()
