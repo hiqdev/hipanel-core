@@ -8,6 +8,7 @@
 namespace hipanel\actions;
 
 use hipanel\base\Model;
+use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
 use Yii;
 use hiqdev\hiart\ErrorResponseException;
@@ -96,7 +97,7 @@ class SearchAction extends SwitchAction
     }
 
     /**
-     * @return Model
+     * @return Model|SearchModelTrait
      */
     public function getSearchModel()
     {
