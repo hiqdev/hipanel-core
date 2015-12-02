@@ -2,7 +2,12 @@
 
 namespace hipanel\actions;
 
+use hipanel\base\Model;
+use hipanel\base\SearchModelTrait;
+use hiqdev\hiart\ActiveDataProvider;
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
 
 /**
  * Class SmartUpdateAction
@@ -10,6 +15,9 @@ use Yii;
  */
 class SmartUpdateAction extends SwitchAction
 {
+    const EVENT_BEFORE_FETCH_LOAD = 'beforeFetchLoad';
+    const EVENT_BEFORE_FETCH = 'beforeFetch';
+
     /**
      * @var array|\Closure additional data passed to view
      */
@@ -21,9 +29,70 @@ class SmartUpdateAction extends SwitchAction
     public $_view;
 
     /**
+     * @var mixed ID of object to be viewed. Defaults to `$_GET['id']`
+     */
+    protected $_id;
+
+    /**
      * @var array additional data passed to model find method
      */
     public $findOptions = [];
+
+    /**
+     * @var Model
+     */
+    private $_searchModel;
+
+    /**
+     * @var \yii\data\ActiveDataProvider stores ActiveDataProvider after creating by [[getDataProvider]]
+     * @see getDataProvider()
+     */
+    public $dataProvider;
+
+    /**
+     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]]
+     * @return ActiveDataProvider
+     * @throws BadRequestHttpException
+     */
+    public function getDataProvider()
+    {
+        if ($this->dataProvider === null) {
+            $this->_id = $this->_id ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('selection') ?: Yii::$app->request->get('id');
+
+            $this->dataProvider = $this->getSearchModel()->search([], ['pagination' => false]);
+            $this->dataProvider->query->andFilterWhere([
+                'id' => !is_array($this->_id) ? $this->_id : null,
+                'id_in' => is_array($this->_id) ? $this->_id : null,
+            ]);
+
+            if (!isset($this->dataProvider->query->where['id']) && !isset($this->dataProvider->query->where['id_in'])) {
+                throw new BadRequestHttpException('ID is missing');
+            }
+
+            $this->dataProvider->query->andFilterWhere($this->findOptions);
+        }
+
+        return $this->dataProvider;
+    }
+
+    /**
+     * @param $model
+     */
+    public function setSearchModel($model)
+    {
+        $this->_searchModel = $model;
+    }
+
+    /**
+     * @return Model|SearchModelTrait
+     */
+    public function getSearchModel()
+    {
+        if (is_null($this->_searchModel)) {
+            $this->_searchModel = $this->controller->searchModel();
+        }
+        return $this->_searchModel;
+    }
 
     public function init()
     {
@@ -37,8 +106,7 @@ class SmartUpdateAction extends SwitchAction
                 'data'   => $this->data,
                 'view'   => $this->view,
                 'params' => function ($action) {
-                    $ids = Yii::$app->request->post('selection') ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('id');
-                    $models = $action->controller->findModels($ids, $this->findOptions);
+                    $models = $this->fetchModels();
                     foreach ($models as $model) {
                         $model->scenario = $this->scenario;
                     }
@@ -98,5 +166,26 @@ class SmartUpdateAction extends SwitchAction
     public function setView($view)
     {
         $this->_view = $view;
+    }
+
+    /**
+     * Fetches models that will be edited
+     *
+     * @return array
+     * @throws BadRequestHttpException
+     */
+    public function fetchModels() {
+        $this->beforeFetchLoad();
+        $dataProvider = $this->getDataProvider();
+        $this->beforeFetch();
+        return $dataProvider->getModels();
+    }
+
+    public function beforeFetchLoad() {
+        $this->trigger(static::EVENT_BEFORE_FETCH_LOAD);
+    }
+
+    public function beforeFetch() {
+        $this->trigger(static::EVENT_BEFORE_FETCH);
     }
 }
