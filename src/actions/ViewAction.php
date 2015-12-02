@@ -76,6 +76,10 @@ class ViewAction extends SearchAction
                 'id' => !is_array($this->_id) ? $this->_id : null,
                 'id_in' => is_array($this->_id) ? $this->_id : null,
             ]);
+            if (!isset($this->dataProvider->query->where['id']) && !isset($this->dataProvider->query->where['id_in'])) {
+                throw new BadRequestHttpException('ID is missing');
+            }
+
             $this->dataProvider->query->andFilterWhere($this->findOptions);
         }
 
@@ -86,7 +90,7 @@ class ViewAction extends SearchAction
     {
         parent::beforeSave();
         if (empty($this->dataProvider->query->where)) {
-            throw new BadRequestHttpException('Id is missing');
+            throw new BadRequestHttpException('Filtering condition are required');
         }
     }
 
