@@ -44,6 +44,11 @@ class Action extends \yii\base\Action
     public $_scenario;
 
     /**
+     * @var array|Closure additional data passed when rendering
+     */
+    public $data = [];
+
+    /**
      * @param string $scenario
      */
     public function setScenario($scenario)
@@ -192,18 +197,14 @@ class Action extends \yii\base\Action
     }
 
     /**
-     * @var array|Closure additional data passed when rendering
-     */
-    public $data = [];
-
-    /**
      * Prepares additional data for render.
      *
+     * @param $data array Additional data, prepared by other classes. Optional.
      * @return array
      */
-    public function prepareData()
+    public function prepareData($data = [])
     {
-        return (array)($this->data instanceof Closure ? call_user_func($this->data, $this) : $this->data);
+        return (array)($this->data instanceof Closure ? call_user_func($this->data, $this, $data) : $this->data);
     }
 
     /**

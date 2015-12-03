@@ -2,11 +2,10 @@
 
 namespace hipanel\actions;
 
+use Yii;
 use hipanel\base\Model;
 use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
-use Yii;
-use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 
 /**

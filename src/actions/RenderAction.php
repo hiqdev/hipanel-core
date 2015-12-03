@@ -44,7 +44,7 @@ class RenderAction extends Action
                 $res[$k] = $v instanceof Closure ? call_user_func($v, $this, $this->getModel()) : $v;
             }
         }
-        return array_merge($res, $this->prepareData());
+        return array_merge($res, $this->prepareData($res));
     }
 
     /**
