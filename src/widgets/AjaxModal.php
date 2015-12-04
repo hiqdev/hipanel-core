@@ -121,19 +121,23 @@ class AjaxModal extends \yii\bootstrap\Modal
     protected function initAdditionalOptions()
     {
         $quotedHtml = Json::htmlEncode($this->loadingHtml);
-        if ($this->bulkPage) {
-            $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
-                var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
-                jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}', {selection: selection});
-            }");
-        } else {
-            $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
-                jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}');
+        if (!isset($this->clientEvents['show.bs.modal'])) {
+            if ($this->bulkPage) {
+                $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                    var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                    jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}', {selection: selection});
+                }");
+            } else {
+                $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                    jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}');
+                }");
+            }
+        }
+        if (!isset($this->clientEvents['hidden.bs.modal'])) {
+            $this->clientEvents['hidden.bs.modal'] = new JsExpression("function() {
+                jQuery('#{$this->id} .modal-body').html({$quotedHtml});
             }");
         }
-        $this->clientEvents['hidden.bs.modal'] = new JsExpression("function() {
-            jQuery('#{$this->id} .modal-body').html({$quotedHtml});
-        }");
     }
 
     protected function registerClientScript ()
@@ -202,5 +206,21 @@ HTML
     protected function renderBodyBegin()
     {
         return Html::beginTag('div', ['class' => 'modal-body']) . $this->loadingHtml;
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    protected function registerClientEvents()
+    {
+        if (!empty($this->clientEvents)) {
+            foreach ($this->clientEvents as $event => $handler) {
+                if ($handler instanceof \Closure) {
+                    $this->clientEvents[$event] = call_user_func($handler, $this);
+                }
+            }
+        }
+
+        parent::registerClientEvents();
     }
 }
