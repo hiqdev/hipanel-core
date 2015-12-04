@@ -2,7 +2,6 @@
 
 namespace hipanel\actions;
 
-use Closure;
 use Yii;
 
 /**
@@ -26,7 +25,7 @@ class SmartCreateAction extends SwitchAction
         parent::init();
         $this->addItems([
             'GET' => [
-                'class'  => 'hipanel\actions\RenderAction',
+                'class'  => RenderAction::class,
                 'view'   => $this->view,
                 'data'   => $this->data,
                 'params' => function ($action) {
@@ -40,7 +39,7 @@ class SmartCreateAction extends SwitchAction
             'POST' => [
                 'save'    => true,
                 'success' => [
-                    'class' => 'hipanel\actions\RedirectAction',
+                    'class' => RedirectAction::class,
                     'url'   => function ($action) {
                         return count($action->collection->models) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
@@ -49,7 +48,7 @@ class SmartCreateAction extends SwitchAction
                     }
                 ],
                 'error'   => [
-                    'class'  => 'hipanel\actions\RenderAction',
+                    'class'  => RenderAction::class,
                     'view'   => $this->view,
                     'data'   => $this->data,
                     'params' => function ($action) {

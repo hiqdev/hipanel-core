@@ -101,7 +101,7 @@ class SmartUpdateAction extends SwitchAction
                 'class' => 'hipanel\actions\XEditableAction',
             ],
             'GET | POST selection' => [
-                'class'  => 'hipanel\actions\RenderAction',
+                'class'  => RenderAction::class,
                 'data'   => $this->data,
                 'view'   => $this->view,
                 'params' => function ($action) {
@@ -118,7 +118,7 @@ class SmartUpdateAction extends SwitchAction
             'POST html' => [
                 'save'    => true,
                 'success' => [
-                    'class' => 'hipanel\actions\RedirectAction',
+                    'class' => RedirectAction::class,
                     'url'   => function ($action) {
                         return count($action->collection->count()) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
@@ -127,7 +127,7 @@ class SmartUpdateAction extends SwitchAction
                     }
                 ],
                 'error'   => [
-                    'class'  => 'hipanel\actions\RenderAction',
+                    'class'  => RenderAction::class,
                     'view'   => $this->view,
                     'data'   => $this->data,
                     'params' => function ($action) {
@@ -141,7 +141,7 @@ class SmartUpdateAction extends SwitchAction
             'POST pjax' => [
                 'save'    => true,
                 'success' => [
-                    'class'  => 'hipanel\actions\ProxyAction',
+                    'class'  => ProxyAction::class,
                     'action' => 'view',
                     'params' => function ($action, $model) {
                         return ['id' => $model->id];

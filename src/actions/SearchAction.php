@@ -81,7 +81,7 @@ class SearchAction extends SwitchAction
                 'save' => true,
                 'flash' => false,
                 'success' => [
-                    'class' => 'hipanel\actions\RenderJsonAction',
+                    'class' => RenderJsonAction::class,
                     'return' => $this->ajaxResponseFormatter
                 ]
             ]

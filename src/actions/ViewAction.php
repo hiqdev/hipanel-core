@@ -43,7 +43,7 @@ class ViewAction extends SearchAction
                 'save' => true,
                 'flash' => false,
                 'success' => [
-                    'class' => 'hipanel\actions\RenderAction',
+                    'class' => RenderAction::class,
                     'view' => $this->view,
                     'data' => function () {
                         return $this->prepareData();

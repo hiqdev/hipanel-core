@@ -7,6 +7,9 @@
 
 namespace frontend\controllers;
 
+use hipanel\actions\ProxyAction;
+use hipanel\actions\RedirectAction;
+use hipanel\actions\RenderAction;
 use Yii;
 
 /**
@@ -42,42 +45,42 @@ class HipanelController extends \hipanel\base\Controller
     {
         return [
             'index' => [
-                'class' => 'hipanel\actions\RedirectAction',
+                'class' => RedirectAction::class,
                 'url'   => ['/dashboard/dashboard'],
             ],
 /// later just for testing
             'switch'   => [
-                'class'      => 'hipanel\actions\SwitchAction',
+                'class'      => RenderAction::class,
                 'addFlash'   => true,
                 'success'    => Yii::t('app', 'DB truncate task has been created successfully'),
                 'error'      => Yii::t('app', 'Error while truncating DB'),
                 'POST html'  => [
-                    'class'  => 'hipanel\actions\ProxyAction',
+                    'class'  => ProxyAction::class,
                     'action' => 'index',
                 ],
                 'GET'        => [
-                    'class' => 'hipanel\actions\RenderAction',
+                    'class' => RenderAction::class,
                     'view'  => 'index',
                 ],
                 'POST pjax'  => [
-                    'class'   => 'hipanel\actions\RenderAction',
+                    'class'   => RenderAction::class,
                     'view'    => 'index',
                 ],
                 'default'    => [
-                    'class' => 'hipanel\actions\RedirectAction',
+                    'class' => RedirectAction::class,
                     'url'   => ['index'],
                 ],
             ],
             'proxy'    => [
-                'class'  => 'hipanel\actions\ProxyAction',
+                'class'  => ProxyAction::class,
                 'action' => 'index',
             ],
             'render'   => [
-                'class' => 'hipanel\actions\RenderAction',
+                'class' => RenderAction::class,
                 'view'  => 'index',
             ],
             'redirect' => [
-                'class' => 'hipanel\actions\RedirectAction',
+                'class' => RedirectAction::class,
                 'url'   => ['index'],
             ],
         ];

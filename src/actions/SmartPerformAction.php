@@ -20,7 +20,7 @@ class SmartPerformAction extends SwitchAction
                 'save' => true,
                 'flash' => false,
                 'success' => [
-                    'class' => 'hipanel\actions\RenderJsonAction',
+                    'class' => RenderJsonAction::class,
                     'return' => function ($action) {
                         return $action->collection->models;
                     }
@@ -29,18 +29,18 @@ class SmartPerformAction extends SwitchAction
             'POST pjax' => [
                 'save'    => true,
                 'success' => [
-                    'class'       => 'hipanel\actions\ViewAction',
+                    'class'       => ViewAction::class,
                     'view'        => $this->pjaxView,
                 ],
             ],
             'POST'      => [
                 'save'    => true,
                 'success' => [
-                    'class' => 'hipanel\actions\RedirectAction',
+                    'class' => RedirectAction::class,
                 ],
             ],
             'GET'       => [
-                'class' => 'hipanel\actions\RedirectAction',
+                'class' => RedirectAction::class,
             ],
         ]);
     }

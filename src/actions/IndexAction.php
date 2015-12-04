@@ -25,7 +25,7 @@ class IndexAction extends SearchAction
                 'save' => false,
                 'flash' => false,
                 'success' => [
-                    'class'  => 'hipanel\actions\RenderAction',
+                    'class'  => RenderAction::class,
                     'view'   => $this->view,
                     'data'   => $this->data,
                     'params' => function () {

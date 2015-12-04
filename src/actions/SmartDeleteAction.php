@@ -16,7 +16,7 @@ class SmartDeleteAction extends SmartPerformAction
             'POST html | POST pjax' => [
                 'save'    => true,
                 'success' => [
-                    'class' => 'hipanel\actions\RedirectAction',
+                    'class' => RedirectAction::class,
                     'url'   => 'index'
                 ],
             ],
