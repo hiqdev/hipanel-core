@@ -17,7 +17,7 @@ return [
     'bootstrap'           => ['log', 'pluginManager'],
     'defaultRoute'        => 'site',
     'controllerNamespace' => 'frontend\controllers',
-    'language'            => 'en',
+    'language'            => 'en-US',
     'sourceLanguage'      => 'en-US',
     'components'          => [
         'request' => [
@@ -58,7 +58,7 @@ return [
             'class' => 'hipanel\base\LanguageUrlManager',
             'languages' => [
                 'en' => 'en-US',
-                'ru' => 'ru-RU'
+                'ru' => 'ru-RU',
             ],
             'enablePrettyUrl' => true,
             'showScriptName'  => false,

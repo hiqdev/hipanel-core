@@ -80,6 +80,9 @@ class LanguageUrlManager extends UrlManager
     {
         $language = Yii::$app->request->get($this->languageParam);
         if ($language) {
+            if (isset($this->languages[$language])) {
+                $language = $this->languages[$language];
+            }
             if ($this->_isValidLanguage($language)) {
                 return $this->saveLanguage($language);
             } else if (!Yii::$app->request->isAjax) {
