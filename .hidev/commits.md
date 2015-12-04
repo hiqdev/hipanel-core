@@ -3,7 +3,27 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Changed incompatibly PHP < 5.5: used constant ::class
+    - f69063f 2015-12-04 Classes notation changed from pathtoClassName to PHP 5.6 ClassName::class (d.naumenko.a@gmail.com)
+- Fixed and improved smart actions
+    - c47e46e 2015-12-03 Action - pass existed data to closure (d.naumenko.a@gmail.com)
+    - d4a66e9 2015-12-02 SmartUpdateAction - redone to use DataProvider and events. Added beforeFetchLoad and beforeFetch events (d.naumenko.a@gmail.com)
+    - 5c554f2 2015-12-02 ViewAction - fixed detecting of request without ID (d.naumenko.a@gmail.com)
+    - 163ff15 2015-12-02 SearchAction - PHPDoc typehinting improved (d.naumenko.a@gmail.com)
+    - b70f688 2015-12-01 ActionBox - minor code refactoring (d.naumenko.a@gmail.com)
+    - 01ac684 2015-11-27 ViewAction - redone to extend SearchAction. Added handling of beforeSave, afterPerform. Added dataProvider modification ability (d.naumenko.a@gmail.com)
+    - 2e102f3 2015-11-27 SearchAction - added support of afterPerform trigger (d.naumenko.a@gmail.com)
+    - 4518758 2015-11-27 Action - added event after perform (d.naumenko.a@gmail.com)
+    - 28603cd 2015-11-27 SearchModelTrait - added buildAttributeConditions method (extracted from searchAttributes()) (d.naumenko.a@gmail.com)
+    - 0538ef1 2015-11-27 Add bulkPage attribute to AjaxModal for use this module on the index page (andreyklochok@gmail.com)
+    - 41fc62e 2015-11-27 Add on/off actions js handle to ActionBox (andreyklochok@gmail.com)
+    - dd7e2c6 2015-11-27 Fix ActionColumn. Actions drop up (andreyklochok@gmail.com)
 - Fixed minor issues and translation
+    - c9a7c06 2015-12-04 fixed language en -> en-US (sol@hiqdev.com)
+    - 97c2d95 2015-12-04 Model - added i18nDictionary property (d.naumenko.a@gmail.com)
+    - 5f70587 2015-11-30 Remove table-responsive min-height form panel.css (andreyklochok@gmail.com)
+    - db68739 2015-11-27 Fix CSS. Add min-height to table-responsive (andreyklochok@gmail.com)
+    - c49b1f4 2015-11-27 Change FontAwesome version (andreyklochok@gmail.com)
     - f461217 2015-11-25 changed Plugin according to changed PluginManager (sol@hiqdev.com)
     - a6d1b22 2015-11-25 Internal IpValidator dropped (d.naumenko.a@gmail.com)
     - 4714f5e 2015-11-24 Add the ability to define a model (andreyklochok@gmail.com)
