@@ -11,6 +11,10 @@ use Yii;
 
 class Model extends \hiqdev\hiart\ActiveRecord
 {
+    /**
+     * @var string the i18n dictionary name that will be used to translate labels of Model
+     */
+    public static $i18nDictionary = 'app';
 
     /**
      * No rules be default
@@ -73,7 +77,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
                 if (!$attributeLabels[$k]) {
                     $toTranslate = preg_replace(['/_id$/', '/_label$/', '/_ids$/', '/_like$/'], [' ID', '', ' IDs', ''], $k);
                     $toTranslate = preg_replace('/_/', ' ', $toTranslate);
-                    $attributeLabels[$k] = Yii::t('app', ucfirst($toTranslate));
+                    $attributeLabels[$k] = Yii::t(static::$i18nDictionary, ucfirst($toTranslate));
                 }
             }
         }
