@@ -34,9 +34,14 @@ return [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets'    => [
-                [
+                'default' => [
                     'class'  => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],
+                'merchant' => [
+                    'class'      => 'yii\log\FileTarget',
+                    'logFile'    => '@runtime/logs/merchant.log',
+                    'categories' => ['merchant'],
                 ],
             ],
         ],
