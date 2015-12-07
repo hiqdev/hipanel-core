@@ -3,8 +3,8 @@ HiPanel Core
 
 **HiPanel core package**
 
-[![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-core/v/stable)](//packagist.org/packages/hiqdev/hipanel-core)
-[![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-core/downloads)](//packagist.org/packages/hiqdev/hipanel-core)
+[![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-core/v/stable)](https://packagist.org/packages/hiqdev/hipanel-core)
+[![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-core/downloads)](https://packagist.org/packages/hiqdev/hipanel-core)
 [![Dependency Status](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master/badge.svg)](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master)
 
 [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
