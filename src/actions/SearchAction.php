@@ -60,7 +60,7 @@ class SearchAction extends SwitchAction
     {
         parent::init();
 
-        if (!isset($this->dataProviderOptions['pagination'])) {
+        if (!array_key_exists('pagination', $this->dataProviderOptions)) {
             $this->dataProviderOptions['pagination'] = false;
         }
 
