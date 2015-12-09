@@ -14,11 +14,11 @@ use yii\web\JsExpression;
  * Advanced Search widget.
  *
  * Usage:
- * <? $form = AdvancedSearch::begin([
- *      'model' => $model,
- * ]) ?>
- *      <? $form->field('domain') ?>
- * <? $form->end() ?>
+ * ```php
+ * $form = AdvancedSearch::begin(['model' => $model]);
+ * echo $form->field('domain');
+ * $form->end();
+ * ```
  */
 class AdvancedSearch extends Widget
 {
