@@ -34,15 +34,15 @@ class User extends Model implements IdentityInterface
     private static $_users;
 
 
-    public static function save () {
-        static::$_users[$this->id]       = $this;
-        Yii::$app->session->set('identity:'.$this->id,$this);
+    public function save () {
+        static::$_users[$this->id]  = $this;
+        Yii::$app->session->set('identity:'.$this->id, $this);
     }
 
     public static function findOne ($id) {
         $find = static::$_users[$id];
         if ($find) return $find;
-        $find = Yii::$app->session->get('identity:'.$id);
+        $find = Yii::$app->session->get('identity:' . $id);
         return $find;
     }
 
