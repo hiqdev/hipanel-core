@@ -4,13 +4,22 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed different issues
-    - 3148492 2015-12-10 fixed  namespace and moved to base (sol@hiqdev.com)
+    - 3c551a6 2015-12-10 fixed  namespace and moved to base (sol@hiqdev.com)
+    - e942f02 2015-12-09 Fixed PHP7 incompatible call of non-static function in static context (d.naumenko.a@gmail.com)
+    - d1e354b 2015-12-09 Composer.json - PHP requirement updated to allow PHP7 (d.naumenko.a@gmail.com)
     - 7d8f317 2015-12-07 + merchant log target (sol@hiqdev.com)
     - be164f6 2015-12-07 Pjax - redone beforeReplace crutch (d.naumenko.a@gmail.com)
     - 410375a 2015-12-04 AjaxModal::registerClientScript - override default to support callbacks (d.naumenko.a@gmail.com)
 - Changed incompatibly PHP < 5.5: used constant ::class
     - f69063f 2015-12-04 Classes notation changed from pathtoClassName to PHP 5.6 ClassName::class (d.naumenko.a@gmail.com)
 - Fixed and improved smart actions
+    - 10e249b 2015-12-10 Add AdvancedSearchActiveField (andreyklochok@gmail.com)
+    - ca4e6c3 2015-12-10 SmartUpdateAction - added handling for GET ajax requests (d.naumenko.a@gmail.com)
+    - d5647da 2015-12-10 Added RenderAjaxAction (d.naumenko.a@gmail.com)
+    - 2d0612c 2015-12-10 RenderAction::getViewName() extracted from run() (d.naumenko.a@gmail.com)
+    - b430f0e 2015-12-10 Added RenderJsonAction (d.naumenko.a@gmail.com)
+    - 8f339f1 2015-12-08 ViewAction - fixed getDataProvider - passing `$this->dataProviderOptions` (d.naumenko.a@gmail.com)
+    - 2a15745 2015-12-08 SearchAction - fixed dataProviderOptions[pagination] default value (d.naumenko.a@gmail.com)
     - c47e46e 2015-12-03 Action - pass existed data to closure (d.naumenko.a@gmail.com)
     - d4a66e9 2015-12-02 SmartUpdateAction - redone to use DataProvider and events. Added beforeFetchLoad and beforeFetch events (d.naumenko.a@gmail.com)
     - 5c554f2 2015-12-02 ViewAction - fixed detecting of request without ID (d.naumenko.a@gmail.com)
@@ -24,6 +33,7 @@ hiqdev/hipanel-core commits history
     - 41fc62e 2015-11-27 Add on/off actions js handle to ActionBox (andreyklochok@gmail.com)
     - dd7e2c6 2015-11-27 Fix ActionColumn. Actions drop up (andreyklochok@gmail.com)
 - Fixed minor issues and translation
+    - 708192d 2015-12-08 Translations update (d.naumenko.a@gmail.com)
     - c9a7c06 2015-12-04 fixed language en -> en-US (sol@hiqdev.com)
     - 97c2d95 2015-12-04 Model - added i18nDictionary property (d.naumenko.a@gmail.com)
     - 5f70587 2015-11-30 Remove table-responsive min-height form panel.css (andreyklochok@gmail.com)
