@@ -2,8 +2,6 @@
 
 namespace hipanel\base;
 
-use common\components\Err;
-
 class Connection extends \hiqdev\hiart\Connection {
     public $errorChecker = ['hipanel\base\Connection', 'checkError'];
 

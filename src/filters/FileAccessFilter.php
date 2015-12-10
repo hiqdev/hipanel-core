@@ -2,7 +2,7 @@
 
 namespace hipanel\filters;
 
-use common\components\Err;
+use hipanel\base\Err;
 use common\models\File;
 use Yii;
 use yii\base\ActionFilter;

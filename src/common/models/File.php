@@ -1,7 +1,8 @@
 <?php
+
 namespace common\models;
 
-use common\components\Err;
+use hipanel\base\Err;
 use yii\helpers\Url;
 use Yii;
 use yii\helpers\FileHelper;
