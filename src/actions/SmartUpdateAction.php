@@ -100,7 +100,7 @@ class SmartUpdateAction extends SwitchAction
             'POST xeditable' => [
                 'class' => 'hipanel\actions\XEditableAction',
             ],
-            'GET | POST selection' => [
+            'GET html | POST selection' => [
                 'class'  => RenderAction::class,
                 'data'   => $this->data,
                 'view'   => $this->view,
@@ -114,6 +114,23 @@ class SmartUpdateAction extends SwitchAction
                         'model' => reset($models)
                     ];
                 },
+            ],
+            'GET ajax' => [
+                'success' => [
+                    'class' => RenderAjaxAction::class,
+                    'data'   => $this->data,
+                    'view'   => $this->view,
+                    'params' => function ($action) {
+                        $models = $this->fetchModels();
+                        foreach ($models as $model) {
+                            $model->scenario = $this->scenario;
+                        }
+                        return [
+                            'models' => $models,
+                            'model' => reset($models)
+                        ];
+                    },
+                ]
             ],
             'POST html' => [
                 'save'    => true,
