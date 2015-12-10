@@ -10,11 +10,11 @@ namespace hipanel\actions;
 use Yii;
 
 /**
- * Class RenderJsonAction
+ * Class RenderAjaxAction
  *
  * @package hipanel\actions
  */
-class RenderJsonAction extends RenderAction
+class RenderAjaxAction extends RenderAction
 {
     public function run()
     {
