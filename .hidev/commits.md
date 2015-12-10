@@ -4,6 +4,7 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed different issues
+    - 3148492 2015-12-10 fixed  namespace and moved to base (sol@hiqdev.com)
     - 7d8f317 2015-12-07 + merchant log target (sol@hiqdev.com)
     - be164f6 2015-12-07 Pjax - redone beforeReplace crutch (d.naumenko.a@gmail.com)
     - 410375a 2015-12-04 AjaxModal::registerClientScript - override default to support callbacks (d.naumenko.a@gmail.com)
