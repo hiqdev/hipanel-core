@@ -36,6 +36,14 @@ class ViewAction extends SearchAction
      */
     public $modelConfig = [];
 
+    public function run($id = null) {
+        if (isset($id)) {
+            $this->setId($id);
+        }
+
+        return parent::run();
+    }
+
     public function init()
     {
         $this->addItems([
@@ -71,11 +79,10 @@ class ViewAction extends SearchAction
         if ($this->dataProvider === null) {
             $this->_id = $this->_id ?: Yii::$app->request->get('id');
             $this->dataProvider = $this->getSearchModel()->search([], $this->dataProviderOptions);
-            $this->dataProvider->query->andFilterWhere([
-                'id' => !is_array($this->_id) ? $this->_id : null,
-                'id_in' => is_array($this->_id) ? $this->_id : null,
-            ]);
-            if (!isset($this->dataProvider->query->where['id']) && !isset($this->dataProvider->query->where['id_in'])) {
+            $this->dataProvider->query->andFilterWhere(
+                is_array($this->_id) ? ['in', 'id', $this->_id] : ['eq', 'id', $this->_id]
+            );
+            if (empty($this->dataProvider->query->where)) {
                 throw new BadRequestHttpException('ID is missing');
             }
 
