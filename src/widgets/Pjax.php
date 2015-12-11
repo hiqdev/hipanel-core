@@ -14,6 +14,15 @@ use yii\widgets\Breadcrumbs;
 
 class Pjax extends \yii\widgets\Pjax
 {
+
+    public function init()
+    {
+        parent::init();
+        if (!isset($this->clientOptions['skipOuterContainers'])) {
+            $this->clientOptions['skipOuterContainers'] = true;
+        }
+    }
+
     public function run () {
         if ($this->requiresPjax()) {
             Alert::widget();
