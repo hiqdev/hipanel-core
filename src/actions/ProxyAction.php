@@ -23,7 +23,7 @@ class ProxyAction extends Action
 {
 
     /**
-     * @var string action to run
+     * @var string|\Closure action to run
      */
     public $action;
 
@@ -58,7 +58,7 @@ class ProxyAction extends Action
         if ($this->_pjaxUrl instanceof \Closure) {
             $url = call_user_func($this->_pjaxUrl, $this);
         } elseif ($this->_pjaxUrl == true) {
-            $url = (array)$this->action + (array)$this->params;
+            $url = (array)$this->action;
         } elseif (is_array($this->_pjaxUrl) || is_string($this->_pjaxUrl)){
             $url = $this->_pjaxUrl;
         } else {
@@ -84,7 +84,8 @@ class ProxyAction extends Action
         if ($this->pjaxUrl && $this->parent->rule->requestType == 'pjax') {
             Yii::$app->response->getHeaders()->add('X-PJAX-URL', $this->pjaxUrl);
         }
-        return $this->controller->runAction($this->action, $this->params);
+        $action = $this->action instanceof \Closure ? call_user_func($this->action, $this) : $this->action;
+        return $this->controller->runAction($action, $this->params);
     }
 
     /**
