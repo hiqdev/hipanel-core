@@ -59,13 +59,12 @@ class SmartUpdateAction extends SwitchAction
             $this->_id = $this->_id ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('selection') ?: Yii::$app->request->get('id');
 
             $this->dataProvider = $this->getSearchModel()->search([], ['pagination' => false]);
-            $this->dataProvider->query->andFilterWhere([
-                'id' => !is_array($this->_id) ? $this->_id : null,
-                'id_in' => is_array($this->_id) ? $this->_id : null,
-            ]);
+            $this->dataProvider->query->andFilterWhere(
+                is_array($this->_id) ? ['in', 'id', $this->_id] : ['eq', 'id', $this->_id]
+            );
 
-            if (!isset($this->dataProvider->query->where['id']) && !isset($this->dataProvider->query->where['id_in'])) {
-                throw new BadRequestHttpException('ID is missing');
+            if (empty($this->dataProvider->query->where)) {
+                throw new BadRequestHttpException('Where condition is empty!');
             }
 
             $this->dataProvider->query->andFilterWhere($this->findOptions);
