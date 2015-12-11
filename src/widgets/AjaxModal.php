@@ -125,11 +125,15 @@ class AjaxModal extends \yii\bootstrap\Modal
             if ($this->bulkPage) {
                 $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
                     var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
-                    jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}', {selection: selection});
+                    $.get('{$this->actionUrl}', {selection: selection}).done(function (data) {
+                        $('#{$this->id} .modal-body').html(data);
+                    });
                 }");
             } else {
                 $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
-                    jQuery('#{$this->id} .modal-body').load('{$this->actionUrl}');
+                    $.get('{$this->actionUrl}').done(function (data) {
+                        $('#{$this->id} .modal-body').html(data);
+                    });
                 }");
             }
         }
