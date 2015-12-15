@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        LessSpaceAsset::class,
         // Adds Resizable columns JS and CSS to all pages
         // This is a temporary fix because of https://github.com/yiisoft/yii2/issues/2310
         // On Pjax page loading, ajax prefilter removes all CSS styles that are not on the main page
