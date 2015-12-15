@@ -6,6 +6,10 @@ table.dataTable thead > tr > th:first-child {
     padding-right: 0px;
 }
 
+.user.user-menu .text-center a {
+    display: inline-block;
+}
+
 .language-menu ul.dropdown-menu > li {
 
 }
