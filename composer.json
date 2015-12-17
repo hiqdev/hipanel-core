@@ -78,7 +78,7 @@
         "michelf/php-smartypants": "1.6.*@dev",
         "stichoza/google-translate-php": "~3.0",
         "wbraganca/yii2-dynamicform": "*",
-        "bower-asset/less-space": "*",
+        "bower-asset/less-space": "@dev",
         "bower-asset/octicons": "*"
     },
     "require-dev": {
