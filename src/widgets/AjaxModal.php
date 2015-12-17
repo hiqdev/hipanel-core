@@ -22,7 +22,15 @@ use yii\web\JsExpression;
  */
 class AjaxModal extends \yii\bootstrap\Modal
 {
+    /**
+     * @var bool
+     */
     public $bulkPage = false;
+
+    /**
+     * @var bool
+     */
+    public $usePost = false;
 
     /**
      * @var string
@@ -123,18 +131,35 @@ class AjaxModal extends \yii\bootstrap\Modal
         $quotedHtml = Json::htmlEncode($this->loadingHtml);
         if (!isset($this->clientEvents['show.bs.modal'])) {
             if ($this->bulkPage) {
-                $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
-                    var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
-                    $.get('{$this->actionUrl}', {selection: selection}).done(function (data) {
-                        $('#{$this->id} .modal-body').html(data);
-                    });
-                }");
+                if ($this->usePost) {
+                    $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                        var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        $.post('{$this->actionUrl}', {selection: selection}).done(function (data) {
+                            $('#{$this->id} .modal-body').html(data);
+                        });
+                    }");
+                } else {
+                    $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                        var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        $.get('{$this->actionUrl}', {selection: selection}).done(function (data) {
+                            $('#{$this->id} .modal-body').html(data);
+                        });
+                    }");
+                }
             } else {
-                $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
-                    $.get('{$this->actionUrl}').done(function (data) {
-                        $('#{$this->id} .modal-body').html(data);
-                    });
-                }");
+                if ($this->usePost) {
+                    $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                        $.post('{$this->actionUrl}').done(function (data) {
+                            $('#{$this->id} .modal-body').html(data);
+                        });
+                    }");
+                } else {
+                    $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                        $.get('{$this->actionUrl}').done(function (data) {
+                            $('#{$this->id} .modal-body').html(data);
+                        });
+                    }");
+                }
             }
         }
         if (!isset($this->clientEvents['hidden.bs.modal'])) {
