@@ -37,12 +37,18 @@ class ActionColumn extends \yii\grid\ActionColumn
             $this->header = Yii::t('app', 'Actions');
         }
         $this->traitInit();
+        $this->registerBtnGroupDirectionFix();
         $this->getCountButtons();
-        $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group dropup btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
+        $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
     }
 
     public function getCountButtons () {
         return preg_match_all('/\\{([\w\-\/]+)\\}/', $this->template);
+    }
+
+    public function registerBtnGroupDirectionFix()
+    {
+        Yii::$app->view->registerJs('$(function () { $( ".btn-group.btn-group-fix" ).slice(-3).addClass("dropup"); });');
     }
 
     public function renderFirstButton ($item, $index) {
