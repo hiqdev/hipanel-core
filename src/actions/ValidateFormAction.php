@@ -16,7 +16,12 @@ class ValidateFormAction extends Action
 {
     public $allowDynamicScenario = true;
 
-    protected $model;
+    /**
+     * @var \Closure function used to generate the input ID for the validated field.
+     * Method signature: `function ($action, $model, $id, $attribute, $errors)`
+     * Closure MUST return string.
+     */
+    public $validatedInputId = null;
 
     public function getModel($options = [])
     {
@@ -29,14 +34,6 @@ class ValidateFormAction extends Action
         }
     }
 
-    public function createCollection(Model $model)
-    {
-        return Yii::createObject([
-            'class' => Collection::className(),
-            'model' => $model,
-        ]);
-    }
-
     public function run($scenario = null)
     {
         if ($scenario && $this->allowDynamicScenario) {
@@ -44,25 +41,37 @@ class ValidateFormAction extends Action
         }
 
         if (Yii::$app->request->isPost) {
-            $collection = $this->createCollection($this->getModel());
-            $collection->load();
-            return $this->controller->renderJson(ActiveForm::validateMultiple($collection->models));
+            $this->loadCollection();
+            return $this->controller->renderJson($this->validateMultiple());
         }
 
         throw new InvalidRouteException('Must be POST request');
     }
 
-    /**
-     * @param mixed $model
-     */
-    public function setModel($model)
+    public function validateMultiple()
     {
-        if ($model instanceof Model) {
-            $this->model = $model;
-        } elseif ($model instanceof \Closure) {
-            $this->model = call_user_func($model, $this);
-        } else {
-            $this->model = is_array($model) ? $model : ['class' => $model];;
+        $result = [];
+        foreach ($this->collection->models as $i => $model) {
+            /** @var Model $model */
+            $model->validate();
+            foreach ($model->getErrors() as $attribute => $errors) {
+                if ($this->validatedInputId instanceof \Closure) {
+                    $id = call_user_func($this->validatedInputId, $this, $model, $i, $attribute, $errors);
+                } else {
+                    $id = Html::getInputId($model, "[$i]" . $attribute);
+                }
+                $result[$id] = $errors;
+            }
         }
+        return $result;
+    }
+
+    /**
+     * Sets the $model in the [[collection]]
+     *
+     * @param Model $model
+     */
+    public function setModel($model) {
+        $this->collection->setModel($model);
     }
 }
