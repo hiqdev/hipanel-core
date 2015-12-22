@@ -4,10 +4,9 @@ namespace hipanel\actions;
 
 use hipanel\base\Model;
 use Yii;
-use hiqdev\hiart\Collection;
 use yii\base\InvalidRouteException;
 use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
 /**
  * Class ValidateFormAction
