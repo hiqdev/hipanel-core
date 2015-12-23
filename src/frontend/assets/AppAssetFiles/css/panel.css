@@ -635,15 +635,15 @@ a.asc:after {
     padding-bottom: 20px;
 }
 
-.profile-usermenu ul li {
+.profile-usermenu > ul > li {
     border-bottom: 1px solid #f0f4f7;
 }
 
-.profile-usermenu ul li:last-child {
+.profile-usermenu > ul > li:last-child {
     border-bottom: none;
 }
 
-.profile-usermenu ul li a {
+.profile-usermenu > ul > li > a {
     color: #93a3b5;
     font-size: 16px;
     font-weight: 400;
@@ -652,17 +652,17 @@ a.asc:after {
     padding: 10px 15px;
 }
 
-.profile-usermenu ul li a i {
+.profile-usermenu > ul > li > a > i {
     margin-right: 8px;
     font-size: 16px;
 }
 
-.profile-usermenu ul li a:hover {
+.profile-usermenu > ul > li > a:hover {
     background-color: #fafcfd;
     color: #5b9bd1;
 }
 
-.profile-usermenu ul li.active a {
+.profile-usermenu > ul > li.active > a {
     color: #5b9bd1;
     background-color: #f6f9fb;
     border-left: 2px solid #5b9bd1;
