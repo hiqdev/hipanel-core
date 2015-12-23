@@ -828,3 +828,8 @@ div.required label.radio-inline:after {
     content: " ";
     color: inherit;
 }
+
+/* Fix combo hover */
+.select2-highlighted .text-muted {
+    color: #ECECEC;
+}
