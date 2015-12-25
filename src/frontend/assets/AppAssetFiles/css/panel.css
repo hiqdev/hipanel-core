@@ -643,7 +643,9 @@ a.asc:after {
     border-bottom: none;
 }
 
-.profile-usermenu > ul > li > a {
+.profile-usermenu > ul > li > a,
+.profile-usermenu > ul > li > div > a
+{
     color: #93a3b5;
     font-size: 16px;
     font-weight: 400;

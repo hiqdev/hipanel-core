@@ -48,7 +48,16 @@ class ActionColumn extends \yii\grid\ActionColumn
 
     public function registerBtnGroupDirectionFix()
     {
-        Yii::$app->view->registerJs('$(function () { $( ".btn-group.btn-group-fix" ).slice(-3).addClass("dropup"); });');
+        Yii::$app->view->registerJs('
+        $(function () {
+            var $gridRows = $( ".btn-group.btn-group-fix" );
+            if ($gridRows.length > 2) {
+                $gridRows.slice(-2).addClass("dropup");
+            } else {
+                $gridRows.parents("table").eq(0).css({"height": "150pt"});
+            }
+        });
+        ');
     }
 
     public function renderFirstButton ($item, $index) {
