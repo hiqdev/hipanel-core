@@ -17,10 +17,10 @@ trait ModelTrait
      */
     public function attributes () {
         $attributes = \yii\base\Model::attributes();
-        foreach (self::rules() as $d) {
+        foreach (static::rules() as $d) {
             if (is_string(reset($d))) continue;
             foreach (reset($d) as $k) $attributes[$k] = $k;
-        };
+        }
         return array_values($attributes);
     }
 }
