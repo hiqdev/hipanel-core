@@ -30,6 +30,7 @@ return [
             'class'           => 'hipanel\base\User',
             'identityClass'   => 'common\models\User',
             'enableAutoLogin' => true,
+            'seller'          => $params['user.seller'],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

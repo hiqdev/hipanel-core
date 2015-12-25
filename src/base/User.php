@@ -7,6 +7,11 @@ use yii\base\InvalidConfigException;
 
 class User extends \yii\web\User
 {
+    /**
+     * @var string the seller login
+     */
+    public $seller;
+
     public function not($key)
     {
         $identity = $this->getIdentity();
