@@ -55,10 +55,16 @@ class RenderAction extends Action
         $this->_params = $params;
     }
 
+    /**
+     * @return string [[view]] or [[scenario]]
+     */
     public function getViewName() {
         return $this->view ?: $this->getScenario();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
         return $this->controller->render($this->getViewName(), $this->getParams());
