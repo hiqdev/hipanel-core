@@ -4,7 +4,7 @@ namespace hipanel\frontend\assets;
 
 use yii\web\AssetBundle;
 
-class LessSpaceAsset extends AssetBundle
+class IsotopeAsset extends AssetBundle
 {
     public $sourcePath = '@hipanel/frontend/assets/js';
 
