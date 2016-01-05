@@ -17,7 +17,7 @@ trait ModelTrait
      */
     public function attributes () {
         $attributes = \yii\base\Model::attributes();
-        foreach (static::rules() as $d) {
+        foreach (self::rules() as $d) {
             if (is_string(reset($d))) continue;
             foreach (reset($d) as $k) $attributes[$k] = $k;
         }
