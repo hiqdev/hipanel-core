@@ -8,7 +8,8 @@ class IsotopeAsset extends AssetBundle
 {
     public $sourcePath = '@hipanel/frontend/assets/js';
 
-    public $css = [
-        'isotope.pkgd.min.js',
+    public $js = [
+//        'isotope.pkgd.js',
+        'http://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.js',
     ];
 }
