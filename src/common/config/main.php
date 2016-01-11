@@ -56,7 +56,8 @@ $config = [
                 return [];
             },
             'config' => [
-                'api_url' => $params['api_url'],
+                'api_url'  => $params['api_url'],
+                'base_uri' => $params['api_url'],
             ],
         ],
         'mailer' => [
