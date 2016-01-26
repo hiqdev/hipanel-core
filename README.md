@@ -5,6 +5,9 @@ HiPanel Core
 
 [![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-core/v/stable)](https://packagist.org/packages/hiqdev/hipanel-core)
 [![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-core/downloads)](https://packagist.org/packages/hiqdev/hipanel-core)
+[![Build Status](https://img.shields.io/travis/hiqdev/hipanel-core.svg)](https://travis-ci.org/hiqdev/hipanel-core)
+[![Code Coverage](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/?branch=master)
 [![Dependency Status](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master/badge.svg)](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master)
 
 [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
@@ -18,7 +21,7 @@ The preferred way to install this yii2-extension is through [composer](http://ge
 
 Either run
 
-```
+```sh
 php composer.phar require "hiqdev/hipanel-core"
 ```
 
@@ -35,4 +38,4 @@ to the require section of your composer.json.
 This project is released under the terms of the BSD-3-Clause [license](LICENSE).
 Read more [here](http://choosealicense.com/licenses/bsd-3-clause).
 
-Copyright © 2014-2015, HiQDev (http://hiqdev.com/)
+Copyright © 2014-2016, HiQDev (http://hiqdev.com/)

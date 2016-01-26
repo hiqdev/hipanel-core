@@ -1,12 +1,11 @@
 package:
+    type:           yii2-extension
     name:           hipanel-core
     namespace:      hipanel
     headline:       HiPanel Core
     title:          HiPanel core package
-    type:           yii2-extension
     homepage:       https://hipanel.com/
     keywords:       hipanel, control panel, hosting, domains
-    year:           2014
     description: |
         [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 
@@ -14,6 +13,6 @@ package:
         This package is the core of the system.
 
 require:
-    hiqdev/hidev-config:        "*"
-    hiqdev/hidev-config-php:    "*"
+    hiqdev/hidev-php:    "*"
+    hiqdev/hidev-vendor: "*"
 
