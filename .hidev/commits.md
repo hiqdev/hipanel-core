@@ -3,8 +3,9 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-    - e7ec391 2016-01-26 removed old invalid tests (sol@hiqdev.com)
 - Fixed different issues
+    - fba3d3d 2016-01-26 rehideved (sol@hiqdev.com)
+    - e7ec391 2016-01-26 removed old invalid tests (sol@hiqdev.com)
     - 9f9edb6 2016-01-25 IndexAction - do not use filterstorage on ajax requests (d.naumenko.a@gmail.com)
     - 815c325 2016-01-22 FilterStorage implemented in IndexAction (d.naumenko.a@gmail.com)
     - 6b23d93 2016-01-22 Added FilterStorage (d.naumenko.a@gmail.com)
