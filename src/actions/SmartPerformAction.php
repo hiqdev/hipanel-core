@@ -29,17 +29,17 @@ class SmartPerformAction extends SwitchAction
             'POST pjax' => [
                 'save'    => true,
                 'success' => [
-                    'class'       => ViewAction::class,
-                    'view'        => $this->pjaxView,
+                    'class' => ViewAction::class,
+                    'view'  => $this->pjaxView,
                 ],
             ],
-            'POST'      => [
+            'POST' => [
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
                 ],
             ],
-            'GET'       => [
+            'GET' => [
                 'class' => RedirectAction::class,
             ],
         ]);
