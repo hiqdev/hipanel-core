@@ -52,7 +52,7 @@ $config = [
                     return ['access_token' => Yii::$app->user->identity->getAccessToken()];
                 }
 
-                if (Yii::$app->user->loginRequired() !== false) {
+                if (Yii::$app->user->loginRequired() !== null) {
                     Yii::trace('Login is required. Redirecting to the login page', 'hipanel');
                     Yii::$app->response->send();
                     Yii::$app->end();

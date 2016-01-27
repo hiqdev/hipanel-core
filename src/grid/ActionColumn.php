@@ -124,7 +124,16 @@ class ActionColumn extends \yii\grid\ActionColumn
         return preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) use ($model, $key, $index) {
             static $renderedCount = 0;
             $name = $matches[1];
-            if (isset($this->buttons[$name])) {
+
+            if (isset($this->visibleButtons[$name])) {
+                $isVisible = $this->visibleButtons[$name] instanceof \Closure
+                    ? call_user_func($this->visibleButtons[$name], $model, $key, $index)
+                    : $this->visibleButtons[$name];
+            } else {
+                $isVisible = true;
+            }
+
+            if ($isVisible && isset($this->buttons[$name])) {
                 $url          = $this->createUrl($name, $model, $key, $index);
                 $renderedItem = call_user_func($this->buttons[$name], $url, $model, $key);
                 $result       = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem, $index) : $this->renderOtherButtons($renderedItem);
