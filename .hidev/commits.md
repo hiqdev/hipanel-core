@@ -74,6 +74,7 @@ hiqdev/hipanel-core commits history
     - 41fc62e 2015-11-27 Add on/off actions js handle to ActionBox (andreyklochok@gmail.com)
     - dd7e2c6 2015-11-27 Fix ActionColumn. Actions drop up (andreyklochok@gmail.com)
 - Fixed minor issues and translation
+    - ab14aff 2016-01-27 added translations (sol@hiqdev.com)
     - 708192d 2015-12-08 Translations update (d.naumenko.a@gmail.com)
     - c9a7c06 2015-12-04 fixed language en -> en-US (sol@hiqdev.com)
     - 97c2d95 2015-12-04 Model - added i18nDictionary property (d.naumenko.a@gmail.com)
