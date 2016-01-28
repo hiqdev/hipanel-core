@@ -78,7 +78,7 @@ $config = [
 
 if (YII_DEBUG && !YII_ENV_TEST) {
     // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
+    $config['bootstrap']['debug'] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         'allowedIPs' => isset($params['debug_ips']) ? $params['debug_ips'] : '',
@@ -89,7 +89,7 @@ if (YII_DEBUG && !YII_ENV_TEST) {
         ]
     ];
 
-    $config['bootstrap'][] = 'gii';
+    $config['bootstrap']['gii'] = 'gii';
     $config['modules']['gii'] = 'yii\gii\Module';
 }
 
