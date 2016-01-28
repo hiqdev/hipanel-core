@@ -784,4 +784,11 @@ return [
     'or' => 'или',
     'each pair (domain + code) should be written with a new line' => 'каждая пара (домен + пароль) должна быть написана с новой строки',
     'To confirm this, you need to enter a PIN code.' => 'Для подтверждения вам надо ввести PIN-код.',
+
+    'On your credit' => 'На вашем счету',
+    'it\'s enough to pay your cart' => 'Этого достаточно для оплаты корзины',
+    'Use credit funds without depositing' => 'Использовать доступные средства без пополнения',
+    'You can pay your cart partially' => 'Вы можете оплатить часть корзины',
+    'Use credit funds and pay the difference' => 'Использовать доступные средства и оплатить разницу',
+    'Do not use credit funds, pay the whole cart' => 'Не использовать доступные средства, оплатить всю корзину',
 ];
