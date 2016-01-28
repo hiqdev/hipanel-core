@@ -835,3 +835,10 @@ div.required label.radio-inline:after {
 .select2-highlighted .text-muted {
     color: #ECECEC;
 }
+
+@media (max-width: 1510px) {
+    .box-bulk-actions {
+        float: left!important;
+        margin-top: 1rem;
+    }
+}
