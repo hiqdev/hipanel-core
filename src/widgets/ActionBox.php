@@ -60,25 +60,29 @@ JS
     }
 
     public function beginActions() {
-        print Html::beginTag('div', ['class' => 'box-actions ' . ($this->bulk ? 'pull-left' : '')]) . PHP_EOL;
+        print Html::beginTag('div', ['class' => 'row']) . PHP_EOL;
+        print Html::beginTag('div', ['class' => 'box-actions col-md-6']) . PHP_EOL;
     }
 
     public function endActions() {
         print PHP_EOL . Html::endTag('div');
+        if ($this->bulk == false) print PHP_EOL . Html::endTag('div');
     }
 
     public function beginBulkActions() {
         if ($this->bulk == false)
             throw new InvalidConfigException("'bulk' property is false, turn this on ('true' statement), if you want use bulk actions.");
 
-        print Html::beginTag('div', ['class' => 'pull-right box-bulk-actions']) . "\n";
+        print Html::beginTag('div', ['class' => 'box-bulk-actions col-md-6 text-right']) . "\n";
         print Html::beginTag('fieldset', ['disabled' => 'disabled']) . "\n";
     }
 
     public function endBulkActions() {
         print "\n" . Html::endTag('fieldset');
         print "\n" . Html::endTag('div');
-        print Html::tag('div', '', ['class' => 'clearfix']);
+        print "\n" . Html::endTag('div');
+
+//        print Html::tag('div', '', ['class' => 'clearfix']);
     }
 
     public function renderCreateButton($text)
