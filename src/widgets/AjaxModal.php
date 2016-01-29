@@ -65,6 +65,12 @@ class AjaxModal extends \yii\bootstrap\Modal
      */
     protected $_loadingText;
 
+    /**
+     * @var boolean whether to handle the submit of the form in the modal with special AJAX script
+     * @see registerClientScript
+     */
+    public $handleSubmit = true;
+
     public function getActionUrl()
     {
         return $this->_actionUrl ? Url::to($this->_actionUrl) : Url::to($this->scenario);
@@ -122,7 +128,9 @@ class AjaxModal extends \yii\bootstrap\Modal
         }
 
         $this->initAdditionalOptions();
-        $this->registerClientScript();
+        if ($this->handleSubmit !== false) {
+            $this->registerClientScript();
+        }
         parent::init();
     }
 
@@ -171,20 +179,14 @@ class AjaxModal extends \yii\bootstrap\Modal
 
     protected function registerClientScript ()
     {
+        $url = is_string($this->handleSubmit) ? $this->handleSubmit : $this->actionUrl;
         Yii::$app->view->registerJs(<<<JS
-//            jQuery(document).on('pjax:beforeSend', function() {
-//                jQuery('form[data-pjax] button').button('{$this->loadingText}');
-//            });
-//            jQuery(document).on('pjax:end', function() {
-//                jQuery('form[data-pjax] button').button('reset');
-//            });
-
             jQuery(document).on('submit', '#{$this->modalFormId}', function(event) {
                 event.preventDefault();
                 var form = jQuery(this);
                 var btn = jQuery('form[data-pjax] button').button('{$this->loadingText}');
                 jQuery.ajax({
-                    url: '{$this->actionUrl}',
+                    url: '$url',
                     type: 'POST',
                     //dataType: 'json',
                     timeout: 0,
