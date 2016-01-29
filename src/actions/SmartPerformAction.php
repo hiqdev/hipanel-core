@@ -12,10 +12,10 @@ class SmartPerformAction extends SwitchAction
     /** @var string The name of view, that will be rendered for pjax request */
     public $pjaxView = 'view';
 
-    public function init()
+    /** @inheritdoc */
+    protected function getDefaultRules()
     {
-        parent::init();
-        $this->addItems([
+        return array_merge(parent::getDefaultRules(), [
             'POST ajax' => [
                 'save' => true,
                 'flash' => false,

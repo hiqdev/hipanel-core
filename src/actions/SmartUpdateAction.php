@@ -92,10 +92,10 @@ class SmartUpdateAction extends SwitchAction
         return $this->_searchModel;
     }
 
-    public function init()
+    /** @inheritdoc */
+    protected function getDefaultRules()
     {
-        parent::init();
-        $this->addItems([
+        return array_merge(parent::getDefaultRules(), [
             'POST xeditable' => [
                 'class' => 'hipanel\actions\XEditableAction',
             ],
@@ -139,7 +139,7 @@ class SmartUpdateAction extends SwitchAction
                         return count($action->collection->count()) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
                             : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id])
-                        ;
+                            ;
                     }
                 ],
                 'error'   => [

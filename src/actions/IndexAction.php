@@ -26,7 +26,18 @@ class IndexAction extends SearchAction
 
     public function init()
     {
-        $this->addItems([
+        parent::init();
+
+        $this->dataProviderOptions = ArrayHelper::merge($this->dataProviderOptions, [
+            'pagination' => [
+                'pageSize' => Yii::$app->request->get('per_page') ?: 25
+            ]
+        ]);
+    }
+
+    protected function getDefaultRules()
+    {
+        return array_merge([
             'html | pjax' => [
                 'save' => false,
                 'flash' => false,
@@ -42,15 +53,7 @@ class IndexAction extends SearchAction
                     }
                 ]
             ]
-        ]);
-
-        parent::init();
-
-        $this->dataProviderOptions = ArrayHelper::merge($this->dataProviderOptions, [
-            'pagination' => [
-                'pageSize' => Yii::$app->request->get('per_page') ?: 25
-            ]
-        ]);
+        ], parent::getDefaultRules());
     }
 
     /**
@@ -62,7 +65,8 @@ class IndexAction extends SearchAction
             $formName = $this->getSearchModel()->formName();
             $requestFilters = Yii::$app->request->get($formName) ?: Yii::$app->request->get() ?: Yii::$app->request->post();
 
-            // Don't save filters for ajax requests. It's probable select2 or similar
+            // Don't save filters for ajax requests, because
+            // the request is probably triggered with select2 or smt similar
             if (Yii::$app->request->getIsPjax() || !Yii::$app->request->getIsAjax()) {
                 $filterStorage = new FilterStorage(['map' => $this->filterStorageMap]);
                 $filters = $filterStorage->get();

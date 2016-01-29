@@ -20,10 +20,10 @@ class SmartCreateAction extends SwitchAction
         return parent::run();
     }
 
-    public function init()
+    /** @inheritdoc */
+    protected function getDefaultRules()
     {
-        parent::init();
-        $this->addItems([
+        return array_merge(parent::getDefaultRules(), [
             'GET' => [
                 'class'  => RenderAction::class,
                 'view'   => $this->view,
@@ -44,7 +44,7 @@ class SmartCreateAction extends SwitchAction
                         return count($action->collection->models) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
                             : $action->controller->getActionUrl('view', ['id' => $action->model->id])
-                        ;
+                            ;
                     }
                 ],
                 'error'   => [

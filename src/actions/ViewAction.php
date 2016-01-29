@@ -36,7 +36,8 @@ class ViewAction extends SearchAction
      */
     public $modelConfig = [];
 
-    public function run($id = null) {
+    public function run($id = null)
+    {
         if (isset($id)) {
             $this->setId($id);
         }
@@ -44,9 +45,10 @@ class ViewAction extends SearchAction
         return parent::run();
     }
 
-    public function init()
+    /** @inheritdoc */
+    protected function getDefaultRules()
     {
-        $this->addItems([
+        return array_merge([
             'html | pjax' => [
                 'save' => true,
                 'flash' => false,
@@ -64,9 +66,7 @@ class ViewAction extends SearchAction
                     }
                 ]
             ]
-        ]);
-
-        parent::init();
+        ], parent::getDefaultRules());
     }
 
     /**
@@ -92,6 +92,7 @@ class ViewAction extends SearchAction
         return $this->dataProvider;
     }
 
+    /** @inheritdoc */
     public function beforeSave()
     {
         parent::beforeSave();
@@ -100,6 +101,7 @@ class ViewAction extends SearchAction
         }
     }
 
+    /** @inheritdoc */
     public function afterPerform()
     {
         if ($this->collection->count() === 0) {

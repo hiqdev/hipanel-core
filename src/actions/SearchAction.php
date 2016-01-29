@@ -58,8 +58,6 @@ class SearchAction extends SwitchAction
 
     public function init()
     {
-        parent::init();
-
         if (!array_key_exists('pagination', $this->dataProviderOptions)) {
             $this->dataProviderOptions['pagination'] = false;
         }
@@ -76,7 +74,13 @@ class SearchAction extends SwitchAction
             };
         }
 
-        $this->addItems([
+        parent::init();
+    }
+
+    /** @inheritdoc */
+    protected function getDefaultRules()
+    {
+        return [
             'ajax' => [
                 'save' => true,
                 'flash' => false,
@@ -85,7 +89,7 @@ class SearchAction extends SwitchAction
                     'return' => $this->ajaxResponseFormatter
                 ]
             ]
-        ]);
+        ];
     }
 
     /**
