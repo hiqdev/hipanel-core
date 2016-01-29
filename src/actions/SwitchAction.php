@@ -38,6 +38,23 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
      */
     public $rule;
 
+    /** @inheritdoc */
+    public function init()
+    {
+        parent::init();
+
+        $this->addItems($this->getDefaultRules());
+    }
+
+    /**
+     * @return array the default rules for the action.
+     * You can override this method in child classes to set own default rules.
+     */
+    protected function getDefaultRules()
+    {
+        return [];
+    }
+
     public function getItemConfig($name = null, array $config = [])
     {
         return [
