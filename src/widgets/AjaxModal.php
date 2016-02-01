@@ -127,6 +127,8 @@ class AjaxModal extends \yii\bootstrap\Modal
             throw new InvalidConfigException("Attribute 'scenario' is required");
         }
 
+        Html::addCssClass($this->options['class'], 'text-left');
+
         $this->initAdditionalOptions();
         if ($this->handleSubmit !== false) {
             $this->registerClientScript();
