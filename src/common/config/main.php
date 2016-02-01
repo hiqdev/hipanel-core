@@ -47,7 +47,7 @@ $config = [
         ],
         'hiresource' => [
             'class'  => 'hipanel\base\Connection',
-            'auth'   => function ($self) {
+            'auth'   => function () {
                 if (Yii::$app->user->identity) {
                     return ['access_token' => Yii::$app->user->identity->getAccessToken()];
                 }

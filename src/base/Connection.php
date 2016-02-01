@@ -2,6 +2,8 @@
 
 namespace hipanel\base;
 
+use Yii;
+
 class Connection extends \hiqdev\hiart\Connection
 {
     /**
@@ -9,9 +11,7 @@ class Connection extends \hiqdev\hiart\Connection
      */
     public function init()
     {
-        $this->errorChecker = function ($response) {
-            return $this->checkError($response);
-        };
+        $this->errorChecker = [$this, 'checkError'];
     }
 
     /**
@@ -20,10 +20,19 @@ class Connection extends \hiqdev\hiart\Connection
      *  - string: the error text
      *  - null: the response is not an error
      */
-    static public function checkError($response)
+    public function checkError($response)
     {
         if ($response !== '0' && Err::is($response)) {
-            return Err::get($response) ?: 'unknown api error';
+            $error = Err::get($response);
+            if (empty($error)) {
+                return 'unknown api error';
+            } elseif ($error === 'invalid_token') {
+                Yii::$app->user->logout();
+                Yii::$app->response->refresh()->send();
+                Yii::$app->end();
+            } else {
+                return $error;
+            }
         }
 
         return null;
