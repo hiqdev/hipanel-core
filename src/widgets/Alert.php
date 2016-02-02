@@ -85,9 +85,6 @@ class Alert extends \yii\bootstrap\Widget
 
         echo PNotify::widget([
             'notifications' => $notifications,
-            'clientOptions' => [
-
-            ]
         ]);
     }
 }
