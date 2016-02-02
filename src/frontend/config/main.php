@@ -44,6 +44,15 @@ return [
                     'logFile'    => '@runtime/logs/merchant.log',
                     'categories' => ['merchant'],
                 ],
+                'email' => [
+                    'class' => 'hipanel\log\EmailTarget',
+                    'levels' => ['error', 'warning'],
+                    'message' => [
+                        'from' => 'hipanel@hiqdev.com',
+                        'to' => 'logs@hiqdev.com',
+                        'subject' => 'HiPanel error log',
+                    ],
+                ],
             ],
         ],
         'errorHandler' => [
