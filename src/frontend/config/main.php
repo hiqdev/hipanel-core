@@ -32,9 +32,6 @@ return [
             'enableAutoLogin' => true,
             'seller'          => $params['user.seller'],
         ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets'    => [
