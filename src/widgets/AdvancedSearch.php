@@ -81,7 +81,7 @@ class AdvancedSearch extends Widget
         echo Html::beginTag('div', ['class' => 'col-md-12']);
             echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-info']);
             echo ' &nbsp; ';
-            echo Html::a(Yii::t('app', 'Clear'), $this->action, ['class' => 'btn btn-default']);
+            echo Html::a(Yii::t('app', 'Clear'), $this->action, ['class' => 'btn btn-default', 'data-params' => ['clear-filters' => true], 'data-method' => 'POST']);
         echo Html::endTag('div');
         $this->_form->end();
         echo Html::endTag('div');

@@ -62,16 +62,23 @@ class IndexAction extends SearchAction
     public function getDataProvider()
     {
         if ($this->dataProvider === null) {
+            $request = Yii::$app->request;
+
             $formName = $this->getSearchModel()->formName();
             $requestFilters = Yii::$app->request->get($formName) ?: Yii::$app->request->get() ?: Yii::$app->request->post();
 
             // Don't save filters for ajax requests, because
             // the request is probably triggered with select2 or smt similar
-            if (Yii::$app->request->getIsPjax() || !Yii::$app->request->getIsAjax()) {
+            if ($request->getIsPjax() || !$request->getIsAjax()) {
                 $filterStorage = new FilterStorage(['map' => $this->filterStorageMap]);
+
+                if ($request->getIsPost() && $request->post('clear-filters')) {
+                    $filterStorage->clearFilters();
+                }
+
                 $filters = $filterStorage->get();
-                $search = ArrayHelper::merge($this->findOptions, $filters, $requestFilters);
                 $filterStorage->set($requestFilters);
+                $search = ArrayHelper::merge($this->findOptions, $filters, $requestFilters);
             } else {
                 $search = ArrayHelper::merge($this->findOptions, $requestFilters);
             }
