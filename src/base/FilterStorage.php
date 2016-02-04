@@ -16,18 +16,6 @@ use yii\helpers\StringHelper;
  * $filterStorage = new FilterStorage([
  *    'map' => [
  *        'login' => 'client.login', // Means `login` search model attribute's value will be saved to `client.login`
- *        'domain_like' => [ // `domain_like` will be:
- *            'domain.name | hosting.domain.name', // read from `domain.name`, when empty - try from `hosting.domain.name`
- *            'domain.name' // saved to `domain.name`. It's not allowed to list more than one destination to save to.
- *        ],
- *        'state' => [
- *            function ($filterStorage, $attribute) { // the same as in previous example, but done with a closure
- *                return $filterStorage->getByKeys('domain.name | hosting.domain.name');
- *            },
- *            function ($value, $filterStorage, $attribute) { // it is possible to modify filter value before save
- *                return strtolower($value); // for example for normalization
- *            }
- *        ]
  *    ]
  * ]);
  *
@@ -59,18 +47,7 @@ class FilterStorage extends Component
         $result = [];
 
         foreach ($this->map as $attribute => $key) {
-            if (is_array($key)) {
-                if (is_string($key[0])) {
-                    $value = $this->getByKeys($key[0]);
-                } elseif ($key[0] instanceof \Closure) {
-                    $value = call_user_func($key[0], $this, $attribute);
-                } else {
-                    throw new InvalidConfigException('Filter getting keys MUST be strings or Closures only');
-                }
-            } else {
-                $value = $this->getByKeys($key);
-            }
-
+            $value = $this->getByKey($key);
             $result[$attribute] = $value;
         }
 
@@ -93,22 +70,20 @@ class FilterStorage extends Component
                 continue;
             }
 
-            $filter = $filters[$attribute];
-
-            if (is_array($key)) {
-                if (is_string($key[1])) {
-                    $key = $key[1];
-                    $value = $filter;
-                } elseif ($key[1] instanceof \Closure) {
-                    $value = call_user_func($key[1], $filter, $this, $attribute);
-                } else {
-                    throw new InvalidConfigException('Filter getting keys MUST be strings or Closures only');
-                }
-            } else {
-                $value = $filter;
-            }
-
+            $value = $filters[$attribute];
             $this->setByKey($key, $value);
+        }
+    }
+
+    /**
+     * Clears filters for all the attributes, described in the [[map]]
+     *
+     * @void
+     */
+    public function clearFilters()
+    {
+        foreach ($this->map as $key) {
+            $this->setByKey($key, null);
         }
     }
 
@@ -129,34 +104,6 @@ class FilterStorage extends Component
             unset($storage[$key]);
         }
         $this->setStorage($storage);
-    }
-
-    /**
-     * Returns the value of filter by the keys list separated with `|`.
-     * For example:
-     *
-     * ```
-     * domain.name | hosting.domain.name
-     * ```
-     * The method will check `domain.name` key and return it's value, when it is set.
-     * Otherwise, the method will check next tokens.
-     * Method returns `null`, when all tokens are empty.
-     *
-     * @param string $keys
-     * @return null|mixed
-     */
-    public function getByKeys($keys)
-    {
-        $storage = $this->getStorage();
-        $keys = StringHelper::explode($keys, '|');
-
-        foreach ($keys as $key) {
-            if (isset($storage[$key])) {
-                return $storage[$key];
-            }
-        }
-
-        return null;
     }
 
     /**
