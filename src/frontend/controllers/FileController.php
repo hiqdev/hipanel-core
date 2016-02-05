@@ -21,8 +21,8 @@ class FileController extends Controller
     }
     */
 
-    public function actionView($id, $object_id=null, $object_name=null) {
-        return File::renderFile($id, $object_id, $object_name);
+    public function actionView($id, $object_id=null, $object_name=null, $nocache=false) {
+        return File::renderFile($id, $object_id, $object_name, true, $nocache);
     }
 
     public function actionGet($id, $object_id, $object_name, $ext, $contentType) {

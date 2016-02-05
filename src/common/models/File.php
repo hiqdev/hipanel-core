@@ -135,8 +135,8 @@ class File extends \hiqdev\hiart\ActiveRecord
             return $finalDestination;
     }
 
-    public static function renderFile($file_id, $object_id = null, $object_name = null, $render = true) {
-        if (is_file(self::filePath($file_id)))
+    public static function renderFile($file_id, $object_id = null, $object_name = null, $render = true, $nocache = false) {
+        if (is_file(self::filePath($file_id)) && !$nocache)
             $res = self::get_file_from_site(self::filePath($file_id), $file_id, $object_id, $object_name, $render);
         else
             $res = self::get_file_from_api($file_id, $object_id, $object_name, $render);
