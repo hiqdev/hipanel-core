@@ -3,7 +3,6 @@
 namespace hipanel\log;
 
 use Yii;
-use yii\helpers\Url;
 
 /**
  * Class EmailTarget
@@ -24,7 +23,12 @@ class EmailTarget extends \yii\log\EmailTarget
         $messages = array_map([$this, 'formatMessage'], $this->messages);
         $body = '';
         if (Yii::$app->hasModule('debug')) {
-            $body .= 'See debug log ' . Url::to(['/debug/default/view', 'panel' => 'log', 'tag' => Yii::$app->getModule('debug')->logTarget->tag]) . "\n\n";
+            $url = Yii::$app->getUrlManager()->createAbsoluteUrl([
+                '/debug/default/view',
+                'panel' => 'log',
+                'tag' => Yii::$app->getModule('debug')->logTarget->tag
+            ]);
+            $body .= 'See debug log ' . $url . "\n\n";
         }
         $body .= implode("\n", $messages);
         $this->composeMessage($body)->send($this->mailer);
