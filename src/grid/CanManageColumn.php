@@ -1,24 +1,28 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
 use hipanel\widgets\Select2;
-use yii\helpers\Url;
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 use yii\web\JsExpression;
 
 class CanManageColumn extends DataColumn
 {
-    public function init () {
+    public function init()
+    {
         parent::init();
-        \Yii::configure($this,[
-            'visible'               => \Yii::$app->user->identity->type!='client',
+        \Yii::configure($this, [
+            'visible'               => \Yii::$app->user->identity->type !== 'client',
             'attribute'             => 'seller_id',
             'label'                 => \Yii::t('app', 'Can Manage'),
             'format'                => 'html',
@@ -41,7 +45,7 @@ class CanManageColumn extends DataColumn
                         }).done(function(data) {
                             callback(data.results[0]);
                         });
-                    }')
+                    }'),
                 ],
             ]),
         ]);

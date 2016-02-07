@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -17,17 +21,18 @@ class Model extends \hiqdev\hiart\ActiveRecord
     public static $i18nDictionary = 'app';
 
     /**
-     * No rules be default
+     * No rules be default.
      */
-    public function rules ()
+    public function rules()
     {
         return [];
     }
 
     /**
-     * return default labels for attribute
+     * return default labels for attribute.
      */
-    public function defaultAttributeLabels () {
+    public function defaultAttributeLabels()
+    {
         return [
             'id'            => Yii::t('app', 'ID'),
             'client_id'     => Yii::t('app', 'Client'),
@@ -65,15 +70,18 @@ class Model extends \hiqdev\hiart\ActiveRecord
     }
 
     /**
-     * Merge Attribute labels for Model
+     * Merge Attribute labels for Model.
      */
-    public function mergeAttributeLabels($labels) {
+    public function mergeAttributeLabels($labels)
+    {
         $attributeLabels = [];
         $default = $this->defaultAttributeLabels();
         foreach ($this->rules() as $d) {
-            if (is_string(reset($d))) continue;
+            if (is_string(reset($d))) {
+                continue;
+            }
             foreach (reset($d) as $k) {
-                $attributeLabels[$k] = $labels[$k] ? : $default[$k];
+                $attributeLabels[$k] = $labels[$k] ?: $default[$k];
                 if (!$attributeLabels[$k]) {
                     $toTranslate = preg_replace(['/_id$/', '/_label$/', '/_ids$/', '/_like$/'], [' ID', '', ' IDs', ''], $k);
                     $toTranslate = preg_replace('/_/', ' ', $toTranslate);

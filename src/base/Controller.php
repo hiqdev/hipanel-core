@@ -1,23 +1,25 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
 
-use Yii;
 use hiqdev\hiart\ActiveRecord;
+use Yii;
 use yii\di\Instance;
-use yii\base\InvalidConfigException;
-use yii\helpers\Inflector;
-use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
+use yii\helpers\Inflector;
 use yii\web\NotFoundHttpException;
 
 /**
- * Site controller
+ * Site controller.
  */
 class Controller extends \yii\web\Controller
 {
@@ -46,9 +48,10 @@ class Controller extends \yii\web\Controller
     protected $_internalActions;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function behaviors () {
+    public function behaviors()
+    {
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -68,7 +71,8 @@ class Controller extends \yii\web\Controller
      * @param string $submodel the submodel that will be added to the ClassName
      * @return string Main Model class name
      */
-    static public function modelClassName () {
+    public static function modelClassName()
+    {
         $parts = explode('\\', static::className());
         $last  = array_pop($parts);
         array_pop($parts);
@@ -82,8 +86,9 @@ class Controller extends \yii\web\Controller
      * @param array $config config to be used to create the [[Model]]
      * @return ActiveRecord
      */
-    static public function newModel ($config = [], $submodel = '') {
-        $config['class'] = static::modelClassName().$submodel;
+    public static function newModel($config = [], $submodel = '')
+    {
+        $config['class'] = static::modelClassName() . $submodel;
         return Yii::createObject($config);
     }
 
@@ -91,21 +96,24 @@ class Controller extends \yii\web\Controller
      * @param array $config config to be used to create the [[Model]]
      * @return ActiveRecord|SearchModelTrait Search Model object
      */
-    static public function searchModel ($config = []) {
+    public static function searchModel($config = [])
+    {
         return static::newModel($config, 'Search');
     }
 
     /**
      * @return string main model's formName()
      */
-    static public function formName () {
+    public static function formName()
+    {
         return static::newModel()->formName();
     }
 
     /**
      * @return string search model's formName()
      */
-    static public function searchFormName () {
+    public static function searchFormName()
+    {
         return static::newModel()->formName() . 'Search';
     }
 
@@ -113,16 +121,17 @@ class Controller extends \yii\web\Controller
      * @param string $separator
      * @return string Main model's camel2id'ed formName()
      */
-    static public function modelId ($separator = '-') {
+    public static function modelId($separator = '-')
+    {
         return Inflector::camel2id(static::formName(), $separator);
     }
 
-    static public function moduleId()
+    public static function moduleId()
     {
         return explode('\\', get_called_class())[2];
     }
 
-    static public function controllerId()
+    public static function controllerId()
     {
         return strtolower(substr(explode('\\', get_called_class())[4], 0, -10));
     }
@@ -130,12 +139,13 @@ class Controller extends \yii\web\Controller
     /**
      * @param int|array $condition scalar ID or array to be used for searching
      * @param array $config config to be used to create the [[Model]]
-     * @return array|ActiveRecord|null|static
      * @throws NotFoundHttpException
+     * @return array|ActiveRecord|null|static
      */
-    static public function findModel ($condition, $config = []) {
-        /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $model = static::newModel($config)->findOne(is_array($condition) ? $condition : ['id'=>$condition]);
+    public static function findModel($condition, $config = [])
+    {
+        /* @noinspection PhpVoidFunctionResultUsedInspection */
+        $model = static::newModel($config)->findOne(is_array($condition) ? $condition : ['id' => $condition]);
         if ($model === null) {
             throw new NotFoundHttpException('The requested object not found.');
         };
@@ -143,7 +153,7 @@ class Controller extends \yii\web\Controller
         return $model;
     }
 
-    static public function findModels($condition, $config = [])
+    public static function findModels($condition, $config = [])
     {
         $containsIntKeys = 0;
         if (is_array($condition)) {
@@ -166,19 +176,22 @@ class Controller extends \yii\web\Controller
         return $models;
     }
 
-    static public function renderJson ($data) {
+    public static function renderJson($data)
+    {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         return $data;
     }
 
-    static public function renderJsonp ($data) {
+    public static function renderJsonp($data)
+    {
         Yii::$app->response->format = Response::FORMAT_JSONP;
 
         return $data;
     }
 
-    public function actionIndex () {
+    public function actionIndex()
+    {
         return $this->render('index');
     }
 
@@ -205,16 +218,16 @@ class Controller extends \yii\web\Controller
      * @param string|int|array $params ID of object to be action'ed or array of parameters
      * @return array array suitable for Url::to
      */
-    static public function getActionUrl ($action = 'index', $params = [])
+    public static function getActionUrl($action = 'index', $params = [])
     {
         $params = is_array($params) ? $params : ['id' => $params];
-        return array_merge([implode('/', ['',static::moduleId(), static::controllerId(), $action])], $params);
+        return array_merge([implode('/', ['', static::moduleId(), static::controllerId(), $action])], $params);
     }
 
     /**
      * Prepares array for building url to search with given filters.
      */
-    static public function getSearchUrl (array $params = [])
+    public static function getSearchUrl(array $params = [])
     {
         return static::getActionUrl('index', [static::searchFormName() => $params]);
     }

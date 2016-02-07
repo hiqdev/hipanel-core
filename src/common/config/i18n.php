@@ -1,10 +1,19 @@
 <?php
-// php yii message/extract @common/config/i18n.php | ./yii translate/google_extract common/config/i18n.php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 return [
     // string, required, root directory of all source files
-    'sourcePath' => __DIR__. DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR,
+    'sourcePath' => __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR,
     // Root directory containing message translations.
-    'messagePath' => __DIR__ . DIRECTORY_SEPARATOR .'..'. DIRECTORY_SEPARATOR . 'messages',
+    'messagePath' => __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'messages',
     // string, required, root directory of all source files
 //    'sourcePath' => __DIR__ . DIRECTORY_SEPARATOR . '..',
     // array, required, list of language codes that the extracted messages
@@ -51,7 +60,6 @@ return [
 //    'messagePath' => __DIR__,
     // boolean, whether the message file should be overwritten with the merged messages
     'overwrite' => true,
-
 
     // Message categories to ignore
     'ignoreCategories' => [

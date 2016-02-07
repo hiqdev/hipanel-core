@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
 use Yii;
@@ -10,8 +19,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 
 /**
- * Class AjaxModal
- * @package hipanel\widgets
+ * Class AjaxModal.
  *
  * @property $actionUrl string URL
  * @property $modalFormId string ID for modal form
@@ -93,7 +101,7 @@ class AjaxModal extends \yii\bootstrap\Modal
 
     public function getErrorText()
     {
-        return $this->_errorText ? : Yii::t('app', 'An error occurred. Try again later.');
+        return $this->_errorText ?: Yii::t('app', 'An error occurred. Try again later.');
     }
 
     public function setErrorText($text)
@@ -103,7 +111,7 @@ class AjaxModal extends \yii\bootstrap\Modal
 
     public function getSuccessText()
     {
-        return $this->_successText ? : Yii::t('app', 'Settings saved');
+        return $this->_successText ?: Yii::t('app', 'Settings saved');
     }
 
     public function setSuccessText($text)
@@ -179,7 +187,7 @@ class AjaxModal extends \yii\bootstrap\Modal
         }
     }
 
-    protected function registerClientScript ()
+    protected function registerClientScript()
     {
         $url = is_string($this->handleSubmit) ? $this->handleSubmit : $this->actionUrl;
         Yii::$app->view->registerJs(<<<JS
@@ -229,12 +237,11 @@ JS
                 <span class="sr-only">{$this->loadingText}</span>
             </div>
         </div>
-HTML
-        ;
+HTML;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function renderBodyBegin()
     {
@@ -242,7 +249,7 @@ HTML
     }
 
     /**
-     * @{inheritdoc}
+     * {@inheritdoc}
      */
     protected function registerClientEvents()
     {

@@ -1,10 +1,17 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
-use hipanel\helpers\ArrayHelper;
 use yii\base\Widget;
-use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
@@ -69,8 +76,7 @@ JS
 
     protected function renderHtml()
     {
-//        return Html::tag('fieldset', implode('&nbsp;', $this->items), ['disabled' => 'disabled']);
+        //        return Html::tag('fieldset', implode('&nbsp;', $this->items), ['disabled' => 'disabled']);
         return implode('&nbsp;', $this->items);
     }
 }
-

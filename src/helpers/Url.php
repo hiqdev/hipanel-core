@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\helpers;
 
 use yii\helpers\Inflector;
@@ -9,7 +18,7 @@ class Url extends \yii\helpers\Url
     /**
      * @param string|array $params
      */
-    static public function toAction($link, $params = [], $action = 'index')
+    public static function toAction($link, $params = [], $action = 'index')
     {
         $params = is_array($params) ? $params : ['id' => $params];
         if (strpos('/', $link) ===  false) {
@@ -23,10 +32,11 @@ class Url extends \yii\helpers\Url
     }
 
     /**
-     * Build search url
+     * Build search url.
      */
-    static public function toSearch($model, array $params = [], $action = 'index') {
-        $formName = Inflector::id2camel($model).'Search';
+    public static function toSearch($model, array $params = [], $action = 'index')
+    {
+        $formName = Inflector::id2camel($model) . 'Search';
         return static::toAction($model, [$formName => $params], $action);
     }
 }

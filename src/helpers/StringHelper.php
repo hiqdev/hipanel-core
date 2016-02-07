@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\helpers;
@@ -13,7 +17,7 @@ use Yii;
 class StringHelper extends \yii\helpers\StringHelper
 {
     /**
-     * Explodes string into array, optionally trims values and skips empty ones
+     * Explodes string into array, optionally trims values and skips empty ones.
      *
      * @param string $string String to be exploded.
      * @param string $delimiter Delimiter. should be regular expression
@@ -25,13 +29,14 @@ class StringHelper extends \yii\helpers\StringHelper
      * @return array
      * @since 2.0.4
      */
-    public static function mexplode($string, $delimiter = '/[\s,;]+/', $trim = true, $skipEmpty = false) {
+    public static function mexplode($string, $delimiter = '/[\s,;]+/', $trim = true, $skipEmpty = false)
+    {
         $result = preg_split($delimiter, $string);
         if ($trim) {
             if ($trim === true) {
                 $trim = 'trim';
             } elseif (!is_callable($trim)) {
-                $trim = function($v) use ($trim) {
+                $trim = function ($v) use ($trim) {
                     return trim($v, $trim);
                 };
             }
@@ -52,12 +57,12 @@ class StringHelper extends \yii\helpers\StringHelper
      *
      * @return string|null The currency symbol or NULL if not found.
      */
-    static public function getCurrencySymbol($currency, $locale = null)
+    public static function getCurrencySymbol($currency, $locale = null)
     {
         if (null === $locale) {
             $locale = Yii::$app->formatter->locale;
         }
-        $fmt = new NumberFormatter( $locale."@currency=$currency", NumberFormatter::CURRENCY );
+        $fmt = new NumberFormatter($locale . "@currency=$currency", NumberFormatter::CURRENCY);
         $symbol = $fmt->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
         return $symbol;
     }

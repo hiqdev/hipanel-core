@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
@@ -19,8 +23,9 @@ class RefColumn extends DataColumn
      */
     public $findOptions = [];
 
-    /** @inheritdoc */
-    protected function renderFilterCellContent () {
+    /** {@inheritdoc} */
+    protected function renderFilterCellContent()
+    {
         return RefFilter::widget([
             'attribute'   => $this->getFilterAttribute(),
             'model'       => $this->grid->filterModel,

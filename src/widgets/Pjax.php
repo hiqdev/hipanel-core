@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -14,7 +18,6 @@ use yii\widgets\Breadcrumbs;
 
 class Pjax extends \yii\widgets\Pjax
 {
-
     public function init()
     {
         parent::init();
@@ -23,7 +26,8 @@ class Pjax extends \yii\widgets\Pjax
         }
     }
 
-    public function run () {
+    public function run()
+    {
         if ($this->requiresPjax()) {
             Alert::widget();
             /// We do render breadcrumbs only for the main outer PJAX block
@@ -34,7 +38,8 @@ class Pjax extends \yii\widgets\Pjax
         parent::run();
     }
 
-    public function registerClientScript () {
+    public function registerClientScript()
+    {
         $id = $this->options['id'];
         $this->clientOptions['push'] = $this->enablePushState;
         $this->clientOptions['replace'] = $this->enableReplaceState;
@@ -63,11 +68,12 @@ class Pjax extends \yii\widgets\Pjax
         $view->registerJs('$.pjax.defaults.timeout = 0;');
     }
 
-    public function addBreadcrumbs () {
+    public function addBreadcrumbs()
+    {
         $view = \Yii::$app->getView();
 
         // No need to add breadcrumbs, if they are completely empty
-        if (!isset($view->params['breadcrumbs']) || $view->params['breadcrumbs']->count() == 0) {
+        if (!isset($view->params['breadcrumbs']) || $view->params['breadcrumbs']->count() === 0) {
             return null;
         }
 
@@ -75,11 +81,11 @@ class Pjax extends \yii\widgets\Pjax
         $breadcrumbs = Breadcrumbs::widget([
             'homeLink'     => [
                 'label' => '<i class="fa fa-dashboard"></i> ' . \Yii::t('app', 'Home'),
-                'url'   => '/'
+                'url'   => '/',
             ],
             'encodeLabels' => false,
             'tag'          => 'ol',
-            'links'        => isset($view->params['breadcrumbs']) ? $view->params['breadcrumbs'] : []
+            'links'        => isset($view->params['breadcrumbs']) ? $view->params['breadcrumbs'] : [],
         ]);
         $content = Json::htmlEncode(Html::tag('section', $header . $breadcrumbs, ['class' => 'content-header']));
         \Yii::$app->getView()->registerJs(new JsExpression(<<< JS

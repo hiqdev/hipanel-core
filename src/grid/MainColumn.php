@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
@@ -30,11 +34,11 @@ class MainColumn extends DataColumn
         parent::init();
         $this->noteOptions = ArrayHelper::merge([
             'emptytext' => Yii::t('app', 'set note'),
-            'url'       => Url::to('set-note')
+            'url'       => Url::to('set-note'),
         ], $this->noteOptions);
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected function renderDataCellContent($model, $key, $index)
     {
         $value = parent::renderDataCellContent($model, $key, $index);
@@ -46,20 +50,20 @@ class MainColumn extends DataColumn
     }
 
     /**
-     * Renders editable note field
+     * Renders editable note field.
      *
      * @param $model
      * @param $key
      * @param $index
-     * @return string
      * @throws \Exception
+     * @return string
      */
-    function renderEditableNote($model, $key, $index)
+    public function renderEditableNote($model, $key, $index)
     {
         return '<br>' . Html::tag('span', Yii::t('app', 'Note') . ': ', ['class' => 'bold']) . XEditable::widget([
             'model'         => $model,
             'attribute'     => $this->note === true ? 'note' : $this->note,
-            'pluginOptions' => $this->noteOptions
+            'pluginOptions' => $this->noteOptions,
         ]);
     }
 }

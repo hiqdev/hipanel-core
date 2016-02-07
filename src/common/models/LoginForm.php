@@ -1,11 +1,21 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace common\models;
 
 use Yii;
 use yii\base\Model;
 
 /**
- * Login form
+ * Login form.
  */
 class LoginForm extends Model
 {
@@ -16,7 +26,7 @@ class LoginForm extends Model
     private $_user = false;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -62,7 +72,7 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds user by [[username]].
      *
      * @return User|null
      */

@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -12,7 +16,7 @@ use yii\base\Widget;
 use yii\helpers\Html;
 
 /**
- * GridActionButton displays link-buttons for GridView actions column
+ * GridActionButton displays link-buttons for GridView actions column.
  *
  * Usage:
  * GridActionButton::widget([
@@ -53,18 +57,20 @@ class GridActionButton extends Widget
      */
     public $buttonOptions = [];
 
-    public function run () {
+    public function run()
+    {
         parent::run();
         $this->renderButton();
     }
 
-    private function renderButton () {
+    private function renderButton()
+    {
         $options = ArrayHelper::merge([
             'title'     => Html::encode($this->label),
             'class'     => $this->linkClasses,
-            'data-pjax' => $this->dataPjax
+            'data-pjax' => $this->dataPjax,
         ], $this->buttonOptions);
 
-        print Html::a(sprintf('%s&nbsp;&nbsp;%s', $this->icon, Html::encode($this->label)), $this->url, $options);
+        echo Html::a(sprintf('%s&nbsp;&nbsp;%s', $this->icon, Html::encode($this->label)), $this->url, $options);
     }
 }

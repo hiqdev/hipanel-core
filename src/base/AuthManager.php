@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\base;
 
 use hipanel\helpers\ArrayHelper;
@@ -32,7 +41,7 @@ class AuthManager extends Component
         if (is_array($allowed)) {
             foreach ($allowed as $k) {
                 $k = trim($k);
-                if ($k == $this->type || $k == $this->username) {
+                if ($k === $this->type || $k === $this->username) {
                     return true;
                 }
             }
@@ -144,7 +153,7 @@ class AuthManager extends Component
     public function checkAccess($userId, $permission, $params = [])
     {
         if ($userId !== $this->id) {
-            throw new InvalidParamException("only current user check access is available for the moment");
+            throw new InvalidParamException('only current user check access is available for the moment');
         }
         return $this->hasPermission($permission, $params) || $this->canDo($permission, $params);
     }
@@ -154,5 +163,4 @@ class AuthManager extends Component
         $checker = 'can' . Inflector::id2camel($permission);
         return method_exists($this, $checker) ? $this->$checker($params) : false;
     }
-
 }

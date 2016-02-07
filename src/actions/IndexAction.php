@@ -1,16 +1,23 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\actions;
 
-use Closure;
 use hipanel\base\FilterStorage;
 use hipanel\base\Model;
 use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
- * Class IndexAction
- *
+ * Class IndexAction.
  */
 class IndexAction extends SearchAction
 {
@@ -30,8 +37,8 @@ class IndexAction extends SearchAction
 
         $this->dataProviderOptions = ArrayHelper::merge($this->dataProviderOptions, [
             'pagination' => [
-                'pageSize' => Yii::$app->request->get('per_page') ?: 25
-            ]
+                'pageSize' => Yii::$app->request->get('per_page') ?: 25,
+            ],
         ]);
     }
 
@@ -50,14 +57,14 @@ class IndexAction extends SearchAction
                             'model'        => $this->getSearchModel(),
                             'dataProvider' => $this->getDataProvider(),
                         ];
-                    }
-                ]
-            ]
+                    },
+                ],
+            ],
         ], parent::getDefaultRules());
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDataProvider()
     {

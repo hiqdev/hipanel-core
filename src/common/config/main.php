@@ -1,10 +1,19 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 use yii\helpers\ArrayHelper;
 
 function d($a)
 {
-    print "<pre>";
+    echo '<pre>';
     var_dump($a);
     debug_print_backtrace(0, 3);
     die();
@@ -19,19 +28,19 @@ $params = array_merge(
 /// Overrides default values for 3rd part modules
 Yii::$container->set('kartik\widgets\DatePicker', function ($container, $params, $config) {
     return new \kartik\widgets\DatePicker(ArrayHelper::merge([
-        'separator' => Yii::t('app', '&larr; between &rarr;')
+        'separator' => Yii::t('app', '&larr; between &rarr;'),
     ], $config));
 });
 
 Yii::$container->set('kartik\date\DatePicker', function ($container, $params, $config) {
     return new \kartik\date\DatePicker(ArrayHelper::merge([
-        'separator' => Yii::t('app', '&larr; between &rarr;')
+        'separator' => Yii::t('app', '&larr; between &rarr;'),
     ], $config));
 });
 
 Yii::$container->set('kartik\field\FieldRange', function ($container, $params, $config) {
     return new \kartik\field\FieldRange(ArrayHelper::merge([
-        'separator' => Yii::t('app', '&larr; between &rarr;')
+        'separator' => Yii::t('app', '&larr; between &rarr;'),
     ], $config));
 });
 
@@ -85,8 +94,8 @@ if (YII_DEBUG && !YII_ENV_TEST) {
         'panels' => [
             'hiresource' => [
                 'class' => 'hiqdev\hiart\DebugPanel',
-            ]
-        ]
+            ],
+        ],
     ];
 
     $config['bootstrap']['gii'] = 'gii';

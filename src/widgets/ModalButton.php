@@ -1,56 +1,58 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\Widget;
 use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Modal;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-use yii\bootstrap\Modal;
-use Yii;
 use yii\helpers\Json;
 use yii\web\JsExpression;
 
 /**
- * Class ModalButton
+ * Class ModalButton.
  *
  * Renders [[Modal]] widget in form with custom toggle button.
- *
- * @package hipanel\widgets
  */
 class ModalButton extends Widget
 {
     /**
-     * Toggle button will be placed outside of the form
+     * Toggle button will be placed outside of the form.
      */
     const BUTTON_OUTSIDE = 1;
 
     /**
-     * Toggle button will be rendered inside of the form with [[Modal]] widget
+     * Toggle button will be rendered inside of the form with [[Modal]] widget.
      */
     const BUTTON_IN_MODAL = 2;
 
     /**
-     * Submit with HTML POST request
+     * Submit with HTML POST request.
      */
     const SUBMIT_HTML = 0;
 
     /**
-     * Submit using PJAX
+     * Submit using PJAX.
      */
     const SUBMIT_PJAX = 1;
 
     /**
-     * Submit using AJAX
+     * Submit using AJAX.
      */
     const SUBMIT_AJAX = 2;
 
@@ -110,7 +112,6 @@ class ModalButton extends Widget
      * - label: string, the label of the button. Defaults to 'Show'.
      *
      * The rest of the options will be rendered as the HTML attributes of the button tag.
-     *
      */
     public $modal = [];
 
@@ -129,7 +130,7 @@ class ModalButton extends Widget
     public $ajaxOptions = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws InvalidConfigException
      */
     public function init()
@@ -148,15 +149,15 @@ class ModalButton extends Widget
 
         if (isset($this->body)) {
             if ($this->body instanceof \Closure) {
-                print call_user_func($this->body, $this->model);
+                echo call_user_func($this->body, $this->model);
             } else {
-                print $this->body;
+                echo $this->body;
             }
         }
     }
 
     /**
-     * Initialization of options
+     * Initialization of options.
      * @throws InvalidConfigException
      */
     protected function initOptions()
@@ -187,17 +188,17 @@ class ModalButton extends Widget
                 'options' => [
                     'class' => 'inline',
                     'data' => [
-                        'modal-form' => true
-                    ]
+                        'modal-form' => true,
+                    ],
                 ],
             ];
             if ($this->submit === static::SUBMIT_PJAX) {
                 $formConfig['options'] = ArrayHelper::merge($formConfig['options'], [
-                    'data' => ['pjax' => 1, 'pjax-push' => 0]
+                    'data' => ['pjax' => 1, 'pjax-push' => 0],
                 ]);
             } elseif ($this->submit === static::SUBMIT_AJAX) {
                 $formConfig['options'] = ArrayHelper::merge($formConfig['options'], [
-                    'data' => ['ajax-submit' => 1]
+                    'data' => ['ajax-submit' => 1],
                 ]);
 
                 $this->registerAjaxSubmit();
@@ -229,7 +230,7 @@ class ModalButton extends Widget
     }
 
     /**
-     * Runs widget
+     * Runs widget.
      */
     public function run()
     {
@@ -245,7 +246,7 @@ class ModalButton extends Widget
     }
 
     /**
-     * Renders toggle button
+     * Renders toggle button.
      */
     public function renderButton()
     {
@@ -259,7 +260,7 @@ class ModalButton extends Widget
 
             if ($button['disabled']) {
                 $button = ArrayHelper::merge([
-                    'onClick' => new JsExpression("return false"),
+                    'onClick' => new JsExpression('return false'),
                 ], $button);
             } else {
                 $button = ArrayHelper::merge([
@@ -277,7 +278,7 @@ class ModalButton extends Widget
     }
 
     /**
-     * Constructs model ID, using [[$model]] primary key, or ID of the widget and scenario
+     * Constructs model ID, using [[$model]] primary key, or ID of the widget and scenario.
      * @return string format: ```modal_{id}_{scenario}```
      */
     public function getModalId()
@@ -288,7 +289,7 @@ class ModalButton extends Widget
     }
 
     /**
-     * Begins form
+     * Begins form.
      */
     public function beginForm()
     {
@@ -297,7 +298,7 @@ class ModalButton extends Widget
     }
 
     /**
-     * Ends form
+     * Ends form.
      */
     public function endForm()
     {
@@ -305,7 +306,7 @@ class ModalButton extends Widget
     }
 
     /**
-     * Begins modal widget
+     * Begins modal widget.
      */
     public function beginModal()
     {
@@ -313,7 +314,7 @@ class ModalButton extends Widget
     }
 
     /**
-     * Ends modal widget
+     * Ends modal widget.
      */
     public function endModal()
     {
@@ -321,16 +322,17 @@ class ModalButton extends Widget
     }
 
     /**
-     * Registers JavaScript for ajax submit
+     * Registers JavaScript for ajax submit.
      * @return void
      */
-    public function registerAjaxSubmit() {
+    public function registerAjaxSubmit()
+    {
         $view = Yii::$app->view;
 
         $options = ArrayHelper::merge([
             'type' => new JsExpression("form.attr('method')"),
             'url' => new JsExpression("form.attr('action')"),
-            'data' => new JsExpression("form.serialize()"),
+            'data' => new JsExpression('form.serialize()'),
         ], $this->ajaxOptions);
         $options = Json::encode($options);
 
@@ -347,7 +349,8 @@ JS
         );
     }
 
-    public function registerFooterButtonScript() {
+    public function registerFooterButtonScript()
+    {
         $view = Yii::$app->view;
         $view->registerJs("
             $('form[data-modal-form]').on('beforeSubmit', function (e) {

@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
-use Yii;
 use hipanel\base\Model;
 use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\FontIcon;
+use Yii;
 use yii\base\Event;
 use yii\base\Widget;
 use yii\bootstrap\Modal;
@@ -14,8 +23,7 @@ use yii\helpers\Url;
 
 /**
  * Class BlockModalButton
- * Used for special render of object blocking modal window with activating button
- * @package hipanel\widgets
+ * Used for special render of object blocking modal window with activating button.
  */
 class BlockModalButton extends Widget
 {
@@ -95,7 +103,7 @@ class BlockModalButton extends Widget
     public $footer = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -104,13 +112,13 @@ class BlockModalButton extends Widget
     }
 
     /**
-     * Configures options of widget
+     * Configures options of widget.
      */
     public function initOptions()
     {
         $model = $this->model;
         if ($this->action === null) {
-            $this->action = $model->state === $model::STATE_BLOCKED ? BlockModalButton::ACTION_DISABLE : BlockModalButton::ACTION_ENABLE;
+            $this->action = $model->state === $model::STATE_BLOCKED ? self::ACTION_DISABLE : self::ACTION_ENABLE;
         }
 
         if ($this->scenario === null) {
@@ -143,11 +151,11 @@ class BlockModalButton extends Widget
             $this->header = ArrayHelper::merge([
                 static::ACTION_ENABLE => [
                     'label' => Yii::t('app', 'Are you sure you want to block this object'),
-                    'class' => 'label-danger'
+                    'class' => 'label-danger',
                 ],
                 static::ACTION_DISABLE => [
                     'label' => Yii::t('app', 'Are you sure you want to unblock this object'),
-                    'class' => 'label-info'
+                    'class' => 'label-info',
                 ],
             ], $this->header);
 
@@ -158,8 +166,8 @@ class BlockModalButton extends Widget
             $this->warning = ArrayHelper::merge([
                 static::ACTION_ENABLE => false,
                 static::ACTION_DISABLE => [
-                    'label' => Yii::t('app', 'Check whether all of the violations were eliminated')
-                ]
+                    'label' => Yii::t('app', 'Check whether all of the violations were eliminated'),
+                ],
             ], $this->warning);
 
             $this->warning = $this->warning[$this->action];
@@ -176,7 +184,7 @@ class BlockModalButton extends Widget
                     'label' => Yii::t('app', 'Disable block'),
                     'data-loading-text' => Yii::t('app', 'Disabling block...'),
                     'class' => 'btn btn-info',
-                ]
+                ],
             ], $this->footer);
 
             $this->footer = $this->footer[$this->action];
@@ -184,7 +192,7 @@ class BlockModalButton extends Widget
     }
 
     /**
-     * Begins modal
+     * Begins modal.
      * @throws \yii\base\InvalidConfigException
      */
     protected function modalBegin()
@@ -210,7 +218,7 @@ class BlockModalButton extends Widget
     }
 
     /**
-     * Ends modal
+     * Ends modal.
      */
     protected function modalEnd()
     {
@@ -250,7 +258,7 @@ class BlockModalButton extends Widget
     }
 
     /**
-     * Renders widget
+     * Renders widget.
      */
     public function run()
     {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\actions;
 
 use hipanel\base\Model;
@@ -9,7 +18,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
- * Class ValidateFormAction
+ * Class ValidateFormAction.
  */
 class ValidateFormAction extends Action
 {
@@ -26,7 +35,7 @@ class ValidateFormAction extends Action
     {
         if ($this->model === null) {
             return $this->controller->newModel(array_merge([
-                'scenario' => $this->scenario
+                'scenario' => $this->scenario,
             ], $options));
         } else {
             return Yii::createObject(ArrayHelper::merge(['scenario' => $this->getScenario()], $this->model));
@@ -51,7 +60,7 @@ class ValidateFormAction extends Action
     {
         $result = [];
         foreach ($this->collection->models as $i => $model) {
-            /** @var Model $model */
+            /* @var Model $model */
             $model->validate();
             foreach ($model->getErrors() as $attribute => $errors) {
                 if ($this->validatedInputId instanceof \Closure) {
@@ -66,11 +75,12 @@ class ValidateFormAction extends Action
     }
 
     /**
-     * Sets the $model in the [[collection]]
+     * Sets the $model in the [[collection]].
      *
      * @param Model $model
      */
-    public function setModel($model) {
+    public function setModel($model)
+    {
         $this->collection->setModel($model);
     }
 }

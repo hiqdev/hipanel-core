@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -18,7 +22,7 @@ use yii\helpers\ArrayHelper;
  */
 trait SearchModelTrait
 {
-    static $filterConditions = ['in', 'like', 'gt', 'lt'];
+    public static $filterConditions = ['in', 'like', 'gt', 'lt'];
 
     public function attributes()
     {
@@ -39,15 +43,16 @@ trait SearchModelTrait
     }
 
     /**
-     * Builds all possible $attribute names using [[$filterConditions]]
+     * Builds all possible $attribute names using [[$filterConditions]].
      *
      * @param $attribute
      * @return array
      */
-    protected function buildAttributeConditions($attribute) {
+    protected function buildAttributeConditions($attribute)
+    {
         $attributes = [];
         foreach (array_merge([''], static::$filterConditions) as $condition) {
-            $attributes[] = $attribute . ($condition == '' ? '' : "_$condition");
+            $attributes[] = $attribute . ($condition === '' ? '' : "_$condition");
         }
         return $attributes;
     }
@@ -67,16 +72,16 @@ trait SearchModelTrait
     }
 
     /**
-     * Creates data provider instance with search query applied
+     * Creates data provider instance with search query applied.
      * @param $params
      * @param array $dataProviderConfig
-     * @return ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
+     * @return ActiveDataProvider
      */
     public function search($params, $dataProviderConfig = [])
     {
         /**
-         * @var ActiveRecord $this
+         * @var ActiveRecord
          * @var ActiveRecord $class
          * @var ActiveQuery $query
          */
@@ -103,7 +108,7 @@ trait SearchModelTrait
             preg_match('/^(.*?)(_((?:.(?!_))+))?$/', $attribute, $matches);
 
             /// If the suffix is in the list of acceptable suffix filer conditions
-            if ($matches[3] && in_array($matches[3], static::$filterConditions)) {
+            if ($matches[3] && in_array($matches[3], static::$filterConditions, true)) {
                 $cmp = $matches[3];
                 $attribute = $matches[1];
             } else {

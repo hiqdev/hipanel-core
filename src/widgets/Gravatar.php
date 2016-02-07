@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -30,7 +34,7 @@ class Gravatar extends \cebe\gravatar\Gravatar
         return $this->_emailHash;
     }
 
-    static public function hashEmail($email)
+    public static function hashEmail($email)
     {
         $email = strtolower(trim($email));
         return strpos($email, '@') === false ? $email : md5($email);

@@ -1,18 +1,24 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\actions;
 
-use Closure;
 use Yii;
-use yii\base\Exception;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
- * Class ViewAction
+ * Class ViewAction.
  */
 class ViewAction extends SearchAction
 {
@@ -45,7 +51,7 @@ class ViewAction extends SearchAction
         return parent::run();
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected function getDefaultRules()
     {
         return array_merge([
@@ -63,16 +69,16 @@ class ViewAction extends SearchAction
                             'models' => $this->collection->models,
                             'model' => $this->collection->first,
                         ];
-                    }
-                ]
-            ]
+                    },
+                ],
+            ],
         ], parent::getDefaultRules());
     }
 
     /**
-     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]]
-     * @return ActiveDataProvider
+     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]].
      * @throws BadRequestHttpException
+     * @return ActiveDataProvider
      */
     public function getDataProvider()
     {
@@ -92,7 +98,7 @@ class ViewAction extends SearchAction
         return $this->dataProvider;
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function beforeSave()
     {
         parent::beforeSave();
@@ -101,7 +107,7 @@ class ViewAction extends SearchAction
         }
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function afterPerform()
     {
         if ($this->collection->count() === 0) {

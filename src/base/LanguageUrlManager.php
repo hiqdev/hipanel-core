@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\base;
 
 use Yii;
@@ -65,7 +74,7 @@ class LanguageUrlManager extends UrlManager
     protected $_request;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -85,12 +94,12 @@ class LanguageUrlManager extends UrlManager
             }
             if ($this->_isValidLanguage($language)) {
                 return $this->saveLanguage($language);
-            } else if (!Yii::$app->request->isAjax) {
+            } elseif (!Yii::$app->request->isAjax) {
                 return $this->_redirect();
             }
-        } else if (Yii::$app->request->cookies->has($this->cookieName)) {
+        } elseif (Yii::$app->request->cookies->has($this->cookieName)) {
             if ($this->_isValidLanguage(Yii::$app->request->cookies->getValue($this->cookieName))) {
-//                Yii::$app->language = Yii::$app->request->cookies->getValue($this->cookieName);
+                //                Yii::$app->language = Yii::$app->request->cookies->getValue($this->cookieName);
                 $this->applyLanguage(Yii::$app->request->cookies->getValue($this->cookieName));
                 return;
             } else {
@@ -107,7 +116,7 @@ class LanguageUrlManager extends UrlManager
      */
     public function saveLanguage($language)
     {
-//        Yii::$app->language = $language;
+        //        Yii::$app->language = $language;
         $this->applyLanguage($language);
         $this->saveLanguageIntoCookie($language);
         if (is_callable($this->callback)) {
@@ -127,7 +136,7 @@ class LanguageUrlManager extends UrlManager
         $acceptableLanguages = Yii::$app->getRequest()->getAcceptableLanguages();
         foreach ($acceptableLanguages as $language) {
             if ($this->_isValidLanguage($language)) {
-//                Yii::$app->language = $language;
+                //                Yii::$app->language = $language;
                 $this->applyLanguage($language);
                 $this->saveLanguageIntoCookie($language);
                 return;
@@ -137,7 +146,7 @@ class LanguageUrlManager extends UrlManager
             $pattern = preg_quote(substr($language, 0, 2), '/');
             foreach ($this->languages as $key => $value) {
                 if (preg_match('/^' . $pattern . '/', $value) || preg_match('/^' . $pattern . '/', $key)) {
-//                    Yii::$app->language = $this->_isValidLanguage($key) ? $key : $value;
+                    //                    Yii::$app->language = $this->_isValidLanguage($key) ? $key : $value;
                     $this->applyLanguage($this->_isValidLanguage($key) ? $key : $value);
                     $this->saveLanguageIntoCookie(Yii::$app->language);
                     return;
@@ -155,7 +164,7 @@ class LanguageUrlManager extends UrlManager
         $cookie = new \yii\web\Cookie([
             'name' => $this->cookieName,
             'value' => $language,
-            'expire' => time() + 86400 * $this->expireDays
+            'expire' => time() + 86400 * $this->expireDays,
         ]);
         Yii::$app->response->cookies->add($cookie);
     }
@@ -165,7 +174,7 @@ class LanguageUrlManager extends UrlManager
      */
     private function _redirect()
     {
-        $redirect = Yii::$app->request->absoluteUrl == Yii::$app->request->referrer ? '/' : Yii::$app->request->referrer;
+        $redirect = Yii::$app->request->absoluteUrl === Yii::$app->request->referrer ? '/' : Yii::$app->request->referrer;
         return Yii::$app->response->redirect($redirect);
     }
     /**
@@ -175,32 +184,14 @@ class LanguageUrlManager extends UrlManager
      */
     private function _isValidLanguage($language)
     {
-        return is_string($language) && (isset($this->languages[$language]) || in_array($language, $this->languages));
+        return is_string($language) && (isset($this->languages[$language]) || in_array($language, $this->languages, true));
     }
-
 
     protected function applyLanguage($language)
     {
         Yii::$app->language = $language;
         Yii::$app->formatter->locale = $language;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //
 //

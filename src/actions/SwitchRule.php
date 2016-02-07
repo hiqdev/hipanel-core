@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-hosting
- * @license http://hiqdev.com/hipanel-module-hosting/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -16,7 +20,6 @@ use Yii;
  */
 class SwitchRule extends \yii\base\Component
 {
-
     /**
      * @var Action parent action.
      */
@@ -67,7 +70,7 @@ class SwitchRule extends \yii\base\Component
     }
 
     /**
-     * Run action
+     * Run action.
      *
      * @param string $postfix
      * @return mixed result of the action
@@ -138,7 +141,7 @@ class SwitchRule extends \yii\base\Component
                 }
             }
 
-            if ($method == $requestMethod && $type == $requestType) {
+            if ($method === $requestMethod && $type === $requestType) {
                 return true;
             }
         }

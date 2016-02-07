@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-hosting
- * @license http://hiqdev.com/hipanel-module-hosting/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -10,15 +14,14 @@ namespace hipanel\actions;
 use hipanel\base\Model;
 use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
-use Yii;
 use hiqdev\hiart\ErrorResponseException;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
- * Class SearchAction
+ * Class SearchAction.
  *
- * @package hipanel\actions
- * @var ActiveDataProvider $dataProvider
+ * @var ActiveDataProvider
  */
 class SearchAction extends SwitchAction
 {
@@ -77,7 +80,7 @@ class SearchAction extends SwitchAction
         parent::init();
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected function getDefaultRules()
     {
         return [
@@ -86,9 +89,9 @@ class SearchAction extends SwitchAction
                 'flash' => false,
                 'success' => [
                     'class' => RenderJsonAction::class,
-                    'return' => $this->ajaxResponseFormatter
-                ]
-            ]
+                    'return' => $this->ajaxResponseFormatter,
+                ],
+            ],
         ];
     }
 
@@ -112,7 +115,7 @@ class SearchAction extends SwitchAction
     }
 
     /**
-     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]]
+     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]].
      *
      * @return ActiveDataProvider
      */
@@ -133,7 +136,7 @@ class SearchAction extends SwitchAction
         return $this->dataProvider;
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function perform()
     {
         $this->beforePerform();

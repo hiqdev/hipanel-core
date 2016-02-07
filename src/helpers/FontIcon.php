@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\helpers;
 
 use Yii;
@@ -7,7 +16,6 @@ use yii\helpers\Html;
 
 class FontIcon extends \yii\base\Object
 {
-
     public $tag;
 
     public $content;
@@ -24,7 +32,7 @@ class FontIcon extends \yii\base\Object
         $class = get_called_class();
         return Yii::createObject(compact('class', 'tag', 'name', 'params'));
     }
-    
+
     public function __toString()
     {
         return $this->render();

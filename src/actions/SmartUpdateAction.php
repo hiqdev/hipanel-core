@@ -1,15 +1,24 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\actions;
 
-use Yii;
 use hipanel\base\Model;
 use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
+use Yii;
 use yii\web\BadRequestHttpException;
 
 /**
- * Class SmartUpdateAction
+ * Class SmartUpdateAction.
  * @property string view
  */
 class SmartUpdateAction extends SwitchAction
@@ -49,9 +58,9 @@ class SmartUpdateAction extends SwitchAction
     public $dataProvider;
 
     /**
-     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]]
-     * @return ActiveDataProvider
+     * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]].
      * @throws BadRequestHttpException
+     * @return ActiveDataProvider
      */
     public function getDataProvider()
     {
@@ -92,7 +101,7 @@ class SmartUpdateAction extends SwitchAction
         return $this->_searchModel;
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected function getDefaultRules()
     {
         return array_merge(parent::getDefaultRules(), [
@@ -110,7 +119,7 @@ class SmartUpdateAction extends SwitchAction
                     }
                     return [
                         'models' => $models,
-                        'model' => reset($models)
+                        'model' => reset($models),
                     ];
                 },
             ],
@@ -126,10 +135,10 @@ class SmartUpdateAction extends SwitchAction
                         }
                         return [
                             'models' => $models,
-                            'model' => reset($models)
+                            'model' => reset($models),
                         ];
                     },
-                ]
+                ],
             ],
             'POST html' => [
                 'save'    => true,
@@ -138,9 +147,8 @@ class SmartUpdateAction extends SwitchAction
                     'url'   => function ($action) {
                         return count($action->collection->count()) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
-                            : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id])
-                            ;
-                    }
+                            : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id]);
+                    },
                 ],
                 'error'   => [
                     'class'  => RenderAction::class,
@@ -151,7 +159,7 @@ class SmartUpdateAction extends SwitchAction
                             'model'  => $action->collection->first,
                             'models' => $action->collection->models,
                         ];
-                    }
+                    },
                 ],
             ],
             'POST pjax' => [
@@ -162,7 +170,7 @@ class SmartUpdateAction extends SwitchAction
                     'params' => function ($action, $model) {
                         return ['id' => $model->id];
                     },
-                ]
+                ],
             ],
         ]);
     }
@@ -184,23 +192,26 @@ class SmartUpdateAction extends SwitchAction
     }
 
     /**
-     * Fetches models that will be edited
+     * Fetches models that will be edited.
      *
-     * @return array
      * @throws BadRequestHttpException
+     * @return array
      */
-    public function fetchModels() {
+    public function fetchModels()
+    {
         $this->beforeFetchLoad();
         $dataProvider = $this->getDataProvider();
         $this->beforeFetch();
         return $dataProvider->getModels();
     }
 
-    public function beforeFetchLoad() {
+    public function beforeFetchLoad()
+    {
         $this->trigger(static::EVENT_BEFORE_FETCH_LOAD);
     }
 
-    public function beforeFetch() {
+    public function beforeFetch()
+    {
         $this->trigger(static::EVENT_BEFORE_FETCH);
     }
 }

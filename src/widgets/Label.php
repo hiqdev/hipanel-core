@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -11,7 +15,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
- * Label widget displays bootstrap colored label
+ * Label widget displays bootstrap colored label.
  *
  * Usage:
  * Label::widget([
@@ -20,7 +24,7 @@ use yii\helpers\Html;
  *      'tag'   => 'span',
  * ]);
  *
- * @var string $color
+ * @var string
  */
 class Label extends \yii\base\Widget
 {
@@ -36,7 +40,7 @@ class Label extends \yii\base\Widget
     public $labelOptions = [];
 
     /**
-     * Available types: label, text
+     * Available types: label, text.
      */
     public $type = 'label';
 
@@ -51,7 +55,7 @@ class Label extends \yii\base\Widget
      */
     public $tag = 'span';
 
-    static public function widget($config = [])
+    public static function widget($config = [])
     {
         return parent::widget($config);
     }
@@ -70,7 +74,7 @@ class Label extends \yii\base\Widget
     protected function renderLabel()
     {
         $color = $this->getColor();
-        if ($color == 'none') {
+        if ($color === 'none') {
             echo Html::tag('b', $this->label, $this->noneOptions);
         } else {
             echo Html::tag($this->tag, $this->label, $this->labelOptions);
@@ -94,7 +98,7 @@ class Label extends \yii\base\Widget
 
     public function getCssClass()
     {
-        return $this->type == 'text' ? 'text-bold' : $this->type;
+        return $this->type === 'text' ? 'text-bold' : $this->type;
     }
 
     public function getPrefix()

@@ -1,11 +1,18 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\actions;
 
-use Yii;
-
 /**
- * Class SmartCreateAction
+ * Class SmartCreateAction.
  */
 class SmartCreateAction extends SwitchAction
 {
@@ -20,7 +27,7 @@ class SmartCreateAction extends SwitchAction
         return parent::run();
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected function getDefaultRules()
     {
         return array_merge(parent::getDefaultRules(), [
@@ -43,9 +50,8 @@ class SmartCreateAction extends SwitchAction
                     'url'   => function ($action) {
                         return count($action->collection->models) > 1
                             ? $action->controller->getSearchUrl(['ids' => $action->collection->ids])
-                            : $action->controller->getActionUrl('view', ['id' => $action->model->id])
-                            ;
-                    }
+                            : $action->controller->getActionUrl('view', ['id' => $action->model->id]);
+                    },
                 ],
                 'error'   => [
                     'class'  => RenderAction::class,
@@ -56,7 +62,7 @@ class SmartCreateAction extends SwitchAction
                             'model'  => $action->collection->first,
                             'models' => $action->collection->models,
                         ];
-                    }
+                    },
                 ],
             ],
         ]);

@@ -1,15 +1,19 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
 use hipanel\helpers\ArrayHelper;
-use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\assets\datatables\DataTablesAsset;
+use hiqdev\assets\icheck\iCheckAsset;
 use Yii;
 
 /**
@@ -23,36 +27,36 @@ class GridView extends \hiqdev\higrid\GridView
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $resizableColumns = [
-        'resizeFromBody' => false
+        'resizeFromBody' => false,
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
 //    public $tableOptions = [
 //        'class' => 'table table-bordered table-hover dataTable'
 //    ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $options = [
         'class' => 'dataTables_wrapper form-inline',
-        'role' => 'grid'
+        'role' => 'grid',
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $layout = "<div class='row'><div class='col-xs-12'>{sorter}</div></div><div class=\"table-responsive\">{items}</div>\n<div class='row'><div class='col-xs-6'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-xs-6'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    static protected function defaultColumns()
+    protected static function defaultColumns()
     {
         return [
             'seller_id' => ['class' => 'hipanel\modules\client\grid\SellerColumn'],
@@ -60,17 +64,17 @@ class GridView extends \hiqdev\higrid\GridView
             'checkbox' => ['class' => 'hipanel\grid\CheckboxColumn'],
             'seller' => [
                 'class' => 'hipanel\modules\client\grid\SellerColumn',
-                'attribute' => 'seller_id'
+                'attribute' => 'seller_id',
             ],
             'client' => [
                 'class' => 'hipanel\modules\client\grid\ClientColumn',
-                'attribute' => 'client_id'
+                'attribute' => 'client_id',
             ],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -89,7 +93,7 @@ class GridView extends \hiqdev\higrid\GridView
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     private function registerClientScript()
     {

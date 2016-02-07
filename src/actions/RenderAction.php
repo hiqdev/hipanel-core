@@ -1,21 +1,23 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-hosting
- * @license http://hiqdev.com/hipanel-module-hosting/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
 
 use Closure;
-use Yii;
 
 /**
- * Class RenderAction
+ * Class RenderAction.
  *
  * @property array params that will be passed to the view.
  * Every element can be a callback, which gets the model and $this pointer as arguments
- * @package hipanel\actions
  */
 class RenderAction extends Action
 {
@@ -58,16 +60,16 @@ class RenderAction extends Action
     /**
      * @return string [[view]] or [[scenario]]
      */
-    public function getViewName() {
+    public function getViewName()
+    {
         return $this->view ?: $this->getScenario();
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run()
     {
         return $this->controller->render($this->getViewName(), $this->getParams());
     }
-
 }

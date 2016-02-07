@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
@@ -14,17 +18,19 @@ class BoxedDetailView extends DetailView
     public $boxed = true;
     /**
      * To grid options, for example, you may add something like this for customize boxes:
-     *  'boxOptions' => ['options' => ['class' => 'box-primary']],
+     *  'boxOptions' => ['options' => ['class' => 'box-primary']],.
      * @var array
      */
     public $boxOptions = [];
 
-    public function run() {
-        if ($this->boxed)  {
+    public function run()
+    {
+        if ($this->boxed) {
             Box::begin($this->boxOptions);
-                parent::run();
-            Box::end();
-        } else
             parent::run();
+            Box::end();
+        } else {
+            parent::run();
+        }
     }
 }

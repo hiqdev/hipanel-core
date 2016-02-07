@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
 use hipanel\base\Model;
@@ -7,8 +16,8 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
+use yii\widgets\ActiveForm;
 
 /**
  * Advanced Search widget.
@@ -50,7 +59,7 @@ class AdvancedSearch extends Widget
     protected $_form;
 
     /**
-     * Renders the starting div
+     * Renders the starting div.
      */
     public function init()
     {
@@ -66,12 +75,12 @@ class AdvancedSearch extends Widget
             'action'    => $this->action,
             'method'    => $this->method,
             'options'   => $this->options,
-            'fieldClass'=> AdvancedSearchActiveField::class
+            'fieldClass' => AdvancedSearchActiveField::class,
         ]);
         echo Html::hiddenInput(sprintf('%s[search_form]', $this->model->formName()), 1);
     }
 
-    static public function renderButton()
+    public static function renderButton()
     {
         return Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-info', 'id' => 'advancedsearch-button']);
     }
@@ -79,9 +88,9 @@ class AdvancedSearch extends Widget
     public function run()
     {
         echo Html::beginTag('div', ['class' => 'col-md-12']);
-            echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-info']);
-            echo ' &nbsp; ';
-            echo Html::a(Yii::t('app', 'Clear'), $this->action, ['class' => 'btn btn-default', 'data-params' => ['clear-filters' => true], 'data-method' => 'POST']);
+        echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-info']);
+        echo ' &nbsp; ';
+        echo Html::a(Yii::t('app', 'Clear'), $this->action, ['class' => 'btn btn-default', 'data-params' => ['clear-filters' => true], 'data-method' => 'POST']);
         echo Html::endTag('div');
         $this->_form->end();
         echo Html::endTag('div');
@@ -108,6 +117,6 @@ JS
 
     public function divId()
     {
-        return 'advancedsearch-'.Inflector::camel2id($this->model->formName());
+        return 'advancedsearch-' . Inflector::camel2id($this->model->formName());
     }
 }

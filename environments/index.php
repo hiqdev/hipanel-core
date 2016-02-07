@@ -1,9 +1,19 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 /**
  * The manifest of files that are local to specific environment.
  * This file returns a list of environments that the application
  * may be installed under. The returned data must be in the following
- * format:
+ * format:.
  *
  * ```php
  * return [

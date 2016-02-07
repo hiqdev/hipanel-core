@@ -1,24 +1,31 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 /**
  * Created by PhpStorm.
  * User: tofid
  * Date: 11.02.15
- * Time: 17:59
+ * Time: 17:59.
  */
+
 namespace common\behaviors;
 
-use yii;
+use common\models\File as FileModel;
 use yii\base\Behavior;
 use yii\db\BaseActiveRecord;
-use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
-use common\models\File as FileModel;
 
 class File extends Behavior
 {
-
-
     /**
      * @var string the attribute which holds the attachment.
      */
@@ -42,7 +49,8 @@ class File extends Behavior
     /**
      * @return array
      */
-    public function events() {
+    public function events()
+    {
         return [
             BaseActiveRecord::EVENT_BEFORE_INSERT => 'saveUploadedFile',
             BaseActiveRecord::EVENT_BEFORE_UPDATE => 'saveUploadedFile',
@@ -50,13 +58,14 @@ class File extends Behavior
     }
 
     /**
-     * Event handler for beforeSave
+     * Event handler for beforeSave.
      * @param \yii\base\ModelEven|boolean $event
      */
-    public function saveUploadedFile($event) {
+    public function saveUploadedFile($event)
+    {
         $model = $this->owner;
         $arr_ids = [];
-        if (in_array($model->scenario, $this->scenarios)) {
+        if (in_array($model->scenario, $this->scenarios, true)) {
             $this->_file = UploadedFile::getInstances($model, $this->attribute);
             if (is_array($this->_file) && !empty($this->_file)) {
                 $this->owner->{$this->savedAttribute} = implode(',', FileModel::fileSave($this->_file));

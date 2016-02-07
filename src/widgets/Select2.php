@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -17,7 +21,6 @@ use yii\web\JsExpression;
 
 class Select2 extends Widget
 {
-
     public $settings = [];
 
     public $language;
@@ -32,7 +35,8 @@ class Select2 extends Widget
 
     public $url;
 
-    private function _defaultSettings () {
+    private function _defaultSettings()
+    {
         return [
             'allowClear'         => true,
             'placeholder'        => Yii::t('app', 'Type here ...'),
@@ -52,14 +56,15 @@ class Select2 extends Widget
                 }).done(function(data) {
                     callback(data.results);
                 });
-            }')
+            }'),
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function init () {
+    public function init()
+    {
         parent::init();
         $this->_initOptions();
         $this->_initSettings();
@@ -72,20 +77,21 @@ class Select2 extends Widget
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function run () {
+    public function run()
+    {
         $this->registerClientScript();
 
         return Html::activeTextInput($this->model, $this->attribute, $this->options);
         // return Html::textInput($this->attribute, $_GET[$this->attribute], $this->options);
-
     }
 
     /**
      * Register widget asset.
      */
-    public function registerClientScript() {
+    public function registerClientScript()
+    {
         $view = $this->getView();
 
         $selector = '#' . $this->options['id'];
@@ -97,13 +103,13 @@ class Select2 extends Widget
         $view->registerJs(new JsExpression("$('$selector').select2($settings);"), \yii\web\View::POS_READY);
     }
 
-    private function _initOptions () {
+    private function _initOptions()
+    {
         $this->options['id'] = $this->attribute;
     }
 
-    private function _initSettings () {
+    private function _initSettings()
+    {
         $this->settings = ArrayHelper::merge($this->_defaultSettings(), $this->settings);
     }
 }
-
-?>

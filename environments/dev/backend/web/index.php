@@ -1,11 +1,21 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'dev');
 
-require(__DIR__ . '/../../vendor/autoload.php');
-require(__DIR__ . '/../../vendor/yiisoft/yii2/Yii.php');
-require(__DIR__ . '/../../common/config/bootstrap.php');
-require(__DIR__ . '/../config/bootstrap.php');
+require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/yiisoft/yii2/Yii.php';
+require __DIR__ . '/../../common/config/bootstrap.php';
+require __DIR__ . '/../config/bootstrap.php';
 
 $config = yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/../../common/config/main.php'),

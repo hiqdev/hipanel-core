@@ -1,12 +1,20 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\log;
 
 use Yii;
 
 /**
- * Class EmailTarget
- * @package hipanel\log
+ * Class EmailTarget.
  */
 class EmailTarget extends \yii\log\EmailTarget
 {
@@ -26,7 +34,7 @@ class EmailTarget extends \yii\log\EmailTarget
             $url = Yii::$app->getUrlManager()->createAbsoluteUrl([
                 '/debug/default/view',
                 'panel' => 'log',
-                'tag' => Yii::$app->getModule('debug')->logTarget->tag
+                'tag' => Yii::$app->getModule('debug')->logTarget->tag,
             ]);
             $body .= 'See debug log ' . $url . "\n\n";
         }

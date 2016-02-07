@@ -1,11 +1,17 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
-use Yii;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
-use yii\helpers\Html;
 
 /**
  * Class Menu
@@ -14,12 +20,12 @@ use yii\helpers\Html;
 class Menu extends \hiqdev\menumanager\widgets\Menu
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $linkTemplate = '<a href="{url}">{icon} <span>{label}</span> {arrow}</a>';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $submenuTemplate = "\n<ul class='treeview-menu'>\n{items}\n</ul>\n";
 
@@ -29,7 +35,7 @@ class Menu extends \hiqdev\menumanager\widgets\Menu
     public $treeClass = 'treeview';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $activateParents = true;
 

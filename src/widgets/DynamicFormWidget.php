@@ -1,10 +1,20 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
-class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget {
-
-    public function registerAssets() {
+class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
+{
+    public function registerAssets()
+    {
         parent::registerAssets();
         $this->view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {

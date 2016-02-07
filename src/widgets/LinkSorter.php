@@ -1,10 +1,15 @@
 <?php
 
-namespace hipanel\widgets;
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
 
-use Yii;
-use yii\helpers\Html;
-use yii\helpers\Url;
+namespace hipanel\widgets;
 
 class LinkSorter extends \yii\widgets\LinkSorter
 {

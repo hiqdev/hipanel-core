@@ -1,18 +1,28 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace frontend\models;
 
 use common\models\User;
 use yii\base\Model;
 
 /**
- * Password reset request form
+ * Password reset request form.
  */
 class PasswordResetRequestForm extends Model
 {
     public $email;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -23,7 +33,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'exist',
                 'targetClass' => '\common\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
-                'message' => 'There is no user with such email.'
+                'message' => 'There is no user with such email.',
             ],
         ];
     }

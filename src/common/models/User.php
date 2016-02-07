@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace common\models;
 
 use Yii;
@@ -8,7 +18,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 
 /**
- * User model
+ * User model.
  *
  * @property integer $id
  * @property string $username
@@ -33,21 +43,24 @@ class User extends Model implements IdentityInterface
 
     private static $_users;
 
-
-    public function save () {
+    public function save()
+    {
         static::$_users[$this->id]  = $this;
-        Yii::$app->session->set('identity:'.$this->id, $this);
+        Yii::$app->session->set('identity:' . $this->id, $this);
     }
 
-    public static function findOne ($id) {
+    public static function findOne($id)
+    {
         $find = static::$_users[$id];
-        if ($find) return $find;
+        if ($find) {
+            return $find;
+        }
         $find = Yii::$app->session->get('identity:' . $id);
         return $find;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -55,7 +68,7 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
@@ -65,7 +78,7 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -78,18 +91,20 @@ class User extends Model implements IdentityInterface
         ];
     }
 
-    /** @inheritdoc */
-    public static function findIdentity ($id) {
+    /** {@inheritdoc} */
+    public static function findIdentity($id)
+    {
         return static::findOne($id);
     }
 
-    /** @inheritdoc */
-    public function getAccessToken () {
+    /** {@inheritdoc} */
+    public function getAccessToken()
+    {
         return Yii::$app->authClientCollection->getClient()->getAccessToken()->getParam('access_token');
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
@@ -97,7 +112,7 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * Finds user by username
+     * Finds user by username.
      *
      * @param string $username
      * @return static|null
@@ -108,7 +123,7 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * Finds user by password reset token
+     * Finds user by password reset token.
      *
      * @param string $token password reset token
      * @return static|null
@@ -126,7 +141,7 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * Finds out if password reset token is valid
+     * Finds out if password reset token is valid.
      *
      * @param string $token password reset token
      * @return boolean
@@ -143,32 +158,34 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getId () {
+    public function getId()
+    {
         return $this->id;
     }
 
     public function is($key)
     {
-        return $this->id == $key || $this->username == $key;
+        return $this->id === $key || $this->username === $key;
     }
 
     public function not($key)
     {
-        return $this->id != $key && $this->username != $key;
+        return $this->id !== $key && $this->username !== $key;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getAuthKey () {
+    public function getAuthKey()
+    {
         return 'DUMMY';
         //return $this->auth_key;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function validateAuthKey($authKey)
     {
@@ -176,7 +193,7 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * Validates password
+     * Validates password.
      *
      * @param string $password password to validate
      * @return boolean if password provided is valid for current user
@@ -187,7 +204,7 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * Generates password hash from password and sets it to the model
+     * Generates password hash from password and sets it to the model.
      *
      * @param string $password
      */
@@ -197,15 +214,16 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * Generates "remember me" authentication key
+     * Generates "remember me" authentication key.
      */
-    public function generateAuthKey () {
+    public function generateAuthKey()
+    {
         $this->auth_key = 'DUMMY';
         //$this->auth_key = Yii::$app->security->generateRandomString();
     }
 
     /**
-     * Generates new password reset token
+     * Generates new password reset token.
      */
     public function generatePasswordResetToken()
     {
@@ -213,7 +231,7 @@ class User extends Model implements IdentityInterface
     }
 
     /**
-     * Removes password reset token
+     * Removes password reset token.
      */
     public function removePasswordResetToken()
     {

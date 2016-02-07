@@ -1,11 +1,11 @@
 <?php
 
-use yii\helpers\Html;
+use frontend\components\widgets\Alert;
+use hipanel\frontend\assets\AppAsset;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
-use hipanel\frontend\assets\AppAsset;
-use frontend\components\widgets\Alert;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -45,7 +45,7 @@ use frontend\components\widgets\Alert;
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
+                    'linkOptions' => ['data-method' => 'post'],
                 ];
             }
             echo Nav::widget([

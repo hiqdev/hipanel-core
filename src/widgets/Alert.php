@@ -1,18 +1,21 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
 use hipanel\helpers\ArrayHelper;
 
-
 /**
  * Alert widget renders a message from session flash. All flash messages are displayed
- * in the sequence they were assigned using setFlash. You can set message as following:
+ * in the sequence they were assigned using setFlash. You can set message as following:.
  *
  * ```php
  * \Yii::$app->getSession()->setFlash('error', 'This is the message');
@@ -39,7 +42,7 @@ class Alert extends \yii\bootstrap\Widget
         'danger' => 'alert-danger',
         'success' => 'alert-success',
         'info' => 'alert-info',
-        'warning' => 'alert-warning'
+        'warning' => 'alert-warning',
     ];
 
     /**
@@ -71,12 +74,12 @@ class Alert extends \yii\bootstrap\Widget
 
         foreach ($flashes as $type => $data) {
             if (isset($this->alertTypes[$type])) {
-                $data = (array)$data;
+                $data = (array) $data;
 
                 foreach ($data as $message) {
                     $message = $this->normalizeMessage($message);
                     $notifications[] = ArrayHelper::merge([
-                        'type' => $type
+                        'type' => $type,
                     ], $message);
                 }
                 $session->removeFlash($type);

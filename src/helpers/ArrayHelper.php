@@ -1,34 +1,42 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\helpers;
 
 class ArrayHelper extends \yii\helpers\ArrayHelper
 {
-    static public function make_sub ($array, $v_key, $k_key = null) {
+    public static function make_sub($array, $v_key, $k_key = null)
+    {
         $res = [];
         foreach ($array as $k => $v) {
             $res[$k][$v_key] = $v;
         }
-        if ($k_key) foreach ($array as $k => $v) {
-            $res[$k][$k_key] = $k;
+        if ($k_key) {
+            foreach ($array as $k => $v) {
+                $res[$k][$k_key] = $k;
+            }
         }
 
         return $res;
     }
 
     /**
-     * Parses data, exploding the string by comma, trying to create array
+     * Parses data, exploding the string by comma, trying to create array.
      *
      * @param $string
      * @param string $delimiter
      * @return array
      */
-    static public function csplit ($string, $delimiter = ',') {
+    public static function csplit($string, $delimiter = ',')
+    {
         if (is_array($string)) {
             return $string;
         }
@@ -43,7 +51,7 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
         return $res;
     }
 
-    static public function ksplit($string, $delimiter = ',')
+    public static function ksplit($string, $delimiter = ',')
     {
         if (is_array($string)) {
             return $string;
@@ -68,7 +76,8 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
      * @return array
      * @see getValue()
      */
-    static public function getValues ($array, $keys = []) {
+    public static function getValues($array, $keys = [])
+    {
         $result = [];
         foreach ($keys as $key) {
             $result[$key] = static::getValue($array, $key);
@@ -76,5 +85,4 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
 
         return $result;
     }
-
 }

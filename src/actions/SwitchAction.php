@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-hosting
- * @license http://hiqdev.com/hipanel-module-hosting/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -10,13 +14,11 @@ namespace hipanel\actions;
 use hiqdev\hiart\Collection;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
-use Yii;
 
 /**
- * Class SwitchAction
+ * Class SwitchAction.
  *
  * @property Collection|mixed collection
- * @package hipanel\actions
  */
 class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \yii\base\Arrayable
 {
@@ -38,7 +40,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
      */
     public $rule;
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function init()
     {
         parent::init();
@@ -101,5 +103,4 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
 
         return parent::perform();
     }
-
 }

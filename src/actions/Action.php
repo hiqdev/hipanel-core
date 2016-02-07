@@ -1,17 +1,21 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-hosting
- * @license http://hiqdev.com/hipanel-module-hosting/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
 
-use hipanel\base\Controller;
-use hiqdev\hiart\ErrorResponseException;
 use Closure;
-use Yii;
+use hipanel\base\Controller;
 use hiqdev\hiart\Collection;
+use hiqdev\hiart\ErrorResponseException;
+use Yii;
 use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
 
@@ -71,7 +75,7 @@ class Action extends \yii\base\Action
     protected $_collection;
 
     /**
-     * Setter for the collection
+     * Setter for the collection.
      *
      * @param array $collection config for the collection
      */
@@ -81,7 +85,7 @@ class Action extends \yii\base\Action
     }
 
     /**
-     * Gets the instance of the collection
+     * Gets the instance of the collection.
      *
      * @return Collection
      */
@@ -93,7 +97,7 @@ class Action extends \yii\base\Action
 
         if (!is_object($this->_collection)) {
             $action = $this->controller->action;
-            if ($action instanceof Action) {
+            if ($action instanceof self) {
                 $scenario = $action->getScenario();
             } else {
                 $scenario = $action->id;
@@ -103,7 +107,7 @@ class Action extends \yii\base\Action
                 'class' => 'hiqdev\hiart\Collection',
                 'model' => $this->controller->newModel(),
                 'scenario' => $scenario,
-            ], (array)$this->_collection));
+            ], (array) $this->_collection));
         }
         return $this->_collection;
     }
@@ -114,12 +118,13 @@ class Action extends \yii\base\Action
      */
     public $collectionLoader;
 
-    public function beforeLoad() {
+    public function beforeLoad()
+    {
         $this->trigger(static::EVENT_BEFORE_LOAD);
     }
 
     /**
-     * Loads data to the [[collection]]
+     * Loads data to the [[collection]].
      *
      * @param array $data
      */
@@ -134,12 +139,13 @@ class Action extends \yii\base\Action
         }
     }
 
-    public function beforeSave() {
+    public function beforeSave()
+    {
         $this->trigger(static::EVENT_BEFORE_SAVE);
     }
 
     /**
-     * Saves stored [[collection]]
+     * Saves stored [[collection]].
      *
      * @return bool
      */
@@ -149,11 +155,13 @@ class Action extends \yii\base\Action
         return $this->collection->save();
     }
 
-    public function beforePerform() {
+    public function beforePerform()
+    {
         $this->trigger(static::EVENT_BEFORE_PERFORM);
     }
 
-    public function afterPerform() {
+    public function afterPerform()
+    {
         $this->trigger(static::EVENT_AFTER_PERFORM);
     }
 
@@ -204,11 +212,11 @@ class Action extends \yii\base\Action
      */
     public function prepareData($data = [])
     {
-        return (array)($this->data instanceof Closure ? call_user_func($this->data, $this, $data) : $this->data);
+        return (array) ($this->data instanceof Closure ? call_user_func($this->data, $this, $data) : $this->data);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUniqueId()
     {
@@ -217,7 +225,7 @@ class Action extends \yii\base\Action
 
     /**
      * Returns text for flash messages, search in parent actions.
-     * Used by [[addFlash()]]
+     * Used by [[addFlash()]].
      *
      * @param $type string
      * @return string
@@ -234,14 +242,14 @@ class Action extends \yii\base\Action
     }
 
     /**
-     * Adds flash message
+     * Adds flash message.
      *
      * @param string $type the type of flash
      * @param string $error the text of error
      */
     public function addFlash($type, $error = null)
     {
-        if ($type == 'error' && is_string($error) && !empty($error)) {
+        if ($type === 'error' && is_string($error) && !empty($error)) {
             $text = Yii::t('app', $error);
         } else {
             $text = $this->getFlashText($type);
@@ -252,8 +260,7 @@ class Action extends \yii\base\Action
         }
 
         Yii::$app->session->addFlash($type, [
-            'text' => $text
+            'text' => $text,
         ]);
     }
-
 }

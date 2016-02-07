@@ -1,26 +1,31 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
 use hipanel\widgets\Select2;
-use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 class EmailColumn extends DataColumn
 {
-    public function init () {
+    public function init()
+    {
         parent::init();
-        \Yii::configure($this,[
+        \Yii::configure($this, [
             'attribute'             => 'email',
             'label'                 => \Yii::t('app', 'Email'),
             'format'                => 'html',
             'value'                 => function ($model) {
-                return Html::a($model->client ? : $model->login, ['/client/contact/view', 'id' => $model->client ? $model->client_id : $model->id ]);
+                return Html::a($model->client ?: $model->login, ['/client/contact/view', 'id' => $model->client ? $model->client_id : $model->id]);
             },
             'filterInputOptions'    => ['email' => 'email'],
             'filter'                => Select2::widget([

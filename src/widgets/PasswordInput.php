@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -41,9 +45,10 @@ class PasswordInput extends Widget
     public $randomOptions = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function init () {
+    public function init()
+    {
         parent::init();
 
         $this->inputOptions  = ArrayHelper::merge(['class' => 'form-control'], $this->inputOptions);
@@ -52,13 +57,13 @@ class PasswordInput extends Widget
             'medium'   => ['label' => Yii::t('app', 'Medium'), 'length' => 10],
             'strong'   => ['label' => Yii::t('app', 'Strong'), 'length' => 14],
         ];
-
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function run () {
+    public function run()
+    {
         $this->registerClientScript();
 
         $html = Html::activePasswordInput($this->model, $this->attribute, $this->inputOptions);
@@ -71,7 +76,7 @@ class PasswordInput extends Widget
             $html .= Html::button(Yii::t('app', 'Random') . '&nbsp;<span class="caret"></span>', [
                 'class'         => 'btn btn-default dropdown-toggle' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
                 'data-toggle'   => 'dropdown',
-                'aria-expanded' => 'false'
+                'aria-expanded' => 'false',
             ]);
             $html .= Html::ul($this->randomOptions, [
                 'class' => 'dropdown-menu',
@@ -80,11 +85,11 @@ class PasswordInput extends Widget
                     return Html::tag('li', Html::a($item['label'], '#', [
                         'data'  => [
                             'length'       => $item['length'],
-                            'specialchars' => $item['specialchars']
+                            'specialchars' => $item['specialchars'],
                         ],
-                        'class' => 'random-passgen'
+                        'class' => 'random-passgen',
                     ]));
-                }
+                },
             ]);
         }
         $html .= '</div>';
@@ -95,7 +100,8 @@ class PasswordInput extends Widget
     /**
      * Register widget asset.
      */
-    public function registerClientScript () {
+    public function registerClientScript()
+    {
         $view     = $this->getView();
         $selector = '#' . $this->id;
         $view->registerJs(new JsExpression(<<< JS
@@ -140,5 +146,3 @@ JS
         return true;
     }
 }
-
-?>

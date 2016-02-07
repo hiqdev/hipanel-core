@@ -1,16 +1,24 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\base;
 
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
-use yii\helpers\StringHelper;
 
 /**
  * Class FilterStorage
  * The class manages the GridView filters storage to save filters between pages.
- * Usage example:
+ * Usage example:.
  *
  * ```php
  * $filterStorage = new FilterStorage([
@@ -22,8 +30,6 @@ use yii\helpers\StringHelper;
  * $filters = $filterStorage->get(); // Gets the array of filters according to the map, listed above
  * $filterStorage->set(Yii::$app->request->get('MyModel', [])); // Updates saved filters from the GET request.
  * ```
- *
- * @package hipanel\base
  */
 class FilterStorage extends Component
 {
@@ -36,10 +42,10 @@ class FilterStorage extends Component
     public $map = [];
 
     /**
-     * Collects the filters according to the [[map]]
+     * Collects the filters according to the [[map]].
      *
-     * @return array key-value pairs of attributes and filters
      * @throws InvalidConfigException
+     * @return array key-value pairs of attributes and filters
      * @see map
      */
     public function get()
@@ -55,7 +61,7 @@ class FilterStorage extends Component
     }
 
     /**
-     * Sets the filters to the storage according to the [[map]]
+     * Sets the filters to the storage according to the [[map]].
      *
      * @param $filters
      * @throws InvalidConfigException
@@ -76,7 +82,7 @@ class FilterStorage extends Component
     }
 
     /**
-     * Clears filters for all the attributes, described in the [[map]]
+     * Clears filters for all the attributes, described in the [[map]].
      *
      * @void
      */
@@ -89,7 +95,7 @@ class FilterStorage extends Component
 
     /**
      * Saves the $value as the $key.
-     * If the value is an empty string or null, the $key will be removed from the storage
+     * If the value is an empty string or null, the $key will be removed from the storage.
      *
      * @param $key
      * @param $value
@@ -107,7 +113,7 @@ class FilterStorage extends Component
     }
 
     /**
-     * Returns a value by a specific $key
+     * Returns a value by a specific $key.
      *
      * @param $key
      * @return null|mixed
@@ -119,7 +125,7 @@ class FilterStorage extends Component
     }
 
     /**
-     * Returns the array from the filter storage
+     * Returns the array from the filter storage.
      * @return array
      */
     public function getStorage()
@@ -128,7 +134,7 @@ class FilterStorage extends Component
     }
 
     /**
-     * Saves the $storage to the session
+     * Saves the $storage to the session.
      *
      * @param array $storage
      */

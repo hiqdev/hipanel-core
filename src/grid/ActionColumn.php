@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
@@ -30,9 +34,10 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $visibleButtonsCount = 1;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function init () {
+    public function init()
+    {
         if ($this->header === null) {
             $this->header = Yii::t('app', 'Actions');
         }
@@ -42,7 +47,8 @@ class ActionColumn extends \yii\grid\ActionColumn
         $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
     }
 
-    public function getCountButtons () {
+    public function getCountButtons()
+    {
         return preg_match_all('/\\{([\w\-\/]+)\\}/', $this->template);
     }
 
@@ -60,7 +66,8 @@ class ActionColumn extends \yii\grid\ActionColumn
         ');
     }
 
-    public function renderFirstButton ($item, $index) {
+    public function renderFirstButton($item, $index)
+    {
         return ($this->getCountButtons() > $this->visibleButtonsCount) ? $item . '<button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
@@ -68,14 +75,16 @@ class ActionColumn extends \yii\grid\ActionColumn
             <ul class="dropdown-menu pull-right" role="menu">' : $item;
     }
 
-    public function renderOtherButtons ($item) {
+    public function renderOtherButtons($item)
+    {
         return '<li>' . $item . '</li>';
     }
 
     /**
      * Initializes the default button rendering callbacks.
      */
-    protected function initDefaultButtons () {
+    protected function initDefaultButtons()
+    {
         if (!isset($this->buttons['view'])) {
             $this->buttons['view'] = function ($url, $model, $key) {
                 $options = array_merge([
@@ -118,9 +127,10 @@ class ActionColumn extends \yii\grid\ActionColumn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    protected function renderDataCellContent ($model, $key, $index) {
+    protected function renderDataCellContent($model, $key, $index)
+    {
         return preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) use ($model, $key, $index) {
             static $renderedCount = 0;
             $name = $matches[1];
@@ -137,7 +147,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $url          = $this->createUrl($name, $model, $key, $index);
                 $renderedItem = call_user_func($this->buttons[$name], $url, $model, $key);
                 $result       = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem, $index) : $this->renderOtherButtons($renderedItem);
-                $renderedCount++;
+                ++$renderedCount;
 
                 return $result;
             } else {

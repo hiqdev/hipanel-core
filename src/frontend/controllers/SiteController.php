@@ -1,33 +1,40 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace frontend\controllers;
 
-use Yii;
 use common\models\User;
-use common\models\LoginForm;
+use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use Yii;
 use yii\base\InvalidParamException;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\helpers\Url;
 
 /**
- * Site controller
+ * Site controller.
  */
 class SiteController extends Controller
 {
-//    public $layout = 'site';
+    //    public $layout = 'site';
 
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','lockscreen'],
+                'only' => ['logout', 'signup', 'lockscreen'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -35,7 +42,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','lockscreen'],
+                        'actions' => ['logout', 'lockscreen'],
                         'roles' => ['@'],
                         'allow' => true,
                     ],
@@ -53,9 +60,10 @@ class SiteController extends Controller
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function actions () {
+    public function actions()
+    {
         return [
             'auth' => [
                 'class' => 'yii\authclient\AuthAction',
@@ -71,10 +79,13 @@ class SiteController extends Controller
         ];
     }
 
-    public function successCallback ($client) {
+    public function successCallback($client)
+    {
         $attributes = $client->getUserAttributes();
-        $user = new User;
-        foreach ($user->attributes() as $k) $user->{$k} = $attributes[$k];
+        $user = new User();
+        foreach ($user->attributes() as $k) {
+            $user->{$k} = $attributes[$k];
+        }
         $user->save();
         Yii::$app->user->login($user, 3600 * 24 * 30);
     }
@@ -85,12 +96,13 @@ class SiteController extends Controller
         // return $this->render('index');
     }
 
-    public function actionLockscreen ()
+    public function actionLockscreen()
     {
         return $this->render('lockscreen');
     }
 
-    public function actionLogin () {
+    public function actionLogin()
+    {
         if (!Yii::$app->user->isGuest) {
             return $this->redirect(['/hipanel/index']);
         };
@@ -98,22 +110,24 @@ class SiteController extends Controller
         return $this->redirect(['/site/auth', 'authclient' => 'hiam']);
     }
 
-    public function actionProfile () {
+    public function actionProfile()
+    {
         return $this->redirect(['@client/view', 'id' => Yii::$app->user->identity->id]);
     }
 
-    public function actionLogout () {
+    public function actionLogout()
+    {
         $back = Yii::$app->request->getHostInfo();
-        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/logout',compact('back'));
+        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/logout', compact('back'));
         Yii::$app->user->logout();
 
         return Yii::$app->response->redirect($url);
-
     }
 
-    public function actionSignup () {
+    public function actionSignup()
+    {
         $back = Yii::$app->request->getHostInfo();
-        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/signup',compact('back'));
+        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/signup', compact('back'));
 
         return Yii::$app->response->redirect($url);
     }

@@ -1,21 +1,23 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
 use Yii;
-use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
 class RequestState extends Widget
 {
-
     public $module;
 
     /**
@@ -31,9 +33,10 @@ class RequestState extends Widget
     /**
      * @var string default selector of wrapper with state labels. Will be passed to JS plugin call.
      */
-    public $elementSelector = "#content-pjax";
+    public $elementSelector = '#content-pjax';
 
-    public function init () {
+    public function init()
+    {
         parent::init();
         if ($this->model->request_state_label) {
             $this->model->request_state_label = Yii::t('app', $this->model->request_state_label);
@@ -48,10 +51,11 @@ class RequestState extends Widget
         }
     }
 
-    public function run () {
+    public function run()
+    {
         if ($this->model->request_state) {
             $icon = Html::tag('i', '', [
-                'class' => ($this->model->request_state != 'error') ? 'fa fa-circle-o-notch fa-spin' : 'fa fa-exclamation-triangle text-danger'
+                'class' => ($this->model->request_state !== 'error') ? 'fa fa-circle-o-notch fa-spin' : 'fa fa-exclamation-triangle text-danger',
             ]);
 
             $res = Html::tag('span', $icon . ' ' . $this->model->request_state_label, [
@@ -60,8 +64,8 @@ class RequestState extends Widget
                     'id'         => $this->model->id,
                     'module'     => $this->module,
                     'norm_state' => $this->model->state_label,
-                    'with_href'  => 0
-                ]
+                    'with_href'  => 0,
+                ],
             ]);
         } else {
             $res = Html::tag('span', $this->model->state_label);
@@ -76,4 +80,3 @@ class RequestState extends Widget
         return $res;
     }
 }
-

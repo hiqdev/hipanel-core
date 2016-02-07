@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\grid;
 
 use hipanel\base\Model;
@@ -7,8 +16,7 @@ use Yii;
 use yii\helpers\Html;
 
 /**
- * Class CurrencyColumn
- * @package hipanel\grid
+ * Class CurrencyColumn.
  */
 class CurrencyColumn extends DataColumn
 {
@@ -38,7 +46,6 @@ class CurrencyColumn extends DataColumn
     }
 
     /**
-     *
      * @param Model $model
      * @param mixed $key
      * @param int $index
@@ -47,7 +54,7 @@ class CurrencyColumn extends DataColumn
     public function getDataCellValue($model, $key, $index)
     {
         $value = $model->getAttribute($this->attribute);
-        $color = $value == 0 ? 'primary' : 'success';
+        $color = $value === 0 ? 'primary' : 'success';
 
         if ($value < 0) {
             $color = 'warning';

@@ -1,13 +1,22 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace frontend\models;
 
 use common\models\User;
 use yii\base\InvalidParamException;
 use yii\base\Model;
-use Yii;
 
 /**
- * Password reset form
+ * Password reset form.
  */
 class ResetPasswordForm extends Model
 {
@@ -38,7 +47,7 @@ class ResetPasswordForm extends Model
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {

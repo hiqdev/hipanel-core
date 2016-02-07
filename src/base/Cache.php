@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\base;
 
 use Closure;
@@ -8,14 +17,15 @@ use ReflectionFunction;
 class Cache extends \yii\caching\FileCache
 {
     /**
-     * Caches a [[\Closure]] call, invalidates on timeout
+     * Caches a [[\Closure]] call, invalidates on timeout.
      *
      * @param $timeout int seconds
      * @param array $params an array of params that will be passed to the $func
      * @param Closure $func the function that will be called
      * @return mixed
      */
-    public function getTimeCached ($timeout, array $params, Closure $func) {
+    public function getTimeCached($timeout, array $params, Closure $func)
+    {
         $key = array_merge([__CLASS__, ReflectionFunction::export($func, true)], $params);
         $res = $this->get($key);
         if ($res === false) {
@@ -46,5 +56,4 @@ class Cache extends \yii\caching\FileCache
         return $res;
     }
 */
-
 }

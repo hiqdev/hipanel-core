@@ -1,17 +1,25 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
 use hipanel\base\Model;
-use Yii;
-use yii\helpers\Html;
 use hipanel\helpers\FontIcon;
+use yii\helpers\Html;
 
 /**
- * Class SettingsModal. Render AjaxModal, created specially to render on view page
- * @package hipanel\widgets
+ * Class SettingsModal. Render AjaxModal, created specially to render on view page.
  */
-class SettingsModal extends AjaxModal {
+class SettingsModal extends AjaxModal
+{
     /**
      * @var Model
      */

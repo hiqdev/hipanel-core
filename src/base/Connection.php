@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\base;
 
 use Yii;
@@ -7,7 +16,7 @@ use Yii;
 class Connection extends \hiqdev\hiart\Connection
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {

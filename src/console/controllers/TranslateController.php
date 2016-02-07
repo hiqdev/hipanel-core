@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace console\controllers;
 
 use Stichoza\GoogleTranslate\TranslateClient;
@@ -11,8 +21,7 @@ use yii\helpers\VarDumper;
 
 /**
  * Usage: ./yii translate/google_extract /home/tofid/www/hipanel.dev/common/config/i18n.php
- * Class TranslateController
- * @package console\controllers
+ * Class TranslateController.
  */
 class TranslateController extends MessageController
 {
@@ -20,7 +29,7 @@ class TranslateController extends MessageController
 
     public function actionIndex($message = 'hello {world} apple beta {gamma {horse, cat}} this {mysite} this is a draw {apple {beta,{cat,dog} dog} house} farm')
     {
-//        echo GoogleTranslate::staticTranslate('hello world', "en", "ru") . "\n";
+        //        echo GoogleTranslate::staticTranslate('hello world', "en", "ru") . "\n";
         echo TranslateClient::translate('en', 'ru', 'Hello again') . "\n";
         $message = 'The image "{file}" is too large. The height cannot be larger than {limit, number} {limit, plural, one{pixel} other{pixels}}.';
         print_r($this->parse_safe_translate($message));
@@ -49,7 +58,7 @@ class TranslateController extends MessageController
      */
     public function actionGoogleExtract($configFile = null)
     {
-        $configFile = Yii::getAlias($configFile ? : $this->configFile);
+        $configFile = Yii::getAlias($configFile ?: $this->configFile);
         if (!is_file($configFile)) {
             throw new Exception("The configuration file does not exist: $configFile");
         }
@@ -66,10 +75,10 @@ class TranslateController extends MessageController
         if (!is_dir($config['sourcePath'])) {
             throw new Exception("The source path {$config['sourcePath']} is not a valid directory.");
         }
-        if (empty($config['format']) || !in_array($config['format'], ['php', 'po', 'db'])) {
+        if (empty($config['format']) || !in_array($config['format'], ['php', 'po', 'db'], true)) {
             throw new Exception('Format should be either "php", "po" or "db".');
         }
-        if (in_array($config['format'], ['php', 'po'])) {
+        if (in_array($config['format'], ['php', 'po'], true)) {
             if (!isset($config['messagePath'])) {
                 throw new Exception('The configuration file must specify "messagePath".');
             } elseif (!is_dir($config['messagePath'])) {
@@ -77,14 +86,14 @@ class TranslateController extends MessageController
             }
         }
         if (empty($config['languages'])) {
-            throw new Exception("Languages cannot be empty.");
+            throw new Exception('Languages cannot be empty.');
         }
         $files = FileHelper::findFiles(realpath($config['sourcePath']), $config);
         $messages = [];
         foreach ($files as $file) {
             $messages = array_merge_recursive($messages, $this->extractMessages($file, $config['translator']));
         }
-        if (in_array($config['format'], ['php', 'po'])) {
+        if (in_array($config['format'], ['php', 'po'], true)) {
             foreach ($config['languages'] as $language) {
                 $dir = $config['messagePath'] . DIRECTORY_SEPARATOR . $language;
                 if (!is_dir($dir)) {
@@ -118,25 +127,25 @@ class TranslateController extends MessageController
     public function parse_safe_translate($s)
     {
         $debug = false;
-        $result = array();
+        $result = [];
         $start = 0;
         $nest = 0;
         $ptr_first_curly = 0;
         $total_len = strlen($s);
-        for ($i = 0; $i < $total_len; $i++) {
-            if ($s[$i] == '{') {
+        for ($i = 0; $i < $total_len; ++$i) {
+            if ($s[$i] === '{') {
                 // found left curly
-                if ($nest == 0) {
+                if ($nest === 0) {
                     // it was the first one, nothing is nested yet
                     $ptr_first_curly = $i;
                 }
                 // increment nesting
                 $nest += 1;
-            } elseif ($s[$i] == '}') {
+            } elseif ($s[$i] === '}') {
                 // found right curly
                 // reduce nesting
                 $nest -= 1;
-                if ($nest == 0) {
+                if ($nest === 0) {
                     // end of nesting
                     if ($ptr_first_curly - $start >= 0) {
                         // push string leading up to first left curly
@@ -180,14 +189,17 @@ class TranslateController extends MessageController
         $translation = '';
         foreach ($arr_parts as $str) {
             if (!stristr($str, '{')) {
-                if (strlen($translation) > 0 and substr($translation, -1) == '}') $translation .= ' ';
+                if (strlen($translation) > 0 and substr($translation, -1) === '}') {
+                    $translation .= ' ';
+                }
                 $translation .= TranslateClient::translate(Yii::$app->language, $language, $str); // GoogleTranslate::staticTranslate($str, Yii::$app->language, $language);
             } else {
                 // add space prefix unless it's first
-                if (strlen($translation) > 0)
+                if (strlen($translation) > 0) {
                     $translation .= ' ' . $str;
-                else
+                } else {
                     $translation .= $str;
+                }
             }
         }
         print_r($translation);
@@ -197,7 +209,7 @@ class TranslateController extends MessageController
     protected function saveMessagesToPHPEnhanced($messages, $dirName, $overwrite, $removeUnused, $sort, $language)
     {
         foreach ($messages as $category => $msgs) {
-            $file = str_replace("\\", '/', "$dirName/$category.php");
+            $file = str_replace('\\', '/', "$dirName/$category.php");
             $path = dirname($file);
             FileHelper::createDirectory($path);
             $msgs = array_values(array_unique($msgs));
@@ -210,11 +222,11 @@ class TranslateController extends MessageController
     protected function saveMessagesCategoryToPHPEnhanced($messages, $fileName, $overwrite, $removeUnused, $sort, $category, $language, $force = true)
     {
         if (is_file($fileName)) {
-            $existingMessages = require($fileName);
+            $existingMessages = require $fileName;
             sort($messages);
             ksort($existingMessages);
             if (!$force) {
-                if (array_keys($existingMessages) == $messages) {
+                if (array_keys($existingMessages) === $messages) {
                     $this->stdout("Nothing new in \"$category\" category... Nothing to save.\n\n", Console::FG_GREEN);
                     return;
                 }
@@ -260,7 +272,6 @@ class TranslateController extends MessageController
             }
             ksort($merged);
         }
-
 
         $array = VarDumper::export($merged);
         $content = <<<EOD

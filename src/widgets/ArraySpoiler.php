@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -19,7 +23,7 @@ use yii\helpers\StringHelper;
 use yii\web\View;
 
 /**
- * ArraySpoiler displays limited count of array's elements and hides all others behind a spoiler (badge)
+ * ArraySpoiler displays limited count of array's elements and hides all others behind a spoiler (badge).
  *
  * The following example will show first two elements of array concatenated with semicolon and bold-narrowed
  *
@@ -96,7 +100,7 @@ class ArraySpoiler extends Widget
      *
      * For other special options see [[renderSpoiler()]] and [[renderPopover()]] methods.
      */
-    public $button = "+{count}";
+    public $button = '+{count}';
 
     /**
      * @var array configuration will be passed to [[Html::tag()]] as options argument
@@ -144,10 +148,11 @@ class ArraySpoiler extends Widget
     }
 
     /**
-     * Method returns first [[visibleCount]] items from [[data]]
+     * Method returns first [[visibleCount]] items from [[data]].
      * @return array
      */
-    protected function getVisibleItems() {
+    protected function getVisibleItems()
+    {
         if (count($this->data) <= $this->visibleCount) {
             return $this->data;
         }
@@ -162,10 +167,11 @@ class ArraySpoiler extends Widget
     }
 
     /**
-     * Method returns all items from [[data]], skipping first [[visibleCount]]
+     * Method returns all items from [[data]], skipping first [[visibleCount]].
      * @return array
      */
-    protected function getSpoiledItems() {
+    protected function getSpoiledItems()
+    {
         if (count($this->data) <= $this->visibleCount) {
             return [];
         }
@@ -180,7 +186,7 @@ class ArraySpoiler extends Widget
     }
 
     /**
-     * Renders visible part of spoiler
+     * Renders visible part of spoiler.
      */
     private function renderVisible()
     {
@@ -188,7 +194,7 @@ class ArraySpoiler extends Widget
     }
 
     /**
-     * Renders spoiled items. Uses [[$this->mode]] value to run proper renderer
+     * Renders spoiled items. Uses [[$this->mode]] value to run proper renderer.
      */
     private function renderSpoiled()
     {
@@ -202,7 +208,7 @@ class ArraySpoiler extends Widget
     }
 
     /**
-     * Renders spoiled items. Uses [[$this->mode]] value to run proper renderer
+     * Renders spoiled items. Uses [[$this->mode]] value to run proper renderer.
      */
     private function renderHidden()
     {
@@ -243,10 +249,9 @@ class ArraySpoiler extends Widget
         $this->parts['{button}'] = Html::tag(ArrayHelper::remove($options, 'tag'), $label, $options);
     }
 
-
     /**
      * Renders a popover-activated hidden part.
-     * Actually is does not render anything. Sets `{hidden}` to an empty string and returns the value of spoiled items
+     * Actually is does not render anything. Sets `{hidden}` to an empty string and returns the value of spoiled items.
      * @return string
      */
     public function renderHiddenPopover()
@@ -269,7 +274,7 @@ class ArraySpoiler extends Widget
             'role' => 'button',
             'data-spoiler-group' => 'main',
             'data-spoiler-toggle' => true,
-            'data-target' => $this->button['id'] . '-body'
+            'data-target' => $this->button['id'] . '-body',
         ], $this->button);
 
         $label = $this->getButtonLabel(ArrayHelper::remove($options, 'label'));
@@ -286,7 +291,7 @@ class ArraySpoiler extends Widget
     }
 
     /**
-     * Renders a spoiler-button-activated hidden part
+     * Renders a spoiler-button-activated hidden part.
      */
     public function renderHiddenSpoiler()
     {
@@ -307,7 +312,8 @@ class ArraySpoiler extends Widget
      * @param $label string|\Closure
      * @return mixed|string
      */
-    public function getButtonLabel($label) {
+    public function getButtonLabel($label)
+    {
         if ($label instanceof \Closure) {
             $label = call_user_func($label, $this);
         } else {
@@ -317,9 +323,8 @@ class ArraySpoiler extends Widget
         return $label;
     }
 
-
     /**
-     * Renders the all the widget
+     * Renders the all the widget.
      */
     public function run()
     {

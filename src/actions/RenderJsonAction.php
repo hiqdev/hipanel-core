@@ -1,18 +1,18 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-hosting
- * @license http://hiqdev.com/hipanel-module-hosting/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
 
-use Yii;
-
 /**
- * Class RenderJsonAction
- *
- * @package hipanel\actions
+ * Class RenderJsonAction.
  */
 class RenderJsonAction extends Action
 {
@@ -26,5 +26,4 @@ class RenderJsonAction extends Action
         $data = $this->return instanceof \Closure ? call_user_func($this->return, $this) : $this->return;
         return $this->controller->renderJson($data);
     }
-
 }

@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -11,17 +15,15 @@ use Yii;
 use yii\helpers\Url;
 
 /**
- * Class ProxyAction
+ * Class ProxyAction.
  *
  * @property mixed pjaxUrl the url, which will be set to the `X-PJAX-URL` HTTP header, if request is PJAX.
  * Boolean (default true) - whether to set to the header URL, which is based on [[action]] and [[params]]
  * Array - direct
  * @property array|callable params params, that will be passed to [[action]] arguments when it will be called
- * @package hipanel\actions
  */
 class ProxyAction extends Action
 {
-
     /**
      * @var string|\Closure action to run
      */
@@ -57,9 +59,9 @@ class ProxyAction extends Action
     {
         if ($this->_pjaxUrl instanceof \Closure) {
             $url = call_user_func($this->_pjaxUrl, $this);
-        } elseif ($this->_pjaxUrl == true) {
-            $url = (array)$this->action;
-        } elseif (is_array($this->_pjaxUrl) || is_string($this->_pjaxUrl)){
+        } elseif ($this->_pjaxUrl === true) {
+            $url = (array) $this->action;
+        } elseif (is_array($this->_pjaxUrl) || is_string($this->_pjaxUrl)) {
             $url = $this->_pjaxUrl;
         } else {
             return false;
@@ -81,7 +83,7 @@ class ProxyAction extends Action
      */
     public function run()
     {
-        if ($this->pjaxUrl && $this->parent->rule->requestType == 'pjax') {
+        if ($this->pjaxUrl && $this->parent->rule->requestType === 'pjax') {
             Yii::$app->response->getHeaders()->add('X-PJAX-URL', $this->pjaxUrl);
         }
         $action = $this->action instanceof \Closure ? call_user_func($this->action, $this) : $this->action;

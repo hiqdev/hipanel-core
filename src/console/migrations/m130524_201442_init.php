@@ -1,7 +1,16 @@
 <?php
 
-use yii\db\Schema;
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 use yii\db\Migration;
+use yii\db\Schema;
 
 class m130524_201442_init extends Migration
 {

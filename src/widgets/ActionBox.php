@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -27,12 +31,14 @@ class ActionBox extends Box
         'class' => 'box-info',
     ];
 
-    public function run() {
+    public function run()
+    {
         parent::run();
         $this->registerClientScript();
     }
 
-    private function registerClientScript() {
+    private function registerClientScript()
+    {
         $searchFormId = Json::htmlEncode("#{$this->getBulkFormId()}");
         $view = $this->getView();
         $view->registerJs(<<<JS
@@ -59,28 +65,35 @@ JS
         , $view::POS_READY);
     }
 
-    public function beginActions() {
-        print Html::beginTag('div', ['class' => 'row']) . PHP_EOL;
-        print Html::beginTag('div', ['class' => 'box-actions col-md-6']) . PHP_EOL;
+    public function beginActions()
+    {
+        echo Html::beginTag('div', ['class' => 'row']) . PHP_EOL;
+        echo Html::beginTag('div', ['class' => 'box-actions col-md-6']) . PHP_EOL;
     }
 
-    public function endActions() {
-        print PHP_EOL . Html::endTag('div');
-        if ($this->bulk == false) print PHP_EOL . Html::endTag('div');
+    public function endActions()
+    {
+        echo PHP_EOL . Html::endTag('div');
+        if ($this->bulk === false) {
+            print PHP_EOL . Html::endTag('div');
+        }
     }
 
-    public function beginBulkActions() {
-        if ($this->bulk == false)
+    public function beginBulkActions()
+    {
+        if ($this->bulk === false) {
             throw new InvalidConfigException("'bulk' property is false, turn this on ('true' statement), if you want use bulk actions.");
+        }
 
-        print Html::beginTag('div', ['class' => 'box-bulk-actions col-md-6 text-right']) . "\n";
-        print Html::beginTag('fieldset', ['disabled' => 'disabled']) . "\n";
+        echo Html::beginTag('div', ['class' => 'box-bulk-actions col-md-6 text-right']) . "\n";
+        echo Html::beginTag('fieldset', ['disabled' => 'disabled']) . "\n";
     }
 
-    public function endBulkActions() {
-        print "\n" . Html::endTag('fieldset');
-        print "\n" . Html::endTag('div');
-        print "\n" . Html::endTag('div');
+    public function endBulkActions()
+    {
+        echo "\n" . Html::endTag('fieldset');
+        echo "\n" . Html::endTag('div');
+        echo "\n" . Html::endTag('div');
 
 //        print Html::tag('div', '', ['class' => 'clearfix']);
     }
@@ -90,11 +103,13 @@ JS
         return Html::a($text, ['create'], ['class' => 'btn btn-success']) . '&nbsp;';
     }
 
-    public function renderSearchButton() {
+    public function renderSearchButton()
+    {
         return AdvancedSearch::renderButton() . "\n";
     }
 
-    public function beginSearchForm() {
+    public function beginSearchForm()
+    {
         return AdvancedSearch::begin(['model' => $this->model]);
     }
 
@@ -104,9 +119,9 @@ JS
         ob_implicit_flush(false);
         try {
             $search = $this->beginSearchForm();
-            print Yii::$app->view->render('_search', array_merge(compact('search'), $data));
+            echo Yii::$app->view->render('_search', array_merge(compact('search'), $data));
             $search->end();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             ob_end_clean();
             throw $e;
         }
@@ -142,7 +157,7 @@ JS
     public function renderBulkActions(array $options)
     {
         $this->beginBulkActions();
-        print BulkButtons::widget(array_merge([
+        echo BulkButtons::widget(array_merge([
             'model' => $this->model,
         ], $options));
         $this->endBulkActions();
@@ -171,11 +186,11 @@ JS
 
     public function beginBulkForm()
     {
-        print Html::beginForm('' , 'POST', ['id' => $this->getBulkFormId()]);
+        echo Html::beginForm('', 'POST', ['id' => $this->getBulkFormId()]);
     }
 
     public function endBulkForm()
     {
-        print Html::endForm();
+        echo Html::endForm();
     }
 }

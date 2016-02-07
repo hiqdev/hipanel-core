@@ -1,17 +1,21 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
+use common\models\File;
 use hiqdev\assets\lightbox2\LightboxAsset;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
-use common\models\File;
 use yii\helpers\Url;
 use yii\imagine\Image;
 
@@ -58,7 +62,8 @@ class FileRender extends Widget
         'xlsx' => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
     ];
 
-    public function init () {
+    public function init()
+    {
         parent::init();
         if (empty($this->data)) {
             throw new InvalidConfigException('The "data" property must not be empty.');
@@ -73,33 +78,36 @@ class FileRender extends Widget
         $this->renderHtml();
     }
 
-    private function registerClientScript () {
+    private function registerClientScript()
+    {
         $view = $this->getView();
         LightboxAsset::register($view);
         // Fix: Incorrect resizing of image #122
         $view->registerCss('.lightbox  .lb-image{ max-width: inherit!important; }');
     }
 
-    private function renderHtml () {
+    private function renderHtml()
+    {
         foreach ($this->data as $file) {
             $contentType = $this->getContentType($file['id']);
-            if (mb_substr($contentType, 0, 5) == 'image') {
+            if (mb_substr($contentType, 0, 5) === 'image') {
                 $base64 = 'data: ' . $contentType . ';base64,' . base64_encode(Image::thumbnail($this->getPathToFile($file['id']), $this->thumbHeight, $this->thumbHeight));
-                print Html::beginTag('a', [
+                echo Html::beginTag('a', [
                     'href' => $this->getLink($file['id']),
-                    'data' => ['lightbox' => 'answer-gal-' . $this->answer_id]
+                    'data' => ['lightbox' => 'answer-gal-' . $this->answer_id],
                 ]);
-                print Html::img($base64, ['class' => 'margin']);
-                print Html::endTag('a');
+                echo Html::img($base64, ['class' => 'margin']);
+                echo Html::endTag('a');
             } else {
-                print Html::beginTag('a', ['href' => $this->getLink($file['id'], $file['type'], $contentType)]);
-                print Html::tag('div', $this->getExtIcon($file['type']), ['class' => 'margin file']);
-                print Html::endTag('a');
+                echo Html::beginTag('a', ['href' => $this->getLink($file['id'], $file['type'], $contentType)]);
+                echo Html::tag('div', $this->getExtIcon($file['type']), ['class' => 'margin file']);
+                echo Html::endTag('a');
             }
         }
     }
 
-    private function getLink ($id, $ext = null, $contentType = null) {
+    private function getLink($id, $ext = null, $contentType = null)
+    {
         if (!$ext && !$contentType) {
             return Url::to([
                 '/file/view',
@@ -114,22 +122,28 @@ class FileRender extends Widget
                 'object_id'   => $this->object_id,
                 'object_name' => $this->object_name,
                 'ext'         => $ext,
-                'contentType' => $contentType
+                'contentType' => $contentType,
             ]);
         }
     }
 
-    private function getContentType ($id) {
+    private function getContentType($id)
+    {
         return \yii\helpers\FileHelper::getMimeType($this->getPathToFile($id));
     }
 
-    private function getPathToFile ($id, $render = false) {
+    private function getPathToFile($id, $render = false)
+    {
         return File::renderFile($id, $this->object_id, $this->object_name, $render);
     }
 
-    private function getExtIcon ($ext) {
+    private function getExtIcon($ext)
+    {
         $default = '<div><i class="fa fa-file-text-o fa-2x"></i></div>';
-        if (array_key_exists($ext, $this->extMatch)) return $this->extMatch[$ext]; else
+        if (array_key_exists($ext, $this->extMatch)) {
+            return $this->extMatch[$ext];
+        } else {
             return $default;
+        }
     }
 }

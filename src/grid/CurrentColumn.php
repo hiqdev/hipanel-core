@@ -1,24 +1,28 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
-use hipanel\widgets\Select2;
 use hipanel\helpers\ArrayHelper as AH;
-use yii\helpers\Url;
+use hipanel\widgets\Select2;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 
 class CurrentColumn extends DataColumn
 {
-
     public $uses = [];
 
-    public function init () {
+    public function init()
+    {
         parent::init();
         $request = AH::merge([
             'wrapper'   => 'results',
@@ -27,17 +31,17 @@ class CurrentColumn extends DataColumn
         $requests = [];
         $back_request = [];
         foreach ($request as $k => $v) {
-            if ($k == 'term') {
+            if ($k === 'term') {
                 $requests[] = $v;
-            } else if (is_array($v)) {
+            } elseif (is_array($v)) {
                 $requests[] = "{$k}:" . json_encode($v);
                 $back_request[] = "{$k}:" . json_encode($v);
-            }  else {
+            } else {
                 $requests[] = "$k:'{$v}'";
                 $back_request[] = "$k:'{$v}'";
             }
         }
-        \Yii::configure($this,[
+        \Yii::configure($this, [
             'format'                => 'html',
             'filterInputOptions'    => ['id' => 'id'],
             'filter'                => Select2::widget([
@@ -46,13 +50,13 @@ class CurrentColumn extends DataColumn
                 'url'       => Url::toRoute(['list']),
                 'settings'  => [
                     'ajax'      => [
-                        'data' => new JsExpression('function(term,page) { return {' . implode(", ", $requests) . '}; }'),
+                        'data' => new JsExpression('function(term,page) { return {' . implode(', ', $requests) . '}; }'),
                     ],
                     'initSelection'      => new JsExpression('function (elem, callback) {
                         var id=$(elem).val();
                         $.ajax("' . Url::toRoute(['list']) . '?id=" + id, {
                             dataType: "json",
-                            data : {' . implode(", ", $back_request) . '}
+                            data : {' . implode(', ', $back_request) . '}
                         }).done(function(data) {
                             callback(data.results[0]);
                         });

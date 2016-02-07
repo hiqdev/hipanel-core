@@ -1,21 +1,26 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
-use yii\helpers\Html;
 use Yii;
+use yii\helpers\Html;
 
 class HiBox extends Box
 {
     /**
-     * Buttons render
+     * Buttons render.
      */
-    protected function initBoxTools() {
+    protected function initBoxTools()
+    {
         parent::initBoxTools();
         if (!isset($this->boxTools['collapse'])) {
             $this->boxTools['collapse'] = [
@@ -24,7 +29,7 @@ class HiBox extends Box
                     'class' => 'btn-default',
                     'title' => Yii::t('app', 'collapse'),
                     'data-widget' => 'collapse',
-                ]
+                ],
             ];
         }
         if (!isset($this->boxTools['remove'])) {
@@ -34,7 +39,7 @@ class HiBox extends Box
                     'class' => 'btn-default',
                     'title' => Yii::t('app', 'remove'),
                     'data-widget' => 'remove',
-                ]
+                ],
             ];
         }
     }
@@ -42,7 +47,8 @@ class HiBox extends Box
     /**
      * Render widget tools button.
      */
-    protected function renderButtons() {
+    protected function renderButtons()
+    {
         // Box tools
         if ($this->buttonsTemplate !== null && !empty($this->boxTools)) {
             // Begin box tools
@@ -56,8 +62,7 @@ class HiBox extends Box
                     $label = $icon . ' ' . $label;
                     $this->boxTools[$name]['options']['class'] = isset($this->boxTools[$name]['options']['class']) ? 'btn btn-sm ' . $this->boxTools[$name]['options']['class'] : 'btn btn-sm';
                     return Html::button($label, $this->boxTools[$name]['options']);
-                }
-                else {
+                } else {
                     return '';
                 }
             }, $this->buttonsTemplate);

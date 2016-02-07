@@ -1,16 +1,24 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\actions;
 
 use Yii;
 
 /**
- * Class PrepareBulkAction
- * @package hipanel\actions
+ * Class PrepareBulkAction.
  */
 class PrepareBulkAction extends ViewAction
 {
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function run()
     {
         $this->setId(Yii::$app->request->get('selection', []));
@@ -18,7 +26,7 @@ class PrepareBulkAction extends ViewAction
         return parent::run();
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     protected function getDefaultRules()
     {
         return array_merge(parent::getDefaultRules(), [
@@ -40,9 +48,9 @@ class PrepareBulkAction extends ViewAction
                             'models' => $this->collection->models,
                             'model' => $this->collection->first,
                         ];
-                    }
-                ]
-            ]
+                    },
+                ],
+            ],
         ]);
     }
 }

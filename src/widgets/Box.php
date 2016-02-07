@@ -1,15 +1,18 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel
- * @license http://hiqdev.com/hipanel/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
-use Yii;
 
 class Box extends Widget
 {
@@ -19,7 +22,7 @@ class Box extends Widget
     public $title = null;
 
     /**
-     * Small helper for title
+     * Small helper for title.
      * @var null
      */
     public $small = null;
@@ -51,24 +54,27 @@ class Box extends Widget
     public $renderBody = true;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function init() {
+    public function init()
+    {
         $this->initOptions();
-        print Html::beginTag('div', $this->options) . "\n";
+        echo Html::beginTag('div', $this->options) . "\n";
         // Begin box
-        if ($this->title != null) {
+        if ($this->title !== null) {
             $this->beginHeader();
             $this->endHeader();
         }
-        if ($this->renderBody)
+        if ($this->renderBody) {
             $this->beginBody();
+        }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function run() {
+    public function run()
+    {
         $this->getView()->registerCss('
         .box-title-helper {
             padding: 0;
@@ -82,7 +88,7 @@ class Box extends Widget
         if ($this->renderBody) {
             $this->endBody();
         }
-        print "\n" . Html::endTag('div'); // End box
+        echo "\n" . Html::endTag('div'); // End box
     }
 
     /**
@@ -90,63 +96,70 @@ class Box extends Widget
      * @param null $small
      * @return string
      */
-    public function renderTitle($title, $small = null) {
+    public function renderTitle($title, $small = null)
+    {
         $resultTitle = Html::tag('h3', $title, ['class' => 'box-title']);
-        $resultSmall = ($small == null) ? '' : Html::tag('span', $small, ['class' => 'box-title-helper']);
+        $resultSmall = ($small === null) ? '' : Html::tag('span', $small, ['class' => 'box-title-helper']);
         return sprintf('%s %s', $resultTitle, $resultSmall);
-
     }
 
     /**
-     * Start header section, render title if not exist
+     * Start header section, render title if not exist.
      */
-    public function beginHeader() {
-        print Html::beginTag('div', $this->headerOptions) . "\n";
+    public function beginHeader()
+    {
+        echo Html::beginTag('div', $this->headerOptions) . "\n";
         if ($this->title !== null) {
-            print Html::tag('h3', $this->title, ['class' => 'box-title']);
+            echo Html::tag('h3', $this->title, ['class' => 'box-title']);
         }
     }
 
     /**
-     * End of header section
+     * End of header section.
      */
-    public static function endHeader() {
-        print "\n" . Html::endTag('div');
+    public static function endHeader()
+    {
+        echo "\n" . Html::endTag('div');
     }
 
     /**
      * Begin box body container.
      */
-    public function beginBody() {
-        print Html::beginTag('div', $this->bodyOptions) . "\n";
+    public function beginBody()
+    {
+        echo Html::beginTag('div', $this->bodyOptions) . "\n";
     }
 
     /**
      * End box body container.
      */
-    public function endBody() {
-        print "\n" . Html::endTag('div');
+    public function endBody()
+    {
+        echo "\n" . Html::endTag('div');
     }
 
     /**
      * Begin box footer container.
      */
-    public function beginFooter() {
-        print Html::beginTag('div', $this->footerOptions) . "\n";
+    public function beginFooter()
+    {
+        echo Html::beginTag('div', $this->footerOptions) . "\n";
     }
 
     /**
      * End box footer container.
      */
-    public function endFooter() {
-        print "\n" . Html::endTag('div');
+    public function endFooter()
+    {
+        echo "\n" . Html::endTag('div');
     }
 
     /**
      * Initializes the widget options.
      * This method sets the default values for various options.
      */
-    protected function initOptions() {
+    protected function initOptions()
+    {
         $this->options['class'] = isset($this->options['class']) ? 'box ' . $this->options['class'] : 'box';
         $this->headerOptions['class'] = isset($this->headerOptions['class']) ? 'box-header with-border ' . $this->headerOptions['class'] : 'box-header with-border';
         $this->bodyOptions['class'] = isset($this->bodyOptions['class']) ? 'box-body ' . $this->bodyOptions['class'] : 'box-body';
@@ -158,17 +171,18 @@ class Box extends Widget
      * Only in header container!
      * Examples:
      * <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
-     * <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove"><i class="fa fa-times"></i></button>
+     * <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove"><i class="fa fa-times"></i></button>.
      */
-    public function beginTools() {
-        print "\n".Html::beginTag('div', ['class' => 'box-tools pull-right btn-group']);
+    public function beginTools()
+    {
+        echo "\n" . Html::beginTag('div', ['class' => 'box-tools pull-right btn-group']);
     }
 
     /**
-     * End box-tools container
+     * End box-tools container.
      */
-    public function endTools() {
-        print "\n" . Html::endTag('div');
+    public function endTools()
+    {
+        echo "\n" . Html::endTag('div');
     }
-
 }
