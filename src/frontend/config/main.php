@@ -55,7 +55,7 @@ return [
                 ],
                 'email' => [
                     'class' => 'hipanel\log\EmailTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error'],
                     'message' => [
                         'from' => 'hipanel@hiqdev.com',
                         'to' => 'logs@hiqdev.com',
