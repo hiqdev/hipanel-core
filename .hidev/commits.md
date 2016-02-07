@@ -4,6 +4,7 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed different issues
+    - b89ad3d 2016-02-07 phpcsfixed (sol@hiqdev.com)
     - 6b64773 2016-02-05 + nocache parameter for file view action (sol@hiqdev.com)
     - 48374f0 2016-02-05 Add HipanelAsset with updateCart method (andreyklochok@gmail.com)
     - ddb532e 2016-02-05 EmailTarget - URL to debug log is now absolute (d.naumenko.a@gmail.com)
