@@ -31,6 +31,7 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
                         'basePath'  => '@hipanel/common/messages',
                         'fileMap'   => [
                             'hipanel' => 'hipanel.php',
+                            'block-reasons' => 'block-reasons.php',
                         ],
                     ],
                     'app' => [
