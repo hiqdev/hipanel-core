@@ -31,6 +31,15 @@ class ValidateFormAction extends Action
      */
     public $validatedInputId = null;
 
+    public function init()
+    {
+        $scenario = Yii::$app->request->get('scenario');
+
+        if ($scenario !== null && $this->allowDynamicScenario) {
+            $this->scenario = $scenario;
+        }
+    }
+
     public function getModel($options = [])
     {
         if ($this->model === null) {
@@ -42,12 +51,8 @@ class ValidateFormAction extends Action
         }
     }
 
-    public function run($scenario = null)
+    public function run()
     {
-        if ($scenario && $this->allowDynamicScenario) {
-            $this->scenario = $scenario;
-        }
-
         if (Yii::$app->request->isPost) {
             $this->loadCollection();
             return $this->controller->renderJson($this->validateMultiple());
