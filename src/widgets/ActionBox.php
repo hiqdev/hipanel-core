@@ -100,7 +100,7 @@ JS
 
     public function renderCreateButton($text)
     {
-        return Html::a($text, ['create'], ['class' => 'btn btn-success']) . '&nbsp;';
+        return Html::a($text, ['create'], ['class' => 'btn btn-success']);
     }
 
     public function renderSearchButton()
