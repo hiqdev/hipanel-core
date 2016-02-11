@@ -120,10 +120,9 @@ $(function () {
 
     checkboxes.on('ifChanged', function(event){
         if (checkboxes.filter(':checked').length == checkboxes.length) {
-            checkAll.prop('checked', 'checked');
+            checkAll.prop('checked', true);
         } else {
             checkAll.prop('checked', false);
-            //checkAll.removeProp('checked');
         }
         checkAll.iCheck('update');
     });

@@ -48,7 +48,7 @@ class ActionBox extends Box
         checkboxes.on('ifChecked ifUnchecked', function(event) {
             if (event.type == 'ifChecked' && $('input.icheck').filter(':checked').length > 0) {
                 bulkcontainer.prop('disabled', false);
-            } else if (checkboxes.filter(':checked').length > 0) {
+            } else if ($('input.icheck').filter(':checked').length == 0) {
                 bulkcontainer.prop('disabled', true);
             }
         });
