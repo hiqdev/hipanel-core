@@ -46,9 +46,9 @@ class ActionBox extends Box
         var checkboxes = $('table input[type="checkbox"]');
         var bulkcontainer = $('.box-bulk-actions fieldset');
         checkboxes.on('ifChecked ifUnchecked', function(event) {
-            if (event.type == 'ifChecked') {
+            if (event.type == 'ifChecked' && $('input.icheck').filter(':checked').length > 0) {
                 bulkcontainer.prop('disabled', false);
-            } else if (!checkboxes.filter(':checked').length > 0) {
+            } else if (checkboxes.filter(':checked').length > 0) {
                 bulkcontainer.prop('disabled', true);
             }
         });

@@ -105,7 +105,6 @@ $(function () {
     var checkAll = $('input.select-on-check-all');
     var checkboxes = $('input.icheck');
 
-    //$('input').iCheck();
     $('input.icheck, input.select-on-check-all ').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass: 'iradio_minimal-blue'
@@ -120,10 +119,11 @@ $(function () {
     });
 
     checkboxes.on('ifChanged', function(event){
-        if(checkboxes.filter(':checked').length == checkboxes.length) {
+        if (checkboxes.filter(':checked').length == checkboxes.length) {
             checkAll.prop('checked', 'checked');
         } else {
-            checkAll.removeProp('checked');
+            checkAll.prop('checked', false);
+            //checkAll.removeProp('checked');
         }
         checkAll.iCheck('update');
     });
