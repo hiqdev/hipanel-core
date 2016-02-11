@@ -110,6 +110,7 @@ return [
     'Backups' => 'Резервные копии',
     'Bad' => 'Плохой',
     'Balance' => 'Баланс',
+    'Basic actions' => 'Базовые действия',
     'Better' => 'Лучше',
     'Billing contact' => 'Биллинг контакт',
     'Bill ID' => 'ID платежа',
