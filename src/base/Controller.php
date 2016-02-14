@@ -126,6 +126,10 @@ class Controller extends \yii\web\Controller
         return Inflector::camel2id(static::formName(), $separator);
     }
 
+    /**
+     * Returns the module ID based on the namespace of the controller
+     * @return mixed
+     */
     public static function moduleId()
     {
         return explode('\\', get_called_class())[2];
