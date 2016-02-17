@@ -659,6 +659,7 @@ return [
     'Unsubscribe' => 'Отписаться',
     'Unsubscribed' => 'Подписка отменена',
     'Update' => 'Обновить',
+    'Updating...' => 'Обновление...',
     'Update Time' => 'Время обновления',
     'Update time' => 'Время обновления',
     'Update {modelClass}' => 'Обновление {modelClass}',
