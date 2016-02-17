@@ -35,6 +35,7 @@ use yii\web\IdentityInterface;
 class User extends Model implements IdentityInterface
 {
     public $id;
+    public $name;
     public $email;
     public $username;
     public $type;
