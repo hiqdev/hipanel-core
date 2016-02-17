@@ -4,6 +4,15 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed different issues
+    - a5c9362 2016-02-17 fixed minus sign wrapping in CurrencyColumn with text-nowrap (sol@hiqdev.com)
+    - 8fbfbaa 2016-02-11 Minor fix. Checkboxes (andreyklochok@gmail.com)
+    - f477f8f 2016-02-11 Minor fixes. Checkboxes in grid view (andreyklochok@gmail.com)
+    - d7e081c 2016-02-10 Implemented condensed table in DetailView (d.naumenko.a@gmail.com)
+    - 7e3f0b2 2016-02-10 translations update (d.naumenko.a@gmail.com)
+    - 4ed318d 2016-02-10 Minor fix. Remove backspace after create button (andreyklochok@gmail.com)
+    - 917718e 2016-02-09 ValidateFormAction - fixed work with pre-defined scenario (d.naumenko.a@gmail.com)
+    - 3c195a8 2016-02-08 Added block-reasons translation file (d.naumenko.a@gmail.com)
+    - b36e32f 2016-02-07 Removed email logging of warnings (d.naumenko.a@gmail.com)
     - b89ad3d 2016-02-07 phpcsfixed (sol@hiqdev.com)
     - 6b64773 2016-02-05 + nocache parameter for file view action (sol@hiqdev.com)
     - 48374f0 2016-02-05 Add HipanelAsset with updateCart method (andreyklochok@gmail.com)
@@ -77,7 +86,7 @@ hiqdev/hipanel-core commits history
     - 7d8f317 2015-12-07 + merchant log target (sol@hiqdev.com)
     - be164f6 2015-12-07 Pjax - redone beforeReplace crutch (d.naumenko.a@gmail.com)
     - 410375a 2015-12-04 AjaxModal::registerClientScript - override default to support callbacks (d.naumenko.a@gmail.com)
-- Changed incompatibly PHP < 5.5: used constant ::class
+- Changed incompatibly PHP < 5.5: used constant `::class`
     - f69063f 2015-12-04 Classes notation changed from pathtoClassName to PHP 5.6 ClassName::class (d.naumenko.a@gmail.com)
 - Fixed and improved smart actions
     - 10e249b 2015-12-10 Add AdvancedSearchActiveField (andreyklochok@gmail.com)

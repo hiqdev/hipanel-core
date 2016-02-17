@@ -75,7 +75,7 @@ JS
     {
         echo PHP_EOL . Html::endTag('div');
         if ($this->bulk === false) {
-            print PHP_EOL . Html::endTag('div');
+            echo PHP_EOL . Html::endTag('div');
         }
     }
 

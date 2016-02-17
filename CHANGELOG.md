@@ -4,7 +4,7 @@ hiqdev/hipanel-core changelog
 ## Under development
 
 - Fixed different issues
-- Changed incompatibly PHP < 5.5: used constant ::class
+- Changed incompatibly PHP < 5.5: used constant `::class`
 - Fixed and improved smart actions
 - Fixed minor issues and translation
 - Added HiArt 'auth' configuration

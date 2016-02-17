@@ -19,7 +19,7 @@ use Yii;
 class PrepareBulkAction extends ViewAction
 {
     /** {@inheritdoc} */
-    public function run($id = NULL)
+    public function run($id = null)
     {
         $this->setId(Yii::$app->request->get('selection', []));
 
