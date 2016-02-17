@@ -4,7 +4,7 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed different issues
-    - a5c9362 2016-02-17 fixed minus sign wrapping in CurrencyColumn with text-nowrap (sol@hiqdev.com)
+    - 7856b6b 2016-02-17 fixed minus sign wrapping in CurrencyColumn with text-nowrap (sol@hiqdev.com)
     - 8fbfbaa 2016-02-11 Minor fix. Checkboxes (andreyklochok@gmail.com)
     - f477f8f 2016-02-11 Minor fixes. Checkboxes in grid view (andreyklochok@gmail.com)
     - d7e081c 2016-02-10 Implemented condensed table in DetailView (d.naumenko.a@gmail.com)
