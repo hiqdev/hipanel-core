@@ -12,7 +12,7 @@
 namespace hipanel\grid;
 
 use hipanel\helpers\ArrayHelper;
-use hiqdev\xeditable\widgets\XEditable;
+use hipanel\widgets\XEditable;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -33,7 +33,6 @@ class MainColumn extends DataColumn
     {
         parent::init();
         $this->noteOptions = ArrayHelper::merge([
-            'emptytext' => Yii::t('app', 'set note'),
             'url'       => Url::to('set-note'),
         ], $this->noteOptions);
     }
