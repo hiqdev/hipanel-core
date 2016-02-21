@@ -19,21 +19,35 @@ class Cache extends \yii\caching\FileCache
     /**
      * Caches a [[\Closure]] call, invalidates on timeout.
      *
-     * @param $timeout int seconds
+     * @param int $timeout seconds
      * @param array $params an array of params that will be passed to the $func
-     * @param Closure $func the function that will be called
+     * @param Closure $function the function that will be called
      * @return mixed
      */
-    public function getTimeCached($timeout, array $params, Closure $func)
+    public function getTimeCached($timeout, array $params, Closure $function)
     {
-        $key = array_merge([__CLASS__, ReflectionFunction::export($func, true)], $params);
+        $key = array_merge([__CLASS__, ReflectionFunction::export($function, true)], $params);
         $res = $this->get($key);
         if ($res === false) {
-            $res = call_user_func_array($func, $params);
+            $res = call_user_func_array($function, $params);
             $this->set($key, $res, $timeout);
         }
 
         return $res;
+    }
+
+    /**
+     * Caches a [[\Closure]] call, invalidates on timeout.
+     * Forcefully adds current logged in user ID to the params to be a part of the key
+     *
+     * @param int $timeout seconds
+     * @param array $params an array of params that will be passed to the $func
+     * @param Closure $function the function that will be called
+     * @return mixed
+     */
+    public function getAuthTimeCached($timeout, array $params, Closure $function) {
+        $params[] = \Yii::$app->user->id;
+        return $this->getTimeCached($timeout, $params, $function);
     }
 
 /* TRY to realize later
