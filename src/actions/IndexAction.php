@@ -15,6 +15,7 @@ use hipanel\base\FilterStorage;
 use hipanel\base\Model;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 
 /**
  * Class IndexAction.
@@ -24,7 +25,21 @@ class IndexAction extends SearchAction
     /**
      * @var string view to render.
      */
-    public $view = 'index';
+    protected $_view;
+
+    public function setView($value)
+    {
+        $this->_view = $value;
+    }
+
+    public function getView()
+    {
+        if ($this->_view === null) {
+            $this->_view = lcfirst(Inflector::id2camel($this->id));
+        }
+
+        return $this->_view;
+    }
 
     /**
      * @var array The map of filters for the [[hipanel\base\FilterStorage|FilterStorage]]
@@ -50,7 +65,7 @@ class IndexAction extends SearchAction
                 'flash' => false,
                 'success' => [
                     'class'  => RenderAction::class,
-                    'view'   => $this->view,
+                    'view'   => $this->getView(),
                     'data'   => $this->data,
                     'params' => function () {
                         return [
