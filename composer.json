@@ -80,7 +80,7 @@
         "wbraganca/yii2-dynamicform": "*",
         "bower-asset/less-space": "*",
         "bower-asset/octicons": "*",
-        "2amigos/yii2-chartjs-widget" : "~2.0"
+        "2amigos/yii2-chartjs-widget": "~2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

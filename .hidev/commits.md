@@ -3,7 +3,13 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
+- Added ChartJs
+    - e9621ea 2016-02-23 Added ChartJs widget (d.naumenko.a@gmail.com)
+    - f321858 2016-02-22 Added chartjs dependency (d.naumenko.a@gmail.com)
 - Fixed different issues
+    - 8a7af58 2016-02-21 Cache - added getAuthTimeCached method (d.naumenko.a@gmail.com)
+    - 1d90926 2016-02-18 Changed XEditableColumn import namespace (d.naumenko.a@gmail.com)
+    - 34354ee 2016-02-24 * IndexAction set default view to action id (sol@hiqdev.com)
     - e13434c 2016-02-17 * Label widget: + addClass option (sol@hiqdev.com)
     - 2652806 2016-02-17 translation (sol@hiqdev.com)
     - 0429f03 2016-02-17 + `user` field to User model (sol@hiqdev.com)
