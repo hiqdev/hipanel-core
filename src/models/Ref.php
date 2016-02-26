@@ -16,26 +16,31 @@ use yii\helpers\ArrayHelper;
 
 class Ref extends \hiqdev\hiart\ActiveRecord
 {
-    public $gl_key;
-    public $gl_value;
+    use \hipanel\base\ModelTrait;
 
-    public static function getList($name, $options = [], $translate = true)
+    public function rules()
     {
-        return Yii::$app->get('cache')->getTimeCached(3600, [$name, $options, $translate], function ($name, $options, $translate) {
-            $func = $translate ? function ($v) { return Yii::t('app', $v->gl_value); } : function ($v) { return $v->gl_value; };
-            return ArrayHelper::map(self::find()->where(array_merge(['gtype' => $name], $options))->limit('ALL')->getList(false), 'gl_key', $func);
-        });
+        return [
+            [['id', 'no'], 'integer'],
+            [['name', 'label'], 'safe'],
+        ];
     }
 
-    public function attributes()
+    public static function getList($name, $options = [], $translate = 'app')
     {
-        // path mapping for '_id' is setup to field 'id'
-        return [
-            'id',
-            'value',
-            'name',
-            'label',
-            'no',
-        ];
+        return Yii::$app->get('cache')->getTimeCached(3600, [$name, $options, $translate], function ($name, $options, $translate) {
+            $conditions = array_merge(['gtype' => $name], $options);
+            $function = function ($model) use ($translate) {
+                /** @var self $model */
+                if ($translate !== false) {
+                    return Yii::t($translate, $model->label);
+                }
+
+                return $model->label;
+            };
+            $result = self::find()->where($conditions)->search();
+
+            return ArrayHelper::map($result, 'name', $function);
+        });
     }
 }
