@@ -119,6 +119,9 @@ JS
         ob_implicit_flush(false);
         try {
             $search = $this->beginSearchForm();
+            foreach (['per_page', 'representation'] as $key) {
+                echo Html::hiddenInput($key, Yii::$app->request->get($key));
+            }
             echo Yii::$app->view->render('_search', array_merge(compact('search'), $data));
             $search->end();
         } catch (\Exception $e) {
@@ -136,11 +139,25 @@ JS
             'options' => ['class' => 'btn-default'],
             'dropdown' => [
                 'items' => [
-                    ['label' => '25', 'url' => Url::current(['per_page' => null])],
-                    ['label' => '50', 'url' => Url::current(['per_page' => 50])],
+                    ['label' => '25',  'url' => Url::current(['per_page' => null])],
+                    ['label' => '50',  'url' => Url::current(['per_page' => 50])],
                     ['label' => '100', 'url' => Url::current(['per_page' => 100])],
                     ['label' => '200', 'url' => Url::current(['per_page' => 200])],
                     ['label' => '500', 'url' => Url::current(['per_page' => 500])],
+                ],
+            ],
+        ]);
+    }
+
+    public function renderRepresentation()
+    {
+        return ButtonDropdown::widget([
+            'label' => Yii::t('app', 'View') . ': ' . (Yii::$app->request->get('representation') ?: 'default'),
+            'options' => ['class' => 'btn-default'],
+            'dropdown' => [
+                'items' => [
+                    ['label' => 'default', 'url' => Url::current(['representation' => null])],
+                    ['label' => 'report',  'url' => Url::current(['representation' => 'report'])],
                 ],
             ],
         ]);
@@ -184,9 +201,9 @@ JS
         return 'bulk-' . Inflector::camel2id($this->model->formName());
     }
 
-    public function beginBulkForm()
+    public function beginBulkForm($action = '')
     {
-        echo Html::beginForm('', 'POST', ['id' => $this->getBulkFormId()]);
+        echo Html::beginForm($action, 'POST', ['id' => $this->getBulkFormId()]);
     }
 
     public function endBulkForm()
