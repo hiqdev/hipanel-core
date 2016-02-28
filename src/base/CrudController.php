@@ -30,11 +30,9 @@ class CrudController extends Controller
     {
     }
 
-    public function getRefs($gtype)
+    public function getRefs($name)
     {
-        return $this->getCache()->getTimeCached(3600, [$gtype], function ($gtype) {
-            return Ref::find()->where(['gtype' => $gtype, 'limit' => 'ALL'])->getList();
-        });
+        return Ref::getList($name);
     }
 
     public function getClassRefs($type)
@@ -44,19 +42,11 @@ class CrudController extends Controller
 
     public function getBlockReasons()
     {
-        static $blockReasons;
-        if ($blockReasons  === null) {
-            $blockReasons = $this->getRefs('type,block');
-        }
-        return $blockReasons;
+        return Ref::getList('type,block');
     }
 
     public function getPriorities()
     {
-        static $priorities;
-        if ($priorities === null) {
-            $priorities = $this->getRefs('type,priority');
-        }
-        return $priorities;
+        return Ref::getList('type,priority');
     }
 }
