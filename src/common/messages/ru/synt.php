@@ -22,4 +22,6 @@ return [
     'serverRegenRootPassword' => 'Сброс root пароля',
     'serverBootLive' => 'Загрузка Live CD',
     'serverCleanedup' => 'Очстка',
+
+    'View' => 'Вид',
 ];

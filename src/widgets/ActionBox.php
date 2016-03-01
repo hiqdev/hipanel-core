@@ -151,13 +151,15 @@ JS
 
     public function renderRepresentation()
     {
+        $representation = Yii::$app->request->get('representation') ?: 'common';
+
         return ButtonDropdown::widget([
-            'label' => Yii::t('app', 'View') . ': ' . (Yii::$app->request->get('representation') ?: 'default'),
+            'label' => Yii::t('synt', 'View') . ': ' . Yii::t('app', $representation),
             'options' => ['class' => 'btn-default'],
             'dropdown' => [
                 'items' => [
-                    ['label' => 'default', 'url' => Url::current(['representation' => null])],
-                    ['label' => 'report',  'url' => Url::current(['representation' => 'report'])],
+                    ['label' => Yii::t('app', 'common'), 'url' => Url::current(['representation' => null])],
+                    ['label' => Yii::t('app', 'report'), 'url' => Url::current(['representation' => 'report'])],
                 ],
             ],
         ]);
