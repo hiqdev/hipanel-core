@@ -636,6 +636,8 @@ return [
     'To move by one' => 'Для перемещения по одному',
     'Topic' => 'Тема',
     'Topics' => 'Темы',
+    'Total' => 'Всего',
+    'TOTAL' => 'ИТОГО',
     'Total of backup uses' => 'Всего резервные копии используют',
     'Total of backup uses in GB' => 'Всего резервные копии используют в ГБ',
     'Transfered' => 'Все передаваемые',
