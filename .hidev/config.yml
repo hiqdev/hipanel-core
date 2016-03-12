@@ -1,11 +1,11 @@
 package:
     type:           yii2-extension
     name:           hipanel-core
-    namespace:      hipanel
-    headline:       HiPanel Core
     title:          HiPanel core package
+    headline:       HiPanel Core
     homepage:       https://hipanel.com/
     keywords:       hipanel, control panel, hosting, domains
+    namespace:      hipanel
     description: |
         [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 

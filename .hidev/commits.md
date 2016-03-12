@@ -4,9 +4,17 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Added ChartJs
+    - ad94f9a 2016-02-25 Added ChartOptions widget (d.naumenko.a@gmail.com)
     - e9621ea 2016-02-23 Added ChartJs widget (d.naumenko.a@gmail.com)
     - f321858 2016-02-22 Added chartjs dependency (d.naumenko.a@gmail.com)
 - Fixed different issues
+    - e94749c 2016-03-09 translation (sol@hiqdev.com)
+    - 99af8d4 2016-03-04 translation (sol@hiqdev.com)
+    - f00f567 2016-03-02 translations (sol@hiqdev.com)
+    - 63ff0fa 2016-03-01 fixed translation in `ActionBox::renderRepresentation` (sol@hiqdev.com)
+    - a59b6d0 2016-02-28 CrudController::getRefs() simplified to use caching implemented in Ref model (d.naumenko.a@gmail.com)
+    - 476b456 2016-02-26 + ActionBox::renderRepresentation (sol@hiqdev.com)
+    - e3fc28b 2016-02-26 Ref model redone to follown HiArt changes (getList is dropped) (d.naumenko.a@gmail.com)
     - 8a7af58 2016-02-21 Cache - added getAuthTimeCached method (d.naumenko.a@gmail.com)
     - 1d90926 2016-02-18 Changed XEditableColumn import namespace (d.naumenko.a@gmail.com)
     - 34354ee 2016-02-24 * IndexAction set default view to action id (sol@hiqdev.com)

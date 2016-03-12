@@ -6,8 +6,8 @@ HiPanel Core
 [![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-core/v/stable)](https://packagist.org/packages/hiqdev/hipanel-core)
 [![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-core/downloads)](https://packagist.org/packages/hiqdev/hipanel-core)
 [![Build Status](https://img.shields.io/travis/hiqdev/hipanel-core.svg)](https://travis-ci.org/hiqdev/hipanel-core)
-[![Code Coverage](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/?branch=master)
+[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/hiqdev/hipanel-core.svg)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/hiqdev/hipanel-core.svg)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/)
 [![Dependency Status](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master/badge.svg)](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master)
 
 [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
