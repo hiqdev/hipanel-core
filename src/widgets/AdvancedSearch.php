@@ -14,6 +14,7 @@ namespace hipanel\widgets;
 use hipanel\base\Model;
 use Yii;
 use yii\base\Widget;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\web\JsExpression;
@@ -49,9 +50,17 @@ class AdvancedSearch extends Widget
     /**
      * @var array options passed to ActiveForm
      */
-    public $options = [
+    public $formOptions = [
         'data-pjax' => true,
     ];
+
+    /**
+     * @var array Options that will be used for the search wrapping tag.
+     * The following options have special effect:
+     *  - `tag`: the tag name. Defaults to `div`
+     *  - `displayNone`: whether to hide the form untill special button will be pressed. Defaults to true.
+     */
+    public $options = [];
 
     /**
      * @var ActiveForm form to be used
@@ -64,20 +73,27 @@ class AdvancedSearch extends Widget
     public function init()
     {
         $this->registerMyJs();
-        $display_none = Yii::$app->request->get($this->model->formName())['search_form'] ? '' : 'display:none';
-        echo Html::beginTag('div', [
+        $display_none = '';
+
+        if (ArrayHelper::remove($this->options, 'displayNone', true) === true) {
+            $display_none = Yii::$app->request->get($this->model->formName())['search_form'] ? '' : 'display:none';
+        }
+
+        $tag = ArrayHelper::remove($this->options, 'tag', 'div');
+        echo Html::beginTag($tag, ArrayHelper::merge([
             'id'    => $this->divId(),
             'class' => 'row',
             'style' => 'margin-bottom: 1rem; margin-top: 1rem; ' . $display_none,
-        ]);
+        ], $this->options));
+
         $this->_form = ActiveForm::begin([
             'id'        => 'form-' . $this->divId(),
             'action'    => $this->action,
             'method'    => $this->method,
-            'options'   => $this->options,
+            'options'   => $this->formOptions,
             'fieldClass' => AdvancedSearchActiveField::class,
         ]);
-        echo Html::hiddenInput(sprintf('%s[search_form]', $this->model->formName()), 1);
+        echo Html::hiddenInput(Html::getInputName($this->model, 'search_form'), 1);
     }
 
     public static function renderButton()
@@ -105,8 +121,9 @@ class AdvancedSearch extends Widget
     {
         $div_id = $this->divId();
         Yii::$app->getView()->registerJs(new JsExpression(<<<JS
-$('#advancedsearch-button').click(function () {
+$('#advancedsearch-button').click(function (event) {
     $('#${div_id}').toggle();
+    event.preventDefault();
 });
 $('#search-form-ticket-pjax').on('pjax:end', function () {
     $.pjax.reload({container:'#ticket-grid-pjax', timeout: false});
