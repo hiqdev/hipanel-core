@@ -108,17 +108,17 @@ JS
         return AdvancedSearch::renderButton() . "\n";
     }
 
-    public function beginSearchForm()
+    public function beginSearchForm($options = [])
     {
-        return AdvancedSearch::begin(['model' => $this->model]);
+        return AdvancedSearch::begin(array_merge(['model' => $this->model], $options));
     }
 
-    public function renderSearchForm(array $data = [])
+    public function renderSearchForm(array $data = [], $advancedSearchOptions = [])
     {
         ob_start();
         ob_implicit_flush(false);
         try {
-            $search = $this->beginSearchForm();
+            $search = $this->beginSearchForm($advancedSearchOptions);
             foreach (['per_page', 'representation'] as $key) {
                 echo Html::hiddenInput($key, Yii::$app->request->get($key));
             }
