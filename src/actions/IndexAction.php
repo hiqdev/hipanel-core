@@ -110,7 +110,10 @@ class IndexAction extends SearchAction
                 ArrayHelper::remove($search, 'rename', [])
             );
 
-            $this->dataProvider = $this->getSearchModel()->search([$formName => $search], $this->dataProviderOptions);
+            if ($formName !== '') {
+                $search = [$formName => $search];
+            }
+            $this->dataProvider = $this->getSearchModel()->search($search, $this->dataProviderOptions);
         }
 
         return $this->dataProvider;
