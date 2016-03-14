@@ -81,13 +81,13 @@ class AdvancedSearch extends Widget
 
         $tag = ArrayHelper::remove($this->options, 'tag', 'div');
         echo Html::beginTag($tag, ArrayHelper::merge([
-            'id'    => $this->divId(),
+            'id'    => $this->getDivId(),
             'class' => 'row',
             'style' => 'margin-bottom: 1rem; margin-top: 1rem; ' . $display_none,
         ], $this->options));
 
         $this->_form = ActiveForm::begin([
-            'id'        => 'form-' . $this->divId(),
+            'id'        => 'form-' . $this->getDivId(),
             'action'    => $this->action,
             'method'    => $this->method,
             'options'   => $this->formOptions,
@@ -119,7 +119,7 @@ class AdvancedSearch extends Widget
 
     public function registerMyJs()
     {
-        $div_id = $this->divId();
+        $div_id = $this->getDivId();
         Yii::$app->getView()->registerJs(new JsExpression(<<<JS
 $('#advancedsearch-button').click(function (event) {
     $('#${div_id}').toggle();
@@ -132,8 +132,13 @@ JS
         ), \yii\web\View::POS_READY);
     }
 
-    public function divId()
+    public function getDivId()
     {
-        return 'advancedsearch-' . Inflector::camel2id($this->model->formName());
+        if ($this->getId(false) !== null) {
+            $id = $this->getId(false);
+        } else {
+            $id = Inflector::camel2id($this->model->formName());
+        }
+        return 'advancedsearch-' . $id;
     }
 }
