@@ -839,4 +839,5 @@ return [
     'Table Condensed'   => 'Компактная Таблица',
     'Sidebar'           => 'Боковая панель',
     'Collapsed Sidebar' => 'Свернутая боковая панель',
+    'Price'             => 'Цена',
 ];
