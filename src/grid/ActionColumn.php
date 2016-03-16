@@ -39,7 +39,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     public function init()
     {
         if ($this->header === null) {
-            $this->header = Yii::t('app', 'Actions');
+            $this->header = Yii::t('hipanel', 'Actions');
         }
         $this->traitInit();
         $this->registerBtnGroupDirectionFix();

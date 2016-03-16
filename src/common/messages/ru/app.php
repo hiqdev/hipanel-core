@@ -80,8 +80,6 @@ return [
     'Are you sure that you want to truncate database {name}? All tables will be dropped, including data and structure!' => 'Вы уверены, что хотите укоротить базу данных {name}? Все таблицы будут удалены, в том числе данных и структуры!',
     'Are you sure you want to approve outgoing transfer of domain {domain}?' => 'Вы уверены, что хотите подтвердить трансфер домена {domain}?',
     'Are you sure you want to cancel incoming transfer of domain {domain}?' => 'Вы уверены, что хотите отменить трансфер домена {domain}?',
-    'Are you sure you want to delete client {client}?' => 'Вы уверены, что хотите удалить клиента {client}',
-    'Are you sure you want to delete client {client} contact {contact}?' => 'Вы уверены, что хотите удалить контакт {contact} клиента {client}?',
     'Are you sure you want to delete domain {domain}?' => 'Вы уверены, что хотите удалить домен {domain}',
     'Are you sure you want to delete server {name}? You will loose everything!' => 'Вы уверены, что хотите удалить сервер {name}? Вы потеряете все!',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
