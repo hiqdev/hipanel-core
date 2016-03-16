@@ -27,6 +27,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Bulk actions' => 'Массовые действия',
     'Actions' => 'Действия',
     ' label' => ' метка',
     '+{0, plural, one{# alias} other{# aliases}}' => '+{0, plural, one{# алиас} few{# алиаса} other{# алиасов}}',
