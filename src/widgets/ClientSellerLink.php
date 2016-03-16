@@ -11,21 +11,63 @@
 
 namespace hipanel\widgets;
 
+use hipanel\base\Model;
 use Yii;
 use yii\helpers\Html;
 
 class ClientSellerLink extends \yii\base\widget
 {
+    /**
+     * @var Model
+     */
     public $model;
+
+    public $clientAttribute = null;
+    public $clientIdAttribute = null;
+    public $sellerAttribute = null;
+    public $sellerIdAttribute = null;
 
     public function run()
     {
-        $res = $this->model->getClient() === 'anonym'
-            ? Html::tag('b', 'anonym')
-            : Html::a($this->model->getClient(), ['@client/view', 'id' => $this->model->getClientId()]);
-        if (Yii::$app->user->can('support')) {
-            $res .= ' / ' . Html::a($this->model->getSeller(), ['@client/view', 'id' => $this->model->getSellerId()]);
+
+        if ($this->model->getClient() === 'anonym') {
+            $result = Html::tag('b', 'anonym');
+        } else {
+            $result = Html::a($this->getClient(), ['@client/view', 'id' => $this->getClientId()]);
         }
-        return $res;
+
+        if (Yii::$app->user->can('support') && $this->getSeller() !== false) {
+            $result .= ' / ' . Html::a($this->getSeller(), ['@client/view', 'id' => $this->getSellerId()]);
+        }
+
+        return $result;
+    }
+
+    public function getClient()
+    {
+        return isset($this->clientAttribute) ? $this->model->getAttribute($this->clientAttribute) : $this->model->getClient();
+    }
+
+    public function getClientId()
+    {
+        return isset($this->clientIdAttribute) ? $this->model->getAttribute($this->clientIdAttribute) : $this->model->getClientId();
+    }
+
+    public function getSeller()
+    {
+        if ($this->sellerAttribute === false) {
+            return false;
+        }
+
+        return isset($this->sellerAttribute) ? $this->model->getAttribute($this->sellerAttribute) : $this->model->getSeller();
+    }
+
+    public function getSellerId()
+    {
+        if ($this->sellerAttribute === false || $this->sellerIdAttribute === false) {
+            return false;
+        }
+
+        return isset($this->sellerIdAttribute) ? $this->model->getAttribute($this->sellerIdAttribute) : $this->model->getSellerId();
     }
 }
