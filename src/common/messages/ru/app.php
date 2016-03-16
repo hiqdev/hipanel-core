@@ -27,6 +27,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Set price' => 'Установить цену',
     'Bulk actions' => 'Массовые действия',
     'Actions' => 'Действия',
     ' label' => ' метка',
