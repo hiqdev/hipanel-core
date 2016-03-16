@@ -751,8 +751,6 @@ return [
     'Switched off' => 'Отключен',
     'Mailboxes' => 'Почтовые ящики',
     'Create mailbox' => 'Создать почту',
-    'full list' => 'полный список',
-    'filtered list' => 'отфильрованный список',
     'Forwarded to' => 'Пересылается на',
     'Do nothing' => 'Ничего не делать',
     'Remove' => 'Удалить',
