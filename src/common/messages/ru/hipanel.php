@@ -54,4 +54,11 @@ return [
     'Domains' => 'Домены',
     'Contacts' => 'Контакты',
     'Refresh' => 'Обновить',
+    'Basic actions' => 'Базовые действия',
+    'Notice' => 'Заметка',
+    'To confirm this operation please enter your PIN code' => 'Для подтверждения вам надо ввести PIN-код',
+    'Create ticket' => 'Создать тикет',
+    'Recharge account' => 'Пополнить счет',
+    'Profile' => 'Профиль',
+    'Sign out' => 'Выйти',
 ];
