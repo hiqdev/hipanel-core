@@ -212,6 +212,7 @@ class ModalButton extends Widget
             $label = ArrayHelper::remove($footer, 'label', 'OK');
             $footer = ArrayHelper::merge([
                 'data-modal-submit' => true,
+                'data-loading-text' => '<i class="fa fa-circle-o-notch fa-spin"></i> ' . Yii::t('hipanel', 'loading'),
             ], $footer);
 
             if ($tag === 'input') {
