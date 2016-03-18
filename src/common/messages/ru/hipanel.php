@@ -61,4 +61,6 @@ return [
     'Recharge account' => 'Пополнить счет',
     'Profile' => 'Профиль',
     'Sign out' => 'Выйти',
+    'loading' => 'загрузка',
+    'saving' => 'сохранение',
 ];
