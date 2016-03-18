@@ -518,7 +518,6 @@ return [
     'Server' => 'Сервер',
     'Server ID' => 'ID сервера',
     'Server already has a running task. Can not start new.' => 'Сервер уже выполняет задачу. Не удается запустить новую.',
-    'Server detailed information' => 'Подробная информация о сервере',
     'Server information' => 'Информация о сервере',
     'Servers' => 'Сервера',
     'Service' => 'Сервис',
