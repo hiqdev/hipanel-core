@@ -82,6 +82,9 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+        'i18n' => [
+            'class' => \hipanel\base\I18N::class
+        ],
     ],
 ];
 
