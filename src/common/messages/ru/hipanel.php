@@ -63,4 +63,5 @@ return [
     'Sign out' => 'Выйти',
     'loading' => 'загрузка',
     'saving' => 'сохранение',
+    'IP address' => 'IP адрес'
 ];
