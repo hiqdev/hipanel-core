@@ -835,3 +835,7 @@ div.required label.radio-inline:after {
 .select2-highlighted .text-muted {
     color: #ECECEC;
 }
+
+.user-panel > .info > a {
+    line-height: 1.7em;
+}

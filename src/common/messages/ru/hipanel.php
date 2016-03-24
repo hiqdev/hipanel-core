@@ -63,5 +63,7 @@ return [
     'Sign out' => 'Выйти',
     'loading' => 'загрузка',
     'saving' => 'сохранение',
-    'IP address' => 'IP адрес'
+    'IP address' => 'IP адрес',
+    'Balance: {balance}' => 'Баланс: {balance}',
+    'Credit: {credit}' => 'Кредит: {credit}',
 ];
