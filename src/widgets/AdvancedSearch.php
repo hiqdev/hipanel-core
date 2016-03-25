@@ -68,6 +68,15 @@ class AdvancedSearch extends Widget
     protected $_form;
 
     /**
+     * @var array|false Options that will be used for the form submit button wrapping tag.
+     * The following options have special effect:
+     *  - `tag`: the tag name. Defaults to `div`
+     *
+     * Setting this property to `false` will prevent submit button render.
+     */
+    public $submitButtonWrapperOptions = [];
+
+    /**
      * Renders the starting div.
      */
     public function init()
@@ -77,6 +86,12 @@ class AdvancedSearch extends Widget
 
         if (ArrayHelper::remove($this->options, 'displayNone', true) === true) {
             $display_none = Yii::$app->request->get($this->model->formName())['search_form'] ? '' : 'display:none';
+        }
+
+        if ($this->submitButtonWrapperOptions !== false) {
+            $this->submitButtonWrapperOptions = ArrayHelper::merge([
+                'class' => 'col-md-12'
+            ], $this->submitButtonWrapperOptions);
         }
 
         $tag = ArrayHelper::remove($this->options, 'tag', 'div');
@@ -103,11 +118,15 @@ class AdvancedSearch extends Widget
 
     public function run()
     {
-        echo Html::beginTag('div', ['class' => 'col-md-12']);
-        echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-info']);
-        echo ' &nbsp; ';
-        echo Html::a(Yii::t('app', 'Clear'), $this->action, ['class' => 'btn btn-default', 'data-params' => ['clear-filters' => true], 'data-method' => 'POST']);
-        echo Html::endTag('div');
+        if ($this->submitButtonWrapperOptions !== false) {
+            $tag = ArrayHelper::remove($this->submitButtonWrapperOptions, 'tag', 'div');
+            echo Html::beginTag($tag, $this->submitButtonWrapperOptions);
+            echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-info']);
+            echo ' &nbsp; ';
+            echo Html::a(Yii::t('app', 'Clear'), $this->action, ['class' => 'btn btn-default', 'data-params' => ['clear-filters' => true], 'data-method' => 'POST']);
+            echo Html::endTag('div');
+        }
+
         $this->_form->end();
         echo Html::endTag('div');
     }
