@@ -32,8 +32,10 @@ class ClientSellerLink extends \yii\base\widget
 
         if ($this->model->getClient() === 'anonym') {
             $result = Html::tag('b', 'anonym');
-        } else {
+        } elseif ($this->getClientId() == Yii::$app->user->id || Yii::$app->user->can('support')) {
             $result = Html::a($this->getClient(), ['@client/view', 'id' => $this->getClientId()]);
+        } else {
+            $result = $this->getClient();
         }
 
         if (Yii::$app->user->can('support') && $this->getSeller() !== false) {
