@@ -364,7 +364,6 @@ return [
     'Mailing settings' => 'Почтовые уведомления',
     'Mails' => 'Письма',
     'Make any notes for your convenience' => 'Сделать какие-либо записи для вашего удобства',
-    'Manage IP restrictions' => 'Управление ограничением по IP',
     'Manager' => 'Менеджер',
     'Manufacturer' => 'Производитель',
     'Medium' => 'Средний',
