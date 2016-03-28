@@ -25,9 +25,11 @@ class ValidateFormAction extends Action
     public $allowDynamicScenario = true;
 
     /**
-     * @var \Closure function used to generate the input ID for the validated field.
+     * @var \Closure|false function used to generate the input ID for the validated field.
      * Method signature: `function ($action, $model, $id, $attribute, $errors)`
      * Closure MUST return string.
+     *
+     * Set this property value to `false`, if input ID must not contain sequential index
      */
     public $validatedInputId = null;
 
@@ -70,6 +72,8 @@ class ValidateFormAction extends Action
             foreach ($model->getErrors() as $attribute => $errors) {
                 if ($this->validatedInputId instanceof \Closure) {
                     $id = call_user_func($this->validatedInputId, $this, $model, $i, $attribute, $errors);
+                } elseif ($this->validatedInputId === false) {
+                    $id = Html::getInputId($model, $attribute);
                 } else {
                     $id = Html::getInputId($model, "[$i]" . $attribute);
                 }
