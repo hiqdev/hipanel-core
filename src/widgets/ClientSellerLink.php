@@ -22,15 +22,15 @@ class ClientSellerLink extends \yii\base\widget
      */
     public $model;
 
-    public $clientAttribute = null;
+    public $clientAttribute   = null;
     public $clientIdAttribute = null;
-    public $sellerAttribute = null;
+    public $sellerAttribute   = null;
     public $sellerIdAttribute = null;
 
     public function run()
     {
 
-        if ($this->model->getClient() === 'anonym') {
+        if ($this->getClient() === 'anonym') {
             $result = Html::tag('b', 'anonym');
         } elseif ($this->getClientId() == Yii::$app->user->id || Yii::$app->user->can('support')) {
             $result = Html::a($this->getClient(), ['@client/view', 'id' => $this->getClientId()]);
@@ -47,12 +47,12 @@ class ClientSellerLink extends \yii\base\widget
 
     public function getClient()
     {
-        return isset($this->clientAttribute) ? $this->model->getAttribute($this->clientAttribute) : $this->model->getClient();
+        return isset($this->clientAttribute) ? $this->model->{$this->clientAttribute} : $this->model->getClient();
     }
 
     public function getClientId()
     {
-        return isset($this->clientIdAttribute) ? $this->model->getAttribute($this->clientIdAttribute) : $this->model->getClientId();
+        return isset($this->clientIdAttribute) ? $this->model->{$this->clientIdAttribute} : $this->model->getClientId();
     }
 
     public function getSeller()
@@ -61,7 +61,7 @@ class ClientSellerLink extends \yii\base\widget
             return false;
         }
 
-        return isset($this->sellerAttribute) ? $this->model->getAttribute($this->sellerAttribute) : $this->model->getSeller();
+        return isset($this->sellerAttribute) ? $this->model->{$this->sellerAttribute} : $this->model->getSeller();
     }
 
     public function getSellerId()
@@ -70,6 +70,6 @@ class ClientSellerLink extends \yii\base\widget
             return false;
         }
 
-        return isset($this->sellerIdAttribute) ? $this->model->getAttribute($this->sellerIdAttribute) : $this->model->getSellerId();
+        return isset($this->sellerIdAttribute) ? $this->model->{$this->sellerIdAttribute} : $this->model->getSellerId();
     }
 }
