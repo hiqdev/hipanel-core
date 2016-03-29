@@ -61,10 +61,6 @@ class SearchAction extends SwitchAction
 
     public function init()
     {
-        if (!array_key_exists('pagination', $this->dataProviderOptions)) {
-            $this->dataProviderOptions['pagination'] = false;
-        }
-
         if ($this->ajaxResponseFormatter === null) {
             $this->ajaxResponseFormatter = function ($action) {
                 $results = [];
