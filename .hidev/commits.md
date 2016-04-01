@@ -3,11 +3,37 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-- Added ChartJs
-    - ad94f9a 2016-02-25 Added ChartOptions widget (d.naumenko.a@gmail.com)
-    - e9621ea 2016-02-23 Added ChartJs widget (d.naumenko.a@gmail.com)
-    - f321858 2016-02-22 Added chartjs dependency (d.naumenko.a@gmail.com)
+- Fixed build
+    - 5797d4b 2016-03-31 added use of `hiqdev/composer-asset-plugin` (sol@hiqdev.com)
 - Fixed different issues
+    - 28a19fa 2016-03-30 Updated translations (d.naumenko.a@gmail.com)
+    - 5f29994 2016-03-29 AdvancedSearch - added `_csrf` to Clear button (d.naumenko.a@gmail.com)
+    - 549468f 2016-03-29 SearchAction - removed default that disables pagination (d.naumenko.a@gmail.com)
+    - 343ea35 2016-03-29 ClientSellerLink changed to work with DynamicModel (d.naumenko.a@gmail.com)
+    - 11847f8 2016-03-28 ValidateFormAction::validatedInputId - added posibility to handle `false` in a special way (d.naumenko.a@gmail.com)
+    - c5a2405 2016-03-28 ClientSellerLink - updated to show link to client detais only for self client id, when user is client (d.naumenko.a@gmail.com)
+    - 8ad6ae4 2016-03-28 Updated translations (d.naumenko.a@gmail.com)
+    - 8a2b421 2016-03-25 Added AdvancedSearch::submitButtonWrapperOptions property (d.naumenko.a@gmail.com)
+    - 76fb128 2016-03-24 Updated translations (d.naumenko.a@gmail.com)
+    - c17a653 2016-03-22 Added custom i18n component (d.naumenko.a@gmail.com)
+    - b3b57c6 2016-03-22 Updated translations (d.naumenko.a@gmail.com)
+    - af2a3aa 2016-03-18 Updated translations (d.naumenko.a@gmail.com)
+    - 0d60e77 2016-03-18 Added HtmlHelper::loadingButtonOptions() to add `data-loading-text` and `onClick` to Html options and make it work with Bootstrap Button.js easily (d.naumenko.a@gmail.com)
+    - bc764db 2016-03-18 Updated translationsg (d.naumenko.a@gmail.com)
+    - 26c32ff 2016-03-17 Translations update (d.naumenko.a@gmail.com)
+    - ef47d39 2016-03-16 Translations update (d.naumenko.a@gmail.com)
+    - 8f1a75b 2016-03-16 ClientSellerLink - enhanced to work with custom client attribute names (d.naumenko.a@gmail.com)
+    - 59ae403 2016-03-16 updated translation (partially moved to ticket module) (d.naumenko.a@gmail.com)
+    - 2486150 2016-03-16 translation (andreyklochok@gmail.com)
+    - 1f01a89 2016-03-16 translation (andreyklochok@gmail.com)
+    - f1b9a84 2016-03-16 translation (andreyklochok@gmail.com)
+    - ce6e800 2016-03-16 Updated translations (d.naumenko.a@gmail.com)
+    - fa7cf6b 2016-03-15 translation (andreyklochok@gmail.com)
+    - a56c6ed 2016-03-15 Add AmountWithCurrencyWidget (andreyklochok@gmail.com)
+    - 7b64a01 2016-03-14 AdvancedSearch::divId renamed to getDivId() (d.naumenko.a@gmail.com)
+    - 1407b59 2016-03-12 ActionBox::renderSearchForm got 2nd parameter - advancedSearchOptions (d.naumenko.a@gmail.com)
+    - c28368b 2016-03-12 AdvancedSearch::options renamed to formOptions, added options  with another meaning (d.naumenko.a@gmail.com)
+    - 04b6b8f 2016-03-12 IndexAction - fixed bug of data loading when $model->formName() is empty (d.naumenko.a@gmail.com)
     - e94749c 2016-03-09 translation (sol@hiqdev.com)
     - 99af8d4 2016-03-04 translation (sol@hiqdev.com)
     - f00f567 2016-03-02 translations (sol@hiqdev.com)
@@ -103,6 +129,10 @@ hiqdev/hipanel-core commits history
     - 7d8f317 2015-12-07 + merchant log target (sol@hiqdev.com)
     - be164f6 2015-12-07 Pjax - redone beforeReplace crutch (d.naumenko.a@gmail.com)
     - 410375a 2015-12-04 AjaxModal::registerClientScript - override default to support callbacks (d.naumenko.a@gmail.com)
+- Added ChartJs
+    - ad94f9a 2016-02-25 Added ChartOptions widget (d.naumenko.a@gmail.com)
+    - e9621ea 2016-02-23 Added ChartJs widget (d.naumenko.a@gmail.com)
+    - f321858 2016-02-22 Added chartjs dependency (d.naumenko.a@gmail.com)
 - Changed incompatibly PHP < 5.5: used constant `::class`
     - f69063f 2015-12-04 Classes notation changed from pathtoClassName to PHP 5.6 ClassName::class (d.naumenko.a@gmail.com)
 - Fixed and improved smart actions

@@ -3,8 +3,9 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
-- Added ChartJs
+- Fixed build
 - Fixed different issues
+- Added ChartJs
 - Changed incompatibly PHP < 5.5: used constant `::class`
 - Fixed and improved smart actions
 - Fixed minor issues and translation
