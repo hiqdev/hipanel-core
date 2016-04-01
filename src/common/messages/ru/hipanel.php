@@ -67,4 +67,8 @@ return [
     'IP address' => 'IP адрес',
     'Balance: {balance}' => 'Баланс: {balance}',
     'Credit: {credit}' => 'Кредит: {credit}',
+    'Client' => 'Клиент',
+    'Time' => 'Время',
+    'Currency' => 'Валюта',
+    'Balance' => 'Баланс',
 ];
