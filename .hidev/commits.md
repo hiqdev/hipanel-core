@@ -3,9 +3,15 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-- Fixed build
+- Fixed build with asset-packagist
+    - 309828b 2016-04-05 dropped hiqdev-pjax dependency (d.naumenko.a@gmail.com)
+    - 5c39630 2016-04-05 Changed dependency from jquery-pjax to yii2-pjax (d.naumenko.a@gmail.com)
+    - 8e23f58 2016-04-05 used asset-packagist (sol@hiqdev.com)
+    - c07ba63 2016-04-05 fixed post pjax at SmartPerformAction (sol@hiqdev.com)
+    - 1ac9664 2016-04-05 Removed hiqdev/composer-asset-plugin dependency (d.naumenko.a@gmail.com)
     - 5797d4b 2016-03-31 added use of `hiqdev/composer-asset-plugin` (sol@hiqdev.com)
 - Fixed different issues
+    - c662096 2016-04-01 Updated translations (d.naumenko.a@gmail.com)
     - 28a19fa 2016-03-30 Updated translations (d.naumenko.a@gmail.com)
     - 5f29994 2016-03-29 AdvancedSearch - added `_csrf` to Clear button (d.naumenko.a@gmail.com)
     - 549468f 2016-03-29 SearchAction - removed default that disables pagination (d.naumenko.a@gmail.com)

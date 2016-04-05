@@ -13,6 +13,7 @@ HiPanel Core
 [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 
 [HiPanel](http://hipanel.com) is next generation control panel for hosting, domains and more.
+
 This package is the core of the system.
 
 ## Installation

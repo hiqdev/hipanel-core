@@ -3,7 +3,7 @@ hiqdev/hipanel-core changelog
 
 ## Under development
 
-- Fixed build
+- Fixed build with asset-packagist
 - Fixed different issues
 - Added ChartJs
 - Changed incompatibly PHP < 5.5: used constant `::class`
