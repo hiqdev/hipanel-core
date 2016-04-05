@@ -36,8 +36,11 @@ class SmartPerformAction extends SwitchAction
             'POST pjax' => [
                 'save'    => true,
                 'success' => [
-                    'class' => ViewAction::class,
-                    'view'  => $this->pjaxView,
+                    'class'  => ProxyAction::class,
+                    'action' => $this->pjaxView,
+                    'params' => function ($action, $model) {
+                        return ['id' => $model->id];
+                    },
                 ],
             ],
             'POST' => [
