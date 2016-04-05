@@ -23,5 +23,5 @@ namespace hipanel\widgets;
  */
 class PjaxAsset extends \yii\widgets\PjaxAsset
 {
-    public $sourcePath = '@bower/hiqdev-pjax';
+    public $sourcePath = '@bower/yii2-pjax';
 }
