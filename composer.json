@@ -82,7 +82,6 @@
         "2amigos/yii2-chartjs-widget": "~2.0"
     },
     "require-dev": {
-        "hiqdev/composer-asset-plugin": "*@dev",
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
