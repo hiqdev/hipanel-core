@@ -20,7 +20,12 @@ class AmountWithCurrencyWidget extends \yii\base\Widget
     /**
      * @var
      */
-    public $inputAttribute;
+    public $attribute;
+
+    /**
+     * @var
+     */
+    public $inputOptions;
 
     /**
      * @var
@@ -54,8 +59,9 @@ class AmountWithCurrencyWidget extends \yii\base\Widget
             'widgetId' => mt_rand(),
             'model' => $this->model,
 
-            'inputAttribute' => $this->inputAttribute,
+            'attribute' => $this->attribute,
             'inputAttributeType' => $this->inputAttributeType,
+            'inputOptions' => $this->inputOptions,
 
             'selectAttribute' => $this->selectAttribute,
             'selectAttributeOptions' => $this->selectAttributeOptions,
