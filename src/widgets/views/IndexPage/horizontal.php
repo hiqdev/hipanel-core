@@ -17,11 +17,10 @@ $widget = $this->context;
 
 ?>
 
-<?= $widget->renderSearchButton() ?>
 <div class="row">
     <div class="col-md-3">
         <div data-spy="affix_">
-            <a href="create" class="btn btn-success btn-block margin-bottom">Create</a>
+            <?= Html::a(Yii::t('app', 'Create'), 'create', ['class' => 'btn btn-success btn-block margin-bottom']) ?>
 
             <div class="box box-solid collapsed-box">
                 <div class="box-header with-border">
