@@ -839,3 +839,7 @@ div.required label.radio-inline:after {
 .user-panel > .info > a {
     line-height: 1.7em;
 }
+
+a.border-bottom-dashed {
+    border-bottom: dashed 1px #0088cc;
+}
