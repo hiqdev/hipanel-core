@@ -27,17 +27,22 @@ use yii\web\View;
  *
  * The following example will show first two elements of array concatenated with semicolon and bold-narrowed
  *
- * ~~~php
+ * ```php
  * ArraySpoiler::widget([
  *      'data' => ['10.0.0.1', '10.0.0.2', '10.0.0.3', '10.0.0.4'],
  *      'formatter' => function ($v) {
  *          return Html::tag('b', $v);
  *      },
  *      'visibleCount' => 2,
- *      'delimiter'     => '; ',
- *      'popoverOptions' => ['html' => true]
+ *      'delimiter' => '; ',
+ *      'button' => [
+ *          'label' => '+{count}',
+ *          'popoverOptions' => [
+ *              'html' => true
+ *          ],
+ *      ],
  * ]);
- * ~~~
+ * ```
  *
  * Also widget can split string in 'data' field into array by comma symbol.
  *
