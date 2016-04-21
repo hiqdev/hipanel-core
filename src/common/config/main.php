@@ -46,6 +46,10 @@ Yii::$container->set('kartik\field\FieldRange', function ($container, $params, $
 
 $config = [
     'vendorPath' => '@project/vendor',
+    'aliases' => [
+        'bower' => '@vendor/bower-asset',
+        'npm'   => '@vendor/npm-asset',
+    ],
     'components' => [
         'cache' => [
             'class' => 'hipanel\base\Cache',
