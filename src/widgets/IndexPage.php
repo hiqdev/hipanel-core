@@ -46,7 +46,8 @@ class IndexPage extends Widget
     
     public function run()
     {
-        return $this->render('horizontal' . 'IndexPage');
+//        return $this->render('horizontal' . 'IndexPage'); // todo wtf? :)
+        return $this->render('horizontal');
     }
 
     public function renderSearchForm(array $data = [], $advancedSearchOptions = [])
@@ -119,4 +120,8 @@ class IndexPage extends Widget
         ], $options));
     }
 
+    public function getViewPath()
+    {
+        return parent::getViewPath() . DIRECTORY_SEPARATOR . (new \ReflectionClass($this))->getShortName();
+    }
 }
