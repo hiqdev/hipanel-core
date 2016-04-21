@@ -46,7 +46,6 @@ class IndexPage extends Widget
     
     public function run()
     {
-//        return $this->render('horizontal' . 'IndexPage'); // todo wtf? :)
         return $this->render('horizontal');
     }
 
@@ -83,7 +82,7 @@ class IndexPage extends Widget
     {
         return ButtonDropdown::widget([
             'label' => Yii::t('app', 'Per page') . ': ' . (Yii::$app->request->get('per_page') ?: 25),
-            'options' => ['class' => 'btn-default'],
+            'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
                 'items' => [
                     ['label' => '25',  'url' => Url::current(['per_page' => null])],
@@ -102,7 +101,7 @@ class IndexPage extends Widget
 
         return ButtonDropdown::widget([
             'label' => Yii::t('synt', 'View') . ': ' . Yii::t('app', $representation),
-            'options' => ['class' => 'btn-default'],
+            'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
                 'items' => [
                     ['label' => Yii::t('app', 'common'), 'url' => Url::current(['representation' => null])],
@@ -117,6 +116,7 @@ class IndexPage extends Widget
         return LinkSorter::widget(array_merge([
             'show'  => true,
             'sort'  => $this->dataProvider->getSort(),
+            'buttonClass' => 'btn btn-default dropdown-toggle btn-sm'
         ], $options));
     }
 
