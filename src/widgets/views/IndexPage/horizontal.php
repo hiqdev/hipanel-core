@@ -45,7 +45,9 @@ $widget = $this->context;
                 <div class="mailbox-controls">
                     <?= $widget->renderContent('show-actions') ?>
                     <div class="pull-right">
-                        <?= $widget->renderContent('bulk-actions') ?>
+                        <fieldset disabled="disabled">
+                            <?= $widget->renderContent('bulk-actions') ?>
+                        </fieldset>
                     </div>
                 </div>
                 <?= $widget->renderContent('table') ?>
