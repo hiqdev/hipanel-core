@@ -2,15 +2,46 @@
 
 use hipanel\helpers\Url;
 use yii\helpers\Html;
-
-$this->registerJs("
-var fixAffixWidth = function() {
-  $('[data-spy=\"affix\"]').each(function() {
-    $(this).width( $(this).parent().width() );
-  });
+$this->registerCss("
+.affix {
+    top: 5px;
 }
-fixAffixWidth();
-$(window).resize(fixAffixWidth);
+.affix-bottom {
+    position: fixed!important;
+}
+@media (min-width: 768px) {
+    .affix {
+        position: fixed;
+    }
+}
+@media (max-width: 768px) {
+    .affix {
+        position: static;
+    }
+}
+");
+$this->registerJs("
+if ($(window).height() > $('#scrollspy').outerHeight(true)) {
+    var fixAffixWidth = function() {
+        $('#scrollspy').each(function() {
+            $(this).width( $(this).parent().width() );
+        });
+    }
+    fixAffixWidth();
+    $(window).resize(fixAffixWidth);
+    $('#scrollspy').affix({
+        offset: {
+            top: ($('header.main-header').outerHeight(true) + $('section.content-header').outerHeight(true)) + 15,
+            bottom: ($('footer').outerHeight(true)) + 15
+
+        }
+    });
+    $('a.sidebar-toggle').click(function() {
+        setTimeout(function(){
+            fixAffixWidth();
+        }, 500);
+    });
+}
 ");
 
 $widget = $this->context;
@@ -19,15 +50,14 @@ $widget = $this->context;
 
 <div class="row">
     <div class="col-md-3">
-        <div data-spy="affix_">
-            <?= Html::a(Yii::t('app', 'Create'), 'create', ['class' => 'btn btn-success btn-block margin-bottom']) ?>
-
-            <div class="box box-solid collapsed-box">
+        <div id="scrollspy">
+            <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-success btn-block margin-bottom']) ?>
+            <div class="box box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">Advanced search</h3>
                     <div class="box-tools">
                         <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
