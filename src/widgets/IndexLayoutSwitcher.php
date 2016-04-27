@@ -2,8 +2,11 @@
 
 namespace hipanel\widgets;
 
+use hipanel\base\OrientationStorage;
+use Yii;
 use yii\base\Widget;
 use yii\bootstrap\ButtonGroup;
+use yii\helpers\Html;
 
 class IndexLayoutSwitcher extends Widget
 {
@@ -12,30 +15,24 @@ class IndexLayoutSwitcher extends Widget
         return ButtonGroup::widget([
             'encodeLabels' => false,
             'buttons' => [
-                [
-                    'label' => '<i class="fa fa-pause" aria-hidden="true"></i>',
-                    'options' => ['class' => 'btn btn-default btn-sm ' . $this->checkLayoutOrientation('horizontal')]
-                ],
-                [
-                    'label' => '<i class="fa fa-pause fa-rotate-90" aria-hidden="true"></i>',
-                    'options' => ['class' => 'btn btn-default btn-sm ' . $this->checkLayoutOrientation('vertical')]
-                ],
+                Html::a(
+                    '<i class="fa fa-pause" aria-hidden="true"></i>',
+                    ['set-orientation', 'orientation' => OrientationStorage::ORIENTATION_HORIZONTAL, 'route' => Yii::$app->controller->getRoute()],
+                    ['class' => 'btn btn-default btn-sm ' . ($this->isOrientation(OrientationStorage::ORIENTATION_HORIZONTAL) ? 'active' : '')]),
+                Html::a(
+                    '<i class="fa fa-pause fa-rotate-90" aria-hidden="true"></i>',
+                    ['set-orientation', 'orientation' => OrientationStorage::ORIENTATION_VERTICAL, 'route' => Yii::$app->controller->getRoute()],
+                    ['class' => 'btn btn-default btn-sm ' . ($this->isOrientation(OrientationStorage::ORIENTATION_VERTICAL) ? 'active' : '')]),
             ]
         ]);
     }
 
-    private function checkLayoutOrientation($orientation)
+    /**
+     * @param $orientation
+     * @return bool
+     */
+    private function isOrientation($orientation)
     {
-        $activeClass = '';
-        switch ($orientation) {
-            case 'horizontal':
-                $activeClass = 'active';
-                break;
-            case 'vertical':
-                $activeClass = '';
-                break;
-        }
-
-        return $activeClass;
+        return OrientationStorage::instantiate()->get(Yii::$app->controller->route) === $orientation;
     }
 }

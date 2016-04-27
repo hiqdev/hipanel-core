@@ -2,6 +2,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\base\OrientationStorage;
 use Yii;
 use yii\base\Widget;
 use yii\base\InvalidParamException;
@@ -46,7 +47,12 @@ class IndexPage extends Widget
     
     public function run()
     {
-        return $this->render('horizontal');
+        return $this->render($this->getOrientationStorage());
+    }
+
+    public function getOrientationStorage()
+    {
+        return OrientationStorage::instantiate()->get(Yii::$app->controller->getRoute());
     }
 
     public function renderSearchForm(array $data = [], $advancedSearchOptions = [])
