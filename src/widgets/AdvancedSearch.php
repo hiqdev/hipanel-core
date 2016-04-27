@@ -33,6 +33,11 @@ use yii\widgets\ActiveForm;
 class AdvancedSearch extends Widget
 {
     /**
+     * @var
+     */
+    protected $_view;
+
+    /**
      * @var Model model
      */
     public $model;
@@ -113,7 +118,7 @@ class AdvancedSearch extends Widget
 
     public static function renderButton()
     {
-        return Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-info', 'id' => 'advancedsearch-button']);
+        return Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-info btn-sm', 'id' => 'advancedsearch-button']);
     }
 
     public function run()
@@ -166,5 +171,24 @@ JS
             $id = Inflector::camel2id($this->model->formName());
         }
         return 'advancedsearch-' . $id;
+    }
+
+    /**
+     * @param mixed $view
+     */
+    public function setView($view)
+    {
+        $this->_view = $view;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getView()
+    {
+        if ($this->_view === null) {
+            $this->_view = Yii::$app->view;
+        }
+        return $this->_view;
     }
 }

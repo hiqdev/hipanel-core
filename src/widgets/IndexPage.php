@@ -14,11 +14,22 @@ class IndexPage extends Widget
 {
     public $model;
 
+    public $originalContext;
+
     public $dataProvider;
 
     public $contents = [];
 
+    public $searchFormData = [];
+
     protected $_current = null;
+
+    public function init()
+    {
+        parent::init();
+        $this->originalContext = Yii::$app->view->context;
+        $a = 1;
+    }
 
     public function beginContent($name, $params = [])
     {
@@ -55,7 +66,12 @@ class IndexPage extends Widget
         return OrientationStorage::instantiate()->get(Yii::$app->controller->getRoute());
     }
 
-    public function renderSearchForm(array $data = [], $advancedSearchOptions = [])
+    public function setSearchFormData($data)
+    {
+        $this->searchFormData = $data;
+    }
+
+    public function renderSearchForm($advancedSearchOptions = [])
     {
         ob_start();
         ob_implicit_flush(false);
@@ -64,7 +80,7 @@ class IndexPage extends Widget
             foreach (['per_page', 'representation'] as $key) {
                 echo Html::hiddenInput($key, Yii::$app->request->get($key));
             }
-            echo Yii::$app->view->render('_search', array_merge(compact('search'), $data));
+            echo Yii::$app->view->render('_search', array_merge(compact('search'), $this->searchFormData), $this->originalContext);
             $search->end();
         } catch (\Exception $e) {
             ob_end_clean();

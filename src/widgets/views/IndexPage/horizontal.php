@@ -1,3 +1,6 @@
+
+
+
 <?php
 
 use hipanel\helpers\Url;
@@ -54,7 +57,7 @@ $widget = $this->context;
             <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-success btn-block margin-bottom']) ?>
             <div class="box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Advanced search</h3>
+                    <h3 class="box-title"><?= Yii::t('hipanel', 'Advanced search') ?></h3>
                     <div class="box-tools">
                         <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -63,7 +66,7 @@ $widget = $this->context;
                     </div>
                 </div>
                 <div class="box-body ">
-                    <?= $widget->renderContent('search-form') ?>
+                    <?= $widget->renderSearchForm(['options' => ['displayNone' => false]]) ?>
                 </div>
             </div>
         </div>
