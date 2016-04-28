@@ -4,9 +4,9 @@ hiqdev/hipanel-core commits history
 ## Under development
 
 - Fixed build with asset-packagist and newer hidev
-    - e166514 2016-04-28 rehideved (sol@hiqdev.com)
-    - d178d7d 2016-04-28 phpcsfixed (sol@hiqdev.com)
-    - e09f209 2016-04-28 added tests (sol@hiqdev.com)
+    - 087d61f 2016-04-28 rehideved (sol@hiqdev.com)
+    - 7f6b6e7 2016-04-28 phpcsfixed (sol@hiqdev.com)
+    - fcd2168 2016-04-28 added tests (sol@hiqdev.com)
     - 309828b 2016-04-05 dropped hiqdev-pjax dependency (d.naumenko.a@gmail.com)
     - 5c39630 2016-04-05 Changed dependency from jquery-pjax to yii2-pjax (d.naumenko.a@gmail.com)
     - 8e23f58 2016-04-05 used asset-packagist (sol@hiqdev.com)
@@ -14,6 +14,7 @@ hiqdev/hipanel-core commits history
     - 1ac9664 2016-04-05 Removed hiqdev/composer-asset-plugin dependency (d.naumenko.a@gmail.com)
     - 5797d4b 2016-03-31 added use of `hiqdev/composer-asset-plugin` (sol@hiqdev.com)
 - Fixed different issues
+    - 5ebda08 2016-04-27 Render searchForm from IndexPage views (andreyklochok@gmail.com)
     - 7700d0b 2016-04-27 CheckboxColumn - added parent::registerClientScript() call (d.naumenko.a@gmail.com)
     - 454c8cd 2016-04-27 Add OrientationAction and OrientationStorage (andreyklochok@gmail.com)
     - 4d423a4 2016-04-22 Added PrepareAjaxViewAction (d.naumenko.a@gmail.com)
