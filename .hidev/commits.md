@@ -3,7 +3,10 @@ hiqdev/hipanel-core commits history
 
 ## Under development
 
-- Fixed build with asset-packagist
+- Fixed build with asset-packagist and newer hidev
+    - e166514 2016-04-28 rehideved (sol@hiqdev.com)
+    - d178d7d 2016-04-28 phpcsfixed (sol@hiqdev.com)
+    - e09f209 2016-04-28 added tests (sol@hiqdev.com)
     - 309828b 2016-04-05 dropped hiqdev-pjax dependency (d.naumenko.a@gmail.com)
     - 5c39630 2016-04-05 Changed dependency from jquery-pjax to yii2-pjax (d.naumenko.a@gmail.com)
     - 8e23f58 2016-04-05 used asset-packagist (sol@hiqdev.com)
@@ -11,6 +14,16 @@ hiqdev/hipanel-core commits history
     - 1ac9664 2016-04-05 Removed hiqdev/composer-asset-plugin dependency (d.naumenko.a@gmail.com)
     - 5797d4b 2016-03-31 added use of `hiqdev/composer-asset-plugin` (sol@hiqdev.com)
 - Fixed different issues
+    - 7700d0b 2016-04-27 CheckboxColumn - added parent::registerClientScript() call (d.naumenko.a@gmail.com)
+    - 454c8cd 2016-04-27 Add OrientationAction and OrientationStorage (andreyklochok@gmail.com)
+    - 4d423a4 2016-04-22 Added PrepareAjaxViewAction (d.naumenko.a@gmail.com)
+    - fc3400d 2016-04-22 Designe responsive fix in GridView footer (andreyklochok@gmail.com)
+    - 342d42f 2016-04-21 Add IndexLayoutSwitcher (andreyklochok@gmail.com)
+    - 064e5ff 2016-04-21 Redefine getViewPath in IndexPage widget (andreyklochok@gmail.com)
+    - b8ebce2 2016-04-21 + IndexPage widget (sol@hiqdev.com)
+    - c2074a6 2016-04-21 Added a.border-bottom-dashed style to CSS (d.naumenko.a@gmail.com)
+    - 4e01255 2016-04-21 ArraySpoiler - updated class documentation (d.naumenko.a@gmail.com)
+    - a885c19 2016-04-12 Display currency in AmounWithCurrencyWidget (andreyklochok@gmail.com)
     - c662096 2016-04-01 Updated translations (d.naumenko.a@gmail.com)
     - 28a19fa 2016-03-30 Updated translations (d.naumenko.a@gmail.com)
     - 5f29994 2016-03-29 AdvancedSearch - added `_csrf` to Clear button (d.naumenko.a@gmail.com)
