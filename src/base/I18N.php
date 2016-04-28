@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\base;
 
 class I18N extends \yii\i18n\I18N
@@ -18,7 +27,7 @@ class I18N extends \yii\i18n\I18N
     }
 
     /**
-     * Unwraps `{Lang:message}`
+     * Unwraps `{Lang:message}`.
      * @param $message
      * @return string
      */

@@ -127,7 +127,7 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * Returns the module ID based on the namespace of the controller
+     * Returns the module ID based on the namespace of the controller.
      * @return mixed
      */
     public static function moduleId()

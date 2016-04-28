@@ -95,7 +95,7 @@ class AdvancedSearch extends Widget
 
         if ($this->submitButtonWrapperOptions !== false) {
             $this->submitButtonWrapperOptions = ArrayHelper::merge([
-                'class' => 'col-md-12'
+                'class' => 'col-md-12',
             ], $this->submitButtonWrapperOptions);
         }
 
@@ -132,9 +132,9 @@ class AdvancedSearch extends Widget
                 'class' => 'btn btn-default',
                 'data-params' => [
                     'clear-filters' => true,
-                    Yii::$app->request->csrfParam => Yii::$app->request->getCsrfToken()
+                    Yii::$app->request->csrfParam => Yii::$app->request->getCsrfToken(),
                 ],
-                'data-method' => 'POST'
+                'data-method' => 'POST',
             ]);
             echo Html::endTag('div');
         }

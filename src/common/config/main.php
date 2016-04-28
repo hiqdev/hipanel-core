@@ -87,7 +87,7 @@ $config = [
             'useFileTransport' => true,
         ],
         'i18n' => [
-            'class' => \hipanel\base\I18N::class
+            'class' => \hipanel\base\I18N::class,
         ],
     ],
 ];

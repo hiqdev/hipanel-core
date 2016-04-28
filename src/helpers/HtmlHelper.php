@@ -1,13 +1,22 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\helpers;
 
 use Yii;
 use yii\web\JsExpression;
 
 /**
- * Class HtmlHelper
- * @inheritdoc
+ * Class HtmlHelper.
+ * {@inheritdoc}
  */
 class HtmlHelper extends \yii\helpers\BaseHtml
 {
@@ -31,7 +40,7 @@ class HtmlHelper extends \yii\helpers\BaseHtml
     {
         return array_merge([
             'data-loading-text' => '<i class="fa fa-circle-o-notch fa-spin"></i> ' . Yii::t('hipanel', 'loading'),
-            'onClick' => new JsExpression("$(this).button('loading');")
-        ], (array)$buttonOptions);
+            'onClick' => new JsExpression("$(this).button('loading');"),
+        ], (array) $buttonOptions);
     }
 }

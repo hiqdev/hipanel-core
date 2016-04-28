@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
 use hipanel\base\OrientationStorage;
 use Yii;
-use yii\base\Widget;
 use yii\base\InvalidParamException;
+use yii\base\Widget;
 use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -55,7 +64,7 @@ class IndexPage extends Widget
     {
         return $this->contents[$name];
     }
-    
+
     public function run()
     {
         return $this->render($this->getOrientationStorage());
@@ -138,7 +147,7 @@ class IndexPage extends Widget
         return LinkSorter::widget(array_merge([
             'show'  => true,
             'sort'  => $this->dataProvider->getSort(),
-            'buttonClass' => 'btn btn-default dropdown-toggle btn-sm'
+            'buttonClass' => 'btn btn-default dropdown-toggle btn-sm',
         ], $options));
     }
 

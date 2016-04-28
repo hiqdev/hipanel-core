@@ -11,8 +11,6 @@
 
 namespace hipanel\actions;
 
-use Yii;
-
 /**
  * Class PrepareAjaxViewAction.
  */

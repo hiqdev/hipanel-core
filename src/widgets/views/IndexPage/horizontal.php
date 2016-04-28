@@ -3,9 +3,9 @@
 
 <?php
 
-use hipanel\helpers\Url;
 use yii\helpers\Html;
-$this->registerCss("
+
+$this->registerCss('
 .affix {
     top: 5px;
 }
@@ -22,7 +22,7 @@ $this->registerCss("
         position: static;
     }
 }
-");
+');
 $this->registerJs("
 if ($(window).height() > $('#scrollspy').outerHeight(true)) {
     var fixAffixWidth = function() {

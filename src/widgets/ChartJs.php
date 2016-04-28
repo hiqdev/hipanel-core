@@ -1,13 +1,21 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
 use yii\bootstrap\Html;
 use yii\helpers\ArrayHelper;
 
 /**
- * Class ChartJs
- * @package hiqdev\widgets
+ * Class ChartJs.
  */
 class ChartJs extends \dosamigos\chartjs\ChartJs
 {
@@ -29,13 +37,13 @@ class ChartJs extends \dosamigos\chartjs\ChartJs
     }
 
     /**
-     * Renders the legend block and registers proper CSS and JS
+     * Renders the legend block and registers proper CSS and JS.
      */
     public function renderLegend()
     {
         $options = ArrayHelper::merge([
             'id' => $this->options['id'] . '-legend',
-            'class' => 'chart-legend'
+            'class' => 'chart-legend',
         ], $this->legend);
         $tag = ArrayHelper::remove($options, 'tag', 'div');
 

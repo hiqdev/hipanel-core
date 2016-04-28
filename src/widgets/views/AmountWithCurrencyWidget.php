@@ -1,6 +1,6 @@
 <?php
-use yii\helpers\Html;
 use \hipanel\helpers\StringHelper;
+use yii\helpers\Html;
 
 $this->registerJs(<<<JS
     $('#$widgetId .dropdown-menu a').on('click', function (event) {

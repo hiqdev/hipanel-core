@@ -22,8 +22,6 @@ use yii\web\JsExpression;
 /**
  * Class ChartOptions is used to render chart configurations buttons, register events listeners and reloads
  * the cart with the updated properties.
- *
- * @package hipanel\widgets
  */
 class ChartOptions extends \yii\base\Widget
 {
@@ -89,7 +87,7 @@ class ChartOptions extends \yii\base\Widget
     public $pickerOptions = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @throws InvalidConfigException
      */
     public function init()
@@ -102,7 +100,7 @@ class ChartOptions extends \yii\base\Widget
     }
 
     /**
-     * Initializes default values for the widget properties
+     * Initializes default values for the widget properties.
      * @void
      */
     protected function initDefaults()
@@ -161,13 +159,13 @@ class ChartOptions extends \yii\base\Widget
                     Yii::t('hipanel', 'Last Month') => new JsExpression('[moment().subtract("month", 1).startOf("month"), new Date()]'),
                     Yii::t('hipanel', 'Last 3 months') => new JsExpression('[moment().subtract("month", 3).startOf("month"), new Date()]'),
                     Yii::t('hipanel', 'Last year') => new JsExpression('[moment().subtract("year", 1).startOf("year"), new Date()]'),
-                ]
-            ]
+                ],
+            ],
         ], $this->pickerOptions);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -179,7 +177,7 @@ class ChartOptions extends \yii\base\Widget
     }
 
     /**
-     * Begins the Html form
+     * Begins the Html form.
      * @return string
      */
     protected function beginForm()
@@ -188,7 +186,7 @@ class ChartOptions extends \yii\base\Widget
     }
 
     /**
-     * Builds hidden input according to the [[hiddenInptuts]] property
+     * Builds hidden input according to the [[hiddenInptuts]] property.
      * @return string
      * @see hiddenInputs
      */
@@ -203,7 +201,7 @@ class ChartOptions extends \yii\base\Widget
     }
 
     /**
-     * Builds buttons using [[buttonsTemplate]] and [[buttonsParts]]
+     * Builds buttons using [[buttonsTemplate]] and [[buttonsParts]].
      *
      * @return string
      * @see buttonsTemplates
@@ -248,7 +246,7 @@ HTML;
     }
 
     /**
-     * Builds the dropdown for the aggregation selection
+     * Builds the dropdown for the aggregation selection.
      *
      * @return string
      */
@@ -262,7 +260,7 @@ HTML;
     }
 
     /**
-     * Ends the HTML form
+     * Ends the HTML form.
      *
      * @return string
      */

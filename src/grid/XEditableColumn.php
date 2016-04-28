@@ -11,7 +11,6 @@
 
 namespace hipanel\grid;
 
-use hiqdev\higrid\FeaturedColumnTrait;
 use Yii;
 
 /**

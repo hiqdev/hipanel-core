@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
 class AmountWithCurrencyWidget extends \yii\base\Widget
@@ -49,8 +58,9 @@ class AmountWithCurrencyWidget extends \yii\base\Widget
 
     public function init()
     {
-        if ($this->inputAttributeType === null)
+        if ($this->inputAttributeType === null) {
             $this->inputAttributeType = self::INPUT_TYPE_TEXT;
+        }
     }
 
     public function run()

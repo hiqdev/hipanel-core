@@ -41,7 +41,7 @@ class OrientationStorage extends Component
     public static function instantiate($options = [])
     {
         $storage = Yii::$app->session->get(static::SESSION_KEY);
-        if (!$storage instanceof OrientationStorage) {
+        if (!$storage instanceof self) {
             $storage = new static($options);
             Yii::$app->session->set(static::SESSION_KEY, $storage);
         }

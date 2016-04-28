@@ -1,12 +1,12 @@
 <?php
 
 /*
- * Finance module for HiPanel
+ * HiPanel core package
  *
- * @link      https://github.com/hiqdev/hipanel-module-finance
- * @package   hipanel-module-finance
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\tests\unit\base;

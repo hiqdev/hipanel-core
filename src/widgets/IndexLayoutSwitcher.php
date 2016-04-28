@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\widgets;
 
 use hipanel\base\OrientationStorage;
@@ -23,7 +32,7 @@ class IndexLayoutSwitcher extends Widget
                     '<i class="fa fa-pause fa-rotate-90" aria-hidden="true"></i>',
                     ['set-orientation', 'orientation' => OrientationStorage::ORIENTATION_VERTICAL, 'route' => Yii::$app->controller->getRoute()],
                     ['class' => 'btn btn-default btn-sm ' . ($this->isOrientation(OrientationStorage::ORIENTATION_VERTICAL) ? 'active' : '')]),
-            ]
+            ],
         ]);
     }
 
