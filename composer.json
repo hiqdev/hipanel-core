@@ -82,6 +82,8 @@
         "2amigos/yii2-chartjs-widget": "~2.0"
     },
     "require-dev": {
+        "hiqdev/hidev-php": "<2.0",
+        "hiqdev/hidev-vendor": "<2.0",
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",

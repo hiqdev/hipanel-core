@@ -13,7 +13,3 @@ package:
 
         This package is the core of the system.
 
-require:
-    hiqdev/hidev-php:    "*"
-    hiqdev/hidev-vendor: "*"
-
