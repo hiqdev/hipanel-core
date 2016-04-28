@@ -60,8 +60,7 @@ $widget = $this->context;
                     <h3 class="box-title"><?= Yii::t('hipanel', 'Advanced search') ?></h3>
                     <div class="box-tools">
                         <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -76,7 +75,7 @@ $widget = $this->context;
             <div class="box-body no-padding">
                 <div class="mailbox-controls">
                     <?= $widget->renderContent('show-actions') ?>
-                    <div class="pull-right">
+                    <div class="box-tools box-bulk-actions pull-right">
                         <fieldset disabled="disabled">
                             <?= $widget->renderContent('bulk-actions') ?>
                         </fieldset>

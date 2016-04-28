@@ -17,6 +17,8 @@ use yii\base\InvalidParamException;
 use yii\base\Widget;
 use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
+use yii\helpers\Inflector;
+use yii\helpers\Json;
 use yii\helpers\Url;
 
 class IndexPage extends Widget
@@ -36,8 +38,36 @@ class IndexPage extends Widget
     public function init()
     {
         parent::init();
+        $searchFormId = Json::htmlEncode("#{$this->getBulkFormId()}");
         $this->originalContext = Yii::$app->view->context;
-        $a = 1;
+        $view = $this->getView();
+        $view->registerJs(<<<JS
+        // Checkbox
+        var checkboxes = $('table input[type="checkbox"]');
+        var bulkcontainer = $('.box-bulk-actions fieldset');
+        checkboxes.on('ifChecked ifUnchecked', function(event) {
+            if (event.type == 'ifChecked' && $('input.icheck').filter(':checked').length > 0) {
+                bulkcontainer.prop('disabled', false);
+            } else if ($('input.icheck').filter(':checked').length == 0) {
+                bulkcontainer.prop('disabled', true);
+            }
+        });
+        // On/Off Actions TODO: reduce scope
+        $(document).on('click', '.box-bulk-actions a', function (event) {
+            var link = $(this);
+            var action = link.data('action');
+            var form = $($searchFormId);
+            if (action) {
+                form.attr({'action': action, method: 'POST'}).submit();
+            }
+        });
+JS
+);
+    }
+
+    public function getBulkFormId()
+    {
+        return 'bulk-' . Inflector::camel2id($this->model->formName());
     }
 
     public function beginContent($name, $params = [])
