@@ -79,7 +79,8 @@
         "wbraganca/yii2-dynamicform": "*",
         "bower-asset/less-space": "*",
         "bower-asset/octicons": "*",
-        "2amigos/yii2-chartjs-widget": "~2.0"
+        "2amigos/yii2-chartjs-widget": "~2.0",
+        "tysonmatanich/elementQuery": "*"
     },
     "require-dev": {
         "hiqdev/hidev-php": "<2.0",
@@ -99,6 +100,18 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.hiqdev.com"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "tysonmatanich/elementQuery",
+                "version": "0.1",
+                "source": {
+                    "type": "git",
+                    "url": "git@github.com:tysonmatanich/elementQuery.git",
+                    "reference": "master"
+                }
+            }
         }
     ]
 }

@@ -4,6 +4,9 @@
 <?php
 
 use yii\helpers\Html;
+use hipanel\frontend\assets\ElementQueryAsset;
+
+ElementQueryAsset::register($this);
 
 $this->registerCss('
 .affix {
@@ -21,6 +24,9 @@ $this->registerCss('
     .affix {
         position: static;
     }
+}
+#advancedsearch-part-search[min-width~="300px"] div {
+    width: 100%;
 }
 ');
 $this->registerJs("
