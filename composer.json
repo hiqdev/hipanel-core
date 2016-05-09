@@ -79,8 +79,7 @@
         "wbraganca/yii2-dynamicform": "*",
         "bower-asset/less-space": "*",
         "bower-asset/octicons": "*",
-        "2amigos/yii2-chartjs-widget": "~2.0",
-        "tysonmatanich/elementQuery": "*"
+        "2amigos/yii2-chartjs-widget": "~2.0"
     },
     "require-dev": {
         "hiqdev/hidev-php": "<2.0",
