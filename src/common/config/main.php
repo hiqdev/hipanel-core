@@ -58,7 +58,7 @@ $config = [
         'authManager' => [
             'class' => 'hipanel\base\AuthManager',
         ],
-        'hiresource' => [
+        'hiart' => [
             'class'  => 'hipanel\base\Connection',
             'auth'   => function () {
                 if (Yii::$app->user->identity) {
@@ -99,7 +99,7 @@ if (YII_DEBUG && !YII_ENV_TEST) {
         'class' => 'yii\debug\Module',
         'allowedIPs' => isset($params['debug_ips']) ? $params['debug_ips'] : '',
         'panels' => [
-            'hiresource' => [
+            'hiart' => [
                 'class' => 'hiqdev\hiart\DebugPanel',
             ],
         ],
