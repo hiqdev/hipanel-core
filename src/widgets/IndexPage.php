@@ -65,11 +65,6 @@ JS
 );
     }
 
-    public function getBulkFormId()
-    {
-        return 'bulk-' . Inflector::camel2id($this->model->formName());
-    }
-
     public function beginContent($name, $params = [])
     {
         if ($this->_current) {
@@ -184,5 +179,20 @@ JS
     public function getViewPath()
     {
         return parent::getViewPath() . DIRECTORY_SEPARATOR . (new \ReflectionClass($this))->getShortName();
+    }
+
+    public function getBulkFormId()
+    {
+        return 'bulk-' . Inflector::camel2id($this->model->formName());
+    }
+
+    public function beginBulkForm($action = '')
+    {
+        echo Html::beginForm($action, 'POST', ['id' => $this->getBulkFormId()]);
+    }
+
+    public function endBulkForm()
+    {
+        echo Html::endForm();
     }
 }
