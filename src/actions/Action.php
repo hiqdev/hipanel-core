@@ -104,7 +104,7 @@ class Action extends \yii\base\Action
             }
 
             $this->_collection = Yii::createObject(ArrayHelper::merge([
-                'class' => 'hiqdev\hiart\Collection',
+                'class' => Collection::className(),
                 'model' => $this->controller->newModel(),
                 'scenario' => $scenario,
             ], (array) $this->_collection));
@@ -120,6 +120,10 @@ class Action extends \yii\base\Action
 
     public function beforeLoad()
     {
+        if (isset($this->parent)) {
+            $this->parent->trigger(static::EVENT_BEFORE_LOAD);
+        }
+
         $this->trigger(static::EVENT_BEFORE_LOAD);
     }
 
@@ -141,6 +145,10 @@ class Action extends \yii\base\Action
 
     public function beforeSave()
     {
+        if (isset($this->parent)) {
+            $this->parent->trigger(static::EVENT_BEFORE_SAVE);
+        }
+
         $this->trigger(static::EVENT_BEFORE_SAVE);
     }
 
@@ -157,11 +165,19 @@ class Action extends \yii\base\Action
 
     public function beforePerform()
     {
-        $this->trigger(static::EVENT_BEFORE_PERFORM);
+        if (isset($this->parent)) {
+            $this->parent->trigger(static::EVENT_AFTER_PERFORM);
+        }
+
+        $this->trigger(static::EVENT_AFTER_PERFORM);
     }
 
     public function afterPerform()
     {
+        if (isset($this->parent)) {
+            $this->parent->trigger(static::EVENT_AFTER_PERFORM);
+        }
+
         $this->trigger(static::EVENT_AFTER_PERFORM);
     }
 
