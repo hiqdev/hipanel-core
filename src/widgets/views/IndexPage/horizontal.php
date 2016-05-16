@@ -28,6 +28,10 @@ $this->registerCss('
 #advancedsearch-part-search[min-width~="300px"] div {
     width: 100%;
 }
+.horizontal-view #scrollspy > a.btn {
+    display:block;
+    margin-bottom: 10px;
+}
 ');
 $this->registerJs("
 if ($(window).height() > $('#scrollspy').outerHeight(true)) {
@@ -56,11 +60,11 @@ if ($(window).height() > $('#scrollspy').outerHeight(true)) {
 $widget = $this->context;
 
 ?>
-
+<div class="horizontal-view">
 <div class="row">
     <div class="col-md-3">
         <div id="scrollspy">
-            <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-success btn-block margin-bottom']) ?>
+            <?= $widget->renderContent('main-actions') ?>
             <div class="box box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title"><?= Yii::t('hipanel', 'Advanced search') ?></h3>
@@ -91,4 +95,5 @@ $widget = $this->context;
             </div>
         </div>
     </div>
+</div>
 </div>
