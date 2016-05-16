@@ -42,6 +42,6 @@ class IndexLayoutSwitcher extends Widget
      */
     private function isOrientation($orientation)
     {
-        return OrientationStorage::instantiate()->get(Yii::$app->controller->route) === $orientation;
+        return Yii::$app->get('orientationStorage')->get(Yii::$app->controller->route) === $orientation;
     }
 }

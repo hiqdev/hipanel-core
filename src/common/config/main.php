@@ -89,6 +89,9 @@ $config = [
         'i18n' => [
             'class' => \hipanel\base\I18N::class,
         ],
+        'orientationStorage' => [
+            'class' => \hipanel\base\OrientationStorage::class
+        ]
     ],
 ];
 
@@ -105,8 +108,6 @@ if (YII_DEBUG && !YII_ENV_TEST) {
         ],
     ];
 
-    $config['bootstrap']['gii'] = 'gii';
-    $config['modules']['gii'] = 'yii\gii\Module';
 }
 
 return $config;

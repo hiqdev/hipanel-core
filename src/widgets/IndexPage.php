@@ -14,8 +14,11 @@ namespace hipanel\widgets;
 use hipanel\base\OrientationStorage;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\base\Model;
+use yii\base\Object;
 use yii\base\Widget;
 use yii\bootstrap\ButtonDropdown;
+use yii\data\DataProviderInterface;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
@@ -23,18 +26,45 @@ use yii\helpers\Url;
 
 class IndexPage extends Widget
 {
+    /**
+     * @var Model the search model
+     */
     public $model;
 
+    /**
+     * @var Object original view context.
+     * It is used to render sub-views with the same context, as IndexPage
+     */
     public $originalContext;
 
+    /**
+     * @var DataProviderInterface
+     */
     public $dataProvider;
 
+    /**
+     * @var array Hash of document blocks, that can be rendered later in the widget's views
+     * Blocks can be set explicitly on widget initialisation, or by calling [[beginContent]] and
+     * [[endContent]]
+     *
+     * @see beginContent
+     * @see endContent
+     */
     public $contents = [];
 
-    public $searchFormData = [];
-
+    /**
+     * @var string the name of current content block, that is under the render
+     * @see beginContent
+     * @see endContent
+     */
     protected $_current = null;
 
+    /**
+     * @var array
+     */
+    public $searchFormData = [];
+
+    /** @inheritdoc */
     public function init()
     {
         parent::init();
@@ -65,26 +95,40 @@ JS
 );
     }
 
-    public function beginContent($name, $params = [])
+    /**
+     * Begins output buffer capture to save data in [[contents]] with the $name key.
+     * Must not be called nested. See [[endContent]] for capture terminating.
+     * @param string $name
+     */
+    public function beginContent($name)
     {
         if ($this->_current) {
-            throw new InvalidParamException('Already started content for ' . $this->_current);
+            throw new InvalidParamException('Output buffer capture is already running for ' . $this->_current);
         }
         $this->_current = $name;
         ob_start();
         ob_implicit_flush(false);
     }
 
+    /**
+     * Terminates output buffer capture started by [[beginContent()]]
+     * @see beginContent
+     */
     public function endContent()
     {
         if (!$this->_current) {
-            throw new InvalidParamException('Not started content');
+            throw new InvalidParamException('Outout buffer capture is not running. Call beginContent() first');
         }
         $this->contents[$this->_current] = ob_get_contents();
         ob_end_clean();
         $this->_current = null;
     }
 
+    /**
+     * Returns content saved in [[content]] by $name
+     * @param string $name
+     * @return string
+     */
     public function renderContent($name)
     {
         return $this->contents[$name];
@@ -97,7 +141,9 @@ JS
 
     public function getOrientationStorage()
     {
-        return OrientationStorage::instantiate()->get(Yii::$app->controller->getRoute());
+        $os = Yii::$app->get('orientationStorage');
+        $n = $os->get(Yii::$app->controller->getRoute());
+        return $n;
     }
 
     public function setSearchFormData($data)

@@ -13,39 +13,58 @@ namespace hipanel\base;
 
 use Yii;
 use yii\base\Component;
+use yii\caching\Cache;
+use yii\di\Instance;
+use yii\web\Session;
 
 class OrientationStorage extends Component
 {
-    const SESSION_KEY = 'orientationStorage';
     const ORIENTATION_HORIZONTAL = 'horizontal';
     const ORIENTATION_VERTICAL = 'vertical';
 
+    public $sessionKey = 'orientationStorage';
+
     public $defaultOrientation = self::ORIENTATION_HORIZONTAL;
 
-    public $storage = [];
+    /**
+     * @var array
+     */
+    protected $storage = [];
+
+    /**
+     * @var string session component name
+     */
+    public $session = 'session';
+
+    protected function getSession()
+    {
+        return Yii::$app->getSession();
+    }
+
+    protected function getStorage()
+    {
+        $session = $this->getSession();
+
+        if ($session->has($this->sessionKey)) {
+            $this->storage = $session->get($this->sessionKey);
+        }
+    }
+
+    protected function saveStorage()
+    {
+        $session = $this->getSession();
+        $session->set($this->sessionKey, $this->storage);
+    }
 
     public function set($route, $orientation)
     {
         $this->storage[$route] = $orientation;
+        $this->saveStorage();
     }
 
     public function get($route)
     {
+        $this->getStorage();
         return isset($this->storage[$route]) ? $this->storage[$route] : $this->defaultOrientation;
-    }
-
-    /**
-     * @param array $options
-     * @return OrientationStorage
-     */
-    public static function instantiate($options = [])
-    {
-        $storage = Yii::$app->session->get(static::SESSION_KEY);
-        if (!$storage instanceof self) {
-            $storage = new static($options);
-            Yii::$app->session->set(static::SESSION_KEY, $storage);
-        }
-
-        return $storage;
     }
 }

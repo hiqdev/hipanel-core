@@ -22,11 +22,8 @@ return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
     'runtimePath' => '@project/console/runtime',
-    'bootstrap' => ['log', 'gii'],
+    'bootstrap' => ['log'],
     'controllerNamespace' => 'console\controllers',
-    'modules' => [
-        'gii' => 'yii\gii\Module',
-    ],
     'components' => [
         'log' => [
             'targets' => [

@@ -48,6 +48,6 @@ class OrientationAction extends Action
      */
     public function getStorage()
     {
-        return OrientationStorage::instantiate();
+        return Yii::$app->get('orientationStorage');
     }
 }
