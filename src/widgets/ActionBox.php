@@ -136,7 +136,7 @@ JS
     {
         return ButtonDropdown::widget([
             'label' => Yii::t('app', 'Per page') . ': ' . (Yii::$app->request->get('per_page') ?: 25),
-            'options' => ['class' => 'btn-default'],
+            'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
                 'items' => [
                     ['label' => '25',  'url' => Url::current(['per_page' => null])],

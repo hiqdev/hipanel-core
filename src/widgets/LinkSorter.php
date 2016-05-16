@@ -26,7 +26,7 @@ class LinkSorter extends \yii\widgets\LinkSorter
     /**
      * @var string CSS classes, that will be applied to the button
      */
-    public $buttonClass = 'btn btn-default dropdown-toggle';
+    public $buttonClass = 'btn btn-sm btn-default dropdown-toggle';
 
     public $options = ['class' => 'dropdown-menu', 'role' => 'menu', 'aria-labelledby' => ''];
 

@@ -126,10 +126,10 @@ class AdvancedSearch extends Widget
         if ($this->submitButtonWrapperOptions !== false) {
             $tag = ArrayHelper::remove($this->submitButtonWrapperOptions, 'tag', 'div');
             echo Html::beginTag($tag, $this->submitButtonWrapperOptions);
-            echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-info']);
+            echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-sm btn-info']);
             echo ' &nbsp; ';
             echo Html::a(Yii::t('app', 'Clear'), $this->action, [
-                'class' => 'btn btn-default',
+                'class' => 'btn btn-sm btn-default',
                 'data-params' => [
                     'clear-filters' => true,
                     Yii::$app->request->csrfParam => Yii::$app->request->getCsrfToken(),
