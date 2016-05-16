@@ -106,7 +106,7 @@ class SmartUpdateAction extends SwitchAction
     {
         return array_merge(parent::getDefaultRules(), [
             'POST xeditable' => [
-                'class' => 'hipanel\actions\XEditableAction',
+                'class' => XEditableAction::class,
             ],
             'GET html | POST selection' => [
                 'class'  => RenderAction::class,

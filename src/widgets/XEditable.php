@@ -9,13 +9,6 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-/**
- * Created by PhpStorm.
- * User: silverfire
- * Date: 18.02.16
- * Time: 16:44.
- */
-
 namespace hipanel\widgets;
 
 use Yii;
