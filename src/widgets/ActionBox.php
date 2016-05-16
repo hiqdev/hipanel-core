@@ -100,7 +100,7 @@ JS
 
     public function renderCreateButton($text)
     {
-        return Html::a($text, ['create'], ['class' => 'btn btn-success']);
+        return Html::a($text, ['create'], ['class' => 'btn btn-sm btn-success']);
     }
 
     public function renderSearchButton()
@@ -185,7 +185,7 @@ JS
     public function renderBulkButton($text, $action, $color = 'default')
     {
         return Html::submitButton($text, [
-            'class'         => "btn btn-$color",
+            'class'         => "btn btn-$color btn-sm",
             'form'          => $this->getBulkFormId(),
             'formmethod'    => 'POST',
             'formaction'    => $action,
