@@ -71,4 +71,5 @@ return [
     'Time' => 'Время',
     'Currency' => 'Валюта',
     'Balance' => 'Баланс',
+    'Advanced search' => 'Расширенный поиск',
 ];
