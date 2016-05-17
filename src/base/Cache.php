@@ -13,6 +13,7 @@ namespace hipanel\base;
 
 use Closure;
 use ReflectionFunction;
+use Yii;
 
 class Cache extends \yii\caching\FileCache
 {
@@ -47,7 +48,7 @@ class Cache extends \yii\caching\FileCache
      */
     public function getAuthTimeCached($timeout, array $params, Closure $function)
     {
-        $params[] = \Yii::$app->user->id;
+        $params[] = Yii::$app->user->id;
         return $this->getTimeCached($timeout, $params, $function);
     }
 
