@@ -107,7 +107,6 @@ if (YII_DEBUG && !YII_ENV_TEST) {
             ],
         ],
     ];
-
 }
 
 return $config;
