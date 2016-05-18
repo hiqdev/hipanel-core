@@ -9,12 +9,12 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace frontend\controllers;
+namespace hipanel\controllers;
 
 use common\models\User;
-use frontend\models\ContactForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
+use hipanel\models\ContactForm;
+use hipanel\models\PasswordResetRequestForm;
+use hipanel\models\ResetPasswordForm;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;

@@ -51,7 +51,7 @@ return [
         ],
         'mailer' => [
             'class' => \yii\swiftmailer\Mailer::class,
-            'viewPath' => '@common/mail',
+            'viewPath' => '@hipanel/mail',
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
@@ -70,7 +70,7 @@ return [
             'seller'          => $params['user.seller'],
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'traceLevel' => 0,
             'targets'    => [
                 'default' => [
                     'class'  => \yii\log\FileTarget::class,
