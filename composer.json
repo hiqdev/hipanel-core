@@ -44,14 +44,15 @@
         }
     ],
     "require": {
-        "php": "^5.6|~7.0",
+        "php": "^5.6|^7.0",
         "yiisoft/yii2": "^2.0",
         "yiisoft/yii2-jui": "^2.0",
         "yiisoft/yii2-debug": "^2.0",
-        "yiisoft/yii2-imagine": "~2.0",
+        "yiisoft/yii2-imagine": "^2.0",
         "yiisoft/yii2-bootstrap": "^2.0",
         "yiisoft/yii2-swiftmailer": "^2.0",
-        "hiqdev/yii2-hiam-authclient": "*@dev",
+        "hiqdev/composer-config-plugin": "<2.0 || dev-master",
+        "hiqdev/yii2-hiam-authclient": "*",
         "hiqdev/yii2-hiart": "*@dev",
         "hiqdev/yii2-combo": "*@dev",
         "hiqdev/yii2-higrid": "*@dev",
