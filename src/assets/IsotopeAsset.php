@@ -9,13 +9,13 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace hipanel\frontend\assets;
+namespace hipanel\assets;
 
 use yii\web\AssetBundle;
 
 class IsotopeAsset extends AssetBundle
 {
-    public $sourcePath = '@hipanel/frontend/assets/js';
+    public $sourcePath = '@hipanel/assets/js';
 
     public $js = [
         '//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js',

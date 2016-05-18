@@ -9,7 +9,7 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace hipanel\frontend\assets;
+namespace hipanel\assets;
 
 use hiqdev\assets\pnotify\PNotifyAsset;
 use hiqdev\assets\select2_bootstrap3_css\Select2Bootstrap3CssAsset;
@@ -18,7 +18,7 @@ use yii\web\AssetBundle;
 
 class AppAsset extends AssetBundle
 {
-    public $sourcePath = '@hipanel/frontend/assets/AppAssetFiles';
+    public $sourcePath = '@hipanel/assets/AppAssetFiles';
     public $css = [
         '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css',
         '//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
@@ -28,14 +28,14 @@ class AppAsset extends AssetBundle
         'js/panel.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
-        'yii\bootstrap\BootstrapPluginAsset',
+        \yii\web\YiiAsset::class,
+        \yii\bootstrap\BootstrapAsset::class,
+        \yii\bootstrap\BootstrapPluginAsset::class,
         LessSpaceAsset::class,
         // Adds Resizable columns JS and CSS to all pages
         // This is a temporary fix because of https://github.com/yiisoft/yii2/issues/2310
         // On Pjax page loading, ajax prefilter removes all CSS styles that are not on the main page
-        'hiqdev\yii2\assets\JqueryResizableColumns\ResizableColumnsAsset',
+        \hiqdev\yii2\assets\JqueryResizableColumns\ResizableColumnsAsset::class,
         ComboAsset::class,
         PNotifyAsset::class,
         Select2Bootstrap3CssAsset::class,

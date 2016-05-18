@@ -1,10 +1,7 @@
-
-
-
 <?php
 
 use yii\helpers\Html;
-use hipanel\frontend\assets\ElementQueryAsset;
+use hipanel\assets\ElementQueryAsset;
 
 ElementQueryAsset::register($this);
 

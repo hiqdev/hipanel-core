@@ -6,7 +6,7 @@ $config = [
     'id'          => 'hipanel',
     'name'        => 'HiPanel',
     'basePath'    => dirname(__DIR__),
-    'viewPath'    => '@hisite/views',    
+    'viewPath'    => '@hisite/views',
     'vendorPath'  => '@root/vendor',
     'runtimePath' => '@root/runtime',
     'controllerNamespace' => 'hipanel\controllers',
@@ -159,7 +159,7 @@ $config = [
             'class'  => \hiqdev\thememanager\ThemeManager::class,
             'theme'  => 'adminlte',
             'assets' => [
-                \hipanel\frontend\assets\AppAsset::class,
+                \hipanel\assets\AppAsset::class,
             ],
         ],
         'menuManager' => [

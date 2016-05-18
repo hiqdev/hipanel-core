@@ -9,15 +9,15 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace hipanel\frontend\assets;
+namespace hipanel\assets;
 
 use yii\web\AssetBundle;
 
-class LessSpaceAsset extends AssetBundle
+class HipanelAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/less-space';
+    public $sourcePath = '@hipanel/assets/js';
 
-    public $css = [
-        'dist/less-space.min.css',
+    public $js = [
+        'hipanel.js',
     ];
 }

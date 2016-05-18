@@ -9,7 +9,7 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace console\controllers;
+namespace hipanel\console;
 
 use Stichoza\GoogleTranslate\TranslateClient;
 use Yii;
@@ -20,12 +20,12 @@ use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 
 /**
- * Usage: ./yii translate/google_extract /home/tofid/www/hipanel.dev/common/config/i18n.php
+ * Usage: ./yii translate/google_extract /home/tofid/www/hipanel.dev/config/i18n.php
  * Class TranslateController.
  */
 class TranslateController extends MessageController
 {
-    public $configFile = '@hipanel/common/config/i18n.php';
+    public $configFile = '@hipanel/config/i18n.php';
 
     public function actionIndex($message = 'hello {world} apple beta {gamma {horse, cat}} this {mysite} this is a draw {apple {beta,{cat,dog} dog} house} farm')
     {

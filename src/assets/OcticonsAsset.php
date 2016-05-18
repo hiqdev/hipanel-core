@@ -9,7 +9,7 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace hipanel\frontend\assets;
+namespace hipanel\assets;
 
 use yii\web\AssetBundle;
 

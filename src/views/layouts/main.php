@@ -1,7 +1,7 @@
 <?php
 
-use frontend\components\widgets\Alert;
-use hipanel\frontend\assets\AppAsset;
+use hipanel\components\widgets\Alert;
+use hipanel\assets\AppAsset;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
