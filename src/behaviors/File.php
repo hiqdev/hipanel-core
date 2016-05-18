@@ -16,9 +16,9 @@
  * Time: 17:59.
  */
 
-namespace common\behaviors;
+namespace hipanel\behaviors;
 
-use common\models\File as FileModel;
+use hipanel\models\File as FileModel;
 use yii\base\Behavior;
 use yii\db\BaseActiveRecord;
 use yii\helpers\FileHelper;

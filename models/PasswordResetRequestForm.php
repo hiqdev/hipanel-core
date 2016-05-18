@@ -9,9 +9,9 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace frontend\models;
+namespace hipanel\models;
 
-use common\models\User;
+use hipanel\models\User;
 use yii\base\Model;
 
 /**
@@ -31,7 +31,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'exist',
-                'targetClass' => '\common\models\User',
+                'targetClass' => \hipanel\models\User::class,
                 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => 'There is no user with such email.',
             ],

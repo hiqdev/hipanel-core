@@ -1,8 +1,8 @@
 <?php
 
-$params = require __DIR__ . '/params.php';
+$params = require COMPOSER_CONFIG_PLUGIN_DIR . '/params.php';
 
-return [
+$config = [
     'id'          => 'hipanel',
     'name'        => 'HiPanel',
     'basePath'    => dirname(__DIR__),
@@ -10,7 +10,7 @@ return [
     'vendorPath'  => '@root/vendor',
     'runtimePath' => '@root/runtime',
     'controllerNamespace' => 'hipanel\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'themeManager', 'menuManager'],
     'params'  => $params,
     'aliases' => [
         'bower' => '@vendor/bower-asset',
@@ -59,13 +59,38 @@ return [
         ],
         'i18n' => [
             'class' => \hipanel\base\I18N::class,
+            'translations' => [
+                'synt' => [
+                    'class'     => \yii\i18n\PhpMessageSource::class,
+                    'basePath'  => '@hipanel/messages',
+                    'fileMap'   => [
+                        'synt' => 'synt.php',
+                    ],
+                ],
+                'hipanel' => [
+                    'class'     => \yii\i18n\PhpMessageSource::class,
+                    'basePath'  => '@hipanel/messages',
+                    'fileMap'   => [
+                        'hipanel' => 'hipanel.php',
+                        'block-reasons' => 'block-reasons.php',
+                    ],
+                ],
+                'app' => [
+                    'class'     => \yii\i18n\PhpMessageSource::class,
+                    'basePath'  => '@hipanel/messages',
+                    'fileMap'   => [
+                        'app'       => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
         ],
         'orientationStorage' => [
             'class' => \hipanel\base\OrientationStorage::class,
         ],
         'user' => [
             'class'           => \hipanel\base\User::class,
-            'identityClass'   => \common\models\User::class,
+            'identityClass'   => \hipanel\models\User::class,
             'enableAutoLogin' => true,
             'seller'          => $params['user.seller'],
         ],
@@ -132,6 +157,7 @@ return [
         ],
         'themeManager' => [
             'class'  => \hiqdev\thememanager\ThemeManager::class,
+            'theme'  => 'adminlte',
             'assets' => [
                 \hipanel\frontend\assets\AppAsset::class,
             ],
@@ -150,3 +176,19 @@ return [
     ],
     'modules' => [],
 ];
+
+if (defined('YII_DEBUG') && YII_DEBUG) {
+    // configuration adjustments when debug enabled
+    $config['bootstrap']['debug'] = 'debug';
+    $config['modules']['debug'] = [
+        'class' => \yii\debug\Module::class,
+        'allowedIPs' => $params['debug_allowed_ips'],
+        'panels' => [
+            'hiart' => [
+                'class' => \hiqdev\hiart\DebugPanel::class,
+            ],
+        ],
+    ];
+}
+
+return $config;

@@ -11,7 +11,7 @@
 
 namespace hipanel\widgets;
 
-use common\models\File;
+use hipanel\models\File;
 use hiqdev\assets\lightbox2\LightboxAsset;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;

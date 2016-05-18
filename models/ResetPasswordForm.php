@@ -9,9 +9,9 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace frontend\models;
+namespace hipanel\models;
 
-use common\models\User;
+use hipanel\models\User;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 
@@ -23,7 +23,7 @@ class ResetPasswordForm extends Model
     public $password;
 
     /**
-     * @var \common\models\User
+     * @var User
      */
     private $_user;
 

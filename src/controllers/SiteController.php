@@ -11,7 +11,7 @@
 
 namespace hipanel\controllers;
 
-use common\models\User;
+use hipanel\models\User;
 use hipanel\models\ContactForm;
 use hipanel\models\PasswordResetRequestForm;
 use hipanel\models\ResetPasswordForm;

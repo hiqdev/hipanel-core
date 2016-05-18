@@ -9,7 +9,7 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace common\models;
+namespace hipanel\models;
 
 use hipanel\base\Err;
 use Yii;

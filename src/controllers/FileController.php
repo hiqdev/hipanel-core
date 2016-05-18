@@ -11,7 +11,7 @@
 
 namespace hipanel\controllers;
 
-use common\models\File;
+use hipanel\models\File;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -22,7 +22,7 @@ class FileController extends Controller
     public function behaviors() {
         return [
             'fileAccess' => [
-                'class' => 'common\components\filters\FileAccessFilter',
+                'class' => 'hipanel\components\filters\FileAccessFilter',
                 'only' => ['view', 'get'],
             ],
         ];

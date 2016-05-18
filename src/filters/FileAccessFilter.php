@@ -11,7 +11,7 @@
 
 namespace hipanel\filters;
 
-use common\models\File;
+use hipanel\models\File;
 use hipanel\base\Err;
 use Yii;
 use yii\base\ActionFilter;
