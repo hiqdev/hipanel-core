@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'orgUrl'                => '',
+
     'api_url'               => '',
     'hiam_site'             => '',
     'hiam_client_id'        => '',
