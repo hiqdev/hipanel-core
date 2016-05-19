@@ -95,7 +95,7 @@ $config = [
             'seller'          => $params['user.seller'],
         ],
         'log' => [
-            'traceLevel' => 0,
+            'traceLevel' => defined('YII_DEBUG') && YII_DEBUG ? 3 : 0,
             'targets'    => [
                 'default' => [
                     'class'  => \yii\log\FileTarget::class,
