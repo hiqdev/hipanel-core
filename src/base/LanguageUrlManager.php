@@ -59,7 +59,7 @@ class LanguageUrlManager extends UrlManager
     public $languageParam = 'language';
 
     /**
-     * @var function - function to execute after changing the language of the site.
+     * @var \Closure function to execute after changing the language of the site.
      */
     public $callback;
 
