@@ -166,10 +166,10 @@ class Action extends \yii\base\Action
     public function beforePerform()
     {
         if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_AFTER_PERFORM);
+            $this->parent->trigger(static::EVENT_BEFORE_PERFORM);
         }
 
-        $this->trigger(static::EVENT_AFTER_PERFORM);
+        $this->trigger(static::EVENT_BEFORE_PERFORM);
     }
 
     public function afterPerform()
