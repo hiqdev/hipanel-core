@@ -3,18 +3,18 @@
 $params = require COMPOSER_CONFIG_PLUGIN_DIR . '/params.php';
 
 $config = [
-    'id'          => 'hipanel',
-    'name'        => 'HiPanel',
-    'basePath'    => dirname(__DIR__),
-    'viewPath'    => '@hisite/views',
-    'vendorPath'  => '@root/vendor',
+    'id' => 'hipanel',
+    'name' => 'HiPanel',
+    'basePath' => dirname(__DIR__),
+    'viewPath' => '@hisite/views',
+    'vendorPath' => '@root/vendor',
     'runtimePath' => '@root/runtime',
     'controllerNamespace' => 'hipanel\controllers',
     'bootstrap' => ['log', 'themeManager', 'urlManager', 'menuManager'],
-    'params'  => $params,
+    'params' => $params,
     'aliases' => [
         'bower' => '@vendor/bower-asset',
-        'npm'   => '@vendor/npm-asset',
+        'npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -30,8 +30,8 @@ $config = [
             'class' => \hipanel\base\AuthManager::class,
         ],
         'hiart' => [
-            'class'  => \hipanel\base\Connection::class,
-            'auth'   => function () {
+            'class' => \hipanel\base\Connection::class,
+            'auth' => function () {
                 if (Yii::$app->user->identity) {
                     return ['access_token' => Yii::$app->user->identity->getAccessToken()];
                 }
@@ -45,7 +45,7 @@ $config = [
                 return [];
             },
             'config' => [
-                'api_url'  => $params['api_url'],
+                'api_url' => $params['api_url'],
                 'base_uri' => $params['api_url'],
             ],
         ],
@@ -61,49 +61,57 @@ $config = [
             'class' => \hipanel\base\I18N::class,
             'translations' => [
                 'synt' => [
-                    'class'     => \yii\i18n\PhpMessageSource::class,
-                    'basePath'  => '@hipanel/messages',
-                    'fileMap'   => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/messages',
+                    'fileMap' => [
                         'synt' => 'synt.php',
                     ],
                 ],
                 'hipanel' => [
-                    'class'     => \yii\i18n\PhpMessageSource::class,
-                    'basePath'  => '@hipanel/messages',
-                    'fileMap'   => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/messages',
+                    'fileMap' => [
                         'hipanel' => 'hipanel.php',
                         'block-reasons' => 'block-reasons.php',
                     ],
                 ],
                 'app' => [
-                    'class'     => \yii\i18n\PhpMessageSource::class,
-                    'basePath'  => '@hipanel/messages',
-                    'fileMap'   => [
-                        'app'       => 'app.php',
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/messages',
+                    'fileMap' => [
+                        'app' => 'app.php',
                         'app/error' => 'error.php',
                     ],
                 ],
+                'cart' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@hiqdev/yii2/cart/messages',
+                    'fileMap' => [
+                        'merchant' => 'cart.php',
+                    ],
+                ]
             ],
         ],
         'orientationStorage' => [
             'class' => \hipanel\base\OrientationStorage::class,
         ],
         'user' => [
-            'class'           => \hipanel\base\User::class,
-            'identityClass'   => \hipanel\models\User::class,
+            'class' => \hipanel\base\User::class,
+            'identityClass' => \hipanel\models\User::class,
             'enableAutoLogin' => true,
-            'seller'          => $params['user.seller'],
+            'seller' => $params['user.seller'],
         ],
         'log' => [
             'traceLevel' => defined('YII_DEBUG') && YII_DEBUG ? 3 : 0,
-            'targets'    => [
+            'targets' => [
                 'default' => [
-                    'class'  => \yii\log\FileTarget::class,
+                    'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
                 'merchant' => [
-                    'class'      => \yii\log\FileTarget::class,
-                    'logFile'    => '@runtime/logs/merchant.log',
+                    'class' => \yii\log\FileTarget::class,
+                    'logFile' => '@runtime/logs/merchant.log',
                     'categories' => ['merchant'],
                 ],
                 'email' => [
@@ -121,12 +129,12 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'authClientCollection' => [
-            'class'   => \hiam\authclient\Collection::class,
+            'class' => \hiam\authclient\Collection::class,
             'clients' => [
                 'hiam' => [
-                    'class'        => \hiam\authclient\HiamClient::class,
-                    'site'         => $params['hiam_site'],
-                    'clientId'     => $params['hiam_client_id'],
+                    'class' => \hiam\authclient\HiamClient::class,
+                    'site' => $params['hiam_site'],
+                    'clientId' => $params['hiam_client_id'],
                     'clientSecret' => $params['hiam_client_secret'],
                 ],
             ],
@@ -138,26 +146,26 @@ $config = [
                 'ru' => 'ru-RU',
             ],
             'enablePrettyUrl' => true,
-            'showScriptName'  => false,
+            'showScriptName' => false,
             'enableStrictParsing' => false,
-            'rules'           => [
-                '<_c:[\w\-]+>/<id:\d+>'              => '<_c>/view',
-                '<_c:[\w\-]+>'                       => '<_c>/index',
+            'rules' => [
+                '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
+                '<_c:[\w\-]+>' => '<_c>/index',
                 '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',
-                'file/<id:\d+>/<name:\S{1,128}>'     => 'file/view',
+                'file/<id:\d+>/<name:\S{1,128}>' => 'file/view',
             ],
         ],
         'view' => [
             'class' => \hipanel\base\View::class,
         ],
         'formatter' => [
-            'locale'      => 'ru-RU',
+            'locale' => 'ru-RU',
             'nullDisplay' => '&nbsp;',
             'sizeFormatBase' => 1000,
         ],
         'themeManager' => [
-            'class'  => \hiqdev\thememanager\ThemeManager::class,
-            'theme'  => 'adminlte',
+            'class' => \hiqdev\thememanager\ThemeManager::class,
+            'theme' => 'adminlte',
             'assets' => [
                 \hipanel\assets\AppAsset::class,
             ],
