@@ -12,7 +12,6 @@
 namespace hipanel\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Html;
 use yii\helpers\Json;
 
 class BulkButtons extends Widget

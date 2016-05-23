@@ -11,7 +11,6 @@
 
 namespace hipanel\models;
 
-use hipanel\models\User;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 

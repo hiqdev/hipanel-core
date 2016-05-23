@@ -13,8 +13,6 @@ namespace hipanel\base;
 
 use Yii;
 use yii\base\Component;
-use yii\caching\Cache;
-use yii\di\Instance;
 use yii\web\Session;
 
 class OrientationStorage extends Component

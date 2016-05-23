@@ -11,10 +11,10 @@
 
 namespace hipanel\controllers;
 
-use hipanel\models\User;
 use hipanel\models\ContactForm;
 use hipanel\models\PasswordResetRequestForm;
 use hipanel\models\ResetPasswordForm;
+use hipanel\models\User;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;

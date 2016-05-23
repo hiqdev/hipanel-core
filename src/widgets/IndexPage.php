@@ -32,7 +32,7 @@ class IndexPage extends Widget
     public $model;
 
     /**
-     * @var Object original view context.
+     * @var object original view context.
      * It is used to render sub-views with the same context, as IndexPage
      */
     public $originalContext;
@@ -64,7 +64,7 @@ class IndexPage extends Widget
      */
     public $searchFormData = [];
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function init()
     {
         parent::init();
@@ -111,7 +111,7 @@ JS
     }
 
     /**
-     * Terminates output buffer capture started by [[beginContent()]]
+     * Terminates output buffer capture started by [[beginContent()]].
      * @see beginContent
      */
     public function endContent()
@@ -125,7 +125,7 @@ JS
     }
 
     /**
-     * Returns content saved in [[content]] by $name
+     * Returns content saved in [[content]] by $name.
      * @param string $name
      * @return string
      */

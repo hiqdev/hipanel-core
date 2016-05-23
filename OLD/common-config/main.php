@@ -90,8 +90,8 @@ $config = [
             'class' => \hipanel\base\I18N::class,
         ],
         'orientationStorage' => [
-            'class' => \hipanel\base\OrientationStorage::class
-        ]
+            'class' => \hipanel\base\OrientationStorage::class,
+        ],
     ],
 ];
 
