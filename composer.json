@@ -51,6 +51,7 @@
         "yiisoft/yii2-imagine": "^2.0",
         "yiisoft/yii2-bootstrap": "^2.0",
         "yiisoft/yii2-swiftmailer": "^2.0",
+        "hiqdev/hipanel-rbac": "*@dev",
         "hiqdev/composer-config-plugin": "<2.0 || dev-master",
         "hiqdev/yii2-hiam-authclient": "*",
         "hiqdev/yii2-hiart": "*@dev",
