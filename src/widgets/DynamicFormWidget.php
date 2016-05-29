@@ -13,10 +13,13 @@ namespace hipanel\widgets;
 
 class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
 {
-    public function registerAssets()
+    /**
+     * @param \wbraganca\dynamicform\View $view
+     */
+    public function registerAssets($view)
     {
-        parent::registerAssets();
-        $this->view->registerJs(<<<JS
+        parent::registerAssets($view);
+        $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
                 var options = eval($(this).data('dynamicform'));
                 var combos = $(item).find('[data-combo-field]');
