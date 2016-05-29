@@ -153,7 +153,6 @@ class ActionColumn extends \yii\grid\ActionColumn
             } else {
                 return '';
             }
-
         }, $this->template);
     }
 }

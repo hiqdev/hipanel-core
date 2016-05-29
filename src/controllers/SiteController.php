@@ -105,7 +105,7 @@ class SiteController extends Controller
     {
         if (!Yii::$app->user->isGuest) {
             return $this->redirect(['/hipanel/index']);
-        };
+        }
 
         return $this->redirect(['/site/auth', 'authclient' => 'hiam']);
     }

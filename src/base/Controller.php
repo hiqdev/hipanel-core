@@ -152,7 +152,7 @@ class Controller extends \yii\web\Controller
         $model = static::newModel($config)->findOne(is_array($condition) ? $condition : ['id' => $condition]);
         if ($model === null) {
             throw new NotFoundHttpException('The requested object not found.');
-        };
+        }
 
         return $model;
     }

@@ -22,7 +22,7 @@ class FileAccessFilter extends ActionFilter
     {
         $request = Yii::$app->request;
         if ($request->get('id') && $request->get('object_id') && $request->get('object_name')) {
-            $canISee = (boolean) Err::not(File::perform('GetInfo', ['id' => $request->get('id'), 'object_id' => $request->get('object_id'), 'object' => $request->get('object_name')]));
+            $canISee = (bool) Err::not(File::perform('GetInfo', ['id' => $request->get('id'), 'object_id' => $request->get('object_id'), 'object' => $request->get('object_name')]));
             if ($canISee) {
                 return parent::beforeAction($action);
             }

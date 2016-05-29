@@ -51,7 +51,7 @@ class ChartJs extends \dosamigos\chartjs\ChartJs
         $view = $this->getView();
         $view->registerJs("$('#{$options['id']}').html(chartJS_{$this->options['id']}.generateLegend());");
         $view->registerCss(
-<<<CSS
+<<<'CSS'
 .chart-legend li span {
     display: inline-block;
     width: 12px;

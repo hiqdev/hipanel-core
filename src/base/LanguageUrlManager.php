@@ -168,6 +168,7 @@ class LanguageUrlManager extends UrlManager
         ]);
         Yii::$app->response->cookies->add($cookie);
     }
+
     /**
      * Redirects the browser to the referer URL.
      * @return static
@@ -177,6 +178,7 @@ class LanguageUrlManager extends UrlManager
         $redirect = Yii::$app->request->absoluteUrl === Yii::$app->request->referrer ? '/' : Yii::$app->request->referrer;
         return Yii::$app->response->redirect($redirect);
     }
+
     /**
      * Determines whether the language received as a parameter can be processed.
      * @param string $language
@@ -193,25 +195,25 @@ class LanguageUrlManager extends UrlManager
         Yii::$app->formatter->locale = $language;
     }
 
-//
-//
-//
+
+
+
 //    /**
 //     * @inheritdoc
 //     */
 //    public function parseRequest($request)
 //    {
-//
+
 //        $this->detectLanguage($request);
-//
+
 //        return parent::parseRequest($request);
 //    }
-//
+
 //    protected function setUpLanguage($language)
 //    {
 //        Yii::$app->language = $language;
 //    }
-//
+
 //    /**
 //     * Checks for a language or locale parameter in the URL and rewrites the pathInfo if found.
 //     * If no parameter is found it will try to detect the language from persistent storage (session /
@@ -288,17 +290,17 @@ class LanguageUrlManager extends UrlManager
 //            if ($this->matchCode($language)===[null, null]) {
 //                return;
 //            }
-//
+
 //            $key = array_search($language, $this->languages);
 //            if ($key && is_string($key)) {
 //                $language = $key;
 //            }
-//
+
 //            $this->setUpLanguage($language);
 //            $this->redirectToLanguage('');
 //        }
 //    }
-//
+
 //    /**
 //     * Tests whether the given code matches any of the configured languages.
 //     *
@@ -329,7 +331,7 @@ class LanguageUrlManager extends UrlManager
 //            $language = $parts[0];
 //            $country = strtoupper($parts[1]);
 //        }
-//
+
 //        if (in_array($code, $this->languages)) {
 //            return [$language, $country];
 //        } elseif (
@@ -343,7 +345,7 @@ class LanguageUrlManager extends UrlManager
 //            return [null, null];
 //        }
 //    }
-//
+
 //    /**
 //     * Redirect to the current URL with given language code applied
 //     *

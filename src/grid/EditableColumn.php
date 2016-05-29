@@ -45,11 +45,11 @@ class EditableColumn extends \kartik\grid\EditableColumn
             $ops = $old instanceof \Closure ? call_user_func($old, $model, $key, $index) : $old;
             if (!is_array($ops)) {
                 $ops = [];
-            };
+            }
             $action = $this->action;
             if ($action) {
                 $ops['formOptions']['action'] = is_array($action) ? Url::toRoute($action) : $action;
-            };
+            }
             $old = $ops['beforeInput'];
             $ops['beforeInput'] = function ($form, $widget) use ($old, $params) {
                 return $params . ($old instanceof \Closure ? call_user_func($old, $form, $widget) : $old);

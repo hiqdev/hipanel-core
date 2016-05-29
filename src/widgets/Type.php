@@ -33,7 +33,7 @@ class Type extends \hipanel\widgets\Label
     /** @var array inherits $values */
     public $defaultValues = [];
 
-    /** @var string field  */
+    /** @var string field */
     public $field = 'state';
 
     public function init()

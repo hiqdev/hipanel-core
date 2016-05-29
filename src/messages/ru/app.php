@@ -480,7 +480,7 @@ return [
     'Reinstall' => 'Переустановить',
     'Reinstall OS' => 'Переустановить ОС',
     'Reject transfer' => 'Отклонить трансфер',
-    'Remote ID' => 'Remote ID', # Attention! MAY BE IT WOULD BE CHANGED
+    'Remote ID' => 'Remote ID', // Attention! MAY BE IT WOULD BE CHANGED
     'Renew' => 'Продлить',
     'Renew service' => 'Продлить услугу',
     'Renewing...' => 'Продление...',
@@ -643,7 +643,7 @@ return [
     'You can not use this login' => 'Вы не можете использовать этот логин',
     'Zone ID' => 'ID зоны',
     'accounts' => 'аккаунты',
-    'add_tag_ids' => 'add_tag_ids', # Attention! MAY BE IT WOULD BE CHANGED
+    'add_tag_ids' => 'add_tag_ids', // Attention! MAY BE IT WOULD BE CHANGED
     'admin' => 'администратор',
     'administrator' => 'администратор',
     'block' => 'блок',
@@ -660,10 +660,10 @@ return [
     'manager' => 'менеджер',
     'owner' => 'владелец',
     'remove' => 'Удалить',
-    'replier_id' => 'replier_id', # Attention! MAY BE IT WOULD BE CHANGED
-    'replier_name' => 'replier_name', # Attention! MAY BE IT WOULD BE CHANGED
-    'replier_seller' => 'replier_seller', # Attention! MAY BE IT WOULD BE CHANGED
-    'reply_time' => 'reply_time', # Attention! MAY BE IT WOULD BE CHANGED
+    'replier_id' => 'replier_id', // Attention! MAY BE IT WOULD BE CHANGED
+    'replier_name' => 'replier_name', // Attention! MAY BE IT WOULD BE CHANGED
+    'replier_seller' => 'replier_seller', // Attention! MAY BE IT WOULD BE CHANGED
+    'reply_time' => 'reply_time', // Attention! MAY BE IT WOULD BE CHANGED
     'reseller' => 'реселлер',
     'servers' => 'серверы',
     'set internal note' => 'установить внутреннюю заметку',

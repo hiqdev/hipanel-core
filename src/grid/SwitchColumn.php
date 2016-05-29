@@ -41,7 +41,7 @@ class SwitchColumn extends DataColumn
         return SwitchInput::widget([
             'name'          => 'swc' . $key . $model->id,
             'pluginOptions' => ArrayHelper::merge($this->pluginOptions, [
-                'state'             => (boolean) parent::getDataCellValue($model, $key, $index),
+                'state'             => (bool) parent::getDataCellValue($model, $key, $index),
                 'onSwitchChange'    => new JsExpression('function () { console.log("hello"); }'),
             ]),
         ]);

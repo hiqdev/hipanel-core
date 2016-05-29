@@ -58,7 +58,7 @@ class CurrencyColumn extends DataColumn
 
         if ($value < 0) {
             $color = 'warning';
-        };
+        }
 
         if ($value < -($model->getAttribute($this->compare) ?: 0)) {
             $color = 'danger';
