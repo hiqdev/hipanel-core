@@ -241,4 +241,14 @@ JS
     {
         echo Html::endForm();
     }
+
+    public function renderBulkButton($text, $action, $color = 'default')
+    {
+        return Html::submitButton($text, [
+            'class'         => "btn btn-$color btn-sm",
+            'form'          => $this->getBulkFormId(),
+            'formmethod'    => 'POST',
+            'formaction'    => $action,
+        ]);
+    }
 }

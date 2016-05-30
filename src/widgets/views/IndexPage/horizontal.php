@@ -21,12 +21,19 @@ $this->registerCss('
         position: static;
     }
 }
-#advancedsearch-part-search[min-width~="300px"] div {
+.advanced-search[min-width~="300px"] form div {
     width: 100%;
 }
 .horizontal-view #scrollspy > a.btn {
     display:block;
     margin-bottom: 10px;
+}
+.summary {
+    padding: 0 1em 1em;
+}
+.pagination {
+    padding-right: 1em;
+    padding-bottom: 1em;
 }
 ');
 $this->registerJs("
@@ -70,7 +77,7 @@ $widget = $this->context;
                         </div>
                     </div>
                 </div>
-                <div class="box-body ">
+                <div class="box-body advanced-search">
                     <?= $widget->renderSearchForm(['options' => ['displayNone' => false]]) ?>
                 </div>
             </div>
