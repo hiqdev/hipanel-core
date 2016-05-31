@@ -146,7 +146,7 @@ JS
         return $n;
     }
 
-    public function setSearchFormData($data)
+    public function setSearchFormData($data = [])
     {
         $this->searchFormData = $data;
     }

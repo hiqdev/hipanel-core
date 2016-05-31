@@ -843,3 +843,23 @@ div.required label.radio-inline:after {
 a.border-bottom-dashed {
     border-bottom: dashed 1px #0088cc;
 }
+
+.summary {
+    padding: 0 1em 1em;
+}
+.pagination {
+    padding-right: 1em;
+    padding-bottom: 1em;
+}
+
+.mailbox-controls .dropdown {
+    display: inline-block;
+    position: relative;
+}
+
+.horizontal-view #scrollspy > a.btn,
+.horizontal-view #scrollspy .dropdown > a.btn
+{
+    display:block;
+    margin-bottom: 10px;
+}

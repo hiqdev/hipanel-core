@@ -24,17 +24,7 @@ $this->registerCss('
 .advanced-search[min-width~="300px"] form > div {
     width: 100%;
 }
-.horizontal-view #scrollspy > a.btn {
-    display:block;
-    margin-bottom: 10px;
-}
-.summary {
-    padding: 0 1em 1em;
-}
-.pagination {
-    padding-right: 1em;
-    padding-bottom: 1em;
-}
+
 ');
 $this->registerJs("
 if ($(window).height() > $('#scrollspy').outerHeight(true)) {
