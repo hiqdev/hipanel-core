@@ -168,12 +168,12 @@ class User extends Model implements IdentityInterface
 
     public function is($key)
     {
-        return $this->id === $key || $this->username === $key;
+        return (int)$this->id === (int)$key || (string)$this->username === (string)$key;
     }
 
     public function not($key)
     {
-        return $this->id !== $key && $this->username !== $key;
+        return (int)$this->id !== (int)$key && (string)$this->username !== (string)$key;
     }
 
     /**
