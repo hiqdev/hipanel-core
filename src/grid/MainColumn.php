@@ -20,7 +20,9 @@ use yii\helpers\Url;
 class MainColumn extends DataColumn
 {
     /**
-     * @var boolean|string whether note editing is enabled in this column
+     * @var true|string 
+     * true - note editing is enabled in this column, target attribute name is `note`
+     * string - target atttribute name
      */
     public $note;
 
