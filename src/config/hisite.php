@@ -22,8 +22,10 @@ $config = [
     'bootstrap' => ['log', 'themeManager', 'urlManager', 'menuManager'],
     'params' => $params,
     'aliases' => [
-        'bower' => '@vendor/bower-asset',
-        'npm' => '@vendor/npm-asset',
+        '@bower'        => '@vendor/bower-asset',
+        '@npm'          => '@vendor/npm-asset',
+        '@vendor/bower' => '@vendor/bower-asset',
+        '@vendor/npm'   => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
