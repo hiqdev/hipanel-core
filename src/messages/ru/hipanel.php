@@ -42,7 +42,7 @@ return [
     'Weekly' => 'Еженедельно',
     'Monthly' => 'Ежемесячно',
     'full list' => 'полный список',
-    'filtered list' => 'отфильрованный список',
+    'filtered list' => 'отфильтрованный список',
     'Date' => 'Дата',
     'Submit' => 'Отправить',
     '{0, plural, one{# ticket} other{# tickets}}' => '{0, plural, one{# тикет} few{# тикета} other{# тикетов}}',
