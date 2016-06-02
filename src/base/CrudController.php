@@ -30,9 +30,9 @@ class CrudController extends Controller
     {
     }
 
-    public function getRefs($name)
+    public function getRefs($name, $options = [], $translate = 'app')
     {
-        return Ref::getList($name);
+        return Ref::getList($name, $options, $translate);
     }
 
     public function getClassRefs($type)
