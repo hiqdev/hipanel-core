@@ -1,9 +1,7 @@
 <?php
 
 use hipanel\assets\ElementQueryAsset;
-
 ElementQueryAsset::register($this);
-
 $this->registerCss('
 .affix {
     top: 5px;
@@ -27,6 +25,9 @@ $this->registerCss('
 
 ');
 $this->registerJs("
+$(document).on('pjax:end', function() {
+    $('.advanced-search form > div').css({'width': '100%'});
+});
 if ($(window).height() > $('#scrollspy').outerHeight(true)) {
     var fixAffixWidth = function() {
         $('#scrollspy').each(function() {
@@ -49,9 +50,7 @@ if ($(window).height() > $('#scrollspy').outerHeight(true)) {
     });
 }
 ");
-
 $widget = $this->context;
-
 ?>
 <div class="horizontal-view">
 <div class="row">
