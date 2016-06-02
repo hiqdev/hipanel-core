@@ -40,11 +40,11 @@ class SettingsModal extends AjaxModal
     {
         $this->header = Html::tag('h4', $this->title, ['class' => 'modal-title']);
         $this->actionUrl = [$this->scenario, 'id' => $this->model->id];
-        $this->toggleButton = [
+        $this->toggleButton = array_merge([
             'tag'   => 'a',
             'label' => FontIcon::i($this->icon) . $this->title,
             'class' => 'clickable',
-        ];
+        ], $this->toggleButton);
         parent::init();
     }
 }
