@@ -45,6 +45,7 @@ return [
     'filtered list' => 'отфильтрованный список',
     'Date' => 'Дата',
     'Submit' => 'Отправить',
+    'Name' => 'Имя',
     '{0, plural, one{# ticket} other{# tickets}}' => '{0, plural, one{# тикет} few{# тикета} other{# тикетов}}',
     '{0, plural, one{# server} other{# servers}}' => '{0, plural, one{# сервер} few{# сервера} other{# серверов}}',
     '{0, plural, one{# domain} other{# domains}}' => '{0, plural, one{# домен} few{# домена} other{# доменов}}',
