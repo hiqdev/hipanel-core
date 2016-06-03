@@ -74,4 +74,5 @@ return [
     'Currency' => 'Валюта',
     'Balance' => 'Баланс',
     'Advanced search' => 'Расширенный поиск',
+    'State' => 'Статус',
 ];
