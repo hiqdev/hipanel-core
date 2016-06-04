@@ -46,4 +46,31 @@ class Connection extends \hiqdev\hiart\Connection
 
         return null;
     }
+
+    public function getAuth()
+    {
+        if ($this->_disabledAuth) {
+            return [];
+        }
+
+        $user  = Yii::$app->user;
+        $token = $user->identity->getAccessToken();
+
+        if (!$token && $user->loginRequired() !== null) {
+            Yii::$app->response->redirect('/site/logout');
+            Yii::$app->end();
+        }
+
+        if ($user->identity) {
+            return ['access_token' => $token];
+        }
+
+        if ($user->loginRequired() !== null) {
+            Yii::trace('Login is required. Redirecting to the login page', 'hipanel');
+            Yii::$app->response->send();
+            Yii::$app->end();
+        }
+
+        return [];
+    }
 }

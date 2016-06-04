@@ -42,19 +42,6 @@ $config = [
         ],
         'hiart' => [
             'class' => \hipanel\base\Connection::class,
-            'auth' => function () {
-                if (Yii::$app->user->identity) {
-                    return ['access_token' => Yii::$app->user->identity->getAccessToken()];
-                }
-
-                if (Yii::$app->user->loginRequired() !== null) {
-                    Yii::trace('Login is required. Redirecting to the login page', 'hipanel');
-                    Yii::$app->response->send();
-                    Yii::$app->end();
-                }
-
-                return [];
-            },
             'config' => [
                 'api_url' => $params['api_url'],
                 'base_uri' => $params['api_url'],
