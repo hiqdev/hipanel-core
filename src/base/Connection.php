@@ -16,14 +16,6 @@ use Yii;
 class Connection extends \hiqdev\hiart\Connection
 {
     /**
-     * {@inheritdoc}
-     */
-    public function init()
-    {
-        $this->errorChecker = [$this, 'checkError'];
-    }
-
-    /**
      * @param mixed $response The response
      * @return null|string
      *  - string: the error text
@@ -47,6 +39,11 @@ class Connection extends \hiqdev\hiart\Connection
         return null;
     }
 
+    /**
+     * Prepares authorization data.
+     * If user is not authorized redirects to authorization.
+     * @return void
+     */
     public function getAuth()
     {
         if ($this->_disabledAuth) {
