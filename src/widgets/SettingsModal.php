@@ -44,7 +44,7 @@ class SettingsModal extends AjaxModal
             'tag'   => 'a',
             'label' => FontIcon::i($this->icon) . $this->title,
             'class' => 'clickable',
-        ], $this->toggleButton);
+        ], is_array($this->toggleButton) ? $this->toggleButton : []);
         parent::init();
     }
 }
