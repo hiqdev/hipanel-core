@@ -197,18 +197,24 @@ JS
         ]);
     }
 
-    public function renderRepresentation()
+    public function renderRepresentations(array $representations, $current = null)
     {
-        $representation = Yii::$app->request->get('representation') ?: 'common';
+        if (!isset($representations[$current])) {
+            $current = key($representations);
+        }
+        $items = [];
+        foreach ($representations as $key => $data) {
+            $items[] = [
+                'label' => $data['label'],
+                'url'   => Url::current(['representation' => $key]),
+            ];
+        }
 
         return ButtonDropdown::widget([
-            'label' => Yii::t('synt', 'View') . ': ' . Yii::t('app', $representation),
+            'label' => Yii::t('synt', 'View') . ': ' . $representations[$current]['label'],
             'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
-                'items' => [
-                    ['label' => Yii::t('app', 'common'), 'url' => Url::current(['representation' => null])],
-                    ['label' => Yii::t('app', 'report'), 'url' => Url::current(['representation' => 'report'])],
-                ],
+                'items' => $items,
             ],
         ]);
     }
