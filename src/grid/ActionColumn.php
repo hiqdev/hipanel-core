@@ -105,7 +105,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                     'data-pjax'  => '0',
                 ], $this->buttonOptions);
 
-                return Html::a('<i class="fa fa-pencil"></i>' . Yii::t('app', 'Update'), $url, $options);
+                return Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('app', 'Update'), $url, $options);
             };
         }
         if (!isset($this->buttons['delete'])) {
@@ -121,7 +121,7 @@ class ActionColumn extends \yii\grid\ActionColumn
 
                 ], $this->buttonOptions);
 
-                return Html::a('<i class="fa fa-trash-o"></i>' . Yii::t('app', 'Delete'), $url, $options);
+                return Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('app', 'Delete'), $url, $options);
             };
         }
     }
