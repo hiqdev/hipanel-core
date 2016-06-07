@@ -18,7 +18,7 @@ use hipanel\models\Ref;
  * Class RefCombo widget.
  *
  * Usage:
- * Label::widget([
+ * RefCombo::widget([
  *      'attribute'   => 'state',
  *      'model'       => $searchModel,
  *      'gtype'       => 'state,domain',
