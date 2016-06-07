@@ -77,4 +77,5 @@ return [
     'Balance' => 'Баланс',
     'Advanced search' => 'Расширенный поиск',
     'State' => 'Статус',
+    'Comment' => 'Комментарий',
 ];
