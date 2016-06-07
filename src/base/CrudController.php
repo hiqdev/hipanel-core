@@ -26,10 +26,6 @@ class CrudController extends Controller
         return isset($actions[$id]) || method_exists($this, $method);
     }
 
-    public function actionTest($action)
-    {
-    }
-
     public function getRefs($name, $options = [], $translate = 'app')
     {
         return Ref::getList($name, $options, $translate);
