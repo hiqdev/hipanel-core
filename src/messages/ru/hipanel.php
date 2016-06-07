@@ -78,4 +78,7 @@ return [
     'Advanced search' => 'Расширенный поиск',
     'State' => 'Статус',
     'Comment' => 'Комментарий',
+    'common' => 'обычный',
+    'report' => 'отчёт',
+    'on screen' => 'на экране',
 ];
