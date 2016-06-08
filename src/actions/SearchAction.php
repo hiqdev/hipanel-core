@@ -106,7 +106,12 @@ class SearchAction extends SwitchAction
     {
         if (is_null($this->_searchModel)) {
             $this->_searchModel = $this->controller->searchModel();
+        } elseif (is_string($this->_searchModel)) {
+            $this->_searchModel = Yii::createObject(['class' => $this->_searchModel]);
+        } elseif (is_array($this->_searchModel)) {
+            $this->_searchModel = Yii::createObject($this->_searchModel);
         }
+
         return $this->_searchModel;
     }
 
