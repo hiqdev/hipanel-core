@@ -81,4 +81,5 @@ return [
     'common' => 'обычный',
     'report' => 'отчёт',
     'on screen' => 'на экране',
+    'Description' => 'Описание',
 ];
