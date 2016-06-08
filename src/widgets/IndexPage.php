@@ -19,6 +19,7 @@ use yii\base\Object;
 use yii\base\Widget;
 use yii\bootstrap\ButtonDropdown;
 use yii\data\DataProviderInterface;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
@@ -63,6 +64,12 @@ class IndexPage extends Widget
      * @var array
      */
     public $searchFormData = [];
+
+    /**
+     * @var string the name of view file that contains search fields for the index page. Defaults to `_search`
+     * @see renderSearchForm()
+     */
+    public $searchView = '_search';
 
     /** {@inheritdoc} */
     public function init()
@@ -160,7 +167,7 @@ JS
             foreach (['per_page', 'representation'] as $key) {
                 echo Html::hiddenInput($key, Yii::$app->request->get($key));
             }
-            echo Yii::$app->view->render('_search', array_merge(compact('search'), $this->searchFormData), $this->originalContext);
+            echo Yii::$app->view->render($this->searchView, array_merge(compact('search'), $this->searchFormData), $this->originalContext);
             $search->end();
         } catch (\Exception $e) {
             ob_end_clean();
