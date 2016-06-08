@@ -109,6 +109,7 @@ class Action extends \yii\base\Action
                 'scenario' => $scenario,
             ], (array) $this->_collection));
         }
+
         return $this->_collection;
     }
 
