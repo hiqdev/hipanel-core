@@ -19,7 +19,7 @@ $this->registerCss('
         position: static;
     }
 }
-.advanced-search[min-width~="300px"] form > div {
+.advanced-search[min-width~="150px"] form > div {
     width: 100%;
 }
 
