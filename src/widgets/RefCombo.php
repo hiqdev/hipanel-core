@@ -37,7 +37,7 @@ class RefCombo extends StaticCombo
      */
     public $findOptions = [];
 
-    protected $_hasId = true;
+    public $_hasId = true;
 
     public function getData()
     {
