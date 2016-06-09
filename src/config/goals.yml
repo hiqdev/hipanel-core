@@ -1,0 +1,4 @@
+message:
+    class: yii\console\controllers\MessageController
+translate:
+    class: hipanel\console\TranslateController

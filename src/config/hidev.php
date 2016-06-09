@@ -10,5 +10,11 @@
  */
 
 return [
-    'params' => require __DIR__ . '/params.php',
+    'components' => [
+        'config' => [
+            'include' => [
+                '@hipanel/config/goals.yml',
+            ],
+        ],
+    ],
 ];
