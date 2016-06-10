@@ -204,8 +204,19 @@ JS
         ]);
     }
 
-    public function renderRepresentations(array $representations, $current = null)
+    /**
+     * Renders button to choose representation.
+     * Returns empty string when nothing to choose (less then 2 representations available).
+     * @param array $grid class
+     * @param mixed $current selected representation
+     * @return string rendered HTML
+     */
+    public static function renderRepresentations($grid, $current)
     {
+        $representations = $grid::getRepresentations();
+        if (count($representations)<2) {
+            return '';
+        }
         if (!isset($representations[$current])) {
             $current = key($representations);
         }
