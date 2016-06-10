@@ -12,15 +12,17 @@
 namespace hipanel\grid;
 
 use hipanel\widgets\Box;
+use hipanel\grid\BoxedDetailView;
 
 class BoxedGridView extends GridView
 {
     public $boxed = true;
 
-    public static $detailViewClass = 'hipanel\grid\BoxedDetailView';
+    public static $detailViewClass = BoxedDetailView::class;
+
     /**
      * To grid options, for example, you may add something like this for customize boxes:
-     *  'boxOptions' => ['options' => ['class' => 'box-primary']],.
+     *    'boxOptions' => ['options' => ['class' => 'box-primary']],.
      * @var array
      */
     public $boxOptions = [];

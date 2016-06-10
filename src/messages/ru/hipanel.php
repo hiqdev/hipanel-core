@@ -80,6 +80,8 @@ return [
     'Comment' => 'Комментарий',
     'common' => 'обычный',
     'report' => 'отчёт',
+    'brief'=> 'краткий',
+    'detailed' => 'подробный',
     'on screen' => 'на экране',
     'Description' => 'Описание',
 ];

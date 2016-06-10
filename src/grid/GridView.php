@@ -12,6 +12,9 @@
 namespace hipanel\grid;
 
 use hipanel\helpers\ArrayHelper;
+use hipanel\widgets\LinkSorter;
+use hipanel\modules\client\grid\ClientColumn;
+use hipanel\modules\client\grid\SellerColumn;
 use hiqdev\assets\datatables\DataTablesAsset;
 use hiqdev\assets\icheck\iCheckAsset;
 use Yii;
@@ -23,7 +26,7 @@ use Yii;
 class GridView extends \hiqdev\higrid\GridView
 {
     public $sorter = [
-        'class' => '\hipanel\widgets\LinkSorter',
+        'class' => LinkSorter::class,
     ];
 
     /**
@@ -59,15 +62,21 @@ class GridView extends \hiqdev\higrid\GridView
     protected static function defaultColumns()
     {
         return [
-            'seller_id' => ['class' => 'hipanel\modules\client\grid\SellerColumn'],
-            'client_id' => ['class' => 'hipanel\modules\client\grid\ClientColumn'],
-            'checkbox' => ['class' => 'hipanel\grid\CheckboxColumn'],
+            'seller_id' => [
+                'class' => SellerColumn::class,
+            ],
+            'client_id' => [
+                'class' => ClientColumn::class,
+            ],
+            'checkbox' => [
+                'class' => CheckboxColumn::class,
+            ],
             'seller' => [
-                'class' => 'hipanel\modules\client\grid\SellerColumn',
+                'class' => SellerColumn::class,
                 'attribute' => 'seller_id',
             ],
             'client' => [
-                'class' => 'hipanel\modules\client\grid\ClientColumn',
+                'class' => ClientColumn::class,
                 'attribute' => 'client_id',
             ],
         ];
