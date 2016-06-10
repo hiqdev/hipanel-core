@@ -15,7 +15,7 @@ use hipanel\base\Model;
 use Yii;
 use yii\helpers\Html;
 
-class ClientSellerLink extends \yii\base\widget
+class ClientSellerLink extends \yii\base\Widget
 {
     /**
      * @var Model
