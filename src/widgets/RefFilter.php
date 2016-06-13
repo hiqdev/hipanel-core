@@ -50,6 +50,11 @@ class RefFilter extends Widget
     public $attribute;
 
     /**
+     * @var string Dictionary name for i18n module to translate refs
+     */
+    public $i18nDictionary;
+
+    /**
      * @var array
      */
     public $options = [];
@@ -78,7 +83,8 @@ class RefFilter extends Widget
 
     protected function renderInput()
     {
-        return Html::activeDropDownList($this->model, $this->attribute, Ref::getList($this->gtype, $this->findOptions), ArrayHelper::merge([
+        $elements = Ref::getList($this->gtype, $this->findOptions, $this->i18nDictionary);
+        return Html::activeDropDownList($this->model, $this->attribute, $elements, ArrayHelper::merge([
             'class'     => 'form-control',
             'prompt'    => \Yii::t('app', '----------'),
         ], $this->options));
