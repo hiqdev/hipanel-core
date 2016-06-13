@@ -84,4 +84,6 @@ return [
     'detailed' => 'подробный',
     'on screen' => 'на экране',
     'Description' => 'Описание',
+    'Types' => 'Типы',
+    'Information' => 'Информация',
 ];
