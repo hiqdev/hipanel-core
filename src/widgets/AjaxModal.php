@@ -198,7 +198,6 @@ class AjaxModal extends \yii\bootstrap\Modal
                 jQuery.ajax({
                     url: '$url',
                     type: 'POST',
-                    //dataType: 'json',
                     timeout: 0,
                     data: form.serialize(),
                     error: function() {
