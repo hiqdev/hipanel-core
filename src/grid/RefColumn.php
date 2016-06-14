@@ -23,15 +23,21 @@ class RefColumn extends DataColumn
      */
     public $findOptions = [];
 
+    /**
+     * @var string Dictionary name for i18n module
+     */
+    public $i18nDictionary;
+
     /** {@inheritdoc} */
     protected function renderFilterCellContent()
     {
         return RefFilter::widget([
-            'attribute'   => $this->getFilterAttribute(),
-            'model'       => $this->grid->filterModel,
-            'gtype'       => $this->gtype,
+            'attribute' => $this->getFilterAttribute(),
+            'model' => $this->grid->filterModel,
+            'i18nDictionary' => $this->i18nDictionary,
+            'gtype' => $this->gtype,
             'findOptions' => $this->findOptions,
-            'options'     => $this->filterInputOptions,
+            'options' => $this->filterInputOptions,
         ]);
     }
 }

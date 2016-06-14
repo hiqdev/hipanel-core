@@ -26,8 +26,11 @@ class Ref extends \hiqdev\hiart\ActiveRecord
         ];
     }
 
-    public static function getList($name, $options = [], $translate = 'app')
+    public static function getList($name, $options = [], $translate = null)
     {
+        if ($translate === null) {
+            $translate = 'app';
+        }
         return Yii::$app->get('cache')->getTimeCached(3600, [$name, $options, $translate], function ($name, $options, $translate) {
             $conditions = array_merge(['gtype' => $name], $options);
             $function = function ($model) use ($translate) {

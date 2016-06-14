@@ -84,4 +84,9 @@ return [
     'detailed' => 'подробный',
     'on screen' => 'на экране',
     'Description' => 'Описание',
+    'Types' => 'Типы',
+    'Information' => 'Информация',
+    'Buy' => 'Купить',
+    'View' => 'Просмотреть',
+    'Recharge' => 'Пополнить',
 ];
