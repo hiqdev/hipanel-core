@@ -863,3 +863,7 @@ a.border-bottom-dashed {
     display:block;
     margin-bottom: 10px;
 }
+
+.info-box-text {
+	display: inline-block;
+}
