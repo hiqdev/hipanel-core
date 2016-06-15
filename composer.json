@@ -79,7 +79,7 @@
         "michelf/php-smartypants": "1.6.*@dev",
         "stichoza/google-translate-php": "~3.0",
         "wbraganca/yii2-dynamicform": "*",
-        "tysonmatanich/elementQuery": "*",
+        "bower-asset/elementquery": "*",
         "bower-asset/less-space": "*",
         "bower-asset/octicons": "*",
         "2amigos/yii2-chartjs-widget": "^2.0"
@@ -105,18 +105,6 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "tysonmatanich/elementQuery",
-                "version": "0.1",
-                "source": {
-                    "type": "git",
-                    "url": "git@github.com:tysonmatanich/elementQuery.git",
-                    "reference": "master"
-                }
-            }
         }
     ]
 }
