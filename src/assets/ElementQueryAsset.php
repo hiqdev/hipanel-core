@@ -15,7 +15,7 @@ use yii\web\AssetBundle;
 
 class ElementQueryAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/elementQuery';
+    public $sourcePath = '@bower/elementquery';
 
     public $js = [
         'elementQuery.min.js',
