@@ -11,7 +11,7 @@
 
 namespace hipanel\grid;
 
-use kartik\widgets\SwitchInput;
+use hipanel\widgets\SwitchInput;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
