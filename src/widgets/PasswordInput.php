@@ -70,6 +70,7 @@ class PasswordInput extends Widget
         $html .= '<div class="input-group-btn">';
         $html .= Html::button(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), [
             'class' => 'btn btn-default show-password' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
+            'tabindex' => '-1',
         ]);
 
         if ($this->randomGenerator) {
@@ -77,6 +78,7 @@ class PasswordInput extends Widget
                 'class'         => 'btn btn-default dropdown-toggle' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
                 'data-toggle'   => 'dropdown',
                 'aria-expanded' => 'false',
+                'tabindex'      => '-1',
             ]);
             $html .= Html::ul($this->randomOptions, [
                 'class' => 'dropdown-menu',
