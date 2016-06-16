@@ -89,4 +89,15 @@ return [
     'Buy' => 'Купить',
     'View' => 'Просмотреть',
     'Recharge' => 'Пополнить',
+
+    // Block types
+    'Non payment' => 'Неоплата',
+    'Spam distribution' => 'Рассылка спама',
+    'Infringement of copyright' => 'Нарушение авторских прав',
+    'Fraud' => 'Мошенничество',
+    'CP' => 'Детская порнография',
+    'Other' => 'Другое',
+    'Refused' => 'Отказ от услуги',
+    'Expired' => 'Просрочен',
+    'New' => 'Новый',
 ];
