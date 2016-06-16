@@ -26,23 +26,18 @@ class CrudController extends Controller
         return isset($actions[$id]) || method_exists($this, $method);
     }
 
-    public function getRefs($name, $options = [], $translate = 'app')
+    public function getRefs($name, $translate = null, $options = [])
     {
-        return Ref::getList($name, $options, $translate);
+        return Ref::getList($name, $translate, $options);
     }
 
-    public function getClassRefs($type)
+    public function getClassRefs($type, $translate = null, $options = [])
     {
-        return $this->getRefs($type . ',' . static::modelId('_'));
+        return $this->getRefs($type . ',' . static::modelId('_'), $translate, $options);
     }
 
     public function getBlockReasons()
     {
-        return Ref::getList('type,block');
-    }
-
-    public function getPriorities()
-    {
-        return Ref::getList('type,priority');
+        return $this->getRefs('type,block', 'hipanel');
     }
 }
