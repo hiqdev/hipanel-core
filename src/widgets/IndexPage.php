@@ -72,6 +72,11 @@ class IndexPage extends Widget
     public $searchFormData = [];
 
     /**
+     * @var array
+     */
+    public $searchFormOptions = [];
+
+    /**
      * @var string the name of view file that contains search fields for the index page. Defaults to `_search`
      * @see renderSearchForm()
      */
@@ -164,8 +169,14 @@ JS
         $this->searchFormData = $data;
     }
 
+    public function setSearchFormOptions($options = [])
+    {
+        $this->searchFormOptions = $options;
+    }
+
     public function renderSearchForm($advancedSearchOptions = [])
     {
+        $advancedSearchOptions = array_merge($advancedSearchOptions, $this->searchFormOptions);
         ob_start();
         ob_implicit_flush(false);
         try {

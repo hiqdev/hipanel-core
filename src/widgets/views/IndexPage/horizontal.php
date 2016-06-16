@@ -1,7 +1,7 @@
 <?php
 
-use hipanel\assets\ElementQueryAsset;
-ElementQueryAsset::register($this);
+//use hipanel\assets\ElementQueryAsset;
+//ElementQueryAsset::register($this);
 $this->registerCss('
 .affix {
     top: 5px;
