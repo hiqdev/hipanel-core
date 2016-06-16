@@ -27,6 +27,12 @@ use yii\helpers\Url;
 
 class IndexPage extends Widget
 {
+
+    /**
+     * @var string
+     */
+    protected $_layout;
+
     /**
      * @var Model the search model
      */
@@ -143,10 +149,10 @@ JS
 
     public function run()
     {
-        return $this->render($this->getOrientationStorage());
+        return $this->render($this->getLayout());
     }
 
-    public function getOrientationStorage()
+    public function detectLayout()
     {
         $os = Yii::$app->get('orientationStorage');
         $n = $os->get(Yii::$app->controller->getRoute());
@@ -274,5 +280,24 @@ JS
             'formmethod'    => 'POST',
             'formaction'    => $action,
         ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLayout()
+    {
+        if ($this->_layout === null) {
+            $this->_layout = $this->detectLayout();
+        }
+        return $this->_layout;
+    }
+
+    /**
+     * @param string $layout
+     */
+    public function setLayout($layout)
+    {
+        $this->_layout = $layout;
     }
 }
