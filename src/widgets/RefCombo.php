@@ -37,11 +37,16 @@ class RefCombo extends StaticCombo
      */
     public $findOptions = [];
 
+    /**
+     * @var string Dictionary name for i18n module to translate refs
+     */
+    public $i18nDictionary;
+
     public $_hasId = true;
 
     public function getData()
     {
-        $refs = Ref::getList($this->gtype, $this->findOptions);
+        $refs = Ref::getList($this->gtype, $this->i18nDictionary, $this->findOptions);
         $res = [];
         foreach ($refs as $key => $value) {
             $res[] = ['id' => $key, 'text' => $value];

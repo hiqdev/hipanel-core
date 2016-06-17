@@ -33,6 +33,11 @@ class Type extends \hipanel\widgets\Label
     /** @var array inherits $values */
     public $defaultValues = [];
 
+    /**
+     * @var string Dictionary name for i18n module to translate refs
+     */
+    public $i18nDictionary = 'hipanel';
+
     /** @var string field */
     public $field = 'state';
 
@@ -55,6 +60,6 @@ class Type extends \hipanel\widgets\Label
         }
 
         $this->color = isset($class) ? $class : 'warning';
-        $this->label  = Yii::t('app', $this->model->{"{$this->field}_label"} ?: $this->model->{$this->field});
+        $this->label  = Yii::t($this->i18nDictionary, $this->model->{"{$this->field}_label"} ?: $this->model->{$this->field});
     }
 }

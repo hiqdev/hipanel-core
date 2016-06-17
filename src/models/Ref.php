@@ -26,10 +26,10 @@ class Ref extends \hiqdev\hiart\ActiveRecord
         ];
     }
 
-    public static function getList($name, $options = [], $translate = null)
+    public static function getList($name, $translate = null, $options = [])
     {
         if ($translate === null) {
-            $translate = 'app';
+            $translate = 'hipanel';
         }
         return Yii::$app->get('cache')->getTimeCached(3600, [$name, $options, $translate], function ($name, $options, $translate) {
             $conditions = array_merge(['gtype' => $name], $options);
