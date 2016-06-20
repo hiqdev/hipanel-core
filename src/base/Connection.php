@@ -42,7 +42,7 @@ class Connection extends \hiqdev\hiart\Connection
     /**
      * Prepares authorization data.
      * If user is not authorized redirects to authorization.
-     * @return void
+     * @return array
      */
     public function getAuth()
     {
@@ -51,8 +51,14 @@ class Connection extends \hiqdev\hiart\Connection
         }
 
         $user  = Yii::$app->user;
-        $token = $user->identity->getAccessToken();
 
+        $identity = $user->identity;
+        if ($identity === null) {
+            Yii::$app->response->redirect('/site/logout');
+            Yii::$app->end();
+        }
+
+        $token = $identity->getAccessToken();
         if (!$token && $user->loginRequired() !== null) {
             Yii::$app->response->redirect('/site/logout');
             Yii::$app->end();
