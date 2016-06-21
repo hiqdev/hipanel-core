@@ -867,3 +867,7 @@ a.border-bottom-dashed {
 .info-box-text {
 	display: inline-block !important;
 }
+
+blockquote {
+    font-size: 90%;
+}
