@@ -57,11 +57,6 @@ class Label extends \yii\base\Widget
      */
     public $tag = 'span';
 
-    public static function widget($config = [])
-    {
-        return parent::widget($config);
-    }
-
     /*public function init()
     {
         $this->noneOptions = ArrayHelper::merge(['class' => $this->buildClass('text-muted')], $this->noneOptions);

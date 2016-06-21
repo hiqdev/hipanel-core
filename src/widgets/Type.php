@@ -14,6 +14,7 @@ namespace hipanel\widgets;
 use hipanel\base\Model;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 
 class Type extends \hipanel\widgets\Label
 {
@@ -60,6 +61,6 @@ class Type extends \hipanel\widgets\Label
         }
 
         $this->color = isset($class) ? $class : 'warning';
-        $this->label  = Yii::t($this->i18nDictionary, $this->model->{"{$this->field}_label"} ?: $this->model->{$this->field});
+        $this->label  = Yii::t($this->i18nDictionary, $this->model->{"{$this->field}_label"} ?: Inflector::titleize($this->model->{$this->field}));
     }
 }
