@@ -60,7 +60,7 @@ class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \
     public function getItemConfig($name = null, array $config = [])
     {
         return [
-            'class'   => 'hipanel\actions\SwitchRule',
+            'class'   => SwitchRule::class,
             'name'    => $name,
             'switch'  => $this,
             'save'    => ArrayHelper::remove($config, 'save'),
