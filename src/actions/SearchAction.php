@@ -126,7 +126,8 @@ class SearchAction extends SwitchAction
             $formName = $this->getSearchModel()->formName();
             $search = ArrayHelper::merge($this->findOptions, Yii::$app->request->get($formName) ?: Yii::$app->request->get() ?: Yii::$app->request->post());
 
-            $this->returnOptions[$this->controller->modelClassName()] = ArrayHelper::merge(
+            $modelClass = $this->getModelClass();
+            $this->returnOptions[$modelClass] = ArrayHelper::merge(
                 ArrayHelper::remove($search, 'return', []),
                 ArrayHelper::remove($search, 'rename', [])
             );
