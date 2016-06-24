@@ -1,6 +1,8 @@
 <?php
 
 use hipanel\assets\ElementQueryAsset;
+use yii\web\View;
+
 ElementQueryAsset::register($this);
 $this->registerCss('
 .affix {
@@ -28,64 +30,68 @@ $this->registerJs("
 $(document).on('pjax:end', function() {
     $('.advanced-search form > div').css({'width': '100%'});
 });
-if ($(window).height() > ($('#scrollspy').outerHeight(true) + 106)) {
-    var fixAffixWidth = function() {
-        $('#scrollspy').each(function() {
-            $(this).width( $(this).parent().width() );
+if ($(window).height() > $('#scrollspy').outerHeight(true)) {
+    if ( $('#scrollspy').outerHeight(true) < $('.horizontal-view .col-md-9 > .box').outerHeight(true) ) {
+        var fixAffixWidth = function() {
+            $('#scrollspy').each(function() {
+                $(this).width( $(this).parent().width() );
+            });
+        }
+        fixAffixWidth();
+        $(window).resize(fixAffixWidth);
+        $('#scrollspy').affix({
+            offset: {
+                top: ($('header.main-header').outerHeight(true) + $('section.content-header').outerHeight(true)) + 15,
+                bottom: ($('footer').outerHeight(true)) + 15
+
+            }
+        });
+        $('a.sidebar-toggle').click(function() {
+            setTimeout(function(){
+                fixAffixWidth();
+            }, 500);
         });
     }
-    fixAffixWidth();
-    $(window).resize(fixAffixWidth);
-    $('#scrollspy').affix({
-        offset: {
-            top: ($('header.main-header').outerHeight(true) + $('section.content-header').outerHeight(true)) + 15,
-            bottom: ($('footer').outerHeight(true)) + 15
-
-        }
-    });
-    $('a.sidebar-toggle').click(function() {
-        setTimeout(function(){
-            fixAffixWidth();
-        }, 500);
-    });
+    
 }
-", \yii\web\View::POS_LOAD);
+", View::POS_LOAD);
 $widget = $this->context;
 ?>
 <div class="horizontal-view">
-<div class="row">
-    <div class="col-md-3">
-        <div id="scrollspy">
-            <?= $widget->renderContent('main-actions') ?>
-            <div class="box box-solid">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('hipanel', 'Advanced search') ?></h3>
-                    <div class="box-tools">
-                        <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+    <div class="row">
+        <div class="col-md-3">
+            <div id="scrollspy">
+                <?= $widget->renderContent('main-actions') ?>
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?= Yii::t('hipanel', 'Advanced search') ?></h3>
+                        <div class="box-tools">
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="box-body advanced-search">
-                    <?= $widget->renderSearchForm(['options' => ['displayNone' => false]]) ?>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-9">
-        <div class="box box-primary">
-            <div class="box-body no-padding">
-                <div class="mailbox-controls">
-                    <?= $widget->renderContent('show-actions') ?>
-                    <div class="box-tools box-bulk-actions pull-right">
-                        <fieldset disabled="disabled">
-                            <?= $widget->renderContent('bulk-actions') ?>
-                        </fieldset>
+                    <div class="box-body advanced-search">
+                        <?= $widget->renderSearchForm(['options' => ['displayNone' => false]]) ?>
                     </div>
                 </div>
-                <?= $widget->renderContent('table') ?>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-body no-padding">
+                    <div class="mailbox-controls">
+                        <?= $widget->renderContent('show-actions') ?>
+                        <div class="box-tools box-bulk-actions pull-right">
+                            <fieldset disabled="disabled">
+                                <?= $widget->renderContent('bulk-actions') ?>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <?= $widget->renderContent('table') ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
