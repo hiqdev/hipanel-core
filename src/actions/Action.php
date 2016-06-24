@@ -211,14 +211,38 @@ class Action extends \yii\base\Action
         return $error;
     }
 
+    /**
+     * @return \hiqdev\hiart\ActiveRecord
+     */
     public function getModel()
     {
-        return $this->parent ? $this->parent->getModel() : $this->collection->first;
+        return $this->parent ? $this->parent->getModel() : $this->getCollection()->first;
     }
 
+    /**
+     * Return the model class name
+     *
+     * @return string
+     */
+    public function getModelClass()
+    {
+        if (isset($this->parent)) {
+            return $this->parent->getModelClass();
+        }
+
+        if (isset($this->getCollection()->first)) {
+            return $this->getCollection()->first->className();
+        }
+
+        return $this->getCollection()->getModel()->className();
+    }
+
+    /**
+     * @return \hiqdev\hiart\ActiveRecord[]
+     */
     public function getModels()
     {
-        return $this->parent ? $this->parent->getModels() : $this->collection->models;
+        return $this->parent ? $this->parent->getModels() : $this->getCollection()->models;
     }
 
     /**
