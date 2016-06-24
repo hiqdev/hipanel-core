@@ -28,7 +28,7 @@ $this->registerJs("
 $(document).on('pjax:end', function() {
     $('.advanced-search form > div').css({'width': '100%'});
 });
-if ($(window).height() > $('#scrollspy').outerHeight(true)) {
+if ($(window).height() > ($('#scrollspy').outerHeight(true) + 106)) {
     var fixAffixWidth = function() {
         $('#scrollspy').each(function() {
             $(this).width( $(this).parent().width() );
@@ -49,7 +49,7 @@ if ($(window).height() > $('#scrollspy').outerHeight(true)) {
         }, 500);
     });
 }
-");
+", \yii\web\View::POS_LOAD);
 $widget = $this->context;
 ?>
 <div class="horizontal-view">
