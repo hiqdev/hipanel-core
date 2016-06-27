@@ -13,7 +13,6 @@ namespace hipanel\grid;
 
 use hipanel\widgets\SwitchInput;
 use yii\helpers\ArrayHelper;
-use yii\web\JsExpression;
 
 class SwitchColumn extends DataColumn
 {
@@ -28,22 +27,23 @@ class SwitchColumn extends DataColumn
 
     /** {@inheritdoc} */
     public $defaultOptions = [
-//        'headerOptions' => [
-//            'style' => 'width:1em !important',
-//        ],
-        'pluginOptions'         => [
-            'size'      => 'mini',
+        'pluginOptions' => [
+            'size' => 'mini',
         ],
     ];
 
+    /**
+     * @var array options that will be passed to [[SwitchInput]] widget
+     */
+    public $switchInputOptions = [];
+
     public function getDataCellValue($model, $key, $index)
     {
-        return SwitchInput::widget([
-            'name'          => 'swc' . $key . $model->id,
+        return SwitchInput::widget(ArrayHelper::merge([
+            'name' => 'swc' . $key . $model->id,
             'pluginOptions' => ArrayHelper::merge($this->pluginOptions, [
-                'state'             => (bool) parent::getDataCellValue($model, $key, $index),
-                'onSwitchChange'    => new JsExpression('function () { console.log("hello"); }'),
+                'state' => (bool)parent::getDataCellValue($model, $key, $index),
             ]),
-        ]);
+        ], $this->switchInputOptions));
     }
 }
