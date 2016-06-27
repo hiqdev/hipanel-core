@@ -20,7 +20,7 @@ use yii\helpers\Url;
 class MainColumn extends DataColumn
 {
     /**
-     * @var true|string 
+     * @var true|string
      * true - note editing is enabled in this column, target attribute name is `note`
      * string - target atttribute name
      */
@@ -31,11 +31,25 @@ class MainColumn extends DataColumn
      */
     public $noteOptions = [];
 
+    /**
+     * Builds url.
+     * @param string $url
+     * @return string
+     */
+    public function buildUrl($url)
+    {
+        if (strncmp($url, '/', 0) === 0) {
+            return $url;
+        }
+        $baseUrl = isset($this->grid->controllerUrl) ? $this->grid->controllerUrl : '';
+        return $baseUrl ? Url::to($baseUrl . '/' . $url) : Url::to($url);
+    }
+
     public function init()
     {
         parent::init();
         $this->noteOptions = ArrayHelper::merge([
-            'url'       => Url::to('set-note'),
+            'url' => $this->buildUrl('set-note'),
         ], $this->noteOptions);
     }
 
@@ -43,7 +57,7 @@ class MainColumn extends DataColumn
     protected function renderDataCellContent($model, $key, $index)
     {
         $value = parent::renderDataCellContent($model, $key, $index);
-        $html  = Html::a($value, ['view', 'id' => $model->id], ['class' => 'bold']);
+        $html  = Html::a($value, [$this->buildUrl('view'), 'id' => $model->id], ['class' => 'bold']);
         if ($this->note) {
             $html .= $this->renderEditableNote($model, $key, $index);
         }
@@ -51,12 +65,10 @@ class MainColumn extends DataColumn
     }
 
     /**
-     * Renders editable note field.
-     *
+     * Renders link to edit note.
      * @param $model
      * @param $key
      * @param $index
-     * @throws \Exception
      * @return string
      */
     public function renderEditableNote($model, $key, $index)
