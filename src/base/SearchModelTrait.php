@@ -119,4 +119,16 @@ trait SearchModelTrait
 
         return $dataProvider;
     }
+
+    /**
+     * Returns default labels.
+     * Solves infinite recursion problem.
+     * @return array
+     */
+    public function defaultAttributeLabels()
+    {
+        /// XXX parent::attributeLabels() creates infinite recursion
+        $class = parent::class;
+        return (new $class)->attributeLabels();
+    }
 }

@@ -69,27 +69,35 @@ class Model extends \hiqdev\hiart\ActiveRecord
        ];
     }
 
+    protected static $mergedLabels = [];
+
     /**
      * Merge Attribute labels for Model.
      */
     public function mergeAttributeLabels($labels)
     {
-        $attributeLabels = [];
-        $default = $this->defaultAttributeLabels();
-        foreach ($this->rules() as $d) {
-            if (is_string(reset($d))) {
-                continue;
-            }
-            foreach (reset($d) as $k) {
-                $attributeLabels[$k] = $labels[$k] ?: $default[$k];
-                if (!$attributeLabels[$k]) {
+        if (!isset(static::$mergedLabels[static::class])) {
+            $default = $this->defaultAttributeLabels();
+            foreach ($this->attributes() as $k) {
+                $label = $labels[$k] ?: $default[$k];
+                if (!$label) {
+                    if (preg_match('/(.+)_[a-z]+$/', $k, $m)) {
+                        if (isset($labels[$m[1]])) {
+                            $label = $labels[$m[1]];
+                        }
+                    }
+                }
+                if (!$label) {
                     $toTranslate = preg_replace(['/_id$/', '/_label$/', '/_ids$/', '/_like$/'], [' ID', '', ' IDs', ''], $k);
                     $toTranslate = preg_replace('/_/', ' ', $toTranslate);
-                    $attributeLabels[$k] = Yii::t(static::$i18nDictionary, ucfirst($toTranslate));
+                    $label = Yii::t(static::$i18nDictionary, ucfirst($toTranslate));
                 }
+                $labels[$k] = $label;
             }
+            static::$mergedLabels[static::class] = $labels;
         }
-        return $attributeLabels;
+
+        return static::$mergedLabels[static::class];
     }
 
     public function getClient()
