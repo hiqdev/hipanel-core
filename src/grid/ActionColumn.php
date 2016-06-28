@@ -12,6 +12,7 @@
 namespace hipanel\grid;
 
 use hiqdev\higrid\FeaturedColumnTrait;
+use Closure;
 use Yii;
 use yii\helpers\Html;
 
@@ -75,7 +76,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             <ul class="dropdown-menu pull-right" role="menu">' : $item;
     }
 
-    public function renderOtherButtons($item)
+    public function renderOtherButton($item)
     {
         return '<li>' . $item . '</li>';
     }
@@ -136,7 +137,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             $name = $matches[1];
 
             if (isset($this->visibleButtons[$name])) {
-                $isVisible = $this->visibleButtons[$name] instanceof \Closure
+                $isVisible = $this->visibleButtons[$name] instanceof Closure
                     ? call_user_func($this->visibleButtons[$name], $model, $key, $index)
                     : $this->visibleButtons[$name];
             } else {
@@ -146,7 +147,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             if ($isVisible && isset($this->buttons[$name])) {
                 $url          = $this->createUrl($name, $model, $key, $index);
                 $renderedItem = call_user_func($this->buttons[$name], $url, $model, $key);
-                $result       = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem, $index) : $this->renderOtherButtons($renderedItem);
+                $result       = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem, $index) : $this->renderOtherButton($renderedItem);
                 ++$renderedCount;
 
                 return $result;
