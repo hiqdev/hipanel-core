@@ -33,9 +33,9 @@ class MainColumn extends DataColumn
     public $noteOptions = [];
 
     /**
-     * @var Closure callback to render cell
+     * @var string|Closure badges string or callback to render badges
      */
-    public $renderer;
+    public $badges;
 
     /**
      * Builds url.
@@ -62,14 +62,11 @@ class MainColumn extends DataColumn
     /** {@inheritdoc} */
     protected function renderDataCellContent($model, $key, $index)
     {
-        if ($this->renderer instanceof Closure) {
-            return call_user_func($this->renderer, $this, $model, $key, $index);
-        } else {
-            $link = $this->renderViewLink($model, $key, $index);
-            $note = $this->renderNoteLink($model, $key, $index);
+        $link   = $this->renderViewLink($model, $key, $index);
+        $note   = $this->renderNoteLink($model, $key, $index);
+        $badges = $this->badges instanceof Closure ? call_user_func($this->badges, $model, $key, $index) : $this->badges;
 
-            return $link . ($note ? '<br>' . $note : '');
-        }
+        return $link . ($badges ? ' ' . $badges : '') . ($note ? '<br>' . $note : '');
     }
 
     public function renderViewLink($model, $key, $index)
