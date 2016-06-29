@@ -13,6 +13,7 @@ namespace hipanel\grid;
 
 use hipanel\helpers\ArrayHelper;
 use hipanel\widgets\XEditable;
+use Closure;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -30,6 +31,11 @@ class MainColumn extends DataColumn
      * @var array will be passed to the ```pluginOptions``` of [[XEditable]] plugin
      */
     public $noteOptions = [];
+
+    /**
+     * @var Closure callback to render cell
+     */
+    public $renderer;
 
     /**
      * Builds url.
@@ -56,12 +62,20 @@ class MainColumn extends DataColumn
     /** {@inheritdoc} */
     protected function renderDataCellContent($model, $key, $index)
     {
-        $value = parent::renderDataCellContent($model, $key, $index);
-        $html  = Html::a($value, [$this->buildUrl('view'), 'id' => $model->id], ['class' => 'bold']);
-        if ($this->note) {
-            $html .= $this->renderEditableNote($model, $key, $index);
+        if ($this->renderer instanceof Closure) {
+            return call_user_func($this->renderer, $this, $model, $key, $index);
+        } else {
+            $link = $this->renderViewLink($model, $key, $index);
+            $note = $this->renderNoteLink($model, $key, $index);
+
+            return $link . ($note ? '<br>' . $note : '');
         }
-        return $html;
+    }
+
+    public function renderViewLink($model, $key, $index)
+    {
+        $value = parent::renderDataCellContent($model, $key, $index);
+        return Html::a($value, [$this->buildUrl('view'), 'id' => $model->id], ['class' => 'bold']);
     }
 
     /**
@@ -69,14 +83,14 @@ class MainColumn extends DataColumn
      * @param $model
      * @param $key
      * @param $index
-     * @return string
+     * @return string|null
      */
-    public function renderEditableNote($model, $key, $index)
+    public function renderNoteLink($model, $key, $index)
     {
-        return '<br>' . Html::tag('span', Yii::t('app', 'Note') . ': ', ['class' => 'bold']) . XEditable::widget([
+        return $this->note ? Html::tag('span', Yii::t('app', 'Note') . ': ', ['class' => 'bold']) . XEditable::widget([
             'model'         => $model,
             'attribute'     => $this->note === true ? 'note' : $this->note,
             'pluginOptions' => $this->noteOptions,
-        ]);
+        ]) : null;
     }
 }
