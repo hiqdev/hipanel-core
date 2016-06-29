@@ -43,8 +43,7 @@ $config = [
         'hiart' => [
             'class' => \hipanel\base\Connection::class,
             'config' => [
-                'api_url' => $params['api_url'],
-                'base_uri' => $params['api_url'],
+                'base_uri' => $params['api_base_uri'],
             ],
         ],
         'mailer' => [

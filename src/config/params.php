@@ -12,7 +12,7 @@
 return [
     'orgUrl'                => '',
 
-    'api_url'               => '',
+    'api_base_uri'          => '',
     'hiam_site'             => '',
     'hiam_client_id'        => '',
     'hiam_client_secret'    => '',

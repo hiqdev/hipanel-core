@@ -98,13 +98,6 @@ class File extends \hiqdev\hiart\ActiveRecord
         return Url::to(['/file/temp-view', 'temp_file' => $temp_name, 'key' => $key], true);
     }
 
-    protected function fileGet($rows, $params = [])
-    {
-        $input = $this->_prepareData($rows);
-        $response = http::fetchPost($this->api_url . 'fileGet', $input);
-        return $response;
-    }
-
     /**
      * @param $file
      * @param null $file_id
