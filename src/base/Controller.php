@@ -11,6 +11,8 @@
 
 namespace hipanel\base;
 
+use hipanel\components\Cache;
+use hipanel\components\Response;
 use hiqdev\hiart\ActiveRecord;
 use Yii;
 use yii\di\Instance;
