@@ -14,21 +14,9 @@ namespace hipanel\controllers;
 use hipanel\models\File;
 use Yii;
 use yii\web\Controller;
-use yii\web\Response;
 
 class FileController extends Controller
 {
-    /* XXX ask sol
-    public function behaviors() {
-        return [
-            'fileAccess' => [
-                'class' => 'hipanel\components\filters\FileAccessFilter',
-                'only' => ['view', 'get'],
-            ],
-        ];
-    }
-    */
-
     public function actionView($id, $object_id = null, $object_name = null, $nocache = false)
     {
         return File::renderFile($id, $object_id, $object_name, true, $nocache);
