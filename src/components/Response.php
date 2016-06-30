@@ -11,12 +11,14 @@
 
 namespace hipanel\components;
 
+use Yii;
+
 class Response extends \yii\web\Response
 {
     public function sendContent()
     {
         if ($this->stream === null) {
-            $this->content = Lang::lang($this->content);
+            $this->content = Yii::$app->getI18n()->removeLegacyLangTags($this->content);
         }
         parent::sendContent();
     }

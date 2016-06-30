@@ -11,7 +11,7 @@
 
 namespace hipanel\widgets;
 
-use hipanel\base\OrientationStorage;
+use hipanel\components\OrientationStorage;
 use Yii;
 use yii\base\Widget;
 use yii\bootstrap\ButtonGroup;

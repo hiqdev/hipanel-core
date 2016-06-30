@@ -11,7 +11,7 @@
 
 namespace hipanel\actions;
 
-use hipanel\base\OrientationStorage;
+use hipanel\components\OrientationStorage;
 use Yii;
 use yii\base\Action;
 

@@ -11,7 +11,6 @@
 
 namespace hipanel\models;
 
-use hipanel\base\Err;
 use Yii;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;

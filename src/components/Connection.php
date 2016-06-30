@@ -23,8 +23,8 @@ class Connection extends \hiqdev\hiart\Connection
      */
     public function checkError($response)
     {
-        if ($response !== '0' && Err::is($response)) {
-            $error = Err::get($response);
+        if ($response !== '0' && $this->isError($response)) {
+            $error = $this->getError($response);
             if (empty($error)) {
                 return 'unknown api error';
             } elseif ($error === 'invalid_token') {
@@ -37,6 +37,16 @@ class Connection extends \hiqdev\hiart\Connection
         }
 
         return null;
+    }
+
+    private function isError($data)
+    {
+        return is_array($data) ? array_key_exists('_error', $data) : !$data;
+    }
+
+    private function getError($data)
+    {
+        return isset($data['_error']) ? $data['_error'] : null;
     }
 
     /**

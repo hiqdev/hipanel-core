@@ -11,6 +11,8 @@
 
 namespace hipanel\components;
 
+use Yii;
+
 class I18N extends \yii\i18n\I18N
 {
     /**
@@ -31,7 +33,7 @@ class I18N extends \yii\i18n\I18N
      * @param $message
      * @return string
      */
-    protected function removeLegacyLangTags($message)
+    public function removeLegacyLangTags($message)
     {
         return preg_replace('/{lang:([^}]*)}/i', '$1', $message);
     }

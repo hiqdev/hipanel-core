@@ -11,15 +11,12 @@
 
 namespace hipanel\widgets;
 
-use hipanel\base\OrientationStorage;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Model;
-use yii\base\Object;
 use yii\base\Widget;
 use yii\bootstrap\ButtonDropdown;
 use yii\data\DataProviderInterface;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
