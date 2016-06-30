@@ -32,16 +32,16 @@ $config = [
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
         'response' => [
-            'class' => \hipanel\base\Response::class,
+            'class' => \hipanel\components\Response::class,
         ],
         'cache' => [
-            'class' => \hipanel\base\Cache::class,
+            'class' => \hipanel\components\Cache::class,
         ],
         'authManager' => [
-            'class' => \hipanel\base\AuthManager::class,
+            'class' => \hipanel\components\AuthManager::class,
         ],
         'hiart' => [
-            'class' => \hipanel\base\Connection::class,
+            'class' => \hipanel\components\Connection::class,
             'config' => [
                 'base_uri' => $params['api_base_uri'],
             ],
@@ -55,7 +55,7 @@ $config = [
             'useFileTransport' => true,
         ],
         'i18n' => [
-            'class' => \hipanel\base\I18N::class,
+            'class' => \hipanel\components\I18N::class,
             'translations' => [
                 'synt' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
@@ -91,10 +91,10 @@ $config = [
             ],
         ],
         'orientationStorage' => [
-            'class' => \hipanel\base\OrientationStorage::class,
+            'class' => \hipanel\components\OrientationStorage::class,
         ],
         'user' => [
-            'class' => \hipanel\base\User::class,
+            'class' => \hipanel\components\User::class,
             'identityClass' => \hipanel\models\User::class,
             'enableAutoLogin' => true,
             'seller' => $params['user.seller'],
@@ -156,7 +156,7 @@ $config = [
             ]
         ],
         'view' => [
-            'class' => \hipanel\base\View::class,
+            'class' => \hipanel\components\View::class,
         ],
         'formatter' => [
             'locale' => 'ru-RU',

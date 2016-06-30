@@ -9,7 +9,7 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace hipanel\base;
+namespace hipanel\components;
 
 class I18N extends \yii\i18n\I18N
 {
