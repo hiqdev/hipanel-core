@@ -30,6 +30,14 @@ $this->registerJs("
 $(document).on('pjax:end', function() {
     $('.advanced-search form > div').css({'width': '100%'});
 });
+function affixInit() {
+    $('#scrollspy').affix({
+        offset: {
+            top: ($('header.main-header').outerHeight(true) + $('section.content-header').outerHeight(true)) + 15,
+            bottom: ($('footer').outerHeight(true)) + 15
+        }
+    });
+}
 if ($(window).height() > $('#scrollspy').outerHeight(true)) {
     if ( $('#scrollspy').outerHeight(true) < $('.horizontal-view .col-md-9 > .box').outerHeight(true) ) {
         var fixAffixWidth = function() {
@@ -39,13 +47,7 @@ if ($(window).height() > $('#scrollspy').outerHeight(true)) {
         }
         fixAffixWidth();
         $(window).resize(fixAffixWidth);
-        $('#scrollspy').affix({
-            offset: {
-                top: ($('header.main-header').outerHeight(true) + $('section.content-header').outerHeight(true)) + 15,
-                bottom: ($('footer').outerHeight(true)) + 15
-
-            }
-        });
+        affixInit();
         $('a.sidebar-toggle').click(function() {
             setTimeout(function(){
                 fixAffixWidth();
