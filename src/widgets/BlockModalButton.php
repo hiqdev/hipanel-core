@@ -198,7 +198,7 @@ class BlockModalButton extends Widget
     protected function modalBegin()
     {
         $config = ArrayHelper::merge([
-            'class' => ModalButton::className(),
+            'class' => ModalButton::class,
             'model' => $this->model,
             'scenario' => $this->scenario,
             'button' => $this->button,

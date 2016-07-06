@@ -57,7 +57,7 @@ class Cache extends \yii\caching\FileCache
     {
         parent::init();
         if (!is_object($this->cache)) {
-            $this->cache = Instance::ensure($this->cache, yiiCache::className());
+            $this->cache = Instance::ensure($this->cache, yiiCache::class);
         }
     }
 

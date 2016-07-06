@@ -38,7 +38,7 @@ class Controller extends \yii\web\Controller
     public function getCache()
     {
         if (!is_object($this->_cache)) {
-            $this->_cache = Instance::ensure($this->_cache, Cache::className());
+            $this->_cache = Instance::ensure($this->_cache, Cache::class);
         }
 
         return $this->_cache;
@@ -56,7 +56,7 @@ class Controller extends \yii\web\Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'only'  => ['index'],
                 'rules' => [
                     [
@@ -75,7 +75,7 @@ class Controller extends \yii\web\Controller
      */
     public static function modelClassName()
     {
-        $parts = explode('\\', static::className());
+        $parts = explode('\\', static::class);
         $last  = array_pop($parts);
         array_pop($parts);
         $parts[] = 'models';

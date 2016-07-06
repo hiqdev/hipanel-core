@@ -104,7 +104,7 @@ class Action extends \yii\base\Action
             }
 
             $this->_collection = Yii::createObject(ArrayHelper::merge([
-                'class' => Collection::className(),
+                'class' => Collection::class,
                 'model' => $this->controller->newModel(),
                 'scenario' => $scenario,
             ], (array) $this->_collection));
@@ -231,7 +231,7 @@ class Action extends \yii\base\Action
         }
 
         if (isset($this->getCollection()->first)) {
-            return $this->getCollection()->first->className();
+            return $this->getCollection()->first->class;
         }
 
         return $this->getCollection()->getModel()->className();
