@@ -89,6 +89,8 @@ return [
     'Buy' => 'Купить',
     'View' => 'Просмотреть',
     'Recharge' => 'Пополнить',
+    'Enabled' => 'Включён',
+    'Disabled' => 'Отключён',
 
     // Block types
     'Non payment' => 'Неоплата',
