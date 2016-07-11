@@ -34,7 +34,7 @@ class AmountWithCurrencyWidget extends \yii\base\Widget
     /**
      * @var
      */
-    public $inputOptions;
+    public $inputOptions = [];
 
     /**
      * @var
@@ -54,7 +54,7 @@ class AmountWithCurrencyWidget extends \yii\base\Widget
     /**
      * @var array
      */
-    public $selectAttributeOptions;
+    public $selectAttributeOptions = [];
 
     public function init()
     {

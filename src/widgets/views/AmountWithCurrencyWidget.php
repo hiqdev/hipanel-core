@@ -1,5 +1,7 @@
 <?php
-use \hipanel\helpers\StringHelper;
+
+use hipanel\helpers\StringHelper;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 $this->registerJs(<<<JS
@@ -11,21 +13,20 @@ $this->registerJs(<<<JS
 JS
 );
 ?>
-<div class="form-group">
-    <?= Html::activeLabel($model, $attribute) ?>
     <div id="<?= $widgetId ?>" class="input-group">
         <div class="input-group-btn">
-            <button type="button" class="btn btn-default iwd-label"><?= StringHelper::getCurrencySymbol(Html::getAttributeValue($model, $selectAttribute)) ?></button>
+            <button type="button" class="btn btn-default iwd-label">
+                <?= StringHelper::getCurrencySymbol(Html::getAttributeValue($model, $selectAttribute)) ?>
+            </button>
             <button type=button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span> <span class="sr-only"><?= Yii::t('app', 'Toggle Dropdown') ?></span>
             </button>
             <ul class="dropdown-menu">
-                <?php foreach (\yii\helpers\ArrayHelper::remove($selectAttributeOptions, 'items', []) as $k => $v) : ?>
+                <?php foreach (ArrayHelper::remove($selectAttributeOptions, 'items', []) as $k => $v) : ?>
                     <li><?= Html::a(StringHelper::getCurrencySymbol($k), '#', ['data-value' => $k, 'data-label' => StringHelper::getCurrencySymbol($k)]) ?>
-                <?php endforeach; ?>
+                <?php endforeach ?>
             </ul>
         </div>
         <?= Html::activeInput($inputAttributeType, $model, $attribute, array_merge(['class' => 'form-control'], $inputOptions)) ?>
         <?= Html::activeHiddenInput($model, $selectAttribute, $selectAttributeOptions) ?>
     </div>
-</div>

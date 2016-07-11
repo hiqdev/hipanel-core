@@ -81,6 +81,7 @@ return [
     'common' => 'обычный',
     'report' => 'отчёт',
     'brief'=> 'краткий',
+    'detailed information' => 'подробная информация',
     'detailed' => 'подробный',
     'on screen' => 'на экране',
     'Description' => 'Описание',
