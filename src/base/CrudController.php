@@ -40,4 +40,10 @@ class CrudController extends Controller
     {
         return $this->getRefs('type,block', 'hipanel');
     }
+
+    public function getCurrencyTypes()
+    {
+        return $this->getRefs('type,currency', 'hipanel', ['orderby' => 'no_asc']);
+    }
+
 }
