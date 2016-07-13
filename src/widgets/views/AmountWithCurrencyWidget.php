@@ -14,7 +14,7 @@ $this->registerJs(<<<JS
         $('#$widgetId .iwd-label').text(elem.data('label'));
         $('#$widgetId :hidden').val(elem.data('value'));
     });
-    // Add default currency after add new field
+    // Add default currency after add new block
     $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
         var currencyInput = $(':input:last', $(item)), currencyValue = '$currencySymbol';
         if (currencyValue === '') currencyInput.val('usd');
