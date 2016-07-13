@@ -11,7 +11,7 @@
 
 namespace hipanel\widgets;
 
-class AmountWithCurrencyWidget extends \yii\base\Widget
+class AmountWithCurrency extends \yii\base\Widget
 {
     const INPUT_TYPE_TEXT = 'text';
     const INPUT_TYPE_NUMBER = 'number';
