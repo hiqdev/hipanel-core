@@ -21,8 +21,5 @@ class XEditableColumn extends \hiqdev\xeditable\grid\XEditableColumn
     public function init()
     {
         parent::init();
-        if (!isset($this->pluginOptions['emptytext'])) {
-            $this->pluginOptions['emptytext'] = Yii::t('hipanel', 'Empty');
-        }
     }
 }
