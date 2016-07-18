@@ -29,6 +29,7 @@ $config = [
     ],
     'components' => [
         'request' => [
+            'enableCsrfCookie'    => true, /// XXX TO BE DISABLED
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
         'response' => [
