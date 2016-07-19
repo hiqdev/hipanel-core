@@ -611,7 +611,6 @@ return [
     'Type here ...' => 'Введите здесь...',
     'Type label' => 'Метка типа',
     'Type of backuping' => 'Тип резервного копирования',
-    'Type pincode here...' => 'Введите пин-код здесь...',
     'Type your note here' => 'Введите вашу заметку здесь',
     'Unfreeze domain' => 'Разморозить домен',
     'Unpublished' => 'Неопубликованный',
