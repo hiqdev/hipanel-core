@@ -11,8 +11,12 @@
 
 namespace hipanel\widgets;
 
+use hipanel\components\FileStorage;
+use hipanel\helpers\ArrayHelper;
+use hipanel\helpers\FileHelper;
 use hipanel\models\File;
 use hiqdev\assets\lightbox2\LightboxAsset;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -22,19 +26,9 @@ use yii\imagine\Image;
 class FileRender extends Widget
 {
     /**
-     * @var string
+     * @var File
      */
-    public $object_name;
-
-    /**
-     * @var int
-     */
-    public $object_id;
-
-    /**
-     * @var array
-     */
-    public $data = [];
+    public $file;
 
     /**
      * @var int
@@ -47,33 +41,39 @@ class FileRender extends Widget
     public $thumbHeight = 64;
 
     /**
-     * @var int
+     * @var string Name of the file storage component
      */
-    public $answer_id;
+    public $fileStorageComponent = 'fileStorage';
+
+    /**
+     * @var FileStorage
+     */
+    protected $fileStorage;
+
+    /**
+     * @var array Options that will be passed to [[Html::a()]] for the image lightbox
+     */
+    public $lightboxLinkOptions = [];
 
     /**
      * @var array
      */
     private $extMatch = [
-        'pdf'  => '<div><i class="fa fa-file-pdf-o fa-2x"></i></div>',
-        'doc'  => '<div><i class="fa fa-file-word-o fa-2x"></i></div>',
+        'pdf' => '<div><i class="fa fa-file-pdf-o fa-2x"></i></div>',
+        'doc' => '<div><i class="fa fa-file-word-o fa-2x"></i></div>',
         'docx' => '<div><i class="fa fa-file-word-o fa-2x"></i></div>',
-        'xls'  => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
+        'xls' => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
         'xlsx' => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
     ];
 
     public function init()
     {
         parent::init();
-        if (empty($this->data)) {
-            throw new InvalidConfigException('The "data" property must not be empty.');
+        if (!$this->file instanceof File) {
+            throw new InvalidConfigException('The "data" property must instance of File class.');
         }
-        if (empty($this->object_id)) {
-            throw new InvalidConfigException('The "object_id" property must not be empty.');
-        }
-        if (empty($this->object_name)) {
-            throw new InvalidConfigException('The "object_name" property must not be empty.');
-        }
+        $this->fileStorage = Yii::$app->get($this->fileStorageComponent);
+
         $this->registerClientScript();
         $this->renderHtml();
     }
@@ -83,58 +83,45 @@ class FileRender extends Widget
         $view = $this->getView();
         LightboxAsset::register($view);
         // Fix: Incorrect resizing of image #122
-        $view->registerCss('.lightbox  .lb-image{ max-width: inherit!important; }');
+        $view->registerCss('.lightbox  .lb-image { max-width: inherit!important; }');
     }
 
     private function renderHtml()
     {
-        foreach ($this->data as $file) {
-            $contentType = $this->getContentType($file['id']);
-            if (mb_substr($contentType, 0, 5) === 'image') {
-                $base64 = 'data: ' . $contentType . ';base64,' . base64_encode(Image::thumbnail($this->getPathToFile($file['id']), $this->thumbHeight, $this->thumbHeight));
-                echo Html::beginTag('a', [
-                    'href' => $this->getLink($file['id']),
-                    'data' => ['lightbox' => 'answer-gal-' . $this->answer_id],
-                ]);
-                echo Html::img($base64, ['class' => 'margin']);
-                echo Html::endTag('a');
-            } else {
-                echo Html::beginTag('a', ['href' => $this->getLink($file['id'], $file['type'], $contentType)]);
-                echo Html::tag('div', $this->getExtIcon($file['type']), ['class' => 'margin file']);
-                echo Html::endTag('a');
-            }
+        $file = $this->file;
+
+        $filename = $this->fileStorage->get($file->id);
+        $contentType = $this->getContentType($file->id);
+        if (mb_substr($contentType, 0, 5) === 'image') {
+            $thumb = Image::thumbnail($filename, $this->thumbHeight, $this->thumbHeight);
+            $base64 = 'data: ' . $contentType . ';base64,' . base64_encode($thumb);
+            echo Html::a(
+                Html::img($base64, ['class' => 'margin']),
+                $this->getLink($file['id']),
+                ArrayHelper::merge(['data-lightbox' => 'file-' . $file->id], $this->lightboxLinkOptions)
+            );
+        } else {
+            echo Html::a(
+                Html::tag('div', $this->getExtIcon($file->type), ['class' => 'margin file']),
+                $this->getLink($file->id, true)
+            );
         }
     }
 
-    private function getLink($id, $ext = null, $contentType = null)
+    private function getLink($id, $download = false)
     {
-        if (!$ext && !$contentType) {
-            return Url::to([
-                '/file/view',
-                'id'          => $id,
-                'object_id'   => $this->object_id,
-                'object_name' => $this->object_name,
-            ]);
+        if (!$download) {
+            return Url::to(['/file/view', 'id' => $id]);
         } else {
-            return Url::to([
-                '/file/get',
-                'id'          => $id,
-                'object_id'   => $this->object_id,
-                'object_name' => $this->object_name,
-                'ext'         => $ext,
-                'contentType' => $contentType,
-            ]);
+            return Url::to(['/file/get', 'id' => $id]);
         }
     }
 
     private function getContentType($id)
     {
-        return \yii\helpers\FileHelper::getMimeType($this->getPathToFile($id));
-    }
+        $path = $this->fileStorage->get($id);
 
-    private function getPathToFile($id, $render = false)
-    {
-        return File::renderFile($id, $this->object_id, $this->object_name, $render);
+        return FileHelper::getMimeType($path);
     }
 
     private function getExtIcon($ext)
