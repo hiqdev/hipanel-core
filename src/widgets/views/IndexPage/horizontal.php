@@ -38,7 +38,7 @@ function affixInit() {
         }
     });
 }
-if ($(window).height() > $('#scrollspy').outerHeight(true)) {
+if ($(window).height() > $('#scrollspy').outerHeight(true) && $(window).width() > 991) {
     if ( $('#scrollspy').outerHeight(true) < $('.horizontal-view .col-md-9 > .box').outerHeight(true) ) {
         var fixAffixWidth = function() {
             $('#scrollspy').each(function() {
