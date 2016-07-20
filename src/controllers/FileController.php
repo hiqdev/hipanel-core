@@ -29,8 +29,8 @@ class FileController extends Controller
                 'lastModified' => function () {
                     $id = Yii::$app->request->get('id');
                     $nocache = Yii::$app->request->get('nocache', false);
-                    if ($nocache || $id === null) {
-                        return null;
+                    if ($nocache) {
+                        return time();
                     }
 
                     $filename = Yii::$app->fileStorage->get($id);
