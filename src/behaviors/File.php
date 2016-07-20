@@ -17,10 +17,11 @@
  */
 namespace hipanel\behaviors;
 
-use hipanel\models\File as FileModel;
+use hipanel\base\Model;
+use hipanel\components\FileStorage;
+use Yii;
 use yii\base\Behavior;
 use yii\db\BaseActiveRecord;
-use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 class File extends Behavior
@@ -38,12 +39,7 @@ class File extends Behavior
     /**
      * @var string the attribute that will receive the file id
      */
-    public $savedAttribute;
-
-    /**
-     * @var UploadedFile the uploaded file instance.
-     */
-    private $_file;
+    public $targetAttribute;
 
     /**
      * @return array
@@ -51,27 +47,51 @@ class File extends Behavior
     public function events()
     {
         return [
-            BaseActiveRecord::EVENT_BEFORE_INSERT => 'saveUploadedFile',
-            BaseActiveRecord::EVENT_BEFORE_UPDATE => 'saveUploadedFile',
+            BaseActiveRecord::EVENT_BEFORE_INSERT => 'processFiles',
+            BaseActiveRecord::EVENT_BEFORE_UPDATE => 'processFiles',
         ];
     }
 
     /**
-     * Event handler for beforeSave.
-     * @param \yii\base\ModelEvent|boolean $event
+     * Event handler for beforeInsert and beforeUpdate actions
+     *
+     * @param \yii\base\ModelEvent $event
      */
-    public function saveUploadedFile($event)
+    public function processFiles($event)
     {
+        /** @var Model $model */
         $model = $this->owner;
-        $arr_ids = [];
+        $ids = [];
+
         if (in_array($model->scenario, $this->scenarios, true)) {
-            $this->_file = UploadedFile::getInstances($model, $this->attribute);
-            if (is_array($this->_file) && !empty($this->_file)) {
-                $this->owner->{$this->savedAttribute} = implode(',', FileModel::fileSave($this->_file));
+            $files = UploadedFile::getInstances($model, $this->attribute);
+
+            foreach ($files as $file) {
+                $model = $this->uploadFile($file);
+                $ids[] = $model->id;
+            }
+
+            if (!empty($ids)) {
+                $this->owner->{$this->targetAttribute} = implode(',', $ids);
             } else {
                 // Protect attribute
                 unset($model->{$this->attribute});
             }
         }
+    }
+
+    /**
+     * Uploads file to the API server
+     *
+     * @param UploadedFile $file
+     * @return \hipanel\models\File
+     */
+    private function uploadFile(UploadedFile $file)
+    {
+        /** @var FileStorage $fileStorage */
+        $fileStorage = Yii::$app->get('fileStorage');
+
+        $filename = $fileStorage->saveUploadedFile($file);
+        return $fileStorage->put($filename, $file->name);
     }
 }
