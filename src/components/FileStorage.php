@@ -165,19 +165,22 @@ class FileStorage extends Component
      * Method downloads the requested file from the API and saves it to the local machine.
      * Method respects authentication and access rules.
      *
-     * @param integer $id the ID of the file
+     * @param integer|File $file the ID of the file, or the [[File]] model.
+     * When model is passed, no additional query will be performed.
      * @param bool $overrideCache whether the cache must be invalidated
      * @return string full path to the file. File is located under the [[directory]]
      * @throws Exception when fails to save file locally
      * @throws ForbiddenHttpException when file is not available to client due to policies
      */
-    public function get($id, $overrideCache = false)
+    public function get($file, $overrideCache = false)
     {
-        $file = $this->getFileModel($id, $overrideCache);
+        if (!$file instanceof $this->fileModelClass) {
+            $file = $this->getFileModel($file, $overrideCache);
+        }
 
         $path = FileHelper::getPrefixedPath($this->directory, static::buildHash($file->md5));
         if (!is_file($path) || $overrideCache) {
-            $content = $file::perform('Get', ['id' => $id]);
+            $content = $file::perform('Get', ['id' => $file->id]);
 
             if (!FileHelper::createDirectory(dirname($path))) {
                 throw new \yii\base\Exception("Failed to create directory");
@@ -189,7 +192,7 @@ class FileStorage extends Component
         }
 
         $cache = $this->getCache();
-        $key = $this->buildCacheKey($id);
+        $key = $this->buildCacheKey($file->id);
         $cache->set($key, $file, 0);
 
         return $path;

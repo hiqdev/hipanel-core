@@ -90,7 +90,7 @@ class FileRender extends Widget
     {
         $file = $this->file;
 
-        $filename = $this->fileStorage->get($file->id);
+        $filename = $this->fileStorage->get($file);
         $contentType = $this->getContentType($file->id);
         if (mb_substr($contentType, 0, 5) === 'image') {
             $thumb = Image::thumbnail($filename, $this->thumbHeight, $this->thumbHeight);
