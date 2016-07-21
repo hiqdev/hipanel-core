@@ -101,7 +101,12 @@ class User extends Model implements IdentityInterface
     /** {@inheritdoc} */
     public function getAccessToken()
     {
-        return Yii::$app->authClientCollection->getClient()->getAccessToken()->getParam('access_token');
+        $client = Yii::$app->authClientCollection->getClient();
+        if ($client->getAccessToken() === null) {
+            return null;
+        }
+
+        return $client->getAccessToken()->getParam('access_token');
     }
 
     /**
