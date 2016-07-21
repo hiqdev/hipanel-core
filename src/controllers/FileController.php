@@ -11,27 +11,61 @@
 
 namespace hipanel\controllers;
 
-use hipanel\models\File;
+use hipanel\helpers\FileHelper;
 use Yii;
+use yii\filters\HttpCache;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\Response;
 
 class FileController extends Controller
 {
-    public function actionView($id, $object_id = null, $object_name = null, $nocache = false)
+    public function behaviors()
     {
-        return File::renderFile($id, $object_id, $object_name, true, $nocache);
+        return ArrayHelper::merge(parent::behaviors(), [
+            'file-cache' => [
+                'class' => HttpCache::class,
+                'only' => ['view', 'get'],
+                'lastModified' => function () {
+                    $id = Yii::$app->request->get('id');
+                    $nocache = Yii::$app->request->get('nocache', false);
+                    if ($nocache) {
+                        return time();
+                    }
+
+                    $filename = Yii::$app->fileStorage->get($id);
+                    return filemtime($filename);
+                }
+            ]
+        ]);
     }
 
-    public function actionGet($id, $object_id, $object_name, $ext, $contentType)
+    public function actionView($id, $nocache = true)
     {
-        Yii::$app->response->sendFile(File::renderFile($id, $object_id, $object_name, false), implode('.', [$id, $ext]), ['mimeType' => $contentType]);
+        $filename = Yii::$app->fileStorage->get($id, $nocache);
+
+        Yii::$app->response->format = Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-type', FileHelper::getMimeType($filename));
+
+        return file_get_contents($filename);
     }
 
-    public function actionTempView($temp_file, $key)
+    public function actionGet($id, $downloadName = null, $nocache = true)
     {
-        if ($key === File::getHash($temp_file)) {
-            Yii::$app->response->sendFile(File::getTempFolder() . DIRECTORY_SEPARATOR . $temp_file);
+        $filename = Yii::$app->fileStorage->get($id, $nocache);
+
+        if ($downloadName === null) {
+            $file = Yii::$app->fileStorage->getFileModel($id);
+            $downloadName = $file->filename;
         }
-        Yii::$app->end();
+
+        Yii::$app->response->sendFile($filename, $downloadName)->send();
+    }
+
+    public function actionTempView($filename, $key)
+    {
+        $content = Yii::$app->fileStorage->getTemporary($filename, $key);
+
+        Yii::$app->response->sendContentAsFile(file_get_contents($content), $filename)->send();
     }
 }

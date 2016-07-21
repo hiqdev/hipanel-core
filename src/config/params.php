@@ -20,6 +20,7 @@ return [
     'cookieValidationKey'   => '',
     'debug_allowed_ips'     => [],
     'adminEmail'            => 'admin@example.com',
+    'fileStorageSecret'     => null,
 
     'skin' => [
         'default-skin' => 'skin-blue',

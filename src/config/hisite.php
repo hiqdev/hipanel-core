@@ -26,6 +26,7 @@ $config = [
         '@npm'          => '@vendor/npm-asset',
         '@vendor/bower' => '@vendor/bower-asset',
         '@vendor/npm'   => '@vendor/npm-asset',
+        '@file'         => '/file'
     ],
     'components' => [
         'request' => [
@@ -182,6 +183,10 @@ $config = [
                 ],
             ],
         ],
+        'fileStorage' => [
+            'class' => \hipanel\components\FileStorage::class,
+            'secret' => $params['fileStorageSecret'],
+        ]
     ],
     'modules' => [],
 ];
