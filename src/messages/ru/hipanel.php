@@ -109,4 +109,7 @@ return [
     'EN' => 'English',
     'ru' => 'Русский',
     'en' => 'English',
+    'Reminders' => 'Напоминания',
+    'View all' => 'Смотреть все',
+    'You have {0} notifications' => 'У Вас {0} напоминаний',
 ];
