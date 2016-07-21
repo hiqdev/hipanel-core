@@ -209,10 +209,13 @@ class FileStorage extends Component
      *
      * @param integer $id the ID of the file
      * @param bool $overrideCache whether the cache must be invalidated
+     * @param bool $throwException whether ForbiddenHttpException will be thrown
+     * when file is not available due to policies
      * @return File
-     * @throws ForbiddenHttpException when file is not available to client due to policies
+     * @throws ForbiddenHttpException when file is not available to client due
+     * to policies and $throwException parameter is set to `true`
      */
-    public function getFileModel($id, $overrideCache = false)
+    public function getFileModel($id, $overrideCache = false, $throwException = true)
     {
         $cache = $this->getCache();
         $key = $this->buildCacheKey($id);
@@ -229,7 +232,14 @@ class FileStorage extends Component
         try {
             $file = $model::find()->where(['id' => $id])->one();
         } catch (ErrorResponseException $e) {
-            throw new ForbiddenHttpException($e->getMessage());
+            if ($throwException) {
+                throw new ForbiddenHttpException($e->getMessage());
+            }
+            $file = null;
+        }
+
+        if ($file === null && $throwException) {
+            throw new ForbiddenHttpException('The requested file is not available');
         }
 
         return $file;
