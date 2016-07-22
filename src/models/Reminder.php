@@ -10,6 +10,9 @@ class Reminder extends Model
 {
     use ModelTrait;
 
+    const REMINDER_TYPE_SITE = 'site';
+    const REMINDER_TYPE_MAIL = 'mail';
+
     /**
      * {@inheritdoc}
      */
