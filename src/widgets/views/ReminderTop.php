@@ -1,4 +1,6 @@
 <?php
+use hipanel\helpers\StringHelper;
+use hipanel\helpers\Url;
 use yii\helpers\Html;
 /* @var integer $count */
 /* @var array $reminders */
@@ -64,13 +66,13 @@ CSS
             <ul class="menu">
                 <?php foreach ($reminders as $reminder) : ?>
                     <li>
-                        <a href="#">
+                        <?= Html::beginTag('a', ['href' => Url::toRoute(['@ticket/view', 'id' => $reminder->object_id])]) ?>
                             <h4>
                                 <?= Yii::t('hipanel/reminder', "{0} ID #{1}", ['Ticket', $reminder->object_id]) ?>
                                 <small><?= Yii::t('hipanel/reminder', 'Next time') ?>: <?= $reminder->next_time ?></small>
                             </h4>
                             <p>
-                                <?= \hipanel\helpers\StringHelper::truncateWords($reminder->message, 3) ?>
+                                <?= StringHelper::truncateWords(Html::encode($reminder->message), 3) ?>
                             </p>
                             <small>
                                 <?= Yii::t('hipanel/reminder', 'Remine in') ?>:
@@ -80,7 +82,7 @@ CSS
                                 <button class="btn btn-xs btn-default">12h</button>
                                 <button class="btn btn-xs btn-default">1d</button>
                             </small>
-                        </a>
+                        <?= Html::endTag('a') ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
