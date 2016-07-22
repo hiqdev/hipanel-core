@@ -3,9 +3,13 @@
 use hipanel\helpers\Url;
 use hipanel\models\Reminder;
 use hipanel\modules\client\widgets\combo\ClientCombo;
-use hipanel\widgets\DateTimePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+
+/**
+ * @var Reminder $model
+ * @var array[] $periodicityOptions
+ */
 
 ?>
 <?php $form = ActiveForm::begin([
@@ -13,7 +17,7 @@ use yii\helpers\Html;
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'update']),
+    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
 ]) ?>
 
 <?= Html::activeHiddenInput($model, 'object_id') ?>
@@ -23,7 +27,7 @@ use yii\helpers\Html;
     Reminder::REMINDER_TYPE_MAIL => Yii::t('hipanel/reminder', 'By mail'),
 ]) ?>
 
-<?= $form->field($model, "periodicity")->dropDownList($periodicityOptions) ?>
+<?= $form->field($model, "periodicity")->dropDownList(Yii::$app->controller->getPeriodicityOptions()) ?>
 
 <?= $form->field($model, "from_time") ?>
 

@@ -5,6 +5,8 @@ namespace hipanel\controllers;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\RedirectAction;
+use hipanel\actions\RenderAjaxAction;
+use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
@@ -48,17 +50,13 @@ class ReminderController extends \hipanel\base\CrudController
                         throw new NotFoundHttpException('Object ID is missing');
                     }
                     $data['model']->object_id = $object_id;
-                    $data['periodicityOptions'] = $this->getRefs('type,periodicity', 'hipanel/reminder');
 
                     return $data;
                 },
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
-                'POST ajax' => [
-                    'save' => true,
-                    'success' => '123123123',
-                ],
+                'view' => 'create-modal',
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
@@ -73,5 +71,10 @@ class ReminderController extends \hipanel\base\CrudController
                 ],
             ]
         ];
+    }
+
+    public function getPeriodicityOptions()
+    {
+        return $this->getRefs('type,periodicity', 'hipanel/reminder');
     }
 }
