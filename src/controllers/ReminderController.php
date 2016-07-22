@@ -4,14 +4,18 @@ namespace hipanel\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
-use hipanel\actions\PrepareAjaxViewAction;
-use hipanel\actions\RenderAjaxAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
+use yii\web\NotFoundHttpException;
 
 class ReminderController extends \hipanel\base\CrudController
 {
+    public function init()
+    {
+        $this->viewPath = '@hipanel/views/reminder';
+    }
+
     public function actions()
     {
         return [
@@ -23,42 +27,32 @@ class ReminderController extends \hipanel\base\CrudController
             ],
             'index' => [
                 'class' => IndexAction::class,
-                'view' => '@hipanel/views/reminder/index',
                 'data' => function ($action, $data) {
                     return [
 
                     ];
                 },
             ],
-            'open-create-modal' => [
-                'class' => PrepareAjaxViewAction::class,
-                'view' => '@hipanel/views/reminder/_form',
+            'create-modal' => [
+                'class' => SmartCreateAction::class,
+                'scenario' => 'create',
+                'view' => 'create-modal',
+                'data' => function ($action, $data) {
+                    $object_id = \Yii::$app->request->get('object_id');
+                    if (empty($object_id)) {
+                        throw new NotFoundHttpException('Object ID is missing');
+                    }
+
+                    $data['model']->object_id = $object_id;
+
+                    return $data;
+                }
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
-                'view' => '@hipanel/views/reminder/create',
-                'GET ajax' => [
-                    'class' => RenderAjaxAction::class,
-                    'view' => $this->view,
-                    'data' => $this->data,
-                    'params' => function ($action) {
-                        $model = $action->controller->newModel(['scenario' => $action->scenario]);
-                        return [
-                            'model' => $model,
-                            'models' => [$model],
-                        ];
-                    },
-                ],
-                'data' => function ($action, $data) {
-
-                    return [
-
-                    ];
-                },
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
-                'view' => '@hipanel/views/reminder/update',
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,

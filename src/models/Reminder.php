@@ -22,12 +22,10 @@ class Reminder extends Model
 
             // Create
             [['object_id', 'type', 'periodicity', 'from_time', 'message'], 'required', 'on' => 'create'],
-            [['client'], 'string', 'on' => 'create'],
-            [['client_id'], 'integer', 'on' => 'create'],
 
             // Update
             [['id'], 'required', 'on' => 'update'],
-            [['client_id', 'object_id', 'state_id', 'type_id'], 'integer', 'on' => 'update'],
+            [['object_id', 'state_id', 'type_id'], 'integer', 'on' => 'update'],
             [['from_time', 'next_time', 'till_time'], 'date', 'on' => 'update'],
 
             // Delete

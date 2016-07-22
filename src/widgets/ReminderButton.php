@@ -20,8 +20,8 @@ class ReminderButton extends Widget
             'bulkPage' => false,
             'id' => 'reminder-modal-' . $this->object_id,
             'scenario' => 'create',
-            'actionUrl' => ['/reminder/create', 'object_id' => $this->object_id],
-            'handleSubmit' => Url::toRoute('/reminder/create'),
+            'actionUrl' => ['@reminder/create-modal', 'object_id' => $this->object_id],
+            'handleSubmit' => Url::toRoute('@reminder/create'),
             'size' => Modal::SIZE_LARGE,
             'header' => Html::tag('h4', Yii::t('hipanel', 'Create new reminder'), ['class' => 'modal-title']),
             'toggleButton' => [
