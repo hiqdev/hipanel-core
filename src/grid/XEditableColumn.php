@@ -11,6 +11,7 @@
 
 namespace hipanel\grid;
 
+use hipanel\widgets\XEditable;
 use Yii;
 
 /**
@@ -21,5 +22,7 @@ class XEditableColumn extends \hiqdev\xeditable\grid\XEditableColumn
     public function init()
     {
         parent::init();
+
+        $this->widgetOptions['class'] = XEditable::class;
     }
 }

@@ -92,7 +92,8 @@ return [
     'Recharge' => 'Пополнить',
     'Enabled' => 'Включён',
     'Disabled' => 'Отключён',
-    'Number of files selected for upload ({n}) exceeds maximum allowed limit of {m}' => 'Количество выбранных к загрузке файлов ({n}) превышает лимит ',
+    'Number of files selected for upload ({n}) exceeds maximum allowed limit of {m}' => 'Количество выбранных к загрузке файлов ({n}) превышает лимит {m}',
+    'Detailed information' => 'Подбробная информация',
 
     // Block types
     'Non payment' => 'Неоплата',
