@@ -12,23 +12,20 @@ class ReminderButton extends Widget
 {
     public $object_id;
 
-    public $toggleButton;
+    public $toggleButton = [];
 
     public function run()
     {
         return AjaxModal::widget([
             'bulkPage' => false,
             'id' => 'reminder-modal-' . $this->object_id,
+            'modalFormId' => 'reminder-form-' . $this->object_id,
             'scenario' => 'create',
             'actionUrl' => ['@reminder/create-modal', 'object_id' => $this->object_id],
             'handleSubmit' => Url::toRoute('@reminder/create'),
-            'size' => Modal::SIZE_LARGE,
-            'header' => Html::tag('h4', Yii::t('hipanel', 'Create new reminder'), ['class' => 'modal-title']),
-            'toggleButton' => [
-                'tag' => 'a',
-                'label' => '<i class="fa fa-bell"></i>' . Yii::t('hipanel', 'Create reminder'),
-                'class' => 'clickable'
-            ],
+            'size' => Modal::SIZE_DEFAULT,
+            'header' => Html::tag('h4', Yii::t('hipanel/reminder', 'Create new reminder'), ['class' => 'modal-title']),
+            'toggleButton' => $this->getToggleButton(),
         ]);
     }
 
@@ -37,12 +34,11 @@ class ReminderButton extends Widget
      */
     public function getToggleButton()
     {
-        return $this->toggleButton !== null ?
+        return (!empty($this->toggleButton)) ?
             $this->toggleButton :
             [
-                'tag' => 'a',
-                'label' => '<i class="fa fa-bell"></i>' . Yii::t('hipanel', 'Create reminder'),
-                'class' => 'clickable'
+                'label' => '<i class="fa fa-bell-o"></i>&nbsp;&nbsp;' . Yii::t('hipanel/reminder', 'Create reminder'),
+                'class' => 'btn btn-block margin-bottom btn-info'
             ];
     }
 

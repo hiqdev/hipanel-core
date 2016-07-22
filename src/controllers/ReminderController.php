@@ -4,9 +4,11 @@ namespace hipanel\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
+use hipanel\actions\RedirectAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
+use hipanel\actions\ValidateFormAction;
 use yii\web\NotFoundHttpException;
 
 class ReminderController extends \hipanel\base\CrudController
@@ -25,6 +27,9 @@ class ReminderController extends \hipanel\base\CrudController
                     'reminder/index'
                 ]
             ],
+            'validate-form' => [
+                'class' => ValidateFormAction::class,
+            ],
             'index' => [
                 'class' => IndexAction::class,
                 'data' => function ($action, $data) {
@@ -42,33 +47,31 @@ class ReminderController extends \hipanel\base\CrudController
                     if (empty($object_id)) {
                         throw new NotFoundHttpException('Object ID is missing');
                     }
-
                     $data['model']->object_id = $object_id;
+                    $data['periodicityOptions'] = $this->getRefs('type,periodicity', 'hipanel/reminder');
 
                     return $data;
-                }
+                },
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
+                'POST ajax' => [
+                    'save' => true,
+                    'success' => '123123123',
+                ],
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,
+                'POST html | POST pjax' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                    ],
+                ],
             ]
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    protected function prepareRefs()
-    {
-        return [
-            'topic_data' => $this->getRefs('topic,ticket', 'hipanel/ticket'),
-            'state_data' => $this->getClassRefs('state', 'hipanel/ticket'),
-            'priority_data' => $this->getPriorities(),
         ];
     }
 }

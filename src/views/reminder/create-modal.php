@@ -5,6 +5,4 @@
 
 ?>
 
-<?php
-
-var_dump($model);
+<?= $this->render('_form', compact(['model', 'periodicityOptions'])); ?>

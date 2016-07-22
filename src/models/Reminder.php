@@ -10,6 +10,8 @@ class Reminder extends Model
 {
     use ModelTrait;
 
+    public static $i18nDictionary = 'hipanel/reminder';
+
     const REMINDER_TYPE_SITE = 'site';
     const REMINDER_TYPE_MAIL = 'mail';
 
@@ -42,7 +44,11 @@ class Reminder extends Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'periodicity' => Yii::t('hipanel', 'Periodicity'),
+            'periodicity' => Yii::t('hipanel/reminder', 'Periodicity'),
+            'from_time' => Yii::t('hipanel/reminder', 'When the recall?'),
+            'next_time' => Yii::t('hipanel/reminder', 'Next remind'),
+            'till_time' => Yii::t('hipanel/reminder', 'Remind till'),
+            'message' => Yii::t('hipanel/reminder', 'Message'),
         ]);
     }
 }

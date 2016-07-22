@@ -194,7 +194,7 @@ class AjaxModal extends \yii\bootstrap\Modal
             jQuery(document).on('submit', '#{$this->modalFormId}', function(event) {
                 event.preventDefault();
                 var form = jQuery(this);
-                var btn = jQuery('form[data-pjax] button').button('{$this->loadingText}');
+                var btn = jQuery('#{$this->modalFormId} button').button('{$this->loadingText}');
                 jQuery.ajax({
                     url: '$url',
                     type: 'POST',

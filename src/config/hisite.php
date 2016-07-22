@@ -91,12 +91,12 @@ $config = [
                         'merchant' => 'cart.php',
                     ],
                 ],
-                'reminder' => [
+                'hipanel/reminder' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'sourceLanguage' => 'en-US',
                     'basePath' => '@hipanel/messages',
                     'fileMap' => [
-                        'reminder' => 'reminder.php',
+                        'hipanel/reminder' => 'reminder.php',
                     ],
                 ],
             ],
