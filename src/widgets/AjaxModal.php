@@ -200,14 +200,16 @@ class AjaxModal extends \yii\bootstrap\Modal
                     type: 'POST',
                     timeout: 0,
                     data: form.serialize(),
-                    error: function() {
+                    error: function(xhr) {
+                        form.parent().html(xhr.responseText);
                         new PNotify({
-                            text: "{$this->errorText}",
+                            text: xhr.statusText ? xhr.statusText : "{$this->errorText}",
                             type: 'error',
                             buttons: {
                                 sticker: false
                             },
-                            icon: false
+                            icon: false,
+                            styling: 'bootstrap3'
                         });
                     },
                     success: function() {
@@ -218,7 +220,8 @@ class AjaxModal extends \yii\bootstrap\Modal
                             buttons: {
                                 sticker: false
                             },
-                            icon: false
+                            icon: false,
+                            styling: 'bootstrap3'
                         });
                         btn.button('reset');
                     }
