@@ -1,24 +1,33 @@
 <?php
 use yii\helpers\Html;
+/* @var integer $count */
+/* @var array $reminders */
+/* @var \hipanel\models\Reminder $reminder */
 ?>
 <!-- Notifications Menu -->
 <li class="dropdown notifications-menu">
     <!-- Menu toggle button -->
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-bell-o"></i>
-        <span class="label label-warning">1</span>
+        <?php if ($count > 0) : ?>
+            <span class="label label-warning"><?= $count ?></span>
+        <?php endif ?>
     </a>
     <ul class="dropdown-menu">
-        <li class="header"><?= Yii::t('hipanel', 'You have {0} notifications', [1]) ?></li>
+        <li class="header"><?= Yii::t('hipanel', 'You have {0} notifications', [$count]) ?></li>
         <li>
-            <!-- Inner Menu: contains the notifications -->
             <ul class="menu">
-                <li><!-- start notification -->
-                    <a href="#">
-                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                </li>
-                <!-- end notification -->
+                <?php foreach ($reminders as $reminder) : ?>
+                    <li>
+                        <a href="#">
+                            <h4>
+                                Support Team
+                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                            </h4>
+                            <p>Why not buy a new awesome theme?</p>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </li>
         <li class="footer"><?= Html::a(Yii::t('hipanel', 'View all'), ['/reminder/index']) ?></li>
