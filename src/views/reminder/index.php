@@ -32,7 +32,6 @@ $representation = Yii::$app->request->get('representation');
 <?php $page->endContent() ?>
 
 <?php $page->beginContent('bulk-actions') ?>
-    <?= $page->renderBulkButton(Yii::t('hipanel', 'Update'), 'update') ?>
     <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger') ?>
 <?php $page->endContent() ?>
 

@@ -4,6 +4,9 @@ namespace hipanel\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
+use hipanel\actions\PrepareAjaxViewAction;
+use hipanel\actions\RenderAjaxAction;
+use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
 
@@ -27,8 +30,34 @@ class ReminderController extends \hipanel\base\CrudController
                     ];
                 },
             ],
+            'open-create-modal' => [
+                'class' => PrepareAjaxViewAction::class,
+                'view' => '@hipanel/views/reminder/_form',
+            ],
+            'create' => [
+                'class' => SmartCreateAction::class,
+                'view' => '@hipanel/views/reminder/create',
+                'GET ajax' => [
+                    'class' => RenderAjaxAction::class,
+                    'view' => $this->view,
+                    'data' => $this->data,
+                    'params' => function ($action) {
+                        $model = $action->controller->newModel(['scenario' => $action->scenario]);
+                        return [
+                            'model' => $model,
+                            'models' => [$model],
+                        ];
+                    },
+                ],
+                'data' => function ($action, $data) {
+
+                    return [
+
+                    ];
+                },
+            ],
             'update' => [
-               'class' => SmartUpdateAction::class,
+                'class' => SmartUpdateAction::class,
                 'view' => '@hipanel/views/reminder/update',
             ],
             'delete' => [
