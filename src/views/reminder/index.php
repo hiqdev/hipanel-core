@@ -47,8 +47,9 @@ $representation = Yii::$app->request->get('representation');
         'columns' => [
             'checkbox',
 
-            'object_id',
+            'periodicity',
             'message',
+            'next_time',
 
             'actions',
         ],
