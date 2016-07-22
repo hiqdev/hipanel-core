@@ -38,7 +38,7 @@ class ReminderButton extends Widget
             $this->toggleButton :
             [
                 'label' => '<i class="fa fa-bell-o"></i>&nbsp;&nbsp;' . Yii::t('hipanel/reminder', 'Create reminder'),
-                'class' => 'btn btn-block margin-bottom btn-info'
+                'class' => 'btn margin-bottom btn-info pull-right'
             ];
     }
 
