@@ -11,6 +11,7 @@
 
 namespace hipanel\actions;
 
+
 /**
  * Class SmartCreateAction.
  */
@@ -54,6 +55,30 @@ class SmartCreateAction extends SwitchAction
                         'models' => [$model],
                     ];
                 },
+            ],
+            'POST ajax' => [
+                'save'    => true,
+                'success' => [
+                    'class' => RenderJsonAction::class,
+                    'return'   => function ($action) {
+                        return ['success' => true]; // todo: wise resulting
+                    },
+                ],
+                'error'   => [
+                    'class'  => RenderAjaxAction::class,
+                    'view'   => $this->view,
+                    'data'   => $this->data,
+                    'params' => function ($action) {
+                        \Yii::$app->response->statusCode = 422;
+                        $error = \Yii::$app->session->removeFlash('error');
+                        \Yii::$app->response->statusText = reset($error)['text'];
+
+                        return [
+                            'model'  => $action->collection->first,
+                            'models' => $action->collection->models,
+                        ];
+                    },
+                ],
             ],
             'POST' => [
                 'save'    => true,
