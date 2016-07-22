@@ -31,6 +31,18 @@ class SmartCreateAction extends SwitchAction
     protected function getDefaultRules()
     {
         return array_merge(parent::getDefaultRules(), [
+            'GET ajax' => [
+                'class' => RenderAjaxAction::class,
+                'view' => $this->view,
+                'data' => $this->data,
+                'params' => function ($action) {
+                    $model = $action->controller->newModel(['scenario' => $action->scenario]);
+                    return [
+                        'model'  => $model,
+                        'models' => [$model],
+                    ];
+                },
+            ],
             'GET' => [
                 'class'  => RenderAction::class,
                 'view'   => $this->view,

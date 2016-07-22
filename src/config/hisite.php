@@ -26,7 +26,8 @@ $config = [
         '@npm'          => '@vendor/npm-asset',
         '@vendor/bower' => '@vendor/bower-asset',
         '@vendor/npm'   => '@vendor/npm-asset',
-        '@file'         => '/file'
+        '@file'         => '/file',
+        '@reminder'     => '/reminder'
     ],
     'components' => [
         'request' => [
@@ -88,6 +89,14 @@ $config = [
                     'basePath' => '@hiqdev/yii2/cart/messages',
                     'fileMap' => [
                         'merchant' => 'cart.php',
+                    ],
+                ],
+                'reminder' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@hipanel/messages',
+                    'fileMap' => [
+                        'reminder' => 'reminder.php',
                     ],
                 ],
             ],
