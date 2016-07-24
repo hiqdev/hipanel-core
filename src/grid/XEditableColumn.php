@@ -23,6 +23,8 @@ class XEditableColumn extends \hiqdev\xeditable\grid\XEditableColumn
     {
         parent::init();
 
-        $this->widgetOptions['class'] = XEditable::class;
+        if (!isset($this->widgetOptions['class'])) {
+            $this->widgetOptions['class'] = XEditable::class;
+        }
     }
 }
