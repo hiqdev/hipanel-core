@@ -77,4 +77,9 @@ class ReminderController extends \hipanel\base\CrudController
     {
         return $this->getRefs('type,periodicity', 'hipanel/reminder');
     }
+
+    public function getTypeReminder()
+    {
+        return $this->('type,reminder', 'hipanel/reminder');
+    }
 }

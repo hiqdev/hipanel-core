@@ -2,9 +2,12 @@
 use hipanel\helpers\StringHelper;
 use hipanel\helpers\Url;
 use yii\helpers\Html;
+
 /* @var integer $count */
 /* @var array $reminders */
+/* @var array $remindInOptions */
 /* @var \hipanel\models\Reminder $reminder */
+
 $this->registerCss(<<<CSS
  
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a {
@@ -19,7 +22,7 @@ $this->registerCss(<<<CSS
 }
 
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a>h4 {
-    padding: 0;
+    padding-top: 1.2em;
     color: #444444;
     font-size: 15px;
     position: relative
@@ -66,21 +69,19 @@ CSS
             <ul class="menu">
                 <?php foreach ($reminders as $reminder) : ?>
                     <li>
-                        <?= Html::beginTag('a', ['href' => Url::toRoute(['@ticket/view', 'id' => $reminder->object_id])]) ?>
+                        <?= Html::beginTag('a', ['href' => Url::toRoute([sprintf("@%s/view", $reminder->objectName), 'id' => $reminder->object_id])]) ?>
                             <h4>
-                                <?= Yii::t('hipanel/reminder', "{0} ID #{1}", ['Ticket', $reminder->object_id]) ?>
+                                <?= Yii::t('hipanel/reminder', "{0} ID #{1}", [Yii::t('hipanel/reminder', ucfirst($reminder->objectName)), $reminder->object_id]) ?>
                                 <small><?= Yii::t('hipanel/reminder', 'Next time') ?>: <?= $reminder->next_time ?></small>
                             </h4>
                             <p>
                                 <?= StringHelper::truncateWords(Html::encode($reminder->message), 3) ?>
                             </p>
                             <small>
-                                <?= Yii::t('hipanel/reminder', 'Remine in') ?>:
-                                <button class="btn btn-xs btn-default">15m</button>
-                                <button class="btn btn-xs btn-default">30m</button>
-                                <button class="btn btn-xs btn-default">1h</button>
-                                <button class="btn btn-xs btn-default">12h</button>
-                                <button class="btn btn-xs btn-default">1d</button>
+                                <?= Yii::t('hipanel/reminder', 'Remind in') ?>:
+                                <?php foreach ($remindInOptions as $time => $label) : ?>
+                                    <?= Html::button(Yii::t('hipanel/reminder', $label), ['class' => 'btn btn-default btn-xs']) ?>
+                                <?php endforeach ?>
                             </small>
                         <?= Html::endTag('a') ?>
                     </li>

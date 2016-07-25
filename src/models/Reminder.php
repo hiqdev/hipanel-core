@@ -15,6 +15,17 @@ class Reminder extends Model
     const REMINDER_TYPE_SITE = 'site';
     const REMINDER_TYPE_MAIL = 'mail';
 
+    public static function reminderNextTimeOptions()
+    {
+        return [
+            '15 minutes' => Yii::t('hipanel/reminder', '15m'),
+            '30 minutes' => Yii::t('hipanel/reminder', '30m'),
+            '1 hour' => Yii::t('hipanel/reminder', '1h'),
+            '12 hour' => Yii::t('hipanel/reminder', '12h'),
+            '1 day' => Yii::t('hipanel/reminder', '1d'),
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -22,8 +33,9 @@ class Reminder extends Model
     {
         return [
             [['id', 'object_id', 'client_id', 'state_id', 'type_id'], 'integer'],
-            [['periodicity', 'from_time', 'till_time', 'next_time'], 'string'],
+            [['class', 'periodicity', 'from_time', 'till_time', 'next_time'], 'string'],
             [['to_site'], 'boolean'],
+
 
             // Create
             [['object_id', 'type', 'periodicity', 'from_time', 'message'], 'required', 'on' => 'create'],
@@ -50,5 +62,19 @@ class Reminder extends Model
             'till_time' => Yii::t('hipanel/reminder', 'Remind till'),
             'message' => Yii::t('hipanel/reminder', 'Message'),
         ]);
+    }
+
+    public function getObjectName()
+    {
+        $result = '';
+        if ($this->class) {
+            switch ($this->class) {
+                case 'thread':
+                    $result = 'ticket';
+                    break;
+            }
+        }
+
+        return $result;
     }
 }

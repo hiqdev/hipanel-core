@@ -15,10 +15,12 @@ class ReminderTop extends Widget
     public function run()
     {
         $count = Reminder::find()->count();
+        $remindInOptions = Reminder::reminderNextTimeOptions();
         $reminders = Reminder::find()->all();
         return $this->render('ReminderTop', [
             'count' => $count,
             'reminders' => $reminders,
+            'remindInOptions' => $remindInOptions,
         ]);
     }
 }
