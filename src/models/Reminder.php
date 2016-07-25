@@ -12,6 +12,10 @@ class Reminder extends Model
 
     public static $i18nDictionary = 'hipanel/reminder';
 
+    const REMINDER_SCENARIO_CREATE = 'create';
+    const REMINDER_SCENARIO_UPDATE = 'update';
+    const REMINDER_SCENARIO_DELETE = 'delete';
+
     const REMINDER_TYPE_SITE = 'site';
     const REMINDER_TYPE_MAIL = 'mail';
 
@@ -36,17 +40,16 @@ class Reminder extends Model
             [['class', 'periodicity', 'from_time', 'till_time', 'next_time'], 'string'],
             [['to_site'], 'boolean'],
 
-
             // Create
-            [['object_id', 'type', 'periodicity', 'from_time', 'message'], 'required', 'on' => 'create'],
+            [['object_id', 'type', 'periodicity', 'from_time', 'message'], 'required', 'on' => self::REMINDER_SCENARIO_CREATE],
 
             // Update
             [['id'], 'required', 'on' => 'update'],
-            [['object_id', 'state_id', 'type_id'], 'integer', 'on' => 'update'],
-            [['from_time', 'next_time', 'till_time'], 'date', 'on' => 'update'],
+            [['object_id', 'state_id', 'type_id'], 'integer', 'on' => self::REMINDER_SCENARIO_UPDATE],
+            [['from_time', 'next_time', 'till_time'], 'date', 'on' => self::REMINDER_SCENARIO_UPDATE],
 
             // Delete
-            [['id'], 'required', 'on' => 'delete']
+            [['id'], 'required', 'on' => self::REMINDER_SCENARIO_DELETE]
         ];
     }
 

@@ -5,8 +5,6 @@ namespace hipanel\controllers;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\RedirectAction;
-use hipanel\actions\RenderAjaxAction;
-use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
@@ -80,6 +78,6 @@ class ReminderController extends \hipanel\base\CrudController
 
     public function getTypeReminder()
     {
-        return $this->('type,reminder', 'hipanel/reminder');
+        return $this->getRefs('type,reminder', 'hipanel/reminder');
     }
 }

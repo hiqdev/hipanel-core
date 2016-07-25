@@ -8,11 +8,16 @@ use yii\helpers\Html;
 /* @var array $remindInOptions */
 /* @var \hipanel\models\Reminder $reminder */
 
+$this->regerJs(<<<'JS'
+
+JS
+);
+
 $this->registerCss(<<<CSS
  
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a {
     margin: 0;
-    padding: 10px 10px
+    padding: 7px;
 }
 
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a>div>img {
@@ -68,7 +73,7 @@ CSS
         <li>
             <ul class="menu">
                 <?php foreach ($reminders as $reminder) : ?>
-                    <li>
+                    <li id="reminder-<?= $reminder->id ?>" data-id="<?= $reminder->id ?>">
                         <?= Html::beginTag('a', ['href' => Url::toRoute([sprintf("@%s/view", $reminder->objectName), 'id' => $reminder->object_id])]) ?>
                             <h4>
                                 <?= Yii::t('hipanel/reminder', "{0} ID #{1}", [Yii::t('hipanel/reminder', ucfirst($reminder->objectName)), $reminder->object_id]) ?>
@@ -80,8 +85,13 @@ CSS
                             <small>
                                 <?= Yii::t('hipanel/reminder', 'Remind in') ?>:
                                 <?php foreach ($remindInOptions as $time => $label) : ?>
-                                    <?= Html::button(Yii::t('hipanel/reminder', $label), ['class' => 'btn btn-default btn-xs']) ?>
+                                    <?= Html::button(
+                                        Yii::t('hipanel/reminder', $label),
+                                        ['class' => 'btn btn-xs btn-link reminder-action']
+                                    ) ?>
                                 <?php endforeach ?>
+                                <br>
+                                <?= Html::button(Yii::t('hipanel/reminder', 'Don\'t remind'), ['class' => 'btn btn-xs btn-block btn-danger']) ?>
                             </small>
                         <?= Html::endTag('a') ?>
                     </li>
