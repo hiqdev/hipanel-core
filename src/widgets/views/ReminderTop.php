@@ -8,14 +8,43 @@ use yii\helpers\Html;
 /* @var array $remindInOptions */
 /* @var \hipanel\models\Reminder $reminder */
 
-$this->registerJs(<<<'JS'
+$reminderUpdateLink = Url::toRoute(['@reminder/update']);
+$reminderDeleteLink = Url::toRoute(['@reminder/delete']);
+$this->registerJs(<<<"JS"
 $( ".reminder-actions" ).click(function(e) {
     e.preventDefault();
+    var ajaxLink, ajaxData = {};
     var reminder = $(this); 
     var id = reminder.data('reminder-id'); 
+    var action = reminder.data('reminder-action');
     var reminderNode = $('#reminder-' + id); 
+    var reminderCount = $('#reminder-count');
+    var reminderCounts = $('.reminder-counts');
+    if (action == 'delete') {
+        ajaxLink = '{$reminderDeleteLink}';
+        ajaxData = {'Reminder': {'id': id}};
+    } else {
+        ajaxLink = '{$reminderUpdateLink}';
+        ajaxData = {
+               'Reminder': {
+                    'id': id,   
+                    'next_time': action
+               }  
+        }; 
+    }
+    // Ajax request
+    $.ajax({
+        'type': 'POST', 
+        'url': ajaxLink, 
+        'data': ajaxData 
+    }).done(function() {
+        var count = reminderCount - 1;
+        // Update count
+        reminderCounts.html(count == 0 ? '0' : count);
+        // Hide Reminder
+        reminderNode.slideUp();
+    });     
     
-    reminderNode.slideUp();
     
     return false;
 });
@@ -70,11 +99,11 @@ CSS
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-bell-o"></i>
         <?php if ($count > 0) : ?>
-            <span class="label label-warning"><?= $count ?></span>
+            <span id="reminder-count" class="label label-warning reminder-counts"><?= $count ?></span>
         <?php endif ?>
     </a>
     <ul class="dropdown-menu">
-        <li class="header"><?= Yii::t('hipanel', 'You have {0} notifications', [$count]) ?></li>
+        <li class="header"><?= Yii::t('hipanel', 'You have {0} notifications', [Html::tag('span', $count, ['class' => 'reminder-counts'])]) ?></li>
         <li>
             <ul class="menu">
                 <?php foreach ($reminders as $reminder) : ?>
@@ -103,7 +132,7 @@ CSS
                             <?php endforeach ?>
                             <br>
                             <?= Html::button(Yii::t('hipanel/reminder', 'Don\'t remind'), [
-                                'class' => 'btn btn-xs btn-block btn-danger reminder-actions',
+                                'class' => 'btn btn-xs btn-block btn-danger reminder-actions lg-mt-10 md-mt-10',
                                 'data' => [
                                     'reminder-id' => $reminder->id,
                                     'reminder-action' => 'delete',
