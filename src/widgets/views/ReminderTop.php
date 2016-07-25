@@ -20,7 +20,7 @@ $( ".reminder-actions" ).click(function(e) {
     var reminderNode = $('#reminder-' + id); 
     var reminderCount = $('#reminder-count');
     var reminderCounts = $('.reminder-counts');
-    if (action == 'delete') {
+    if (action === 'delete') {
         ajaxLink = '{$reminderDeleteLink}';
         ajaxData = {'Reminder': {'id': id}};
     } else {
@@ -28,7 +28,8 @@ $( ".reminder-actions" ).click(function(e) {
         ajaxData = {
                'Reminder': {
                     'id': id,   
-                    'next_time': action
+                    'next_time': action,
+                    'tz': '1'
                }  
         }; 
     }
@@ -60,6 +61,7 @@ $this->registerCss(<<<CSS
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a>h4 {
     padding-top: 1.2em;
     margin-top: 5px;
+    margin-bottom: 3px;
     color: #444444;
     font-size: 15px;
     position: relative
@@ -76,7 +78,7 @@ $this->registerCss(<<<CSS
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a>p {
     font-size: 12px;
     color: #888888;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a:before,

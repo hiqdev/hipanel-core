@@ -2,13 +2,18 @@
 
 namespace hipanel\controllers;
 
+use DateTime;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\RedirectAction;
+use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
+use Symfony\Component\EventDispatcher\Event;
+use Yii;
+use yii\base\Widget;
 use yii\web\NotFoundHttpException;
 
 class ReminderController extends \hipanel\base\CrudController
@@ -58,6 +63,22 @@ class ReminderController extends \hipanel\base\CrudController
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
+                'on beforeSave' => function(Event $event) {
+                    $action = $event->sender;
+                    $postData = Yii::$app->request->post('Reminder');
+                    foreach ($action->collection->models as $model) {
+                        $model->netx_time = (new DateTime())->modify($postData['next_time'])->format('Y-m-d H:i:s');
+                    }
+                },
+//                'POST ajax' => [
+//                    'save' => true,
+//                    'success' => [
+//                        'class' => RenderJsonAction::class,
+//                        'return' => function ($action) {
+//                            return ['success' => true]; // todo: wise resulting
+//                        },
+//                    ],
+//                ],
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,

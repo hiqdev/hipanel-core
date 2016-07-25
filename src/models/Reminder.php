@@ -22,11 +22,11 @@ class Reminder extends Model
     public static function reminderNextTimeOptions()
     {
         return [
-            '15 minutes' => Yii::t('hipanel/reminder', '15m'),
-            '30 minutes' => Yii::t('hipanel/reminder', '30m'),
-            '1 hour' => Yii::t('hipanel/reminder', '1h'),
-            '12 hour' => Yii::t('hipanel/reminder', '12h'),
-            '1 day' => Yii::t('hipanel/reminder', '1d'),
+            '+ 15 minutes' => Yii::t('hipanel/reminder', '15m'),
+            '+ 30 minutes' => Yii::t('hipanel/reminder', '30m'),
+            '+ 1 hour' => Yii::t('hipanel/reminder', '1h'),
+            '+ 12 hour' => Yii::t('hipanel/reminder', '12h'),
+            '+ 1 day' => Yii::t('hipanel/reminder', '1d'),
         ];
     }
 
@@ -46,7 +46,7 @@ class Reminder extends Model
             // Update
             [['id'], 'required', 'on' => 'update'],
             [['object_id', 'state_id', 'type_id'], 'integer', 'on' => self::REMINDER_SCENARIO_UPDATE],
-            [['from_time', 'next_time', 'till_time'], 'date', 'on' => self::REMINDER_SCENARIO_UPDATE],
+            [['from_time', 'next_time', 'till_time'], 'string', 'on' => self::REMINDER_SCENARIO_UPDATE],
 
             // Delete
             [['id'], 'required', 'on' => self::REMINDER_SCENARIO_DELETE]
