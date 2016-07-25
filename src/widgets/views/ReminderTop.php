@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var array $remindInOptions */
 /* @var \hipanel\models\Reminder $reminder */
 
-$this->regerJs(<<<'JS'
+$this->registerJs(<<<'JS'
 
 JS
 );
@@ -20,14 +20,9 @@ $this->registerCss(<<<CSS
     padding: 7px;
 }
 
-.navbar-nav>.reminders>.dropdown-menu>li .menu>li>a>div>img {
-    margin: auto 10px auto auto;
-    width: 40px;
-    height: 40px
-}
-
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a>h4 {
     padding-top: 1.2em;
+    margin-top: 5px;
     color: #444444;
     font-size: 15px;
     position: relative
@@ -43,7 +38,8 @@ $this->registerCss(<<<CSS
 
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a>p {
     font-size: 12px;
-    color: #888888
+    color: #888888;
+    margin-bottom: 5px;
 }
 
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a:before,
@@ -73,26 +69,38 @@ CSS
         <li>
             <ul class="menu">
                 <?php foreach ($reminders as $reminder) : ?>
-                    <li id="reminder-<?= $reminder->id ?>" data-id="<?= $reminder->id ?>">
+                    <li id="reminder-<?= $reminder->id ?>">
                         <?= Html::beginTag('a', ['href' => Url::toRoute([sprintf("@%s/view", $reminder->objectName), 'id' => $reminder->object_id])]) ?>
-                            <h4>
-                                <?= Yii::t('hipanel/reminder', "{0} ID #{1}", [Yii::t('hipanel/reminder', ucfirst($reminder->objectName)), $reminder->object_id]) ?>
-                                <small><?= Yii::t('hipanel/reminder', 'Next time') ?>: <?= $reminder->next_time ?></small>
-                            </h4>
-                            <p>
-                                <?= StringHelper::truncateWords(Html::encode($reminder->message), 3) ?>
-                            </p>
-                            <small>
-                                <?= Yii::t('hipanel/reminder', 'Remind in') ?>:
-                                <?php foreach ($remindInOptions as $time => $label) : ?>
-                                    <?= Html::button(
-                                        Yii::t('hipanel/reminder', $label),
-                                        ['class' => 'btn btn-xs btn-link reminder-action']
-                                    ) ?>
-                                <?php endforeach ?>
-                                <br>
-                                <?= Html::button(Yii::t('hipanel/reminder', 'Don\'t remind'), ['class' => 'btn btn-xs btn-block btn-danger']) ?>
-                            </small>
+                        <h4>
+                            <?= Yii::t('hipanel/reminder', "{0} ID #{1}", [Yii::t('hipanel/reminder', ucfirst($reminder->objectName)), $reminder->object_id]) ?>
+                            <small><?= Yii::t('hipanel/reminder', 'Next time') ?>: <?= $reminder->next_time ?></small>
+                        </h4>
+                        <p>
+                            <?= StringHelper::truncateWords(Html::encode($reminder->message), 3) ?>
+                        </p>
+                        <small>
+                            <?= Yii::t('hipanel/reminder', 'Remind in') ?>:
+                            <?php foreach ($remindInOptions as $time => $label) : ?>
+                                <?= Html::button(
+                                    Yii::t('hipanel/reminder', $label),
+                                    [
+                                        'class' => 'btn btn-xs btn-link reminder-action',
+                                        'data' => [
+                                            'reminder-id' => $reminder->id,
+                                            'reminder-action' => $time,
+                                        ],
+                                    ]
+                                ) ?>
+                            <?php endforeach ?>
+                            <br>
+                            <?= Html::button(Yii::t('hipanel/reminder', 'Don\'t remind'), [
+                                'class' => 'btn btn-xs btn-block btn-danger reminder-action',
+                                'data' => [
+                                    'reminder-id' => $reminder->id,
+                                    'reminder-action' => 'delete',
+                                ],
+                            ]) ?>
+                        </small>
                         <?= Html::endTag('a') ?>
                     </li>
                 <?php endforeach; ?>

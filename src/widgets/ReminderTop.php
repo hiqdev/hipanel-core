@@ -16,7 +16,7 @@ class ReminderTop extends Widget
     {
         $count = Reminder::find()->count();
         $remindInOptions = Reminder::reminderNextTimeOptions();
-        $reminders = Reminder::find()->all();
+        $reminders = Reminder::find()->where(['to_site' => true])->all();
         return $this->render('ReminderTop', [
             'count' => $count,
             'reminders' => $reminders,
