@@ -21,6 +21,9 @@ use yii\helpers\Html;
 ]) ?>
 
 <?= Html::activeHiddenInput($model, 'object_id') ?>
+<?php if (!$model->isNewRecord) : ?>
+    <?= Html::activeHiddenInput($model, 'id') ?>
+<?php endif ?>
 
 <?= $form->field($model, "type")->radioList([
     Reminder::REMINDER_TYPE_SITE => Yii::t('hipanel/reminder', 'To site'),

@@ -6,11 +6,13 @@ use DateTime;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\RedirectAction;
+use hipanel\actions\RenderAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
+use hipanel\actions\ViewAction;
 use hipanel\models\Reminder;
 use hipanel\widgets\ReminderTop;
 use Symfony\Component\EventDispatcher\Event;
@@ -37,6 +39,9 @@ class ReminderController extends \hipanel\base\CrudController
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
+            ],
+            'view' => [
+                'class' => ViewAction::class,
             ],
             'index' => [
                 'class' => IndexAction::class,
@@ -69,12 +74,13 @@ class ReminderController extends \hipanel\base\CrudController
                 'on beforeSave' => function ($event) {
                     /** @var \hipanel\actions\Action $action */
                     $action = $event->sender;
-                    $reminder = Yii::$app->request->post('Reminder');
-                    $action->collection->set(Reminder::find()->where(['id' => $reminder['id']])->one());
-                    foreach ($action->collection->models as $model) {
-                        $model->next_time = (new DateTime($model->next_time))->modify($reminder['next_time'])->format('Y-m-d H:i:s');
+                    if (Yii::$app->request->isAjax) {
+                        $reminder = Yii::$app->request->post('Reminder');
+                        $action->collection->set(Reminder::find()->where(['id' => $reminder['id']])->one());
+                        foreach ($action->collection->models as $model) {
+                            $model->next_time = (new DateTime($model->next_time))->modify($reminder['next_time'])->format('Y-m-d H:i:s');
+                        }
                     }
-                    $a = 1;
                 },
                 'POST ajax' => [
                     'save' => true,
