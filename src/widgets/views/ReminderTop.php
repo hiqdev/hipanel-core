@@ -32,7 +32,7 @@ $( ".reminder-actions" ).click(function(e) {
                }  
         }; 
     }
-    // Ajax request
+    // Ajax reminder request
     $.ajax({
         'type': 'POST', 
         'url': ajaxLink, 
@@ -41,10 +41,9 @@ $( ".reminder-actions" ).click(function(e) {
         var count = reminderCount - 1;
         // Update count
         reminderCounts.html(count == 0 ? '0' : count);
-        // Hide Reminder
+        // Hide Reminder node
         reminderNode.slideUp();
     });     
-    
     
     return false;
 });

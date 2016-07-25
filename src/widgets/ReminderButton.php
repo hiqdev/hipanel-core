@@ -16,9 +16,11 @@ class ReminderButton extends Widget
 
     public function run()
     {
+        $modalId = 'reminder-modal-' . $this->object_id;
+        $this->getView()->registerCss("button[data-target='#{$modalId}'] {margin-top: -3px;}");
         return AjaxModal::widget([
             'bulkPage' => false,
-            'id' => 'reminder-modal-' . $this->object_id,
+            'id' => $modalId,
             'modalFormId' => 'reminder-form-' . $this->object_id,
             'scenario' => 'create',
             'actionUrl' => ['@reminder/create-modal', 'object_id' => $this->object_id],
