@@ -9,7 +9,16 @@ use yii\helpers\Html;
 /* @var \hipanel\models\Reminder $reminder */
 
 $this->registerJs(<<<'JS'
-
+$( ".reminder-actions" ).click(function(e) {
+    e.preventDefault();
+    var reminder = $(this); 
+    var id = reminder.data('reminder-id'); 
+    var reminderNode = $('#reminder-' + id); 
+    
+    reminderNode.slideUp();
+    
+    return false;
+});
 JS
 );
 
@@ -84,7 +93,7 @@ CSS
                                 <?= Html::button(
                                     Yii::t('hipanel/reminder', $label),
                                     [
-                                        'class' => 'btn btn-xs btn-link reminder-action',
+                                        'class' => 'btn btn-xs btn-link reminder-actions',
                                         'data' => [
                                             'reminder-id' => $reminder->id,
                                             'reminder-action' => $time,
@@ -94,7 +103,7 @@ CSS
                             <?php endforeach ?>
                             <br>
                             <?= Html::button(Yii::t('hipanel/reminder', 'Don\'t remind'), [
-                                'class' => 'btn btn-xs btn-block btn-danger reminder-action',
+                                'class' => 'btn btn-xs btn-block btn-danger reminder-actions',
                                 'data' => [
                                     'reminder-id' => $reminder->id,
                                     'reminder-action' => 'delete',
@@ -106,7 +115,7 @@ CSS
                 <?php endforeach; ?>
             </ul>
         </li>
-        <li class="footer"><?= Html::a(Yii::t('hipanel', 'View all'), ['/reminder/index']) ?></li>
+        <li class="footer"><?= Html::a(Yii::t('hipanel/reminder', 'View all'), ['/reminder/index']) ?></li>
 
     </ul>
 </li>
