@@ -11,9 +11,12 @@ use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
+use hipanel\models\Reminder;
+use hipanel\widgets\ReminderTop;
 use Symfony\Component\EventDispatcher\Event;
 use Yii;
 use yii\base\Widget;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 class ReminderController extends \hipanel\base\CrudController
@@ -63,22 +66,28 @@ class ReminderController extends \hipanel\base\CrudController
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
-                'on beforeSave' => function(Event $event) {
+                'on beforeSave' => function ($event) {
+                    /** @var \hipanel\actions\Action $action */
                     $action = $event->sender;
-                    $postData = Yii::$app->request->post('Reminder');
+                    $reminder = Yii::$app->request->post('Reminder');
+                    $action->collection->set(Reminder::find()->where(['id' => $reminder['id']])->one());
                     foreach ($action->collection->models as $model) {
-                        $model->netx_time = (new DateTime())->modify($postData['next_time'])->format('Y-m-d H:i:s');
+                        $model->next_time = (new DateTime($model->next_time))->modify($reminder['next_time'])->format('Y-m-d H:i:s');
                     }
+                    $a = 1;
                 },
-//                'POST ajax' => [
-//                    'save' => true,
-//                    'success' => [
-//                        'class' => RenderJsonAction::class,
-//                        'return' => function ($action) {
-//                            return ['success' => true]; // todo: wise resulting
-//                        },
-//                    ],
-//                ],
+                'POST ajax' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RenderJsonAction::class,
+                        'return' => function ($action) {
+                            return [
+                                'success' => true,
+                                'widget' => ReminderTop::widget()
+                            ]; // todo: wise resulting
+                        },
+                    ],
+                ],
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,

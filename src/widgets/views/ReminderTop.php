@@ -18,8 +18,6 @@ $( ".reminder-actions" ).click(function(e) {
     var id = reminder.data('reminder-id'); 
     var action = reminder.data('reminder-action');
     var reminderNode = $('#reminder-' + id); 
-    var reminderCount = $('#reminder-count');
-    var reminderCounts = $('.reminder-counts');
     if (action === 'delete') {
         ajaxLink = '{$reminderDeleteLink}';
         ajaxData = {'Reminder': {'id': id}};
@@ -38,12 +36,8 @@ $( ".reminder-actions" ).click(function(e) {
         'type': 'POST', 
         'url': ajaxLink, 
         'data': ajaxData 
-    }).done(function() {
-        var count = reminderCount - 1;
-        // Update count
-        reminderCounts.html(count == 0 ? '0' : count);
-        // Hide Reminder node
-        reminderNode.slideUp();
+    }).done(function(result) {
+        $('#reminders').replaceWith(result.widget); 
     });     
     
     return false;
@@ -95,7 +89,7 @@ CSS
 );
 ?>
 <!-- Notifications Menu -->
-<li class="dropdown notifications-menu reminders">
+<li id="reminders" class="dropdown notifications-menu reminders">
     <!-- Menu toggle button -->
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-bell-o"></i>
