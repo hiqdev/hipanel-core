@@ -1,4 +1,5 @@
 <?php
+
 use hipanel\helpers\StringHelper;
 use hipanel\helpers\Url;
 use yii\helpers\Html;
@@ -14,39 +15,39 @@ $this->registerJs(<<<"JS"
 $( ".reminder-actions" ).click(function(e) {
     e.preventDefault();
     var ajaxLink, ajaxData = {};
-    var reminder = $(this); 
-    var id = reminder.data('reminder-id'); 
+    var reminder = $(this);
+    var id = reminder.data('reminder-id');
     var action = reminder.data('reminder-action');
-    var reminderNode = $('#reminder-' + id); 
+    var reminderNode = $('#reminder-' + id);
     if (action === 'delete') {
         ajaxLink = '{$reminderDeleteLink}';
         ajaxData = {'Reminder': {'id': id}};
     } else {
         ajaxLink = '{$reminderUpdateLink}';
         ajaxData = {
-               'Reminder': {
-                    'id': id,   
-                    'next_time': action,
-                    'tz': '1'
-               }  
-        }; 
+            'Reminder': {
+                'id': id,
+                'next_time': action,
+                'tz': '1'
+            }
+        };
     }
     // Ajax reminder request
     $.ajax({
-        'type': 'POST', 
-        'url': ajaxLink, 
-        'data': ajaxData 
+        'type': 'POST',
+        'url': ajaxLink,
+        'data': ajaxData
     }).done(function(result) {
-        $('#reminders').replaceWith(result.widget); 
-    });     
-    
+        $('#reminders').replaceWith(result.widget);
+    });
+
     return false;
 });
 JS
 );
 
 $this->registerCss(<<<CSS
- 
+
 .navbar-nav>.reminders>.dropdown-menu>li .menu>li>a {
     margin: 0;
     padding: 7px;
