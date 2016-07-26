@@ -37,7 +37,7 @@ class Reminder extends Model
     {
         return [
             [['id', 'object_id', 'client_id', 'state_id', 'type_id'], 'integer'],
-            [['class', 'periodicity', 'from_time', 'till_time', 'next_time'], 'string'],
+            [['class_name', 'periodicity', 'from_time', 'till_time', 'next_time'], 'string'],
             [['to_site'], 'boolean'],
 
             // Create
@@ -70,8 +70,8 @@ class Reminder extends Model
     public function getObjectName()
     {
         $result = '';
-        if ($this->class) {
-            switch ($this->class) {
+        if ($this->class_name) {
+            switch ($this->class_name) {
                 case 'thread':
                     $result = 'ticket';
                     break;
