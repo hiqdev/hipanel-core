@@ -39,11 +39,11 @@ class RequestState extends Widget
     {
         parent::init();
         if ($this->model->request_state_label) {
-            $this->model->request_state_label = Yii::t('app', $this->model->request_state_label);
+            $this->model->request_state_label = Yii::t('hipanel', $this->model->request_state_label);
         }
 
         if ($this->model->state_label) {
-            $this->model->state_label = Yii::t('app', $this->model->state_label);
+            $this->model->state_label = Yii::t('hipanel', $this->model->state_label);
         }
 
         if (empty($this->module)) {

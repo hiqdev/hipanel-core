@@ -204,7 +204,7 @@ JS
     public function renderPerPage()
     {
         return ButtonDropdown::widget([
-            'label' => Yii::t('app', 'Per page') . ': ' . (Yii::$app->request->get('per_page') ?: 25),
+            'label' => Yii::t('hipanel', 'Per page') . ': ' . (Yii::$app->request->get('per_page') ?: 25),
             'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
                 'items' => [

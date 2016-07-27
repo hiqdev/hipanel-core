@@ -12,6 +12,7 @@
 namespace hipanel\grid;
 
 use hipanel\widgets\Select2;
+use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
@@ -21,10 +22,10 @@ class CanManageColumn extends DataColumn
     public function init()
     {
         parent::init();
-        \Yii::configure($this, [
-            'visible'               => \Yii::$app->user->identity->type !== 'client',
+        Yii::configure($this, [
+            'visible'               => Yii::$app->user->identity->type !== 'client',
             'attribute'             => 'seller_id',
-            'label'                 => \Yii::t('app', 'Can Manage'),
+            'label'                 => Yii::t('hipanel', 'Can Manage'),
             'format'                => 'html',
             'value'                 => function ($model) {
                 return Html::a($model->client, ['/client/client/view', 'id' => $model->client_id]);

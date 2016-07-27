@@ -19,7 +19,7 @@ JS
             <?= StringHelper::getCurrencySymbol(Html::getAttributeValue($model, $selectAttribute)) ?>
         </button>
         <button type=button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span> <span class="sr-only"><?= Yii::t('app', 'Toggle Dropdown') ?></span>
+            <span class="caret"></span> <span class="sr-only"><?= Yii::t('hipanel', 'Toggle dropdown') ?></span>
         </button>
         <ul class="dropdown-menu">
             <?php foreach (ArrayHelper::remove($selectAttributeOptions, 'items', []) as $k => $v) : ?>

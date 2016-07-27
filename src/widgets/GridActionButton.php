@@ -22,7 +22,7 @@ use yii\helpers\Html;
  * GridActionButton::widget([
  *      'url' => '/some/path/to',
  *      'icon' => '<i class="fa fa-icon"></i>',
- *      'label' => \Yii::t('app', 'Some label'),
+ *      'label' => Yii::t('hipanel', 'Some label'),
  * ]);
  */
 class GridActionButton extends Widget

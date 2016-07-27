@@ -89,40 +89,40 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->buttons['view'])) {
             $this->buttons['view'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title'      => Yii::t('app', 'Details'),
-                    'aria-label' => Yii::t('app', 'Details'),
+                    'title'      => Yii::t('hipanel', 'Details'),
+                    'aria-label' => Yii::t('hipanel', 'Details'),
                     'data-pjax'  => '0',
                     'class'      => 'btn btn-default btn-xs',
                 ], $this->buttonOptions);
 
-                return Html::a('<i class="fa fa-bars"></i>&nbsp;' . Yii::t('app', 'Details'), $url, $options);
+                return Html::a('<i class="fa fa-bars"></i>&nbsp;' . Yii::t('hipanel', 'Details'), $url, $options);
             };
         }
         if (!isset($this->buttons['update'])) {
             $this->buttons['update'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title'      => Yii::t('app', 'Update'),
-                    'aria-label' => Yii::t('app', 'Update'),
+                    'title'      => Yii::t('hipanel', 'Update'),
+                    'aria-label' => Yii::t('hipanel', 'Update'),
                     'data-pjax'  => '0',
                 ], $this->buttonOptions);
 
-                return Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('app', 'Update'), $url, $options);
+                return Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel', 'Update'), $url, $options);
             };
         }
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title'        => Yii::t('app', 'Delete'),
-                    'aria-label'   => Yii::t('app', 'Delete'),
+                    'title'        => Yii::t('hipanel', 'Delete'),
+                    'aria-label'   => Yii::t('hipanel', 'Delete'),
                     'data' => [
-                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                        'confirm' => Yii::t('hipanel', 'Are you sure you want to delete this item?'),
                         'method'  => 'POST',
                         'data-pjax' => '0',
                     ],
 
                 ], $this->buttonOptions);
 
-                return Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('app', 'Delete'), $url, $options);
+                return Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('hipanel', 'Delete'), $url, $options);
             };
         }
     }

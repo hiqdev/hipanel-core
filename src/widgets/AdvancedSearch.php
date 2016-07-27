@@ -118,7 +118,7 @@ class AdvancedSearch extends Widget
 
     public static function renderButton()
     {
-        return Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-info btn-sm', 'id' => 'advancedsearch-button']);
+        return Html::a(Yii::t('hipanel', 'Advanced search'), '#', ['class' => 'btn btn-info btn-sm', 'id' => 'advancedsearch-button']);
     }
 
     public function run()
@@ -126,9 +126,9 @@ class AdvancedSearch extends Widget
         if ($this->submitButtonWrapperOptions !== false) {
             $tag = ArrayHelper::remove($this->submitButtonWrapperOptions, 'tag', 'div');
             echo Html::beginTag($tag, $this->submitButtonWrapperOptions);
-            echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-sm btn-info']);
+            echo Html::submitButton(Yii::t('hipanel', 'Search'), ['class' => 'btn btn-sm btn-info']);
             echo ' &nbsp; ';
-            echo Html::a(Yii::t('app', 'Clear'), $this->action, [
+            echo Html::a(Yii::t('hipanel', 'Clear'), $this->action, [
                 'class' => 'btn btn-sm btn-default',
                 'data-params' => [
                     'clear-filters' => true,

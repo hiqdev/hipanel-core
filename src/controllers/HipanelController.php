@@ -56,8 +56,8 @@ class HipanelController extends \hipanel\base\Controller
             'switch'   => [
                 'class'      => RenderAction::class,
                 'addFlash'   => true,
-                'success'    => Yii::t('app', 'DB truncate task has been created successfully'),
-                'error'      => Yii::t('app', 'Error while truncating DB'),
+                'success'    => Yii::t('hipanel', 'Success'),
+                'error'      => Yii::t('hipanel', 'Error'),
                 'POST html'  => [
                     'class'  => ProxyAction::class,
                     'action' => 'index',

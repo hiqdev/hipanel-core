@@ -20,7 +20,7 @@ use yii\helpers\Html;
  * Usage:
  * Label::widget([
  *      'color' => 'warning',
- *      'label' => \Yii::t('app', 'Some label'),
+ *      'label' => Yii::t('hipanel', 'Some label'),
  *      'tag'   => 'span',
  * ]);
  *

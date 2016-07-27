@@ -27,7 +27,7 @@ class HiBox extends Box
                 'icon' => 'fa-minus',
                 'options' => [
                     'class' => 'btn-default',
-                    'title' => Yii::t('app', 'collapse'),
+                    'title' => Yii::t('hipanel', 'collapse'),
                     'data-widget' => 'collapse',
                 ],
             ];
@@ -37,7 +37,7 @@ class HiBox extends Box
                 'icon' => 'fa-times',
                 'options' => [
                     'class' => 'btn-default',
-                    'title' => Yii::t('app', 'remove'),
+                    'title' => Yii::t('hipanel', 'remove'),
                     'data-widget' => 'remove',
                 ],
             ];

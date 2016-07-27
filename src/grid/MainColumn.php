@@ -84,7 +84,7 @@ class MainColumn extends DataColumn
      */
     public function renderNoteLink($model, $key, $index)
     {
-        return $this->note ? Html::tag('span', Yii::t('app', 'Note') . ': ', ['class' => 'bold']) . XEditable::widget([
+        return $this->note ? Html::tag('span', Yii::t('hipanel', 'Note') . ': ', ['class' => 'bold']) . XEditable::widget([
             'model'         => $model,
             'attribute'     => $this->note === true ? 'note' : $this->note,
             'pluginOptions' => $this->noteOptions,

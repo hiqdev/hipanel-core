@@ -135,7 +135,7 @@ JS
     public function renderPerPage()
     {
         return ButtonDropdown::widget([
-            'label' => Yii::t('app', 'Per page') . ': ' . (Yii::$app->request->get('per_page') ?: 25),
+            'label' => Yii::t('hipanel', 'Per page') . ': ' . (Yii::$app->request->get('per_page') ?: 25),
             'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
                 'items' => [
@@ -144,22 +144,6 @@ JS
                     ['label' => '100', 'url' => Url::current(['per_page' => 100])],
                     ['label' => '200', 'url' => Url::current(['per_page' => 200])],
                     ['label' => '500', 'url' => Url::current(['per_page' => 500])],
-                ],
-            ],
-        ]);
-    }
-
-    public function renderRepresentation()
-    {
-        $representation = Yii::$app->request->get('representation') ?: 'common';
-
-        return ButtonDropdown::widget([
-            'label' => Yii::t('synt', 'View') . ': ' . Yii::t('app', $representation),
-            'options' => ['class' => 'btn-default'],
-            'dropdown' => [
-                'items' => [
-                    ['label' => Yii::t('app', 'common'), 'url' => Url::current(['representation' => null])],
-                    ['label' => Yii::t('app', 'report'), 'url' => Url::current(['representation' => 'report'])],
                 ],
             ],
         ]);
@@ -194,7 +178,7 @@ JS
 
     public function renderDeleteButton($text = null)
     {
-        $text = $text ?: Yii::t('app', 'Delete');
+        $text = $text ?: Yii::t('hipanel', 'Delete');
         return $this->renderBulkButton($text, 'delete', 'danger');
     }
 

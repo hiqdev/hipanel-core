@@ -12,6 +12,7 @@
 namespace hipanel\widgets;
 
 use ArrayObject;
+use Closure;
 use hipanel\helpers\ArrayHelper;
 use Yii;
 use yii\base\InvalidValueException;
@@ -314,15 +315,15 @@ class ArraySpoiler extends Widget
     /**
      * Returns the button label.
      *
-     * @param $label string|\Closure
+     * @param $label string|Closure
      * @return mixed|string
      */
     public function getButtonLabel($label)
     {
-        if ($label instanceof \Closure) {
+        if ($label instanceof Closure) {
             $label = call_user_func($label, $this);
         } else {
-            $label = Yii::t('app', $label, ['count' => count($this->getSpoiledItems())]);
+            $label = Yii::t('hipanel', $label, ['count' => count($this->getSpoiledItems())]);
         }
 
         return $label;

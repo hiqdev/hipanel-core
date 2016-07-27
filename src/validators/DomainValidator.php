@@ -29,6 +29,6 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
     public function init()
     {
         parent::init();
-        $this->message = Yii::t('app', '{attribute} does not look like a valid domain name');
+        $this->message = Yii::t('hipanel', '{attribute} does not look like a valid domain name');
     }
 }

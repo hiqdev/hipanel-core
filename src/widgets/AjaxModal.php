@@ -101,32 +101,32 @@ class AjaxModal extends \yii\bootstrap\Modal
 
     public function getErrorText()
     {
-        return $this->_errorText ?: Yii::t('app', 'An error occurred. Try again later.');
+        return $this->_errorText ?: Yii::t('hipanel', 'An error occurred. Try again please.');
     }
 
     public function setErrorText($text)
     {
-        $this->_errorText = Yii::t('app', $text);
+        $this->_errorText = Yii::t('hipanel', $text);
     }
 
     public function getSuccessText()
     {
-        return $this->_successText ?: Yii::t('app', 'Settings saved');
+        return $this->_successText ?: Yii::t('hipanel', 'Settings saved');
     }
 
     public function setSuccessText($text)
     {
-        $this->_successText = Yii::t('app', $text);
+        $this->_successText = Yii::t('hipanel', $text);
     }
 
     public function getLoadingText()
     {
-        return $this->_loadingText ?: Yii::t('app', 'loading') . '...';
+        return $this->_loadingText ?: Yii::t('hipanel', 'loading') . '...';
     }
 
     public function setLoadingText($text)
     {
-        $this->_loadingText = Yii::t('app', $text);
+        $this->_loadingText = Yii::t('hipanel', $text);
     }
 
     public function init()

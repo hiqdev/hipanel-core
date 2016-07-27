@@ -11,6 +11,7 @@
 
 namespace hipanel\widgets;
 
+use Yii;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\JsExpression;
@@ -31,7 +32,7 @@ class Pjax extends \yii\widgets\Pjax
         if ($this->requiresPjax()) {
             Alert::widget();
             /// We do render breadcrumbs only for the main outer PJAX block
-            if ($this->id === \Yii::$app->params['pjax']['id']) {
+            if ($this->id === Yii::$app->params['pjax']['id']) {
                 $this->addBreadcrumbs();
             }
         }
@@ -70,7 +71,7 @@ class Pjax extends \yii\widgets\Pjax
 
     public function addBreadcrumbs()
     {
-        $view = \Yii::$app->getView();
+        $view = Yii::$app->getView();
 
         // No need to add breadcrumbs, if they are completely empty
         if (!isset($view->params['breadcrumbs']) || $view->params['breadcrumbs']->count() === 0) {
@@ -80,7 +81,7 @@ class Pjax extends \yii\widgets\Pjax
         $header      = Html::tag('h1', $view->title . ($view->params['subtitle'] ? Html::tag('small', $view->params['subtitle']) : ''));
         $breadcrumbs = Breadcrumbs::widget([
             'homeLink'     => [
-                'label' => '<i class="fa fa-dashboard"></i> ' . \Yii::t('app', 'Home'),
+                'label' => '<i class="fa fa-dashboard"></i> ' . Yii::t('hipanel', 'Home'),
                 'url'   => '/',
             ],
             'encodeLabels' => false,
@@ -88,7 +89,7 @@ class Pjax extends \yii\widgets\Pjax
             'links'        => isset($view->params['breadcrumbs']) ? $view->params['breadcrumbs'] : [],
         ]);
         $content = Json::htmlEncode(Html::tag('section', $header . $breadcrumbs, ['class' => 'content-header']));
-        \Yii::$app->getView()->registerJs(new JsExpression(<<< JS
+        Yii::$app->getView()->registerJs(new JsExpression(<<< JS
             $('.content-header li a').on('click', function (event) {
                 var container = $('#{$this->id}');
                 $.pjax.click(event, {container: container});
