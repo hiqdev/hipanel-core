@@ -39,7 +39,7 @@ class Select2 extends Widget
     {
         return [
             'allowClear'         => true,
-            'placeholder'        => Yii::t('app', 'Type here ...'),
+            'placeholder'        => Yii::t('hipanel', 'Type here ...'),
             'width'              => '100%',
             'triggerChange'      => true,
             'minimumInputLength' => 3,

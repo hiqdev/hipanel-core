@@ -26,6 +26,6 @@ class EidValidator extends \yii\validators\RegularExpressionValidator
      */
     public function init()
     {
-        $this->message = \Yii::t('app', '{attribute} does not look like a valid extended id entry');
+        $this->message = \Yii::t('hipanel', '{attribute} does not look like a valid extended id entry');
     }
 }

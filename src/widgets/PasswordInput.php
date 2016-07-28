@@ -53,9 +53,9 @@ class PasswordInput extends Widget
 
         $this->inputOptions  = ArrayHelper::merge(['class' => 'form-control'], $this->inputOptions);
         $this->randomOptions = $this->randomOptions ?: [
-            'weak'     => ['label' => Yii::t('app', 'Weak'), 'length' => 8, 'specialchars' => 0],
-            'medium'   => ['label' => Yii::t('app', 'Medium'), 'length' => 10],
-            'strong'   => ['label' => Yii::t('app', 'Strong'), 'length' => 14],
+            'weak'     => ['label' => Yii::t('hipanel', 'Weak'), 'length' => 8, 'specialchars' => 0],
+            'medium'   => ['label' => Yii::t('hipanel', 'Medium'), 'length' => 10],
+            'strong'   => ['label' => Yii::t('hipanel', 'Strong'), 'length' => 14],
         ];
     }
 
@@ -74,7 +74,7 @@ class PasswordInput extends Widget
         ]);
 
         if ($this->randomGenerator) {
-            $html .= Html::button(Yii::t('app', 'Random') . '&nbsp;<span class="caret"></span>', [
+            $html .= Html::button(Yii::t('hipanel', 'Random') . '&nbsp;<span class="caret"></span>', [
                 'class'         => 'btn btn-default dropdown-toggle' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
                 'data-toggle'   => 'dropdown',
                 'aria-expanded' => 'false',

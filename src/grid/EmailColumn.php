@@ -22,7 +22,7 @@ class EmailColumn extends DataColumn
         parent::init();
         \Yii::configure($this, [
             'attribute'             => 'email',
-            'label'                 => \Yii::t('app', 'Email'),
+            'label'                 => \Yii::t('hipanel', 'Email'),
             'format'                => 'html',
             'value'                 => function ($model) {
                 return Html::a($model->client ?: $model->login, ['/client/contact/view', 'id' => $model->client ? $model->client_id : $model->id]);

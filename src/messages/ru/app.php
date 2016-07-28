@@ -67,7 +67,7 @@ return [
     'Allow scripts execution' => 'Разрешить выполнение скриптов',
     'Allowed IPs' => 'Разрешенные IP-адреса',
     'Allowed IPs changing task has been successfully added to queue' => 'Задача изменения разрешенных IP-адресов была успешно добавлена в очередь',
-    'An error has occurred. Try again please.' => 'Произошла ошибка. Попробуйте еще раз, пожалуйста.',
+    'An error occurred. Try again please.' => 'Произошла ошибка. Попробуйте еще раз, пожалуйста.',
     'An error occurred when trying to change allowed IPs' => 'Произошла ошибка при попытке изменить разрешенные IP-адреса',
     'An error occurred when trying to create account' => 'Произошла ошибка при попытке создать аккаунт',
     'An error occurred when trying to delete account' => 'Произошла ошибка при попытке удалить аккаунт',

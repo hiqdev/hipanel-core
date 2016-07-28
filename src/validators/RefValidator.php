@@ -26,6 +26,6 @@ class RefValidator extends \yii\validators\RegularExpressionValidator
      */
     public function init()
     {
-        $this->message = \Yii::t('app', '{attribute} does not look like a valid ref entry');
+        $this->message = \Yii::t('hipanel', '{attribute} does not look like a valid ref entry');
     }
 }

@@ -291,12 +291,12 @@ class Action extends \yii\base\Action
     public function addFlash($type, $error = null)
     {
         if ($type === 'error' && is_string($error) && !empty($error)) {
-            $text = Yii::t('app', $error);
+            $text = Yii::t('hipanel', $error);
         } else {
             $text = $this->getFlashText($type);
         }
 
-        if ($type instanceof \Closure) {
+        if ($type instanceof Closure) {
             $text = call_user_func($text, $text, $this);
         }
 

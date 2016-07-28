@@ -13,6 +13,7 @@ namespace hipanel\widgets;
 
 use hipanel\models\Ref;
 use hiqdev\hiart\ActiveRecord;
+use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -86,7 +87,7 @@ class RefFilter extends Widget
         $elements = Ref::getList($this->gtype, $this->i18nDictionary, $this->findOptions);
         return Html::activeDropDownList($this->model, $this->attribute, $elements, ArrayHelper::merge([
             'class'     => 'form-control',
-            'prompt'    => \Yii::t('app', '----------'),
+            'prompt'    => Yii::t('hipanel', '----------'),
         ], $this->options));
     }
 }
