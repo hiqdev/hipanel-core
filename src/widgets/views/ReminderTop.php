@@ -1,24 +1,12 @@
 <?php
-use hipanel\helpers\StringHelper;
-use hipanel\helpers\Url;
 use yii\helpers\Html;
 
 /* @var integer $count */
 /* @var array $reminders */
 /* @var array $remindInOptions */
 /* @var \hipanel\models\Reminder $reminder */
+/* @var string $loaderTemplate */
 
-$reminderUpdateLink = Url::toRoute(['@reminder/update']);
-$reminderDeleteLink = Url::toRoute(['@reminder/delete']);
-$this->registerJs(<<<"JS"
-JS
-);
-
-$this->registerCss(<<<CSS
- 
-CSS
-
-);
 ?>
 <!-- Notifications Menu -->
 <li id="reminders" class="dropdown notifications-menu reminders">
@@ -30,11 +18,13 @@ CSS
         <?php endif ?>
     </a>
     <ul class="dropdown-menu">
-        <li class="header"><?= Yii::t('hipanel', 'You have {0} notifications', [Html::tag('span', $count, ['class' => 'reminder-counts'])]) ?></li>
-        <li>
-            <ul class="menu">
-
-            </ul>
+        <li class="header">
+            <?= Yii::t('hipanel', 'You have {0} notifications', [
+                Html::tag('span', $count, ['class' => 'reminder-counts'])
+            ]) ?>
+        </li>
+        <li class="reminder-body">
+            <?= $loaderTemplate ?>
         </li>
         <li class="footer"><?= Html::a(Yii::t('hipanel/reminder', 'View all'), ['/reminder/index']) ?></li>
 

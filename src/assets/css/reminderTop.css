@@ -35,3 +35,7 @@
 .navbar-nav > .messages-menu > .dropdown-menu > li .menu > li > a:after {
     clear: both
 }
+
+.reminder-ajax-loader {
+    padding: 1em 0;
+}

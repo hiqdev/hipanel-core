@@ -3,7 +3,9 @@
         defaults = {
             'listUrl': undefined,
             'deleteUrl': undefined,
-            'updateUrl': undefined
+            'updateUrl': undefined,
+            'getCountUrl': undefined,
+            'loaderTemplate': undefined
         };
 
     function Plugin(element, options) {
@@ -15,36 +17,88 @@
     }
 
     Plugin.prototype = {
-        init: function () {
-            this.bindListeners();
+        init: function (event) {
+            this.updateRemindersListListener(event);
+            // this.updateReminderListener(event);
+            // this.deleteReminderListener(event);
         },
-        bindListeners: function () {
+        updateRemindersListListener: function (event) {
             var _this = this;
-        },
-        query: function (url) {
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: this.prepareQueryData(),
-                success: this.processQuery.bind(this)
+            var _event = event;
+            $(this.element).on('click', function (event) {
+                _this.updateRemindersList(event);
             });
         },
-        prepareQueryData: function () {
+        updateRemindersList: function (event) {
+            var _this = this;
+            var _event = event;
+            var elem = $('li.reminder-body');
+            $.ajax({
+                url: _this.settings.listUrl,
+                beforeSend: function () {
+                    elem.html(_this.settings.loaderTemplate);
+                },
+                success: function (data) {
+                    elem.html(data);
+                }
+            });
+        },
+        updateListener: function (event) {
+            var _this = this;
+            var _event = event;
+            $('.reminder-action-update', _this.element).on('click', function (event) {
+                var elem = $(this);
+                var id = elem.data('reminder-id');
+                var action = elem.data('reminder-action');
+                $.ajax({
+                    url: _this.settings.listUrl,
+                    data: {
+                        'Reminder': {
+                            'id': id,
+                            'action': action,
+                            'tz': _this.clientTimeZone()
+                        }
+                    },
+                    success: function (count) {
+                        _this.updateCounts(count);
+                    }
+                });
+            });
+        },
+        deleteListener: function (event) {
+            var _this = this;
+            var _event = event;
+            $('.reminder-action-delete').on('click', function (event) {
+                var elem = $(this);
+                var id = elem.data('reminder-id');
+                event.preventDefault();
+                $.ajax({
+                    url: _this.settings.deleteUrl,
+                    type: 'POST',
+                    data: {
+                        'Reminder': {
+                            'id': id
+                        }
+                    },
+                    success: function () {
+                        _this.updateCounts();
+                    }
+                });
 
+                return false;
+            });
         },
-        processQuery: function (data) {
-            if (data.html) {
-                this.element.html(data.html);
-            }
+        updateCounts: function () {
+            $.ajax({
+                url: this.settings.getCountUrl,
+                dataType: 'json',
+                success: function (data) {
+                    $('.reminder-counts').text(data.count);
+                }
+            });
         },
-        getReminders: function () {
-
-        },
-        deleteRreminder: function (id) {
-            
-        },
-        updateReminder: function (id) {
-            
+        clientTimeZone: function () {
+            return '';
         }
     };
 

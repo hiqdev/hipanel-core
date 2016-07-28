@@ -115,7 +115,7 @@ class ReminderController extends \hipanel\base\CrudController
                     ],
                 ],
             ],
-            'ajax-get-reminders' => [
+            'ajax-reminders-list' => [
                 'class' => RenderAjaxAction::class,
                 'view' => '_ajaxReminderList',
                 'params' => function ($action) {
@@ -138,11 +138,13 @@ class ReminderController extends \hipanel\base\CrudController
         return $this->getRefs('type,reminder', 'hipanel/reminder');
     }
 
-    public function actionCount()
+    public function actionGetCount()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $count = Reminder::find()->where(['to_site' => true])->count();
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $count = Reminder::find()->toSite()->count();
 
-        return compact('count');
+            return compact('count');
+        }
     }
 }
