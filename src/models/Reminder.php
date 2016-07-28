@@ -80,4 +80,15 @@ class Reminder extends Model
 
         return $result;
     }
+
+    /**
+     * {@inheritdoc}
+     * @return ReminderQuery
+     */
+    public static function find($options = [])
+    {
+        return new ReminderQuery(get_called_class(), [
+            'options' => $options,
+        ]);
+    }
 }

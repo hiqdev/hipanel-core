@@ -7,6 +7,7 @@ use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
+use hipanel\actions\RenderAjaxAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
@@ -20,12 +21,23 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class ReminderController extends \hipanel\base\CrudController
 {
     public function init()
     {
         $this->viewPath = '@hipanel/views/reminder';
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => 'yii\filters\HttpCache',
+                'only' => ['count'],
+            ],
+        ];
     }
 
     public function actions()
@@ -82,15 +94,14 @@ class ReminderController extends \hipanel\base\CrudController
                         }
                     }
                 },
-                'POST ajax' => [
-                    'save' => true,
+                'POST ajax' => [ 'save' => true,
                     'success' => [
                         'class' => RenderJsonAction::class,
                         'return' => function ($action) {
                             return [
                                 'success' => true,
                                 'widget' => ReminderTop::widget()
-                            ]; // todo: wise resulting
+                            ];
                         },
                     ],
                 ],
@@ -103,6 +114,16 @@ class ReminderController extends \hipanel\base\CrudController
                         'class' => RedirectAction::class,
                     ],
                 ],
+            ],
+            'ajax-get-reminders' => [
+                'class' => RenderAjaxAction::class,
+                'view' => '_ajaxReminderList',
+                'params' => function ($action) {
+                    $reminders = Reminder::find()->where(['to_site' => true])->all();
+                    $remindInOptions = Reminder::reminderNextTimeOptions();
+
+                    return compact(['reminders', 'remindInOptions']);
+                }
             ]
         ];
     }
@@ -115,5 +136,13 @@ class ReminderController extends \hipanel\base\CrudController
     public function getTypeReminder()
     {
         return $this->getRefs('type,reminder', 'hipanel/reminder');
+    }
+
+    public function actionCount()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $count = Reminder::find()->where(['to_site' => true])->count();
+
+        return compact('count');
     }
 }
