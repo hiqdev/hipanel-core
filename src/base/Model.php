@@ -35,6 +35,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
     {
         return [
             'id'            => Yii::t('hipanel', 'ID'),
+            'remoteid'      => Yii::t('hipanel', 'Remote ID'),
             'client'        => Yii::t('hipanel', 'Client'),
             'seller'        => Yii::t('hipanel', 'Reseller'),
             'domain'        => Yii::t('hipanel', 'Domain Name'),
@@ -51,6 +52,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
             'backuping'     => Yii::t('hipanel', 'Backuping'),
             'crontab'       => Yii::t('hipanel', 'Crontab'),
             'ip'            => Yii::t('hipanel', 'IP'),
+            'ips'           => Yii::t('hipanel', 'IPs'),
             'mail'          => Yii::t('hipanel', 'Mail'),
             'request'       => Yii::t('hipanel', 'Request'),
             'db'            => Yii::t('hipanel', 'DataBase'),
@@ -58,6 +60,8 @@ class Model extends \hiqdev\hiart\ActiveRecord
             'status'        => Yii::t('hipanel', 'Status'),
             'type'          => Yii::t('hipanel', 'Type'),
             'descr'         => Yii::t('hipanel', 'Description'),
+            'created_date'  => Yii::t('hipanel', 'Registered'),
+            'updated_date'  => Yii::t('hipanel', 'Last update'),
        ];
     }
 
