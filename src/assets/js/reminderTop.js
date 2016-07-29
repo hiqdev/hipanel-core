@@ -18,20 +18,20 @@
 
     Plugin.prototype = {
         init: function (event) {
-            this.updateRemindersListListener(event);
-            // this.updateReminderListener(event);
-            // this.deleteReminderListener(event);
+            this.getRemindersListListener();
+            // this.updateReminderListener();
+            this.deleteReminderListener();
         },
-        updateRemindersListListener: function (event) {
+
+        // Get Reminders
+        getRemindersListListener: function () {
             var _this = this;
-            var _event = event;
-            $(this.element).on('click', function (event) {
-                _this.updateRemindersList(event);
+            $(_this.element).on('show.bs.dropdown', function (ev) {
+                _this.getRemindersList(ev);
             });
         },
-        updateRemindersList: function (event) {
+        getRemindersList: function (ev) {
             var _this = this;
-            var _event = event;
             var elem = $('li.reminder-body');
             $.ajax({
                 url: _this.settings.listUrl,
@@ -43,51 +43,64 @@
                 }
             });
         },
-        updateListener: function (event) {
+
+        // Delete reminder
+        deleteReminderListener: function () {
+            var _this = this;
+            $(document).on('click', '.reminder-delete', function (ev) {
+                ev.preventDefault();
+                var elem = $(this);
+                var id = elem.data('reminder-id');
+                _this.deleteReminder(id);
+
+                return false;
+            });
+        },
+        deleteReminder: function (id) {
+            var _this = this;
+            $.ajax({
+                url: _this.settings.deleteUrl,
+                type: 'POST',
+                data: {
+                    'Reminder': {
+                        'id': id
+                    }
+                },
+                success: function () {
+                    _this.updateCounts();
+                    _this.getRemindersList();
+                }
+            });
+        },
+
+        // Update reminder
+        updateReminderListener: function () {
             var _this = this;
             var _event = event;
             $('.reminder-action-update', _this.element).on('click', function (event) {
                 var elem = $(this);
                 var id = elem.data('reminder-id');
                 var action = elem.data('reminder-action');
-                $.ajax({
-                    url: _this.settings.listUrl,
-                    data: {
-                        'Reminder': {
-                            'id': id,
-                            'action': action,
-                            'tz': _this.clientTimeZone()
-                        }
-                    },
-                    success: function (count) {
-                        _this.updateCounts(count);
-                    }
-                });
+                _this.updateReminder(id, action)
             });
         },
-        deleteListener: function (event) {
-            var _this = this;
-            var _event = event;
-            $('.reminder-action-delete').on('click', function (event) {
-                var elem = $(this);
-                var id = elem.data('reminder-id');
-                event.preventDefault();
-                $.ajax({
-                    url: _this.settings.deleteUrl,
-                    type: 'POST',
-                    data: {
-                        'Reminder': {
-                            'id': id
-                        }
-                    },
-                    success: function () {
-                        _this.updateCounts();
+        updateReminder: function (id, action) {
+            $.ajax({
+                url: this.settings.listUrl,
+                data: {
+                    'Reminder': {
+                        'id': id,
+                        'action': action,
+                        'tz': this.clientTimeZone()
                     }
-                });
+                },
+                success: function (count) {
+                    this.updateCounts(count);
+                }
+            });
+        },
 
-                return false;
-            });
-        },
+        // Other functions
         updateCounts: function () {
             $.ajax({
                 url: this.settings.getCountUrl,

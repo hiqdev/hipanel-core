@@ -119,7 +119,7 @@ class ReminderController extends \hipanel\base\CrudController
                 'class' => RenderAjaxAction::class,
                 'view' => '_ajaxReminderList',
                 'params' => function ($action) {
-                    $reminders = Reminder::find()->where(['to_site' => true])->all();
+                    $reminders = Reminder::find()->toSite()->all();
                     $remindInOptions = Reminder::reminderNextTimeOptions();
 
                     return compact(['reminders', 'remindInOptions']);

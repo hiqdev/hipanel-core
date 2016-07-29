@@ -4,6 +4,7 @@ namespace hipanel\widgets;
 
 use hipanel\assets\ReminderTopAsset;
 use hipanel\models\Reminder;
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -16,6 +17,7 @@ class ReminderTop extends Widget
     public function init()
     {
         parent::init();
+        Yii::$app->assetManager->forceCopy = true;
         $reminderOptions = Json::encode([
             'listUrl' => Url::to('@reminder/ajax-reminders-list'),
             'deleteUrl' => Url::to('@reminder/delete'),
