@@ -100,16 +100,16 @@ class Reminder extends Model
      * @param bool $insert
      * @return bool
      */
-//    public function beforeSave($insert)
-//    {
-//        if (parent::beforeSave($insert)) {
-//            if ($this->scenario == self::REMINDER_SCENARIO_UPDATE) {
-//                $this->next_time = (new DateTime($this->next_time))->modify($this->reminderChange)->format('Y-m-d H:i:s');
-//            }
-//
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->scenario == self::REMINDER_SCENARIO_UPDATE) {
+                $this->next_time = (new DateTime($this->next_time))->modify($this->reminderChange)->format('Y-m-d H:i:s');
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }
