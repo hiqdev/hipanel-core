@@ -26,7 +26,7 @@
         // Get Reminders
         getRemindersListListener: function () {
             var _this = this;
-            $(_this.element).on('show.bs.dropdown', function (ev) {
+            $(_this.element).one('show.bs.dropdown', function (ev) {
                 _this.getRemindersList(ev);
             });
         },
@@ -76,8 +76,7 @@
         // Update reminder
         updateReminderListener: function () {
             var _this = this;
-            var _event = event;
-            $('.reminder-action-update', _this.element).on('click', function (event) {
+            $(document).on('click', function (ev) {
                 var elem = $(this);
                 var id = elem.data('reminder-id');
                 var action = elem.data('reminder-action');
@@ -85,8 +84,9 @@
             });
         },
         updateReminder: function (id, action) {
+            var _this = this;
             $.ajax({
-                url: this.settings.listUrl,
+                url: _this.settings.listUrl,
                 data: {
                     'Reminder': {
                         'id': id,
@@ -95,7 +95,8 @@
                     }
                 },
                 success: function (count) {
-                    this.updateCounts(count);
+                    _this.updateCounts(count);
+
                 }
             });
         },

@@ -6,7 +6,6 @@ use DateTime;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\RedirectAction;
-use hipanel\actions\RenderAction;
 use hipanel\actions\RenderAjaxAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartCreateAction;
@@ -16,10 +15,7 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\models\Reminder;
 use hipanel\widgets\ReminderTop;
-use Symfony\Component\EventDispatcher\Event;
 use Yii;
-use yii\base\Widget;
-use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
