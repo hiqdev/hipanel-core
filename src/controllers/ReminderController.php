@@ -86,17 +86,17 @@ class ReminderController extends \hipanel\base\CrudController
                         $reminder = Yii::$app->request->post('Reminder');
                         $action->collection->set(Reminder::find()->where(['id' => $reminder['id']])->one());
                         foreach ($action->collection->models as $model) {
-                            $model->next_time = (new DateTime($model->next_time))->modify($reminder['next_time'])->format('Y-m-d H:i:s');
+                            $model->next_time = (new DateTime($model->next_time))->modify($reminder['reminderChange'])->format('Y-m-d H:i:s');
                         }
                     }
                 },
-                'POST ajax' => [ 'save' => true,
+                'POST ajax' => [
+                    'save' => true,
                     'success' => [
                         'class' => RenderJsonAction::class,
                         'return' => function ($action) {
                             return [
                                 'success' => true,
-                                'widget' => ReminderTop::widget()
                             ];
                         },
                     ],

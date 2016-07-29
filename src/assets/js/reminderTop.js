@@ -19,7 +19,7 @@
     Plugin.prototype = {
         init: function (event) {
             this.getRemindersListListener();
-            // this.updateReminderListener();
+            this.updateReminderListener();
             this.deleteReminderListener();
         },
 
@@ -76,27 +76,31 @@
         // Update reminder
         updateReminderListener: function () {
             var _this = this;
-            $(document).on('click', function (ev) {
+            $(document).on('click', '.reminder-update', function (ev) {
+                ev.preventDefault();
                 var elem = $(this);
                 var id = elem.data('reminder-id');
                 var action = elem.data('reminder-action');
                 _this.updateReminder(id, action)
+
+                return false;
             });
         },
         updateReminder: function (id, action) {
             var _this = this;
             $.ajax({
-                url: _this.settings.listUrl,
+                url: _this.settings.updateUrl,
+                type: 'POST',
                 data: {
                     'Reminder': {
                         'id': id,
-                        'action': action,
-                        'tz': this.clientTimeZone()
+                        'reminderChange': action,
+                        'clientTimeZone': _this.clientTimeZone()
                     }
                 },
                 success: function (count) {
-                    _this.updateCounts(count);
-
+                    _this.updateCounts();
+                    _this.getRemindersList();
                 }
             });
         },

@@ -2,6 +2,7 @@
 
 namespace hipanel\models;
 
+use DateTime;
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use Yii;
@@ -18,6 +19,9 @@ class Reminder extends Model
 
     const REMINDER_TYPE_SITE = 'site';
     const REMINDER_TYPE_MAIL = 'mail';
+
+    public $clientTimeZone;
+    public $reminderChange;
 
     public static function reminderNextTimeOptions()
     {
@@ -46,7 +50,7 @@ class Reminder extends Model
             // Update
             [['id'], 'required', 'on' => 'update'],
             [['object_id', 'state_id', 'type_id'], 'integer', 'on' => self::REMINDER_SCENARIO_UPDATE],
-            [['from_time', 'next_time', 'till_time'], 'string', 'on' => self::REMINDER_SCENARIO_UPDATE],
+            [['from_time', 'next_time', 'till_time', 'reminderChange', 'clientTimeZone'], 'string', 'on' => self::REMINDER_SCENARIO_UPDATE],
 
             // Delete
             [['id'], 'required', 'on' => self::REMINDER_SCENARIO_DELETE]
@@ -91,4 +95,21 @@ class Reminder extends Model
             'options' => $options,
         ]);
     }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     */
+//    public function beforeSave($insert)
+//    {
+//        if (parent::beforeSave($insert)) {
+//            if ($this->scenario == self::REMINDER_SCENARIO_UPDATE) {
+//                $this->next_time = (new DateTime($this->next_time))->modify($this->reminderChange)->format('Y-m-d H:i:s');
+//            }
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
 }
