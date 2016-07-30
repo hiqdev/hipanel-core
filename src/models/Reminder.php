@@ -13,15 +13,20 @@ class Reminder extends Model
 
     public static $i18nDictionary = 'hipanel/reminder';
 
-    const REMINDER_SCENARIO_CREATE = 'create';
-    const REMINDER_SCENARIO_UPDATE = 'update';
-    const REMINDER_SCENARIO_DELETE = 'delete';
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+    const SCENARIO_DELETE = 'delete';
 
-    const REMINDER_TYPE_SITE = 'site';
-    const REMINDER_TYPE_MAIL = 'mail';
+    const TYPE_SITE = 'site';
+    const TYPE_MAIL = 'mail';
 
     public $clientTimeZone;
     public $reminderChange;
+
+    public function init()
+    {
+        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'fixNextTimeTZ']);
+    }
 
     public static function reminderNextTimeOptions()
     {
@@ -45,15 +50,15 @@ class Reminder extends Model
             [['to_site'], 'boolean'],
 
             // Create
-            [['object_id', 'type', 'periodicity', 'from_time', 'message'], 'required', 'on' => self::REMINDER_SCENARIO_CREATE],
+            [['object_id', 'type', 'periodicity', 'from_time', 'message'], 'required', 'on' => self::SCENARIO_CREATE],
 
             // Update
             [['id'], 'required', 'on' => 'update'],
-            [['object_id', 'state_id', 'type_id'], 'integer', 'on' => self::REMINDER_SCENARIO_UPDATE],
-            [['from_time', 'next_time', 'till_time', 'reminderChange', 'clientTimeZone'], 'string', 'on' => self::REMINDER_SCENARIO_UPDATE],
+            [['object_id', 'state_id', 'type_id'], 'integer', 'on' => self::SCENARIO_UPDATE],
+            [['from_time', 'next_time', 'till_time', 'reminderChange', 'clientTimeZone'], 'string', 'on' => self::SCENARIO_UPDATE],
 
             // Delete
-            [['id'], 'required', 'on' => self::REMINDER_SCENARIO_DELETE]
+            [['id'], 'required', 'on' => self::SCENARIO_DELETE]
         ];
     }
 
@@ -97,19 +102,12 @@ class Reminder extends Model
     }
 
     /**
-     * @param bool $insert
      * @return bool
      */
-    public function beforeSave($insert)
+    public function fixNextTimeTZ()
     {
-        if (parent::beforeSave($insert)) {
-            if ($this->scenario == self::REMINDER_SCENARIO_UPDATE) {
-                $this->next_time = (new DateTime($this->next_time))->modify($this->reminderChange)->format('Y-m-d H:i:s');
-            }
-
-            return true;
+        if ($this->scenario == self::SCENARIO_UPDATE) {
+            $this->next_time = (new DateTime($this->next_time))->modify($this->reminderChange)->format('Y-m-d H:i:s');
         }
-
-        return false;
     }
 }

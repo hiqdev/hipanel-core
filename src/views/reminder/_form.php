@@ -26,8 +26,8 @@ use yii\helpers\Html;
 <?php endif ?>
 
 <?= $form->field($model, "type")->radioList([
-    Reminder::REMINDER_TYPE_SITE => Yii::t('hipanel/reminder', 'To site'),
-    Reminder::REMINDER_TYPE_MAIL => Yii::t('hipanel/reminder', 'By mail'),
+    Reminder::TYPE_SITE => Yii::t('hipanel/reminder', 'To site'),
+    Reminder::TYPE_MAIL => Yii::t('hipanel/reminder', 'By mail'),
 ]) ?>
 
 <?= $form->field($model, "periodicity")->dropDownList(Yii::$app->controller->getPeriodicityOptions()) ?>
