@@ -15,7 +15,7 @@ class ReminderGridView extends BoxedGridView
 
             'actions' => [
                 'class' => ActionColumn::class,
-                'template' => '{view} {update} {delete}',
+                'template' => '{view} {delete}',
                 'header' => Yii::t('hipanel', 'Actions'),
             ],
         ];

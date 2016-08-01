@@ -6,7 +6,7 @@ use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 
-$this->title = Yii::t('hipanel', 'Reminders');
+$this->title = Yii::t('hipanel/reminder', 'Reminders');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 $representation = Yii::$app->request->get('representation');
