@@ -108,7 +108,6 @@ return [
     'Notice' => 'Заметка',
     'To confirm this operation please enter your PIN code' => 'Для подтверждения вам надо ввести PIN-код',
     'Create ticket' => 'Создать тикет',
-    'Recharge account' => 'Пополнить счет',
     'Profile' => 'Профиль',
     'Sign out' => 'Выйти',
     'loading' => 'загрузка',
@@ -143,6 +142,7 @@ return [
     'View' => 'Просмотреть',
     'Clear' => 'Очистить',
     'Recharge' => 'Пополнить',
+    'Recharge account' => 'Пополнить счет',
     'collapse' => 'свернуть',
     'Remove' => 'удалить',
     'remove' => 'убрать',
@@ -161,6 +161,7 @@ return [
     'Set for all' => 'Установить для всех',
     'Set by one' => 'Установить по одному',
     'Home' => 'Главная',
+    'Dashboard' => 'Главная',
     'Can Manage' => 'Может управлять',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
     'Select date' => 'Выберите дату',
@@ -228,6 +229,7 @@ return [
     'en' => 'English',
 
     /// Errors
+    'Under construction' => 'Under construction',
     'An error occurred. Try again please.' => 'Произошла ошибка. Попробуйте еще раз, пожалуйста.',
     'An error occurred while sending request. Try to repeat this action later.' => 'Произошла ошибка при отправке запроса. Попробуйте повторить это действие позже.',
     '{attribute} does not look like a domain part' => '{attribute} не выглядит как часть домена',

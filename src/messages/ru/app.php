@@ -225,6 +225,7 @@ return [
     'Date range' => 'Период',
     'Default' => 'По умолчанию',
     'Default sort' => 'Сортировка по умолчанию',
+    'Archive' => 'Архив',
     'Delete' => 'Удалить',
     'Delete alias' => 'Удалить алиас',
     'Delete by AGP' => 'Удалить по AGP',
