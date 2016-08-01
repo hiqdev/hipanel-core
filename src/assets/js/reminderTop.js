@@ -35,6 +35,10 @@
             var elem = $('li.reminder-body');
             $.ajax({
                 url: _this.settings.listUrl,
+                method: 'POST',
+                data: {
+                    'offset': moment().utcOffset()
+                },
                 beforeSend: function () {
                     elem.html(_this.settings.loaderTemplate);
                 },
@@ -114,9 +118,6 @@
                     $('.reminder-counts').text(data.count);
                 }
             });
-        },
-        clientTimeZone: function () {
-            return '';
         }
     };
 

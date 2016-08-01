@@ -81,6 +81,7 @@
         "wbraganca/yii2-dynamicform": "*",
         "bower-asset/elementquery": "*",
         "bower-asset/less-space": "*",
+        "bower-asset/eonasdan-bootstrap-datetimepicker": "*",
         "bower-asset/octicons": "*",
         "2amigos/yii2-chartjs-widget": "^2.0",
         "omnilight/yii2-momentjs": "*"

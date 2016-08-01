@@ -5,6 +5,7 @@ use yii\helpers\Url;
 
 /* @var array $remindInOptions */
 /* @var array $reminders */
+/* @var string $offset */
 
 ?>
 <ul class="menu">
@@ -15,7 +16,7 @@ use yii\helpers\Url;
                 <h4>
                     <?= Html::beginTag('a', ['href' => Url::toRoute([sprintf("@%s/view", $reminder->objectName), 'id' => $reminder->object_id])]) ?>
                     <?= Yii::t('hipanel/reminder', "{0} ID #{1}", [Yii::t('hipanel/reminder', ucfirst($reminder->objectName)), $reminder->object_id]) ?>
-                    <small><?= Yii::t('hipanel/reminder', 'Next time') ?>: <?= $reminder->next_time ?></small>
+                    <small><?= Yii::t('hipanel/reminder', 'Next time') ?>: <?= $reminder->calculateClientNextTime($offset) ?></small>
                     <?= Html::endTag('a') ?>
                 </h4>
                 <p>

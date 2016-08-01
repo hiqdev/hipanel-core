@@ -2,6 +2,8 @@
 
 namespace hipanel\widgets;
 
+use kartik\date\DatePickerAsset;
+use omnilight\assets\MomentAsset;
 use Yii;
 use yii\base\Widget;
 use yii\bootstrap\Modal;
@@ -13,6 +15,11 @@ class ReminderButton extends Widget
     public $object_id;
 
     public $toggleButton = [];
+
+    public function init()
+    {
+        $this->registerCLientScript();
+    }
 
     public function run()
     {
@@ -51,4 +58,12 @@ class ReminderButton extends Widget
     {
         $this->toggleButton = $toggleButton;
     }
+
+    public function registerClientScript()
+    {
+        $view = $this->getView();
+        MomentAsset::register($view);
+        DatePickerAsset::register($view);
+    }
 }
+

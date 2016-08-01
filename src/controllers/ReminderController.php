@@ -117,8 +117,9 @@ class ReminderController extends \hipanel\base\CrudController
                 'params' => function ($action) {
                     $reminders = Reminder::find()->toSite()->all();
                     $remindInOptions = Reminder::reminderNextTimeOptions();
+                    $offset = Yii::$app->request->post('offset');
 
-                    return compact(['reminders', 'remindInOptions']);
+                    return compact(['reminders', 'remindInOptions', 'offset']);
                 }
             ]
         ];
