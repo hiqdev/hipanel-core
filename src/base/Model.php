@@ -40,6 +40,8 @@ class Model extends \hiqdev\hiart\ActiveRecord
             'seller'        => Yii::t('hipanel', 'Reseller'),
             'domain'        => Yii::t('hipanel', 'Domain Name'),
             'hdomain'       => Yii::t('hipanel', 'Domain Name'),
+            'ns'            => Yii::t('hipanel', 'Name Server'),
+            'nss'           => Yii::t('hipanel', 'Name Servers'),
             'server'        => Yii::t('hipanel', 'Server'),
             'account'       => Yii::t('hipanel', 'Account'),
             'service'       => Yii::t('hipanel', 'Service'),

@@ -9,10 +9,15 @@ class ReminderGridView extends BoxedGridView
     public static function defaultColumns()
     {
         return [
-            'periodicity',
-            'message',
-            'next_time',
-
+            'periodicity' => [
+                'filter' => false,
+            ],
+            'message' => [
+                'filter' => false,
+            ],
+            'next_time' => [
+                'filter' => false,
+            ],
             'actions' => [
                 'class' => ActionColumn::class,
                 'template' => '{view} {delete}',

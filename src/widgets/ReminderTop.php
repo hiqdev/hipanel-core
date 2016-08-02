@@ -6,7 +6,6 @@ use hipanel\assets\ReminderTopAsset;
 use hipanel\models\Reminder;
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 

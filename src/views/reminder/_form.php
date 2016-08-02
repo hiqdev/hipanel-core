@@ -10,7 +10,8 @@ use yii\helpers\Html;
  * @var Reminder $model
  * @var array[] $periodicityOptions
  */
-
+$lng = Yii::$app->language;
+$this->registerJs("$('#reminder-from_time').datepicker({ format:'Y-m-d H:i', language: '{$lng}' });");
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'reminder-form-' . $model->object_id,
@@ -21,6 +22,7 @@ use yii\helpers\Html;
 ]) ?>
 
 <?= Html::activeHiddenInput($model, 'object_id') ?>
+<?= Html::activeHiddenInput($model, 'offset') ?>
 <?php if (!$model->isNewRecord) : ?>
     <?= Html::activeHiddenInput($model, 'id') ?>
 <?php endif ?>

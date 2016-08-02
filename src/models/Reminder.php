@@ -3,6 +3,7 @@
 namespace hipanel\models;
 
 use DateTime;
+use DateTimeZone;
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use Yii;
@@ -20,22 +21,23 @@ class Reminder extends Model
     const TYPE_SITE = 'site';
     const TYPE_MAIL = 'mail';
 
-    public $clientTimeZone;
+    public $offset;
     public $reminderChange;
 
     public function init()
     {
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'fixNextTimeTZ']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'changeNextTime']);
+        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'insertWithClientOffset']);
     }
 
     public static function reminderNextTimeOptions()
     {
         return [
-            '+ 15 minutes' => Yii::t('hipanel/reminder', '15m'),
-            '+ 30 minutes' => Yii::t('hipanel/reminder', '30m'),
-            '+ 1 hour' => Yii::t('hipanel/reminder', '1h'),
-            '+ 12 hour' => Yii::t('hipanel/reminder', '12h'),
-            '+ 1 day' => Yii::t('hipanel/reminder', '1d'),
+            '+15 minutes' => Yii::t('hipanel/reminder', '15m'),
+            '+30 minutes' => Yii::t('hipanel/reminder', '30m'),
+            '+1 hour' => Yii::t('hipanel/reminder', '1h'),
+            '+12 hour' => Yii::t('hipanel/reminder', '12h'),
+            '+1 day' => Yii::t('hipanel/reminder', '1d'),
         ];
     }
 
@@ -50,12 +52,12 @@ class Reminder extends Model
             [['to_site'], 'boolean'],
 
             // Create
-            [['object_id', 'type', 'periodicity', 'from_time', 'message'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['object_id', 'type', 'periodicity', 'from_time', 'message', 'offset'], 'required', 'on' => self::SCENARIO_CREATE],
 
             // Update
             [['id'], 'required', 'on' => 'update'],
             [['object_id', 'state_id', 'type_id'], 'integer', 'on' => self::SCENARIO_UPDATE],
-            [['from_time', 'next_time', 'till_time', 'reminderChange', 'clientTimeZone'], 'string', 'on' => self::SCENARIO_UPDATE],
+            [['from_time', 'next_time', 'till_time', 'reminderChange', 'offset'], 'string', 'on' => self::SCENARIO_UPDATE],
 
             // Delete
             [['id'], 'required', 'on' => self::SCENARIO_DELETE]
@@ -104,10 +106,25 @@ class Reminder extends Model
     /**
      * @return bool
      */
-    public function fixNextTimeTZ()
+    public function changeNextTime()
     {
         if ($this->scenario == self::SCENARIO_UPDATE) {
             $this->next_time = (new DateTime($this->next_time))->modify($this->reminderChange)->format('Y-m-d H:i:s');
         }
+    }
+
+    public function insertWithClientOffset()
+    {
+        if ($this->scenario == self::SCENARIO_CREATE) {
+            $this->offset = strpos($this->offset, '-') !== false ? '+' . $this->offset : '-' . $this->offset;
+            $this->from_time = (new DateTime($this->from_time))->modify($this->offset . ' minutes')->format('Y-m-d H:i:s');
+        }
+    }
+
+    public function calculateClientNextTime($offset)
+    {
+        $offset = strpos($offset, '-') !== false ? $offset : '+' . $offset;
+        $next_time = (new DateTime($this->next_time))->modify($offset . ' minutes');
+        return Yii::$app->formatter->asDatetime($next_time, 'short');
     }
 }

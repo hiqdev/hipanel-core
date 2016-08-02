@@ -24,4 +24,8 @@ class ReminderTopAsset extends AssetBundle
     public $js = [
         'js/reminderTop.js',
     ];
+
+    public $depends = [
+        '\omnilight\assets\MomentAsset'
+    ];
 }
