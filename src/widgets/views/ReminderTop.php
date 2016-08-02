@@ -20,9 +20,7 @@ use yii\helpers\Html;
     </a>
     <ul class="dropdown-menu">
         <li class="header">
-            <?= Yii::t('hipanel', 'You have {0} notifications', [
-                Html::tag('span', $count, ['class' => 'reminder-counts'])
-            ]) ?>
+            <?= Yii::t('hipanel/reminder', 'Reminders') ?>
         </li>
         <li class="reminder-body">
             <?= $loaderTemplate ?>
