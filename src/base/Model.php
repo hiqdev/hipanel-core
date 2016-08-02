@@ -57,7 +57,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
             'ips'           => Yii::t('hipanel', 'IPs'),
             'mail'          => Yii::t('hipanel', 'Mail'),
             'request'       => Yii::t('hipanel', 'Request'),
-            'db'            => Yii::t('hipanel', 'DataBase'),
+            'db'            => Yii::t('hipanel', 'Database'),
             'state'         => Yii::t('hipanel', 'Status'),
             'status'        => Yii::t('hipanel', 'Status'),
             'type'          => Yii::t('hipanel', 'Type'),
