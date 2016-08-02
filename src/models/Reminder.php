@@ -36,7 +36,7 @@ class Reminder extends Model
             '+15 minutes' => Yii::t('hipanel/reminder', '15m'),
             '+30 minutes' => Yii::t('hipanel/reminder', '30m'),
             '+1 hour' => Yii::t('hipanel/reminder', '1h'),
-            '+12 hour' => Yii::t('hipanel/reminder', '12h'),
+            '+12 hours' => Yii::t('hipanel/reminder', '12h'),
             '+1 day' => Yii::t('hipanel/reminder', '1d'),
         ];
     }
@@ -116,15 +116,37 @@ class Reminder extends Model
     public function insertWithClientOffset()
     {
         if ($this->scenario == self::SCENARIO_CREATE) {
-            $this->offset = strpos($this->offset, '-') !== false ? '+' . $this->offset : '-' . $this->offset;
-            $this->from_time = (new DateTime($this->from_time))->modify($this->offset . ' minutes')->format('Y-m-d H:i:s');
+            $offset = $this->toServerTime($this->offset);
+            $this->from_time = (new DateTime($this->from_time))->modify($offset . ' minutes')->format('Y-m-d H:i:s');
         }
     }
 
     public function calculateClientNextTime($offset)
     {
-        $offset = strpos($offset, '-') !== false ? $offset : '+' . $offset;
-        $next_time = (new DateTime($this->next_time))->modify($offset . ' minutes');
+        $next_time = (new DateTime($this->next_time))->modify($this->toClientTime($offset) . ' minutes');
         return Yii::$app->formatter->asDatetime($next_time, 'short');
+    }
+
+    protected function getSign($offset)
+    {
+        return (strpos($offset, '-') === false) ? '+' : '-';
+    }
+
+    protected function toServerTime($offset)
+    {
+        if ($this->getSign($offset) === '+') {
+            return '-' . $offset;
+        } else {
+            return $offset;
+        }
+    }
+
+    protected function toClientTime($offset)
+    {
+        if ($this->getSign($offset) === '+') {
+            return '+' . $offset;
+        } else {
+            return $offset;
+        }
     }
 }

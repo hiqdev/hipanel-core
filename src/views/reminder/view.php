@@ -4,7 +4,7 @@ use hipanel\grid\ReminderGridView;
 use hipanel\widgets\Box;
 
 $this->title = Yii::t('hipanel/reminder', "{0} ID #{1}", [Yii::t('hipanel/reminder', ucfirst($model->objectName)), $model->object_id]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/hosting', 'IP addresses'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/reminder', 'Reminders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
