@@ -49,6 +49,6 @@ use yii\helpers\Url;
             </li>
         <?php endforeach; ?>
     <?php else : ?>
-        <li class="margin text-muted"><?= Yii::t('hipanel/reminder', 'You have no reminders') ?></li>
+        <li class="margin text-muted" style="font-size: small"><?= Yii::t('hipanel/reminder', 'You have no reminders') ?></li>
     <?php endif ?>
 </ul>

@@ -26,7 +26,7 @@ class Reminder extends Model
 
     public function init()
     {
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'changeNextTime']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'updateNextTime']);
         $this->on(self::EVENT_BEFORE_INSERT, [$this, 'insertWithClientOffset']);
     }
 
@@ -72,7 +72,7 @@ class Reminder extends Model
         return $this->mergeAttributeLabels([
             'periodicity' => Yii::t('hipanel/reminder', 'Periodicity'),
             'from_time' => Yii::t('hipanel/reminder', 'When the recall?'),
-            'next_time' => Yii::t('hipanel/reminder', 'Next remind'),
+            'next_time' => Yii::t('hipanel/reminder', 'Next time'),
             'till_time' => Yii::t('hipanel/reminder', 'Remind till'),
             'message' => Yii::t('hipanel/reminder', 'Message'),
         ]);
@@ -106,7 +106,7 @@ class Reminder extends Model
     /**
      * @return bool
      */
-    public function changeNextTime()
+    public function updateNextTime()
     {
         if ($this->scenario == self::SCENARIO_UPDATE) {
             $this->next_time = (new DateTime($this->next_time))->modify($this->reminderChange)->format('Y-m-d H:i:s');

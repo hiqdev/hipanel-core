@@ -16,7 +16,8 @@ $('#reminder-from_time').datetimepicker({
     format: 'YYYY-MM-DD HH:mm',
     stepping: 10,
     locale: '{$lng}',
-    sideBySide: true,
+    showClose: true,
+    showClear: true,
     defaultDate: moment().add(1, 'hour').format('YYYY-MM-DD HH:mm')
 });
 ");

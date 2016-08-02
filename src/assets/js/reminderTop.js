@@ -37,7 +37,7 @@
                 url: _this.settings.listUrl,
                 method: 'POST',
                 data: {
-                    'offset': moment().utcOffset()
+                    'offset': _this.clientOffset()
                 },
                 beforeSend: function () {
                     elem.html(_this.settings.loaderTemplate);
@@ -99,7 +99,7 @@
                     'Reminder': {
                         'id': id,
                         'reminderChange': action,
-                        'clientTimeZone': _this.clientTimeZone()
+                        'clientTimeZone': _this.clientOffset()
                     }
                 },
                 success: function (count) {
@@ -118,6 +118,9 @@
                     $('.reminder-counts').text(data.count);
                 }
             });
+        },
+        clientOffset: function () {
+            return moment().utcOffset();
         }
     };
 

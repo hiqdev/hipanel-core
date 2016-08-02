@@ -28,4 +28,5 @@ return [
     '1d' => '1д',
     'Remind in' => 'Напомнить',
     'Don\'t remind' => 'Не напоминать',
+    'You have no reminders' => 'У вас нет напоминаний',
 ];
