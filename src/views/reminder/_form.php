@@ -11,7 +11,15 @@ use yii\helpers\Html;
  * @var array[] $periodicityOptions
  */
 $lng = Yii::$app->language;
-$this->registerJs("$('#reminder-from_time').datepicker({ format:'Y-m-d H:i', language: '{$lng}' });");
+$this->registerJs("
+$('#reminder-from_time').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm',
+    stepping: 10,
+    locale: '{$lng}',
+    sideBySide: true,
+    defaultDate: moment().add(1, 'hour').format('YYYY-MM-DD HH:mm')
+});
+");
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'reminder-form-' . $model->object_id,

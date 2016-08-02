@@ -2,7 +2,7 @@
 
 namespace hipanel\widgets;
 
-use kartik\date\DatePickerAsset;
+use hipanel\assets\BootstrapDatetimepickerAsset;
 use omnilight\assets\MomentAsset;
 use Yii;
 use yii\base\Widget;
@@ -63,7 +63,7 @@ class ReminderButton extends Widget
     {
         $view = $this->getView();
         MomentAsset::register($view);
-        DatePickerAsset::register($view);
+        BootstrapDatetimepickerAsset::register($view);
     }
 }
 
