@@ -17,6 +17,9 @@ class ReminderGridView extends BoxedGridView
             ],
             'next_time' => [
                 'filter' => false,
+                'contentOptions' => [
+                    'class' => 'reminder-next-time-modify'
+                ]
             ],
             'actions' => [
                 'class' => ActionColumn::class,

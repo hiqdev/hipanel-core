@@ -21,6 +21,7 @@
             this.getRemindersListListener();
             this.updateReminderListener();
             this.deleteReminderListener();
+            this.updateGridColumnListener();
         },
 
         // Get Reminders
@@ -121,6 +122,22 @@
         },
         clientUtcOffset: function () {
             return moment().utcOffset(); // minutes
+        },
+        updateGridColumnListener: function () {
+            var _this = this, gridTable = $('#bulk-reminder-search table');
+            if (gridTable.length) {
+                $(document).on('ready pjax:end', gridTable, function () {
+                    _this.updateGridColumn();
+                });
+            } else {
+                _this.updateGridColumn();
+            }
+        },
+        updateGridColumn: function () {
+            $('.reminder-next-time-modify').filter(function() {
+                var gridCell = $(this);
+                gridCell.text(moment.utc(gridCell.text()).local().format('DD.MM.YY HH:mm'))
+            });
         }
     };
 
