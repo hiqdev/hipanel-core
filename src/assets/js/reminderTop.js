@@ -134,10 +134,13 @@
             }
         },
         updateGridColumn: function () {
-            $('.reminder-next-time-modify').filter(function() {
-                var gridCell = $(this);
-                gridCell.text(moment.utc(gridCell.text()).local().format('DD.MM.YY HH:mm'))
-            });
+            var elem = $('.reminder-next-time-modify');
+            if (elem.length) {
+                $(elem).filter(function () {
+                    var gridCell = $(this);
+                    gridCell.text(moment.utc(gridCell.text()).local().format('DD.MM.YY, HH:mm'))
+                });
+            }
         }
     };
 
