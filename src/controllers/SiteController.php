@@ -11,7 +11,6 @@
 
 namespace hipanel\controllers;
 
-use hipanel\components\LanguageSwitcher;
 use hipanel\models\ContactForm;
 use hipanel\models\PasswordResetRequestForm;
 use hipanel\models\ResetPasswordForm;
@@ -193,16 +192,4 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionLanguage($language)
-    {
-        /** @var LanguageSwitcher $languageSwitcher */
-        $languageSwitcher = Yii::$app->get('languageSwitcher');
-        $languageSwitcher->setLanguage($language);
-
-        $url = Yii::$app->request->referrer;
-        if ($url === null) {
-            $url = Yii::$app->getHomeUrl();
-        }
-        return Yii::$app->response->redirect($url);
-    }
 }

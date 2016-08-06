@@ -19,7 +19,7 @@ $config = [
     'vendorPath' => '@root/vendor',
     'runtimePath' => '@root/runtime',
     'controllerNamespace' => 'hipanel\controllers',
-    'bootstrap' => ['log', 'themeManager', 'languageSwitcher', 'menuManager'],
+    'bootstrap' => ['log', 'themeManager', 'language', 'menuManager'],
     'params' => $params,
     'aliases' => [
         '@bower'        => '@vendor/bower-asset',
@@ -158,13 +158,6 @@ $config = [
                 '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',
                 'file/<id:\d+>/<name:\S{1,128}>' => 'file/view',
             ],
-        ],
-        'languageSwitcher' => [
-            'class' => \hipanel\components\LanguageSwitcher::class,
-            'languages' => [
-                'en' => 'English',
-                'ru' => 'Русский',
-            ]
         ],
         'view' => [
             'class' => \hipanel\components\View::class,
