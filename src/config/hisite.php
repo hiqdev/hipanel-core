@@ -197,7 +197,15 @@ $config = [
             'secret' => $params['fileStorageSecret'],
         ]
     ],
-    'modules' => [],
+    'modules' => [
+        'language' => [
+            'class' => \hiqdev\yii2\language\Module::class,
+            'languages' => [
+                'en' => 'English',
+                'ru' => 'Русский',
+            ]
+        ],
+    ],
 ];
 
 if (defined('YII_DEBUG') && YII_DEBUG) {
