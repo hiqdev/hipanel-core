@@ -26,6 +26,8 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/panel.js',
+        'js/ResizeSensor.js',
+        'js/ElementQueries.js',
     ];
     public $depends = [
         \yii\web\YiiAsset::class,

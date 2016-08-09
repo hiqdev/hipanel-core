@@ -3,7 +3,6 @@
 use hipanel\assets\ElementQueryAsset;
 use yii\web\View;
 
-ElementQueryAsset::register($this);
 $this->registerCss('
 .affix {
     top: 5px;
@@ -24,7 +23,6 @@ $this->registerCss('
 .advanced-search[min-width~="150px"] form > div {
     width: 100%;
 }
-
 ');
 $this->registerJs("
 $(document).on('pjax:end', function() {
