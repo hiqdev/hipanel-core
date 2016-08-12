@@ -84,6 +84,7 @@
         "bower-asset/less-space": "*",
         "bower-asset/eonasdan-bootstrap-datetimepicker": "*",
         "bower-asset/octicons": "*",
+        "hiqdev/yii2-asset-visibilityjs": "*",
         "2amigos/yii2-chartjs-widget": "^2.0",
         "omnilight/yii2-momentjs": "*"
     },

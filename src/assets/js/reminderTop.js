@@ -5,7 +5,8 @@
             'deleteUrl': undefined,
             'updateUrl': undefined,
             'getCountUrl': undefined,
-            'loaderTemplate': undefined
+            'loaderTemplate': undefined,
+            'updateInterval': 60 * 1000 // 1 minute
         };
 
     function Plugin(element, options) {
@@ -13,21 +14,26 @@
         this.settings = $.extend({}, defaults, options);
         this._defaults = defaults;
         this._name = pluginName;
+        this.intervalId = null;
         this.init();
     }
 
     Plugin.prototype = {
-        init: function (event) {
+        init: function () {
+            var _this = this;
             this.getRemindersListListener();
             this.updateReminderListener();
             this.deleteReminderListener();
             this.updateGridColumnListener();
+            this.intervalId = setInterval(function () {
+                _this.updateCounts();
+            }, this.settings.updateInterval);
         },
 
         // Get Reminders
         getRemindersListListener: function () {
             var _this = this;
-            $(_this.element).one('show.bs.dropdown', function (ev) {
+            $(_this.element).on('show.bs.dropdown', function (ev) {
                 _this.getRemindersList(ev);
             });
         },
@@ -86,7 +92,7 @@
                 var elem = $(this);
                 var id = elem.data('reminder-id');
                 var action = elem.data('reminder-action');
-                _this.updateReminder(id, action)
+                _this.updateReminder(id, action);
 
                 return false;
             });
@@ -116,7 +122,13 @@
                 url: this.settings.getCountUrl,
                 dataType: 'json',
                 success: function (data) {
-                    $('.reminder-counts').text(data.count);
+                    if (data.count > 0) {
+                        var reminderCounts = $('.reminder-counts');
+                        if (reminderCounts.hasClass('hidden')) {
+                            reminderCounts.removeClass('hidden');
+                        }
+                        reminderCounts.text(data.count);
+                    }
                 }
             });
         },

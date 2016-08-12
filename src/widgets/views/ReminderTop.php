@@ -14,9 +14,8 @@ use yii\helpers\Html;
     <!-- Menu toggle button -->
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-bell-o"></i>
-        <?php if ($count > 0) : ?>
-            <span id="reminder-count" class="label label-warning reminder-counts"><?= $count ?></span>
-        <?php endif ?>
+        <span id="reminder-count"
+              class="label label-warning reminder-counts <?= $count > 0 ? '' : 'hidden' ?>"><?= $count ?></span>
     </a>
     <ul class="dropdown-menu">
         <li class="header">

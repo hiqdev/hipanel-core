@@ -52,7 +52,8 @@ class Reminder extends Model
             [['to_site'], 'boolean'],
 
             // Create
-            [['object_id', 'type', 'periodicity', 'from_time', 'message', 'offset'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['object_id', 'type', 'periodicity', 'from_time', 'offset'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['message'], 'string', 'on' => self::SCENARIO_CREATE],
 
             // Update
             [['id'], 'required', 'on' => 'update'],

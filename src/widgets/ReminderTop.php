@@ -42,8 +42,6 @@ class ReminderTop extends Widget
     {
         $view = $this->getView();
         ReminderTopAsset::register($view);
-        $view->registerJs("
-            $('#reminders').reminder({$options});
-        ");
+        $view->registerJs("$('#reminders').reminder({$options});");
     }
 }

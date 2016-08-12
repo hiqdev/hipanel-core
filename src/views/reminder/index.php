@@ -48,7 +48,6 @@ $representation = Yii::$app->request->get('representation');
             'checkbox',
 
             'periodicity',
-            'message',
             'next_time',
 
             'actions',

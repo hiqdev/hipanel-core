@@ -18,7 +18,7 @@ class ReminderButton extends Widget
 
     public function init()
     {
-        $this->registerCLientScript();
+        $this->registerClientScript();
     }
 
     public function run()
