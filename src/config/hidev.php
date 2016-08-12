@@ -12,8 +12,8 @@
 return [
     'components' => [
         'config' => [
-            'include' => [
-                '@hipanel/config/goals.yml',
+            'translate' => [
+                'class' => \hipanel\console\TranslateController::class,
             ],
         ],
     ],
