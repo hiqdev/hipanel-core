@@ -6,7 +6,7 @@
             'updateUrl': undefined,
             'getCountUrl': undefined,
             'loaderTemplate': undefined,
-            'updateInterval': 60 * 1000 // 1 minute
+            'updateInterval': 3 * 1000 // 1 minute
         };
 
     function Plugin(element, options) {
@@ -122,12 +122,14 @@
                 url: this.settings.getCountUrl,
                 dataType: 'json',
                 success: function (data) {
+                    var reminderCounts = $('.reminder-counts');
                     if (data.count > 0) {
-                        var reminderCounts = $('.reminder-counts');
                         if (reminderCounts.hasClass('hidden')) {
                             reminderCounts.removeClass('hidden');
                         }
                         reminderCounts.text(data.count);
+                    } else {
+                        reminderCounts.addClass('hidden');
                     }
                 }
             });
