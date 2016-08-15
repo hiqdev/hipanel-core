@@ -6,7 +6,7 @@
             'updateUrl': undefined,
             'getCountUrl': undefined,
             'loaderTemplate': undefined,
-            'updateInterval': 3 * 1000 // 1 minute
+            'updateInterval': 60 * 1000 // 1 minute
         };
 
     function Plugin(element, options) {
