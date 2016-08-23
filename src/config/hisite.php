@@ -159,19 +159,18 @@ $config = [
                 'file/<id:\d+>/<name:\S{1,128}>' => 'file/view',
             ],
         ],
-        'view' => [
-            'class' => \hipanel\components\View::class,
-        ],
         'formatter' => [
             'locale' => 'ru-RU',
             'nullDisplay' => '&nbsp;',
             'sizeFormatBase' => 1000,
         ],
         'themeManager' => [
-            'class' => \hiqdev\thememanager\ThemeManager::class,
-            'theme' => 'adminlte',
+            'defaultTheme' => 'adminlte',
             'assets' => [
                 \hipanel\assets\AppAsset::class,
+            ],
+            'pathDirs' => [
+                'hisite' => '@hipanel',
             ],
         ],
         'menuManager' => [
