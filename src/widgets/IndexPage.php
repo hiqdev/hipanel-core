@@ -201,6 +201,11 @@ JS
         return AdvancedSearch::renderButton() . "\n";
     }
 
+    public function renderLayoutSwitcher()
+    {
+        return IndexLayoutSwitcher::widget();
+    }
+
     public function renderPerPage()
     {
         return ButtonDropdown::widget([
