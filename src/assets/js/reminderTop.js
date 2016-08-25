@@ -26,7 +26,11 @@
             this.deleteReminderListener();
             this.updateGridColumnListener();
             this.intervalId = setInterval(function () {
-                _this.updateCounts();
+                if (window.Pace !== undefined) {
+                    Pace.ignore(_this.updateCounts());
+                } else {
+                    _this.updateCounts();
+                }
             }, this.settings.updateInterval);
         },
 
