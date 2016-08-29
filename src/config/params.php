@@ -19,8 +19,10 @@ return [
     'user.seller'           => '',
     'cookieValidationKey'   => '',
     'debug_allowed_ips'     => [],
-    'adminEmail'            => 'admin@example.com',
     'fileStorageSecret'     => null,
+
+    'poweredByName'         => 'HiPanel',
+    'poweredByUrl'          => 'https://hipanel.com/',
 
     'skin' => [
         'default-skin' => 'skin-blue',
