@@ -17,6 +17,7 @@ class Url extends \yii\helpers\Url
 {
     /**
      * @param string|array $params
+     * @return array|string
      */
     public static function toAction($link, $params = [], $action = 'index')
     {
