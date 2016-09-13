@@ -52,12 +52,11 @@ class User extends Model implements IdentityInterface
 
     public static function findOne($id)
     {
-        $find = static::$_users[$id];
-        if ($find) {
+        if ($find = static::$_users[$id]) {
             return $find;
         }
-        $find = Yii::$app->session->get('identity:' . $id);
-        return $find;
+
+        return Yii::$app->session->get('identity:' . $id);
     }
 
     /**

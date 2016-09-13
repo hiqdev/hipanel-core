@@ -16,6 +16,7 @@ use hipanel\models\PasswordResetRequestForm;
 use hipanel\models\ResetPasswordForm;
 use hipanel\models\User;
 use Yii;
+use yii\authclient\AuthAction;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -66,7 +67,7 @@ class SiteController extends Controller
     {
         return [
             'auth' => [
-                'class' => 'yii\authclient\AuthAction',
+                'class' => AuthAction::class,
                 'successCallback' => [$this, 'successCallback'],
             ],
             'error' => [
