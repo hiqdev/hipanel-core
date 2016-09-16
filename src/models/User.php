@@ -21,15 +21,14 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
  * @property string $email
- * @property string $auth_key
+ * @property string $login
  * @property integer $role
  * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
+ * @property string $auth_key
  * @property string $password write-only password
+ * @property string $password_hash
+ * @property string $password_reset_token
  */
 class User extends Model implements IdentityInterface
 {
@@ -162,6 +161,11 @@ class User extends Model implements IdentityInterface
     public function not($key)
     {
         return (int)$this->id !== (int)$key && (string)$this->username !== (string)$key;
+    }
+
+    public function getLogin()
+    {
+        return $this->username;
     }
 
     /**
