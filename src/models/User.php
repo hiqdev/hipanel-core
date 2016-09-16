@@ -14,7 +14,6 @@ namespace hipanel\models;
 use Yii;
 use yii\base\Model;
 use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 
 /**
@@ -42,39 +41,24 @@ class User extends Model implements IdentityInterface
     public $seller;
     public $seller_id;
 
-    private static $_users;
+    public $auth_key;
+    public $password_hash;
+
+    private static $_users = [];
 
     public function save()
     {
-        static::$_users[$this->id]  = $this;
+        static::$_users[$this->id] = $this;
         Yii::$app->session->set('identity:' . $this->id, $this);
     }
 
     public static function findOne($id)
     {
-        if ($find = static::$_users[$id]) {
-            return $find;
+        if (isset(static::$_users[$id])) {
+            return static::$_users[$id];
         }
 
         return Yii::$app->session->get('identity:' . $id);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return '{{%user}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::class,
-        ];
     }
 
     /**
