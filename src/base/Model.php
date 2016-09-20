@@ -18,7 +18,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
     /**
      * @var string the i18n dictionary name that will be used to translate labels of Model
      */
-    public static $i18nDictionary = 'app';
+    public static $i18nDictionary = 'hipanel';
 
     /**
      * No rules be default.
@@ -37,7 +37,9 @@ class Model extends \hiqdev\hiart\ActiveRecord
             'id'            => Yii::t('hipanel', 'ID'),
             'remoteid'      => Yii::t('hipanel', 'Remote ID'),
             'client'        => Yii::t('hipanel', 'Client'),
+            'client_id'     => Yii::t('hipanel', 'Client'),
             'seller'        => Yii::t('hipanel', 'Reseller'),
+            'seller_id'     => Yii::t('hipanel', 'Reseller'),
             'domain'        => Yii::t('hipanel', 'Domain name'),
             'hdomain'       => Yii::t('hipanel', 'Domain name'),
             'ns'            => Yii::t('hipanel', 'Name Server'),
