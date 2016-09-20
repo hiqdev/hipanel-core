@@ -12,6 +12,7 @@
 namespace hipanel\assets;
 
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 class ReminderTopAsset extends AssetBundle
 {
@@ -26,6 +27,7 @@ class ReminderTopAsset extends AssetBundle
     ];
 
     public $depends = [
+        JqueryAsset::class,
         '\omnilight\assets\MomentAsset'
     ];
 }

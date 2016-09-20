@@ -181,6 +181,9 @@ $config = [
                     'saveToView' => 'breadcrumbs',
                 ],
             ],
+            'menus' => [
+                'navbar' => \hipanel\menus\NavBarMenu::class,
+            ],
         ],
         'fileStorage' => [
             'class' => \hipanel\components\FileStorage::class,

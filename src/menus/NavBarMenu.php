@@ -40,9 +40,12 @@ class NavBarMenu extends Menu
             [
                 'label' => UserMenu::widget(),
                 'encode' => false,
+                'options' => [
+                    'class' => 'dropdown user user-menu'
+                ]
             ],
             [
-                'label' => '<i class="fa fa-gears"></i>',
+                'label' => '<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>',
                 'encode' => false,
             ]
         ];
