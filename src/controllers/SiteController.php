@@ -71,7 +71,7 @@ class SiteController extends \hisite\controllers\SiteController
             }
         }
         $user->save();
-        Yii::$app->user->login($user, 3600 * 24 * 30);
+        Yii::$app->user->login($user, Yii::$app->params['login_duration'] ?: 3600 * 24 * 30);
     }
 
     public function actionLogin()
