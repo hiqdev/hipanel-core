@@ -15,6 +15,7 @@ use hipanel\models\User;
 use hisite\actions\RenderAction;
 use hisite\actions\RedirectAction;
 use Yii;
+use yii\filters\AccessControl;
 use yii\authclient\AuthAction;
 use yii\web\BadRequestHttpException;
 
@@ -23,9 +24,22 @@ use yii\web\BadRequestHttpException;
  */
 class SiteController extends \hisite\controllers\SiteController
 {
-    /**
-     * {@inheritdoc}
-     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'loginRequired' => [
+                'class' => AccessControl::class,
+                'only' => ['profile'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function actions()
     {
         return array_merge(parent::actions(), [
@@ -39,11 +53,7 @@ class SiteController extends \hisite\controllers\SiteController
             ],
             'profile' => [
                 'class' => RedirectAction::class,
-                'url'   => function () {
-                    $user = Yii::$app->user;
-
-                    return $user->isGuest ? ['/site/login'] : ['@client/view', 'id' => $user->identity->id];
-                },
+                'url' => ['@client/view', 'id' => Yii::$app->user->identity->id],
             ],
             'lockscreen' => [
                 'class' => RenderAction::class,
