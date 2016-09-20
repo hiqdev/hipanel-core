@@ -27,7 +27,7 @@
             this.updateGridColumnListener();
             this.intervalId = setInterval(function () {
                 if (window.Pace !== undefined) {
-                    Pace.ignore(_this.updateCounts());
+                    Pace.ignore(_this.updateCounts.bind(_this));
                 } else {
                     _this.updateCounts();
                 }

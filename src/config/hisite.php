@@ -9,8 +9,6 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-$params = require COMPOSER_CONFIG_PLUGIN_DIR . '/params.php';
-
 $config = [
     'id' => 'hipanel',
     'name' => 'HiPanel',
@@ -31,7 +29,7 @@ $config = [
     ],
     'components' => [
         'request' => [
-            'enableCsrfCookie'    => true, /// XXX TO BE DISABLED
+            'enableCsrfCookie' => false,
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
         'response' => [

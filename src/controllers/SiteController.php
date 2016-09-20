@@ -11,108 +11,66 @@
 
 namespace hipanel\controllers;
 
-use hipanel\models\ContactForm;
-use hipanel\models\PasswordResetRequestForm;
-use hipanel\models\ResetPasswordForm;
 use hipanel\models\User;
+use hisite\actions\RenderAction;
+use hisite\actions\RedirectAction;
 use Yii;
-use yii\base\InvalidParamException;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
+use yii\authclient\AuthAction;
 use yii\web\BadRequestHttpException;
-use yii\web\Controller;
 
 /**
  * Site controller.
  */
-class SiteController extends Controller
+class SiteController extends \hisite\controllers\SiteController
 {
-    //    public $layout = 'site';
-
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => ['logout', 'signup', 'lockscreen'],
-                'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout', 'lockscreen'],
-                        'roles' => ['@'],
-                        'allow' => true,
-                    ],
-                ],
-            ],
-/*
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-*/
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
     public function actions()
     {
-        return [
+        return array_merge(parent::actions(), [
             'auth' => [
-                'class' => 'yii\authclient\AuthAction',
-                'successCallback' => [$this, 'successCallback'],
+                'class' => AuthAction::class,
+                'successCallback' => [$this, 'onAuthSuccess'],
             ],
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
+            'index' => [
+                'class' => RedirectAction::class,
+                'url'   => ['/dashboard/dashboard'],
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            'profile' => [
+                'class' => RedirectAction::class,
+                'url'   => function () {
+                    $user = Yii::$app->user;
+
+                    return $user->isGuest ? ['/site/login'] : ['@client/view', 'id' => $user->identity->id];
+                },
             ],
-        ];
+            'lockscreen' => [
+                'class' => RenderAction::class,
+            ],
+        ]);
     }
 
-    public function successCallback($client)
+    public function onAuthSuccess($client)
     {
         $attributes = $client->getUserAttributes();
         $user = new User();
         foreach ($user->attributes() as $k) {
-            $user->{$k} = $attributes[$k];
+            if (isset($attributes[$k])) {
+                $user->{$k} = $attributes[$k];
+            }
         }
         $user->save();
         Yii::$app->user->login($user, 3600 * 24 * 30);
     }
 
-    public function actionIndex()
-    {
-        return $this->redirect(['/hipanel/index']);
-        // return $this->render('index');
-    }
-
-    public function actionLockscreen()
-    {
-        return $this->render('lockscreen');
-    }
-
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['/hipanel/index']);
+            return $this->redirect(['/site/index']);
         }
 
         return $this->redirect(['/site/auth', 'authclient' => 'hiam']);
-    }
-
-    public function actionProfile()
-    {
-        return $this->redirect(['@client/view', 'id' => Yii::$app->user->identity->id]);
     }
 
     public function actionLogout()
@@ -130,66 +88,6 @@ class SiteController extends Controller
         $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/signup', compact('back'));
 
         return Yii::$app->response->redirect($url);
-    }
-
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
-    public function actionRequestPasswordReset()
-    {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', 'Check your email for further instructions.');
-
-                return $this->goHome();
-            } else {
-                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
-            }
-        }
-
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionResetPassword($token)
-    {
-        try {
-            $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->getSession()->setFlash('success', 'New password was saved.');
-
-            return $this->goHome();
-        }
-
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
     }
 
 }

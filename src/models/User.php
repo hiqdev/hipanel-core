@@ -14,7 +14,6 @@ namespace hipanel\models;
 use Yii;
 use yii\base\Model;
 use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 
 /**
@@ -22,15 +21,14 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
  * @property string $email
- * @property string $auth_key
+ * @property string $login
  * @property integer $role
  * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
+ * @property string $auth_key
  * @property string $password write-only password
+ * @property string $password_hash
+ * @property string $password_reset_token
  */
 class User extends Model implements IdentityInterface
 {
@@ -42,40 +40,24 @@ class User extends Model implements IdentityInterface
     public $seller;
     public $seller_id;
 
-    private static $_users;
+    public $auth_key;
+    public $password_hash;
+
+    private static $_users = [];
 
     public function save()
     {
-        static::$_users[$this->id]  = $this;
+        static::$_users[$this->id] = $this;
         Yii::$app->session->set('identity:' . $this->id, $this);
     }
 
     public static function findOne($id)
     {
-        $find = static::$_users[$id];
-        if ($find) {
-            return $find;
+        if (isset(static::$_users[$id])) {
+            return static::$_users[$id];
         }
-        $find = Yii::$app->session->get('identity:' . $id);
-        return $find;
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return '{{%user}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::class,
-        ];
+        return Yii::$app->session->get('identity:' . $id);
     }
 
     /**
@@ -179,6 +161,11 @@ class User extends Model implements IdentityInterface
     public function not($key)
     {
         return (int)$this->id !== (int)$key && (string)$this->username !== (string)$key;
+    }
+
+    public function getLogin()
+    {
+        return $this->username;
     }
 
     /**

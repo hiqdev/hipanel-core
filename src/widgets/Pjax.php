@@ -74,7 +74,7 @@ class Pjax extends \yii\widgets\Pjax
         $view = Yii::$app->getView();
 
         // No need to add breadcrumbs, if they are completely empty
-        if (!isset($view->params['breadcrumbs']) || $view->params['breadcrumbs']->count() === 0) {
+        if (!isset($view->params['breadcrumbs'])) {
             return null;
         }
 
