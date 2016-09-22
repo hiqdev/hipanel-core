@@ -188,6 +188,9 @@ $config = [
                 'ru' => 'Русский',
             ]
         ],
+        'reminder' => [
+            'class' => \hiqdev\yii2\reminder\Module::class,
+        ],
     ],
 ];
 
