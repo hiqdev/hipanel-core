@@ -89,14 +89,6 @@ $config = [
                         'merchant' => 'cart.php',
                     ],
                 ],
-                'hipanel/reminder' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'sourceLanguage' => 'en-US',
-                    'basePath' => '@hipanel/messages',
-                    'fileMap' => [
-                        'hipanel/reminder' => 'reminder.php',
-                    ],
-                ],
             ],
         ],
         'orientationStorage' => [
