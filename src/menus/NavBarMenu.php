@@ -2,11 +2,11 @@
 
 namespace hipanel\menus;
 
-use hipanel\widgets\ReminderTop;
 use hipanel\widgets\UserMenu;
 use hiqdev\menumanager\Menu;
 use hiqdev\yii2\cart\widgets\PanelTopCart;
 use hiqdev\yii2\language\widgets\LanguageMenu;
+use hiqdev\yii2\reminder\widgets\ReminderTop;
 
 class NavBarMenu extends Menu
 {
