@@ -17,8 +17,11 @@ $config = [
     'vendorPath' => '@root/vendor',
     'runtimePath' => '@root/runtime',
     'controllerNamespace' => 'hipanel\controllers',
-    'bootstrap' => ['log', 'themeManager', 'language', 'menuManager'],
-    'params' => $params,
+    'bootstrap' => [
+        'log' => 'log',
+        'themeManager' => 'themeManager',
+        'language' => 'language',
+    ],
     'aliases' => [
         '@bower'        => '@vendor/bower-asset',
         '@npm'          => '@vendor/npm-asset',
@@ -166,15 +169,10 @@ $config = [
         'menuManager' => [
             'class' => \hiqdev\menumanager\MenuManager::class,
             'items' => [
+                'navbar' => \hipanel\menus\NavbarMenu::class,
                 'sidebar' => [
-                    'items' => [],
+                    'class' => \hipanel\menus\SidebarMenu::class,
                 ],
-                'breadcrumbs' => [
-                    'saveToView' => 'breadcrumbs',
-                ],
-            ],
-            'menus' => [
-                'navbar' => \hipanel\menus\NavBarMenu::class,
             ],
         ],
         'fileStorage' => [

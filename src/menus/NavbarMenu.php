@@ -8,10 +8,8 @@ use hiqdev\yii2\cart\widgets\PanelTopCart;
 use hiqdev\yii2\language\widgets\LanguageMenu;
 use hiqdev\yii2\reminder\widgets\ReminderTop;
 
-class NavBarMenu extends Menu
+class NavbarMenu extends Menu
 {
-    protected $_addTo = 'navbar';
-
     public function items()
     {
         return [
