@@ -32,7 +32,7 @@ class NavbarMenu extends Menu
                 'label' => PanelTopCart::widget(),
                 'encode' => false,
                 'options' => [
-                    'class' => 'dropdown notifications-menu'
+                    'class' => 'dropdown notifications-menu notifications-cart'
                 ],
             ],
             [
