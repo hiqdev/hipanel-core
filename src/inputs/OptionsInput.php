@@ -2,7 +2,7 @@
 
 namespace hipanel\inputs;
 
-class BooleanInput
+class OptionsInput
 {
     private $options;
 
