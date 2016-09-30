@@ -50,26 +50,6 @@ class Controller extends \yii\web\Controller
     protected $_internalActions;
 
     /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only'  => ['index'],
-                'rules' => [
-                    [
-                        'actions' => ['index'],
-                        'allow'   => true,
-                        'roles'   => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    /**
      * @param string $submodel the submodel that will be added to the ClassName
      * @return string Main Model class name
      */
