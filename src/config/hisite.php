@@ -41,9 +41,6 @@ $config = [
         'cache' => [
             'class' => \hipanel\components\Cache::class,
         ],
-        'authManager' => [
-            'class' => \hipanel\components\AuthManager::class,
-        ],
         'hiart' => [
             'class' => \hipanel\components\Connection::class,
             'config' => [
