@@ -159,9 +159,6 @@ $config = [
             'assets' => [
                 \hipanel\assets\AppAsset::class,
             ],
-            'pathDirs' => [
-                'hisite' => '@hipanel',
-            ],
         ],
         'menuManager' => [
             'class' => \hiqdev\menumanager\MenuManager::class,
