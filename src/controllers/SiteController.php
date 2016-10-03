@@ -86,12 +86,8 @@ class SiteController extends \hisite\controllers\SiteController
     public function actionLogout()
     {
         $back = Yii::$app->request->getHostInfo();
-        if (!Yii::$app->user->isGuest) {
-            $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/logout', compact('back'));
-            Yii::$app->user->logout();
-        } else {
-            $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/login', compact('back'));
-        }
+        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/logout', compact('back'));
+        Yii::$app->user->logout();
 
         return Yii::$app->response->redirect($url);
     }
