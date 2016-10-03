@@ -64,7 +64,7 @@ class Connection extends \hiqdev\hiart\Connection
 
         $identity = $user->identity;
         if ($identity === null) {
-            Yii::$app->response->redirect('/site/logout');
+            Yii::$app->response->redirect('/site/login');
             Yii::$app->end();
         }
 
