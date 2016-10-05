@@ -20,6 +20,7 @@ return [
     'cookieValidationKey'   => '',
     'debug_allowed_ips'     => [],
     'fileStorageSecret'     => null,
+    'currency'              => 'usd',
 
     'poweredByName'         => 'HiPanel',
     'poweredByUrl'          => 'https://hipanel.com/',
