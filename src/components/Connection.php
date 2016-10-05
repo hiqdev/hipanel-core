@@ -74,16 +74,6 @@ class Connection extends \hiqdev\hiart\Connection
             Yii::$app->end();
         }
 
-        if ($user->identity) {
-            return ['access_token' => $token];
-        }
-
-        if ($user->loginRequired() !== null) {
-            Yii::trace('Login is required. Redirecting to the login page', 'hipanel');
-            Yii::$app->response->send();
-            Yii::$app->end();
-        }
-
-        return [];
+        return ['access_token' => $token];
     }
 }
