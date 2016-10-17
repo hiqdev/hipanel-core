@@ -33,12 +33,13 @@ use yii\web\IdentityInterface;
 class User extends Model implements IdentityInterface
 {
     public $id;
-    public $name;
     public $email;
     public $username;
     public $type;
     public $seller;
     public $seller_id;
+    public $last_name;
+    public $first_name;
 
     public $auth_key;
     public $password_hash;
@@ -84,11 +85,9 @@ class User extends Model implements IdentityInterface
     public function getAccessToken()
     {
         $client = Yii::$app->authClientCollection->getClient();
-        if ($client->getAccessToken() === null) {
-            return null;
-        }
+        $token = $client->getAccessToken();
 
-        return $client->getAccessToken()->getParam('access_token');
+        return $token ? $token->getParam('access_token') : null;
     }
 
     /**
@@ -166,6 +165,11 @@ class User extends Model implements IdentityInterface
     public function getLogin()
     {
         return $this->username;
+    }
+
+    public function getName()
+    {
+        return trim($this->first_name . ' ' . $this->last_name);
     }
 
     /**
