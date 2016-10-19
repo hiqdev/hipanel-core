@@ -21,11 +21,11 @@ class ThemeSettingsStorage extends Component implements SettingsStorageInterface
     /**
      * @var string
      */
-    public $cacheKey;
+    public $cacheKey = ['themeSettingsStorage'];
 
     public function init()
     {
-        if ($this->cacheKey === null) {
+        if ($this->cacheKey === null && !Yii::$app->user->getIsGuest()) {
             $this->cacheKey = ['themeSettingsStorage', Yii::$app->user->id];
         }
     }
@@ -43,6 +43,10 @@ class ThemeSettingsStorage extends Component implements SettingsStorageInterface
      */
     public function set(Model $model)
     {
+        if (Yii::$app->user->getIsGuest()) {
+            return;
+        }
+
         $data = $model->toArray();
 
         $this->getStorage()->setBounded('theme', $data);
@@ -54,6 +58,10 @@ class ThemeSettingsStorage extends Component implements SettingsStorageInterface
      */
     public function get()
     {
+        if (Yii::$app->user->getIsGuest()) {
+            return [];
+        }
+
         if (($cache = $this->getCache()->get($this->cacheKey)) !== false) {
             return $cache;
         }
