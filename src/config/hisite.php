@@ -172,7 +172,13 @@ $config = [
         'fileStorage' => [
             'class' => \hipanel\components\FileStorage::class,
             'secret' => $params['fileStorageSecret'],
-        ]
+        ],
+        'settingsStorage' => [
+            'class' => \hipanel\components\SettingsStorage::class
+        ],
+        'themeSettingsStorage' => [
+            'class' => \hipanel\components\ThemeSettingsStorage::class
+        ],
     ],
     'modules' => [
         'language' => [
