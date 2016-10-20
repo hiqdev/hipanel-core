@@ -65,7 +65,8 @@ class SettingsStorage extends Component implements SettingsStorageInterface
             'oauthClientBound' => true
         ]));
 
-        return json_decode($response['data'], true);
+        $result = json_decode($response['data'], true);
+        return $result === null ? [] : $result;
     }
 
     /**
