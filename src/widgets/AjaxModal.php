@@ -216,7 +216,7 @@ class AjaxModal extends \yii\bootstrap\Modal
                         jQuery('#$this->id').modal('hide');
                         new PNotify({
                             text: "{$this->successText}",
-                            type: 'info',
+                            type: 'success',
                             buttons: {
                                 sticker: false
                             },
