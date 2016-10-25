@@ -31,19 +31,22 @@ class Ref extends \hiqdev\hiart\ActiveRecord
         if ($translate === null) {
             $translate = 'hipanel';
         }
-        return Yii::$app->get('cache')->getTimeCached(3600, [$name, $options, $translate], function ($name, $options, $translate) {
-            $conditions = array_merge(['gtype' => $name], $options);
-            $function = function ($model) use ($translate) {
-                /** @var self $model */
-                if ($translate !== false) {
-                    return Yii::t($translate, $model->label);
-                }
+        $function = function ($model) use ($translate) {
+            /** @var self $model */
+            if ($translate !== false) {
+                return Yii::t($translate, $model->label);
+            }
 
-                return $model->label;
-            };
+            return $model->label;
+        };
+        $data = Yii::$app->get('cache')->getTimeCached(3600, [$name, $options, $translate], function ($name, $options, $translate) {
+            $conditions = array_merge(['gtype' => $name], $options);
             $result = self::find()->where($conditions)->search();
 
-            return ArrayHelper::map($result, 'name', $function);
+            return $result;
         });
+        $result = ArrayHelper::map($data, 'name', $function);
+
+        return $result;
     }
 }
