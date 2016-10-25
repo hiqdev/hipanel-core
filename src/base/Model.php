@@ -71,6 +71,11 @@ class Model extends \hiqdev\hiart\ActiveRecord
        ];
     }
 
+    public function attributeLabels()
+    {
+        return $this->defaultAttributeLabels();
+    }
+
     protected static $mergedLabels = [];
 
     /**
