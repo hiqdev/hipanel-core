@@ -1,61 +1,7 @@
 <?php
 
-use hipanel\assets\ElementQueryAsset;
-use yii\web\View;
-
-$this->registerCss('
-.affix {
-    top: 5px;
-}
-.affix-bottom {
-    position: fixed!important;
-}
-@media (min-width: 768px) {
-    .affix {
-        position: fixed;
-    }
-}
-@media (max-width: 768px) {
-    .affix {
-        position: static;
-    }
-}
-.advanced-search[min-width~="150px"] form > div {
-    width: 100%;
-}
-');
-$this->registerJs("
-$(document).on('pjax:end', function() {
-    $('.advanced-search form > div').css({'width': '100%'});
-});
-function affixInit() {
-    $('#scrollspy').affix({
-        offset: {
-            top: ($('header.main-header').outerHeight(true) + $('section.content-header').outerHeight(true)) + 15,
-            bottom: ($('footer').outerHeight(true)) + 15
-        }
-    });
-}
-if ($(window).height() > $('#scrollspy').outerHeight(true) && $(window).width() > 991) {
-    if ( $('#scrollspy').outerHeight(true) < $('.horizontal-view .col-md-9 > .box').outerHeight(true) ) {
-        var fixAffixWidth = function() {
-            $('#scrollspy').each(function() {
-                $(this).width( $(this).parent().width() );
-            });
-        }
-        fixAffixWidth();
-        $(window).resize(fixAffixWidth);
-        affixInit();
-        $('a.sidebar-toggle').click(function() {
-            setTimeout(function(){
-                fixAffixWidth();
-            }, 500);
-        });
-    }
-    
-}
-", View::POS_LOAD);
 $widget = $this->context;
+
 ?>
 <div class="horizontal-view">
     <div class="row">

@@ -21,6 +21,7 @@ use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\web\View;
 
 class IndexPage extends Widget
 {
@@ -107,7 +108,7 @@ class IndexPage extends Widget
             }
         });
 JS
-);
+        );
     }
 
     /**
@@ -151,7 +152,71 @@ JS
 
     public function run()
     {
-        return $this->render($this->getLayout());
+        $layout = $this->getLayout();
+        if ($layout === 'horizontal') {
+            $this->horizontalClientScriptInit();
+        }
+
+        return $this->render($layout);
+    }
+
+    private function horizontalClientScriptInit()
+    {
+        $view = $this->getView();
+        $view->registerCss('
+            .affix {
+                top: 5px;
+            }
+            .affix-bottom {
+                position: fixed!important;
+            }
+            @media (min-width: 768px) {
+                .affix {
+                    position: fixed;
+                }
+            }
+            @media (max-width: 768px) {
+                .affix {
+                    position: static;
+                }
+            }
+            .advanced-search[min-width~="150px"] form > div {
+                width: 100%;
+            }
+        ');
+        $view->registerJs("
+            function affixInit() {
+                $('#scrollspy').affix({
+                    offset: {
+                        top: ($('header.main-header').outerHeight(true) + $('section.content-header').outerHeight(true)) + 15,
+                        bottom: ($('footer').outerHeight(true)) + 15
+                    }
+                });
+            }
+            $(document).on('pjax:end', function() {
+                $('.advanced-search form > div').css({'width': '100%'});
+                
+                // Fix left search block position
+                $(window).trigger('scroll');
+            });
+            if ($(window).height() > $('#scrollspy').outerHeight(true) && $(window).width() > 991) {
+                if ( $('#scrollspy').outerHeight(true) < $('.horizontal-view .col-md-9 > .box').outerHeight(true) ) {
+                    var fixAffixWidth = function() {
+                        $('#scrollspy').each(function() {
+                            $(this).width( $(this).parent().width() );
+                        });
+                    }
+                    fixAffixWidth();
+                    $(window).resize(fixAffixWidth);
+                    affixInit();
+                    $('a.sidebar-toggle').click(function() {
+                        setTimeout(function(){
+                            fixAffixWidth();
+                        }, 500);
+                    });
+                }
+            }
+        ", View::POS_LOAD);
     }
 
     public function detectLayout()
@@ -213,8 +278,8 @@ JS
             'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
                 'items' => [
-                    ['label' => '25',  'url' => Url::current(['per_page' => null])],
-                    ['label' => '50',  'url' => Url::current(['per_page' => 50])],
+                    ['label' => '25', 'url' => Url::current(['per_page' => null])],
+                    ['label' => '50', 'url' => Url::current(['per_page' => 50])],
                     ['label' => '100', 'url' => Url::current(['per_page' => 100])],
                     ['label' => '200', 'url' => Url::current(['per_page' => 200])],
                     ['label' => '500', 'url' => Url::current(['per_page' => 500])],
@@ -233,7 +298,7 @@ JS
     public static function renderRepresentations($grid, $current)
     {
         $representations = $grid::getRepresentations();
-        if (count($representations)<2) {
+        if (count($representations) < 2) {
             return '';
         }
         if (!isset($representations[$current])) {
@@ -243,7 +308,7 @@ JS
         foreach ($representations as $key => $data) {
             $items[] = [
                 'label' => $data['label'],
-                'url'   => Url::current(['representation' => $key]),
+                'url' => Url::current(['representation' => $key]),
             ];
         }
 
@@ -259,8 +324,8 @@ JS
     public function renderSorter(array $options)
     {
         return LinkSorter::widget(array_merge([
-            'show'  => true,
-            'sort'  => $this->dataProvider->getSort(),
+            'show' => true,
+            'sort' => $this->dataProvider->getSort(),
             'buttonClass' => 'btn btn-default dropdown-toggle btn-sm',
         ], $options));
     }
@@ -288,10 +353,10 @@ JS
     public function renderBulkButton($text, $action, $color = 'default')
     {
         return Html::submitButton($text, [
-            'class'         => "btn btn-$color btn-sm",
-            'form'          => $this->getBulkFormId(),
-            'formmethod'    => 'POST',
-            'formaction'    => $action,
+            'class' => "btn btn-$color btn-sm",
+            'form' => $this->getBulkFormId(),
+            'formmethod' => 'POST',
+            'formaction' => $action,
         ]);
     }
 
