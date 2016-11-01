@@ -21,7 +21,7 @@ class ThemeSettingsStorage extends Component implements SettingsStorageInterface
     /**
      * @var string
      */
-    public $cacheKey = ['themeSettingsStorage'];
+    public $cacheKey;
 
     public function init()
     {
@@ -50,7 +50,7 @@ class ThemeSettingsStorage extends Component implements SettingsStorageInterface
         $data = $model->toArray();
 
         $this->getStorage()->setBounded('theme', $data);
-        $this->getCache()->set($this->cacheKey, $data, 86400); // 1 day
+        $this->setToCache($data);
     }
 
     /**
@@ -62,13 +62,31 @@ class ThemeSettingsStorage extends Component implements SettingsStorageInterface
             return [];
         }
 
-        if (($cache = $this->getCache()->get($this->cacheKey)) !== false) {
-            return $cache;
+        if (($cached = $this->getFromCache()) !== false) {
+            return $cached;
         }
 
         $storage = $this->getStorage()->getBounded('theme');
-        $this->getCache()->set($this->cacheKey, $storage, 86400); // 1 day
+        $this->setToCache($storage);
 
         return $storage;
+    }
+
+    private function getFromCache()
+    {
+        if ($this->cacheKey === null) {
+            return false;
+        }
+
+        return $this->getCache()->get($this->cacheKey);
+    }
+
+    private function setToCache($data)
+    {
+        if ($this->cacheKey !== null) {
+            return false;
+        }
+
+        return $this->getCache()->set($this->cacheKey, $data, 86400); // 1 day
     }
 }
