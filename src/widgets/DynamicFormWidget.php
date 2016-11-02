@@ -19,6 +19,7 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
     public function registerAssets($view)
     {
         parent::registerAssets($view);
+        // For init select2
         $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
                 var options = eval($(this).data('dynamicform'));
@@ -36,6 +37,30 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
 
                         var config_id = $(template[0]).data('field').id;
                         $(item).closest(options.widgetItem).combo().register($(this), config_id);
+                    });
+                }
+            });
+JS
+        );
+        // For init datetime picker
+        $view->registerJs(<<<JS
+            $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
+                var options = eval($(this).data('dynamicform'));
+                var pickers = $(item).find('[data-krajee-datetimepicker]');
+                if (pickers.length > 0) {
+                    pickers.each(function() {
+                        var pickerItem = this;
+                        var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-krajee-datetimepicker]').filter(function () {
+                            return $(this).data('krajee-datetimepicker') == $(pickerItem).data('krajee-datetimepicker');
+                        });
+
+                        if (template.length == 0) {
+                            return true;
+                        }
+
+                        var config_id = $(template[0]).data('krajee-datetimepicker');
+                        var elementId = $(pickerItem).attr('id');
+                        $('#' + elementId + '-datetime').datetimepicker(config_id);
                     });
                 }
             });
