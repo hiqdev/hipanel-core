@@ -65,8 +65,9 @@ class AmountWithCurrency extends \yii\base\Widget
 
     public function run()
     {
+        $this->initClientScript();
+
         return $this->render((new \ReflectionClass($this))->getShortName(), [
-            'widgetId' => mt_rand(),
             'model' => $this->model,
 
             'attribute' => $this->attribute,
@@ -77,5 +78,17 @@ class AmountWithCurrency extends \yii\base\Widget
             'selectAttributeOptions' => $this->selectAttributeOptions,
             'selectAttributeValue' => $this->selectAttributeValue,
         ]);
+    }
+
+    public function initClientScript()
+    {
+        $this->getView()->registerJs(<<<'JS'
+        $(document).on('click', '.amount-with-currency-widget a', function(e) {
+            var $item = $(this);
+            $item.parents('.amount-with-currency-widget').find('.iwd-label').text($item.data('label'));
+            $item.parents('.amount-with-currency-widget').find(':hidden').val($item.data('value'));
+        });
+JS
+        );
     }
 }

@@ -4,16 +4,8 @@ use hipanel\helpers\StringHelper;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-$this->registerJs(<<<JS
-    $('#$widgetId .dropdown-menu a').on('click', function (event) {
-        var elem = $(this);
-        $('#$widgetId .iwd-label').text(elem.data('label'));
-        $('#$widgetId :hidden').val(elem.data('value'));
-    });
-JS
-);
 ?>
-<div id="<?= $widgetId ?>" class="input-group amount-with-currency-widget">
+<div class="input-group amount-with-currency-widget">
     <div class="input-group-btn">
         <button type="button" class="btn btn-default iwd-label dropdown-toggle" data-toggle="dropdown">
             <?= StringHelper::getCurrencySymbol(Html::getAttributeValue($model, $selectAttribute)) ?>
