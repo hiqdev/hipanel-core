@@ -83,7 +83,7 @@ class ThemeSettingsStorage extends Component implements SettingsStorageInterface
 
     private function setToCache($data)
     {
-        if ($this->cacheKey !== null) {
+        if ($this->cacheKey === null) {
             return false;
         }
 
