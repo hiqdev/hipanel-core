@@ -22,7 +22,7 @@ use yii\helpers\ArrayHelper;
  */
 trait SearchModelTrait
 {
-    public static $filterConditions = ['in', 'like', 'gt', 'ge', 'lt', 'le'];
+    public static $filterConditions = ['in', 'ne', 'like', 'gt', 'ge', 'lt', 'le'];
 
     public function attributes()
     {
