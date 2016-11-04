@@ -227,7 +227,7 @@ return [
     'Disable block' => 'Разблокировать',
     'Are you sure you want to block this object' => 'Вы уверены, что хотите заблокировать этот объект',
     'Are you sure you want to unblock this object' => 'Вы уверены, что хотите разблокировать этот объект',
-    /// 'Check whether all of the violations were eliminated' => '',
+    'Check whether all of the violations were eliminated' => 'Убедитесь что все нарушения были устранены',
     'Block reason' => 'Причина блокировки',
     'Select block reason' => 'Выберите причину блокировки',
 
