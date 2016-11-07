@@ -134,7 +134,7 @@ return [
     'report' => 'отчёт',
     'brief'=> 'краткий',
     'Details' => 'Подробности',
-    'Detailed information' => 'Подбробная информация',
+    'Detailed information' => 'Подробная информация',
     'detailed information' => 'подробная информация',
     'detailed' => 'подробный',
     'Information' => 'Информация',
