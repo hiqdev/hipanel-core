@@ -246,7 +246,9 @@ return [
 
     /// States
     'State' => 'Состояние',
+    'States' => 'Состояния',
     'Status' => 'Статус',
+    'Statuses' => 'Статусы',
     'Ok' => 'Ok',
     'Deleted' => 'Удалён',
     'Enabled' => 'Включён',
