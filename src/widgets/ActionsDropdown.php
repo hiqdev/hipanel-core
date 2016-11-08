@@ -10,8 +10,6 @@ class ActionsDropdown extends Widget
 {
     public $icon = '<i class="fa fa-ellipsis-v"></i>';
 
-    public $model;
-
     public $items;
 
     public function run()
@@ -27,10 +25,5 @@ class ActionsDropdown extends Widget
         $html .= Html::endTag('div');
 
         return $html;
-    }
-
-    protected function prepareItems()
-    {
-
     }
 }
