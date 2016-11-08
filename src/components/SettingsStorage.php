@@ -5,6 +5,7 @@ namespace hipanel\components;
 use hiqdev\hiart\Connection;
 use yii\base\Component;
 use yii\di\Instance;
+use Yii;
 
 class SettingsStorage extends Component implements SettingsStorageInterface
 {
@@ -52,7 +53,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
             'oauthClientBound' => false
         ]));
 
-        return json_decode($response['data'], true);
+        return $this->decodeResponse($response);
     }
 
     /**
@@ -65,8 +66,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
             'oauthClientBound' => true
         ]));
 
-        $result = json_decode($response['data'], true);
-        return $result === null ? [] : $result;
+        return $this->decodeResponse($response);
     }
 
     /**
@@ -78,6 +78,16 @@ class SettingsStorage extends Component implements SettingsStorageInterface
      */
     private function perform($key, $value)
     {
+        if (Yii::$app->user->isGuest) {
+            return [];
+        }
+
         return $this->connection->createCommand()->perform($key, $value);
+    }
+
+    private function decodeResponse($response)
+    {
+        $result = json_decode(isset($response['data']) ? $response['data'] : '{}', true);
+        return $result === null ? [] : $result;
     }
 }
