@@ -21,6 +21,10 @@ class Box extends Widget
      */
     public $title = null;
 
+    public $collapsed = false;
+
+    public $collapsable = false;
+
     /**
      * Small helper for title.
      * @var null
@@ -58,6 +62,9 @@ class Box extends Widget
      */
     public function init()
     {
+        if ($this->collapsed) {
+            $this->collapsable = true;
+        }
         $this->initOptions();
         echo Html::beginTag('div', $this->options) . "\n";
         // Begin box
@@ -112,6 +119,13 @@ class Box extends Widget
         if ($this->title !== null) {
             echo Html::tag('h3', $this->title, ['class' => 'box-title']);
         }
+        if ($this->collapsable) {
+            echo '<div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-' . ($this->collapsed ? 'plus' : 'minus') . '"></i>
+                </button>
+            </div>';
+        }
     }
 
     /**
@@ -164,6 +178,9 @@ class Box extends Widget
         $this->headerOptions['class'] = isset($this->headerOptions['class']) ? 'box-header with-border ' . $this->headerOptions['class'] : 'box-header with-border';
         $this->bodyOptions['class'] = isset($this->bodyOptions['class']) ? 'box-body ' . $this->bodyOptions['class'] : 'box-body';
         $this->footerOptions['class'] = isset($this->footerOptions['class']) ? 'box-footer ' . $this->footerOptions['class'] : 'box-footer';
+        if ($this->collapsed) {
+            $this->options['class'] .= ' collapsed-box';
+        }
     }
 
     /**
