@@ -62,11 +62,19 @@ class MainColumn extends DataColumn
     /** {@inheritdoc} */
     protected function renderDataCellContent($model, $key, $index)
     {
-        $link   = $this->renderViewLink($model, $key, $index);
-        $note   = $this->renderNoteLink($model, $key, $index);
+        if ($this->value !== null) {
+            if (is_string($this->value)) {
+                $value = ArrayHelper::getValue($model, $this->value);
+            } else {
+                $value = call_user_func($this->value, $model, $key, $index, $this);
+            }
+        } else {
+            $value = $this->renderViewLink($model, $key, $index);
+        }
+        $note = $this->renderNoteLink($model, $key, $index);
         $badges = $this->badges instanceof Closure ? call_user_func($this->badges, $model, $key, $index) : $this->badges;
 
-        return $link . ($badges ? ' ' . $badges : '') . ($note ? '<br>' . $note : '');
+        return $value . ($badges ? ' ' . $badges : '') . ($note ? '<br>' . $note : '');
     }
 
     public function renderViewLink($model, $key, $index)
@@ -85,9 +93,9 @@ class MainColumn extends DataColumn
     public function renderNoteLink($model, $key, $index)
     {
         return $this->note ? Html::tag('span', Yii::t('hipanel', 'Note') . ': ', ['class' => 'bold']) . XEditable::widget([
-            'model'         => $model,
-            'attribute'     => $this->note === true ? 'note' : $this->note,
-            'pluginOptions' => $this->noteOptions,
-        ]) : null;
+                'model' => $model,
+                'attribute' => $this->note === true ? 'note' : $this->note,
+                'pluginOptions' => $this->noteOptions,
+            ]) : null;
     }
 }
