@@ -23,8 +23,8 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $email
  * @property string $login
- * @property integer $role
- * @property integer $status
+ * @property string $roles
+ * @property string $status
  * @property string $auth_key
  * @property string $password write-only password
  * @property string $password_hash
@@ -36,6 +36,7 @@ class User extends Model implements IdentityInterface
     public $email;
     public $username;
     public $type;
+    public $roles;
     public $seller;
     public $seller_id;
     public $last_name;
