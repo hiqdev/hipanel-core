@@ -14,6 +14,7 @@
  */
 
 return [
+    'wrong pincode' => 'Неверный пин-код',
     /// General words
     'or' => 'или',
     'Empty' => 'Пусто',
