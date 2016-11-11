@@ -216,7 +216,7 @@ return [
     'Password has been changed successfully' => 'Пароль был изменён успешно',
     'Password must not be equal to login' => 'Пароль должен отличаться от логина',
     'This will immediately terminate all sessions of the user!' => 'Это прервёт все сессии пользователя!',
-    'To confirm this operation please enter your PIN code' => 'Для подтверждения вам надо ввести PIN-код',
+    'To confirm this operation please enter your PIN code' => 'Для подтверждения введите PIN-код',
 
     /// Blocking
     'block' => 'блокировка',
