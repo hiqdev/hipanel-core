@@ -76,7 +76,7 @@
         "kartik-v/yii2-widget-datetimepicker": "^1.4",
         "vova07/yii2-select2-widget": "*",
         "cebe/yii2-gravatar": "*",
-        "michelf/php-smartypants": "1.6.*@dev",
+        "michelf/php-smartypants": "^1.8.0",
         "stichoza/google-translate-php": "~3.0",
         "wbraganca/yii2-dynamicform": "*",
         "bower-asset/elementquery": "*",
