@@ -2,7 +2,6 @@
 
 namespace hipanel\menus;
 
-use hipanel\widgets\UserMenu;
 use hiqdev\menumanager\Menu;
 use hiqdev\yii2\cart\widgets\CartTeaser;
 use hiqdev\yii2\language\widgets\LanguageMenu;
@@ -36,7 +35,7 @@ class NavbarMenu extends Menu
                 ],
             ],
             [
-                'label' => UserMenu::widget(),
+                'label' => UserMenu::create()->render(),
                 'encode' => false,
                 'options' => [
                     'class' => 'dropdown user user-menu'
@@ -45,7 +44,7 @@ class NavbarMenu extends Menu
             [
                 'label' => '<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>',
                 'encode' => false,
-            ]
+            ],
         ];
     }
 }
