@@ -10,6 +10,7 @@
  */
 
 $config = [
+    'class' => \hipanel\base\Application::class,
     'id' => 'hipanel',
     'name' => 'HiPanel',
     'basePath' => dirname(__DIR__),
