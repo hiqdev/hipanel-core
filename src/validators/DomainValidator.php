@@ -30,6 +30,12 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
     public $enableIdn = false;
 
     /**
+     * @var bool whether to update attribute value with converted IDN.
+     * Works only when [[enableIdn]] is set to `true`.
+     */
+    public $mutateAttribute = true;
+
+    /**
      * {@inheritdoc}
      */
     public function init()
@@ -45,23 +51,33 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
      */
     public function validateAttribute($model, $attribute)
     {
+        $value = $model->$attribute;
+
         if ($this->enableIdn) {
-            $model->$attribute = idn_to_ascii($model->$attribute);
+            $value = static::convertIdnToAscii($value);
+
+            if ($this->mutateAttribute) {
+                $model->$attribute = $value;
+            }
         }
 
-        parent::validateAttribute($model, $attribute);
+        $result = $this->validateValue($value);
+
+        if (!empty($result)) {
+            $this->addError($model, $attribute, $result[0], $result[1]);
+        }
     }
 
     /**
      * @param string $value the IDN domain name that should be converted to ASCII
      * @return string
      */
-    public function convertIdnToAscii($value)
+    public static function convertIdnToAscii($value)
     {
         return idn_to_ascii($value);
     }
 
-    public function convertAsciiToIdn($value)
+    public static function convertAsciiToIdn($value)
     {
         return idn_to_utf8($value);
     }
