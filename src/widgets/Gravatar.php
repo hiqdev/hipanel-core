@@ -15,6 +15,8 @@ class Gravatar extends \cebe\gravatar\Gravatar
 {
     public $defaultImage = 'identicon';
 
+    public $rating = 'pg';
+
     protected $_emailHash;
 
     public function setEmailHash($hash)
