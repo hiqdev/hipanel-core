@@ -275,4 +275,5 @@ return [
     '{attribute} should begin with a letter, contain only letters, digits or underscores and be at least 2 symbols length' => '{attribute} должны начинаться с буквы, содержать только буквы, цифры или подчеркивания и по меньшей мере 2 символов длиной',
     'Invalid data input' => 'Неверный ввод данных',
     'No items selected' => 'Элементы не выбраны',
+    'object is freezed' => 'Невозможно выполнить действие, объект заморожен',
 ];
