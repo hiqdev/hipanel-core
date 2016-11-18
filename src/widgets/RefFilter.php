@@ -56,6 +56,14 @@ class RefFilter extends Widget
     public $i18nDictionary;
 
     /**
+     * @var array of elements that will be merged with elements extracted from [[Ref]]
+     * and passed to [[ArrayHelper::merge()]] as a second attribute.
+     *
+     * @see ArrayHelper::merge()
+     */
+    public $elementOverrides = [];
+
+    /**
      * @var array
      */
     public $options = [];
@@ -84,10 +92,16 @@ class RefFilter extends Widget
 
     protected function renderInput()
     {
-        $elements = Ref::getList($this->gtype, $this->i18nDictionary, $this->findOptions);
-        return Html::activeDropDownList($this->model, $this->attribute, $elements, ArrayHelper::merge([
+        return Html::activeDropDownList($this->model, $this->attribute, $this->getRefs(), ArrayHelper::merge([
             'class'     => 'form-control',
             'prompt'    => Yii::t('hipanel', '----------'),
         ], $this->options));
+    }
+
+    protected function getRefs()
+    {
+        $elements = Ref::getList($this->gtype, $this->i18nDictionary, $this->findOptions);
+
+        return ArrayHelper::merge($elements, $this->elementOverrides);
     }
 }

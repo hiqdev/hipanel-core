@@ -28,6 +28,12 @@ class RefColumn extends DataColumn
      */
     public $i18nDictionary;
 
+    /**
+     * @var array
+     * @see RefFilter::elementOverrides for details
+     */
+    public $filterOverrides = [];
+
     /** {@inheritdoc} */
     protected function renderFilterCellContent()
     {
@@ -38,6 +44,7 @@ class RefColumn extends DataColumn
             'gtype' => $this->gtype,
             'findOptions' => $this->findOptions,
             'options' => $this->filterInputOptions,
+            'elementOverrides' => $this->filterOverrides,
         ]);
     }
 }
