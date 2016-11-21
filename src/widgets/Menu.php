@@ -11,8 +11,6 @@
 
 namespace hipanel\widgets;
 
-use yii\helpers\Url;
-
 /**
  * Class Menu
  * Themed menu widget.
