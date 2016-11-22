@@ -276,4 +276,9 @@ return [
     'Invalid data input' => 'Неверный ввод данных',
     'No items selected' => 'Элементы не выбраны',
     'object is freezed' => 'Невозможно выполнить действие, объект заморожен',
+    'not allowed' => 'Операция не доступна',
+    'WP Freeze Enabled' => 'WP заморозка включена',
+    'WP Freeze Disabled' => 'WP заморозка выключена',
+    'WP Freeze does not enabled' => 'WP Фриз не включен',
+    'Object status prohibits operation' => 'Статус объекта не позволят совершить эту операцию',
 ];
