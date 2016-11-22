@@ -61,6 +61,12 @@ class Type extends \hipanel\widgets\Label
         }
 
         $this->color = isset($class) ? $class : 'warning';
-        $this->label  = Yii::t($this->i18nDictionary, $this->model->{"{$this->field}_label"} ?: Inflector::titleize($this->model->{$this->field}));
+
+        if ($this->model->hasAttribute("{$this->field}_label")) {
+            $label = $this->model->getAttribute("{$this->field}_label");
+        } else {
+            $label = Inflector::titleize($this->model->{$this->field});
+        }
+        $this->label  = Yii::t($this->i18nDictionary, $label);
     }
 }
