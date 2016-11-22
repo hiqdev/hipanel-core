@@ -20,11 +20,11 @@ class AppAsset extends AssetBundle
 {
     public $sourcePath = '@hipanel/assets/AppAssetFiles';
     public $css = [
-        '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css',
         '//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
         'css/panel.css',
     ];
     public $js = [
+        '//use.fontawesome.com/d3569e4a36.js',
         'js/panel.js',
         'js/ResizeSensor.js',
         'js/ElementQueries.js',
