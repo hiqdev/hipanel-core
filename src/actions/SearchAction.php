@@ -54,7 +54,7 @@ class SearchAction extends SwitchAction
     public $ajaxResponseFormatter;
 
     /**
-     * @var \yii\data\ActiveDataProvider stores ActiveDataProvider after creating by [[getDataProvider]]
+     * @var ActiveDataProvider stores ActiveDataProvider after creating by [[getDataProvider]]
      * @see getDataProvider()
      */
     public $dataProvider;

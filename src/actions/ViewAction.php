@@ -11,9 +11,8 @@
 
 namespace hipanel\actions;
 
+use hiqdev\hiart\ActiveDataProvider;
 use Yii;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 

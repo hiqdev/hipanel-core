@@ -25,7 +25,7 @@ class File extends \hiqdev\hiart\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'type_id', 'state_id', 'client_id', 'seller_id', 'object_id'], 'integer'],
+            [['id', 'type_id', 'state_id', 'client_id', 'seller_id', 'object_id', 'size'], 'integer'],
             [['filename', 'md5', 'type', 'state', 'client', 'seller', 'create_time', 'update_time'], 'safe'],
 
             [['url', 'filename'], 'string', 'on' => ['put']],

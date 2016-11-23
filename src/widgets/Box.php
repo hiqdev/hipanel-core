@@ -53,7 +53,10 @@ class Box extends Widget
     public $headerOptions = [];
 
     /**
-     * @var boolean Whether to render the box body
+     * @var boolean Whether to render the box body immediately.
+     * Should be switched off if you prefer to call [[beginBody]] and [[endBody]] manually
+     * @see beginBody()
+     * @see endBody()
      */
     public $renderBody = true;
 
