@@ -69,11 +69,15 @@ class FileRender extends Widget
     public function init()
     {
         parent::init();
+
         if (!$this->file instanceof File) {
             throw new InvalidConfigException('The "data" property must instance of File class.');
         }
         $this->fileStorage = Yii::$app->get($this->fileStorageComponent);
+    }
 
+    public function run()
+    {
         $this->registerClientScript();
         $this->renderHtml();
     }
@@ -97,24 +101,34 @@ class FileRender extends Widget
             $base64 = 'data: ' . $contentType . ';base64,' . base64_encode($thumb);
             echo Html::a(
                 Html::img($base64, ['class' => 'margin']),
-                $this->getLink($file['id']),
+                $this->getLink(),
                 ArrayHelper::merge(['data-lightbox' => 'file-' . $file->id], $this->lightboxLinkOptions)
             );
         } else {
             echo Html::a(
                 Html::tag('div', $this->getExtIcon($file->type), ['class' => 'margin file']),
-                $this->getLink($file->id, true)
+                $this->getLink(true)
             );
         }
     }
 
-    private function getLink($id, $download = false)
+    private function getLink($download = false)
     {
-        if (!$download) {
-            return Url::to(['/file/view', 'id' => $id]);
-        } else {
-            return Url::to(['/file/get', 'id' => $id]);
+        return Url::to($this->getRoute($download));
+    }
+
+    /**
+     * @param string $download whether to return route to download page
+     *
+     * @return array
+     */
+    public function getRoute($download)
+    {
+        if ($download) {
+            return ['/file/get', 'id' => $this->file->id];
         }
+
+        return ['/file/view', 'id' => $this->file->id];
     }
 
     private function getContentType($id)
