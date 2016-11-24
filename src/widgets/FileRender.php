@@ -70,8 +70,8 @@ class FileRender extends Widget
     {
         parent::init();
 
-        if (!$this->file instanceof File) {
-            throw new InvalidConfigException('The "data" property must instance of File class.');
+        if (!($this->file instanceof File)) {
+            throw new InvalidConfigException('The "file" property must instance of File class.');
         }
         $this->fileStorage = Yii::$app->get($this->fileStorageComponent);
     }
