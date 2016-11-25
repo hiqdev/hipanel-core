@@ -49,29 +49,41 @@ class BackButton extends Widget
         return $this->label !== null ? $this->label : Yii::t('hipanel', 'Cancel');
     }
 
+    /**
+     * Apply js to view
+     */
     protected function registerClientScript()
     {
-        $this->getView()->registerJs(";$('.{$this->selectorClass}').on('click', function () {window.history.go({$this->getStep()});});");
+        $this->getView()->registerJs(";$('.{$this->selectorClass}').on('click', function () {window.history.go({$this->getBackStepsCount()});});");
     }
 
     /**
      * @return int
      */
-    protected function getStep()
+    protected function getBackStepsCount()
     {
         return -Yii::$app->session[$this->getIdentifier()];
     }
 
+    /**
+     * @return string
+     */
     protected function getIdentifier()
     {
         return self::class;
     }
 
+    /**
+     * @return string
+     */
     protected function getCurrentUrl()
     {
         return Yii::$app->request->absoluteUrl;
     }
 
+    /**
+     * @return string
+     */
     protected function getReferrerUrl()
     {
         return explode('?', Yii::$app->request->referrer, 2)[0];
