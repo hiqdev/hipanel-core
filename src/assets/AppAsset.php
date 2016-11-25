@@ -24,7 +24,6 @@ class AppAsset extends AssetBundle
         'css/panel.css',
     ];
     public $js = [
-        '//use.fontawesome.com/d3569e4a36.js',
         'js/panel.js',
         'js/ResizeSensor.js',
         'js/ElementQueries.js',
@@ -33,6 +32,7 @@ class AppAsset extends AssetBundle
         \yii\web\YiiAsset::class,
         \yii\bootstrap\BootstrapAsset::class,
         \yii\bootstrap\BootstrapPluginAsset::class,
+        FontAwesome::class,
         LessSpaceAsset::class,
         // Adds Resizable columns JS and CSS to all pages
         // This is a temporary fix because of https://github.com/yiisoft/yii2/issues/2310
