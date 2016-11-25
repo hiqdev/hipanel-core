@@ -54,7 +54,7 @@ class BackButton extends Widget
      */
     protected function registerClientScript()
     {
-        $this->getView()->registerJs(";$('.{$this->selectorClass}').on('click', function () {window.history.go({$this->getBackStepsCount()});});");
+        $this->getView()->registerJs(";$('button.{$this->selectorClass}').on('click', function () {window.history.go({$this->getBackStepsCount()});});");
     }
 
     /**
