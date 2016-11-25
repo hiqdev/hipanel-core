@@ -78,7 +78,7 @@ class BackButton extends Widget
      */
     protected function getCurrentUrl()
     {
-        return Yii::$app->request->absoluteUrl;
+        return $this->removeParams(Yii::$app->request->absoluteUrl);
     }
 
     /**
@@ -86,6 +86,15 @@ class BackButton extends Widget
      */
     protected function getReferrerUrl()
     {
-        return explode('?', Yii::$app->request->referrer, 2)[0];
+        return $this->removeParams(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Remove params from url
+     * @return string
+     */
+    protected function removeParams($url)
+    {
+        return explode('?', $url, 2)[0];
     }
 }
