@@ -74,15 +74,6 @@ class BackButton extends Widget
 
     protected function getReferrerUrl()
     {
-        $out = null;
-        $referrer = Yii::$app->request->referrer;
-        $position = strpos($referrer, '?');
-        if ($position !== false) {
-            $out = substr($referrer, 0, $position);
-        } else {
-            $out = $referrer;
-        }
-
-        return $out;
+        return explode('?', Yii::$app->request->referrer, 2)[0];
     }
 }
