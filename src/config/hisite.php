@@ -74,14 +74,6 @@ $config = [
                         'block-reasons' => 'block-reasons.php',
                     ],
                 ],
-                'app' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
-                    'fileMap' => [
-                        'app' => 'app.php',
-                        'app/error' => 'error.php',
-                    ],
-                ],
                 'cart' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'sourceLanguage' => 'en-US',
