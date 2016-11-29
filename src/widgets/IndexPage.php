@@ -313,7 +313,7 @@ JS
         }
 
         return ButtonDropdown::widget([
-            'label' => Yii::t('synt', 'View') . ': ' . $representations[$current]['label'],
+            'label' => Yii::t('hipanel:synt', 'View') . ': ' . $representations[$current]['label'],
             'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
                 'items' => $items,

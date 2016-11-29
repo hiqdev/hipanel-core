@@ -59,28 +59,17 @@ $config = [
         'i18n' => [
             'class' => \hipanel\components\I18N::class,
             'translations' => [
-                'synt' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
-                    'fileMap' => [
-                        'synt' => 'synt.php',
-                    ],
-                ],
                 'hipanel' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/messages',
-                    'fileMap' => [
-                        'hipanel' => 'hipanel.php',
-                        'block-reasons' => 'block-reasons.php',
-                    ],
                 ],
-                'cart' => [
+                'hipanel:synt' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'sourceLanguage' => 'en-US',
-                    'basePath' => '@hiqdev/yii2/cart/messages',
-                    'fileMap' => [
-                        'merchant' => 'cart.php',
-                    ],
+                    'basePath' => '@hipanel/messages',
+                ],
+                'hipanel:block-reasons' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/messages',
                 ],
             ],
         ],
