@@ -22,10 +22,10 @@ class ClientSellerLink extends \yii\base\Widget
      */
     public $model;
 
-    public $clientAttribute   = null;
-    public $clientIdAttribute = null;
-    public $sellerAttribute   = null;
-    public $sellerIdAttribute = null;
+    public $clientAttribute   = 'client';
+    public $clientIdAttribute = 'client_id';
+    public $sellerAttribute   = 'seller';
+    public $sellerIdAttribute = 'seller_id';
 
     public function run()
     {
@@ -46,29 +46,26 @@ class ClientSellerLink extends \yii\base\Widget
 
     public function getClient()
     {
-        return isset($this->clientAttribute) ? $this->model->{$this->clientAttribute} : $this->model->getClient();
+        return $this->getValue($this->clientAttribute);
     }
 
     public function getClientId()
     {
-        return isset($this->clientIdAttribute) ? $this->model->{$this->clientIdAttribute} : $this->model->getClientId();
+        return $this->getValue($this->clientIdAttribute);
     }
 
     public function getSeller()
     {
-        if ($this->sellerAttribute === false) {
-            return false;
-        }
-
-        return isset($this->sellerAttribute) ? $this->model->{$this->sellerAttribute} : $this->model->getSeller();
+        return $this->getValue($this->sellerAttribute);
     }
 
     public function getSellerId()
     {
-        if ($this->sellerAttribute === false || $this->sellerIdAttribute === false) {
-            return false;
-        }
+        return $this->getValue($this->sellerIdAttribute);
+    }
 
-        return isset($this->sellerIdAttribute) ? $this->model->{$this->sellerIdAttribute} : $this->model->getSellerId();
+    public function getValue($attribute)
+    {
+        return $attribute === false ? false : $this->model->{$attribute};
     }
 }
