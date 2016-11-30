@@ -28,6 +28,11 @@ class MainColumn extends DataColumn
     public $note;
 
     /**
+     * @var string name of attribute with extra data showed under main data
+     */
+    public $extraAttribute;
+
+    /**
      * @var array will be passed to the ```pluginOptions``` of [[XEditable]] plugin
      */
     public $noteOptions = [];
@@ -72,9 +77,17 @@ class MainColumn extends DataColumn
             $value = $this->renderViewLink($model, $key, $index);
         }
         $note = $this->renderNoteLink($model, $key, $index);
+        $extra = $this->renderExtra($model);
         $badges = $this->badges instanceof Closure ? call_user_func($this->badges, $model, $key, $index) : $this->badges;
 
-        return $value . ($badges ? ' ' . $badges : '') . ($note ? '<br>' . $note : '');
+        return $value . $extra . ($badges ? ' ' . $badges : '') . ($note ? '<br>' . $note : '');
+    }
+
+    public function renderExtra($model)
+    {
+        $value = $this->extraAttribute ? $model->{$this->extraAttribute} : null;
+
+        return $value ? "<br>$value" : '';
     }
 
     public function renderViewLink($model, $key, $index)
