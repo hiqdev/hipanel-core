@@ -272,7 +272,7 @@ return [
     '{attribute} does not look like a valid domain name' => '{attribute} не похож на доменное имя',
     '{attribute} does not look like a valid extended id entry' => '{attribute} не похож на идентификатор',
     '{attribute} does not look like a valid ref entry' => '{attribute} не похож на название типа',
-    '{attribute} should begin with a letter, contain only letters, digits or underscores and be at least 2 symbols length' => '{attribute} должны начинаться с буквы, содержать только буквы, цифры или подчеркивания и по меньшей мере 2 символов длиной',
+    '{attribute} should be either an email address or login that begins from letter, contain only letters, digits or underscores and be at least 2 symbols length' => '{attribute} должен быть адресом email или логином, который начинается с буквы и может содержать буквы, цифры или подчеркивания, но не короче 2 символов',
     'Invalid data input' => 'Неверный ввод данных',
     'No items selected' => 'Элементы не выбраны',
     'object is freezed' => 'Невозможно выполнить действие, объект заморожен',
