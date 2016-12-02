@@ -1,6 +1,6 @@
 <?php
 
-namespace hipanel\modules\domain\widgets;
+namespace hipanel\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
