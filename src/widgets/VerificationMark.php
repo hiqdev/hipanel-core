@@ -8,7 +8,7 @@ use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 
-class CheckCircle extends Widget
+class VerificationMark extends Widget
 {
     const COLOR_VERIFIED = '#00a65a';
     const COLOR_CONFIRMED = '#54b5ff';
@@ -22,7 +22,7 @@ class CheckCircle extends Widget
     public function init()
     {
         if (!$this->model instanceof Verification) {
-            throw new InvalidConfigException(Yii::t('hipanel', 'Attribute "model" must be instance of Verification object'));
+            throw new InvalidConfigException(Yii::t('hipanel', 'Attribute "model" must be instance of Verification model.'));
         }
     }
 
