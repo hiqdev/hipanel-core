@@ -9,12 +9,6 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-/**
- * Created by PhpStorm.
- * User: tofid
- * Date: 11.02.15
- * Time: 17:59.
- */
 namespace hipanel\behaviors;
 
 use hipanel\base\Model;
@@ -57,7 +51,7 @@ class File extends Behavior
      *
      * @param \yii\base\ModelEvent $event
      */
-    public function processFiles($event)
+    public function processFiles($event = null)
     {
         /** @var Model $model */
         $model = $this->owner;
