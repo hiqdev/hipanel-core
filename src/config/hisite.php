@@ -23,12 +23,12 @@ $config = [
         'language' => 'language',
     ],
     'aliases' => [
-        '@bower'        => '@vendor/bower-asset',
-        '@npm'          => '@vendor/npm-asset',
+        '@bower' => '@vendor/bower-asset',
+        '@npm' => '@vendor/npm-asset',
         '@vendor/bower' => '@vendor/bower-asset',
-        '@vendor/npm'   => '@vendor/npm-asset',
-        '@file'         => '/file',
-        '@reminder'     => '/reminder'
+        '@vendor/npm' => '@vendor/npm-asset',
+        '@file' => '/file',
+        '@reminder' => '/reminder',
     ],
     'components' => [
         'request' => [
@@ -155,10 +155,10 @@ $config = [
             'secret' => $params['fileStorageSecret'],
         ],
         'settingsStorage' => [
-            'class' => \hipanel\components\SettingsStorage::class
+            'class' => \hipanel\components\SettingsStorage::class,
         ],
         'themeSettingsStorage' => [
-            'class' => \hipanel\components\ThemeSettingsStorage::class
+            'class' => \hipanel\components\ThemeSettingsStorage::class,
         ],
     ],
     'modules' => [
@@ -167,10 +167,17 @@ $config = [
             'languages' => [
                 'en' => 'English',
                 'ru' => 'Русский',
-            ]
+            ],
         ],
         'reminder' => [
             'class' => \hiqdev\yii2\reminder\Module::class,
+        ],
+    ],
+    'container' => [
+        'definitions' => [
+            \hipanel\components\ApiConnectionInterface::class => function () {
+                return Yii::$app->get('hiart');
+            },
         ],
     ],
 ];
