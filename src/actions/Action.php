@@ -234,7 +234,7 @@ class Action extends \yii\base\Action
             return $this->getCollection()->first->class;
         }
 
-        return $this->getCollection()->getModel()->className();
+        return get_class($this->getCollection()->getModel());
     }
 
     /**
