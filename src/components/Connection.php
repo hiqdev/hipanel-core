@@ -13,7 +13,7 @@ namespace hipanel\components;
 
 use Yii;
 
-class Connection extends \hiqdev\hiart\Connection
+class Connection extends \hiqdev\hiart\Connection implements ApiConnectionInterface
 {
     /**
      * @param mixed $response The response
