@@ -54,6 +54,7 @@ return [
     'Clear' => 'Очистить',
     'Remove' => 'удалить',
     'remove' => 'убрать',
+    'Upload' => 'Загрузить',
 
     /// Dates
     'Last Month' => 'Последний месяц',
