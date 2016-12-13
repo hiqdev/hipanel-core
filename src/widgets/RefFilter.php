@@ -22,7 +22,7 @@ use yii\helpers\Html;
  * Class RefFilter widget.
  *
  * Usage:
- * Label::widget([
+ * RefFilter::widget([
  *      'attribute' => 'state',
  *      'model'     => $searchModel,
  *      'gtype'     => 'state,domain',
