@@ -150,7 +150,7 @@ class AdvancedSearch extends Widget
                 'placeholder' => $this->model->getAttributeLabel($attribute),
                 'data' => [
                     'toggle' => 'tooltip',
-                    'placement' => 'right',
+                    'placement' => 'top',
                     'title' => $this->model->getAttributeLabel($attribute),
                 ]
             ])->label(false);
