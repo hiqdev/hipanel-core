@@ -62,7 +62,7 @@ class Type extends \hipanel\widgets\Label
 
         $this->color = isset($class) ? $class : 'warning';
 
-        if ($this->model->hasAttribute("{$this->field}_label")) {
+        if ($this->model->hasAttribute("{$this->field}_label") && $this->model->getAttribute("{$this->field}_label") !== null) {
             $label = $this->model->getAttribute("{$this->field}_label");
         } else {
             $label = Inflector::titleize($this->model->{$this->field});
