@@ -18,8 +18,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\web\JsExpression;
-use yii\widgets\ActiveForm;
-
+//use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 /**
  * Advanced Search widget.
  *
@@ -145,7 +145,15 @@ class AdvancedSearch extends Widget
 
     public function field($attribute, $options = [])
     {
-        return $this->_form->field($this->model, $attribute, $options);
+        return $this->_form->field($this->model, $attribute, $options)
+            ->textInput([
+                'placeholder' => $this->model->getAttributeLabel($attribute),
+                'data' => [
+                    'toggle' => 'tooltip',
+                    'placement' => 'right',
+                    'title' => $this->model->getAttributeLabel($attribute),
+                ]
+            ])->label(false);
     }
 
     public function registerMyJs()
