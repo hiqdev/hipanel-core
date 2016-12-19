@@ -146,14 +146,8 @@ class AdvancedSearch extends Widget
     public function field($attribute, $options = [])
     {
         return $this->_form->field($this->model, $attribute, $options)
-            ->textInput([
-                'placeholder' => $this->model->getAttributeLabel($attribute),
-                'data' => [
-                    'toggle' => 'tooltip',
-                    'placement' => 'top',
-                    'title' => $this->model->getAttributeLabel($attribute),
-                ]
-            ])->label(false);
+            ->textInput(['placeholder' => $this->model->getAttributeLabel($attribute)])
+            ->label(false);
     }
 
     public function registerMyJs()

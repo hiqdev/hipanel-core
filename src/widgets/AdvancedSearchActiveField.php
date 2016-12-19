@@ -11,8 +11,10 @@
 
 namespace hipanel\widgets;
 
+use hipanel\helpers\ArrayHelper;
 use hiqdev\combo\Combo;
 use Yii;
+use yii\helpers\Html;
 use yii\widgets\ActiveField;
 
 class AdvancedSearchActiveField extends ActiveField
@@ -44,5 +46,41 @@ class AdvancedSearchActiveField extends ActiveField
     protected function getInputId()
     {
         return $this->_inputId ?: parent::getInputId();
+    }
+
+    /**
+     * Renders the opening tag of the field container.
+     * @return string the rendering result.
+     */
+    public function begin()
+    {
+        if ($this->form->enableClientScript) {
+            $clientOptions = $this->getClientOptions();
+            if (!empty($clientOptions)) {
+                $this->form->attributes[] = $clientOptions;
+            }
+        }
+
+        $inputID = $this->getInputId();
+        $attribute = Html::getAttributeName($this->attribute);
+        $options = $this->options;
+        $class = isset($options['class']) ? [$options['class']] : [];
+        $class[] = "field-$inputID";
+        if ($this->model->isAttributeRequired($attribute)) {
+            $class[] = $this->form->requiredCssClass;
+        }
+        if ($this->model->hasErrors($attribute)) {
+            $class[] = $this->form->errorCssClass;
+        }
+        $options['class'] = implode(' ', $class);
+
+        $tag = ArrayHelper::remove($options, 'tag', 'div');
+        // Added tooltip help
+        $options['data'] = [
+            'toggle' => 'tooltip',
+            'title' => $this->model->getAttributeLabel($this->attribute),
+        ];
+
+        return Html::beginTag($tag, $options);
     }
 }
