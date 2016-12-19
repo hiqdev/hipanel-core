@@ -36,6 +36,11 @@ class AdvancedSearchActiveField extends ActiveField
         if ($widget instanceof Combo) {
             $this->_inputId = $this->_inputId ?: ($this->getInputId() . '-' . mt_rand());
             $widget->inputOptions['id'] = $this->getInputId();
+            $widget->setPluginOptions([
+                'select2Options' => [
+                    'placeholder' => $this->model->getAttributeLabel($this->attribute),
+                ],
+            ]);
         }
 
         $this->parts['{input}'] = $widget->run();
