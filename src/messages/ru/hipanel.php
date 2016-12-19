@@ -24,6 +24,10 @@ return [
     'Profile' => 'Профиль',
     'Sign out' => 'Выйти',
 
+    // Domain
+    'Transferring out' => 'Исходящий трансфер',
+    'Transferring in' => 'Входящий трансфер',
+
     /// Actions
     'Actions' => 'Действия',
     'Basic actions' => 'Базовые действия',
