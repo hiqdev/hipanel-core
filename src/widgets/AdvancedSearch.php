@@ -14,6 +14,7 @@ namespace hipanel\widgets;
 use hipanel\base\Model;
 use Yii;
 use yii\base\Widget;
+use yii\bootstrap\ActiveField;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
@@ -143,6 +144,11 @@ class AdvancedSearch extends Widget
         echo Html::endTag('div');
     }
 
+    /**
+     * @param string $attribute
+     * @param array $options
+     * @return ActiveField
+     */
     public function field($attribute, $options = [])
     {
         return $this->_form->field($this->model, $attribute, $options)
