@@ -186,14 +186,14 @@ class FileStorage extends Component
                 throw new \yii\base\Exception("Failed to create directory");
             }
 
-            if (!file_put_contents($path, $content)) {
+            if (file_put_contents($path, $content) === false) {
                 throw new \yii\base\Exception("Failed to create local file");
             }
         }
 
         $cache = $this->getCache();
         $key = $this->buildCacheKey($file->id);
-        $cache->set($key, $file, 0);
+        $cache->set($key, $file);
 
         return $path;
     }

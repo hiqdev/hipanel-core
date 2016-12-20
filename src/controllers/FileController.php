@@ -40,7 +40,7 @@ class FileController extends Controller
         ]);
     }
 
-    public function actionView($id, $nocache = true)
+    public function actionView($id, $nocache = false)
     {
         $filename = Yii::$app->fileStorage->get($id, $nocache);
 
@@ -50,7 +50,7 @@ class FileController extends Controller
         return file_get_contents($filename);
     }
 
-    public function actionGet($id, $downloadName = null, $nocache = true)
+    public function actionGet($id, $downloadName = null, $nocache = false)
     {
         $filename = Yii::$app->fileStorage->get($id, $nocache);
 

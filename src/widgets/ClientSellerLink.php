@@ -13,6 +13,7 @@ namespace hipanel\widgets;
 
 use hipanel\base\Model;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 
 class ClientSellerLink extends \yii\base\Widget
@@ -26,6 +27,13 @@ class ClientSellerLink extends \yii\base\Widget
     public $clientIdAttribute = 'client_id';
     public $sellerAttribute   = 'seller';
     public $sellerIdAttribute = 'seller_id';
+
+    public function init()
+    {
+        if ($this->model === null) {
+            throw new InvalidConfigException('Property "model" must be set');
+        }
+    }
 
     public function run()
     {
