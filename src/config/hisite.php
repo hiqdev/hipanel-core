@@ -140,14 +140,8 @@ $config = [
             'assets' => [
                 \hipanel\assets\AppAsset::class,
             ],
-        ],
-        'menuManager' => [
-            'class' => \hiqdev\menumanager\MenuManager::class,
-            'items' => [
-                'navbar' => \hipanel\menus\NavbarMenu::class,
-                'sidebar' => [
-                    'class' => \hipanel\menus\SidebarMenu::class,
-                ],
+            'pathMap' => [
+                '$themedViewPaths' => ['@hipanel/views'],
             ],
         ],
         'fileStorage' => [
@@ -178,6 +172,12 @@ $config = [
             \hipanel\components\ApiConnectionInterface::class => function () {
                 return Yii::$app->get('hiart');
             },
+            \hiqdev\thememanager\menus\AbstractNavbarMenu::class => [
+                'class' => \hipanel\menus\NavbarMenu::class,
+            ],
+            \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
+                'class' => \hipanel\menus\SidebarMenu::class,
+            ],
         ],
     ],
 ];
