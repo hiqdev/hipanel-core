@@ -7,21 +7,21 @@ use Yii;
 
 class UserMenu extends \hiqdev\menumanager\Menu
 {
-    public function render($options = [])
+    public function widget($options = [])
     {
         $defaultOptions = [
             'class' => UserMenuWidget::class,
             'options' => ['class' => 'sidebar-menu'],
         ];
 
-        return parent::render(array_merge($defaultOptions, $options));
+        return parent::widget(array_merge($defaultOptions, $options));
     }
 
     public function items()
     {
         return [
             'header' => [
-                'label' => $this->renderView('userMenuHeader'),
+                'label' => $this->render('userMenuHeader'),
             ],
             'profile' => [
                 'label' => Yii::t('hipanel', 'Profile'),
