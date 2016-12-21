@@ -7,15 +7,13 @@ use Yii;
 
 class UserMenu extends \hiqdev\menumanager\Menu
 {
-    public function widget($options = [])
-    {
-        $defaultOptions = [
-            'class' => UserMenuWidget::class,
-            'options' => ['class' => 'sidebar-menu'],
-        ];
+    public $widgetConfig = [
+        'class' => UserMenuWidget::class,
+    ];
 
-        return parent::widget(array_merge($defaultOptions, $options));
-    }
+    public $options = [
+        'class' => 'sidebar-menu',
+    ];
 
     public function items()
     {

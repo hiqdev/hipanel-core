@@ -2,15 +2,15 @@
 
 namespace hipanel\menus;
 
+use hipanel\widgets\Menu;
+
 class SidebarMenu extends \hiqdev\menumanager\Menu
 {
-    public function widget($options = [])
-    {
-        $hipanelOptions = [
-            'class' => \hipanel\widgets\Menu::class,
-            'options' => ['class' => 'sidebar-menu'],
-        ];
+    public $widgetConfig = [
+        'class' => Menu::class,
+    ];
 
-        return parent::widget(array_merge($hipanelOptions, $options));
-    }
+    public $options = [
+        'class' => 'sidebar-menu',
+    ];
 }

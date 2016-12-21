@@ -34,7 +34,7 @@ class NavbarMenu extends \hiqdev\menumanager\Menu
                 ],
             ],
             [
-                'label' => UserMenu::create()->widget(),
+                'label' => UserMenu::widget(),
                 'encode' => false,
                 'options' => [
                     'class' => 'dropdown user user-menu'
