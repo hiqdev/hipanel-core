@@ -15,7 +15,7 @@ namespace hipanel\widgets;
  * Class Menu
  * Themed menu widget.
  */
-class Menu extends \hiqdev\menumanager\widgets\Menu
+class Menu extends \hiqdev\yii2\menus\widgets\Menu
 {
     /**
      * {@inheritdoc}

@@ -2,7 +2,7 @@
 
 namespace hipanel\menus;
 
-abstract class AbstractDetailMenu extends \hiqdev\menumanager\Menu
+abstract class AbstractDetailMenu extends \hiqdev\yii2\menus\Menu
 {
     public $options = [
         'class' => 'nav',

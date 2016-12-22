@@ -5,7 +5,7 @@ namespace hipanel\menus;
 use hiqdev\thememanager\widgets\UserMenu as UserMenuWidget;
 use Yii;
 
-class UserMenu extends \hiqdev\menumanager\Menu
+class UserMenu extends \hiqdev\yii2\menus\Menu
 {
     public $widgetConfig = [
         'class' => UserMenuWidget::class,
