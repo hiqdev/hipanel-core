@@ -9,7 +9,7 @@
  * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
  */
 
-$config = [
+return [
     'id' => 'hipanel',
     'name' => 'HiPanel',
     'basePath' => dirname(__DIR__),
@@ -155,7 +155,7 @@ $config = [
             'class' => \hipanel\components\ThemeSettingsStorage::class,
         ],
     ],
-    'modules' => [
+    'modules' => array_filter([
         'language' => [
             'class' => \hiqdev\yii2\language\Module::class,
             'languages' => [
@@ -166,7 +166,14 @@ $config = [
         'reminder' => [
             'class' => \hiqdev\yii2\reminder\Module::class,
         ],
-    ],
+        'debug' => defined('YII_DEBUG') && YII_DEBUG ? [
+            'panels' => [
+                'hiart' => [
+                    'class' => \hiqdev\hiart\DebugPanel::class,
+                ],
+            ],
+        ] : null,
+    ]),
     'container' => [
         'definitions' => [
             \hipanel\components\ApiConnectionInterface::class => function () {
@@ -181,19 +188,3 @@ $config = [
         ],
     ],
 ];
-
-if (defined('YII_DEBUG') && YII_DEBUG) {
-    // configuration adjustments when debug enabled
-    $config['bootstrap']['debug'] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => \yii\debug\Module::class,
-        'allowedIPs' => $params['debug_allowed_ips'],
-        'panels' => [
-            'hiart' => [
-                'class' => \hiqdev\hiart\DebugPanel::class,
-            ],
-        ],
-    ];
-}
-
-return $config;
