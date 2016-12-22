@@ -2,12 +2,12 @@
 
 namespace hipanel\menus;
 
-use hipanel\widgets\Menu;
+use hiqdev\thememanager\widgets\SidebarMenu as SidebarMenuWidget;
 
 class SidebarMenu extends \hiqdev\yii2\menus\Menu
 {
     public $widgetConfig = [
-        'class' => Menu::class,
+        'class' => SidebarMenuWidget::class,
     ];
 
     public $options = [
