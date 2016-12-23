@@ -1,4 +1,23 @@
-var Hipanel = (function () {
+window.hipanel = (function () {
+    var notify = {
+        create: function (options) {
+            options = $.extend({
+                buttons: {
+                    sticker: false
+                },
+                icon: false,
+                styling: 'bootstrap3'
+            }, options, true);
+
+            return new PNotify(options);
+        },
+        error: function (text) {
+            return notify.create({type: 'error', text: text});
+        },
+        success: function (text) {
+            return notify.create({type: 'success', text: text});
+        }
+    };
 
     var publicMethods = {
         updateCart: function (callback) {
@@ -6,9 +25,18 @@ var Hipanel = (function () {
             $.get("/cart/cart/topcart", function(data) {
                 $("li.dropdown.notifications-menu.notifications-cart").html( data );
             }).done(callback());
-        }
+        },
+        loadingBar: function (options) {
+            options = $.extend({}, options, true);
+
+            return '<div class="progress">' +
+                '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">' +
+                    '<span class="sr-only">' + options.text + '</span>' +
+                '</div>' +
+            '</div>';
+        },
+        notify: notify
     };
 
     return publicMethods;
-
 })();
