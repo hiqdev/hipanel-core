@@ -41,5 +41,7 @@ class AppAsset extends AssetBundle
         ComboAsset::class,
         PNotifyAsset::class,
         Select2Bootstrap3CssAsset::class,
+        HipanelAsset::class,
+        MomentAsset::class,
     ];
 }
