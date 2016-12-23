@@ -41,16 +41,12 @@ class VerificationMark extends Widget
 
     protected function getColor()
     {
-        $color = self::COLOR_UNCONFIRMED;
-        switch ($this->model) {
-            case $this->model->isVerified():
-                $color = self::COLOR_VERIFIED;
-                break;
-            case $this->model->isConfirmed():
-                $color = self::COLOR_CONFIRMED;
-                break;
+        if ($this->model->isVerified()) {
+            return static::COLOR_VERIFIED;
+        } elseif ($this->model->isConfirmed()) {
+            return static::COLOR_CONFIRMED;
         }
 
-        return $color;
+        return static::COLOR_UNCONFIRMED;
     }
 }
