@@ -23,6 +23,7 @@ return [
     'Dashboard' => 'Главная',
     'Profile' => 'Профиль',
     'Sign out' => 'Выйти',
+    'SIDEBAR MENU' => 'БОКОВОЕ МЕНЮ',
 
     // Domain
     'Transferring out' => 'Исходящий трансфер',
