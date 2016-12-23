@@ -202,27 +202,11 @@ class AjaxModal extends \yii\bootstrap\Modal
                     data: form.serialize(),
                     error: function(xhr) {
                         form.parent().html(xhr.responseText);
-                        new PNotify({
-                            text: xhr.statusText ? xhr.statusText : "{$this->errorText}",
-                            type: 'error',
-                            buttons: {
-                                sticker: false
-                            },
-                            icon: false,
-                            styling: 'bootstrap3'
-                        });
+                        hipanel.notify.error(xhr.statusText ? xhr.statusText : "{$this->errorText}")
                     },
                     success: function() {
                         jQuery('#$this->id').modal('hide');
-                        new PNotify({
-                            text: "{$this->successText}",
-                            type: 'success',
-                            buttons: {
-                                sticker: false
-                            },
-                            icon: false,
-                            styling: 'bootstrap3'
-                        });
+                        hipanel.notify.success('{$this->successText}')
                         btn.button('reset');
                     }
                 });
@@ -247,7 +231,10 @@ HTML;
      */
     protected function renderBodyBegin()
     {
-        return Html::beginTag('div', ['class' => 'modal-body']) . $this->loadingHtml;
+        return Html::beginTag('div', [
+            'class' => 'modal-body',
+            'data-action-url' => $this->getActionUrl()
+        ]) . $this->loadingHtml;
     }
 
     /**
