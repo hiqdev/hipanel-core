@@ -154,6 +154,13 @@ return [
         'themeSettingsStorage' => [
             'class' => \hipanel\components\ThemeSettingsStorage::class,
         ],
+        'assetManager' => [
+            'bundles' => [
+                \omnilight\assets\MomentAsset::class => [
+                    'class' => \hipanel\assets\MomentAsset::class
+                ]
+            ]
+        ]
     ],
     'modules' => array_filter([
         'language' => [

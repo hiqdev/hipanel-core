@@ -14,6 +14,7 @@ namespace hipanel\assets;
 use hiqdev\assets\pnotify\PNotifyAsset;
 use hiqdev\assets\select2_bootstrap3_css\Select2Bootstrap3CssAsset;
 use hiqdev\combo\ComboAsset;
+use Yii;
 use yii\web\AssetBundle;
 
 class AppAsset extends AssetBundle
@@ -44,4 +45,13 @@ class AppAsset extends AssetBundle
         HipanelAsset::class,
         MomentAsset::class,
     ];
+
+    /**
+     * @param \yii\web\View $view
+     */
+    public function registerAssetFiles($view)
+    {
+        parent::registerAssetFiles($view);
+        $view->registerJs(";moment.locale('" . Yii::$app->language . "');");
+    }
 }
