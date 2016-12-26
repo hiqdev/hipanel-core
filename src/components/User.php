@@ -39,4 +39,13 @@ class User extends \yii\web\User
 
         return $identity->is($key);
     }
+    /**
+     * @inheritdoc
+     * XXX fixes redirect loop when identity is set but the object is empty
+     * @return bool
+     */
+    public function getIsGuest()
+    {
+        return empty($this->getIdentity()->id);
+    }
 }
