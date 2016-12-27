@@ -162,25 +162,14 @@ return [
             ]
         ]
     ],
-    'modules' => array_filter([
+    'modules' => [
         'language' => [
-            'class' => \hiqdev\yii2\language\Module::class,
             'languages' => [
                 'en' => 'English',
                 'ru' => 'Русский',
             ],
         ],
-        'reminder' => [
-            'class' => \hiqdev\yii2\reminder\Module::class,
-        ],
-        'debug' => defined('YII_DEBUG') && YII_DEBUG ? [
-            'panels' => [
-                'hiart' => [
-                    'class' => \hiqdev\hiart\DebugPanel::class,
-                ],
-            ],
-        ] : null,
-    ]),
+    ],
     'container' => [
         'definitions' => [
             \hipanel\components\ApiConnectionInterface::class => function () {
