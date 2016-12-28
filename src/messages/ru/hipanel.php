@@ -164,6 +164,7 @@ return [
     'Additional message' => 'Дополнительное сообщение',
     'you can not disable this mailbox' => 'Вы не можете отключить этот почтовый ящик',
     'you can not enable this mailbox' => 'Вы не можете включить этот почтовый ящик',
+    'email already exists' => 'Такой адрес электронной почты уже существует.',
 
     /// Search
     'Search' => 'Поиск',
