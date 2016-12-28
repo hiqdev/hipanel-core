@@ -93,15 +93,6 @@ return [
                     'logFile' => '@runtime/logs/merchant.log',
                     'categories' => ['merchant'],
                 ],
-                'email' => [
-                    'class' => \hipanel\log\EmailTarget::class,
-                    'levels' => ['error'],
-                    'message' => [
-                        'from' => 'hipanel@hiqdev.com',
-                        'to' => 'logs@hiqdev.com',
-                        'subject' => 'HiPanel error log',
-                    ],
-                ],
             ],
         ],
         'errorHandler' => [
@@ -157,10 +148,10 @@ return [
         'assetManager' => [
             'bundles' => [
                 \omnilight\assets\MomentAsset::class => [
-                    'class' => \hipanel\assets\MomentAsset::class
-                ]
-            ]
-        ]
+                    'class' => \hipanel\assets\MomentAsset::class,
+                ],
+            ],
+        ],
     ],
     'modules' => [
         'language' => [
