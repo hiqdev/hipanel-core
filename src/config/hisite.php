@@ -103,9 +103,9 @@ return [
             'clients' => [
                 'hiam' => [
                     'class' => \hiam\authclient\HiamClient::class,
-                    'site' => $params['hiam_site'],
-                    'clientId' => $params['hiam_client_id'],
-                    'clientSecret' => $params['hiam_client_secret'],
+                    'site' => $params['hiam.site'],
+                    'clientId' => $params['hiam.client_id'],
+                    'clientSecret' => $params['hiam.client_secret'],
                 ],
             ],
         ],

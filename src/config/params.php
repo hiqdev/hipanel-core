@@ -13,9 +13,11 @@ return [
     'orgUrl'                => '',
 
     'api_base_uri'          => '',
-    'hiam_site'             => '',
-    'hiam_client_id'        => '',
-    'hiam_client_secret'    => '',
+
+    'hiam.site'             => '',
+    'hiam.client_id'        => '',
+    'hiam.client_secret'    => '',
+
     'user.seller'           => '',
     'cookieValidationKey'   => '',
     'debug_allowed_ips'     => [],
