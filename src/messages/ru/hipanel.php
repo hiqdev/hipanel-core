@@ -162,6 +162,8 @@ return [
     'Not enabled' => 'Не включен',
     'Activated to' => 'Активированный для',
     'Additional message' => 'Дополнительное сообщение',
+    'you can not disable this mailbox' => 'Вы не можете отключить этот почтовый ящик',
+    'you can not enable this mailbox' => 'Вы не можете включить этот почтовый ящик',
 
     /// Search
     'Search' => 'Поиск',
