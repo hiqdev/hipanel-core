@@ -95,9 +95,6 @@ return [
                 ],
             ],
         ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
-        ],
         'authClientCollection' => [
             'class' => \hiam\authclient\Collection::class,
             'clients' => [
@@ -165,6 +162,9 @@ return [
         'definitions' => [
             \hipanel\components\ApiConnectionInterface::class => function () {
                 return Yii::$app->get('hiart');
+            },
+            \yii\mail\MailerInterface::class => function() {
+                return Yii::$app->get('mailer');
             },
             \hiqdev\thememanager\menus\AbstractNavbarMenu::class => [
                 'class' => \hipanel\menus\NavbarMenu::class,
