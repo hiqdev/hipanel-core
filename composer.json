@@ -68,7 +68,7 @@
         "hiqdev/yii2-asset-paulzi-form": "~2.4",
         "hiqdev/yii2-asset-visibilityjs": "*",
         "hiqdev/yii2-reminder": "<2.0 || dev-master",
-        "hiqdev/yii2-error-notifier": "<2.0 || dev-master",
+        "hiqdev/yii2-error-notifier": "<2.0",
         "kartik-v/yii2-field-range": "^1.3",
         "kartik-v/yii2-widget-fileinput": "^1.0",
         "kartik-v/yii2-widget-switchinput": "^1.3",
