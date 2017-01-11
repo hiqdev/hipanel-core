@@ -80,7 +80,7 @@
         "michelf/php-smartypants": "^1.8.0",
         "stichoza/google-translate-php": "~3.0",
         "wbraganca/yii2-dynamicform": "*",
-        "bower-asset/elementquery": "*",
+        "bower-asset/css-element-queries": "*",
         "bower-asset/less-space": "*",
         "bower-asset/eonasdan-bootstrap-datetimepicker": "*",
         "bower-asset/octicons": "*",

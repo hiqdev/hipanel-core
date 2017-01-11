@@ -15,9 +15,10 @@ use yii\web\AssetBundle;
 
 class ElementQueryAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/elementquery';
+    public $sourcePath = '@bower/css-element-queries/src';
 
     public $js = [
-        'elementQuery.min.js',
+        'ResizeSensor.js',
+        'ElementQueries.js',
     ];
 }
