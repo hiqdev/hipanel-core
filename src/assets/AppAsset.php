@@ -26,8 +26,6 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/panel.js',
-        'js/ResizeSensor.js',
-        'js/ElementQueries.js',
     ];
     public $depends = [
         \yii\web\YiiAsset::class,
@@ -44,6 +42,7 @@ class AppAsset extends AssetBundle
         Select2Bootstrap3CssAsset::class,
         HipanelAsset::class,
         MomentAsset::class,
+        ElementQueryAsset::class,
     ];
 
     /**
