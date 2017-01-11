@@ -10,6 +10,7 @@
  */
 
 return [
+    'adminEmail'            => '',
     'orgUrl'                => '',
 
     'api_base_uri'          => '',
