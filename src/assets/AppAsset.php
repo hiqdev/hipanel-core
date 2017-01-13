@@ -14,7 +14,7 @@ namespace hipanel\assets;
 use hiqdev\assets\pnotify\PNotifyAsset;
 use hiqdev\assets\select2_bootstrap3_css\Select2Bootstrap3CssAsset;
 use hiqdev\combo\ComboAsset;
-use hiqdev\yii2\assets\colResizable\ColResizableAsset;
+use hiqdev\yii2\assets\JqueryResizableColumns\ResizableColumnsAsset;
 use Yii;
 use yii\bootstrap\BootstrapAsset;
 use yii\bootstrap\BootstrapPluginAsset;
@@ -43,7 +43,7 @@ class AppAsset extends AssetBundle
         HipanelAsset::class,
         MomentAsset::class,
         ElementQueryAsset::class,
-        ColResizableAsset::class
+        ResizableColumnsAsset::class,
     ];
 
     /**
