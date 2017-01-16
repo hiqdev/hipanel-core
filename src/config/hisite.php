@@ -160,18 +160,24 @@ return [
     ],
     'container' => [
         'definitions' => [
-            \hipanel\components\ApiConnectionInterface::class => function () {
-                return Yii::$app->get('hiart');
-            },
-            \yii\mail\MailerInterface::class => function() {
-                return Yii::$app->get('mailer');
-            },
             \hiqdev\thememanager\menus\AbstractNavbarMenu::class => [
                 'class' => \hipanel\menus\NavbarMenu::class,
             ],
             \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
                 'class' => \hipanel\menus\SidebarMenu::class,
             ],
+            \hipanel\modules\mailing\renderers\RedirectFormRendererInterface::class => [
+                ['class' => \hipanel\widgets\RedirectFormRenderer::class],
+                [1 => $params['mailing.service.submitUrl']]
+            ],
         ],
+        'singletons' => [
+            \hipanel\components\ApiConnectionInterface::class => function () {
+                return Yii::$app->get('hiart');
+            },
+            \yii\mail\MailerInterface::class => function() {
+                return Yii::$app->get('mailer');
+            },
+        ]
     ],
 ];
