@@ -871,3 +871,10 @@ a.border-bottom-dashed {
 blockquote {
     font-size: 90%;
 }
+
+.font-normal {
+    font-weight: normal;
+}
+.font-bold {
+    font-weight: bold;
+}
