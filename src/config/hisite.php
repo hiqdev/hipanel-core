@@ -17,11 +17,16 @@ return [
     'vendorPath' => '@root/vendor',
     'runtimePath' => '@root/runtime',
     'controllerNamespace' => 'hipanel\controllers',
-    'bootstrap' => [
+    'bootstrap' => array_filter([
         'log' => 'log',
         'themeManager' => 'themeManager',
         'language' => 'language',
-    ],
+        defined('YII_DEBUG') && YII_DEBUG && empty($params['mailing.service.submitUrl']) ? [
+            'yii2-mailing.service.submitUrl-warning' => function () {
+                Yii::warning('Parameter "mailing.service.submitUrl" is not configured');
+            },
+        ] : null,
+    ]),
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -159,7 +164,7 @@ return [
         ],
     ],
     'container' => [
-        'definitions' => [
+        'definitions' => array_merge([
             \hiqdev\thememanager\menus\AbstractNavbarMenu::class => [
                 'class' => \hipanel\menus\NavbarMenu::class,
             ],
@@ -169,8 +174,8 @@ return [
             \hipanel\modules\mailing\renderers\RedirectFormRendererInterface::class => [
                 ['class' => \hipanel\widgets\RedirectFormRenderer::class],
                 [1 => $params['mailing.service.submitUrl']]
-            ],
-        ],
+            ]
+        ]),
         'singletons' => [
             \hipanel\components\ApiConnectionInterface::class => function () {
                 return Yii::$app->get('hiart');

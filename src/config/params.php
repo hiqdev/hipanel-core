@@ -43,4 +43,6 @@ return [
             ],
         ],
     ],
+
+    'mailing.service.submitUrl' => '',
 ];
