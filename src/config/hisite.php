@@ -21,11 +21,12 @@ return [
         'log' => 'log',
         'themeManager' => 'themeManager',
         'language' => 'language',
-        defined('YII_DEBUG') && YII_DEBUG && empty($params['mailing.service.submitUrl']) ? [
-            'yii2-mailing.service.submitUrl-warning' => function () {
-                Yii::warning('Parameter "mailing.service.submitUrl" is not configured');
-            },
-        ] : null,
+        'yii2-mailing.service.submitUrl-warning' =>
+            (defined('YII_DEBUG') && YII_DEBUG && empty($params['mailing.service.submitUrl'])) ?
+                function () {
+                    Yii::warning('Parameter "mailing.service.submitUrl" is not configured');
+                }
+                : null,
     ]),
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -173,16 +174,16 @@ return [
             ],
             \hipanel\modules\mailing\renderers\RedirectFormRendererInterface::class => [
                 ['class' => \hipanel\widgets\RedirectFormRenderer::class],
-                [1 => $params['mailing.service.submitUrl']]
-            ]
+                [1 => $params['mailing.service.submitUrl']],
+            ],
         ]),
         'singletons' => [
             \hipanel\components\ApiConnectionInterface::class => function () {
                 return Yii::$app->get('hiart');
             },
-            \yii\mail\MailerInterface::class => function() {
+            \yii\mail\MailerInterface::class => function () {
                 return Yii::$app->get('mailer');
             },
-        ]
+        ],
     ],
 ];
