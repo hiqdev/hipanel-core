@@ -74,6 +74,6 @@ class Connection extends \hiqdev\hiart\Connection implements ApiConnectionInterf
             Yii::$app->end();
         }
 
-        return ['access_token' => $token];
+        return ['access_token' => $token, 'auth_ip' => Yii::$app->request->getUserIP()];
     }
 }
