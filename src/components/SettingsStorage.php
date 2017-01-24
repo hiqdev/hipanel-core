@@ -2,21 +2,21 @@
 
 namespace hipanel\components;
 
-use hiqdev\hiart\Connection;
+use hipanel\modules\client\models\Client;
+use yii\base\Application;
 use yii\base\Component;
 use yii\di\Instance;
-use Yii;
 
 class SettingsStorage extends Component implements SettingsStorageInterface
 {
     /**
-     * @var Connection
+     * @var Application
      */
-    private $connection;
+    private $app;
 
-    public function init()
+    public function __construct(Application $app)
     {
-        $this->connection = Instance::ensure('hiart', Connection::class);
+        $this->app = $app;
     }
 
     /**
@@ -24,10 +24,10 @@ class SettingsStorage extends Component implements SettingsStorageInterface
      */
     public function setGlobal($key, $value)
     {
-        $this->perform('clientSetSettingsStorage', array_merge([
+        $this->perform('set-settings-storage', array_merge([
             'key' => $key,
             'data' => json_encode($value),
-            'oauthClientBound' => false
+            'oauthClientBound' => false,
         ]));
     }
 
@@ -36,10 +36,10 @@ class SettingsStorage extends Component implements SettingsStorageInterface
      */
     public function setBounded($key, $value)
     {
-        $this->perform('clientSetSettingsStorage', array_merge([
+        $this->perform('set-settings-storage', array_merge([
             'key' => $key,
             'data' => json_encode($value),
-            'oauthClientBound' => true
+            'oauthClientBound' => true,
         ]));
     }
 
@@ -48,9 +48,9 @@ class SettingsStorage extends Component implements SettingsStorageInterface
      */
     public function getGlobal($key)
     {
-        $response = $this->perform('clientGetSettingsStorage', array_merge([
+        $response = $this->perform('get-settings-storage', array_merge([
             'key' => $key,
-            'oauthClientBound' => false
+            'oauthClientBound' => false,
         ]));
 
         return $this->decodeResponse($response);
@@ -61,9 +61,9 @@ class SettingsStorage extends Component implements SettingsStorageInterface
      */
     public function getBounded($key)
     {
-        $response = $this->perform('clientGetSettingsStorage', array_merge([
+        $response = $this->perform('get-settings-storage', array_merge([
             'key' => $key,
-            'oauthClientBound' => true
+            'oauthClientBound' => true,
         ]));
 
         return $this->decodeResponse($response);
@@ -71,23 +71,23 @@ class SettingsStorage extends Component implements SettingsStorageInterface
 
     /**
      * Performs request to the API
-     *
      * @param string $key
      * @param array $value
      * @return array
      */
-    private function perform($key, $value)
+    private function perform($action, $data)
     {
-        if (Yii::$app->user->isGuest) {
+        if ($this->app->user->isGuest) {
             return [];
         }
 
-        return $this->connection->createCommand()->perform($key, $value);
+        return Client::perform($action, $data);
     }
 
     private function decodeResponse($response)
     {
         $result = json_decode(isset($response['data']) ? $response['data'] : '{}', true);
+
         return $result === null ? [] : $result;
     }
 }

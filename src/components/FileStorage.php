@@ -180,14 +180,14 @@ class FileStorage extends Component
 
         $path = FileHelper::getPrefixedPath($this->directory, static::buildHash($file->md5));
         if (!is_file($path) || $overrideCache) {
-            $content = $file::perform('Get', ['id' => $file->id]);
+            $content = $file->perform('get', ['id' => $file->id]);
 
             if (!FileHelper::createDirectory(dirname($path))) {
-                throw new \yii\base\Exception("Failed to create directory");
+                throw new Exception("Failed to create directory");
             }
 
             if (file_put_contents($path, $content) === false) {
-                throw new \yii\base\Exception("Failed to create local file");
+                throw new Exception("Failed to create local file");
             }
         }
 
