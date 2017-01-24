@@ -47,12 +47,6 @@ return [
         'cache' => [
             'class' => \hipanel\components\Cache::class,
         ],
-        'hiart' => [
-            'class' => \hipanel\components\Connection::class,
-            'config' => [
-                'base_uri' => $params['api_base_uri'],
-            ],
-        ],
         'mailer' => [
             'class' => \yii\swiftmailer\Mailer::class,
             'viewPath' => '@hipanel/mail',
@@ -178,9 +172,6 @@ return [
             ],
         ]),
         'singletons' => [
-            \hipanel\components\ApiConnectionInterface::class => function () {
-                return Yii::$app->get('hiart');
-            },
             \yii\mail\MailerInterface::class => function () {
                 return Yii::$app->get('mailer');
             },
