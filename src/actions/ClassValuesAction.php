@@ -38,14 +38,14 @@ class ClassValuesAction extends Action
             $this->model = (new Collection(['model' => $this->model]))->load()->first;
 
             $this->beforePerform();
-            $this->model->perform('SetClassValues', [
+            $this->model->perform('set-class-values', [
                 'id'     => $id,
                 'class'  => $this->valuesClass,
                 'values' => $this->model->dirtyAttributes,
             ]);
             Yii::$app->end();
         }
-        $this->model->setAttributes($this->model->perform('GetClassValues', ['id' => $id, 'class' => $this->valuesClass]));
+        $this->model->setAttributes($this->model->perform('get-class-values', ['id' => $id, 'class' => $this->valuesClass]));
 
         return $this->controller->renderAjax($this->view, ['model' => $this->model]);
     }
