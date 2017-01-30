@@ -13,7 +13,7 @@ namespace hipanel\components;
 
 use hipanel\helpers\FileHelper;
 use hipanel\models\File;
-use hiqdev\hiart\ErrorResponseException;
+use hiqdev\hiart\ResponseErrorException;
 use Yii;
 use yii\base\Component;
 use yii\base\ErrorException;
@@ -234,7 +234,7 @@ class FileStorage extends Component
         $model = $this->fileModelClass;
         try {
             $file = $model::find()->where(['id' => $id])->one();
-        } catch (ErrorResponseException $e) {
+        } catch (ResponseErrorException $e) {
             if ($throwException) {
                 throw new ForbiddenHttpException($e->getMessage());
             }

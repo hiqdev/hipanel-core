@@ -14,7 +14,7 @@ namespace hipanel\actions;
 use hipanel\base\Model;
 use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
-use hiqdev\hiart\ErrorResponseException;
+use hiqdev\hiart\ResponseErrorException;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -154,7 +154,7 @@ class SearchAction extends SwitchAction
         try {
             $this->beforeSave();
             $models = $dataProvider->getModels();
-        } catch (ErrorResponseException $e) {
+        } catch (ResponseErrorException $e) {
             $error = $e->getMessage();
         }
 

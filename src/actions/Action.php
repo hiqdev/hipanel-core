@@ -14,7 +14,7 @@ namespace hipanel\actions;
 use Closure;
 use hipanel\base\Controller;
 use hiqdev\hiart\Collection;
-use hiqdev\hiart\ErrorResponseException;
+use hiqdev\hiart\ResponseErrorException;
 use Yii;
 use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
@@ -201,7 +201,7 @@ class Action extends \yii\base\Action
             if ($error === true && $this->collection->hasErrors()) {
                 $error = $this->collection->getFirstError();
             }
-        } catch (ErrorResponseException $e) {
+        } catch (ResponseErrorException $e) {
             $error = $e->getMessage();
         } catch (InvalidCallException $e) {
             $error = $e->getMessage();
