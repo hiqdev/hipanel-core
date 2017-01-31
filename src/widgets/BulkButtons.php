@@ -12,7 +12,6 @@
 namespace hipanel\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Json;
 
 class BulkButtons extends Widget
 {
@@ -53,7 +52,6 @@ class BulkButtons extends Widget
                     item[attribute] = value;
                     data.push(item);
                 });
-                //console.log( data );
 
                 if ($.support.pjax) {
                     var container = $(this).closest('[data-pjax-contaiter]');
