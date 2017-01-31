@@ -11,6 +11,7 @@
 
 namespace hipanel\components;
 
+use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 
 class User extends \yii\web\User
@@ -20,11 +21,19 @@ class User extends \yii\web\User
      */
     public $seller;
 
+    public function init()
+    {
+        parent::init();
+        if (empty($this->seller)) {
+            throw new InvalidConfigException('User "seller" must be set');
+        }
+    }
+
     public function not($key)
     {
         $identity = $this->getIdentity();
         if (!$identity) {
-            throw new InvalidConfigException();
+            throw new InvalidCallException();
         }
 
         return $identity->not($key);
@@ -34,7 +43,7 @@ class User extends \yii\web\User
     {
         $identity = $this->getIdentity();
         if (!$identity) {
-            throw new InvalidConfigException();
+            throw new InvalidCallException();
         }
 
         return $identity->is($key);
