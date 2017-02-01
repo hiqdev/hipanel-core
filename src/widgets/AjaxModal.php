@@ -201,6 +201,10 @@ class AjaxModal extends \yii\bootstrap\Modal
                     timeout: 0,
                     data: form.serialize(),
                     error: function(xhr) {
+                        if (xhr.status > 300 && xhr.status < 400) {
+                            return; // redirects should not be handled in any manner
+                        }
+
                         form.parent().html(xhr.responseText);
                         hipanel.notify.error(xhr.statusText ? xhr.statusText : "{$this->errorText}")
                     },
