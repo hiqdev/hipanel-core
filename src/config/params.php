@@ -13,17 +13,18 @@ return [
     'adminEmail'            => '',
     'orgUrl'                => '',
 
-    'api_base_uri'          => '',
-
     'hiam.site'             => '',
     'hiam.client_id'        => '',
     'hiam.client_secret'    => '',
 
+    'debug.allowedIps'      => [],
+
     'user.seller'           => '',
-    'cookieValidationKey'   => '',
-    'debug_allowed_ips'     => [],
-    'fileStorageSecret'     => null,
+
     'currency'              => 'usd',
+
+    'cookieValidationKey'   => '',
+    'fileStorageSecret'     => null,
 
     'poweredByName'         => 'HiPanel',
     'poweredByUrl'          => 'https://hipanel.com/',
