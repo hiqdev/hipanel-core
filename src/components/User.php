@@ -72,21 +72,23 @@ class User extends \yii\web\User
             if ($this->isGuestAllowed) {
                 return [];
             } else {
-                Yii::$app->response->redirect('/site/login');
-                Yii::$app->end();
+                $this->redirectLogin();
             }
         }
 
         $token = $this->identity->getAccessToken();
         if (empty($token)) {
-            /// this is very important line
-            /// without this line - redirect loop
+            /// logout() is very important here, else - redirect loop
             $this->logout();
-
-            Yii::$app->response->redirect('/site/login');
-            Yii::$app->end();
+            $this->redirectLogin();
         }
 
         return ['access_token' => $token];
+    }
+
+    public function redirectLogin()
+    {
+        $this->loginRequired();
+        Yii::$app->end();
     }
 }
