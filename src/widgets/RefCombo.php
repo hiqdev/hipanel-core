@@ -47,11 +47,6 @@ class RefCombo extends StaticCombo
     public function getData()
     {
         $refs = Ref::getList($this->gtype, $this->i18nDictionary, $this->findOptions);
-        $res = [];
-        foreach ($refs as $key => $value) {
-            $res[] = ['id' => $key, 'text' => $value];
-        }
-
-        return $res;
+        return $refs;
     }
 }
