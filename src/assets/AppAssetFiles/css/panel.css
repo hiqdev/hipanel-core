@@ -878,3 +878,7 @@ blockquote {
 .font-bold {
     font-weight: bold;
 }
+
+.select2-dropdown {
+    z-index: 1071;
+}
