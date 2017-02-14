@@ -47,6 +47,12 @@ class User extends Model implements IdentityInterface
 
     private static $_users = [];
 
+    const TYPE_CLIENT   = 'client';
+    const TYPE_ADMIN    = 'admin';
+    const TYPE_MANAGER  = 'manager';
+    const TYPE_RESELLER = 'reseller';
+    const TYPE_OWNER    = 'owner';
+
     public function save()
     {
         static::$_users[$this->id] = $this;
