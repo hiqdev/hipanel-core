@@ -226,11 +226,19 @@ JS
         return $n;
     }
 
+    /**
+     * @param array $data
+     * @void
+     */
     public function setSearchFormData($data = [])
     {
         $this->searchFormData = $data;
     }
 
+    /**
+     * @param array $options
+     * @void
+     */
     public function setSearchFormOptions($options = [])
     {
         $this->searchFormOptions = $options;
