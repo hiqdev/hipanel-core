@@ -86,7 +86,7 @@ class IndexAction extends SearchAction
             $request = Yii::$app->request;
 
             $formName = $this->getSearchModel()->formName();
-            $requestFilters = Yii::$app->request->get($formName) ?: Yii::$app->request->get() ?: Yii::$app->request->post();
+            $requestFilters = $request->get($formName) ?: $request->get() ?: $request->post();
 
             // Don't save filters for ajax requests, because
             // the request is probably triggered with select2 or smt similar
@@ -97,12 +97,15 @@ class IndexAction extends SearchAction
                     $filterStorage->clearFilters();
                 }
 
-                $filters = $filterStorage->get();
                 $filterStorage->set($requestFilters);
-                $search = ArrayHelper::merge($this->findOptions, $filters, $requestFilters);
-            } else {
-                $search = ArrayHelper::merge($this->findOptions, $requestFilters);
+
+                // Apply filters from storage only when request does not contain any data
+                if (empty($requestFilters)) {
+                    $requestFilters = $filterStorage->get();
+                }
             }
+
+            $search = ArrayHelper::merge($this->findOptions, $requestFilters);
 
             $this->returnOptions[$this->controller->modelClassName()] = ArrayHelper::merge(
                 ArrayHelper::remove($search, 'return', []),
