@@ -12,6 +12,7 @@
 namespace hipanel\assets;
 
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 class IsotopeAsset extends AssetBundle
 {
@@ -19,5 +20,9 @@ class IsotopeAsset extends AssetBundle
 
     public $js = [
         '//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js',
+    ];
+
+    public $depends = [
+        JqueryAsset::class,
     ];
 }
