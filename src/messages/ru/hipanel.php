@@ -291,4 +291,6 @@ return [
     'WP Freeze does not enabled' => 'WP Фриз не включен',
     'Object status prohibits operation' => 'Статус объекта не позволят совершить эту операцию',
     'pincode must be set' => 'Пин-код должен быть установлен',
+
+    'hour' => 'час',
 ];
