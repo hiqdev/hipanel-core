@@ -83,7 +83,10 @@ class User extends \yii\web\User
             $this->redirectLogin();
         }
 
-        return ['access_token' => $token];
+        return [
+            'access_token' => $token,
+            'auth_ip' => Yii::$app->request->getUserIP(),
+        ];
     }
 
     public function redirectLogin()
