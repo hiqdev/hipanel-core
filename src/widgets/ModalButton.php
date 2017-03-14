@@ -280,10 +280,14 @@ class ModalButton extends Widget
 
     /**
      * Constructs model ID, using [[$model]] primary key, or ID of the widget and scenario.
-     * @return string format: ```modal_{id}_{scenario}```
+     * @return string format: `modal_{id}_{scenario}`
      */
     public function getModalId()
     {
+        if ($this->getId(false) !== null) {
+            return $this->getId(false);
+        }
+
         $id = $this->model->getPrimaryKey() ?: $this->id;
 
         return "modal_{$id}_{$this->scenario}";
