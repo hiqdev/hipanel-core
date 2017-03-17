@@ -60,6 +60,9 @@ return [
     'Remove' => 'удалить',
     'remove' => 'убрать',
     'Upload' => 'Загрузить',
+    'Send' => 'Отправить',
+    'Close' => 'Закрыть',
+
 
     /// Dates
     'Last Month' => 'Последний месяц',
@@ -165,6 +168,7 @@ return [
     'you can not disable this mailbox' => 'Вы не можете отключить этот почтовый ящик',
     'you can not enable this mailbox' => 'Вы не можете включить этот почтовый ящик',
     'email already exists' => 'Такой адрес электронной почты уже существует.',
+    'Enter pincode' => 'Введите прнкод',
 
     /// Search
     'Search' => 'Поиск',
@@ -195,7 +199,6 @@ return [
     'Clients' => 'Клиенты',
     'Reseller' => 'Реселлер',
     'Currency' => 'Валюта',
-    'Balance' => 'Баланс',
     'Sum' => 'Сумма',
     'Count' => 'Количество',
 
