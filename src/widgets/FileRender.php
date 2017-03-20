@@ -13,15 +13,20 @@ namespace hipanel\widgets;
 
 use hipanel\components\FileStorage;
 use hipanel\helpers\ArrayHelper;
-use hipanel\helpers\FileHelper;
 use hipanel\models\File;
+use hipanel\widgets\filePreview\FilePreviewFactory;
+use hipanel\widgets\filePreview\FilePreviewFactoryInterface;
+use hipanel\widgets\filePreview\Dimensions;
+use hipanel\widgets\filePreview\OutboundDimensions;
+use hipanel\widgets\filePreview\types\PdfPreviewGenerator;
+use hipanel\widgets\filePreview\UnsupportedMimeTypeException;
+use hipanel\widgets\filePreview\InsetDimensions;
 use hiqdev\assets\lightbox2\LightboxAsset;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\imagine\Image;
 
 class FileRender extends Widget
 {
@@ -79,7 +84,7 @@ class FileRender extends Widget
     public function run()
     {
         $this->registerClientScript();
-        $this->renderHtml();
+        return $this->renderHtml();
     }
 
     private function registerClientScript()
@@ -93,19 +98,22 @@ class FileRender extends Widget
     private function renderHtml()
     {
         $file = $this->file;
+        $path = $this->fileStorage->get($file);
 
-        $filename = $this->fileStorage->get($file);
-        $contentType = $this->getContentType($file->id);
-        if (mb_substr($contentType, 0, 5) === 'image') {
-            $thumb = Image::thumbnail($filename, $this->thumbHeight, $this->thumbHeight);
-            $base64 = 'data: ' . $contentType . ';base64,' . base64_encode($thumb);
-            echo Html::a(
-                Html::img($base64, ['class' => 'margin']),
-                $this->getLink(),
-                ArrayHelper::merge(['data-lightbox' => 'file-' . $file->id], $this->lightboxLinkOptions)
-            );
-        } else {
-            echo Html::a(
+        /** @var FilePreviewFactoryInterface $factory */
+        $factory = Yii::createObject(FilePreviewFactoryInterface::class);
+        try {
+            $generator= $factory->createGenerator($path);
+            $dimensions = new InsetDimensions($generator->getDimensions(), new Dimensions($this->thumbWidth, $this->thumbWidth));
+            $src = 'data: ' . $generator->getContentType() . ';base64,' . base64_encode($generator->asBytes($dimensions));
+            if ($generator instanceof PdfPreviewGenerator) {
+                return Html::a(Html::img($src, ['class' => 'margin']), $this->getLink(), ['target' => '_blank']);
+            } else {
+                $linkOptions = ArrayHelper::merge(['data-lightbox' => 'file-' . $file->id], $this->lightboxLinkOptions);
+                return Html::a(Html::img($src, ['class' => 'margin']), $this->getLink(), $linkOptions);
+            }
+        } catch (UnsupportedMimeTypeException $e) {
+            return Html::a(
                 Html::tag('div', $this->getExtIcon($file->type), ['class' => 'margin file']),
                 $this->getLink(true)
             );
@@ -129,13 +137,6 @@ class FileRender extends Widget
         }
 
         return ['/file/view', 'id' => $this->file->id];
-    }
-
-    private function getContentType($id)
-    {
-        $path = $this->fileStorage->get($id);
-
-        return FileHelper::getMimeType($path);
     }
 
     private function getExtIcon($ext)
