@@ -157,5 +157,8 @@ return [
                 'class' => \hipanel\menus\SidebarMenu::class,
             ],
         ],
+        'singletons' => [
+            \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class
+        ]
     ],
 ];
