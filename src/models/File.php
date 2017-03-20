@@ -17,6 +17,8 @@ use Yii;
 /**
  * Class File
  * @package hipanel\models
+ *
+ * @property string type
  */
 class File extends \hiqdev\hiart\ActiveRecord
 {
