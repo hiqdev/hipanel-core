@@ -28,6 +28,9 @@ use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+/**
+ * @property mixed iconOptions
+ */
 class FileRender extends Widget
 {
     /**
@@ -59,6 +62,10 @@ class FileRender extends Widget
      * @var array Options that will be passed to [[Html::a()]] for the image lightbox
      */
     public $lightboxLinkOptions = [];
+
+    public $imageOptions = [];
+
+    public $iconOptions = [];
 
     /**
      * @var array
@@ -103,20 +110,17 @@ class FileRender extends Widget
         /** @var FilePreviewFactoryInterface $factory */
         $factory = Yii::createObject(FilePreviewFactoryInterface::class);
         try {
-            $generator= $factory->createGenerator($path);
+            $generator = $factory->createGenerator($path);
             $dimensions = new InsetDimensions($generator->getDimensions(), new Dimensions($this->thumbWidth, $this->thumbWidth));
             $src = 'data: ' . $generator->getContentType() . ';base64,' . base64_encode($generator->asBytes($dimensions));
             if ($generator instanceof PdfPreviewGenerator) {
-                return Html::a(Html::img($src, ['class' => 'margin']), $this->getLink(), ['target' => '_blank']);
+                return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), ['target' => '_blank']);
             } else {
                 $linkOptions = ArrayHelper::merge(['data-lightbox' => 'file-' . $file->id], $this->lightboxLinkOptions);
-                return Html::a(Html::img($src, ['class' => 'margin']), $this->getLink(), $linkOptions);
+                return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), $linkOptions);
             }
         } catch (UnsupportedMimeTypeException $e) {
-            return Html::a(
-                Html::tag('div', $this->getExtIcon($file->type), ['class' => 'margin file']),
-                $this->getLink(true)
-            );
+            return Html::a($this->getExtIcon($file->type), $this->getLink(true));
         }
     }
 
@@ -141,7 +145,7 @@ class FileRender extends Widget
 
     private function getExtIcon($ext)
     {
-        $default = '<div><i class="fa fa-file-text-o fa-2x"></i></div>';
+        $default = '<i class="fa fa-file-text-o fa-2x"></i>';
         if (array_key_exists($ext, $this->extMatch)) {
             return $this->extMatch[$ext];
         } else {
