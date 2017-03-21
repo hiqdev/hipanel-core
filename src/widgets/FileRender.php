@@ -71,11 +71,11 @@ class FileRender extends Widget
      * @var array
      */
     private $extMatch = [
-        'pdf' => '<div><i class="fa fa-file-pdf-o fa-2x"></i></div>',
-        'doc' => '<div><i class="fa fa-file-word-o fa-2x"></i></div>',
-        'docx' => '<div><i class="fa fa-file-word-o fa-2x"></i></div>',
-        'xls' => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
-        'xlsx' => '<div><i class="fa fa-file-excel-o fa-2x"></i></div>',
+        'pdf' => 'fa-file-pdf-o',
+        'doc' => 'fa-file-word-o',
+        'docx' => 'fa-file-word-o',
+        'xls' => 'fa-file-excel-o',
+        'xlsx' => 'fa-file-excel-o',
     ];
 
     public function init()
@@ -145,11 +145,11 @@ class FileRender extends Widget
 
     private function getExtIcon($ext)
     {
-        $default = '<i class="fa fa-file-text-o fa-2x"></i>';
-        if (array_key_exists($ext, $this->extMatch)) {
-            return $this->extMatch[$ext];
-        } else {
-            return $default;
-        }
+        $defaultIcon = 'fa-file-text-o';
+        $icon =  array_key_exists($ext, $this->extMatch) ? $this->extMatch[$ext] : $defaultIcon;
+        $iconClasses = 'fa ' . $icon;
+        Html::addCssClass($this->iconOptions, $iconClasses);
+
+        return  Html::tag('i', null, $this->iconOptions);
     }
 }
