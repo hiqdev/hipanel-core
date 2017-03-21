@@ -3,11 +3,14 @@
 namespace hipanel\widgets\filePreview;
 
 use hipanel\helpers\FileHelper;
-use hipanel\widgets\filePreview\types\AbstractPreviewGenerator;
 use hipanel\widgets\filePreview\types\ImagePreviewGenerator;
 use hipanel\widgets\filePreview\types\PdfPreviewGenerator;
+use hipanel\widgets\filePreview\types\PreviewGeneratorInterface;
 use Yii;
 
+/**
+ * Class FilePreviewFactory creates File
+ */
 class FilePreviewFactory implements FilePreviewFactoryInterface
 {
     public $generators = [
@@ -16,8 +19,8 @@ class FilePreviewFactory implements FilePreviewFactoryInterface
     ];
 
     /**
-     * @param $path
-     * @return AbstractPreviewGenerator
+     * @param string $path
+     * @return PreviewGeneratorInterface
      * @throws UnsupportedMimeTypeException
      */
     public function createGenerator($path)
@@ -32,11 +35,17 @@ class FilePreviewFactory implements FilePreviewFactoryInterface
         return Yii::createObject($className, [$path]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getMimeType($path)
     {
         return FileHelper::getMimeType($path);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function resolveGeneratorClass($mimeType)
     {
         foreach ($this->generators as $pattern => $generatorClass) {

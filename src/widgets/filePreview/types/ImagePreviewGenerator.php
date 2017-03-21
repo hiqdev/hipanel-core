@@ -4,13 +4,20 @@
 namespace hipanel\widgets\filePreview\types;
 
 use hipanel\widgets\filePreview\DimensionsInterface;
+use Imagine\Gd\Imagine;
 use Imagine\Image\ManipulatorInterface;
 use yii\imagine\Image;
 
 class ImagePreviewGenerator extends AbstractPreviewGenerator
 {
+    /**
+     * @var Imagine|\Imagine\Image\ImageInterface
+     */
     private $imagine;
 
+    /**
+     * @return Imagine|\Imagine\Image\ImageInterface
+     */
     protected function getImagine()
     {
         if ($this->imagine === null) {
@@ -20,21 +27,33 @@ class ImagePreviewGenerator extends AbstractPreviewGenerator
         return $this->imagine;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function asBytes(DimensionsInterface $dimensions)
     {
         return Image::thumbnail($this->getImagine(), $dimensions->getWidth(), $dimensions->getHeight());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getContentType()
     {
         return mime_content_type($this->path);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getWidth()
     {
         return $this->getImagine()->getSize()->getWidth();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getHeight()
     {
         return $this->getImagine()->getSize()->getHeight();

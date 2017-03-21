@@ -3,12 +3,26 @@
 
 namespace hipanel\widgets\filePreview;
 
-
+/**
+ * Class Dimensions represents
+ */
 class Dimensions implements DimensionsInterface
 {
+    /**
+     * @var int
+     */
     protected $width;
+
+    /**
+     * @var int
+     */
     protected $height;
 
+    /**
+     * Dimensions constructor.
+     * @param int $width
+     * @param int $height
+     */
     public function __construct($width, $height)
     {
         $this->width = $width;
@@ -16,7 +30,7 @@ class Dimensions implements DimensionsInterface
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getHeight()
     {
@@ -24,17 +38,20 @@ class Dimensions implements DimensionsInterface
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getWidth()
     {
         return $this->width;
     }
 
+    /**
+     * @return float
+     */
     public function getRatio()
     {
         if ($this->getWidth() == 0 || $this->getHeight() == 0) {
-            return 1;
+            return (float) 1;
         }
 
         return $this->getWidth() / $this->getHeight();

@@ -3,16 +3,26 @@
 
 namespace hipanel\widgets\filePreview;
 
-
+/**
+ * Interface DimensionsInterface represents dimensions values
+ */
 interface DimensionsInterface
 {
-    const ORIENTATION_HORIZONTAL = 0;
-
-    const ORIENTATION_VERTICAL = 1;
-
+    /**
+     * @return integer
+     */
     public function getWidth();
 
+    /**
+     * @return integer
+     */
     public function getHeight();
 
+    /**
+     * The aspect ration of width to height.
+     * Must calculated as `width/height`.
+     *
+     * @return float
+     */
     public function getRatio();
 }

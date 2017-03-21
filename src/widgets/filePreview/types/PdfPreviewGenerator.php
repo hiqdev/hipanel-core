@@ -13,6 +13,9 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
      */
     private $imagick;
 
+    /**
+     * @return Imagick
+     */
     protected function getImagick()
     {
         if ($this->imagick === null) {
@@ -22,6 +25,9 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
         return $this->imagick;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function asBytes(DimensionsInterface $dimensions)
     {
         $im = clone $this->getImagick();
@@ -30,16 +36,25 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
         return $im->getImageBlob();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getContentType()
     {
         return 'image/jpeg';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getWidth()
     {
         return $this->getImagick()->getImageWidth();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getHeight()
     {
         return $this->getImagick()->getImageHeight();
