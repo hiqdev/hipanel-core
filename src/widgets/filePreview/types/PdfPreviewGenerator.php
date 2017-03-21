@@ -16,7 +16,7 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
     protected function getImagick()
     {
         if ($this->imagick === null) {
-            $this->imagick = new Imagick(realpath($this->path));
+            $this->imagick = new Imagick(realpath($this->path) . '[0]');
         }
 
         return $this->imagick;
