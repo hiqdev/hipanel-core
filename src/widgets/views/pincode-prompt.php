@@ -20,7 +20,7 @@ use yii\helpers\Html;
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <?= Html::passwordInput('pincode', null, [
+                    <?= Html::passwordInput('pincode-modal-input', null, [
                         'class' => 'form-control pincode-input',
                         'placeholder' => '****',
                         'autocomplete' => 'new-password',

@@ -73,7 +73,9 @@
 
             this.modal
 	            .one('show.bs.modal.pincodePrompt', function () {
-                    that.input.focus();
+	            	setTimeout(function () {
+                        that.input.focus();
+		            }, 300);
                 })
                 .one('hide.bs.modal.pincodePrompt', function () {
                     that.reject();
@@ -99,11 +101,6 @@
 	};
 
 	$.fn[pluginName] = function (options) {
-		var plugin = 'plugin_' + pluginName;
-		if (!$(this).data(plugin)) {
-			$(this).data(plugin, new Plugin(this, options));
-		}
-
-		return $(this).data(plugin);
+		return new Plugin(this, options);
 	};
 })(jQuery, window, document);
