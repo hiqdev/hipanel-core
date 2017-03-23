@@ -1,8 +1,14 @@
 <?php
-
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\filePreview\types;
-
 
 use hipanel\widgets\filePreview\Dimensions;
 use hipanel\widgets\filePreview\DimensionsInterface;
@@ -17,27 +23,27 @@ abstract class AbstractPreviewGenerator implements PreviewGeneratorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     abstract public function asBytes(DimensionsInterface $dimensions);
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     abstract public function getContentType();
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     abstract public function getWidth();
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     abstract public function getHeight();
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDimensions()
     {

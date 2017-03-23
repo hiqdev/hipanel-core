@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -67,7 +66,7 @@ class ArraySpoiler extends Widget
 
     /**
      * @var string the template that is used to arrange show items, activating button and hidden inputs
-     * The following tokens will be replaced when [[render()]] is called: `{shown}`, `{button}`, `{hidden}`.
+     * The following tokens will be replaced when [[render()]] is called: `{shown}`, `{button}`, `{hidden}`
      */
     public $template = "{visible}\n{button}\n{hidden}";
 

@@ -1,11 +1,18 @@
 <?php
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\components;
 
 use hipanel\modules\client\models\Client;
 use yii\base\Application;
 use yii\base\Component;
-use yii\di\Instance;
 
 class SettingsStorage extends Component implements SettingsStorageInterface
 {
@@ -20,7 +27,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setGlobal($key, $value)
     {
@@ -32,7 +39,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setBounded($key, $value)
     {
@@ -44,7 +51,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getGlobal($key)
     {
@@ -57,7 +64,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBounded($key)
     {
@@ -70,7 +77,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
     }
 
     /**
-     * Performs request to the API
+     * Performs request to the API.
      * @param string $key
      * @param array $value
      * @return array

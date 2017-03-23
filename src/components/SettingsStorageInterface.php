@@ -1,45 +1,51 @@
 <?php
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\components;
 
 /**
- * Interface SettingsStorageInterface
- *
- * @package hipanel\components
+ * Interface SettingsStorageInterface.
  */
 interface SettingsStorageInterface
 {
     /**
-     * Sets $value by the $key to the user's storage
+     * Sets $value by the $key to the user's storage.
      *
      * @param $key
      * @param $value
      * @void
      */
-    function setGlobal($key, $value);
+    public function setGlobal($key, $value);
 
     /**
-     * Sets $value by the $key to the user's storage bound to the OAuth `client_id`
+     * Sets $value by the $key to the user's storage bound to the OAuth `client_id`.
      *
      * @param $key
      * @param $value
      * @void
      */
-    function setBounded($key, $value);
+    public function setBounded($key, $value);
 
     /**
-     * Gets value from user's storage $key
+     * Gets value from user's storage $key.
      *
      * @param $key
      * @return array
      */
-    function getGlobal($key);
+    public function getGlobal($key);
 
     /**
-     * Gets value from user's storage bound to the OAuth `client_id`
+     * Gets value from user's storage bound to the OAuth `client_id`.
      *
      * @param $key
      * @return array
      */
-    function getBounded($key);
+    public function getBounded($key);
 }

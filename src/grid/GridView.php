@@ -1,20 +1,19 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
 use hipanel\helpers\ArrayHelper;
-use hipanel\widgets\LinkSorter;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\SellerColumn;
+use hipanel\widgets\LinkSorter;
 use hiqdev\assets\datatables\DataTablesAsset;
 use hiqdev\assets\icheck\iCheckAsset;
 use Yii;

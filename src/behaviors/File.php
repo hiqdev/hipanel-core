@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\behaviors;
@@ -21,7 +20,7 @@ use yii\web\UploadedFile;
 class File extends Behavior
 {
     /**
-     * @var string the attribute which holds the attachment.
+     * @var string the attribute which holds the attachment
      */
     public $attribute = 'file';
 
@@ -47,7 +46,7 @@ class File extends Behavior
     }
 
     /**
-     * Event handler for beforeInsert and beforeUpdate actions
+     * Event handler for beforeInsert and beforeUpdate actions.
      *
      * @param \yii\base\ModelEvent $event
      */
@@ -75,7 +74,7 @@ class File extends Behavior
     }
 
     /**
-     * Uploads file to the API server
+     * Uploads file to the API server.
      *
      * @param UploadedFile $file
      * @return \hipanel\models\File

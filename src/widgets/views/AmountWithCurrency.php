@@ -1,8 +1,8 @@
 <?php
 
 use hipanel\helpers\StringHelper;
-use yii\helpers\ArrayHelper;
 use yii\bootstrap\Html;
+use yii\helpers\ArrayHelper;
 
 ?>
 <div class="input-group">

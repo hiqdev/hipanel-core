@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\filePreview;
 
@@ -9,19 +17,19 @@ use hipanel\widgets\filePreview\types\PreviewGeneratorInterface;
 use Yii;
 
 /**
- * Class FilePreviewFactory creates File
+ * Class FilePreviewFactory creates File.
  */
 class FilePreviewFactory implements FilePreviewFactoryInterface
 {
     public $generators = [
         '^image/.*$' => ImagePreviewGenerator::class,
-        '^application/pdf$' => PdfPreviewGenerator::class
+        '^application/pdf$' => PdfPreviewGenerator::class,
     ];
 
     /**
      * @param string $path
-     * @return PreviewGeneratorInterface
      * @throws UnsupportedMimeTypeException
+     * @return PreviewGeneratorInterface
      */
     public function createGenerator($path)
     {
@@ -36,7 +44,7 @@ class FilePreviewFactory implements FilePreviewFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMimeType($path)
     {
@@ -44,7 +52,7 @@ class FilePreviewFactory implements FilePreviewFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resolveGeneratorClass($mimeType)
     {

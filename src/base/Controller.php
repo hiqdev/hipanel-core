@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -16,7 +15,6 @@ use hipanel\components\Response;
 use hiqdev\hiart\ActiveRecord;
 use Yii;
 use yii\di\Instance;
-use yii\filters\AccessControl;
 use yii\helpers\Inflector;
 use yii\web\NotFoundHttpException;
 
@@ -26,7 +24,7 @@ use yii\web\NotFoundHttpException;
 class Controller extends \yii\web\Controller
 {
     /**
-     * @var Cache|array|string the cache object or the application component ID of the cache object.
+     * @var Cache|array|string the cache object or the application component ID of the cache object
      */
     protected $_cache = 'cache';
 
@@ -45,7 +43,7 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * @var array internal actions.
+     * @var array internal actions
      */
     protected $_internalActions;
 

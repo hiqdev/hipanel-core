@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -129,6 +128,6 @@ trait SearchModelTrait
     {
         /// XXX parent::attributeLabels() creates infinite recursion
         $class = parent::class;
-        return (new $class)->attributeLabels();
+        return (new $class())->attributeLabels();
     }
 }

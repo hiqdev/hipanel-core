@@ -1,11 +1,18 @@
 <?php
-
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\filePreview;
 
 /**
  * Class OutboundDimensions implements [[DimensionsInterface]] and provides
- * API to resize [[originalDimensions]] to [[targetDimensions]] using the following logic:
+ * API to resize [[originalDimensions]] to [[targetDimensions]] using the following logic:.
  *
  * The smallest side (width or height) of the [[originalDimensions]] will be resized to
  * the [[targetDimensions]] side. The second side will be resized accordingly to the original
@@ -34,7 +41,7 @@ class OutboundDimensions implements DimensionsInterface
     private $targetDimensions;
 
     /**
-     * OutboundDimensions constructor
+     * OutboundDimensions constructor.
      *
      * @param Dimensions $originalDimensions the original image dimensions
      * @param Dimensions $targetDimensions the target image dimensions
@@ -86,7 +93,7 @@ class OutboundDimensions implements DimensionsInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getRatio()
     {

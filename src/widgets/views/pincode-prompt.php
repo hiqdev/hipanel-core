@@ -1,10 +1,9 @@
 <?php
 
 /**
- * @var \yii\web\View $this
+ * @var \yii\web\View
  * @var \hipanel\widgets\PincodePrompt $widget
  */
-
 use yii\helpers\Html;
 
 ?>

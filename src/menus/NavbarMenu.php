@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\menus;
 
@@ -30,15 +38,15 @@ class NavbarMenu extends \hiqdev\yii2\menus\Menu
                 'label' => CartTeaser::widget(),
                 'encode' => false,
                 'options' => [
-                    'class' => 'dropdown notifications-menu notifications-cart'
+                    'class' => 'dropdown notifications-menu notifications-cart',
                 ],
             ],
             [
                 'label' => UserMenu::widget(),
                 'encode' => false,
                 'options' => [
-                    'class' => 'dropdown user user-menu'
-                ]
+                    'class' => 'dropdown user user-menu',
+                ],
             ],
             [
                 'label' => '<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>',

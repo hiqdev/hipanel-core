@@ -1,23 +1,21 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\controllers;
 
 use hipanel\models\User;
-use hisite\actions\RenderAction;
 use hisite\actions\RedirectAction;
+use hisite\actions\RenderAction;
 use Yii;
-use yii\filters\AccessControl;
 use yii\authclient\AuthAction;
-use yii\web\BadRequestHttpException;
+use yii\filters\AccessControl;
 
 /**
  * Site controller.
@@ -99,5 +97,4 @@ class SiteController extends \hisite\controllers\SiteController
 
         return Yii::$app->response->redirect($url);
     }
-
 }

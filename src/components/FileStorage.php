@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\components;
@@ -27,8 +26,6 @@ use yii\web\UploadedFile;
 /**
  * Class FileStorage provides interface to save uploaded files and view saved files
  * using integration with HiArt.
- *
- * @package hipanel\components
  */
 class FileStorage extends Component
 {
@@ -65,7 +62,7 @@ class FileStorage extends Component
      */
     public $fileModelClass = File::class;
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function init()
     {
         $this->tempDirectory = Yii::getAlias($this->tempDirectory);
@@ -75,17 +72,16 @@ class FileStorage extends Component
         FileHelper::createDirectory($this->directory);
 
         if ($this->secret === null) {
-            throw new InvalidConfigException("Please, set the \"secret\" property for the FileStorage component");
+            throw new InvalidConfigException('Please, set the "secret" property for the FileStorage component');
         }
-
     }
 
     /**
-     * Saves uploaded file under the [[tempDirectory]] with random file name
+     * Saves uploaded file under the [[tempDirectory]] with random file name.
      *
      * @param UploadedFile $file
-     * @return string randomly generated file name
      * @throws ErrorException when file is not saved
+     * @return string randomly generated file name
      */
     public function saveUploadedFile(UploadedFile $file)
     {
@@ -102,7 +98,7 @@ class FileStorage extends Component
     }
 
     /**
-     * Builds path to the temporary location of $filename under the [[tempDirectory]]
+     * Builds path to the temporary location of $filename under the [[tempDirectory]].
      *
      * @param string $filename
      * @return string full path to the temporary file
@@ -120,8 +116,8 @@ class FileStorage extends Component
      *
      * @param string $filename The temporary file name
      * @param string $originalName Original (as file was uploaded) file name. Optional, defaults to $filename
-     * @return File The file model
      * @throws Exception when file $filename does not exist
+     * @return File The file model
      */
     public function put($filename, $originalName = null)
     {
@@ -137,7 +133,7 @@ class FileStorage extends Component
             'class' => $this->fileModelClass,
             'scenario' => 'put',
             'filename' => $originalName,
-            'url' => $this->getTemporaryViewUrl($filename)
+            'url' => $this->getTemporaryViewUrl($filename),
         ]);
 
         $model->save();
@@ -160,7 +156,7 @@ class FileStorage extends Component
     }
 
     /**
-     * Gets the path of the file with $id
+     * Gets the path of the file with $id.
      *
      * Method downloads the requested file from the API and saves it to the local machine.
      * Method respects authentication and access rules.
@@ -168,9 +164,9 @@ class FileStorage extends Component
      * @param integer|File $file the ID of the file, or the [[File]] model.
      * When model is passed, no additional query will be performed.
      * @param bool $overrideCache whether the cache must be invalidated
-     * @return string full path to the file. File is located under the [[directory]]
      * @throws Exception when fails to save file locally
      * @throws ForbiddenHttpException when file is not available to client due to policies
+     * @return string full path to the file. File is located under the [[directory]]
      */
     public function get($file, $overrideCache = false)
     {
@@ -183,11 +179,11 @@ class FileStorage extends Component
             $content = $file->perform('get', ['id' => $file->id]);
 
             if (!FileHelper::createDirectory(dirname($path))) {
-                throw new Exception("Failed to create directory");
+                throw new Exception('Failed to create directory');
             }
 
             if (file_put_contents($path, $content) === false) {
-                throw new Exception("Failed to create local file");
+                throw new Exception('Failed to create local file');
             }
         }
 
@@ -214,9 +210,9 @@ class FileStorage extends Component
      * @param bool $overrideCache whether the cache must be invalidated
      * @param bool $throwException whether ForbiddenHttpException will be thrown
      * when file is not available due to policies
-     * @return File
      * @throws ForbiddenHttpException when file is not available to client due
      * to policies and $throwException parameter is set to `true`
+     * @return File
      */
     public function getFileModel($id, $overrideCache = false, $throwException = true)
     {
@@ -260,7 +256,7 @@ class FileStorage extends Component
     }
 
     /**
-     * Builds MD5 hash using [[secret]] and $sting
+     * Builds MD5 hash using [[secret]] and $sting.
      *
      * @param $string
      * @return string MD5 hash
@@ -271,13 +267,13 @@ class FileStorage extends Component
     }
 
     /**
-     * Gets path to the temporary file $filename located under the [[tempDirectory]]
+     * Gets path to the temporary file $filename located under the [[tempDirectory]].
      *
      * @param string $filename the file name
      * @param string $key secret key that was previously generated by [[buildHash]] method unauthorized access
-     * @return string path to the temporary file
      * @throws ForbiddenHttpException when failed to verify secret $key
      * @throws NotFoundHttpException when the requested files does not exist
+     * @return string path to the temporary file
      */
     public function getTemporary($filename, $key)
     {

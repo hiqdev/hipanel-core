@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -34,9 +33,9 @@ use yii\base\InvalidConfigException;
 class FilterStorage extends Component
 {
     /**
-     * @var array[] The array of filters map
+     * @var array[] the array of filters map
      *
-     * Example of usage is listed in the description of the class.
+     * Example of usage is listed in the description of the class
      * @see FilterStorage
      */
     public $map = [];

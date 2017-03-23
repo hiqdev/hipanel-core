@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -57,7 +56,7 @@ class RefFilter extends Widget
 
     /**
      * @var array of elements that will be merged with elements extracted from [[Ref]]
-     * and passed to [[ArrayHelper::merge()]] as a second attribute.
+     * and passed to [[ArrayHelper::merge()]] as a second attribute
      *
      * @see ArrayHelper::merge()
      */

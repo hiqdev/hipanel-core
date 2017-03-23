@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\helpers;
@@ -72,7 +71,7 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
      * Uses [[getValue]] method.
      *
      * @param array|object $array array or object to extract value from
-     * @param array [string] $keys keys names of the array elements, or properties of the object.
+     * @param array [string] $keys keys names of the array elements, or properties of the object
      * @return array
      * @see getValue()
      */

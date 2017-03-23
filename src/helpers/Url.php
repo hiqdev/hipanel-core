@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\helpers;
@@ -22,10 +21,10 @@ class Url extends \yii\helpers\Url
     public static function toAction($link, $params = [], $action = 'index')
     {
         $params = is_array($params) ? $params : ['id' => $params];
-        if (strpos('/', $link) ===  false) {
+        if (strpos('/', $link) === false) {
             $link = $link . '/' . $action;
         }
-        if (strpos('@', $link) ===  false) {
+        if (strpos('@', $link) === false) {
             $link = '@' . $link;
         }
         array_unshift($params, $link);

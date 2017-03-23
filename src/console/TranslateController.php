@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\console;
@@ -54,7 +53,7 @@ class TranslateController extends MessageController
      * @param string $configFile the path or alias of the configuration file.
      * You may use the "yii message/config" command to generate
      * this file and then customize it for your needs.
-     * @throws Exception on failure.
+     * @throws Exception on failure
      */
     public function actionGoogleExtract($configFile = null)
     {

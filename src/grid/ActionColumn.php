@@ -1,18 +1,17 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
-use hiqdev\higrid\FeaturedColumnTrait;
 use Closure;
+use hiqdev\higrid\FeaturedColumnTrait;
 use Yii;
 use yii\helpers\Html;
 
@@ -119,7 +118,6 @@ class ActionColumn extends \yii\grid\ActionColumn
                         'method'  => 'POST',
                         'data-pjax' => '0',
                     ],
-
                 ], $this->buttonOptions);
 
                 return Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('hipanel', 'Delete'), $url, $options);

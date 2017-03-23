@@ -1,19 +1,18 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
+use Closure;
 use hipanel\helpers\ArrayHelper;
 use hipanel\widgets\XEditable;
-use Closure;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;

@@ -1,18 +1,16 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
 
 use hiqdev\hiart\Collection;
-use Closure;
 use Yii;
 
 /**
@@ -33,7 +31,6 @@ class ClassValuesAction extends Action
         $request = Yii::$app->request;
 
         if ($request->isAjax && Yii::$app->request->isPost) {
-
             /// to be redone with native Action collection
             $this->model = (new Collection(['model' => $this->model]))->load()->first;
 

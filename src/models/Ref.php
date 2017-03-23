@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\models;
@@ -30,7 +29,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
      * Finds models by specified $name and $options parameters,
      * transforms them to key-value structure.
      * Name: attribute `name`
-     * Value: attribute `label`
+     * Value: attribute `label`.
      *
      * @param string $name
      * @param string $translate

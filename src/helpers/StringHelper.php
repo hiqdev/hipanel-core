@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\helpers;
@@ -19,7 +18,7 @@ class StringHelper extends \yii\helpers\StringHelper
     /**
      * Explodes string into array, optionally trims values and skips empty ones.
      *
-     * @param string $string String to be exploded.
+     * @param string $string string to be exploded
      * @param string $delimiter Delimiter. should be regular expression
      * @param mixed $trim Whether to trim each element. Can be:
      *   - boolean - to trim normally;
@@ -53,9 +52,9 @@ class StringHelper extends \yii\helpers\StringHelper
      * Returns the symbol used for a currency.
      *
      * @param string $currency      A currency code (e.g. "EUR").
-     * @param string|null $locale   Optional.
+     * @param string|null $locale   optional
      *
-     * @return string|null The currency symbol or NULL if not found.
+     * @return string|null the currency symbol or NULL if not found
      */
     public static function getCurrencySymbol($currency, $locale = null)
     {

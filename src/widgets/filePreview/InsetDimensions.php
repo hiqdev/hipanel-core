@@ -1,11 +1,18 @@
 <?php
-
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\filePreview;
 
 /**
  * Class InsetDimensions implements [[DimensionsInterface]] and provides
- * API to resize [[originalDimensions]] to [[targetDimensions]] using the following logic:
+ * API to resize [[originalDimensions]] to [[targetDimensions]] using the following logic:.
  *
  * The smallest side (width or height) of the [[originalDimensions]] will be resized to
  * the [[targetDimensions]] side. The second side will be resized accordingly to the original
@@ -86,7 +93,7 @@ class InsetDimensions implements DimensionsInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getRatio()
     {

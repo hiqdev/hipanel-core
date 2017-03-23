@@ -1,11 +1,17 @@
 <?php
-
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\filePreview\types;
 
 use hipanel\widgets\filePreview\DimensionsInterface;
 use Imagine\Gd\Imagine;
-use Imagine\Image\ManipulatorInterface;
 use yii\imagine\Image;
 
 class ImagePreviewGenerator extends AbstractPreviewGenerator
@@ -28,7 +34,7 @@ class ImagePreviewGenerator extends AbstractPreviewGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function asBytes(DimensionsInterface $dimensions)
     {
@@ -36,7 +42,7 @@ class ImagePreviewGenerator extends AbstractPreviewGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContentType()
     {
@@ -44,7 +50,7 @@ class ImagePreviewGenerator extends AbstractPreviewGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getWidth()
     {
@@ -52,7 +58,7 @@ class ImagePreviewGenerator extends AbstractPreviewGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHeight()
     {

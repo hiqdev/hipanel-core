@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -26,7 +25,7 @@ class RequestState extends Widget
     public $model;
 
     /**
-     * @var array additional options to be passed to the JS plugin call.
+     * @var array additional options to be passed to the JS plugin call
      */
     public $clientOptions = [];
 

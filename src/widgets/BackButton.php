@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets;
 
@@ -9,7 +17,7 @@ use yii\helpers\Html;
 class BackButton extends Widget
 {
     /**
-     * Html options
+     * Html options.
      * @var array
      */
     public $options = [
@@ -50,7 +58,7 @@ class BackButton extends Widget
     }
 
     /**
-     * Apply js to view
+     * Apply js to view.
      */
     protected function registerClientScript()
     {
@@ -90,7 +98,7 @@ class BackButton extends Widget
     }
 
     /**
-     * Remove params from url
+     * Remove params from url.
      * @return string
      */
     protected function removeParams($url)

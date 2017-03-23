@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -116,7 +115,7 @@ class ModalButton extends Widget
     public $modal = [];
 
     /**
-     * @var integer determines the way of form submit.
+     * @var integer determines the way of form submit
      * @see [[SUBMIT_HTML]]
      * @see [[SUBMIT_PJAX]]
      * @see [[SUBMIT_AJAX]]
@@ -328,7 +327,6 @@ class ModalButton extends Widget
 
     /**
      * Registers JavaScript for ajax submit.
-     * @return void
      */
     public function registerAjaxSubmit()
     {

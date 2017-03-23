@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -14,13 +13,11 @@ namespace hipanel\widgets;
 use hipanel\components\FileStorage;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\File;
-use hipanel\widgets\filePreview\FilePreviewFactory;
-use hipanel\widgets\filePreview\FilePreviewFactoryInterface;
 use hipanel\widgets\filePreview\Dimensions;
-use hipanel\widgets\filePreview\OutboundDimensions;
+use hipanel\widgets\filePreview\FilePreviewFactoryInterface;
+use hipanel\widgets\filePreview\InsetDimensions;
 use hipanel\widgets\filePreview\types\PdfPreviewGenerator;
 use hipanel\widgets\filePreview\UnsupportedMimeTypeException;
-use hipanel\widgets\filePreview\InsetDimensions;
 use hiqdev\assets\lightbox2\LightboxAsset;
 use Yii;
 use yii\base\InvalidConfigException;

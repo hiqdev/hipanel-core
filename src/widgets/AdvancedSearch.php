@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -15,12 +14,13 @@ use hipanel\base\Model;
 use Yii;
 use yii\base\Widget;
 use yii\bootstrap\ActiveField;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-use yii\web\JsExpression;
 //use yii\widgets\ActiveForm;
-use yii\bootstrap\ActiveForm;
+use yii\web\JsExpression;
+
 /**
  * Advanced Search widget.
  *

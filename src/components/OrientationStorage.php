@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\components;
@@ -15,9 +14,7 @@ use Yii;
 use yii\base\Component;
 
 /**
- * Class OrientationStorage
- *
- * @package hipanel\components
+ * Class OrientationStorage.
  */
 class OrientationStorage extends Component
 {
@@ -42,7 +39,7 @@ class OrientationStorage extends Component
     protected $storage;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -68,7 +65,7 @@ class OrientationStorage extends Component
     }
 
     /**
-     * Ensures that [[storage]] contains actual orientations storage
+     * Ensures that [[storage]] contains actual orientations storage.
      *
      * @return array
      */
@@ -87,7 +84,7 @@ class OrientationStorage extends Component
     }
 
     /**
-     * Saves current [[storage]]
+     * Saves current [[storage]].
      */
     protected function saveStorage()
     {
@@ -96,7 +93,7 @@ class OrientationStorage extends Component
     }
 
     /**
-     * Caches current [[storage]]
+     * Caches current [[storage]].
      */
     protected function cache()
     {
@@ -104,7 +101,7 @@ class OrientationStorage extends Component
     }
 
     /**
-     * Sets orientation for the $route
+     * Sets orientation for the $route.
      *
      * @param string $route
      * @param string $orientation
@@ -118,7 +115,7 @@ class OrientationStorage extends Component
     }
 
     /**
-     * Gets orientation for the $route
+     * Gets orientation for the $route.
      *
      * @param $route
      * @return string

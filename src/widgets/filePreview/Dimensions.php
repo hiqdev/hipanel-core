@@ -1,10 +1,17 @@
 <?php
-
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\filePreview;
 
 /**
- * Class Dimensions represents
+ * Class Dimensions represents.
  */
 class Dimensions implements DimensionsInterface
 {
@@ -50,7 +57,7 @@ class Dimensions implements DimensionsInterface
      */
     public function getRatio()
     {
-        if ($this->getWidth() == 0 || $this->getHeight() == 0) {
+        if ($this->getWidth() === 0 || $this->getHeight() === 0) {
             return (float) 1;
         }
 

@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\validators;
@@ -47,7 +46,7 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function validateAttribute($model, $attribute)
     {
@@ -82,7 +81,6 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
         return idn_to_utf8($value);
     }
 
-
     public function clientValidateAttribute($model, $attribute, $view)
     {
         $js = parent::clientValidateAttribute($model, $attribute, $view);
@@ -94,5 +92,4 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
 
         return "value = punycode.toASCII(value); $js";
     }
-
 }

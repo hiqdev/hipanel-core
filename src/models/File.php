@@ -1,22 +1,19 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\models;
 
 use hipanel\base\ModelTrait;
-use Yii;
 
 /**
- * Class File
- * @package hipanel\models
+ * Class File.
  *
  * @property string type
  */

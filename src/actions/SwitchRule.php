@@ -1,12 +1,11 @@
 <?php
-
-/*
- * HiPanel core package
+/**
+ * HiPanel core package.
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -21,12 +20,12 @@ use Yii;
 class SwitchRule extends \yii\base\Component
 {
     /**
-     * @var Action parent action.
+     * @var Action parent action
      */
     public $switch;
 
     /**
-     * @var string rule unique name and condition if not given explicitly.
+     * @var string rule unique name and condition if not given explicitly
      */
     public $name;
 
@@ -41,7 +40,7 @@ class SwitchRule extends \yii\base\Component
     public $flash = true;
 
     /**
-     * @var mixed rule condition, can be object in future.
+     * @var mixed rule condition, can be object in future
      */
     protected $_condition;
 
@@ -90,7 +89,7 @@ class SwitchRule extends \yii\base\Component
     /**
      * Setter for action. Saves the action to the controller.
      *
-     * @param mixed $action action config.
+     * @param mixed $action action config
      * @param null $postfix
      */
     public function setAction($action, $postfix = null)

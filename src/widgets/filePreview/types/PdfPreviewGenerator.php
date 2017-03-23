@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\filePreview\types;
 
@@ -26,7 +33,7 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function asBytes(DimensionsInterface $dimensions)
     {
@@ -37,7 +44,7 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContentType()
     {
@@ -45,7 +52,7 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getWidth()
     {
@@ -53,7 +60,7 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getHeight()
     {

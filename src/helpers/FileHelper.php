@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\helpers;
 
@@ -8,7 +16,7 @@ use yii\base\InvalidParamException;
 class FileHelper extends \yii\helpers\FileHelper
 {
     /**
-     * Returns the MIME-type of content in string
+     * Returns the MIME-type of content in string.
      * @param string $content
      * @return string Content mime-type
      */
@@ -35,8 +43,8 @@ class FileHelper extends \yii\helpers\FileHelper
      * @param string $filename The file name
      * @param int $nests Number of nested directories
      * @param int $length Length of the nested directory name
-     * @return string
      * @throws InvalidParamException filename does not contain enough characters for directory nesting
+     * @return string
      */
     public static function getPrefixedPath($directory, $filename, $nests = 1, $length = 2)
     {
