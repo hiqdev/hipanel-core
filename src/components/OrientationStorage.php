@@ -10,19 +10,15 @@
 
 namespace hipanel\components;
 
+use hiqdev\thememanager\models\OrientationInterface;
 use Yii;
 use yii\base\Component;
 
 /**
  * Class OrientationStorage.
  */
-class OrientationStorage extends Component
+class OrientationStorage extends Component implements OrientationInterface
 {
-    const ORIENTATION_HORIZONTAL = 'horizontal';
-    const ORIENTATION_VERTICAL = 'vertical';
-
-    public $defaultOrientation = self::ORIENTATION_HORIZONTAL;
-
     /**
      * @var string the cache key that will be used to cache storage values
      */
@@ -124,6 +120,20 @@ class OrientationStorage extends Component
     {
         $this->ensureStorage();
 
-        return isset($this->storage[$route]) ? $this->storage[$route] : $this->defaultOrientation;
+        return isset($this->storage[$route]) ? $this->storage[$route] : $this->getDefaultOrientation();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultOrientation()
+    {
+        $settings = Yii::$app->themeManager->getSettings();
+
+        if (property_exists($settings, 'filterOrientation') && in_array($settings->filterOrientation, [self::ORIENTATION_HORIZONTAL, self::ORIENTATION_VERTICAL], true)) {
+            return $settings->filterOrientation;
+        } else {
+            return self::ORIENTATION_HORIZONTAL;
+        }
     }
 }
