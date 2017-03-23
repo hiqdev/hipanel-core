@@ -1,5 +1,4 @@
-HiPanel Core
-============
+# HiPanel Core
 
 **HiPanel core package**
 

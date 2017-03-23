@@ -4527,7 +4527,7 @@
                 "hidev",
                 "plugin"
             ],
-            "time": "2017-03-02T11:37:53+00:00"
+            "time": "2017-03-02 11:37:53"
         },
         {
             "name": "hiqdev/hidev-composer",
@@ -4606,7 +4606,7 @@
                 "packagist",
                 "plugin"
             ],
-            "time": "2017-03-14T14:54:40+00:00"
+            "time": "2017-03-14 14:54:40"
         },
         {
             "name": "hiqdev/hidev-hiqdev",
@@ -4767,16 +4767,16 @@
         },
         {
             "name": "hiqdev/hidev-php",
-            "version": "0.4.4",
+            "version": "0.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hiqdev/hidev-php.git",
-                "reference": "5a39068f7a37d1de87b0729fa18c4b5e122c8e4e"
+                "reference": "3b828e5a14ca504f991cb21dbb3d0e3f1b2b3da6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hiqdev/hidev-php/zipball/5a39068f7a37d1de87b0729fa18c4b5e122c8e4e",
-                "reference": "5a39068f7a37d1de87b0729fa18c4b5e122c8e4e",
+                "url": "https://api.github.com/repos/hiqdev/hidev-php/zipball/3b828e5a14ca504f991cb21dbb3d0e3f1b2b3da6",
+                "reference": "3b828e5a14ca504f991cb21dbb3d0e3f1b2b3da6",
                 "shasum": ""
             },
             "require": {
@@ -4850,7 +4850,7 @@
                 "hidev",
                 "php"
             ],
-            "time": "2017-01-25T09:58:37+00:00"
+            "time": "2017-03-23T10:56:37+00:00"
         },
         {
             "name": "hiqdev/hidev-php-cs-fixer",
@@ -5006,7 +5006,7 @@
                 "phpunit",
                 "plugin"
             ],
-            "time": "2017-03-22T17:36:53+00:00"
+            "time": "2017-03-22 17:36:53"
         },
         {
             "name": "hiqdev/hidev-readme",
@@ -5087,7 +5087,7 @@
                 "plugin",
                 "readme"
             ],
-            "time": "2017-03-14T15:55:00+00:00"
+            "time": "2017-03-14 15:55:00"
         },
         {
             "name": "hiqdev/hidev-scrutinizer",
@@ -5174,12 +5174,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hiqdev/hidev-travis.git",
-                "reference": "a145e7214f39a848168f8f7f8e580f3b8cec6e4b"
+                "reference": "aba4794fdd622fe2e2247051f36f3094c1ddc904"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hiqdev/hidev-travis/zipball/a145e7214f39a848168f8f7f8e580f3b8cec6e4b",
-                "reference": "a145e7214f39a848168f8f7f8e580f3b8cec6e4b",
+                "url": "https://api.github.com/repos/hiqdev/hidev-travis/zipball/aba4794fdd622fe2e2247051f36f3094c1ddc904",
+                "reference": "aba4794fdd622fe2e2247051f36f3094c1ddc904",
                 "shasum": ""
             },
             "require": {
@@ -5245,7 +5245,7 @@
                 "plugin",
                 "travis"
             ],
-            "time": "2016-10-17 13:06:35"
+            "time": "2017-03-23 10:37:12"
         }
     ],
     "aliases": [],
