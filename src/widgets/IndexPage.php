@@ -87,7 +87,7 @@ class IndexPage extends Widget
         $view = $this->getView();
         // Fix a very narrow select2 input in the search tables
         $view->registerCss('#content-pjax .select2-dropdown--below { min-width: 170px!important; }');
-        $view->registerJs(<<<'JS'
+        $view->registerJs(<<<"JS"
         // Checkbox
         var checkboxes = $('table input[type="checkbox"]');
         var bulkcontainer = $('.box-bulk-actions fieldset');
@@ -109,20 +109,20 @@ class IndexPage extends Widget
         });
         // Fix on clear select2 fields 
         // $(document).on('pjax:complete', function() {
-        //     var $els = $(':input[data-combo-field]');
-        //     $els.each(function() {
-        //         var $el = $(this);
-        //         $el.select2('close');
+        //     var els = $(':input[data-combo-field]');
+        //     els.each(function() {
+        //         var el = $(this);
+        //         el.select2('close');
         //     });
         // });
         // Do not open select2 when clear
-        var $el = $(':input[data-combo-field]');
-        $el.on('select2:unselecting', function(e) {
-            $el.data('unselecting', true);
+        var el = $(':input[data-combo-field]');
+        el.on('select2:unselecting', function(e) {
+            el.data('unselecting', true);
         }).on('select2:open', function(e) { // note the open event is important
-            if ($el.data('unselecting')) {    
-                $el.removeData('unselecting'); // you need to unset this before close
-                $el.select2('close');
+            if (el.data('unselecting')) {
+                el.removeData('unselecting'); // you need to unset this before close
+                el.select2('close');
             }
         });
 JS
