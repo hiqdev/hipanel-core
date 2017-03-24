@@ -85,6 +85,8 @@ class IndexPage extends Widget
         $searchFormId = Json::htmlEncode("#{$this->getBulkFormId()}");
         $this->originalContext = Yii::$app->view->context;
         $view = $this->getView();
+        // Fix a very narrow select2 input in the search tables
+        $view->registerCss('#content-pjax .select2-dropdown--below { min-width: 170px!important; }');
         $view->registerJs(<<<'JS'
         // Checkbox
         var checkboxes = $('table input[type="checkbox"]');
