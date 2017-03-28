@@ -1,7 +1,7 @@
 <?= $this->registerCss('
 body:after {
     content: "beta";
-    position: fixed;
+    position: absolute;
     width: 46px;
     height: 19px;
     background: #cc006a;
