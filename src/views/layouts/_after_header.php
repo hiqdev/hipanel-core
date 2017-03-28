@@ -8,7 +8,7 @@ body:after {
     top: 0px;
     left: -13px;
     text-align: center;
-    font-size: 8px;
+    font-size: 9px;
     font-family: sans-serif;
     text-transform: uppercase;
     font-weight: bold;
