@@ -43,7 +43,14 @@ class RefCombo extends StaticCombo
 
     public $_hasId = true;
 
-    public function getData()
+    public function init()
+    {
+        $this->data = $this->prepareData();
+
+        parent::init();
+    }
+
+    public function prepareData()
     {
         $refs = Ref::getList($this->gtype, $this->i18nDictionary, $this->findOptions);
         return $refs;
