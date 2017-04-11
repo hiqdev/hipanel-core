@@ -83,6 +83,7 @@ class ViewAction extends SearchAction
         if ($this->dataProvider === null) {
             $this->_id = $this->_id ?: Yii::$app->request->get('id');
             $this->dataProvider = $this->getSearchModel()->search([], $this->dataProviderOptions);
+            $this->dataProvider->pagination = false;
             $this->dataProvider->query->andFilterWhere(
                 is_array($this->_id) ? ['in', 'id', $this->_id] : ['eq', 'id', $this->_id]
             );
