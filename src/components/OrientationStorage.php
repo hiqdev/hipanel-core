@@ -120,7 +120,11 @@ class OrientationStorage extends Component implements OrientationInterface
     {
         $this->ensureStorage();
 
-        return isset($this->storage[$route]) ? $this->storage[$route] : $this->getDefaultOrientation();
+        if (isset($this->storage[$route]) && in_array($this->storage[$route], [self::ORIENTATION_VERTICAL, self::ORIENTATION_HORIZONTAL])) {
+            return $this->storage[$route];
+        }
+
+        return $this->getDefaultOrientation();
     }
 
     /**
