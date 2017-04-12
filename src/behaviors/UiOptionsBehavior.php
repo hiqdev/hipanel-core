@@ -5,7 +5,7 @@ namespace hipanel\behaviors;
 use hipanel\models\IndexPageUiOptions;
 use Yii;
 use yii\base\Behavior;
-use yii\base\InvalidConfigException;
+use yii\helpers\Inflector;
 use yii\web\Controller;
 
 class UiOptionsBehavior extends Behavior
@@ -16,36 +16,24 @@ class UiOptionsBehavior extends Behavior
     public $modelClass;
 
     /**
-     * @var array
-     */
-    public $allowedRoutes = [];
-
-    /**
      * @var IndexPageUiOptions
      */
     private $_model;
 
-    public function init()
-    {
-        parent::init();
-
-        foreach ($this->allowedRoutes as &$allowedRoute) {
-            $allowedRoute = ltrim(Yii::getAlias($allowedRoute), '/');
-        }
-    }
-
     public function events()
     {
-        return [Controller::EVENT_BEFORE_ACTION => 'ensureOptions'];
+        return [Controller::EVENT_BEFORE_ACTION => 'ensureUiOptions'];
     }
 
-    public function ensureOptions($event)
+    public function ensureUiOptions($event)
     {
-        if ($this->isRouteAllowed($this->getRoute())) {
+        if ($this->isRouteAllowed()) {
             $options = [];
             $params = Yii::$app->request->get();
+            $model = $this->getModel();
+            $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());
+            $model->availableRepresentations = $this->findRepresentations();
             if ($params) {
-                $model = $this->getModel();
                 foreach ($params as $key => $value) {
                     if (in_array($key, array_keys($model->toArray()))) {
                         $options[$key] = $value;
@@ -55,7 +43,8 @@ class UiOptionsBehavior extends Behavior
                 if ($model->validate()) {
                     $this->getUiOptionsStorage()->set($this->getRoute(), $model->toArray());
                 } else {
-                    $errors = $model->getErrors();
+                    $errors = json_encode($model->getErrors());
+                    Yii::warning('UiOptionsBehavior - IndexPageUiModel validation errors: ' . $errors);
                 }
             }
         }
@@ -72,16 +61,12 @@ class UiOptionsBehavior extends Behavior
 
     protected function findModel()
     {
-        if (isset($this->modelClass['class']) && class_exists($this->modelClass['class'])) {
-            return Yii::createObject($this->modelClass);
-        } else {
-            throw new InvalidConfigException('UiOptionsBehavior::$modelClass must contain `class` item');
-        }
+        return $this->owner->indexPageUiOptionsModel;
     }
 
-    protected function isRouteAllowed($route)
+    protected function isRouteAllowed()
     {
-        return in_array($route, $this->allowedRoutes, true);
+        return $this->owner->action->id === 'index';
     }
 
     protected function getUiOptionsStorage()
@@ -92,5 +77,18 @@ class UiOptionsBehavior extends Behavior
     protected function getRoute()
     {
         return Yii::$app->request->pathInfo;
+    }
+
+    protected function findRepresentations()
+    {
+        $out = [];
+        $module = $this->owner->module->id;
+        $owner = Inflector::id2camel($this->owner->id);
+        $gridClass =  sprintf('\hipanel\modules\%s\grid\%sGridView', $module, $owner);
+        if (class_exists($gridClass)) {
+            $out = array_keys($gridClass::getRepresentations());
+        }
+
+        return $out;
     }
 }
