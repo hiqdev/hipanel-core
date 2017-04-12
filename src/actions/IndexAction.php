@@ -11,6 +11,7 @@
 namespace hipanel\actions;
 
 use hipanel\base\FilterStorage;
+use hipanel\models\IndexPageUiOptions;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
@@ -44,17 +45,6 @@ class IndexAction extends SearchAction
      */
     public $filterStorageMap = [];
 
-    public function init()
-    {
-        parent::init();
-
-        $this->dataProviderOptions = ArrayHelper::merge($this->dataProviderOptions, [
-            'pagination' => [
-                'pageSize' => Yii::$app->request->get('per_page') ?: 25,
-            ],
-        ]);
-    }
-
     protected function getDefaultRules()
     {
         return array_merge([
@@ -62,18 +52,24 @@ class IndexAction extends SearchAction
                 'save' => false,
                 'flash' => false,
                 'success' => [
-                    'class'  => RenderAction::class,
-                    'view'   => $this->getView(),
-                    'data'   => $this->data,
+                    'class' => RenderAction::class,
+                    'view' => $this->getView(),
+                    'data' => $this->data,
                     'params' => function () {
                         return [
-                            'model'        => $this->getSearchModel(),
+                            'model' => $this->getSearchModel(),
                             'dataProvider' => $this->getDataProvider(),
+                            'uiModel' => $this->getUiModel(),
                         ];
                     },
                 ],
             ],
         ], parent::getDefaultRules());
+    }
+
+    public function getUiModel()
+    {
+        return $this->controller->indexPageUiOptionsModel;
     }
 
     /**
@@ -115,6 +111,12 @@ class IndexAction extends SearchAction
                 $search = [$formName => $search];
             }
             $this->dataProvider = $this->getSearchModel()->search($search, $this->dataProviderOptions);
+
+            if ($this->getUiModel()->sort) {
+                $attribute = $this->getUiModel()->sortAttribute;
+                $direction = $this->getUiModel()->sortDirection;
+                $this->dataProvider->setSort(['defaultOrder' => [$attribute => $direction]]);
+            }
         }
 
         return $this->dataProvider;
