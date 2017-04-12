@@ -10,14 +10,18 @@
 
 namespace hipanel\widgets;
 
-use hipanel\components\OrientationStorage;
-use Yii;
+use hipanel\models\IndexPageUiOptions;
 use yii\base\Widget;
 use yii\bootstrap\ButtonGroup;
 use yii\helpers\Html;
 
 class IndexLayoutSwitcher extends Widget
 {
+    /**
+     * @var IndexPageUiOptions
+     */
+    public $uiModel;
+
     public function run()
     {
         return ButtonGroup::widget([
@@ -25,12 +29,12 @@ class IndexLayoutSwitcher extends Widget
             'buttons' => [
                 Html::a(
                     '<i class="fa fa-pause" aria-hidden="true"></i>',
-                    ['set-orientation', 'orientation' => OrientationStorage::ORIENTATION_HORIZONTAL, 'route' => Yii::$app->controller->getRoute()],
-                    ['class' => 'btn btn-default btn-sm ' . ($this->isOrientation(OrientationStorage::ORIENTATION_HORIZONTAL) ? 'active' : '')]),
+                    ['index', 'orientation' => IndexPageUiOptions::ORIENTATION_HORIZONTAL],
+                    ['class' => 'btn btn-default btn-sm ' . ($this->isOrientation(IndexPageUiOptions::ORIENTATION_HORIZONTAL) ? 'active' : '')]),
                 Html::a(
                     '<i class="fa fa-pause fa-rotate-90" aria-hidden="true"></i>',
-                    ['set-orientation', 'orientation' => OrientationStorage::ORIENTATION_VERTICAL, 'route' => Yii::$app->controller->getRoute()],
-                    ['class' => 'btn btn-default btn-sm ' . ($this->isOrientation(OrientationStorage::ORIENTATION_VERTICAL) ? 'active' : '')]),
+                    ['index', 'orientation' => IndexPageUiOptions::ORIENTATION_VERTICAL],
+                    ['class' => 'btn btn-default btn-sm ' . ($this->isOrientation(IndexPageUiOptions::ORIENTATION_VERTICAL) ? 'active' : '')]),
             ],
         ]);
     }
@@ -41,6 +45,6 @@ class IndexLayoutSwitcher extends Widget
      */
     private function isOrientation($orientation)
     {
-        return Yii::$app->get('orientationStorage')->get(Yii::$app->controller->route) === $orientation;
+        return $this->uiModel->orientation === $orientation;
     }
 }

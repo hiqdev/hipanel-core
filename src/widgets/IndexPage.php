@@ -10,6 +10,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\models\IndexPageUiOptions;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Model;
@@ -33,6 +34,11 @@ class IndexPage extends Widget
      * @var Model the search model
      */
     public $model;
+
+    /**
+     * @var IndexPageUiOptions
+     */
+    private $uiModel;
 
     /**
      * @var object original view context.
@@ -129,6 +135,15 @@ JS
         );
     }
 
+    public function getUiModel()
+    {
+        if ($this->uiModel === null) {
+            $this->uiModel = $this->originalContext->indexPageUiOptionsModel;
+        }
+
+        return $this->uiModel;
+    }
+
     /**
      * Begins output buffer capture to save data in [[contents]] with the $name key.
      * Must not be called nested. See [[endContent]] for capture terminating.
@@ -201,6 +216,13 @@ JS
             .advanced-search[min-width~="150px"] form > div {
                 width: 100%;
             }
+            #scrollspy * {
+              /* Свойства изменение которых необходимо отслеживать */
+              transition-property: all;
+
+              /* Устанавливаем "незаметную для глаза" длительность перехода */
+              transition-duration: 1ms;
+            }
         ');
         $view->registerJs("
             function affixInit() {
@@ -239,9 +261,7 @@ JS
 
     public function detectLayout()
     {
-        $os = Yii::$app->get('orientationStorage');
-        $n = $os->get(Yii::$app->controller->getRoute());
-        return $n;
+        return $this->getUiModel()->orientation;
     }
 
     /**
@@ -294,22 +314,20 @@ JS
 
     public function renderLayoutSwitcher()
     {
-        return IndexLayoutSwitcher::widget();
+        return IndexLayoutSwitcher::widget(['uiModel' => $this->getUiModel()]);
     }
 
     public function renderPerPage()
     {
+        $items = [];
+        foreach ([25, 50, 100, 200, 500] as $pageSize) {
+            $items[] = ['label' => $pageSize, 'url' => Url::current(['per_page' => $pageSize])];
+        }
         return ButtonDropdown::widget([
-            'label' => Yii::t('hipanel', 'Per page') . ': ' . (Yii::$app->request->get('per_page') ?: 25),
+            'label' => Yii::t('hipanel', 'Per page') . ': ' . $this->getUiModel()->per_page,
             'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
-                'items' => [
-                    ['label' => '25', 'url' => Url::current(['per_page' => null])],
-                    ['label' => '50', 'url' => Url::current(['per_page' => 50])],
-                    ['label' => '100', 'url' => Url::current(['per_page' => 100])],
-                    ['label' => '200', 'url' => Url::current(['per_page' => 200])],
-                    ['label' => '500', 'url' => Url::current(['per_page' => 500])],
-                ],
+                'items' => $items,
             ],
         ]);
     }
@@ -321,8 +339,9 @@ JS
      * @param mixed $current selected representation
      * @return string rendered HTML
      */
-    public static function renderRepresentations($grid, $current)
+    public function renderRepresentations($grid)
     {
+        $current = $this->getUiModel()->representation;
         $representations = $grid::getRepresentations();
         if (count($representations) < 2) {
             return '';
@@ -351,6 +370,8 @@ JS
     {
         return LinkSorter::widget(array_merge([
             'show' => true,
+            'uiModel' => $this->getUiModel(),
+            'dataProvider' => $this->dataProvider,
             'sort' => $this->dataProvider->getSort(),
             'buttonClass' => 'btn btn-default dropdown-toggle btn-sm',
         ], $options));

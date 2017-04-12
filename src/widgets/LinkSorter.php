@@ -17,6 +17,8 @@ class LinkSorter extends \yii\widgets\LinkSorter
      */
     public $show = false;
 
+    public $uiModel;
+
     /**
      * @var string CSS classes, that will be applied to the container
      */
@@ -28,6 +30,8 @@ class LinkSorter extends \yii\widgets\LinkSorter
     public $buttonClass = 'btn btn-sm btn-default dropdown-toggle';
 
     public $options = ['class' => 'dropdown-menu', 'role' => 'menu', 'aria-labelledby' => ''];
+
+    public $dataProvider;
 
     public function run()
     {
@@ -56,6 +60,7 @@ class LinkSorter extends \yii\widgets\LinkSorter
             'options'        => array_merge($this->options, ['encode' => false]),
             'containerClass' => $this->containerClass,
             'buttonClass'    => $this->buttonClass,
+            'uiModel'        => $this->uiModel,
         ]);
     }
 }
