@@ -64,6 +64,9 @@ return [
         'orientationStorage' => [
             'class' => \hipanel\components\OrientationStorage::class,
         ],
+        'uiOptionsStorage' => [
+            'class' => \hipanel\components\UiOptionsStorage::class,
+        ],
         'user' => [
             'class' => \hipanel\components\User::class,
             'identityClass' => \hipanel\models\User::class,
