@@ -10,8 +10,10 @@
 
 namespace hipanel\base;
 
+use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
+use hipanel\models\IndexPageUiOptions;
 use hiqdev\hiart\ActiveRecord;
 use Yii;
 use yii\di\Instance;
@@ -27,6 +29,28 @@ class Controller extends \yii\web\Controller
      * @var Cache|array|string the cache object or the application component ID of the cache object
      */
     protected $_cache = 'cache';
+
+    /**
+     * @var IndexPageUiOptions
+     */
+    public $indexPageUiOptionsModel;
+
+    public function init()
+    {
+        parent::init();
+
+        $this->indexPageUiOptionsModel = Yii::createObject(['class' => IndexPageUiOptions::class]);
+        $this->indexPageUiOptionsModel->validate(); // In order to get default settings form Model rules()
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => UiOptionsBehavior::class,
+            ],
+        ];
+    }
 
     public function setCache($cache)
     {
@@ -54,7 +78,7 @@ class Controller extends \yii\web\Controller
     public static function modelClassName()
     {
         $parts = explode('\\', static::class);
-        $last  = array_pop($parts);
+        $last = array_pop($parts);
         array_pop($parts);
         $parts[] = 'models';
         $parts[] = substr($last, 0, -10);
