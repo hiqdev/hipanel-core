@@ -7,6 +7,10 @@ use yii\base\Model;
 
 class IndexPageUiOptions extends Model
 {
+    const ORIENTATION_VERTICAL = 'vertical';
+
+    const ORIENTATION_HORIZONTAL = 'horizontal';
+
     public $sort;
 
     public $per_page;
@@ -15,7 +19,7 @@ class IndexPageUiOptions extends Model
 
     public $representation;
 
-    public $representationOptions = [];
+    public $availableRepresentations = [];
 
     public function fields()
     {
@@ -28,12 +32,18 @@ class IndexPageUiOptions extends Model
             ['per_page', 'default', 'value' => 25],
             ['per_page', 'number', 'skipOnEmpty' => true],
 
+            ['per_page', 'default', 'value' => null],
             ['sort', 'string', 'skipOnEmpty' => true],
 
             ['orientation', 'default', 'value' => $this->getDefaultOrientation()],
             ['orientation', 'in', 'range' => array_keys($this->getOrientationOptions())],
 
-            ['representation', 'in', 'range' => $this->representationOptions, 'skipOnEmpty' => true],
+            ['representation', 'default', 'value' => null],
+            ['representation', function ($attribute, $params, $validator) {
+                if (!empty($this->availableRepresentations) && !in_array($this->{$attribute}, $this->availableRepresentations)) {
+                    $this->addError($attribute, 'The token must contain letters or digits.');
+                }
+            }],
         ];
     }
 
@@ -43,8 +53,8 @@ class IndexPageUiOptions extends Model
     public function getOrientationOptions()
     {
         return [
-            'horizontal' => Yii::t('hipanel', 'Horizontal'),
-            'vertical' => Yii::t('hipanel', 'Vertical'),
+            self::ORIENTATION_HORIZONTAL => Yii::t('hipanel', 'Horizontal'),
+            self::ORIENTATION_VERTICAL => Yii::t('hipanel', 'Vertical'),
         ];
     }
 
@@ -61,5 +71,20 @@ class IndexPageUiOptions extends Model
         } else {
             return reset($orientationOptions);
         }
+    }
+
+    public function getSortDirection()
+    {
+        return (strncmp($this->sort, '-', 1) === 0) ? SORT_DESC : SORT_ASC;
+    }
+
+    public function getSortAttribute()
+    {
+        $attribute = $this->sort;
+        if (strncmp($attribute, '-', 1) === 0) {
+            $attribute = substr($attribute, 1);
+        }
+
+        return $attribute;
     }
 }
