@@ -141,4 +141,9 @@ class UiOptionsStorage extends Component implements OrientationInterface
     {
         return $this->get(Yii::$app->request->pathInfo)[$option];
     }
+
+    public function getAllUiOptions()
+    {
+        return $this->getSettingsStorage()->getBounded($this->settingsStorageKey);
+    }
 }
