@@ -2,6 +2,7 @@
 
 namespace hipanel\behaviors;
 
+use hipanel\components\UiOptionsStorage;
 use hipanel\models\IndexPageUiOptions;
 use Yii;
 use yii\base\Behavior;
@@ -31,7 +32,7 @@ class UiOptionsBehavior extends Behavior
             $options = [];
             $params = Yii::$app->request->get();
             $model = $this->getModel();
-            $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());
+            $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());;
             $model->availableRepresentations = $this->findRepresentations();
             if ($params) {
                 foreach ($params as $key => $value) {
@@ -69,6 +70,9 @@ class UiOptionsBehavior extends Behavior
         return $this->owner->action->id === 'index';
     }
 
+    /**
+     * @return UiOptionsStorage
+     */
     protected function getUiOptionsStorage()
     {
         return Yii::$app->get('uiOptionsStorage');
