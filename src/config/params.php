@@ -25,8 +25,8 @@ return [
     'cookieValidationKey'   => '',
     'fileStorageSecret'     => null,
 
-    'poweredByName'         => 'HiPanel',
-    'poweredByUrl'          => 'https://hipanel.com/',
+    'poweredBy.name'        => 'HiPanel',
+    'poweredBy.url'         => 'https://hipanel.com/',
 
     'skin' => [
         'default-skin' => 'skin-blue',
