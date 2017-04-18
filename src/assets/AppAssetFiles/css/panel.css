@@ -878,3 +878,7 @@ blockquote {
 .select2-dropdown {
     z-index: 1071;
 }
+
+.select2-container--open .select2-dropdown--below {
+    min-width: 150px;
+}
