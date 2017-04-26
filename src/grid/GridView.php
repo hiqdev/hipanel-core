@@ -78,6 +78,9 @@ class GridView extends \hiqdev\higrid\GridView
                 'class' => ClientColumn::class,
                 'attribute' => 'client_id',
             ],
+            'client_like' => [
+                'class' => ClientColumn::class,
+            ],
         ];
     }
 
