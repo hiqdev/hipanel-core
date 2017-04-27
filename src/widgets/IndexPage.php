@@ -113,16 +113,8 @@ class IndexPage extends Widget
                 form.attr({'action': action, method: 'POST'}).submit();
             }
         });
-        // Fix on clear select2 fields 
-        // $(document).on('pjax:complete', function() {
-        //     var els = $(':input[data-combo-field]');
-        //     els.each(function() {
-        //         var el = $(this);
-        //         el.select2('close');
-        //     });
-        // });
         // Do not open select2 when clear
-        var el = $(':input[data-combo-field]');
+        var el = $('div[role=grid] :input[data-combo-field]');
         el.on('select2:unselecting', function(e) {
             el.data('unselecting', true);
         }).on('select2:open', function(e) { // note the open event is important
