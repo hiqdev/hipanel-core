@@ -293,4 +293,8 @@ return [
     'Object status prohibits operation' => 'Статус объекта не позволят совершить эту операцию',
     'pincode must be set' => 'Пин-код должен быть установлен',
     'User profile' => 'Профиль пользователя',
+
+    // Event Log
+    'No events were recorded' => 'Никаких событий еще не было записано',
+    'Event' => 'Событие',
 ];
