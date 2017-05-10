@@ -297,4 +297,5 @@ return [
     // Event Log
     'No events were recorded' => 'Никаких событий еще не было записано',
     'Event' => 'Событие',
+    'Show all' => 'Показать все',
 ];

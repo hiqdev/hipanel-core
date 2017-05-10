@@ -48,7 +48,7 @@ class MainColumn extends DataColumn
      */
     public function buildUrl($url)
     {
-        if (strncmp($url, '/', 0) === 0) {
+        if (strncmp($url, '/', 1) === 0) {
             return $url;
         }
         $baseUrl = isset($this->grid->controllerUrl) ? $this->grid->controllerUrl : '';
