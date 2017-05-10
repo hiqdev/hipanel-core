@@ -21,5 +21,5 @@ use yii\helpers\ArrayHelper;
             <?php endforeach ?>
         </ul>
     </div>
-    <?= Html::activeInput('text', $model, $attribute, ['class' => 'form-control']) ?>
+    <?= Html::activeInput('text', $model, $attribute, $this->context->inputOptions) ?>
 </div>
