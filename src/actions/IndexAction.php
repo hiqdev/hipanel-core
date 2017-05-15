@@ -117,7 +117,9 @@ class IndexAction extends SearchAction
             }
 
             // Set pageSize
-            $this->dataProvider->setPagination(['pageSize' => $this->getUiModel()->per_page]);
+            if ($this->getUiModel()->per_page) {
+                $this->dataProvider->setPagination(['pageSize' => $this->getUiModel()->per_page]);
+            }
         }
 
         return $this->dataProvider;
