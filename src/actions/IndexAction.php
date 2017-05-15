@@ -11,7 +11,6 @@
 namespace hipanel\actions;
 
 use hipanel\base\FilterStorage;
-use hipanel\models\IndexPageUiOptions;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
