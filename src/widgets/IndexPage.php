@@ -281,9 +281,6 @@ JS
         ob_implicit_flush(false);
         try {
             $search = $this->beginSearchForm($advancedSearchOptions);
-            foreach (['per_page', 'representation'] as $key) {
-                echo Html::hiddenInput($key, Yii::$app->request->get($key));
-            }
             echo Yii::$app->view->render($this->searchView, array_merge(compact('search'), $this->searchFormData), $this->originalContext);
             $search->end();
         } catch (\Exception $e) {
