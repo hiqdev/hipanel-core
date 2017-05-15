@@ -112,11 +112,13 @@ class IndexAction extends SearchAction
             }
             $this->dataProvider = $this->getSearchModel()->search($search, $this->dataProviderOptions);
 
+            // Set sort
             if ($this->getUiModel()->sort) {
-                $attribute = $this->getUiModel()->sortAttribute;
-                $direction = $this->getUiModel()->sortDirection;
-                $this->dataProvider->setSort(['defaultOrder' => [$attribute => $direction]]);
+                $this->dataProvider->setSort(['defaultOrder' => [$this->getUiModel()->sortAttribute => $this->getUiModel()->sortDirection]]);
             }
+
+            // Set pageSize
+            $this->dataProvider->setPagination(['pageSize' => $this->getUiModel()->per_page]);
         }
 
         return $this->dataProvider;
