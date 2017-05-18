@@ -70,7 +70,6 @@ class BulkOperation extends Widget
      */
     public $affectedObjects;
 
-
     public function init()
     {
         parent::init();
