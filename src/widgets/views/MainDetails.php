@@ -39,25 +39,39 @@ use yii\helpers\Html;
     }
 
     .widget-user-username,
+    .widget-user-username a,
+    .widget-user-username a:focus,
+    .widget-user-username a:visited,
     .widget-user-desc,
     .widget-user-desc a,
-    .widget-user-desc a:hover,
     .widget-user-desc a:focus,
-    .widget-user-desc a:visited {
+    .widget-user-desc a:visited
+    {
         color: #fff;
     }
+
+    .widget-user-username a:hover,
+    .widget-user-desc a:hover
+    {
+        text-decoration: underline;
+    }
+
+    .fa {
+        padding-right: 1em;
+    }
+
 </style>
 
 <div class="box box-widget widget-user-2">
     <div class="widget-user-header">
         <div class="widget-user-image">
             <?php if ($image && $background === false) : ?>
-                <?= Html::img($image, ['class' => 'img-circle']) ?>
+                <?= $image ?>
             <?php else : ?>
                 <?= Html::tag('i', '', ['class' => sprintf('fa %s fa-4x pull-left fa-inverse', $icon)]) ?>
             <?php endif; ?>
         </div>
-        <h3 class="widget-user-username"><?= $title ?></h3>
+        <h4 class="widget-user-username"><?= $title ?></h4>
         <h5 class="widget-user-desc"><?= $subTitle ?></h5>
     </div>
     <?php if ($background) : ?>
