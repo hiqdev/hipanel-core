@@ -55,11 +55,6 @@ use yii\helpers\Html;
     {
         text-decoration: underline;
     }
-
-    .fa {
-        padding-right: 1em;
-    }
-
 </style>
 
 <div class="box box-widget widget-user-2">
