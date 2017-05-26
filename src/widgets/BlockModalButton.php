@@ -135,11 +135,11 @@ class BlockModalButton extends Widget
         if (is_array($this->button)) {
             $this->button = ArrayHelper::merge([
                 static::ACTION_ENABLE => [
-                    'label' => FontIcon::i('fa-lock fa-2x fa-fw') . Yii::t('hipanel', 'Enable block'),
+                    'label' => FontIcon::i('fa-lock fa-fw') . Yii::t('hipanel', 'Enable block'),
                     'position' => ModalButton::BUTTON_OUTSIDE,
                 ],
                 static::ACTION_DISABLE => [
-                    'label' => FontIcon::i('fa-unlock fa-2x fa-fw') . Yii::t('hipanel', 'Disable block'),
+                    'label' => FontIcon::i('fa-unlock fa-fw') . Yii::t('hipanel', 'Disable block'),
                     'position' => ModalButton::BUTTON_OUTSIDE,
                 ],
             ], $this->button);
