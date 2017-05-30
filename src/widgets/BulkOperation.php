@@ -62,6 +62,11 @@ class BulkOperation extends Widget
     /**
      * @var string
      */
+    public $panelBody;
+
+    /**
+     * @var string
+     */
     public $submitButton;
     public $submitButtonOptions;
 
@@ -101,7 +106,6 @@ class BulkOperation extends Widget
         if ($this->visibleInputs === null) {
             $this->visibleInputs = [];
         }
-
     }
 
     public function run()
@@ -110,6 +114,7 @@ class BulkOperation extends Widget
             'model' => $this->model,
             'models' => $this->models,
             'scenario' => $this->scenario,
+            'panelBody' => $this->panelBody,
             'bodyWarning' => $this->bodyWarning,
             'hiddenInputs' => $this->hiddenInputs,
             'visibleInputs' => $this->visibleInputs,

@@ -21,14 +21,18 @@ $form = ActiveForm::begin([
     <div class="panel panel-default">
         <div class="panel-heading"><?= $affectedObjects ?></div>
         <div class="panel-body">
-            <?= ArraySpoiler::widget([
-                'data' => $models,
-                'visibleCount' => count($models),
-                'formatter' => function ($model) {
-                    return $model->name;
-                },
-                'delimiter' => ',&nbsp; ',
-            ]); ?>
+            <?php if ($panelBody === null) : ?>
+                <?= ArraySpoiler::widget([
+                    'data' => $models,
+                    'visibleCount' => count($models),
+                    'formatter' => function ($model) {
+                        return $model->name;
+                    },
+                    'delimiter' => ',&nbsp; ',
+                ]); ?>
+            <?php else : ?>
+                <?= $panelBody ?>
+            <?php endif ?>
         </div>
     </div>
 
