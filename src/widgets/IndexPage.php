@@ -392,7 +392,7 @@ JS
             'class' => "btn btn-$color btn-sm",
             'form' => $this->getBulkFormId(),
             'formmethod' => 'POST',
-            'formaction' => $action,
+            'formaction' => Url::toRoute($action),
         ]);
     }
 
