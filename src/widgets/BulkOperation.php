@@ -15,6 +15,7 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+use yii\base\InvalidConfigException;
 
 
 class BulkOperation extends Widget
@@ -75,6 +76,11 @@ class BulkOperation extends Widget
      */
     public $affectedObjects;
 
+    /**
+     * @var string
+     */
+    public $formatterField = 'name';
+
     public function init()
     {
         parent::init();
@@ -114,6 +120,7 @@ class BulkOperation extends Widget
             'model' => $this->model,
             'models' => $this->models,
             'scenario' => $this->scenario,
+            'formatterField' => $this->formatterField,
             'panelBody' => $this->panelBody,
             'bodyWarning' => $this->bodyWarning,
             'hiddenInputs' => $this->hiddenInputs,

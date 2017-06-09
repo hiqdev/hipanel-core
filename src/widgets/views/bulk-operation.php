@@ -25,8 +25,8 @@ $form = ActiveForm::begin([
                 <?= ArraySpoiler::widget([
                     'data' => $models,
                     'visibleCount' => count($models),
-                    'formatter' => function ($model) {
-                        return $model->name;
+                    'formatter' => function ($model) use ($formatterField) {
+                        return $model->{$formatterField};
                     },
                     'delimiter' => ',&nbsp; ',
                 ]); ?>
