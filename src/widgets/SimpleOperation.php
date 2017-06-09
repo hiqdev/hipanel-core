@@ -91,7 +91,7 @@ class SimpleOperation extends Widget
             'button' => [
                 'label' => $this->buttonLabel,
                 'class' => $this->buttonClass,
-                'disabled' => (method_exists($this->model, 'isOperable') ? !$this->model->isOperable() : false) && !$this->skipCheckOperable,
+                'disabled' => $this->getIsOperable(),
                 'position' => $this->buttonPosition,
                 'visible' => $this->buttonVisible === null ? true : $this->buttonVisible,
             ],
@@ -113,6 +113,15 @@ class SimpleOperation extends Widget
         }
 
         return $config;
+    }
+
+    protected function getIsOperable()
+    {
+        if ($this->skipCheckOperable || !method_exists($this->model, 'isOperable')) {
+            return true;
+        }
+
+        return $this->model->isOperable;
     }
 
     public function run()
