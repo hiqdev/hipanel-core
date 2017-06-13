@@ -84,6 +84,7 @@ return [
     '{0, plural, one{# database} other{# databases}}' => '{0, plural, one{# база данных} few{# базы данных} other{# баз данных}}',
 
     /// Objects
+    'Object' => 'Объект',
     'IP' => 'IP',
     'IP address' => 'IP-адрес',
     'IP addresses' => 'IP-адреса',
