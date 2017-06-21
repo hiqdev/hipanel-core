@@ -14,13 +14,22 @@ if ($client->balance > 0) {
     $balanceColor = 'text-muted';
 }
 
-?>
+$this->registerCss('
+.user-panel > .info { padding-top: 0; } 
+.user-panel > .info a:first-child { font-size: 16px; } 
+');
+$tooltip = [];
+if ($client->credit >= 0) {
+    $tooltip = ['data' => [
+        'toggle' => 'tooltip',
+        'placement' => 'bottom',
+        'title' => Yii::t('adminlte', 'Credit: {credit}', ['credit' => Yii::$app->formatter->asCurrency($client->credit, 'USD')]),
+    ]];
+}
 
-<a href="<?= Yii::$app->user->can('deposit') ? Url::to('@pay/deposit') : '#' ?>">
-    <i class="fa fa-circle <?= $balanceColor ?>"></i> <?= Yii::t('adminlte', 'Balance: {balance}', ['balance' => Yii::$app->formatter->asCurrency($client->balance, 'USD')]) ?>
-    <?php if ($client->credit > 0) : ?>
-        <?= Yii::t('adminlte', '({credit})', ['credit' => Yii::$app->formatter->asCurrency($client->credit, 'USD')]) ?>
-    <?php endif ?>
-</a>
-<br />
-<?= Html::a('<i class="fa fa-circle"></i> ' . Yii::t('hipanel', 'User profile'), ['/site/profile']) ?>
+?>
+<?= Html::beginTag('a', array_merge(['href' => Yii::$app->user->can('deposit') ? Url::to('@pay/deposit') : '#'], $tooltip)) ?>
+<i class="fa fa-circle <?= $balanceColor ?>"></i> <?= Yii::t('adminlte', 'Balance: {balance}', ['balance' => Yii::$app->formatter->asCurrency($client->balance, 'USD')]) ?>
+<?= Html::endTag('a') ?>
+<br/>
+<?= Html::a(Yii::t('hipanel', 'User profile'), ['/site/profile']) ?>
