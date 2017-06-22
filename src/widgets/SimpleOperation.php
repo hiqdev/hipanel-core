@@ -91,7 +91,7 @@ class SimpleOperation extends Widget
             'button' => [
                 'label' => $this->buttonLabel,
                 'class' => $this->buttonClass,
-                'disabled' => $this->getIsOperable(),
+                'disabled' => !$this->getIsOperable(),
                 'position' => $this->buttonPosition,
                 'visible' => $this->buttonVisible === null ? true : $this->buttonVisible,
             ],
@@ -121,7 +121,7 @@ class SimpleOperation extends Widget
             return true;
         }
 
-        return $this->model->isOperable;
+        return $this->model->isOperable();
     }
 
     public function run()
