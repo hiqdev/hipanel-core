@@ -40,7 +40,7 @@ class IndexPageUiOptions extends Model
             ['per_page', 'default', 'value' => 25],
             ['per_page', 'number', 'skipOnEmpty' => true],
 
-            ['per_page', 'default', 'value' => null],
+            ['sort', 'default', 'value' => null],
             ['sort', 'string', 'skipOnEmpty' => true],
 
             ['orientation', 'default', 'value' => $this->getDefaultOrientation()],
@@ -71,10 +71,10 @@ class IndexPageUiOptions extends Model
      */
     public function getDefaultOrientation()
     {
-        $settings = Yii::$app->themeManager->getSettings();
+        $settings = isset(Yii::$app->themeManager) ? Yii::$app->themeManager->getSettings() : null;
         $orientationOptions = array_keys($this->getOrientationOptions());
 
-        if (property_exists($settings, 'filterOrientation') && in_array($settings->filterOrientation, $orientationOptions, true)) {
+        if (isset($settings->filterOrientation) && in_array($settings->filterOrientation, $orientationOptions, true)) {
             return $settings->filterOrientation;
         } else {
             return reset($orientationOptions);
