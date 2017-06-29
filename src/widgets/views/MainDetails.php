@@ -7,7 +7,6 @@ use yii\helpers\Html;
 /** @var string $icon */
 /** @var string $image */
 /** @var boolean $background */
-
 ?>
 <style>
     .skin-blue .widget-user-2 .widget-user-header {

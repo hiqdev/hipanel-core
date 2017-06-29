@@ -1,22 +1,17 @@
 <?php
 /**
- * Server module for HiPanel.
+ * HiPanel core package.
  *
- * @link      https://github.com/hiqdev/hipanel-core
- * @package   hipanel-module-server
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
-use hipanel\widgets\ModalButton;
-use Yii;
-use yii\base\Widget;
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
-
+use yii\base\Widget;
 
 class BulkOperation extends Widget
 {

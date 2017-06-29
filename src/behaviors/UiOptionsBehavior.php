@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\behaviors;
 
@@ -32,11 +40,11 @@ class UiOptionsBehavior extends Behavior
             $options = [];
             $params = Yii::$app->request->get();
             $model = $this->getModel();
-            $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());;
+            $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());
             $model->availableRepresentations = $this->findRepresentations();
             if ($params) {
                 foreach ($params as $key => $value) {
-                    if (in_array($key, array_keys($model->toArray()))) {
+                    if (in_array($key, array_keys($model->toArray()), true)) {
                         $options[$key] = $value;
                     }
                 }

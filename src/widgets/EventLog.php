@@ -10,8 +10,8 @@
 
 namespace hipanel\widgets;
 
-use yii\helpers\Html;
 use Yii;
+use yii\helpers\Html;
 
 /**
  * Label widget displays bootstrap colored label.

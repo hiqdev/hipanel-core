@@ -10,9 +10,9 @@
 
 namespace hipanel\components;
 
+use hiqdev\thememanager\models\OrientationInterface;
 use Yii;
 use yii\base\Component;
-use hiqdev\thememanager\models\OrientationInterface;
 
 /**
  * Class UiOptionsStorage.

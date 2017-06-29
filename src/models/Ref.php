@@ -32,7 +32,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
      * Value: attribute `label`.
      * You can change name of returning attributes `name` and `label`
      * You should define `mapOptions` in `options` array
-     * and define keys `from` for Name and `to` for Value
+     * and define keys `from` for Name and `to` for Value.
      *
      * @param string $name
      * @param string $translate

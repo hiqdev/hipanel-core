@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package.
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\models;
 
@@ -40,7 +48,7 @@ class IndexPageUiOptions extends Model
 
             ['representation', 'default', 'value' => null],
             ['representation', function ($attribute, $params, $validator) {
-                if (!empty($this->availableRepresentations) && !in_array($this->{$attribute}, $this->availableRepresentations)) {
+                if (!empty($this->availableRepresentations) && !in_array($this->{$attribute}, $this->availableRepresentations, true)) {
                     $this->addError($attribute, 'The token must contain letters or digits.');
                 }
             }],

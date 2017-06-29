@@ -1,21 +1,19 @@
 <?php
 /**
- * Server module for HiPanel.
+ * HiPanel core package.
  *
- * @link      https://github.com/hiqdev/hipanel-core
+ * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
-use hipanel\widgets\ModalButton;
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-
+use yii\helpers\Html;
 
 class SimpleOperation extends Widget
 {
@@ -40,7 +38,7 @@ class SimpleOperation extends Widget
 
     /**
      * @var array|Modal stores options for [[ModalButton]]
-     * After Modal creating, stores the object.
+     * After Modal creating, stores the object
      */
     protected $modal = [];
 
@@ -84,7 +82,7 @@ class SimpleOperation extends Widget
 
     protected function buildModalOptions()
     {
-         $config = ArrayHelper::merge([
+        $config = ArrayHelper::merge([
             'class' => ModalButton::class,
             'model' => $this->model,
             'scenario' => $this->scenario,
@@ -96,7 +94,7 @@ class SimpleOperation extends Widget
                 'visible' => $this->buttonVisible === null ? true : $this->buttonVisible,
             ],
             'body' => $this->body,
-            'form' => $this->form ? : [],
+            'form' => $this->form ?: [],
             'modal' => [
                 'header' => Html::tag('h4', $this->modalHeaderLabel),
                 'headerOptions' =>  $this->modalHeaderOptions,
