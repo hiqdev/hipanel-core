@@ -114,7 +114,7 @@ class IndexPage extends Widget
             }
         });
         // Do not open select2 when clear
-        var el = $('div[role=grid] :input[data-combo-field]');
+        var el = $('div[role=grid] :input[data-combo-field], .advanced-search :input[data-combo-field]');
         el.on('select2:unselecting', function(e) {
             el.data('unselecting', true);
         }).on('select2:open', function(e) { // note the open event is important
