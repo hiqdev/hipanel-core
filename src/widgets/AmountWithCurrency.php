@@ -19,7 +19,7 @@ class AmountWithCurrency extends \yii\base\Widget
     public $model;
     public $form;
     public $attribute;
-    public $inputOptions;
+    public $inputOptions = [];
 
     public function init()
     {
