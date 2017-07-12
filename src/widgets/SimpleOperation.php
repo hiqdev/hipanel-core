@@ -62,11 +62,6 @@ class SimpleOperation extends Widget
     public $form;
     public $modalHeaderOptions;
 
-    /**
-     * @var boolean for ignoring device states
-     */
-    public $skipCheckOperable = false;
-
     public function init()
     {
         parent::init();
@@ -115,7 +110,7 @@ class SimpleOperation extends Widget
 
     protected function getIsOperable()
     {
-        if ($this->skipCheckOperable || !method_exists($this->model, 'isOperable')) {
+        if (!method_exists($this->model, 'isOperable')) {
             return true;
         }
 
