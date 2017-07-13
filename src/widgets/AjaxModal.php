@@ -150,14 +150,16 @@ class AjaxModal extends \yii\bootstrap\Modal
         if (!isset($this->clientEvents['show.bs.modal'])) {
             if ($this->bulkPage) {
                 if ($this->usePost) {
-                    $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                    $this->clientEvents['show.bs.modal'] = new JsExpression("function(e) {
+                        if (e.namespace !== 'bs.modal') return true;
                         var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
                         $.post('{$this->actionUrl}', {selection: selection}).done(function (data) {
                             $('#{$this->id} .modal-body').html(data);
                         });
                     }");
                 } else {
-                    $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                    $this->clientEvents['show.bs.modal'] = new JsExpression("function(e) {
+                        if (e.namespace !== 'bs.modal') return true;
                         var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
                         $.get('{$this->actionUrl}', {selection: selection}).done(function (data) {
                             $('#{$this->id} .modal-body').html(data);
@@ -166,13 +168,15 @@ class AjaxModal extends \yii\bootstrap\Modal
                 }
             } else {
                 if ($this->usePost) {
-                    $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                    $this->clientEvents['show.bs.modal'] = new JsExpression("function(e) {
+                        if (e.namespace !== 'bs.modal') return true;
                         $.post('{$this->actionUrl}').done(function (data) {
                             $('#{$this->id} .modal-body').html(data);
                         });
                     }");
                 } else {
-                    $this->clientEvents['show.bs.modal'] = new JsExpression("function() {
+                    $this->clientEvents['show.bs.modal'] = new JsExpression("function(e) {
+                        if (e.namespace !== 'bs.modal') return true;
                         $.get('{$this->actionUrl}').done(function (data) {
                             $('#{$this->id} .modal-body').html(data);
                         });

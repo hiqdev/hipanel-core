@@ -324,8 +324,7 @@ JS
     /**
      * Renders button to choose representation.
      * Returns empty string when nothing to choose (less then 2 representations available).
-     * @param array $grid class
-     * @param mixed $current selected representation
+     * @param string $grid class
      * @return string rendered HTML
      */
     public function renderRepresentations($grid)
