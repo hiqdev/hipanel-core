@@ -18,7 +18,6 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-//use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 
 /**
