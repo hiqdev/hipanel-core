@@ -155,7 +155,8 @@ class ChartOptions extends \yii\base\Widget
             ],
             'clientOptions' => [
                 'ranges' => [
-                    Yii::t('hipanel', 'Last Month') => new JsExpression('[moment().subtract(1, "month").startOf("month"), new Date()]'),
+                    Yii::t('hipanel', 'Current Month') => new JsExpression('[moment().startOf("month"), new Date()]'),
+                    Yii::t('hipanel', 'Previous Month') => new JsExpression('[moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]'),
                     Yii::t('hipanel', 'Last 3 months') => new JsExpression('[moment().subtract(3, "month").startOf("month"), new Date()]'),
                     Yii::t('hipanel', 'Last year') => new JsExpression('[moment().subtract(1, "year").startOf("year"), new Date()]'),
                 ],

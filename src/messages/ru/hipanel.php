@@ -65,6 +65,8 @@ return [
 
     /// Dates
     'Last Month' => 'Последний месяц',
+    'Current Month' => 'Текущий месяц',
+    'Previous Month' => 'Предыдущий месяц',
     'Last 3 months' => 'Последние 3 месяца',
     'Last year' => 'Последний год',
     'year' => 'год',
