@@ -303,4 +303,7 @@ return [
     'No events were recorded' => 'Никаких событий еще не было записано',
     'Event' => 'Событие',
     'Show all' => 'Показать все',
+
+    // User
+    'This user already exists.' => 'Такой пользователь уже существует.'
 ];
