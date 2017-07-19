@@ -65,5 +65,21 @@ JS
             });
 JS
         );
+        // For PasswordInput
+        $view->registerJs(<<<JS
+            $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
+                var passwordInputs = $(item).find('input[type=password]').closest('div.input-group');
+                if (passwordInputs.length > 0) {
+                    passwordInputs.filter(function () {
+                        return $(this).find('.show-password').length > 0;
+                    }).each(function() {
+                        if ( $.isFunction($.fn.passwordInput) ) {
+                            $(this).passwordInput(); 
+                        }
+                    });
+                }
+            });
+JS
+        );
     }
 }
