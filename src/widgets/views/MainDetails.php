@@ -57,7 +57,7 @@ use yii\helpers\Html;
 </style>
 
 <div class="box box-widget widget-user-2">
-    <div class="widget-user-header">
+    <div class="widget-user-header" <?php if ($backgroundColor) : ?>style="background-color: <?= $backgroundColor ?> !important;"<?php endif; ?>>
         <div class="widget-user-image">
             <?php if ($image && $background === false) : ?>
                 <?= $image ?>

@@ -24,6 +24,8 @@ class MainDetails extends \yii\base\Widget
 
     public $background = false;
 
+    public $backgroundColor;
+
     public function run()
     {
         return $this->render('MainDetails', [
@@ -33,6 +35,7 @@ class MainDetails extends \yii\base\Widget
             'menu' => $this->menu,
             'image' => $this->image,
             'background' => $this->background,
+            'backgroundColor' => $this->backgroundColor,
         ]);
     }
 }
