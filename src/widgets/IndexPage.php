@@ -112,11 +112,13 @@ class IndexPage extends Widget
                 form.attr({'action': action, method: 'POST'}).submit();
             }
         });
-        // Do not open select2 when clear
-        var el = $('div[role=grid] :input[data-combo-field], .advanced-search :input[data-combo-field]');
-        el.on('select2:unselecting', function(e) {
-            el.data('unselecting', true);
-        }).on('select2:open', function(e) { // note the open event is important
+
+        // Do not open select2 when it is clearing
+        var comboSelector = 'div[role=grid] :input[data-combo-field], .advanced-search :input[data-combo-field]';
+        $(document).on('select2:unselecting', comboSelector, function(e) {
+            $(e.target).data('unselecting', true);
+        }).on('select2:open', comboSelector, function(e) { // note the open event is important
+            var el = $(e.target);
             if (el.data('unselecting')) {
                 el.removeData('unselecting'); // you need to unset this before close
                 el.select2('close');
