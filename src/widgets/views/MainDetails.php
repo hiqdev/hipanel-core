@@ -44,20 +44,27 @@ use yii\helpers\Html;
     .widget-user-desc,
     .widget-user-desc a,
     .widget-user-desc a:focus,
-    .widget-user-desc a:visited
-    {
+    .widget-user-desc a:visited {
         color: #fff;
     }
 
     .widget-user-username a:hover,
-    .widget-user-desc a:hover
-    {
+    .widget-user-desc a:hover {
         text-decoration: underline;
+    }
+
+    .box-menu > ul > li {
+        border-bottom: 1px solid #f0f4f7;
+    }
+
+    .box-menu > ul > li:last-child {
+        border-bottom: none;
     }
 </style>
 
 <div class="box box-widget widget-user-2">
-    <div class="widget-user-header" <?php if ($backgroundColor) : ?>style="background-color: <?= $backgroundColor ?> !important;"<?php endif; ?>>
+    <div class="widget-user-header"
+         <?php if ($backgroundColor) : ?>style="background-color: <?= $backgroundColor ?> !important;"<?php endif; ?>>
         <div class="widget-user-image">
             <?php if ($image && $background === false) : ?>
                 <?= $image ?>
@@ -71,7 +78,7 @@ use yii\helpers\Html;
     <?php if ($background) : ?>
         <div id="bg-image"></div>
     <?php endif; ?>
-    <div class="box-footer no-padding">
+    <div class="box-footer no-padding box-menu">
         <?= $menu ?>
     </div>
 </div>
