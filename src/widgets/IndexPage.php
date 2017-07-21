@@ -95,9 +95,8 @@ class IndexPage extends Widget
         $view->registerCss('#content-pjax .select2-dropdown--below { min-width: 170px!important; }');
         $view->registerJs(<<<"JS"
         // Checkbox
-        var checkboxes = $('table input[type="checkbox"]');
         var bulkcontainer = $('.box-bulk-actions fieldset');
-        checkboxes.on('ifChecked ifUnchecked', function(event) {
+        $(document).on('ifChecked ifUnchecked', 'table input[type="checkbox"]', function(event) {
             if (event.type == 'ifChecked' && $('input.icheck').filter(':checked').length > 0) {
                 bulkcontainer.prop('disabled', false);
             } else if ($('input.icheck').filter(':checked').length == 0) {
