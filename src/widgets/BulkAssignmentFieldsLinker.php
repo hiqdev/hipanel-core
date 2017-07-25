@@ -28,24 +28,30 @@ class BulkAssignmentFieldsLinker extends Widget
         $selector = Json::htmlEncode($selector);
 
         $this->view->registerJs(<<<JS
-            $({$selector}).on('change', function (event) {
-                var similar = $(this).closest('form').find($selector),
-                    value = $(this).val();
+            $({$selector}).on('change keyup', function (event) {
+                var input = $(this),
+                    similar = input.closest('form').find($selector),
+                    value = input.val();
 
                 if (this !== similar[0]) {
-                    return;
+                    if (event.namespace !== 'bulky') input.data('wasChanged', true);
+                    return true;
                 }
 
-                if ($(this).data('field')) {
-                    value = $(this).data('field').getData();
+                if (input.data('field')) {
+                    value = input.data('field').getData();
                     var isCombo = true;
                 }
 
                 similar.slice(1).each(function() {
+                    if ($(this).data('wasChanged')) {
+                        return true;
+                    }
+
                     if (isCombo) {
                         $(this).data('field').setData(value, true);
                     } else {
-                        $(this).val(value).trigger('change');
+                        $(this).val(value).trigger('change.bulky');
                     }
                 });
             });
