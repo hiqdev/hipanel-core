@@ -12,6 +12,7 @@ namespace hipanel\widgets;
 
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
+use yii\db\ActiveRecord;
 
 class BulkOperation extends Widget
 {
@@ -21,7 +22,7 @@ class BulkOperation extends Widget
     public $model;
 
     /**
-     * @var ActiveRecords
+     * @var ActiveRecord[]
      */
     public $models;
 
