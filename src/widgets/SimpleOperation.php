@@ -10,8 +10,11 @@
 
 namespace hipanel\widgets;
 
+use hiqdev\hiart\ActiveRecord;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
+use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -119,6 +122,6 @@ class SimpleOperation extends Widget
 
     public function run()
     {
-        echo Yii::createObject($this->buildModalOptions())->run();
+        return Yii::createObject($this->buildModalOptions())->run();
     }
 }

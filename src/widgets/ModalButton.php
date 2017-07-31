@@ -360,6 +360,7 @@ JS
                 var submit = $(this).find('[data-modal-submit]');
                 if (!submit) return true;
                 submit.button('loading');
+                $('body').removeClass('modal-open');
             });
         ");
     }
