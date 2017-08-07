@@ -305,5 +305,7 @@ return [
     'Show all' => 'Показать все',
 
     // User
-    'This user already exists.' => 'Такой пользователь уже существует.'
+    'This user already exists.' => 'Такой пользователь уже существует.',
+
+    'Legend' => 'Легенда',
 ];

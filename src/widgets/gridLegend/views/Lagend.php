@@ -1,9 +1,27 @@
-<ul class="well well-sm list-unstyled"
-    style="display: flex; justify-content: space-between; margin-bottom: .5em ; padding: .5em 1em">
-    <?php foreach ($items as $item) : ?>
-        <li>
-            <i class="fa fa-square"
-               style="color: <?= $this->context->getColor($item) ?>; padding-right: 0.5rem;"></i> <?= $this->context->getLabel($item) ?>
-        </li>
-    <?php endforeach; ?>
-</ul>
+<?php
+$this->registerCss("
+.legend-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px 10px 10px;
+}
+");
+?>
+
+<div class="box box-widget">
+    <div class="box-header with-border">
+        <h3 class="box-title"><?= Yii::t('hipanel', 'Legend') ?></h3>
+    </div>
+    <div class="box-body no-padding">
+        <ul class="nav nav-pills nav-stacked">
+            <?php foreach ($items as $item) : ?>
+                <li class="legend-item">
+                    <b><?= $this->context->getLabel($item) ?></b>
+                    <span class="pull-right text-red">
+                        <i class="fa fa-square" style="color: <?= $this->context->getColor($item) ?>;"></i>
+                    </span>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
