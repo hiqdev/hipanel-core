@@ -22,6 +22,7 @@ $widget = $this->context;
                         <?= $widget->renderSearchForm(['options' => ['displayNone' => false]]) ?>
                     </div>
                 </div>
+                <?= $widget->renderContent('legend') ?>
             </div>
         </div>
         <div class="col-md-9">
