@@ -16,7 +16,7 @@ class BoxedGridView extends GridView
 {
     public $boxed = true;
 
-    public static $detailViewClass = BoxedDetailView::class;
+    public $detailViewClass = BoxedDetailView::class;
 
     /**
      * To grid options, for example, you may add something like this for customize boxes:

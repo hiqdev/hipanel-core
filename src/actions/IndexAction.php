@@ -11,6 +11,9 @@
 namespace hipanel\actions;
 
 use hipanel\base\FilterStorage;
+use hipanel\grid\RepresentationCollectionFinder;
+use hiqdev\higrid\representations\RepresentationCollection;
+use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
@@ -58,6 +61,7 @@ class IndexAction extends SearchAction
                         return [
                             'model' => $this->getSearchModel(),
                             'dataProvider' => $this->getDataProvider(),
+                            'representationCollection' => $this->ensureRepresentationCollection(),
                             'uiModel' => $this->getUiModel(),
                         ];
                     },
@@ -69,6 +73,17 @@ class IndexAction extends SearchAction
     public function getUiModel()
     {
         return $this->controller->indexPageUiOptionsModel;
+    }
+
+    /**
+     * Method tries to guess representation collection class name and create object
+     * Creates empty collection when no specific representation exists.
+     *
+     * @return RepresentationCollection|RepresentationCollectionInterface
+     */
+    protected function ensureRepresentationCollection()
+    {
+        return RepresentationCollectionFinder::forCurrentRoute()->findOrFail();
     }
 
     /**

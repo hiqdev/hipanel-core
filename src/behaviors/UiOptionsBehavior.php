@@ -11,10 +11,12 @@
 namespace hipanel\behaviors;
 
 use hipanel\components\UiOptionsStorage;
+use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\models\IndexPageUiOptions;
+use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
 use yii\base\Behavior;
-use yii\helpers\Inflector;
+use yii\base\InvalidConfigException;
 use yii\web\Controller;
 
 class UiOptionsBehavior extends Behavior
@@ -29,6 +31,20 @@ class UiOptionsBehavior extends Behavior
      */
     private $_model;
 
+    /**
+     * @var RepresentationCollectionInterface
+     */
+    public $representationsCollection;
+
+    public function init()
+    {
+        parent::init();
+
+        if ($this->representationsCollection === null) {
+            $this->representationsCollection = RepresentationCollectionFinder::forCurrentRoute()->findOrFallback();
+        }
+    }
+
     public function events()
     {
         return [Controller::EVENT_BEFORE_ACTION => 'ensureUiOptions'];
@@ -36,25 +52,28 @@ class UiOptionsBehavior extends Behavior
 
     public function ensureUiOptions($event)
     {
-        if ($this->isRouteAllowed()) {
-            $options = [];
-            $params = Yii::$app->request->get();
-            $model = $this->getModel();
-            $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());
-            $model->availableRepresentations = $this->findRepresentations();
-            if ($params) {
-                foreach ($params as $key => $value) {
-                    if (in_array($key, array_keys($model->toArray()), true)) {
-                        $options[$key] = $value;
-                    }
+        if (!$this->isRouteAllowed()) {
+            return;
+        }
+
+        $options = [];
+        $params = Yii::$app->request->get();
+        $model = $this->getModel();
+        $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());
+        $model->availableRepresentations = $this->findRepresentations();
+        if ($params) {
+            foreach ($params as $key => $value) {
+                if (in_array($key, array_keys($model->toArray()), true)) {
+                    $options[$key] = $value;
                 }
-                $model->attributes = $options;
-                if ($model->validate()) {
-                    $this->getUiOptionsStorage()->set($this->getRoute(), $model->toArray());
-                } else {
-                    $errors = json_encode($model->getErrors());
-                    Yii::warning('UiOptionsBehavior - IndexPageUiModel validation errors: ' . $errors);
-                }
+            }
+            $model->attributes = $options;
+
+            if ($model->validate()) {
+                $this->getUiOptionsStorage()->set($this->getRoute(), $model->toArray());
+            } else {
+                $errors = json_encode($model->getErrors());
+                Yii::warning('UiOptionsBehavior - IndexPageUiModel validation errors: ' . $errors);
             }
         }
     }
@@ -93,14 +112,6 @@ class UiOptionsBehavior extends Behavior
 
     protected function findRepresentations()
     {
-        $out = [];
-        $module = $this->owner->module->id;
-        $owner = Inflector::id2camel($this->owner->id);
-        $gridClass =  sprintf('\hipanel\modules\%s\grid\%sGridView', $module, $owner);
-        if (class_exists($gridClass)) {
-            $out = array_keys($gridClass::getRepresentations());
-        }
-
-        return $out;
+        return $this->representationsCollection->getAll();
     }
 }

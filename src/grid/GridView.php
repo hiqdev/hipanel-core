@@ -38,13 +38,6 @@ class GridView extends \hiqdev\higrid\GridView
     /**
      * {@inheritdoc}
      */
-//    public $tableOptions = [
-//        'class' => 'table table-bordered table-hover dataTable'
-//    ];
-
-    /**
-     * {@inheritdoc}
-     */
     public $options = [
         'class' => 'dataTables_wrapper form-inline',
         'role' => 'grid',
@@ -58,9 +51,9 @@ class GridView extends \hiqdev\higrid\GridView
     /**
      * {@inheritdoc}
      */
-    protected static function defaultColumns()
+    public function columns()
     {
-        return [
+        return array_merge(parent::columns(), [
             'seller_id' => [
                 'class' => SellerColumn::class,
             ],
@@ -81,7 +74,7 @@ class GridView extends \hiqdev\higrid\GridView
             'client_like' => [
                 'class' => ClientColumn::class,
             ],
-        ];
+        ]);
     }
 
     /**

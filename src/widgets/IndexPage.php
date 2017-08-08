@@ -11,11 +11,13 @@
 namespace hipanel\widgets;
 
 use hipanel\models\IndexPageUiOptions;
+use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use yii\base\Widget;
 use yii\bootstrap\ButtonDropdown;
+use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
@@ -325,29 +327,29 @@ JS
     /**
      * Renders button to choose representation.
      * Returns empty string when nothing to choose (less then 2 representations available).
-     * @param string $grid class
+     *
+     * @param RepresentationCollectionInterface $collection
      * @return string rendered HTML
      */
-    public function renderRepresentations($grid)
+    public function renderRepresentations($collection)
     {
         $current = $this->getUiModel()->representation;
-        $representations = $grid::getRepresentations();
+
+        $representations = $collection->getAll();
         if (count($representations) < 2) {
             return '';
         }
-        if (!isset($representations[$current])) {
-            $current = key($representations);
-        }
+
         $items = [];
-        foreach ($representations as $key => $data) {
+        foreach ($representations as $name => $representation) {
             $items[] = [
-                'label' => $data['label'],
-                'url' => Url::current(['representation' => $key]),
+                'label' => $representation->getLabel(),
+                'url' => Url::current(['representation' => $name]),
             ];
         }
 
         return ButtonDropdown::widget([
-            'label' => Yii::t('hipanel:synt', 'View') . ': ' . $representations[$current]['label'],
+            'label' => Yii::t('hipanel:synt', 'View') . ': ' . $collection->getByName($current)->getLabel(),
             'options' => ['class' => 'btn-default btn-sm'],
             'dropdown' => [
                 'items' => $items,
