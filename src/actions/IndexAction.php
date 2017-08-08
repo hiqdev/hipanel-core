@@ -83,7 +83,7 @@ class IndexAction extends SearchAction
      */
     protected function ensureRepresentationCollection()
     {
-        return RepresentationCollectionFinder::forCurrentRoute()->findOrFail();
+        return RepresentationCollectionFinder::forCurrentRoute()->findOrFallback();
     }
 
     /**
