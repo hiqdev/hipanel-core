@@ -26,7 +26,7 @@ class GridLegend extends Widget
     {
         foreach ($this->legendItem->items() as $item) {
             if (isset($item['rule']) && boolval($item['rule']) === true) {
-                return ['style' => "background-color: {$item['color']} !important;"];
+                return ['style' => "background-color: {$this->getColor($item)} !important;"];
             }
         }
     }
