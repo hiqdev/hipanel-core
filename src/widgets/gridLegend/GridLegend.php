@@ -15,11 +15,11 @@ class GridLegend extends Widget
     /**
      * @param GridLegendInterface $legendItem
      * @param array $config
-     * @return string
+     * @return self
      */
     public static function create(GridLegendInterface $legendItem)
     {
-        return Yii::createObject(['class' => static::class, 'legendItem' => $legendItem]);
+        return new static(['legendItem' => $legendItem]);
     }
 
     public function gridRowOptions()
@@ -43,6 +43,6 @@ class GridLegend extends Widget
 
     public function run()
     {
-        return $this->render('Lagend', ['items' => $this->legendItem->items()]);
+        return $this->render('Legend', ['items' => $this->legendItem->items()]);
     }
 }

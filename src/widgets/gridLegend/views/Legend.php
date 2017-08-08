@@ -1,12 +1,10 @@
-<?php
-$this->registerCss("
+<?php $this->registerCss("
 .legend-item {
     position: relative;
     display: block;
     padding: 10px 15px 10px 10px;
 }
-");
-?>
+"); ?>
 
 <div class="box box-widget collapsed-box">
     <div class="box-header with-border">
