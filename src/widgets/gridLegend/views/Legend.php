@@ -1,4 +1,7 @@
-<?php $this->registerCss("
+<?php
+use yii\helpers\Html;
+
+$this->registerCss("
 .legend-item {
     position: relative;
     display: block;
@@ -16,12 +19,18 @@
     <div class="box-body no-padding">
         <ul class="nav nav-pills nav-stacked">
             <?php foreach ($items as $item) : ?>
-                <li class="legend-item">
-                    <b><?= $this->context->getLabel($item) ?></b>
-                    <span class="pull-right text-red">
+                <?php if (isset($item['tag'])) : ?>
+                    <li class="legend-item">
+                        <?= Html::tag($item['tag'], $this->context->getLabel($item), isset($item['options']) ? $item['options'] : []) ?>
+                    </li>
+                <?php else: ?>
+                    <li class="legend-item">
+                        <?= $this->context->getLabel($item) ?>
+                        <span class="pull-right text-red">
                         <i class="fa fa-square" style="color: <?= $this->context->getColor($item) ?>;"></i>
                     </span>
-                </li>
+                    </li>
+                <?php endif; ?>
             <?php endforeach; ?>
         </ul>
     </div>

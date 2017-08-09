@@ -33,7 +33,7 @@ class GridLegend extends Widget
 
     public function getColor($item)
     {
-        return isset($item['color']) ? $item['color'] : '#f4f4f4';
+        return isset($item['color']) ? $item['color'] : 'transparent';
     }
 
     public function getLabel($item)
