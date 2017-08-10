@@ -26,10 +26,10 @@ class BoxedDetailView extends DetailView
     {
         if ($this->boxed) {
             Box::begin($this->boxOptions);
-            parent::run();
+            echo parent::run();
             Box::end();
         } else {
-            parent::run();
+            return parent::run();
         }
     }
 }
