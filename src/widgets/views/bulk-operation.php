@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $form = ActiveForm::begin([
     'id' => "bulk-{$scenario}-form",
-    'action' => Url::toRoute("bulk-{$scenario}"),
+    'action' => Url::toRoute($scenario),
     'enableAjaxValidation' => false,
 ]);
 ?>
