@@ -74,6 +74,10 @@ class GridView extends \hiqdev\higrid\GridView
             'client_like' => [
                 'class' => ClientColumn::class,
             ],
+            'blocking' => [
+                'label' => Yii::t('hipanel', 'Block'),
+                'class' => BlockingColumn::class,
+            ],
         ]);
     }
 
