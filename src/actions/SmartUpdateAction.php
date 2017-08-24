@@ -145,7 +145,7 @@ class SmartUpdateAction extends SwitchAction
                     'class' => RedirectAction::class,
                     'url'   => function ($action) {
                         return $action->collection->count() > 1
-                            ? $action->controller->getSearchUrl(['id_in' => $action->collection->ids])
+                            ? $action->controller->getSearchUrl()
                             : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id]);
                     },
                 ],
@@ -177,7 +177,7 @@ class SmartUpdateAction extends SwitchAction
                     'class' => RedirectAction::class,
                     'url'   => function ($action) {
                         return $action->collection->count() > 1
-                            ? $action->controller->getSearchUrl(['id_in' => $action->collection->ids])
+                            ? $action->controller->getSearchUrl()
                             : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id]);
                     },
                 ],

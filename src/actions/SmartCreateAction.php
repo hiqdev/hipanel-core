@@ -85,7 +85,7 @@ class SmartCreateAction extends SwitchAction
                     'class' => RedirectAction::class,
                     'url'   => function ($action) {
                         return $action->collection->count() > 1
-                            ? $action->controller->getSearchUrl(['id_in' => $action->collection->ids])
+                            ? $action->controller->getSearchUrl()
                             : $action->controller->getActionUrl('view', ['id' => $action->model->id]);
                     },
                 ],
