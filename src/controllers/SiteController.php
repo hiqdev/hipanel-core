@@ -83,11 +83,12 @@ class SiteController extends \hisite\controllers\SiteController
 
     public function actionLogout()
     {
-        $back = Yii::$app->request->getHostInfo();
-        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/logout', compact('back'));
         Yii::$app->user->logout();
 
-        return Yii::$app->response->redirect($url);
+        $back = Yii::$app->request->getHostInfo();
+        $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/logout', compact('back'));
+
+        return $this->redirect($url);
     }
 
     public function actionSignup()
@@ -95,6 +96,6 @@ class SiteController extends \hisite\controllers\SiteController
         $back = Yii::$app->request->getHostInfo();
         $url = Yii::$app->authClientCollection->getClient()->buildUrl('site/signup', compact('back'));
 
-        return Yii::$app->response->redirect($url);
+        return $this->redirect($url);
     }
 }
