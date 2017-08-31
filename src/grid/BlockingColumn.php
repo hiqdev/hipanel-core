@@ -19,8 +19,7 @@ class BlockingColumn extends \hiqdev\higrid\DataColumn
         }
     }
 
-    protected
-    function renderDataCellContent($model, $key, $index)
+    protected function renderDataCellContent($model, $key, $index)
     {
         $html = '';
         if ($model->blocking && $model->blocking->reason) {
