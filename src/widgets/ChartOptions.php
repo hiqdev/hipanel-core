@@ -286,7 +286,7 @@ HTML;
                     data: $(this).serializeArray(),
                     type: 'post',
                     success: function (html) {
-                        $('.{$id}-chart-wrapper').replaceWith(html);
+                        $('.{$id}-chart-wrapper').closest('.box').find('.box-body').html(html);
                     }
                 };
                 event.preventDefault();
