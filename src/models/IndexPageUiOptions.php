@@ -48,7 +48,7 @@ class IndexPageUiOptions extends Model
 
             ['representation', 'default', 'value' => null],
             ['representation', function ($attribute, $params, $validator) {
-                if (!empty($this->availableRepresentations) && !in_array($this->{$attribute}, $this->availableRepresentations, true)) {
+                if (!empty($this->availableRepresentations) && in_array($this->{$attribute}, $this->availableRepresentations, true)) {
                     $this->addError($attribute, 'The token must contain letters or digits.');
                 }
             }],
