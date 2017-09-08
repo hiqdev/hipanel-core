@@ -46,11 +46,11 @@ class User extends Model implements IdentityInterface
 
     private static $_users = [];
 
-    const TYPE_CLIENT   = 'client';
-    const TYPE_ADMIN    = 'admin';
-    const TYPE_MANAGER  = 'manager';
+    const TYPE_CLIENT = 'client';
+    const TYPE_ADMIN = 'admin';
+    const TYPE_MANAGER = 'manager';
     const TYPE_RESELLER = 'reseller';
-    const TYPE_OWNER    = 'owner';
+    const TYPE_OWNER = 'owner';
 
     public function save()
     {
@@ -146,7 +146,7 @@ class User extends Model implements IdentityInterface
         }
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
+        $timestamp = (int)end($parts);
         return $timestamp + $expire >= time();
     }
 
@@ -160,12 +160,12 @@ class User extends Model implements IdentityInterface
 
     public function is($key)
     {
-        return (int) $this->id === (int) $key || (string) $this->username === (string) $key;
+        return (int)$this->id === (int)$key || (string)$this->username === (string)$key;
     }
 
     public function not($key)
     {
-        return (int) $this->id !== (int) $key && (string) $this->username !== (string) $key;
+        return (int)$this->id !== (int)$key && (string)$this->username !== (string)$key;
     }
 
     public function getLogin()
@@ -239,5 +239,14 @@ class User extends Model implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @param $seller string|integer
+     * @return bool
+     */
+    public function hasSeller($seller)
+    {
+        return (((string)$seller === (string)$this->seller) || ((int)$seller === (int)$this->seller_id));
     }
 }
