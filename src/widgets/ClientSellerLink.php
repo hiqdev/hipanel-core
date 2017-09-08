@@ -22,9 +22,9 @@ class ClientSellerLink extends \yii\base\Widget
      */
     public $model;
 
-    public $clientAttribute   = 'client';
+    public $clientAttribute = 'client';
     public $clientIdAttribute = 'client_id';
-    public $sellerAttribute   = 'seller';
+    public $sellerAttribute = 'seller';
     public $sellerIdAttribute = 'seller_id';
 
     public function init()
@@ -45,7 +45,12 @@ class ClientSellerLink extends \yii\base\Widget
         }
 
         if (Yii::$app->user->can('support') && $this->getSeller() !== false) {
-            $result .= ' / ' . Html::a($this->getSeller(), ['@client/view', 'id' => $this->getSellerId()]);
+            $result .= ' / ';
+            if (Yii::$app->user->identity->hasSeller($this->getSeller())) {
+                $result .= $this->getSeller();
+            } else {
+                $result .= Html::a($this->getSeller(), ['@client/view', 'id' => $this->getSellerId()]);
+            }
         }
 
         return $result;
