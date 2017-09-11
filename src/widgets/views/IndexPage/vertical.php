@@ -1,5 +1,5 @@
 <?php
-
+/** @var \hipanel\widgets\IndexPage $widget */
 $widget = $this->context;
 
 ?>
@@ -9,7 +9,12 @@ $widget = $this->context;
             <div class="mailbox-controls">
                 <?= $widget->renderContent('main-actions') ?>
                 <?= $widget->renderSearchButton() ?>
-                <?= $widget->renderContent('show-actions') ?>
+
+                <?= $widget->renderLayoutSwitcher() ?>
+                <?= $widget->renderContent('sorter-actions') ?>
+                <?= $widget->renderContent('representation-actions') ?>
+                <?= $widget->renderPerPage() ?>
+
                 <div class="box-tools box-bulk-actions pull-right">
                     <fieldset disabled="disabled">
                         <?= $widget->renderContent('bulk-actions') ?>
