@@ -29,10 +29,13 @@ $widget = $this->context;
             <div class="box box-widget">
                 <div class="box-body no-padding">
                     <div class="mailbox-controls">
+
                         <?= $widget->renderLayoutSwitcher() ?>
                         <?= $widget->renderContent('sorter-actions') ?>
                         <?= $widget->renderContent('representation-actions') ?>
                         <?= $widget->renderPerPage() ?>
+                        <?= $widget->renderContent('show-actions') ?>
+
                         <div class="box-tools box-bulk-actions pull-right">
                             <fieldset disabled="disabled">
                                 <?= $widget->renderContent('bulk-actions') ?>
