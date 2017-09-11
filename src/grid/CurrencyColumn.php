@@ -65,7 +65,7 @@ class CurrencyColumn extends DataColumn
 
         $url = $this->getUrl($model, $key, $index);
         $txt = Yii::$app->formatter->format($value, ['currency', $model->currency]);
-        $ops = ['class' => 'text-nowrap text-' . $this->getColor($color)];
+        $ops = ['class' => 'text-nowrap text-' . $this->getColor($color), 'data-pjax' => 0];
         return $url ? Html::a($txt, $url, $ops) : Html::tag('span', $txt, $ops);
     }
 }
