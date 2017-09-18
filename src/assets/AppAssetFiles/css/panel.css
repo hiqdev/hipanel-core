@@ -945,3 +945,10 @@ blockquote {
 .select2-container--open .select2-dropdown--below {
     min-width: 150px;
 }
+
+TABLE THEAD .filters TD.narrow-filter INPUT {
+    width: 100px;
+}
+TABLE THEAD .filters TD.narrow-filter SELECT {
+    width: 100px;
+}
