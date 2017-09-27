@@ -90,8 +90,7 @@ class Pjax extends \yii\widgets\Pjax
         $content = Json::htmlEncode(Html::tag('section', $header . $breadcrumbs, ['class' => 'content-header']));
         Yii::$app->getView()->registerJs(new JsExpression(<<< JS
             $('.content-header li a').on('click', function (event) {
-                var container = $('#{$this->id}');
-                $.pjax.click(event, {container: container});
+                $.pjax.click(event, {container: '#{$this->id}'});
             });
             $('.content-header').replaceWith($content);
 JS
