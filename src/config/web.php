@@ -161,6 +161,12 @@ return [
         ],
         'singletons' => [
             \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class,
+            \yii\web\User::class => function () {
+                return Yii::$app->getUser();
+            },
+            \yii\caching\CacheInterface::class => function () {
+                return Yii::$app->getCache();
+            }
         ],
     ],
 ];
