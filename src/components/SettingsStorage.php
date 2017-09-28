@@ -88,11 +88,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
             return [];
         }
 
-        try {
-            return Client::perform($action, $data);
-        } catch (\Exception $e) {
-            return [];
-        }
+        return Client::perform($action, $data);
     }
 
     private function decodeResponse($response)
