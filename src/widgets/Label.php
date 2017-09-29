@@ -27,11 +27,6 @@ use yii\helpers\Html;
  */
 class Label extends \yii\base\Widget
 {
-    /**
-     * @var string
-     */
-    public $label;
-
     public $default = 'default';
 
     public $noneOptions = [];
@@ -39,6 +34,11 @@ class Label extends \yii\base\Widget
     public $labelOptions = [];
 
     public $addClass = '';
+
+    /**
+     * @var string
+     */
+    public $tag = 'span';
 
     /**
      * Available types: label, text.
@@ -49,12 +49,12 @@ class Label extends \yii\base\Widget
      * @var string
      * Because $class is used by Yii::createObject
      */
-    public $_color;
+    protected $_color;
 
     /**
      * @var string
      */
-    public $tag = 'span';
+    protected $_label;
 
     /*public function init()
     {
@@ -64,16 +64,16 @@ class Label extends \yii\base\Widget
 
     public function run()
     {
-        $this->renderLabel();
+        return $this->renderLabel();
     }
 
     protected function renderLabel()
     {
         $color = $this->getColor();
         if ($color === 'none') {
-            echo Html::tag('b',        $this->label, $this->buildOptions($this->noneOptions, 'text-muted'));
+            return Html::tag('b',        $this->getLabel(), $this->buildOptions($this->noneOptions, 'text-muted'));
         } else {
-            echo Html::tag($this->tag, $this->label, $this->buildOptions($this->labelOptions));
+            return Html::tag($this->tag, $this->getLabel(), $this->buildOptions($this->labelOptions));
         }
     }
 
@@ -99,6 +99,16 @@ class Label extends \yii\base\Widget
     public function getColor()
     {
         return $this->_color ?: $this->default;
+    }
+
+    public function setLabel($label)
+    {
+        $this->_label = $label;
+    }
+
+    public function getLabel()
+    {
+        return $this->_label ?: $this->default;
     }
 
     public function getCssClass()
