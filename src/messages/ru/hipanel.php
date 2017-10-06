@@ -218,6 +218,9 @@ return [
     'Comment' => 'Комментарий',
     'Write comment' => 'Напишите комментарий',
 
+    'Note was changed' => 'Заметка изменена',
+    'Failed to change note' => 'Произошла ошибка при попытке изменить заметку',
+
     /// Password
     'Password' => 'Пароль',
     'Current password' => 'Текущий пароль',
