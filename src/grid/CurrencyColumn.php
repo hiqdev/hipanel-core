@@ -11,6 +11,7 @@
 namespace hipanel\grid;
 
 use hipanel\base\Model;
+use hipanel\modules\finance\widgets\ColoredBalance;
 use Yii;
 use yii\helpers\Html;
 
@@ -52,20 +53,13 @@ class CurrencyColumn extends DataColumn
      */
     public function getDataCellValue($model, $key, $index)
     {
-        $value = $model->getAttribute($this->attribute);
-        $color = $value === 0 ? 'primary' : 'success';
-
-        if ($value < 0) {
-            $color = 'warning';
-        }
-
-        if ($value < -($model->getAttribute($this->compare) ?: 0)) {
-            $color = 'danger';
-        }
-
-        $url = $this->getUrl($model, $key, $index);
-        $txt = Yii::$app->formatter->format($value, ['currency', $model->currency]);
-        $ops = ['class' => 'text-nowrap text-' . $this->getColor($color), 'data-pjax' => 0];
-        return $url ? Html::a($txt, $url, $ops) : Html::tag('span', $txt, $ops);
+        return ColoredBalance::widget([
+            'model' => $model,
+            'attribute' => $this->attribute,
+            'nameAttribute' => $this->nameAttribute,
+            'compare' => $this->compare,
+            'colors' => $this->colors,
+            'urlCallback' => $this->urlCallback,
+        ]);
     }
 }
