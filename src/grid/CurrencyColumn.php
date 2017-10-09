@@ -60,6 +60,7 @@ class CurrencyColumn extends DataColumn
             'compare' => $this->compare,
             'colors' => $this->colors,
             'urlCallback' => $this->urlCallback,
+            'url' => $this->getUrl($model, $key, $index),
         ]);
     }
 }
