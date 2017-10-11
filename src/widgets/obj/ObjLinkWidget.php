@@ -32,8 +32,7 @@ class ObjLinkWidget extends \yii\base\Widget
     {
         $alias = $this->model->getObjClass()->getAlias();
     
-        return $this->getLabel() . '&nbsp;' .
-            Html::a($this->model->name, ["@$alias/view", 'id' => $this->model->id], ['data-pjax' => 0]);
+        return Html::a($this->getLabel(), ["@$alias/view", 'id' => $this->model->id], ['data-pjax' => 0]);
     }
 
     public function setLabel($label)
