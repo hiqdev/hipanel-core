@@ -75,7 +75,7 @@ class SmartUpdateAction extends SwitchAction
                 throw new BadRequestHttpException('Where condition is empty!');
             }
 
-            $this->dataProvider->query->andFilterWhere($this->findOptions);
+            $this->dataProvider->query->andFilterWhere($this->findOptions)->andWhere(['limit' => 'ALL']);
         }
 
         return $this->dataProvider;
