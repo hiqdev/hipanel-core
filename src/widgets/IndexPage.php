@@ -12,12 +12,12 @@ namespace hipanel\widgets;
 
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
+use hiqdev\yii2\export\widgets\IndexPageExportLinks;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 use yii\base\Widget;
 use yii\bootstrap\ButtonDropdown;
-use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
@@ -371,7 +371,7 @@ JS
 
     public function renderExport($representationCollection)
     {
-        return IndexExport::widget(compact('representationCollection'));
+        return IndexPageExportLinks::widget(compact('representationCollection'));
     }
 
     public function getViewPath()
