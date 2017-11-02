@@ -31,6 +31,7 @@ $widget = $this->context;
                     <div class="mailbox-controls">
 
                         <?= $widget->renderLayoutSwitcher() ?>
+                        <?= $widget->renderContent('export-actions') ?>
                         <?= $widget->renderContent('sorter-actions') ?>
                         <?= $widget->renderContent('representation-actions') ?>
                         <?= $widget->renderPerPage() ?>

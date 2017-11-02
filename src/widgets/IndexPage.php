@@ -315,6 +315,7 @@ JS
         foreach ([25, 50, 100, 200, 500] as $pageSize) {
             $items[] = ['label' => $pageSize, 'url' => Url::current(['per_page' => $pageSize])];
         }
+
         return ButtonDropdown::widget([
             'label' => Yii::t('hipanel', 'Per page') . ': ' . $this->getUiModel()->per_page,
             'options' => ['class' => 'btn-default btn-sm'],
@@ -368,6 +369,11 @@ JS
         ], $options));
     }
 
+    public function renderExport($representationCollection)
+    {
+        return IndexExport::widget(compact('representationCollection'));
+    }
+
     public function getViewPath()
     {
         return parent::getViewPath() . DIRECTORY_SEPARATOR . (new \ReflectionClass($this))->getShortName();
@@ -406,6 +412,7 @@ JS
         if ($this->_layout === null) {
             $this->_layout = $this->detectLayout();
         }
+
         return $this->_layout;
     }
 
