@@ -47,6 +47,12 @@ class Action extends \yii\base\Action
     public $_scenario;
 
     /**
+     * Perform query options
+     * @var array
+     */
+    public $queryOptions = [];
+
+    /**
      * @var array|Closure additional data passed when rendering
      */
     public $data = [];
@@ -106,6 +112,7 @@ class Action extends \yii\base\Action
                 'class' => Collection::class,
                 'model' => $this->controller->newModel(),
                 'scenario' => $scenario,
+                'queryOptions' => $this->queryOptions,
             ], (array) $this->_collection));
         }
 
