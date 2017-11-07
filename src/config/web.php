@@ -21,14 +21,6 @@ return [
         'themeManager' => 'themeManager',
         'language' => 'language',
     ]),
-    'aliases' => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm' => '@vendor/npm-asset',
-        '@vendor/bower' => '@vendor/bower-asset',
-        '@vendor/npm' => '@vendor/npm-asset',
-        '@file' => '/file',
-        '@reminder' => '/reminder',
-    ],
     'components' => [
         'request' => [
             'enableCsrfCookie' => false,
@@ -37,29 +29,9 @@ return [
         'response' => [
             'class' => \hipanel\components\Response::class,
         ],
-        'cache' => [
-            'class' => \hipanel\components\Cache::class,
-        ],
         'mailer' => [
             'class' => \yii\swiftmailer\Mailer::class,
             'viewPath' => '@hipanel/mail',
-        ],
-        'i18n' => [
-            'class' => \hipanel\components\I18N::class,
-            'translations' => [
-                'hipanel' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
-                ],
-                'hipanel:synt' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
-                ],
-                'hipanel:block-reasons' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
-                ],
-            ],
         ],
         'orientationStorage' => [
             'class' => \hipanel\components\OrientationStorage::class,

@@ -101,8 +101,9 @@
     "extra": {
         "config-plugin": {
             "params": "src/config/params.php",
-            "web": "src/config/web.php",
-            "hidev": "src/config/hidev.php"
+            "common": "src/config/common.php",
+            "console": "src/config/console.php",
+            "web": "src/config/web.php"
         }
     },
     "minimum-stability": "dev",
