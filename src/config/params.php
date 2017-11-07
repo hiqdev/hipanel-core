@@ -10,7 +10,7 @@
 
 return [
     'adminEmail'            => '',
-    'orgUrl'                => '',
+    'organization.url'      => '',
 
     'hiam.site'             => '',
     'hiam.client_id'        => '',
