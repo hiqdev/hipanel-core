@@ -371,7 +371,9 @@ JS
 
     public function renderExport()
     {
-        return IndexPageExportLinks::widget();
+        if ($this->getUiModel()->representation) {
+            return IndexPageExportLinks::widget();
+        }
     }
 
     public function getViewPath()
