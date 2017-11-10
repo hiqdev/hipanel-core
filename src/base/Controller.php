@@ -10,6 +10,7 @@
 
 namespace hipanel\base;
 
+use hipanel\actions\ExportAction;
 use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
@@ -48,6 +49,15 @@ class Controller extends \yii\web\Controller
         return [
             [
                 'class' => UiOptionsBehavior::class,
+            ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'export' => [
+                'class' => ExportAction::class,
             ],
         ];
     }
@@ -93,6 +103,7 @@ class Controller extends \yii\web\Controller
     public static function newModel($config = [], $submodel = '')
     {
         $config['class'] = static::modelClassName() . $submodel;
+
         return Yii::createObject($config);
     }
 
@@ -216,6 +227,7 @@ class Controller extends \yii\web\Controller
     public function createAction($id)
     {
         $config = $this->_internalActions[$id];
+
         return $config ? Yii::createObject($config, [$id, $this]) : parent::createAction($id);
     }
 
@@ -229,6 +241,7 @@ class Controller extends \yii\web\Controller
     public static function getActionUrl($action = 'index', $params = [])
     {
         $params = is_array($params) ? $params : ['id' => $params];
+
         return array_merge([implode('/', ['', static::moduleId(), static::controllerId(), $action])], $params);
     }
 
