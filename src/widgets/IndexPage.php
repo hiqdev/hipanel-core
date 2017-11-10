@@ -371,7 +371,8 @@ JS
 
     public function renderExport()
     {
-        if ($this->getUiModel()->representation) {
+        $isGridExportActionExists = (bool) Yii::$app->controller->createAction('export');
+        if ($isGridExportActionExists && $this->getUiModel()->representation) {
             return IndexPageExportLinks::widget();
         }
     }
