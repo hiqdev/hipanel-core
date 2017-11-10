@@ -11,7 +11,7 @@ $widget = $this->context;
                 <?= $widget->renderSearchButton() ?>
 
                 <?= $widget->renderLayoutSwitcher() ?>
-                <?= $widget->renderContent('export-actions') ?>
+                <?= $widget->renderExport() ?>
                 <?= $widget->renderContent('sorter-actions') ?>
                 <?= $widget->renderContent('representation-actions') ?>
                 <?= $widget->renderPerPage() ?>

@@ -369,9 +369,9 @@ JS
         ], $options));
     }
 
-    public function renderExport($representationCollection)
+    public function renderExport()
     {
-        return IndexPageExportLinks::widget(compact('representationCollection'));
+        return IndexPageExportLinks::widget();
     }
 
     public function getViewPath()
