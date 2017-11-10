@@ -30,19 +30,15 @@ class ExportAction extends IndexAction
         if ($settings !== null) {
             $settings->applyTo($exporter);
         }
-        $representation = $this->controller->indexPageUiOptionsModel->representation;
-        if ($representation) {
-            $columns = $this->ensureRepresentationCollection()->getByName($representation)->getColumns();
-            $gridClassName = $this->guessGridClassName();
-            $grid = new $gridClassName(['dataProvider' => $this->getDataProvider()]);
-            $grid->dataColumnClass = \hiqdev\higrid\DataColumn::class;
-            $result = $exporter->export($grid, $columns);
-            $filename = $exporter->filename . '.' . $type;
+        $representation = $this->ensureRepresentationCollection()->getByName($this->controller->indexPageUiOptionsModel->representation);
+        $columns = $representation->getColumns();
+        $gridClassName = $this->guessGridClassName();
+        $grid = new $gridClassName(['dataProvider' => $this->getDataProvider()]);
+        $grid->dataColumnClass = \hiqdev\higrid\DataColumn::class;
+        $result = $exporter->export($grid, $columns);
+        $filename = $exporter->filename . '.' . $type;
 
-            return Yii::$app->response->sendContentAsFile($result, $filename);
-        } else {
-            return Yii::$app->controller->redirect(Yii::$app->request->referrer);
-        }
+        return Yii::$app->response->sendContentAsFile($result, $filename);
     }
 
     public function loadSettings($type)

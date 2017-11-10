@@ -10,6 +10,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use hiqdev\yii2\export\widgets\IndexPageExportLinks;
@@ -372,7 +373,9 @@ JS
     public function renderExport()
     {
         $isGridExportActionExists = (bool) Yii::$app->controller->createAction('export');
-        if ($isGridExportActionExists && $this->getUiModel()->representation) {
+        $collection = RepresentationCollectionFinder::forCurrentRoute()->findOrFallback();
+        $isRepresentationExists = count($collection->getAll()) > 0;
+        if ($isGridExportActionExists && $isRepresentationExists) {
             return IndexPageExportLinks::widget();
         }
     }
