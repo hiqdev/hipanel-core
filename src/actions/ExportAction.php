@@ -33,7 +33,7 @@ class ExportAction extends IndexAction
         $representation = $this->ensureRepresentationCollection()->getByName($this->controller->indexPageUiOptionsModel->representation);
         $columns = $representation->getColumns();
         $gridClassName = $this->guessGridClassName();
-        $grid = new $gridClassName(['dataProvider' => $this->getDataProvider()]);
+        $grid = new $gridClassName(['dataProvider' => $this->getDataProvider(), 'columns' => $columns]);
         $grid->dataColumnClass = \hiqdev\higrid\DataColumn::class;
         $result = $exporter->export($grid, $columns);
         $filename = $exporter->filename . '.' . $type;
