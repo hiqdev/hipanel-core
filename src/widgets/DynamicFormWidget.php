@@ -15,9 +15,10 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
     /**
      * @param \wbraganca\dynamicform\View $view
      */
-    public function registerAssets($view)
+    public function registerAssets()
     {
-        parent::registerAssets($view);
+        $view = $this->getView();
+        parent::registerAssets();
         // For init select2
         $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
