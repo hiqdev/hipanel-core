@@ -81,7 +81,7 @@
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "^1.8.0",
         "stichoza/google-translate-php": "~3.0",
-        "wbraganca/yii2-dynamicform": "^2.0 || dev-master",
+        "wbraganca/yii2-dynamicform": "dev-master",
         "bower-asset/css-element-queries": "<1.0",
         "bower-asset/less-space": "*",
         "bower-asset/eonasdan-bootstrap-datetimepicker": "*",
