@@ -154,9 +154,23 @@ class SmartUpdateAction extends SwitchAction
                     'view'   => $this->view,
                     'data'   => $this->data,
                     'params' => function ($action) {
+                        $models = $this->fetchModels();
+                        foreach ($models as $model) {
+                            $model->scenario = $this->scenario;
+                            foreach ($this->collection->models as $payload) {
+                                if ($payload->id === $model->id) {
+                                    foreach ($payload as $attribute => $value) {
+                                        if ($value) {
+                                            $model->{$attribute} = $value;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         return [
-                            'model'  => $action->collection->first,
-                            'models' => $action->collection->models,
+                            'model' => reset($models),
+                            'models' => $models,
                         ];
                     },
                 ],
