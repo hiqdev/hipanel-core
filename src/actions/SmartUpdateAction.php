@@ -159,11 +159,7 @@ class SmartUpdateAction extends SwitchAction
                             $model->scenario = $this->scenario;
                             foreach ($this->collection->models as $payload) {
                                 if ($payload->id === $model->id) {
-                                    foreach ($payload as $attribute => $value) {
-                                        if ($value) {
-                                            $model->{$attribute} = $value;
-                                        }
-                                    }
+                                    $model->setAttributes(array_filter($payload->getAttributes()));
                                 }
                             }
                         }
