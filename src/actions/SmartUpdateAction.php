@@ -154,14 +154,19 @@ class SmartUpdateAction extends SwitchAction
                     'view'   => $this->view,
                     'data'   => $this->data,
                     'params' => function ($action) {
-                        $models = $this->fetchModels();
-                        foreach ($models as $model) {
-                            $model->scenario = $this->scenario;
-                            foreach ($this->collection->models as $payload) {
-                                if ($payload->id === $model->id) {
-                                    $model->setAttributes(array_filter($payload->getAttributes()));
+                        try {
+                            $models = $this->fetchModels();
+
+                            foreach ($models as $model) {
+                                $model->scenario = $this->scenario;
+                                foreach ($this->collection->models as $payload) {
+                                    if ($payload->id === $model->id) {
+                                        $model->setAttributes(array_filter($payload->getAttributes()));
+                                    }
                                 }
                             }
+                        } catch (BadRequestHttpException $e) {
+                            $models = $this->collection->models;
                         }
 
                         return [
