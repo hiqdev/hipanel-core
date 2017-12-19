@@ -916,8 +916,8 @@ a.border-bottom-dashed {
     position: relative;
 }
 
-.horizontal-view #scrollspy > a.btn,
-.horizontal-view #scrollspy .dropdown > a.btn {
+.horizontal-view #scrollspy > .btn,
+.horizontal-view #scrollspy .dropdown > .btn {
     display: block;
     margin-bottom: 10px;
 }
