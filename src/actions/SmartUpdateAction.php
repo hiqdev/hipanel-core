@@ -15,6 +15,7 @@ use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
 use Yii;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class SmartUpdateAction.
@@ -113,6 +114,9 @@ class SmartUpdateAction extends SwitchAction
                 'view'   => $this->view,
                 'params' => function ($action) {
                     $models = $this->fetchModels();
+                    if (empty($models)) {
+                        throw new NotFoundHttpException('Search result is empty.');
+                    }
                     foreach ($models as $model) {
                         $model->scenario = $this->scenario;
                     }
