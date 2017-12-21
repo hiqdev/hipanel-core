@@ -220,6 +220,8 @@ return [
 
     'Note was changed' => 'Заметка изменена',
     'Failed to change note' => 'Произошла ошибка при попытке изменить заметку',
+    'Description was changed' => 'Описание было изменено',
+    'Failed to change description' => 'Ошибка при изменении описания',
 
     /// Password
     'Password' => 'Пароль',
