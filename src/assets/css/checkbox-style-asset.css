@@ -37,9 +37,9 @@
 .option-input:checked::before, .select-on-check-all:checked:before {
     height: 20px;
     width: 20px;
-    line-height: 20px;
+    line-height: 18px;
     position: absolute;
-    content: '✔';
+    content: '✓';
     display: inline-block;
     font-size: 16px;
     text-align: center;

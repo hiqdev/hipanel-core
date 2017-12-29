@@ -87,7 +87,8 @@
         "bower-asset/eonasdan-bootstrap-datetimepicker": "*",
         "bower-asset/components-font-awesome": "*",
         "2amigos/yii2-chartjs-widget": "^2.0",
-        "omnilight/yii2-momentjs": "*"
+        "omnilight/yii2-momentjs": "*",
+        "npm-asset/checkboxes.js": "1.2.0"
     },
     "require-dev": {
         "hiqdev/hidev-php": "<2.0",

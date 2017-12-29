@@ -43,6 +43,7 @@ class AppAsset extends AssetBundle
         MomentAsset::class,
         ElementQueryAsset::class,
         ResizableColumnsAsset::class,
+        CheckboxesAsset::class,
     ];
 
     /**

@@ -10,6 +10,7 @@
 
 namespace hipanel\grid;
 
+use hipanel\assets\CheckboxesAsset;
 use hiqdev\higrid\FeaturedColumnTrait;
 
 class CheckboxColumn extends \yii\grid\CheckboxColumn
@@ -24,6 +25,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     {
         parent::registerClientScript();
         $this->traitRegisterClientScript();
+        $this->registerCheckboxesScript();
     }
 
     /** {@inheritdoc} */
@@ -38,4 +40,12 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             'class' => 'grid-checkbox option-input',
         ],
     ];
+
+    private function registerCheckboxesScript()
+    {
+        CheckboxesAsset::register($this->grid->getView());
+        $id = $this->grid->options['id'];
+
+        $this->grid->getView()->registerJs("jQuery('#$id').checkboxes('range', true);");
+    }
 }
