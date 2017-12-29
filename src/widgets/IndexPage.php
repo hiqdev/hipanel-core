@@ -99,10 +99,11 @@ class IndexPage extends Widget
         $view->registerJs(<<<"JS"
         // Checkbox
         var bulkcontainer = $('.box-bulk-actions fieldset');
-        $(document).on('ifChecked ifUnchecked', 'table input[type="checkbox"]', function(event) {
-            if (event.type == 'ifChecked' && $('input.icheck').filter(':checked').length > 0) {
+        $($searchFormId).on('change', 'input[type="checkbox"]', function(event) {
+            var checkboxes = $('input.grid-checkbox');
+            if (checkboxes.filter(':checked').length > 0) {
                 bulkcontainer.prop('disabled', false);
-            } else if ($('input.icheck').filter(':checked').length == 0) {
+            } else if (checkboxes.filter(':checked').length === 0) {
                 bulkcontainer.prop('disabled', true);
             }
         });

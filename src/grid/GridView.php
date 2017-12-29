@@ -10,12 +10,12 @@
 
 namespace hipanel\grid;
 
+use hipanel\assets\CheckboxStyleAsset;
 use hipanel\helpers\ArrayHelper;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\SellerColumn;
 use hipanel\widgets\LinkSorter;
 use hiqdev\assets\datatables\DataTablesAsset;
-use hiqdev\assets\icheck\iCheckAsset;
 use Yii;
 
 /**
@@ -108,35 +108,6 @@ class GridView extends \hiqdev\higrid\GridView
     {
         $view = $this->getView();
         DataTablesAsset::register($view);
-        iCheckAsset::register($view);
-        $view->registerJs(<<<'JS'
-$(function () {
-    var checkAll = $('input.select-on-check-all');
-    var checkboxes = $('input.icheck');
-
-    $('input.icheck, input.select-on-check-all ').iCheck({
-        checkboxClass: 'icheckbox_minimal-blue',
-        radioClass: 'iradio_minimal-blue'
-    });
-
-    checkAll.on('ifChecked ifUnchecked', function(event) {
-        if (event.type == 'ifChecked') {
-            checkboxes.iCheck('check');
-        } else {
-            checkboxes.iCheck('uncheck');
-        }
-    });
-
-    checkboxes.on('ifChanged', function(event){
-        if (checkboxes.filter(':checked').length == checkboxes.length) {
-            checkAll.prop('checked', true);
-        } else {
-            checkAll.prop('checked', false);
-        }
-        checkAll.iCheck('update');
-    });
-});
-JS
-            , \yii\web\View::POS_READY);
+        CheckboxStyleAsset::register($view);
     }
 }

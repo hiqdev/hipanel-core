@@ -29,10 +29,13 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     /** {@inheritdoc} */
     public $defaultOptions = [
         'headerOptions' => [
-            'style' => 'width:1em',
+            'style' => 'text-align: center; vertical-align: middle; width: 1em;',
+        ],
+        'contentOptions' => [
+            'style' => 'text-align: center; vertical-align: middle;',
         ],
         'checkboxOptions' => [
-            'class' => 'icheck',
+            'class' => 'grid-checkbox option-input',
         ],
     ];
 }
