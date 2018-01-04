@@ -311,6 +311,8 @@ return [
 
     // User
     'This user already exists.' => 'Такой пользователь уже существует.',
+    'Impersonate' => 'Надеть маску',
+    'Unimpersonate' => 'Снять маску',
 
     'Legend' => 'Легенда',
 ];

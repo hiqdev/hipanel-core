@@ -67,6 +67,11 @@ class User extends Model implements IdentityInterface
         return Yii::$app->session->get('identity:' . $id);
     }
 
+    public function remove()
+    {
+        return Yii::$app->session->remove('identity:' . $this->id);
+    }
+
     /**
      * {@inheritdoc}
      */

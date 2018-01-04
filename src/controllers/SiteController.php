@@ -10,11 +10,13 @@
 
 namespace hipanel\controllers;
 
+use hipanel\logic\Impersonator;
 use hipanel\models\User;
 use hisite\actions\RedirectAction;
 use hisite\actions\RenderAction;
 use Yii;
 use yii\authclient\AuthAction;
+use yii\base\Module;
 use yii\filters\AccessControl;
 
 /**
@@ -22,6 +24,19 @@ use yii\filters\AccessControl;
  */
 class SiteController extends \hisite\controllers\SiteController
 {
+    /** @var string */
+    protected $defaultAuthClient = 'hiam';
+    /**
+     * @var Impersonator
+     */
+    private $impersonator;
+
+    public function __construct(string $id, Module $module, array $config = [], Impersonator $impersonator)
+    {
+        parent::__construct($id, $module, $config);
+        $this->impersonator = $impersonator;
+    }
+
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -45,6 +60,10 @@ class SiteController extends \hisite\controllers\SiteController
                 'class' => AuthAction::class,
                 'successCallback' => [$this, 'onAuthSuccess'],
             ],
+            'impersonate-auth' => [
+                'class' => AuthAction::class,
+                'successCallback' => [$this->impersonator, 'impersonateUser'],
+            ],
             'index' => [
                 'class' => RedirectAction::class,
                 'url'   => ['/dashboard/dashboard'],
@@ -57,6 +76,16 @@ class SiteController extends \hisite\controllers\SiteController
                 'class' => RenderAction::class,
             ],
         ]);
+    }
+
+
+    public function actionUnimpersonate()
+    {
+        if ($this->impersonator->isUserImpersonated()) {
+            $this->impersonator->unimpersonateUser();
+        }
+
+        return $this->redirect('/');
     }
 
     public function onAuthSuccess($client)
@@ -78,7 +107,7 @@ class SiteController extends \hisite\controllers\SiteController
             return $this->redirect(['/site/index']);
         }
 
-        return $this->redirect(['/site/auth', 'authclient' => 'hiam']);
+        return $this->redirect(['/site/auth', 'authclient' => $this->defaultAuthClient]);
     }
 
     public function actionLogout()
@@ -98,4 +127,15 @@ class SiteController extends \hisite\controllers\SiteController
 
         return $this->redirect($url);
     }
+
+    public function actionImpersonate($user_id)
+    {
+        if ($this->impersonator->isUserImpersonated()) {
+            $this->impersonator->unimpersonateUser();
+        }
+
+        $this->impersonator->backupCurrentToken();
+        return $this->redirect($this->impersonator->buildAuthUrl($user_id));
+    }
+
 }

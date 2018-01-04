@@ -138,7 +138,10 @@ return [
             },
             \yii\caching\CacheInterface::class => function () {
                 return Yii::$app->getCache();
-            }
+            },
+            \yii\authclient\Collection::class => function () {
+                return Yii::$app->get('authClientCollection');
+            },
         ],
     ],
 ];

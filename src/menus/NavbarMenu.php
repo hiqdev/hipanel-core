@@ -10,6 +10,7 @@
 
 namespace hipanel\menus;
 
+use hipanel\widgets\ImpersonationStatus;
 use hiqdev\yii2\cart\widgets\CartTeaser;
 use hiqdev\yii2\language\menus\LanguageMenu;
 use hiqdev\yii2\reminder\widgets\ReminderTop;
@@ -47,6 +48,10 @@ class NavbarMenu extends \hiqdev\yii2\menus\Menu
                 'options' => [
                     'class' => 'dropdown user user-menu',
                 ],
+            ],
+            [
+                'label' => ImpersonationStatus::widget(),
+                'encode' => false,
             ],
             [
                 'label' => '<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>',
