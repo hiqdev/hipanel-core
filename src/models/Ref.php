@@ -21,7 +21,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
     {
         return [
             [['id', 'no'], 'integer'],
-            [['name', 'label'], 'safe'],
+            [['name', 'oname', 'label'], 'safe'],
         ];
     }
 
