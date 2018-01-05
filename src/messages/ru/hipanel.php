@@ -315,4 +315,10 @@ return [
     'Unimpersonate' => 'Снять маску',
 
     'Legend' => 'Легенда',
+
+    'Premium autorenewal has been changed' => 'Автоматическое продление премиума было изменено',
+    'Autorenewal has been enabled' => 'Автообновление включено',
+    'Autorenewal has been disabled' => 'Автообновление выключено',
+    'Failed disabling Autorenewal' => 'Не удалось отключить автообновление',
+    'Failed enabling Autorenewal' => 'Не удалось включить автообновление',
 ];
