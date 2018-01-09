@@ -31,7 +31,7 @@ class SiteController extends \hisite\controllers\SiteController
      */
     private $impersonator;
 
-    public function __construct(string $id, Module $module, array $config = [], Impersonator $impersonator)
+    public function __construct(string $id, Module $module, Impersonator $impersonator, array $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->impersonator = $impersonator;
