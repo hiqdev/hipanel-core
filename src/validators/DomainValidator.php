@@ -50,7 +50,7 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
      */
     public function validateAttribute($model, $attribute)
     {
-        $value = $model->$attribute;
+        $value = strtolower($model->$attribute);
 
         if ($this->enableIdn) {
             $value = static::convertIdnToAscii($value);
@@ -85,11 +85,11 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
     {
         $js = parent::clientValidateAttribute($model, $attribute, $view);
         if (!$this->enableIdn) {
-            return $js;
+            return "value = value.toLowerCase(); $js";
         }
 
         PunycodeAsset::register($view);
 
-        return "value = punycode.toASCII(value); $js";
+        return "value = punycode.toASCII(value.toLowerCase()); $js";
     }
 }
