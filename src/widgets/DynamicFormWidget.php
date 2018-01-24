@@ -10,10 +10,13 @@
 
 namespace hipanel\widgets;
 
+
+use yii\web\View;
+
 class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
 {
     /**
-     * @param \wbraganca\dynamicform\View $view
+     * @param View $view
      */
     public function registerAssets($view)
     {
@@ -78,7 +81,7 @@ JS
                     passwordInputs.filter(function () {
                         return $(this).find('.show-password').length > 0;
                     }).each(function() {
-                        if ( $.isFunction($.fn.passwordInput) ) {
+                        if ($.isFunction($.fn.passwordInput)) {
                             $(this).passwordInput(); 
                         }
                     });

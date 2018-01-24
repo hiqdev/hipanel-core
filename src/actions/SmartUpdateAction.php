@@ -59,13 +59,18 @@ class SmartUpdateAction extends SwitchAction
 
     /**
      * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]].
+     *
      * @throws BadRequestHttpException
      * @return ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException when failed to generate `WHERE` condition
      */
     public function getDataProvider()
     {
         if ($this->dataProvider === null) {
-            $this->_id = $this->_id ?: Yii::$app->request->post('selection') ?: Yii::$app->request->get('selection') ?: Yii::$app->request->get('id');
+            $this->_id = $this->_id
+                ?: Yii::$app->request->post('selection')
+                ?: Yii::$app->request->get('selection')
+                ?: Yii::$app->request->get('id');
 
             $this->dataProvider = $this->getSearchModel()->search([], ['pagination' => false]);
             $this->dataProvider->query->andFilterWhere(
