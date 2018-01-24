@@ -58,8 +58,13 @@ JS
                         }
 
                         var config_id = $(template[0]).data('krajee-datetimepicker');
+                        var configObj = window[config_id];
                         var elementId = $(pickerItem).attr('id');
-                        $('#' + elementId + '-datetime').datetimepicker(config_id);
+                        if (configObj !== null && typeof configObj === 'object') {
+                            $('#' + elementId + '-datetime').datetimepicker(configObj);
+                        } else {
+                            $('#' + elementId + '-datetime').datetimepicker(config_id);
+                        }
                     });
                 }
             });
