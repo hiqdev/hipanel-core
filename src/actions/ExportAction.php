@@ -30,7 +30,7 @@ class ExportAction extends IndexAction
         if ($settings !== null) {
             $settings->applyTo($exporter);
         }
-        $representation = $this->ensureRepresentationCollection()->getByName($this->controller->indexPageUiOptionsModel->representation);
+        $representation = $this->ensureRepresentationCollection()->getByName($this->getUiModel()->representation);
         $columns = $representation->getColumns();
         $gridClassName = $this->guessGridClassName();
         $grid = new $gridClassName(['dataProvider' => $this->getDataProvider(), 'columns' => $columns]);

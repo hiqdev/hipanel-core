@@ -16,11 +16,16 @@ use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
 use yii\base\Behavior;
-use yii\base\InvalidConfigException;
+use yii\helpers\Html;
 use yii\web\Controller;
 
 class UiOptionsBehavior extends Behavior
 {
+    /**
+     * @var array
+     */
+    public $allowedRoutes = ['index', 'export'];
+
     /**
      * @var mixed
      */
@@ -94,7 +99,7 @@ class UiOptionsBehavior extends Behavior
 
     protected function isRouteAllowed()
     {
-        return $this->owner->action->id === 'index';
+        return in_array($this->owner->action->id, $this->allowedRoutes);
     }
 
     /**
@@ -105,8 +110,18 @@ class UiOptionsBehavior extends Behavior
         return Yii::$app->get('uiOptionsStorage');
     }
 
+    /**
+     * example: store/part/index
+     *
+     * @return string
+     */
     protected function getRoute()
     {
+        $request = Yii::$app->request;
+        if ($this->isRouteAllowed() && $request->get('route', false)) {
+            return Html::encode($request->get('route'));
+        }
+
         return Yii::$app->request->pathInfo;
     }
 
