@@ -31,11 +31,17 @@ class ExportAction extends IndexAction
             $settings->applyTo($exporter);
         }
         $representation = $this->ensureRepresentationCollection()->getByName($this->getUiModel()->representation);
-        $columns = $representation->getColumns();
         $gridClassName = $this->guessGridClassName();
-        $grid = new $gridClassName(['dataProvider' => $this->getDataProvider(), 'columns' => $columns]);
+        $indexAction = null;
+        if (isset($this->controller->actions()['index'])) {
+            $indexActionConfig = $this->controller->actions()['index'];
+            $indexAction = Yii::createObject($indexActionConfig, ['index', $this->controller]);
+            $indexAction->beforePerform();
+        }
+        $dataProvider = $indexAction ? $indexAction->getDataProvider() : $this->getDataProvider();
+        $grid = new $gridClassName(['dataProvider' => $dataProvider, 'columns' => $representation->getColumns()]);
         $grid->dataColumnClass = \hiqdev\higrid\DataColumn::class;
-        $result = $exporter->export($grid, $columns);
+        $result = $exporter->export($grid);
         $filename = $exporter->filename . '.' . $type;
 
         return Yii::$app->response->sendContentAsFile($result, $filename);
