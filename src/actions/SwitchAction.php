@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
 /**
  * Class SwitchAction.
  *
- * @property Collection|mixed collection
+ * @property Collection|mixed $collection
  */
 class SwitchAction extends Action implements \ArrayAccess, \IteratorAggregate, \yii\base\Arrayable
 {

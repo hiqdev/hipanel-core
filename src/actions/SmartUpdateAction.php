@@ -229,7 +229,7 @@ class SmartUpdateAction extends SwitchAction
      * Fetches models that will be edited.
      *
      * @throws BadRequestHttpException
-     * @return array
+     * @return Model[]
      */
     public function fetchModels()
     {
