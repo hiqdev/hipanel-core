@@ -59,8 +59,8 @@ class ViewAction extends SearchAction
                 'success' => [
                     'class' => RenderAction::class,
                     'view' => $this->view,
-                    'data' => function () {
-                        return $this->prepareData();
+                    'data' => function (Action $action, $data) {
+                        return $this->prepareData($data);
                     },
                     'params' => function () {
                         return [
