@@ -41,7 +41,6 @@ class DynamicFormInputsValueInheritor extends Widget
                 $({$inputSelectors}).each(function (index, selector) {
                     var templateInput = templateItem.find(selector);
                     var newInput = newItem.find(selector)
-                    debugger;
                     
                     newInput.val(templateInput.val());
                 });
