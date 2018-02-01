@@ -10,6 +10,10 @@ $widget = $this->context;
                     <?= $widget->renderContent('bulk-actions') ?>
                 </fieldset>
             </div>
+            <div class="box-tools pull-right">
+                <?= $widget->renderContent('main-actions') ?>
+                &nbsp;
+            </div>
         </div>
         <?= $widget->renderContent('table') ?>
     </div>
