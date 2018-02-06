@@ -25,8 +25,8 @@ class DetailView extends \hiqdev\higrid\DetailView
 
         if (Yii::$app->has('themeManager')) {
             /** @var ThemeManager $themeManager */
-            $themeManager = Yii::$app->get('themeManager');
-            if ($themeManager->getTheme()->getSettings()->table_condensed) {
+            $settings = Yii::$app->get('themeManager')->getTheme()->getSettings();
+            if (isset($settings->table_condensed) && $settings->table_condensed) {
                 Html::addCssClass($this->options, 'table-condensed');
             }
         }
