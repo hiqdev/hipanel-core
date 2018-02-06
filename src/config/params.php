@@ -11,6 +11,7 @@
 return [
     'adminEmail'            => '',
     'organization.url'      => '',
+    'organization.termsUrl' => '',
 
     'hiam.site'             => '',
     'hiam.client_id'        => '',
