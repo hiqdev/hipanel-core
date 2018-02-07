@@ -40,4 +40,11 @@ return [
             ],
         ],
     ],
+    'modules' => [
+        'hipanel' => [
+            'class' => \hipanel\Module::class,
+            'notPanel' => $params['hipanel.notPanel'],
+            'panelUrl' => $params['hipanel.url'],
+        ],
+    ],
 ];

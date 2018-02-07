@@ -17,6 +17,9 @@ return [
     'hiam.client_id'        => '',
     'hiam.client_secret'    => '',
 
+    'hipanel.url'           => null,
+    'hipanel.notPanel'      => false,
+
     'debug.allowedIps'      => [],
 
     'user.seller'           => '',
