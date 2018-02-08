@@ -11,10 +11,14 @@
 return [
     'adminEmail'            => '',
     'organization.url'      => '',
+    'organization.termsUrl' => '',
 
     'hiam.site'             => '',
     'hiam.client_id'        => '',
     'hiam.client_secret'    => '',
+
+    'hipanel.url'           => null,
+    'hipanel.notPanel'      => false,
 
     'debug.allowedIps'      => [],
 
