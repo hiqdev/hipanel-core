@@ -13,7 +13,7 @@ namespace hipanel\helpers;
 use Yii;
 use yii\helpers\Html;
 
-class FontIcon extends \yii\base\Object
+class FontIcon extends \yii\base\BaseObject
 {
     public $tag;
 

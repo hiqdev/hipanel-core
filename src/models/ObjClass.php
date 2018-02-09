@@ -5,7 +5,7 @@ namespace hipanel\models;
 use Closure;
 use Yii;
 
-class ObjClass extends \yii\base\Object
+class ObjClass extends \yii\base\BaseObject
 {
     public $knownClasses = [];
 
