@@ -10,16 +10,28 @@
 
 namespace hipanel\widgets;
 
+use yii\helpers\Html;
+
 class AmountWithCurrency extends \yii\base\Widget
 {
     public static $widgetClass = 'amount-with-currency-widget';
 
+    /**
+     * @var string Set this value to use it instead of model currency value
+     */
+    public $selectedCurrencyCode;
     public $currencyAttributeName;
     public $currencyAttributeOptions;
     public $model;
     public $form;
     public $attribute;
     public $inputOptions = [];
+    /**
+     * @var array The following keys are used:
+     *
+     * - `readonly`: protects currency input from changes
+     */
+    public $currencyDropdownOptions = [];
 
     public function init()
     {
@@ -33,12 +45,15 @@ class AmountWithCurrency extends \yii\base\Widget
         $this->initClientScript();
 
         return $this->render((new \ReflectionClass($this))->getShortName(), [
+            'containerClass' => self::$widgetClass,
+
             'form' => $this->form,
             'model' => $this->model,
-            'currencyAttributeName' => $this->currencyAttributeName,
-            'currencyAttributeOptions' => $this->currencyAttributeOptions,
             'attribute' => $this->attribute,
-            'containerClass' => self::$widgetClass,
+
+            'selectedCurrencyCode' => $this->getSelectedCurrencyCode(),
+            'currencyAttributeOptions' => $this->currencyAttributeOptions,
+            'currencyDropdownOptions' => $this->currencyDropdownOptions,
         ]);
     }
 
@@ -53,5 +68,10 @@ class AmountWithCurrency extends \yii\base\Widget
         });
 JS
         );
+    }
+
+    private function getSelectedCurrencyCode()
+    {
+        return $this->selectedCurrencyCode ?: Html::getAttributeValue($this->model, $this->currencyAttributeName);
     }
 }
