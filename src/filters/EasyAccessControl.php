@@ -98,7 +98,15 @@ class EasyAccessControl extends ActionFilter
             $permissions = [$permissions];
         }
         foreach ($permissions as $permission) {
-            if ($this->user->can($permission)) {
+            if ($permission === '?') {
+                if ($this->user->getIsGuest()) {
+                    return true;
+                }
+            } elseif ($permission === '@') {
+                if (!$this->user->getIsGuest()) {
+                    return true;
+                }
+            } elseif ($this->user->can($permission)) {
                 return true;
             }
         }
