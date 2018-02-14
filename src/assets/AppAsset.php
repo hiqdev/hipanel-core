@@ -45,13 +45,4 @@ class AppAsset extends AssetBundle
         ResizableColumnsAsset::class,
         CheckboxesAsset::class,
     ];
-
-    /**
-     * @param \yii\web\View $view
-     */
-    public function registerAssetFiles($view)
-    {
-        parent::registerAssetFiles($view);
-        $view->registerJs(";moment.locale('" . Yii::$app->language . "');");
-    }
 }
