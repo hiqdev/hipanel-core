@@ -41,9 +41,9 @@ class Ref extends \hiqdev\hiart\ActiveRecord
      */
     public static function getList($name, $translate = null, $options = [])
     {
+        $mapOptions = ArrayHelper::remove($options, 'mapOptions');
         $models = static::findCached($name, $translate, $options);
 
-        $mapOptions = ArrayHelper::remove($options, 'mapOptions');
         $from = ArrayHelper::remove($mapOptions, 'from', 'name');
         $to = ArrayHelper::remove($mapOptions, 'to', 'label');
         $group = ArrayHelper::remove($mapOptions, 'group', null);
