@@ -374,7 +374,9 @@ JS
     public function renderExport()
     {
         $isGridExportActionExists = (bool) Yii::$app->controller->createAction('export');
-        $collection = RepresentationCollectionFinder::forCurrentRoute()->findOrFallback();
+        /** @var RepresentationCollectionFinder $repColFinder */
+        $repColFinder = Yii::createObject(RepresentationCollectionFinder::class);
+        $collection = $repColFinder->findOrFallback();
         $isRepresentationExists = count($collection->getAll()) > 0;
         if ($isGridExportActionExists && $isRepresentationExists) {
             return IndexPageExportLinks::widget();

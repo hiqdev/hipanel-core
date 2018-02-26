@@ -37,17 +37,14 @@ class UiOptionsBehavior extends Behavior
     private $_model;
 
     /**
-     * @var RepresentationCollectionInterface
+     * @var RepresentationCollectionFinder
      */
-    public $representationsCollection;
+    private $representationCollectionFinder;
 
-    public function init()
+    public function __construct(RepresentationCollectionFinder $representationCollectionFinder, array $config = [])
     {
-        parent::init();
-
-        if ($this->representationsCollection === null) {
-            $this->representationsCollection = RepresentationCollectionFinder::forCurrentRoute()->findOrFallback();
-        }
+        parent::__construct($config);
+        $this->representationCollectionFinder = $representationCollectionFinder;
     }
 
     public function events()
@@ -127,6 +124,6 @@ class UiOptionsBehavior extends Behavior
 
     protected function findRepresentations()
     {
-        return $this->representationsCollection->getAll();
+        return $this->representationCollectionFinder->findOrFallback()->getAll();
     }
 }

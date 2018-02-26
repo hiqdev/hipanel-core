@@ -17,6 +17,7 @@ use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
+use yii\web\Controller;
 
 /**
  * Class IndexAction.
@@ -27,6 +28,10 @@ class IndexAction extends SearchAction
      * @var string view to render
      */
     protected $_view;
+    /**
+     * @var RepresentationCollectionFinder
+     */
+    private $representationCollectionFinder;
 
     public function setView($value)
     {
@@ -40,6 +45,12 @@ class IndexAction extends SearchAction
         }
 
         return $this->_view;
+    }
+
+    public function __construct(string $id, Controller $controller, RepresentationCollectionFinder $representationCollectionFinder, array $config = [])
+    {
+        parent::__construct($id, $controller, $config);
+        $this->representationCollectionFinder = $representationCollectionFinder;
     }
 
     /**
@@ -83,7 +94,7 @@ class IndexAction extends SearchAction
      */
     protected function ensureRepresentationCollection()
     {
-        return RepresentationCollectionFinder::forCurrentRoute()->findOrFallback();
+        return $this->representationCollectionFinder->findOrFallback();
     }
 
     /**

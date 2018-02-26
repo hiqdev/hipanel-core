@@ -18,16 +18,22 @@ class RepresentationCollectionFinder
 {
     private $module;
     private $controller;
+    /**
+     * @var string
+     * // TODO: declare format. example: '\hipanel\modules\%s\grid\%sRepresentations'
+     */
+    private $representationsLocation;
 
-    public function __construct($module, $controller)
+    public function __construct($module, $controller, string $representationsLocation)
     {
         $this->module = $module;
         $this->controller = $controller;
+        $this->representationsLocation = $representationsLocation;
     }
 
     protected function buildClassName()
     {
-        return sprintf('\hipanel\modules\%s\grid\%sRepresentations', $this->module, $this->controller);
+        return sprintf($this->representationsLocation, $this->module, $this->controller);
     }
 
     /**
@@ -72,13 +78,13 @@ class RepresentationCollectionFinder
         return $collection;
     }
 
-    static function forCurrentRoute()
+    static function forCurrentRoute(string $representationsLocation)
     {
         $controller = Yii::$app->controller;
 
         $module = $controller->module->id;
         $controller = Inflector::id2camel($controller->id);
 
-        return new static($module, $controller);
+        return new static($module, $controller, $representationsLocation);
     }
 }

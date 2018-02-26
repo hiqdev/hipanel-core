@@ -2,6 +2,7 @@
 
 namespace hipanel\actions;
 
+use hipanel\grid\RepresentationCollectionFinder;
 use Yii;
 use hiqdev\yii2\export\exporters\Type;
 use hiqdev\yii2\export\models\CsvSettings;
@@ -16,9 +17,9 @@ class ExportAction extends IndexAction
      */
     private $exporterFactory;
 
-    public function __construct($id, $controller, ExporterFactoryInterface $exporterFactory)
+    public function __construct($id, $controller, ExporterFactoryInterface $exporterFactory, RepresentationCollectionFinder $representationCollectionFinder, array $config = [])
     {
-        parent::__construct($id, $controller);
+        parent::__construct($id, $controller, $representationCollectionFinder, $config);
         $this->exporterFactory = $exporterFactory;
     }
 
