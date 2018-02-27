@@ -72,7 +72,7 @@ use yii\helpers\Html;
                 <?= Html::tag('i', '', ['class' => sprintf('fa %s fa-4x pull-left fa-inverse', $icon)]) ?>
             <?php endif; ?>
         </div>
-        <h4 class="widget-user-username"><?= $title ?></h4>
+        <?= Html::tag('h4', $title, array_merge(['class' => 'widget-user-username'], $titleOptions)) ?>
         <h5 class="widget-user-desc"><?= $subTitle ?></h5>
     </div>
     <?php if ($background) : ?>

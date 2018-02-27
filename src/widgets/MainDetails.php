@@ -18,6 +18,8 @@ class MainDetails extends \yii\base\Widget
 
     public $title;
 
+    public $titleOptions = [];
+
     public $subTitle;
 
     public $menu;
@@ -30,6 +32,7 @@ class MainDetails extends \yii\base\Widget
     {
         return $this->render('MainDetails', [
             'title' => $this->title,
+            'titleOptions' => $this->titleOptions,
             'icon' => $this->icon,
             'subTitle' => $this->subTitle,
             'menu' => $this->menu,
