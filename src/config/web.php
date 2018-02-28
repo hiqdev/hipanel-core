@@ -114,14 +114,6 @@ return [
             ],
         ],
     ],
-    'modules' => [
-        'language' => [
-            'languages' => [
-                'en' => 'English',
-                'ru' => 'Русский',
-            ],
-        ],
-    ],
     'container' => [
         'definitions' => [
             \hiqdev\thememanager\menus\AbstractNavbarMenu::class => [
