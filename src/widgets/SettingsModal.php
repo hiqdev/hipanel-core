@@ -30,6 +30,11 @@ class SettingsModal extends AjaxModal
     public $title;
 
     /**
+     * @var string template for `label` attribute
+     */
+    public $labelTemplate = '{icon} {label}';
+
+    /**
      * @var string icon class for toggle link
      * Will be passed through [[FontIcon::i()]] method
      */
@@ -40,8 +45,8 @@ class SettingsModal extends AjaxModal
         $this->header = Html::tag('h4', $this->title, ['class' => 'modal-title']);
         $this->actionUrl = [$this->scenario, 'id' => $this->model->id];
         $this->toggleButton = array_merge([
-            'tag'   => 'a',
-            'label' => FontIcon::i($this->icon) . $this->title,
+            'tag' => 'a',
+            'label' => strtr($this->labelTemplate, ['{icon}' => FontIcon::i($this->icon), '{label}' => $this->title]),
             'class' => 'clickable',
         ], is_array($this->toggleButton) ? $this->toggleButton : []);
         parent::init();
