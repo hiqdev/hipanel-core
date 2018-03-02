@@ -147,12 +147,12 @@ class Controller extends \yii\web\Controller
      */
     public static function moduleId()
     {
-        return explode('\\', get_called_class())[2];
+        return array_values(array_slice(explode('\\', get_called_class()), -3, 1, true))[0]; // todo: remove
     }
 
     public static function controllerId()
     {
-        return strtolower(substr(explode('\\', get_called_class())[4], 0, -10));
+        return strtolower(substr(end(explode('\\', get_called_class())), 0, -10)); // todo: remove
     }
 
     /**
