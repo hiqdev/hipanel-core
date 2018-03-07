@@ -1,12 +1,12 @@
 <?php
 
-namespace hipanel\tests\Step\Acceptance;
+namespace hipanel\tests\_support\Step\Acceptance;
 
 class Client extends \AcceptanceTester
 {
-    protected $username = 'tofid@hiqdev.com';
+    protected $username = '';
 
-    protected $password = '123123';
+    protected $password = '';
 
     public function login()
     {
@@ -16,7 +16,6 @@ class Client extends \AcceptanceTester
         }
         $I->wantTo('login as Client');
         $I->amOnPage('/site/login');
-        $I->wait(10);
         $I->submitForm('#login-form', [
             'LoginForm' => [
                 'username' => $this->username,

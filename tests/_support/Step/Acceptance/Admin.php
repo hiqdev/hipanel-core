@@ -14,18 +14,16 @@ class Admin extends \AcceptanceTester
         if ($I->loadSessionSnapshot('login-admin')) {
             return;
         }
-        // logging in
         $I->amOnPage('/site/login');
-        $I->wait(10);
-//        $I->submitForm('#login-form', [
-//            'LoginForm' => [
-//                'username' => $this->username,
-//                'password' => $this->password,
-//            ]
-//        ]);
-//        $I->see($this->username, '.navbar');
-//        // saving snapshot
-//        $I->saveSessionSnapshot('login-admin');
+        $I->wait(3);
+        $I->submitForm('#login-form', [
+            'LoginForm' => [
+                'username' => $this->username,
+                'password' => $this->password,
+            ]
+        ]);
+        $I->see($this->username, '.navbar-custom-menu li.dropdown.user.user-menu a span.hidden-xs');
+        $I->saveSessionSnapshot('login-admin');
     }
 
 }
