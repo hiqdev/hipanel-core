@@ -6,6 +6,9 @@ use hipanel\tests\_support\Page\Login;
 
 class Admin extends \AcceptanceTester
 {
+    public $username = '';
+    public $password = '';
+
     public function login()
     {
         if ($this->loadSessionSnapshot('login-admin')) {
@@ -13,7 +16,7 @@ class Admin extends \AcceptanceTester
         }
 
         $hiam = new Login($this);
-        $hiam->login('', '');
+        $hiam->login($this->username, $this->password);
 
         $this->saveSessionSnapshot('login-admin');
 
