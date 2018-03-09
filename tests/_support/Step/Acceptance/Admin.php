@@ -1,29 +1,22 @@
 <?php
 
-namespace hipanel\tests\Step\Acceptance;
+namespace hipanel\tests\_support\Step\Acceptance;
+
+use hipanel\tests\_support\Page\Login;
 
 class Admin extends \AcceptanceTester
 {
-    protected $username = '';
-
-    protected $password = '';
-
     public function login()
     {
-        $I = $this;
-        if ($I->loadSessionSnapshot('login-admin')) {
-            return;
+        if ($this->loadSessionSnapshot('login-admin')) {
+            return $this;
         }
-        $I->amOnPage('/site/login');
-        $I->wait(3);
-        $I->submitForm('#login-form', [
-            'LoginForm' => [
-                'username' => $this->username,
-                'password' => $this->password,
-            ]
-        ]);
-        $I->see($this->username, '.navbar-custom-menu li.dropdown.user.user-menu a span.hidden-xs');
-        $I->saveSessionSnapshot('login-admin');
-    }
 
+        $hiam = new Login($this);
+        $hiam->login('', '');
+
+        $this->saveSessionSnapshot('login-admin');
+
+        return $this;
+    }
 }

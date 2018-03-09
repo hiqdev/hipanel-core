@@ -2,27 +2,21 @@
 
 namespace hipanel\tests\_support\Step\Acceptance;
 
+use hipanel\tests\_support\Page\Login;
+
 class Client extends \AcceptanceTester
 {
-    protected $username = '';
-
-    protected $password = '';
-
     public function login()
     {
-        $I = $this;
-        if ($I->loadSessionSnapshot('login-client')) {
-            return;
+        if ($this->loadSessionSnapshot('login-client')) {
+            return $this;
         }
-        $I->wantTo('login as Client');
-        $I->amOnPage('/site/login');
-        $I->submitForm('#login-form', [
-            'LoginForm' => [
-                'username' => $this->username,
-                'password' => $this->password,
-            ]
-        ]);
-        $I->see($this->username, '.navbar-custom-menu li.dropdown.user.user-menu a span.hidden-xs');
-        $I->saveSessionSnapshot('login-client');
+
+        $hiam = new Login($this);
+        $hiam->login('', '');
+
+        $this->saveSessionSnapshot('login-client');
+
+        return $this;
     }
 }
