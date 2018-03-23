@@ -50,7 +50,7 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
      */
     public function validateAttribute($model, $attribute)
     {
-        $value = strtolower($model->$attribute);
+        $value = mb_strtolower($model->$attribute);
 
         if ($this->enableIdn) {
             $value = static::convertIdnToAscii($value);
