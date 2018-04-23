@@ -68,7 +68,7 @@ class File extends Behavior
                 $this->owner->{$this->targetAttribute} = implode(',', $ids);
             } else {
                 // Protect attribute
-                unset($model->{$this->attribute});
+                $model->{$this->attribute} = null;
             }
         }
     }
