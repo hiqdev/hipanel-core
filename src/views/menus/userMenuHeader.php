@@ -1,4 +1,7 @@
-<?= $this->render('//layouts/gravatar', ['size' => 90]) ?>
+<?= $this->render('//layouts/gravatar', [
+    'email' => Yii::$app->user->identity->email,
+    'size'  => 90,
+]) ?>
 <p>
     <b><?= Yii::$app->user->identity->username ?></b>
 
