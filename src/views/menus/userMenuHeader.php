@@ -1,5 +1,5 @@
 <?= $this->render('//layouts/gravatar', [
-    'email' => isset(Yii::$app->user->identity->email) ? Yii::$app->user->identity->email : null,
+    'email' => Yii::$app->user->identity->email ?? null,
     'size'  => 90,
 ]) ?>
 <p>
