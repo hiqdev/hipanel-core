@@ -148,7 +148,7 @@ class ModalButton extends Widget
 
         if (isset($this->body)) {
             if ($this->body instanceof \Closure) {
-                echo call_user_func($this->body, $this->model);
+                echo call_user_func($this->body, $this->model, $this);
             } else {
                 echo $this->body;
             }
