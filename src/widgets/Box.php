@@ -60,6 +60,11 @@ class Box extends Widget
     public $renderBody = true;
 
     /**
+     * @var string content to be placed between opening and closing tags
+     */
+    public $body = null;
+
+    /**
      * {@inheritdoc}
      */
     public function init()
@@ -94,6 +99,9 @@ class Box extends Widget
             font-weight: 400;
         }
         ');
+        if ($this->body !== null){
+            echo $this->body;
+        }
         if ($this->renderBody) {
             $this->endBody();
         }
