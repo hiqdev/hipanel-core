@@ -99,7 +99,7 @@ class Box extends Widget
             font-weight: 400;
         }
         ');
-        if ($this->body !== null){
+        if ($this->body !== null) {
             echo $this->body;
         }
         if ($this->renderBody) {
