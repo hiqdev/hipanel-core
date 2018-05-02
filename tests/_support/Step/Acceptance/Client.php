@@ -2,9 +2,10 @@
 
 namespace hipanel\tests\_support\Step\Acceptance;
 
+use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Login;
 
-class Client extends \AcceptanceTester
+class Client extends AcceptanceTester
 {
     public $username = '';
     public $password = '';

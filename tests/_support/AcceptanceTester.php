@@ -1,5 +1,6 @@
 <?php
 
+namespace hipanel\tests\_support;
 
 /**
  * Inherited Methods
@@ -16,10 +17,8 @@
  *
  * @SuppressWarnings(PHPMD)
  */
-class AcceptanceTester extends \Codeception\Actor
+class AcceptanceTester extends \root\AcceptanceTester
 {
-    use _generated\AcceptanceTesterActions;
-
     public function performOnContent($actions, $timeout = null)
     {
         return $this->performOn('.content-wrapper', $actions, $timeout);

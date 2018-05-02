@@ -2,6 +2,8 @@
 
 namespace hipanel\tests\_support\Page;
 
+use hipanel\tests\_support\AcceptanceTester;
+
 class Login
 {
     /**
@@ -9,7 +11,7 @@ class Login
      */
     protected $tester;
 
-    function __construct(\AcceptanceTester $I)
+    function __construct(AcceptanceTester $I)
     {
         $this->tester = $I;
     }
