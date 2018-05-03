@@ -2,6 +2,7 @@
 namespace hipanel\tests\_support\Page\Widget;
 
 use Codeception\Util\Locator;
+use hipanel\tests\_support\AcceptanceTester;
 
 class Select2
 {
@@ -10,7 +11,7 @@ class Select2
      */
     protected $tester;
 
-    function __construct(\AcceptanceTester $I)
+    function __construct(AcceptanceTester $I)
     {
         $this->tester = $I;
     }

@@ -2,17 +2,29 @@
 
 namespace hipanel\tests\_support\Step\Acceptance;
 
+use Codeception\Scenario;
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Login;
 
 class Client extends AcceptanceTester
 {
-    public $username = '';
-    public $password = '';
+    public function __construct(Scenario $scenario)
+    {
+        parent::__construct($scenario);
+        $this->initCredentials();
+    }
+
+    protected $username;
+    protected $password;
 
     public function login()
     {
-        if ($this->loadSessionSnapshot('login-client')) {
+        try {
+            if ($this->loadSessionSnapshot('login-client')) {
+                return $this;
+            }
+        } catch (\Facebook\WebDriver\Exception\UnknownServerException $exception) {
+            // User is already logged in, but trying to open a session on a page that is not loaded
             return $this;
         }
 
@@ -22,5 +34,10 @@ class Client extends AcceptanceTester
         $this->saveSessionSnapshot('login-client');
 
         return $this;
+    }
+
+    protected function initCredentials()
+    {
+        [$this->username, $this->password] = $this->getClientCredentials();
     }
 }
