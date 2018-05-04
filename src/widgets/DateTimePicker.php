@@ -10,6 +10,11 @@
 
 namespace hipanel\widgets;
 
-class DateTimePicker extends \kartik\datetime\DateTimePicker
+class DateTimePicker extends \dosamigos\datetimepicker\DateTimePicker
 {
+    public function init()
+    {
+        parent::init();
+        unset($this->options['readonly']);
+    }
 }
