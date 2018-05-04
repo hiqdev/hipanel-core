@@ -75,9 +75,11 @@ class ExportAction extends IndexAction
      */
     protected function guessGridClassName()
     {
-        $moduleName = $this->controller->module->id;
-        $controllerName = $this->controller->id;
-        $girdClassName = sprintf('\hipanel\modules\%s\grid\%sGridView', $moduleName, ucfirst($controllerName));
+        $controllerName = ucfirst($this->controller->id);
+        $ns = implode(array_diff(explode('\\', get_class($this->controller)), [
+            $controllerName . 'Controller', 'controllers'
+        ]), '\\');
+        $girdClassName = sprintf('\%s\grid\%sGridView', $ns, $controllerName);
         if (class_exists($girdClassName)) {
             return $girdClassName;
         }
