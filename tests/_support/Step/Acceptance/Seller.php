@@ -4,18 +4,23 @@ namespace hipanel\tests\_support\Step\Acceptance;
 
 use hipanel\tests\_support\Page\Login;
 
-class Admin extends Client
+/**
+ * Class Seller
+ *
+ * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
+ */
+class Seller extends Client
 {
     public function login()
     {
-        if ($this->loadSessionSnapshot('login-admin')) {
+        if ($this->loadSessionSnapshot('login-seller')) {
             return $this;
         }
 
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
 
-        $this->saveSessionSnapshot('login-admin');
+        $this->saveSessionSnapshot('login-seller');
 
         return $this;
     }
