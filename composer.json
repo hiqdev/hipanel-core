@@ -61,6 +61,7 @@
         "hiqdev/yii2-collection": "*@dev",
         "hiqdev/yii2-x-editable": "*@dev",
         "hiqdev/yii2-pnotify": "*",
+        "hiqdev/yii2-daterangepicker": "<2.0 || dev-master",
         "hiqdev/yii2-bootstrap-switch": "<2.0 || dev-master",
         "hiqdev/yii2-asset-hipanel": "<2.0 || dev-master",
         "hiqdev/yii2-asset-lightbox2": "^2.8",
@@ -88,7 +89,6 @@
         "bower-asset/eonasdan-bootstrap-datetimepicker": "*",
         "bower-asset/components-font-awesome": "~4.6",
         "2amigos/yii2-chartjs-widget": "^2.0",
-        "omnilight/yii2-momentjs": "*",
         "npm-asset/checkboxes.js": "1.2.0"
     },
     "require-dev": {
