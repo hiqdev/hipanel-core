@@ -15,6 +15,7 @@ class DateTimePicker extends \dosamigos\datetimepicker\DateTimePicker
     public function init()
     {
         parent::init();
+        $this->language = \Yii::$app->language;
         unset($this->options['readonly']);
     }
 }
