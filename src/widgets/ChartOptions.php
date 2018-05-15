@@ -10,7 +10,7 @@
 
 namespace hipanel\widgets;
 
-use omnilight\widgets\DateRangePicker;
+use hiqdev\yii2\daterangepicker\DateRangePicker;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
