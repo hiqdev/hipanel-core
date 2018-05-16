@@ -91,7 +91,8 @@ class ViewAction extends SearchAction
                 throw new BadRequestHttpException('ID is missing');
             }
 
-            $this->dataProvider->query->andFilterWhere($this->findOptions)->andWhere(['limit' => 'ALL']);
+            $limit = $this->dataProvider->query->limit;
+            $this->dataProvider->query->andFilterWhere($this->findOptions)->andWhere(['limit' => $limit ? : 'ALL']);
         }
 
         return $this->dataProvider;
