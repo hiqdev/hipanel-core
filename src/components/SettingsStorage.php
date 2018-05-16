@@ -93,7 +93,7 @@ class SettingsStorage extends Component implements SettingsStorageInterface
 
     private function decodeResponse($response)
     {
-        $result = json_decode(isset($response['data']) ? $response['data'] : '{}', true);
+        $result = json_decode($response['data'] ?? '{}', true);
 
         return $result === null ? [] : $result;
     }
