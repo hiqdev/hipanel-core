@@ -83,6 +83,8 @@ class SmartUpdateAction extends SwitchAction
 
             $this->dataProvider->query->andFilterWhere($this->findOptions);
         }
+        $limit = $this->dataProvider->query->limit;
+        $this->dataProvider->query->andFilterWhere($this->findOptions)->andWhere(['limit' => $limit ? : 'ALL']);
 
         return $this->dataProvider;
     }
