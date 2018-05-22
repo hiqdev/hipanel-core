@@ -19,4 +19,9 @@ class Admin extends Client
 
         return $this;
     }
+
+    protected function initCredentials()
+    {
+        [$this->username, $this->password] = $this->getAdminCredentials();
+    }
 }
