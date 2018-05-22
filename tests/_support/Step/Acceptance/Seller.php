@@ -24,4 +24,9 @@ class Seller extends Client
 
         return $this;
     }
+
+    protected function initCredentials()
+    {
+        [$this->username, $this->password] = $this->getSellertCredentials();
+    }
 }
