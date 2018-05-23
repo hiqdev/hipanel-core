@@ -64,8 +64,13 @@ class Type extends \hipanel\widgets\Label
         if ($this->model->hasAttribute("{$this->field}_label") && $this->model->getAttribute("{$this->field}_label") !== null) {
             $label = $this->model->getAttribute("{$this->field}_label");
         } else {
-            $label = Inflector::titleize($this->model->{$this->field});
+            $label = $this->titlelize($this->model->{$this->field});
         }
         $this->label  = Yii::t($this->i18nDictionary, $label);
+    }
+
+    protected function titlelize(string $label): string
+    {
+        return Inflector::titleize($label);
     }
 }
