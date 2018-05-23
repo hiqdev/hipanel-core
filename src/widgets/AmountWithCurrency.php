@@ -30,6 +30,7 @@ class AmountWithCurrency extends \yii\base\Widget
      * @var array The following keys are used:
      *
      * - `readonly`: protects currency input from changes
+     * - `hidden`: hides the dropdown button and leave only currency symbol
      */
     public $currencyDropdownOptions = [];
 

@@ -24,14 +24,16 @@ use yii\helpers\ArrayHelper;
         >
             <?= StringHelper::getCurrencySymbol($selectedCurrencyCode) ?>
         </button>
-        <button
-            type="button"
-            data-toggle="dropdown"
-            class="btn btn-default dropdown-toggle <?= $currencyDropdownOptions['disabled'] ? 'disabled' : '' ?>"
-            <?= $currencyDropdownOptions['disabled'] ? 'tabindex="-1"' : '' ?>
-        >
-            <span class="caret"></span> <span class="sr-only"><?= Yii::t('hipanel', 'Toggle dropdown') ?></span>
-        </button>
+        <?php if (!$currencyDropdownOptions['hidden']): ?>
+            <button
+                type="button"
+                data-toggle="dropdown"
+                tabindex="-1"
+                class="btn btn-default dropdown-toggle <?= $currencyDropdownOptions['disabled'] ? 'disabled' : '' ?>"
+            >
+                <span class="caret"></span> <span class="sr-only"><?= Yii::t('hipanel', 'Toggle dropdown') ?></span>
+            </button>
+        <?php endif ?>
         <ul class="dropdown-menu">
             <?php foreach (ArrayHelper::remove($currencyAttributeOptions, 'items', []) as $k => $v) : ?>
                 <li>
