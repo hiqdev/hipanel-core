@@ -16,25 +16,25 @@ class CredentialsProvider extends \Codeception\Module
 
         $this->requiredFields = [
             // Client
-            'client.login', 'client.password',
-            'seller.login', 'seller.password',
-            'admin.login', 'admin.password',
+            'client.login', 'client.password', 'client.id',
+            'seller.login', 'seller.password', 'seller.id',
+            'admin.login', 'admin.password', 'admin.id',
         ];
     }
 
     public function getClientCredentials(): array
     {
-        return [$this->config['client.login'], $this->config['client.password']];
+        return [$this->config['client.login'], $this->config['client.password'], $this->config['client.id']];
     }
 
 
     public function getSellerCredentials(): array
     {
-        return [$this->config['seller.login'], $this->config['seller.password']];
+        return [$this->config['seller.login'], $this->config['seller.password'], $this->config['seller.id']];
     }
 
     public function getAdminCredentials(): array
     {
-        return [$this->config['admin.login'], $this->config['admin.password']];
+        return [$this->config['admin.login'], $this->config['admin.password'], $this->config['admin.id']];
     }
 }
