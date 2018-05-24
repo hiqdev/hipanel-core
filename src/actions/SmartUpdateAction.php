@@ -37,7 +37,7 @@ class SmartUpdateAction extends SwitchAction
     public $_view;
 
     /**
-     * @var mixed ID of object to be viewed. Defaults to `$_GET['id']`
+     * @var int|string ID of object to be viewed. Defaults to `$_GET['id']`
      */
     protected $_id;
 
