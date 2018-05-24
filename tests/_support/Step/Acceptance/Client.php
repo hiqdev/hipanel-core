@@ -16,6 +16,7 @@ class Client extends AcceptanceTester
 
     protected $username;
     protected $password;
+    public $id;
 
     public function login()
     {
@@ -38,6 +39,6 @@ class Client extends AcceptanceTester
 
     protected function initCredentials()
     {
-        [$this->username, $this->password] = $this->getClientCredentials();
+        [$this->username, $this->password, $this->id] = $this->getClientCredentials();
     }
 }

@@ -22,6 +22,6 @@ class Admin extends Client
 
     protected function initCredentials()
     {
-        [$this->username, $this->password] = $this->getAdminCredentials();
+        [$this->username, $this->password, $this->id] = $this->getAdminCredentials();
     }
 }
