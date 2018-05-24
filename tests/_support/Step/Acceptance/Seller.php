@@ -27,6 +27,6 @@ class Seller extends Client
 
     protected function initCredentials()
     {
-        [$this->username, $this->password, $this->id] = $this->getSellerCredentials();
+        [ $this->id, $this->username, $this->password] = $this->getSellerCredentials();
     }
 }
