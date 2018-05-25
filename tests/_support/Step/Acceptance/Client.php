@@ -12,6 +12,7 @@ class Client extends AcceptanceTester
     {
         parent::__construct($scenario);
         $this->initCredentials();
+        $this->restartBrowser();
     }
 
     public $id;

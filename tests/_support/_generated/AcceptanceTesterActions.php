@@ -3046,4 +3046,15 @@ trait AcceptanceTesterActions
     public function getAdminCredentials() {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('getAdminCredentials', func_get_args()));
     }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     *
+     * @see \hipanel\tests\_support\Helper\CredentialsProvider::restartBrowser()
+     */
+    public function restartBrowser() {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('restartBrowser', func_get_args()));
+    }
 }

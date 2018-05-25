@@ -2,6 +2,7 @@
 namespace hipanel\tests\_support\Helper;
 
 use Codeception\Lib\ModuleContainer;
+use Codeception\Module\WebDriver;
 
 /**
  * Class CredentialsProvider
@@ -36,5 +37,12 @@ class CredentialsProvider extends \Codeception\Module
     public function getAdminCredentials(): array
     {
         return [$this->config['admin.id'], $this->config['admin.login'], $this->config['admin.password']];
+    }
+
+    public function restartBrowser()
+    {
+        /** @var WebDriver $wd */
+        $wd = $this->getModule('WebDriver');
+        $wd->_restart();
     }
 }
