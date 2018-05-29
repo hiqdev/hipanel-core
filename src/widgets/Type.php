@@ -69,7 +69,11 @@ class Type extends \hipanel\widgets\Label
         $this->label  = Yii::t($this->i18nDictionary, $label);
     }
 
-    protected function titlelize(string $label): string
+    /**
+     * @param string $label
+     * @return string
+     */
+    protected function titlelize($label): string
     {
         return Inflector::titleize($label);
     }
