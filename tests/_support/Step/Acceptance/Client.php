@@ -12,7 +12,6 @@ class Client extends AcceptanceTester
     {
         parent::__construct($scenario);
         $this->initCredentials();
-        $this->restartBrowser();
     }
 
     public $id;
@@ -30,6 +29,7 @@ class Client extends AcceptanceTester
             return $this;
         }
 
+        $this->restartBrowser();
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
 

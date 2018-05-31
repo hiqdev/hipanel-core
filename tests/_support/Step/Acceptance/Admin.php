@@ -12,6 +12,7 @@ class Admin extends Client
             return $this;
         }
 
+        $this->restartBrowser();
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
 
