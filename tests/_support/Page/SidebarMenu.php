@@ -2,26 +2,20 @@
 
 namespace hipanel\tests\_support\Page;
 
-use hipanel\tests\_support\AcceptanceTester;
+use yii\helpers\Url;
 
-class SidebarMenu
+class SidebarMenu extends Authenticated
 {
-    private $tester;
-
-    public function __construct(AcceptanceTester $I)
-    {
-        $this->tester = $I;
-    }
-
     public function ensureContains($rootMenuName, $items)
     {
         $I = $this->tester;
 
+        $I->amOnPage(Url::to(['/']));
         $I->click($rootMenuName, '.sidebar-menu');
-        $I->wait(1);
+        $I->waitForElement('.menu-open');
         foreach ($items as $name => $url) {
             $I->see($name, '.menu-open');
-            $I->seeLink('', $url);
+            $I->seeLink('', Url::to($url));
         }
     }
 
@@ -29,11 +23,12 @@ class SidebarMenu
     {
         $I = $this->tester;
 
+        $I->amOnPage(Url::to(['/']));
         if ($items === null) {
             $I->dontSee($rootMenuName);
         } else {
             $I->click($rootMenuName, '.sidebar-menu');
-            $I->wait(1);
+            $I->waitForElement('.menu-open');
             foreach ($items as $name) {
                 $I->dontSee($name, '.menu-open');
             }
