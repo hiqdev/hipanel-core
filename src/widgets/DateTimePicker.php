@@ -27,7 +27,8 @@ class DateTimePicker extends \dosamigos\datetimepicker\DateTimePicker
     {
         $options = !empty($this->clientOptions) ? Json::encode($this->clientOptions) : '';
         $this->getView()->registerJs("
-            window.hiqdev_datetimepicker_options = [];
+            if (!window.hiqdev_datetimepicker_options)
+                window.hiqdev_datetimepicker_options = [];
             window.hiqdev_datetimepicker_options['{$this->options['data-hiqdev-datetimepicker']}'] = {$options};
         ");
         parent::registerClientScript();
