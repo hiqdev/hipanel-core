@@ -53,7 +53,7 @@ JS
                     pickers.each(function() {
                         var pickerItem = this;
                         var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-krajee-datetimepicker]').filter(function () {
-                            return $(this).data('krajee-datetimepicker') == $(pickerItem).data('krajee-datetimepicker');
+                            return $(this).data('krajee-datetimepicker') === $(pickerItem).data('krajee-datetimepicker');
                         });
 
                         if (template.length == 0) {
@@ -82,7 +82,7 @@ JS
                     pickers.each(function() {
                         var pickerItem = this;
                         var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-hiqdev-datetimepicker]').filter(function () {
-                            return $(this).data('hiqdev-datetimepicker') == $(pickerItem).data('hiqdev-datetimepicker');
+                            return $(this).data('hiqdev-datetimepicker') === $(pickerItem).data('hiqdev-datetimepicker');
                         });
 
                         if (template.length == 0) {
