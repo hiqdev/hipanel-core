@@ -48,25 +48,25 @@ JS
         $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
                 var options = eval($(this).data('dynamicform'));
-                var pickers = $(item).find('[data-krajee-datetimepicker]');
+                var pickers = $(item).find('[data-hiqdev-datetimepicker]');
                 if (pickers.length > 0) {
                     pickers.each(function() {
                         var pickerItem = this;
-                        var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-krajee-datetimepicker]').filter(function () {
-                            return $(this).data('krajee-datetimepicker') == $(pickerItem).data('krajee-datetimepicker');
+                        var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-hiqdev-datetimepicker]').filter(function () {
+                            return $(this).data('hiqdev-datetimepicker') == $(pickerItem).data('hiqdev-datetimepicker');
                         });
 
                         if (template.length == 0) {
                             return true;
                         }
 
-                        var config_id = $(template[0]).data('krajee-datetimepicker');
+                        var config_id = $(template[0]).data('hiqdev-datetimepicker');
                         var configObj = window[config_id];
                         var elementId = $(pickerItem).attr('id');
                         if (configObj !== null && typeof configObj === 'object') {
-                            $('#' + elementId + '-datetime').datetimepicker(configObj);
+                            $('#' + elementId).parent().datetimepicker(configObj);
                         } else {
-                            $('#' + elementId + '-datetime').datetimepicker(config_id);
+                            $('#' + elementId).parent().datetimepicker(config_id);
                         }
                     });
                 }
