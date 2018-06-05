@@ -65,8 +65,6 @@ JS
                         var elementId = $(pickerItem).attr('id');
                         if (configObj !== null && typeof configObj === 'object') {
                             $('#' + elementId + '-datetime').datetimepicker(configObj);
-                        } else {
-                            $('#' + elementId + '-datetime').datetimepicker();
                         }
                     });
                 }
@@ -94,8 +92,6 @@ JS
                         var elementId = $(pickerItem).attr('id');
                         if (configObj !== null && typeof configObj === 'object') {
                             $('#' + elementId).parent().datetimepicker(configObj);
-                        } else {
-                            $('#' + elementId).parent().datetimepicker();
                         }
                     });
                 }
