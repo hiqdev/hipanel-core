@@ -13,7 +13,7 @@ class Seller extends Client
 {
     public function login()
     {
-        if ($this->loadSessionSnapshot('login-seller')) {
+        if ($this->retrieveSession('login-seller')) {
             return $this;
         }
 
@@ -21,7 +21,7 @@ class Seller extends Client
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
 
-        $this->saveSessionSnapshot('login-seller');
+        $this->storeSession('login-seller');
 
         return $this;
     }

@@ -3,14 +3,14 @@
 namespace hipanel\tests\_support\Page;
 
 use hipanel\tests\_support\AcceptanceTester;
-use yii\helpers\Url;
+use hipanel\helpers\Url;
 
 class SidebarMenu extends Authenticated
 {
     public function __construct(AcceptanceTester $I)
     {
         parent::__construct($I);
-        $I->amOnPage(Url::to(['/']));
+        $I->needPage(Url::to(['/']));
     }
 
     public function ensureContains($rootMenuName, $items)
