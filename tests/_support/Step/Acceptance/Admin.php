@@ -8,7 +8,7 @@ class Admin extends Client
 {
     public function login()
     {
-        if ($this->loadSessionSnapshot('login-admin')) {
+        if ($this->retrieveSession('login-admin')) {
             return $this;
         }
 
@@ -16,7 +16,7 @@ class Admin extends Client
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
 
-        $this->saveSessionSnapshot('login-admin');
+        $this->storeSession('login-admin');
 
         return $this;
     }

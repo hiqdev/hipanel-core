@@ -21,7 +21,7 @@ class Client extends AcceptanceTester
     public function login()
     {
         try {
-            if ($this->loadSessionSnapshot('login-client')) {
+            if ($this->retrieveSession('login-client')) {
                 return $this;
             }
         } catch (\Facebook\WebDriver\Exception\UnknownServerException $exception) {
@@ -33,7 +33,7 @@ class Client extends AcceptanceTester
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
 
-        $this->saveSessionSnapshot('login-client');
+        $this->storeSession('login-client');
 
         return $this;
     }

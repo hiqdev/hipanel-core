@@ -138,4 +138,8 @@ class SiteController extends \hisite\controllers\SiteController
         return $this->redirect($this->impersonator->buildAuthUrl($user_id));
     }
 
+    public function actionHealthcheck()
+    {
+        return "Up and running.";
+    }
 }
