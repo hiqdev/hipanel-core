@@ -152,7 +152,7 @@ class Controller extends \yii\web\Controller
 
     public static function controllerId()
     {
-        return strtolower(substr(end(explode('\\', get_called_class())), 0, -10)); // todo: remove
+        return Inflector::camel2id(substr(end(explode('\\', get_called_class())), 0, -10)); // todo: remove
     }
 
     /**
