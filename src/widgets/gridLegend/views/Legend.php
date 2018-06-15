@@ -9,11 +9,11 @@ $this->registerCss("
 }
 "); ?>
 
-<div class="box box-widget collapsed-box">
+<div class="box box-widget">
     <div class="box-header with-border">
         <h3 class="box-title"><?= Yii::t('hipanel', 'Legend') ?></h3>
         <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
     </div>
     <div class="box-body no-padding">
