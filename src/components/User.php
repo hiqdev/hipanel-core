@@ -76,7 +76,11 @@ class User extends \yii\web\User
             }
         }
 
-        $token = $this->identity->getAccessToken();
+        try {
+            $token = $this->identity->getAccessToken();
+        } catch (\Exception $e) {
+            $token = null;
+        }
         if (empty($token)) {
             /// logout() is very important here, else - redirect loop
             $this->logout();
