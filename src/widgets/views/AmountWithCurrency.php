@@ -37,7 +37,7 @@ use yii\helpers\ArrayHelper;
         <ul class="dropdown-menu">
             <?php foreach (ArrayHelper::remove($currencyAttributeOptions, 'items', []) as $k => $v) : ?>
                 <li>
-                    <?= Html::a(StringHelper::getCurrencySymbol($k), '#', [
+                    <?= Html::a(StringHelper::getCurrencySymbol($k), 'javascript:void(0);', [
                         'data-value' => $k,
                         'data-label' => StringHelper::getCurrencySymbol($k),
                     ]) ?>
