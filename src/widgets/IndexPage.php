@@ -11,6 +11,7 @@
 namespace hipanel\widgets;
 
 use hipanel\grid\RepresentationCollectionFinder;
+use hipanel\helpers\StringHelper;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use hiqdev\yii2\export\widgets\IndexPageExportLinks;
@@ -24,6 +25,7 @@ use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 use yii\web\View;
 
 class IndexPage extends Widget
@@ -403,14 +405,49 @@ JS
         echo Html::endForm();
     }
 
-    public function renderBulkButton($text, $action, $color = 'default')
+    /**
+     * @param $text
+     * @param $action
+     * @param string $color
+     * @param array $options
+     * @return string
+     */
+    public function renderBulkButton($text, $action, $color = 'default', array $options = []): string
     {
-        return Html::submitButton($text, [
+        $defaultOptions = [
             'class' => "btn btn-$color btn-sm",
             'form' => $this->getBulkFormId(),
             'formmethod' => 'POST',
             'formaction' => Url::toRoute($action),
-        ]);
+        ];
+
+        return Html::submitButton($text, array_merge($defaultOptions, $options));
+    }
+
+    /**
+     * @param $text
+     * @param $action
+     * @param $color
+     * @param $confirm
+     * @param array $options
+     * @return string
+     */
+    public function renderConfirmBulkButton($text, $action, $color, $confirm, array $options = []): string
+    {
+        $options['onclick'] = new JsExpression("return confirm('{$confirm}');");
+
+        return $this->renderBulkButton($text, $action, $color, $options);
+    }
+
+    /**
+     * @param $action
+     * @return string
+     */
+    public function renderDeleteBulkButton($action): string
+    {
+        $message = Yii::t('hipanel', 'Are you sure you want to delete this items?');
+
+        return $this->renderConfirmBulkButton(Yii::t('hipanel', 'Delete'), $action, 'danger', $message);
     }
 
     /**

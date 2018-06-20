@@ -160,6 +160,7 @@ return [
     'Settings saved' => 'Настройки сохранены',
     'Can Manage' => 'Может управлять',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
+    'Are you sure you want to delete this items?' => 'Вы уверены, что хотите удалить эти элементы?',
     'Example' => 'Пример',
     'Autorenew' => 'Автопродление',
     'Autorenewal' => 'Автоматическе продление',
