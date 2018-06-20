@@ -11,6 +11,8 @@
 namespace hipanel\widgets;
 
 use hipanel\grid\RepresentationCollectionFinder;
+use hipanel\helpers\ArrayHelper;
+use hipanel\helpers\StringHelper;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use hiqdev\yii2\export\widgets\IndexPageExportLinks;
@@ -24,6 +26,7 @@ use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 use yii\web\View;
 
 class IndexPage extends Widget
@@ -403,14 +406,42 @@ JS
         echo Html::endForm();
     }
 
-    public function renderBulkButton($text, $action, $color = 'default')
+    /**
+     * @param string|array $action
+     * @param string $text
+     * @param array $options
+     * @return string
+     */
+    public function renderBulkButton($action, $text, array $options = []): string
     {
-        return Html::submitButton($text, [
+        $color = ArrayHelper::remove($options, 'color', 'default');
+        $confirm = ArrayHelper::remove($options, 'confirm', false);
+        if ($confirm) {
+            $options['onclick'] = new JsExpression("return confirm('{$confirm}');");
+        }
+        $defaultOptions = [
             'class' => "btn btn-$color btn-sm",
             'form' => $this->getBulkFormId(),
             'formmethod' => 'POST',
             'formaction' => Url::toRoute($action),
-        ]);
+        ];
+
+        return Html::submitButton($text, array_merge($defaultOptions, $options));
+    }
+
+    /**
+     * @param string|array $action
+     * @param string|null $text
+     * @param array $options
+     * @return string
+     */
+    public function renderBulkDeleteButton($action, $text = null, array $options = []): string
+    {
+        $text = $text ?? Yii::t('hipanel', 'Delete');
+        $options['color'] = $options['color'] ?? 'danger';
+        $options['confirm'] = $options['confirm'] ?? Yii::t('hipanel', 'Are you sure you want to delete these items?');
+
+        return $this->renderBulkButton($action, $text, $options);
     }
 
     /**
