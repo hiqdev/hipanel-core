@@ -408,12 +408,12 @@ JS
     /**
      * @param $text
      * @param $action
-     * @param string $color
      * @param array $options
      * @return string
      */
-    public function renderBulkButton($text, $action, $color = 'default', array $options = []): string
+    public function renderBulkButton($action, $text, array $options = []): string
     {
+        $color = $options['color'] ?? 'default';
         $defaultOptions = [
             'class' => "btn btn-$color btn-sm",
             'form' => $this->getBulkFormId(),
@@ -425,29 +425,33 @@ JS
     }
 
     /**
-     * @param $text
      * @param $action
-     * @param $color
-     * @param $confirm
+     * @param string $text
+     * @param string $confirm
      * @param array $options
      * @return string
      */
-    public function renderConfirmBulkButton($text, $action, $color, $confirm, array $options = []): string
+    public function renderBulkConfirmButton($action, $text, $confirm, array $options = []): string
     {
         $options['onclick'] = new JsExpression("return confirm('{$confirm}');");
 
-        return $this->renderBulkButton($text, $action, $color, $options);
+        return $this->renderBulkButton($action, $text, $options);
     }
 
     /**
      * @param $action
+     * @param null $text
+     * @param null $confirm
+     * @param array $options
      * @return string
      */
-    public function renderDeleteBulkButton($action): string
+    public function renderBulkDeleteButton($action, $text = null, $confirm = null, array $options = []): string
     {
-        $message = Yii::t('hipanel', 'Are you sure you want to delete these items?');
+        $confirm = $confirm ?? Yii::t('hipanel', 'Are you sure you want to delete these items?');
+        $text = $text ?? Yii::t('hipanel', 'Delete');
+        $options['color'] = 'danger';
 
-        return $this->renderConfirmBulkButton(Yii::t('hipanel', 'Delete'), $action, 'danger', $message);
+        return $this->renderBulkConfirmButton($action, $text, $confirm, $options);
     }
 
     /**
