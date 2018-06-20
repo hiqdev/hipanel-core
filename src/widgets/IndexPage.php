@@ -438,7 +438,7 @@ JS
     public function renderBulkDeleteButton($action, $text = null, array $options = []): string
     {
         $text = $text ?? Yii::t('hipanel', 'Delete');
-        $options['color'] = 'danger';
+        $options['color'] = $options['color'] ?? 'danger';
         $options['confirm'] = $options['confirm'] ?? Yii::t('hipanel', 'Are you sure you want to delete these items?');
 
         return $this->renderBulkButton($action, $text, $options);
