@@ -19,7 +19,7 @@
     display: inline-block;
     margin-right: 0.5rem;
     outline: none;
-    z-index: 1000;
+    z-index: 200;
 }
 
 .option-input:focus, .select-on-check-all:focus {
