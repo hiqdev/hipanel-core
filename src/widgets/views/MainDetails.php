@@ -9,6 +9,9 @@ use yii\helpers\Html;
 /** @var boolean $background */
 ?>
 <style>
+    .widget-user-2 .widget-user-header {
+        min-height: 100px;
+    }
     .skin-blue .widget-user-2 .widget-user-header {
         background-color: #3c8dbc;
     }
