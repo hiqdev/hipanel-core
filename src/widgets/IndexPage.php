@@ -11,6 +11,7 @@
 namespace hipanel\widgets;
 
 use hipanel\grid\RepresentationCollectionFinder;
+use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
@@ -406,14 +407,18 @@ JS
     }
 
     /**
-     * @param $text
-     * @param $action
+     * @param string|array $action
+     * @param string $text
      * @param array $options
      * @return string
      */
     public function renderBulkButton($action, $text, array $options = []): string
     {
-        $color = $options['color'] ?? 'default';
+        $color = ArrayHelper::remove($options, 'color', 'default');
+        $confirm = ArrayHelper::remove($options, 'confirm', false);
+        if ($confirm) {
+            $options['onclick'] = new JsExpression("return confirm('{$confirm}');");
+        }
         $defaultOptions = [
             'class' => "btn btn-$color btn-sm",
             'form' => $this->getBulkFormId(),
@@ -425,33 +430,18 @@ JS
     }
 
     /**
-     * @param $action
-     * @param string $text
-     * @param string $confirm
+     * @param string|array $action
+     * @param string|null $text
      * @param array $options
      * @return string
      */
-    public function renderBulkConfirmButton($action, $text, $confirm, array $options = []): string
+    public function renderBulkDeleteButton($action, $text = null, array $options = []): string
     {
-        $options['onclick'] = new JsExpression("return confirm('{$confirm}');");
-
-        return $this->renderBulkButton($action, $text, $options);
-    }
-
-    /**
-     * @param $action
-     * @param null $text
-     * @param null $confirm
-     * @param array $options
-     * @return string
-     */
-    public function renderBulkDeleteButton($action, $text = null, $confirm = null, array $options = []): string
-    {
-        $confirm = $confirm ?? Yii::t('hipanel', 'Are you sure you want to delete these items?');
         $text = $text ?? Yii::t('hipanel', 'Delete');
         $options['color'] = 'danger';
+        $options['confirm'] = $options['confirm'] ?? Yii::t('hipanel', 'Are you sure you want to delete these items?');
 
-        return $this->renderBulkConfirmButton($action, $text, $confirm, $options);
+        return $this->renderBulkButton($action, $text, $options);
     }
 
     /**
