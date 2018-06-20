@@ -445,7 +445,7 @@ JS
      */
     public function renderDeleteBulkButton($action): string
     {
-        $message = Yii::t('hipanel', 'Are you sure you want to delete this items?');
+        $message = Yii::t('hipanel', 'Are you sure you want to delete these items?');
 
         return $this->renderConfirmBulkButton(Yii::t('hipanel', 'Delete'), $action, 'danger', $message);
     }
