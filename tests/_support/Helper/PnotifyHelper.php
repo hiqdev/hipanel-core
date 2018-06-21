@@ -6,7 +6,7 @@ use Codeception\Module\WebDriver;
 
 class PnotifyHelper extends \Codeception\Module
 {
-    public function closeNotification(string $text)
+    public function closeNotification(string $text): void
     {
         /** @var WebDriver $I */
         $I = $this->getModule('WebDriver');
