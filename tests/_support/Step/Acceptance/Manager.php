@@ -9,11 +9,11 @@ use hipanel\tests\_support\Page\Login;
  *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  */
-class Seller extends Client
+class Manager extends Client
 {
     public function login()
     {
-        if ($this->retrieveSession('login-seller')) {
+        if ($this->retrieveSession('login-manager')) {
             return $this;
         }
 
@@ -21,13 +21,13 @@ class Seller extends Client
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
 
-        $this->storeSession('login-seller');
+        $this->storeSession('login-manager');
 
         return $this;
     }
 
     protected function initCredentials()
     {
-        [$this->id, $this->username, $this->password] = $this->getSellerCredentials();
+        [$this->id, $this->username, $this->password] = $this->getManagerCredentials();
     }
 }
