@@ -31,6 +31,7 @@ class CredentialsProvider extends \Codeception\Module
             // Client
             'client.id', 'client.login', 'client.password',
             'seller.id', 'seller.login', 'seller.password',
+            'manager.id', 'manager.login', 'manager.password',
             'admin.id', 'admin.login', 'admin.password',
         ];
     }
@@ -40,10 +41,14 @@ class CredentialsProvider extends \Codeception\Module
         return [$this->config['client.id'], $this->config['client.login'], $this->config['client.password']];
     }
 
-
     public function getSellerCredentials(): array
     {
         return [$this->config['seller.id'], $this->config['seller.login'], $this->config['seller.password']];
+    }
+
+    public function getManagerCredentials(): array
+    {
+        return [$this->config['manager.id'], $this->config['manager.login'], $this->config['manager.password']];
     }
 
     public function getAdminCredentials(): array
