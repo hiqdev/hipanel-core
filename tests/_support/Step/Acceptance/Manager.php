@@ -5,9 +5,9 @@ namespace hipanel\tests\_support\Step\Acceptance;
 use hipanel\tests\_support\Page\Login;
 
 /**
- * Class Seller
+ * Class Manager
  *
- * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
+ * @author Pavlo Kolomiyets <pkolomiy@gmail.com>
  */
 class Manager extends Client
 {
