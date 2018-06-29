@@ -27,22 +27,22 @@ class InternalObjectCombo extends Combo
 
     public $_primaryFilter;
 
-    public $objects = [];
+    public $classes = [];
 
     public $class_attribute;
 
     public $class_attribute_name;
 
-    private $attributes = [];
+    private $requiredAttributes = [];
 
     public function init()
     {
-        if (empty($this->objects)) {
-            throw new InvalidConfigException('Property `objectsOptions` is required for class ObjectCombo.');
+        if (empty($this->classes)) {
+            throw new InvalidConfigException('Property `classes` is required for class InternalObjectCombo.');
         }
         $this->inputOptions = ['data-object-selector-field' => true, 'class' => 'object-selector-select'];
         $this->registerSpecialAssets();
-        $this->findCurrentAttributes();
+        $this->findRequiredAttributes();
         $this->generateConfigs();
         parent::init();
         $this->registerChangerScript();
@@ -51,8 +51,8 @@ class InternalObjectCombo extends Combo
 
     private function generateConfigs()
     {
-        foreach ($this->objects as $type => $options) {
-            $this->applyConfigByObjectClassName($type);
+        foreach ($this->classes as $className => $options) {
+            $this->applyConfigByObjectClassName($className);
         }
 
     }
@@ -65,25 +65,25 @@ class InternalObjectCombo extends Combo
         $this->view->registerJs("initObjectSelectorChanger('{$changerId}', '{$inputId}')");
     }
 
-    private function applyConfigByObjectClassName($class)
+    private function applyConfigByObjectClassName($className)
     {
-        $options = $this->objects[$class];
+        $options = $this->classes[$className];
         if ($options['comboOptions']) {
-            foreach ($this->attributes as $attribute) {
+            foreach ($this->requiredAttributes as $attribute) {
                 if (isset($options['comboOptions'][$attribute->name])) {
                     $this->{$attribute->name} = $options['comboOptions'][$attribute->name];
                 }
             }
         }
         $this->registerClientConfig();
-        $varName = strtolower($this->model->formName()) . '_object_id_' . $class;
+        $varName = strtolower($this->model->formName()) . '_object_id_' . $className;
         $id = $this->configId;
         $this->view->registerJsVar($varName, $id, View::POS_END);
     }
 
-    private function findCurrentAttributes()
+    private function findRequiredAttributes()
     {
-        $this->attributes = array_filter((new ReflectionClass(get_class($this)))->getProperties(), function ($attr) {
+        $this->requiredAttributes = array_filter((new ReflectionClass(get_class($this)))->getProperties(), function ($attr) {
             return $attr->class === get_class($this);
         });
     }

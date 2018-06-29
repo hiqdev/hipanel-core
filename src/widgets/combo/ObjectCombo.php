@@ -19,7 +19,7 @@ class ObjectCombo extends InputWidget
 
     public $class_attribute_name = 'class';
 
-    public $objectMap = [
+    public $knownClasses = [
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
         'device' => ['alias' => '@server', 'combo' => ServerCombo::class],
         'domain' => ['alias' => '@domain'],
@@ -37,17 +37,17 @@ class ObjectCombo extends InputWidget
         return $this->render('ObjectCombo', [
             'model' => $this->model,
             'attribute' => $this->attribute,
-            'objectOptions' => $this->getObjectOptions(),
-            'objects' => $this->getObjects(),
+            'classOptions' => $this->getClassOptions(),
+            'classes' => $this->getClasses(),
             'class_attribute' => $this->model->{$this->class_attribute},
             'class_attribute_name' => $this->class_attribute_name,
         ]);
     }
 
-    private function getObjects(): array
+    private function getClasses(): array
     {
         $objects = [];
-        foreach ($this->objectMap as $type => $options) {
+        foreach ($this->knownClasses as $type => $options) {
             if (!Yii::getAlias($options['alias'], false)) {
                 continue;
             }
@@ -60,10 +60,10 @@ class ObjectCombo extends InputWidget
         return $objects;
     }
 
-    private function getObjectOptions(): array
+    private function getClassOptions(): array
     {
         $dropDownOptions = [];
-        foreach ($this->getObjects() as $class => $options) {
+        foreach ($this->getClasses() as $class => $options) {
             $dropDownOptions[$class] = Yii::t('hipanel', $this->getLabel($class));
         }
 
