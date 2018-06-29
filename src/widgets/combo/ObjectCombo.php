@@ -90,9 +90,7 @@ class ObjectCombo extends Combo
 
     private function applyDefaultAttributes()
     {
-        if ($this->currentObjectType) {
-            $this->applyConfigByType($this->currentObjectType ?: 'client');
-        }
+        $this->applyConfigByType($this->currentObjectType ?: 'client');
     }
 
     private function registerSpecialAssets()
