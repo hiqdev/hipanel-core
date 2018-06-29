@@ -17,7 +17,7 @@ class ObjectCombo extends InputWidget
 {
     public $class_attribute = 'class';
 
-    public $class_real_attribute = 'class';
+    public $class_attribute_name = 'class';
 
     public $objectMap = [
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
@@ -38,13 +38,13 @@ class ObjectCombo extends InputWidget
             'model' => $this->model,
             'attribute' => $this->attribute,
             'objectOptions' => $this->getObjectOptions(),
-            'availableObjects' => $this->getAvailableObjects(),
-            'class_attribute' => $this->class_attribute,
-            'class_real_attribute' => $this->class_real_attribute,
+            'objects' => $this->getObjects(),
+            'class_attribute' => $this->model->{$this->class_attribute},
+            'class_attribute_name' => $this->class_attribute_name,
         ]);
     }
 
-    private function getAvailableObjects(): array
+    private function getObjects(): array
     {
         $objects = [];
         foreach ($this->objectMap as $type => $options) {
@@ -63,16 +63,16 @@ class ObjectCombo extends InputWidget
     private function getObjectOptions(): array
     {
         $dropDownOptions = [];
-        foreach ($this->getAvailableObjects() as $type => $options) {
-            $dropDownOptions[$type] = Yii::t('hipanel', $this->getLabel($type));
+        foreach ($this->getObjects() as $class => $options) {
+            $dropDownOptions[$class] = Yii::t('hipanel', $this->getLabel($class));
         }
 
         return $dropDownOptions;
     }
 
-    private function getLabel($type): string
+    private function getLabel($class): string
     {
-        return $type === 'device' ? 'Server' : ucfirst($type);
+        return $class === 'device' ? 'Server' : ucfirst($class);
     }
 }
 

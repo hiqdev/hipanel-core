@@ -27,17 +27,17 @@ class InternalObjectCombo extends Combo
 
     public $_primaryFilter;
 
-    public $objectsOptions = [];
+    public $objects = [];
 
-    public $currentObjectType;
+    public $class_attribute;
 
-    public $currentObjectAttributeName;
+    public $class_attribute_name;
 
     private $attributes = [];
 
     public function init()
     {
-        if (empty($this->objectsOptions)) {
+        if (empty($this->objects)) {
             throw new InvalidConfigException('Property `objectsOptions` is required for class ObjectCombo.');
         }
         $this->inputOptions = ['data-object-selector-field' => true, 'class' => 'object-selector-select'];
@@ -51,23 +51,23 @@ class InternalObjectCombo extends Combo
 
     private function generateConfigs()
     {
-        foreach ($this->objectsOptions as $type => $options) {
-            $this->applyConfigByType($type);
+        foreach ($this->objects as $type => $options) {
+            $this->applyConfigByObjectClassName($type);
         }
 
     }
 
     private function registerChangerScript()
     {
-        $changerId = Html::getInputId($this->model, $this->currentObjectAttributeName);
+        $changerId = Html::getInputId($this->model, $this->class_attribute_name);
         $inputId = $this->inputOptions['id'];
 
         $this->view->registerJs("initObjectSelectorChanger('{$changerId}', '{$inputId}')");
     }
 
-    private function applyConfigByType($type)
+    private function applyConfigByObjectClassName($class)
     {
-        $options = $this->objectsOptions[$type];
+        $options = $this->objects[$class];
         if ($options['comboOptions']) {
             foreach ($this->attributes as $attribute) {
                 if (isset($options['comboOptions'][$attribute->name])) {
@@ -76,7 +76,7 @@ class InternalObjectCombo extends Combo
             }
         }
         $this->registerClientConfig();
-        $varName = strtolower($this->model->formName()) . '_object_id_' . $type;
+        $varName = strtolower($this->model->formName()) . '_object_id_' . $class;
         $id = $this->configId;
         $this->view->registerJsVar($varName, $id, View::POS_END);
     }
@@ -90,7 +90,7 @@ class InternalObjectCombo extends Combo
 
     private function applyDefaultAttributes()
     {
-        $this->applyConfigByType($this->currentObjectType ?: 'client');
+        $this->applyConfigByObjectClassName($this->class_attribute ?: 'client');
     }
 
     private function registerSpecialAssets()
