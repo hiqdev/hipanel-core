@@ -1,15 +1,10 @@
 <?php
 
-/** @var string $class_type_attribute */
-
+/** @var string $class_attribute */
 /** @var string $class_real_attribute */
-
 /** @var \yii\db\ActiveRecordInterface $model */
-
 /** @var array $objectOptions */
-
 /** @var string $attribute */
-
 /** @var array $availableObjects */
 
 use hipanel\widgets\combo\InternalObjectCombo;
@@ -23,8 +18,7 @@ use yii\bootstrap\Html;
         <?= Html::activeDropDownList($model, $class_real_attribute, $objectOptions, [
             'class' => 'form-control', 'prompt' => '--',
         ]) ?>
-        <?=
-        InternalObjectCombo::widget([
+        <?= InternalObjectCombo::widget([
             'model' => $model,
             'attribute' => $attribute,
             'objectsOptions' => $availableObjects,
