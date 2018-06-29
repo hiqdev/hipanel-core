@@ -22,6 +22,8 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
     {
         parent::registerAssets($view);
         // For init select2
+        $formId = $this->formId;
+
         $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
                 var options = eval($(this).data('dynamicform'));
@@ -33,12 +35,17 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
                             return $(this).data('combo-field') == $(comboItem).data('combo-field');
                         });
 
-                        if (template.length == 0) {
+                        if (template.length === 0) {
                             return true;
                         }
 
-                        var config_id = $(template[0]).data('field').id;
-                        $(item).closest(options.widgetItem).combo().register($(this), config_id);
+                        var that = $(this);
+                        template.each(function() {
+                            if ($(this).data('field')) {
+                                var config_id = $(this).data('field').id;
+                                $(item).closest(options.widgetItem).combo().register(that, config_id);
+                            }
+                        });
                     });
                 }
             });
