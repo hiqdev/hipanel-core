@@ -22,8 +22,6 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
     {
         parent::registerAssets($view);
         // For init select2
-        $formId = $this->formId;
-
         $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
                 var options = eval($(this).data('dynamicform'));
