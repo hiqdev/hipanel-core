@@ -15,10 +15,19 @@ use yii\bootstrap\InputWidget;
  */
 class ObjectCombo extends InputWidget
 {
+    /**
+     * @var string
+     */
     public $class_attribute = 'class';
 
+    /**
+     * @var string
+     */
     public $class_attribute_name = 'class';
 
+    /**
+     * @var array
+     */
     public $knownClasses = [
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
         'device' => ['alias' => '@server', 'combo' => ServerCombo::class],

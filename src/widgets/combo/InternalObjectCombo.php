@@ -8,6 +8,9 @@ use yii\base\InvalidConfigException;
 use yii\bootstrap\Html;
 use yii\web\View;
 
+/**
+ * Class InternalObjectCombo
+ */
 class InternalObjectCombo extends Combo
 {
     /** {@inheritdoc} */
@@ -25,16 +28,30 @@ class InternalObjectCombo extends Combo
     /** {@inheritdoc} */
     public $_rename;
 
+    /** {@inheritdoc} */
     public $_primaryFilter;
 
+    /**
+     * @var array
+     */
     public $classes = [];
 
+    /**
+     * @var string
+     */
     public $class_attribute;
 
+    /**
+     * @var string
+     */
     public $class_attribute_name;
 
+    /**
+     * @var array
+     */
     private $requiredAttributes = [];
 
+    /** {@inheritdoc} */
     public function init()
     {
         if (empty($this->classes)) {
@@ -42,7 +59,7 @@ class InternalObjectCombo extends Combo
         }
         $this->inputOptions = ['data-object-selector-field' => true, 'class' => 'object-selector-select'];
         $this->registerSpecialAssets();
-        $this->findRequiredAttributes();
+        $this->fillRequiredAttributes();
         $this->generateConfigs();
         parent::init();
         $this->registerChangerScript();
@@ -77,11 +94,10 @@ class InternalObjectCombo extends Combo
         }
         $this->registerClientConfig();
         $varName = strtolower($this->model->formName()) . '_object_id_' . $className;
-        $id = $this->configId;
-        $this->view->registerJsVar($varName, $id, View::POS_END);
+        $this->view->registerJsVar($varName, $this->configId, View::POS_END);
     }
 
-    private function findRequiredAttributes()
+    private function fillRequiredAttributes()
     {
         $this->requiredAttributes = array_filter((new ReflectionClass(get_class($this)))->getProperties(), function ($attr) {
             return $attr->class === get_class($this);
@@ -126,9 +142,8 @@ class InternalObjectCombo extends Combo
                 $.fn.yiiDynamicForm = function(method) {
                     if (method === 'addItem') {
                         return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-                    } else {
-                        originalDynamicForm.apply(this, arguments);        
                     }
+                    originalDynamicForm.apply(this, arguments);
                 }
                 
             })(window.jQuery);
