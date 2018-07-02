@@ -37,6 +37,10 @@ return [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/messages',
                 ],
+                'hipanel.object-combo' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/messages',
+                ],
             ],
         ],
     ],
