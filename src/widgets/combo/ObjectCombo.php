@@ -73,7 +73,7 @@ class ObjectCombo extends InputWidget
     {
         $dropDownOptions = [];
         foreach ($this->getClasses() as $class => $options) {
-            $dropDownOptions[$class] = Yii::t('hipanel', $this->getLabel($class));
+            $dropDownOptions[$class] = Yii::t('hipanel.object-combo', $this->getLabel($class));
         }
 
         return $dropDownOptions;
