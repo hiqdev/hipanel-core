@@ -80,7 +80,7 @@ class ObjectCombo extends InputWidget
     }
 
     /**
-     * @param $class
+     * @param string $class
      * @return string
      */
     private function getLabel($class): string
