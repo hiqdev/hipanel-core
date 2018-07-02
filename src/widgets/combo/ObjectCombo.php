@@ -79,6 +79,10 @@ class ObjectCombo extends InputWidget
         return $dropDownOptions;
     }
 
+    /**
+     * @param $class
+     * @return string
+     */
     private function getLabel($class): string
     {
         return $class === 'device' ? 'Server' : ucfirst($class);

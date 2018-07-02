@@ -32,6 +32,8 @@ class InternalObjectCombo extends Combo
     public $_primaryFilter;
 
     /**
+     * @uses ObjectCombo::$knownClasses
+     *
      * @var array
      */
     public $classes = [];
