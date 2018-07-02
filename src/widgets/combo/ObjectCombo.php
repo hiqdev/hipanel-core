@@ -55,18 +55,18 @@ class ObjectCombo extends InputWidget
 
     private function getClasses(): array
     {
-        $objects = [];
-        foreach ($this->knownClasses as $type => $options) {
+        $classes = [];
+        foreach ($this->knownClasses as $class => $options) {
             if (!Yii::getAlias($options['alias'], false)) {
                 continue;
             }
             if ($options['combo']) {
                 $options['comboOptions'] = get_class_vars($options['combo']);
             }
-            $objects[$type] = $options;
+            $classes[$class] = $options;
         }
 
-        return $objects;
+        return $classes;
     }
 
     private function getClassOptions(): array
