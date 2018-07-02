@@ -114,13 +114,11 @@ class InternalObjectCombo extends Combo
                         // Reinit ObjectSelectorChanger after added new item
                         if (count < widgetOptions.limit) {
                             var objectSelectorInputs = $($newclone).find('[data-object-selector-field]');
-                            if (objectSelectorInputs.length > 0) {
-                                objectSelectorInputs.each(function() {
-                                    var objectInputId = $(this).attr('id');
-                                    var changerInputId = $(this).prev('select').attr('id');
-                                    initObjectSelectorChanger(changerInputId, objectInputId); 
-                                });
-                            }
+                            objectSelectorInputs.each(function() {
+                                var objectInputId = $(this).attr('id');
+                                var changerInputId = $(this).prev('select').attr('id');
+                                initObjectSelectorChanger(changerInputId, objectInputId);
+                            });
                         } 
                     }
                 };

@@ -37,13 +37,11 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
                             return true;
                         }
 
-                        var that = $(this);
-                        template.each(function() {
-                            if ($(this).data('field')) {
-                                var config_id = $(this).data('field').id;
-                                $(item).closest(options.widgetItem).combo().register(that, config_id);
-                            }
-                        });
+                        var tpl = $(template[0]);
+                        if (tpl.data('field')) {
+                            var config_id = tpl.data('field').id;
+                            $(item).closest(options.widgetItem).combo().register($(this), config_id);
+                        }
                     });
                 }
             });
