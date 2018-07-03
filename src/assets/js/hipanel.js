@@ -35,7 +35,19 @@ window.hipanel = (function () {
                 '</div>' +
             '</div>';
         },
-        notify: notify
+        notify: notify,
+        form: {
+            preventSubmitWithEnter: function (formId) {
+                $(formId).on('keyup keypress', function (e) {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode === 13) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        $(e.target).blur();
+                    }
+                });
+            }
+        }
     };
 
     return publicMethods;
