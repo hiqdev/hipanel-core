@@ -7,6 +7,7 @@ use hipanel\modules\finance\widgets\combo\PlanCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
+use hipanel\modules\domain\widgets\combo\DomainCombo;
 use Yii;
 use yii\bootstrap\InputWidget;
 
@@ -31,7 +32,7 @@ class ObjectCombo extends InputWidget
     public $knownClasses = [
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
         'device' => ['alias' => '@server', 'combo' => ServerCombo::class],
-        'domain' => ['alias' => '@domain'],
+        'domain' => ['alias' => '@domain', 'combo' => DomainCombo::class],
         'zone' => ['alias' => '@zone'],
         'part' => ['alias' => '@part', 'combo' => PartCombo::class],
         'account' => ['alias' => '@account', 'combo' => AccountCombo::class],
