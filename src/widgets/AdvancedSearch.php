@@ -11,6 +11,7 @@
 namespace hipanel\widgets;
 
 use hipanel\base\Model;
+use hiqdev\assets\autosize\AutosizeAsset;
 use Yii;
 use yii\base\Widget;
 use yii\bootstrap\ActiveField;
@@ -146,9 +147,9 @@ class AdvancedSearch extends Widget
     /**
      * @param string $attribute
      * @param array $options
-     * @return ActiveField
+     * @return ActiveField|AdvancedSearchActiveField
      */
-    public function field($attribute, $options = [])
+    public function field($attribute, $options = []): AdvancedSearchActiveField
     {
         return $this->_form->field($this->model, $attribute, $options)
             ->textInput(['placeholder' => $this->model->getAttributeLabel($attribute)])

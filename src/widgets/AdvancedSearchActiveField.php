@@ -11,11 +11,17 @@
 namespace hipanel\widgets;
 
 use hipanel\helpers\ArrayHelper;
+use hiqdev\assets\autosize\AutosizeAsset;
 use hiqdev\combo\Combo;
 use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveField;
 
+/**
+ * Class AdvancedSearchActiveField
+ *
+ * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
+ */
 class AdvancedSearchActiveField extends ActiveField
 {
     /**
@@ -46,6 +52,18 @@ class AdvancedSearchActiveField extends ActiveField
 
         return $this;
     }
+
+    public function textarea($options = [])
+    {
+        AutosizeAsset::activate($this->form->getView(), '[data-autosize]');
+
+        return parent::textarea(ArrayHelper::merge([
+            'data-autosize' => true, 'rows' => 1,
+            'placeholder' => $this->model->getAttributeLabel('domains'),
+            'style' => ['max-height' => '30vh']
+        ], $options));
+    }
+
 
     protected function getInputId()
     {
