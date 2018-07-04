@@ -136,6 +136,7 @@ class InternalObjectCombo extends Combo
                                 var objectInputId = $(this).attr('id');
                                 var changerInputId = $(this).prev('select').attr('id');
                                 initObjectSelectorChanger(changerInputId, objectInputId);
+                                $('#' + objectInputId).find('option').remove().end().val(null).trigger('change');
                             });
                         } 
                     }
