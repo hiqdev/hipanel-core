@@ -55,7 +55,7 @@ class ColspanColumn extends DataColumn
                 continue;
             }
             $this->columns[$id] = Yii::createObject(array_merge([
-                'class' => $this->grid->dataColumnClass ?: DataColumn::className(),
+                'class' => $this->grid->dataColumnClass ?: DataColumn::class,
                 'grid' => $this->grid,
             ], $column));
         }
