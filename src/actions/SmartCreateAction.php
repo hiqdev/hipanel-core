@@ -34,8 +34,8 @@ class SmartCreateAction extends SwitchAction
                 'class' => RenderAjaxAction::class,
                 'view' => $this->view,
                 'data' => $this->data,
-                'params' => function ($action) {
-                    $model = $action->controller->newModel(['scenario' => $action->scenario]);
+                'params' => function (RenderAction $action) {
+                    $model = $action->getCollection()->getModel();
                     return [
                         'model'  => $model,
                         'models' => [$model],
@@ -46,8 +46,8 @@ class SmartCreateAction extends SwitchAction
                 'class'  => RenderAction::class,
                 'view'   => $this->view,
                 'data'   => $this->data,
-                'params' => function ($action) {
-                    $model = $action->controller->newModel(['scenario' => $action->scenario]);
+                'params' => function (RenderAction $action) {
+                    $model = $action->getCollection()->getModel();
                     return [
                         'model'  => $model,
                         'models' => [$model],
