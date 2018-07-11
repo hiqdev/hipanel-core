@@ -73,12 +73,12 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
      */
     public static function convertIdnToAscii($value)
     {
-        return idn_to_ascii($value);
+        return idn_to_ascii($value, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
     }
 
     public static function convertAsciiToIdn($value)
     {
-        return idn_to_utf8($value);
+        return idn_to_utf8($value, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
     }
 
     public function clientValidateAttribute($model, $attribute, $view)
