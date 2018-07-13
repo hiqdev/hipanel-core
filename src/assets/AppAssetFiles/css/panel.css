@@ -954,6 +954,6 @@ TABLE THEAD .filters TD.narrow-filter SELECT {
 }
 
 /* See https://stackoverflow.com/questions/19448902/changing-the-width-of-bootstrap-popover */
-.popover{
+td .popover {
     max-width: 100%;
 }
