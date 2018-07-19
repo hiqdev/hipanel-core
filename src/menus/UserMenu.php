@@ -25,7 +25,7 @@ class UserMenu extends \hiqdev\yii2\menus\Menu
 
     public function items()
     {
-        return [
+        return array_filter([
             'header' => [
                 'label' => $this->render('userMenuHeader'),
             ],
@@ -43,10 +43,10 @@ class UserMenu extends \hiqdev\yii2\menus\Menu
                 'url'   => ['@pay/deposit'],
                 'visible' => Yii::$app->user->can('deposit'),
             ],
-            'ticket' => [
+            'ticket' => Yii::getAlias('@ticker', false) ? [
                 'label' => Yii::t('hipanel', 'Create ticket'),
                 'url'   => ['@ticket/create'],
-            ],
-        ];
+            ] : null,
+        ]);
     }
 }
