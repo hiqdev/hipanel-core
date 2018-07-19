@@ -16,6 +16,12 @@ class Select2
         $this->tester = $I;
     }
 
+    public function fillSearchField(string $name): void
+    {
+        $this->tester->fillField('.select2-search__field', $name);
+        $this->tester->waitForElementNotVisible('.loading-results', 120);
+    }
+
     public function open($selector)
     {
         $this->tester->click($this->getSelect2Selector($selector));
@@ -44,10 +50,14 @@ class Select2
      */
     public function chooseOption($optionName)
     {
-        $this->seeIsOpened();
-        $this->tester->clickWithLeftButton(Locator::contains($this->getSelect2OptionSelector(), $optionName), 5, 5);
-        $this->seeIsClosed();
-
+        $this->tester->executeJS(<<<JS
+        $("li:contains('{$optionName}')").each(function() {
+            if (this.firstChild.data === '{$optionName}') {
+                $(this).trigger('mouseup');
+            }
+        });
+JS
+);
         return $this;
     }
 
