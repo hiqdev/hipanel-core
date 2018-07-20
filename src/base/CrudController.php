@@ -15,9 +15,9 @@ use yii\helpers\Inflector;
 
 class CrudController extends Controller
 {
-    public function hasAction($id, $actions = null)
+    public function hasAction($id, $actions = null): bool
     {
-        if (is_null($actions)) {
+        if ($actions === null) {
             $actions = $this->actions();
         }
         $method = 'action' . Inflector::id2camel($id);
@@ -25,22 +25,22 @@ class CrudController extends Controller
         return isset($actions[$id]) || method_exists($this, $method);
     }
 
-    public function getRefs($name, $translate = null, $options = [])
+    public function getRefs($name, $translate = null, array $options = []): array
     {
         return Ref::getList($name, $translate, $options);
     }
 
-    public function getClassRefs($type, $translate = null, $options = [])
+    public function getClassRefs($type, $translate = null, array $options = []): array
     {
         return $this->getRefs($type . ',' . static::modelId('_'), $translate, $options);
     }
 
-    public function getBlockReasons()
+    public function getBlockReasons(): array
     {
         return $this->getRefs('type,block', 'hipanel');
     }
 
-    public function getCurrencyTypes()
+    public function getCurrencyTypes(): array
     {
         return $this->getRefs('type,currency', 'hipanel', ['orderby' => 'no_asc']);
     }
