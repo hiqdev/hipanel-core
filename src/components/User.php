@@ -68,19 +68,29 @@ class User extends \yii\web\User
      */
     public function getAuthData()
     {
-        if ($this->isGuest) {
-            if ($this->isGuestAllowed) {
-                return [];
-            } else {
-                $this->redirectLogin();
-            }
+        return $this->isGuest ? $this->getGuestAuthData() : $this->getAuthorizedAuthData();
+    }
+
+    protected function getGuestAuthData()
+    {
+        if (!$this->isGuestAllowed) {
+            $this->redirectLogin();
         }
 
+        return [
+            'auth_ip' => Yii::$app->request->getUserIP(),
+            'seller' => Yii::$app->params['user.seller'],
+        ];
+    }
+
+    protected function getAuthorizedAuthData()
+    {
         try {
             $token = $this->identity->getAccessToken();
         } catch (\Exception $e) {
             $token = null;
         }
+
         if (empty($token)) {
             /// logout() is very important here, else - redirect loop
             $this->logout();
