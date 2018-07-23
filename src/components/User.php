@@ -79,7 +79,7 @@ class User extends \yii\web\User
         ];
     }
 
-    protected function getAuthrizedAuthData()
+    protected function getAuthorizedAuthData()
     {
         try {
             $token = $this->identity->getAccessToken();
@@ -101,7 +101,7 @@ class User extends \yii\web\User
 
     public function getAuthData()
     {
-        return $this->isGuest ? $this->getGuestAuthData() : $this->getAuthrizedAuthData();
+        return $this->isGuest ? $this->getGuestAuthData() : $this->getAuthorizedAuthData();
     }
 
     public function redirectLogin()
