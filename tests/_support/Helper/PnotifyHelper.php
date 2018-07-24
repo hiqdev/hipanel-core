@@ -15,5 +15,6 @@ class PnotifyHelper extends \Codeception\Module
         $I->moveMouseOver(['css' => '.ui-pnotify']);
         $I->wait(1);
         $I->click('//span[@title="Close"]');
+        $I->waitForElementNotVisible('.ui-pnotify');
     }
 }
