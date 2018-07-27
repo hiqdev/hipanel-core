@@ -6,12 +6,10 @@ class IndexPage extends Authenticated
 {
     /**
      * @param string $formId
-     * @param array $filters Example:
+     * @param array[] $filters Example:
      * ```php
      *  [
-     *      ['input' => ['placeholder' => 'Domain name']],
      *      ['textarea' => ['placeholder' => 'Domain names (one per row)']],
-     *      ['input' => ['placeholder' => 'Notes']],
      *      ['input' => [
      *          'id' => 'domainsearch-created_from',
      *          'name' => 'date-picker',
@@ -28,23 +26,19 @@ class IndexPage extends Authenticated
                 $I->seeElement("//form[@id='$formId']//$selector", $attributes);
             }
         }
+        $I->see('Search', "//form[@id='$formId']//button[@type='submit']");
+        $I->see('Clear', "//form[@id='$formId']//a");
     }
 
     /**
-     * @param array $buttons Example:
+     * @param array[] $buttons Example:
      * ```php
      *  [
-     *      ['a' => 'Buy domain'],
-     *      ["//button[@type='submit']" => 'Search'],
-     *      ['a' => 'Clear'],
-     *      ["//button[@type='button']" => 'Basic actions'],
-     *      ["//button[@type='button']" => 'Set notes'],
-     *      ["//button[@type='button']" => 'Set NS'],
-     *      ["//button[@type='button']" => 'Change contacts'],
+     *      ["//button[@type='button']" => 'Set IPs'],
      *  ]
      *```
      */
-    public function containsButtons(array $buttons): void
+    public function containsBulkButtons(array $buttons): void
     {
         $I = $this->tester;
 
@@ -57,24 +51,13 @@ class IndexPage extends Authenticated
 
     /**
      * @param string $formId
-     * @param array $columns Example:
-     * ```php
-     *  [
-     *      'Domain name',
-     *      'Status',
-     *      'WHOIS',
-     *      'Protection',
-     *      'Registered',
-     *      'Paid till',
-     *      'Autorenew',
-     *  ]
-     *```
+     * @param string[] $columnNames array of column names
      */
-    public function containsColumns(string $formId, array $columns): void
+    public function containsColumns(string $formId, array $columnNames): void
     {
         $I = $this->tester;
 
-        foreach ($columns as $column) {
+        foreach ($columnNames as $column) {
             $I->see($column, "//form[@id='$formId']//table/thead/tr/th");
         }
     }
