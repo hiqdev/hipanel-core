@@ -10,9 +10,9 @@ class IndexPage extends Authenticated
      * @param TestableInput[] $inputs Example:
      * ```php
      *  [
-     *      Input::input('Domain name'),
-     *      Textarea::input('Domain names (one per row)'),
-     *      Select2::input('Status'),
+     *      new Input('Domain name'),
+     *      new Textarea('Domain names (one per row)'),
+     *      new Select2('Status'),
      *  ]
      *```
      */
