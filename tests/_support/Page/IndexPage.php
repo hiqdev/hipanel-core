@@ -2,50 +2,57 @@
 
 namespace hipanel\tests\_support\Page;
 
+use hipanel\tests\_support\Page\Widget\Input\TestableInput;
+
 class IndexPage extends Authenticated
 {
     /**
-     * @param string $formId
-     * @param array[] $filters Example:
+     * @param TestableInput[] $inputs Example:
      * ```php
      *  [
-     *      ['textarea' => ['placeholder' => 'Domain names (one per row)']],
-     *      ['input' => [
-     *          'id' => 'domainsearch-created_from',
-     *          'name' => 'date-picker',
-     *      ]],
+     *      Input::input('Domain name'),
+     *      Textarea::input('Domain names (one per row)'),
+     *      Select2::input('Status'),
      *  ]
      *```
      */
-    public function containsFilters(string $formId, array $filters): void
+    public function containsFilters(array $inputs): void
     {
         $I = $this->tester;
 
-        foreach ($filters as $filter) {
-            foreach ($filter as $selector => $attributes) {
-                $I->seeElement("//form[@id='$formId']//$selector", $attributes);
-            }
+        $I->see('Advanced search', 'h3');
+        $formId = $I->grabAttributeFrom("//form[contains(@id, 'advancedsearch')]", 'id');
+
+        foreach ($inputs as $input) {
+            $input->isVisible($I, $formId);
         }
         $I->see('Search', "//form[@id='$formId']//button[@type='submit']");
         $I->see('Clear', "//form[@id='$formId']//a");
     }
 
     /**
-     * @param array[] $buttons Example:
-     * ```php
-     *  [
-     *      ["//button[@type='button']" => 'Set IPs'],
-     *  ]
-     *```
+     * @param string[] $list array of legend list
+     */
+    public function containsLegend(array $list): void
+    {
+        $I = $this->tester;
+
+        $I->see('Legend', 'h3');
+
+        foreach ($list as $text) {
+            $I->see($text, "//h3[text()='Legend']/../../div/ul/li");
+        }
+    }
+
+    /**
+     * @param string[] $buttons array of buttons
      */
     public function containsBulkButtons(array $buttons): void
     {
         $I = $this->tester;
 
-        foreach ($buttons as $button) {
-            foreach ($button as $selector => $text) {
-                $I->see($text, $selector);
-            }
+        foreach ($buttons as $text) {
+            $I->see($text, "//button[@type='submit' or @type='button']");
         }
     }
 
@@ -53,9 +60,10 @@ class IndexPage extends Authenticated
      * @param string $formId
      * @param string[] $columnNames array of column names
      */
-    public function containsColumns(string $formId, array $columnNames): void
+    public function containsColumns(array $columnNames): void
     {
         $I = $this->tester;
+        $formId = $I->grabAttributeFrom("//form[contains(@id, 'bulk') and contains(@id, 'search')]", 'id');
 
         foreach ($columnNames as $column) {
             $I->see($column, "//form[@id='$formId']//table/thead/tr/th");
