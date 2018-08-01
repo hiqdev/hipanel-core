@@ -7,7 +7,7 @@ use hipanel\tests\_support\AcceptanceTester;
 class Dropdown extends TestableInput
 {
     /**
-     * @property string[] | null
+     * @property string[]|null
      */
     private $items;
 
