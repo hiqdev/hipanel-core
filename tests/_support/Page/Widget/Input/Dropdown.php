@@ -7,11 +7,11 @@ use hipanel\tests\_support\AcceptanceTester;
 class Dropdown extends TestableInput
 {
     /**
-     * @property array items
+     * @property array | null
      */
     private $items;
 
-    public function withItems(array $items)
+    public function withItems(array $items): void
     {
         $this->items = $items;
     }
