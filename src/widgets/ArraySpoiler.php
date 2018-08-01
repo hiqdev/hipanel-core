@@ -96,6 +96,12 @@ class ArraySpoiler extends Widget
     public $delimiter = ', ';
 
     /**
+     * @var string|null delimiter that is used to join hidden items
+     * Defaults to `null`, meaning that delimiter is the same as for visible items.
+     */
+    public $hiddenDelimiter;
+
+    /**
      * @var array|string When string - will be auto-converted to an array. Array will be passed to [[Html::tag()]]
      * as option argument. Special options that will be extracted:
      *  - label - string
@@ -262,7 +268,7 @@ class ArraySpoiler extends Widget
     public function renderHiddenPopover()
     {
         $this->parts['{hidden}'] = '';
-        return implode($this->delimiter, $this->getSpoiledItems());
+        return implode($this->hiddenDelimiter ?? $this->delimiter, $this->getSpoiledItems());
     }
 
     /**
@@ -303,7 +309,7 @@ class ArraySpoiler extends Widget
         $options = ArrayHelper::merge([
             'id' => $this->button['id'] . '-body',
             'tag' => 'span',
-            'value' => implode($this->delimiter, $this->getSpoiledItems()),
+            'value' => implode($this->hiddenDelimiter ?? $this->delimiter, $this->getSpoiledItems()),
             'class' => 'collapse',
             'data-spoiler-body' => true,
         ], $this->hidden);
