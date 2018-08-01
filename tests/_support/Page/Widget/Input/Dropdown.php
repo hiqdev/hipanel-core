@@ -13,10 +13,13 @@ class Dropdown extends TestableInput
 
     /**
      * @param string[] $items array of items names
+     * @return self
      */
-    public function withItems(array $items): void
+    public function withItems(array $items): Dropdown
     {
         $this->items = $items;
+
+        return $this;
     }
 
     public function isVisible(AcceptanceTester $I, string $formId): void
