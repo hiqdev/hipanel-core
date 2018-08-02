@@ -2,7 +2,7 @@
 
 namespace hipanel\widgets;
 
-use hipanel\helpers\ArrayHelper;
+use yii\helpers\ArrayHelper;
 use ReflectionClass;
 use yii\base\Widget;
 use yii\web\View;
