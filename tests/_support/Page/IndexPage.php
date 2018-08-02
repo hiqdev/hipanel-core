@@ -57,13 +57,19 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * @param string $formId
      * @param string[] $columnNames array of column names
+     * @param string|null $representation the representation name
      */
-    public function containsColumns(array $columnNames): void
+    public function containsColumns(array $columnNames, $representation = null): void
     {
         $I = $this->tester;
         $formId = $I->grabAttributeFrom("//form[contains(@id, 'bulk') and contains(@id, 'search')]", 'id');
+
+        if ($representation !== null) {
+            $I->click("//button[contains(text(), 'View:')]");
+            $I->click("//ul/li/a[contains(text(), '$representation')]");
+            $I->waitForJS("return $.active == 0;", 15);
+        }
 
         foreach ($columnNames as $column) {
             $I->see($column, "//form[@id='$formId']//table/thead/tr/th");
