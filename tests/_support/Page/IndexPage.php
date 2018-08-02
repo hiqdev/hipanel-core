@@ -58,16 +58,16 @@ class IndexPage extends Authenticated
 
     /**
      * @param string[] $columnNames array of column names
-     * @param string|null $view bulk view name
+     * @param string|null $representation the representation name
      */
-    public function containsColumns(array $columnNames, $view = null): void
+    public function containsColumns(array $columnNames, $representation = null): void
     {
         $I = $this->tester;
         $formId = $I->grabAttributeFrom("//form[contains(@id, 'bulk') and contains(@id, 'search')]", 'id');
 
-        if ($view) {
+        if ($representation !== null) {
             $I->click("//button[contains(text(), 'View:')]");
-            $I->click("//ul/li/a[contains(text(), '$view')]");
+            $I->click("//ul/li/a[contains(text(), '$representation')]");
             $I->waitForJS("return $.active == 0;", 15);
         }
 
