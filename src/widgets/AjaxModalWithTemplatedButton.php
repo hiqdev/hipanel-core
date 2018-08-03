@@ -8,10 +8,10 @@ use yii\base\Widget;
 use yii\web\View;
 
 /**
- * Class AjaxModalDecorator render AjaxModal markup to the end of body and render toggle button in any
+ * Class AjaxModalWithTemplatedButton render AjaxModal markup to the end of body and render toggle button in any
  * place of html with additional toggle button template.
  */
-class AjaxModalDecorator extends Widget
+class AjaxModalWithTemplatedButton extends Widget
 {
     /**
      * @var array
