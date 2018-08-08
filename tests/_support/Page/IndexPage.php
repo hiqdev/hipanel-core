@@ -68,7 +68,7 @@ class IndexPage extends Authenticated
         if ($representation !== null) {
             $I->click("//button[contains(text(), 'View:')]");
             $I->click("//ul/li/a[contains(text(), '$representation')]");
-            $I->waitForJS("return $.active == 0;", 15);
+            $I->waitForJS('return $.active == 0;', 30);
         }
 
         foreach ($columnNames as $column) {
