@@ -110,7 +110,7 @@ class Action extends \yii\base\Action
 
             $this->_collection = Yii::createObject(ArrayHelper::merge([
                 'class' => Collection::class,
-                'model' => $this->controller->newModel(),
+                'model' => $this->controller->newModel(['scenario' => $scenario]),
                 'scenario' => $scenario,
                 'queryOptions' => $this->queryOptions,
             ], (array) $this->_collection));
