@@ -16,13 +16,21 @@ class Select2
         $this->tester = $I;
     }
 
+    /**
+     * @param string $name
+     * @throws \Exception
+     */
     public function fillSearchField(string $name): void
     {
         $this->tester->fillField('.select2-search__field', $name);
         $this->tester->waitForElementNotVisible('.loading-results', 120);
     }
 
-    public function open($selector)
+    /**
+     * @param string $selector
+     * @return Select2
+     */
+    public function open(string $selector): Select2
     {
         $this->tester->click($this->getSelect2Selector($selector));
         $this->seeIsOpened();
@@ -30,14 +38,20 @@ class Select2
         return $this;
     }
 
-    public function seeIsOpened()
+    /**
+     * @return Select2
+     */
+    public function seeIsOpened(): Select2
     {
         $this->tester->seeElement('.select2-container--open');
 
         return $this;
     }
 
-    public function seeIsClosed()
+    /**
+     * @return Select2
+     */
+    public function seeIsClosed(): Select2
     {
         $this->tester->cantSeeElement('.select2-container--open');
 
@@ -48,7 +62,7 @@ class Select2
      * @param $optionName
      * @return $this
      */
-    public function chooseOption($optionName)
+    public function chooseOption($optionName): Select2
     {
         $this->tester->executeJS(<<<JS
         $("li:contains('{$optionName}')").each(function() {
@@ -61,12 +75,36 @@ JS
         return $this;
     }
 
-    protected function getSelect2Selector($selector)
+    /**
+     * @param $optionName
+     * @return $this
+     */
+    public function chooseOptionLike($optionName): Select2
+    {
+        $this->tester->executeJS(<<<JS
+        $("li:contains('{$optionName}')").each(function() {
+            if (this.firstChild.data.indexOf('{$optionName}') !== -1) {
+                $(this).trigger('mouseup');
+            }
+        });
+JS
+);
+        return $this;
+    }
+
+    /**
+     * @param string $selector
+     * @return string
+     */
+    protected function getSelect2Selector(string $selector): string
     {
         return $selector . ' + span [role=combobox]';
     }
 
-    protected function getSelect2OptionSelector()
+    /**
+     * @return string
+     */
+    protected function getSelect2OptionSelector(): string
     {
         return '.select2-container--open .select2-results__options li';
     }
