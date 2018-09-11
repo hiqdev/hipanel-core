@@ -3,6 +3,7 @@
 namespace hipanel\widgets\combo;
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
@@ -33,7 +34,7 @@ class ObjectCombo extends InputWidget
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
         'device' => ['alias' => '@server', 'combo' => ServerCombo::class],
         'domain' => ['alias' => '@domain', 'combo' => DomainCombo::class],
-        'zone' => ['alias' => '@zone'],
+        'zone' => ['alias' => '@domain', 'combo' => ZoneCombo::class],
         'part' => ['alias' => '@part', 'combo' => PartCombo::class],
         'account' => ['alias' => '@account', 'combo' => AccountCombo::class],
         'plan' => ['alias' => '@plan', 'combo' => PlanCombo::class],
