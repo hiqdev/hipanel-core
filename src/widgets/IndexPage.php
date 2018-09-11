@@ -215,6 +215,7 @@ JS
             }
             .advanced-search[min-width~="150px"] form > div {
                 width: 100%;
+                position: inherit;
             }
             #scrollspy * {
               /* Свойства изменение которых необходимо отслеживать */
