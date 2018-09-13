@@ -15,37 +15,40 @@ use hipanel\tests\_support\AcceptanceTester;
  *      new Class(tester, selector)
  *
  * 2. As Advanced search element
- *      Class::asAdvancedSearch(tester, name)
+ *      Class::asAdvancedSearch($tester, $title)
+ *
  * 3. As Table filter element of indexes page
- *      Class::asTableFilter(tester, name)
- *  In these two cases, the element should be created with related named
+ *      Class::asTableFilter($tester, $columnName)
+ *
+ *  In last two cases, the element should be created with related named
  *  constructors.
- *  The second argument 'name' is placeholder in Advanced search or
+ *  The second argument is title of element in Advanced search or
  *  column name in Table filter respectively.
  *
  * @package hipanel\tests\_support\Page\Widget\Input
  */
 abstract class TestableInput
 {
-    /**
-     * @var string $name
-     */
-    protected $name;
+    protected $tester;
 
     /**
-     * @var string
+     * @var string $title
+     */
+    protected $title;
+
+    /**
+     * @var string $auxName
      */
     protected $auxName;
 
     /**
-     * @var
+     * @var string $selector
      */
     protected $selector;
 
     const AS_BASE = 'div.advanced-search ';
-    const TF_BASE = 'tr.filters ';
 
-    protected $tester;
+    const TF_BASE = 'tr.filters ';
 
     /**
      * TestableInput constructor.
@@ -60,14 +63,16 @@ abstract class TestableInput
 
     /**
      * @param AcceptanceTester $tester
-     * @param $name
+     * @param $title
      * @return TestableInput
      */
-    public static function asAdvancedSearch(AcceptanceTester $tester, $name)
+    public static function asAdvancedSearch(AcceptanceTester $tester, $title): TestableInput
     {
-        $instance = new static($tester, $name);
-        $instance->auxName = $instance->computeAuxName($name);
+        $instance           = new static($tester, "");
+        $instance->title    = $title;
+        $instance->auxName  = $instance->computeAuxName($title);
         $instance->selector = $instance->getSearchSelector();
+
         return $instance;
     }
 
@@ -76,11 +81,12 @@ abstract class TestableInput
      * @param $name
      * @return TestableInput
      */
-    public static function asTableFilter(AcceptanceTester $tester, $name)
+    public static function asTableFilter(AcceptanceTester $tester, $columnName): TestableInput
     {
-        $instance = new static($tester, $name);
-        $instance->auxName = $instance->computeAuxName($name);
+        $instance           = new static($tester, "");
+        $instance->auxName  = $instance->computeAuxName($columnName);
         $instance->selector = $instance->getFilterSelector();
+
         return $instance;
     }
 
@@ -100,6 +106,14 @@ abstract class TestableInput
     abstract public function setValue(string $value): void;
 
     /**
+     * @return string
+     */
+    public function getSelector(): string
+    {
+        return $this->selector;
+    }
+
+    /**
      * @param string $name
      * @return string
      */
@@ -110,9 +124,9 @@ abstract class TestableInput
 
     /**
      * Checks whether input is visible
-     *
-     * @param AcceptanceTester $I
-     * @param string $formId
      */
-    abstract public function isVisible(AcceptanceTester $I, string $formId): void;
+    public function isVisible(): void
+    {
+        $this->tester->seeElement($this->selector);
+    }
 }
