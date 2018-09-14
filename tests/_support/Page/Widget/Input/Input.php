@@ -2,8 +2,6 @@
 
 namespace hipanel\tests\_support\Page\Widget\Input;
 
-use hipanel\tests\_support\AcceptanceTester;
-
 /**
  * Class Input
  *
@@ -17,7 +15,7 @@ class Input extends TestableInput
      */
     protected function getSearchSelector(): string
     {
-        return self::AS_BASE . "input[id*={$this->auxName}]";
+        return self::AS_BASE . "div[data-title='{$this->title}']>input";
     }
 
     /**
@@ -34,15 +32,5 @@ class Input extends TestableInput
     public function setValue(string $value): void
     {
         $this->tester->fillField($this->selector, $value);
-    }
-
-    /**
-     * @param AcceptanceTester $I
-     * @param string $formId
-     */
-    public function isVisible(AcceptanceTester $I, string $formId): void
-    {
-        $I->seeElement("//form[@id='$formId']//input", ['placeholder' => $this->name]);
-        // TODO: Change implementation
     }
 }

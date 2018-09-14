@@ -2,9 +2,6 @@
 
 namespace hipanel\tests\_support\Page\Widget\Input;
 
-use hipanel\tests\_support\AcceptanceTester;
-use phpDocumentor\Reflection\Types\Parent_;
-
 /**
  * Class Select2
  *
@@ -18,7 +15,7 @@ class Select2 extends TestableInput
      */
     protected function getSearchSelector(): string
     {
-        return self::AS_BASE . "select[id*={$this->auxName}]";
+        return self::AS_BASE . "div[data-title='{$this->title}']>select";
     }
 
     /**
@@ -41,19 +38,20 @@ class Select2 extends TestableInput
     }
 
     /**
-     * @param AcceptanceTester $I
-     * @param string $formId
+     * @param string $value
+     * @throws \Exception
      */
-    public function isVisible(AcceptanceTester $I, string $formId): void
+    public function setValueLike(string $value): void
     {
-        $I->see($this->name, "//form[@id='$formId']//span[contains(@class, 'select2-selection__placeholder')]");
-//        TODO: Change implementation isVisible()
+        $this->open();
+        $this->fillSearchField($value);
+        $this->chooseOptionLike($value);
     }
 
     /**
      * @return Select2
      */
-    protected function open(): Select2
+    public function open(): Select2
     {
         $this->tester->click($this->getClickSelector());
         $this->seeIsOpened();
@@ -84,9 +82,9 @@ class Select2 extends TestableInput
      * @return Select2
      * @throws \Exception
      */
-    protected function fillSearchField(string $name): Select2
+    public function fillSearchField(string $name): Select2
     {
-        $inputSelector = 'span[class*=dropdown] input.select2-search__field';
+        $inputSelector = 'input.select2-search__field';
         $this->tester->fillField($inputSelector, $name);
         $this->tester->waitForElementNotVisible('.loading-results', 120);
 
@@ -97,7 +95,7 @@ class Select2 extends TestableInput
      * @param $optionName
      * @return Select2
      */
-    protected function chooseOption($optionName): Select2
+    public function chooseOption($optionName): Select2
     {
         $this->tester->executeJS(<<<JS
         $("li:contains('{$optionName}')").each(function() {
@@ -114,7 +112,7 @@ JS
      * @param $optionName
      * @return $this
      */
-    protected function chooseOptionLike($optionName): Select2
+    public function chooseOptionLike($optionName): Select2
     {
         $this->tester->executeJS(<<<JS
         $("li:contains('{$optionName}')").each(function() {

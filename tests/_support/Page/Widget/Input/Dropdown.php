@@ -2,8 +2,6 @@
 
 namespace hipanel\tests\_support\Page\Widget\Input;
 
-use hipanel\tests\_support\AcceptanceTester;
-
 /**
  * Class Dropdown
  *
@@ -22,7 +20,7 @@ class Dropdown extends TestableInput
      */
     protected function getSearchSelector(): string
     {
-        // TODO: Implement getSearchSelector() method.
+        return self::AS_BASE . "div[data-title='{$this->title}']>select";
     }
 
     /**
@@ -52,16 +50,12 @@ class Dropdown extends TestableInput
         return $this;
     }
 
-    /**
-     * @param AcceptanceTester $I
-     * @param string $formId
-     */
-    public function isVisible(AcceptanceTester $I, string $formId): void
+    public function isVisible(): void
     {
-        $I->seeElement("//form[@id='$formId']//select", ['id' => $this->name]);
+        parent::isVisible();
         if ($this->items) {
             foreach ($this->items as $item) {
-                $I->see($item, "//form[@id='$formId']//select[@id='$this->name']/option");
+                $this->tester->see($item, $this->selector . ' option');
             }
         }
     }
