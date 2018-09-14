@@ -2,7 +2,7 @@
 
 namespace hipanel\tests\_support\Helper;
 
-class pressButtonHelper extends \Codeception\Module
+class PressButtonHelper extends \Codeception\Module
 {
     /**
      * @param $textOnButton
