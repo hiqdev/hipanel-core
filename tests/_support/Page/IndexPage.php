@@ -2,17 +2,18 @@
 
 namespace hipanel\tests\_support\Page;
 
+use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
+use WebDriverKeys;
 
 class IndexPage extends Authenticated
 {
     /**
-     * @param TestableInput[] $inputs Example:
+     * @param TestableInput[] $inputs example:
      * ```php
      *  [
-     *      new Input('Domain name'),
-     *      new Textarea('Domain names (one per row)'),
-     *      new Select2('Status'),
+     *      Input::asAdvancedSearch(Tester, 'Name'),
+     *      Select2::asAdvancedSearch(Tester, 'Status')
      *  ]
      *```
      */
@@ -21,13 +22,12 @@ class IndexPage extends Authenticated
         $I = $this->tester;
 
         $I->see('Advanced search', 'h3');
-        $formId = $I->grabAttributeFrom("//form[contains(@id, 'advancedsearch')]", 'id');
 
         foreach ($inputs as $input) {
-            $input->isVisible($I, $formId);
+            $input->isVisible();
         }
-        $I->see('Search', "//form[@id='$formId']//button[@type='submit']");
-        $I->see('Clear', "//form[@id='$formId']//a");
+        $I->see('Search', TestableInput::AS_BASE . "button[type='submit']");
+        $I->see('Clear', TestableInput::AS_BASE  . "a");
     }
 
     /**
@@ -63,7 +63,8 @@ class IndexPage extends Authenticated
     public function containsColumns(array $columnNames, $representation = null): void
     {
         $I = $this->tester;
-        $formId = $I->grabAttributeFrom("//form[contains(@id, 'bulk') and contains(@id, 'search')]", 'id');
+        $formId = $I->grabAttributeFrom("//form[contains(@id, 'bulk') " .
+                                        "and contains(@id, 'search')]", 'id');
 
         if ($representation !== null) {
             $I->click("//button[contains(text(), 'View:')]");
@@ -74,5 +75,64 @@ class IndexPage extends Authenticated
         foreach ($columnNames as $column) {
             $I->see($column, "//form[@id='$formId']//table/thead/tr/th");
         }
+    }
+
+    /**
+     * Filters index page table
+     *
+     * @param TestableInput $inputElement
+     * @param $value
+     */
+    public function filterBy(TestableInput $inputElement, $value)
+    {
+        $inputElement->setValue($value);
+        if ($inputElement instanceof Input) {
+            $this->tester->pressKey($inputElement->getSelector(),WebDriverKeys::ENTER);
+        }
+        $this->tester->waitForPageUpdate();
+    }
+
+    /**
+     * Selects table row by its number
+     *
+     * @param int $n - number of the row that should be selected
+     */
+    public function selectTableRowByNumber(int $n): void
+    {
+        $I = $this->tester;
+
+        $selector = "form tbody tr:nth-child($n) input[type=checkbox]";
+        $I->click($selector);
+    }
+
+    /**
+     * Opens table row menu by its number
+     *
+     * @param int $n - number of the row which menu should be opened
+     */
+    public function openRowMenuByNumber(int $n): void
+    {
+        $this->tester->click("form tbody tr:nth-child($n) button");
+    }
+
+    /**
+     * Opens table row menu by item id
+     *
+     * @param string $id - id of item which menu should be opened
+     */
+    public function openRowMenuById(string $id)
+    {
+        $this->tester->click("tr[data-key='$id'] button");
+    }
+
+    /**
+     * Clicks to row menu option
+     *
+     * @param $option - the name of option that should be clicked
+     */
+    public function chooseRowMenuOption($option)
+    {
+        $this->tester->click("//ul[@class='nav']//a[contains(text(), '{$option}')]");
+        $this->tester->waitForPageUpdate();
     }
 }
