@@ -40,7 +40,11 @@ class ExportAction extends IndexAction
             $indexAction->beforePerform();
         }
         $dataProvider = $indexAction ? $indexAction->getDataProvider() : $this->getDataProvider();
-        $grid = new $gridClassName(['dataProvider' => $dataProvider, 'columns' => $representation->getColumns()]);
+        $grid = Yii::createObject([
+            'class' => $gridClassName,
+            'dataProvider' => $dataProvider,
+            'columns' => $representation->getColumns(),
+        ]);
         $grid->dataColumnClass = \hiqdev\higrid\DataColumn::class;
         $result = $exporter->export($grid);
         $filename = $exporter->filename . '.' . $type;
