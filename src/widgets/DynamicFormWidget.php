@@ -23,12 +23,16 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
         parent::registerAssets($view);
         // For init select2
         $view->registerJs(<<<JS
-            $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
+            $('.{$this->widgetContainer}').on('afterInsert afterDelete', function(e, item) {
                 var options = eval($(this).data('dynamicform'));
-                var combos = $(item).find('[data-combo-field]');
+                var combos = item ? $(item).find('[data-combo-field]') : $(this).find('[data-combo-field]');
                 if (combos.length > 0) {
                     combos.each(function() {
                         var comboItem = this;
+                        if (e.type === 'afterDelete') {
+                            $(comboItem).select2('destroy');
+                            comboItem.dataset.select2Id = this.getAttribute('id');
+                        }
                         var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-combo-field]').filter(function () {
                             return $(this).data('combo-field') == $(comboItem).data('combo-field');
                         });
@@ -40,7 +44,11 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
                         var tpl = $(template[0]);
                         if (tpl.data('field')) {
                             var config_id = tpl.data('field').id;
-                            $(item).closest(options.widgetItem).combo().register($(this), config_id);
+                            if (item) {
+                                $(item).closest(options.widgetItem).combo().register($(this), config_id);
+                            } else {
+                                $(comboItem).closest('form').combo().register($(comboItem), config_id);
+                            }
                         }
                     });
                 }
