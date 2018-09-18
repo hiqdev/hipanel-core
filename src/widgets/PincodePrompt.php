@@ -26,7 +26,7 @@ class PincodePrompt extends Widget
     public function __construct(HasPINCode $hasPINCode, $config = [])
     {
         parent::__construct($config);
-        $this->hasPINCode = $hasPINCode();
+        $this->hasPINCode = $hasPINCode;
     }
 
     public function run()
@@ -41,6 +41,6 @@ class PincodePrompt extends Widget
      */
     public function isPINFailed(): bool
     {
-        return !$this->hasPINCode && Yii::$app->user->can('manage');
+        return !$this->hasPINCode->__invoke() && Yii::$app->user->can('manage');
     }
 }
