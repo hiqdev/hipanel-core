@@ -19,7 +19,7 @@ class PincodePrompt extends Widget
 {
     public $loadingText;
     /**
-     * @var bool
+     * @var HasPINCode
      */
     private $hasPINCode;
 
