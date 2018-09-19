@@ -97,6 +97,7 @@ class FileRender extends Widget
         LightboxAsset::register($view);
         // Fix: Incorrect resizing of image #122
         $view->registerCss('.lightbox  .lb-image { max-width: inherit!important; }');
+        $this->addDownloadLinkButton();
     }
 
     private function renderHtml()
@@ -148,5 +149,47 @@ class FileRender extends Widget
         Html::addCssClass($this->iconOptions, $iconClasses);
 
         return  Html::tag('i', null, $this->iconOptions);
+    }
+
+    private function addDownloadLinkButton()
+    {
+        $this->view->registerCss(<<<CSS
+            .lb-data .lb-download-link, .lb-data .lb-download-link:hover {
+                background: none;
+                float: left;
+                color: #d7d7d7;
+                display: block;
+                width: 30px;
+                height: 30px;
+                text-align: right;
+                outline: none;
+                filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+                opacity: 0.7;
+                -webkit-transition: opacity 0.2s;
+                -moz-transition: opacity 0.2s;
+                -o-transition: opacity 0.2s;
+                transition: opacity 0.2s;
+            }
+CSS
+);
+        $this->view->registerJs(<<<JS
+        if ($('.lb-closeContainer').length) {
+            $('.lb-closeContainer').append('<a class="lb-download-link"><i class="fa fa-cloud-download fa-2x" aria-hidden="true"></i></a>');
+            $('.lb-download-link').on('click', function(e) {
+                var win = window.open(e.currentTarget.attributes.href.value);
+                win.focus();
+            });
+            var target = document.querySelector('.lb-image');
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    var src = mutation.target.attributes.src.value.replace('/file/', '/file/get/');
+                    $('a.lb-download-link').attr({href: src});
+                });
+            });
+            var config = { attributes: true, childList: false, characterData: true };
+            observer.observe(target, config);
+        }
+JS
+         );
     }
 }
