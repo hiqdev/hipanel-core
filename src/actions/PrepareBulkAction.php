@@ -24,4 +24,13 @@ class PrepareBulkAction extends PrepareAjaxViewAction
 
         return parent::run();
     }
+
+    /** {@inheritdoc} */
+    public function getDataProvider()
+    {
+        parent::getDataProvider();
+        $this->dataProvider->query->andWhere(['limit' => $limit ?: 'ALL']);
+
+        return $this->dataProvider;
+    }
 }
