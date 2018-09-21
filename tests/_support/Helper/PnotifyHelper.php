@@ -19,7 +19,6 @@ class PnotifyHelper extends \Codeception\Module
             var closeButton = document.querySelector(selector);
             if (closeButton !== undefined) {
                 closeButton.click();
-                console.log("clicked");
                 return true;
             }
             return false;
