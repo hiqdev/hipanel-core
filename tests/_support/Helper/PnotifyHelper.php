@@ -13,8 +13,19 @@ class PnotifyHelper extends \Codeception\Module
         $I->waitForElement('.ui-pnotify', 180);
         $I->see($text, '.ui-pnotify');
         $I->moveMouseOver(['css' => '.ui-pnotify']);
-        $I->wait(1);
-        $I->click("div.ui-pnotify-closer>span[title='Close']");
+        $I->wait(0.5);
+        $I->waitForJS(<<<JS
+            var selector = "div.ui-pnotify-closer>span[title='Close']";
+            var closeButton = document.querySelector(selector);
+            if (closeButton !== undefined) {
+                closeButton.click();
+                console.log("clicked");
+                return true;
+            }
+            return false;
+JS
+, 60);
+        $I->waitForElementNotVisible('.ui-pnotify');
         $I->waitForElementNotVisible('.ui-pnotify');
     }
 }
