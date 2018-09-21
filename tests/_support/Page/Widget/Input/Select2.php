@@ -84,7 +84,7 @@ class Select2 extends TestableInput
      */
     public function fillSearchField(string $name): Select2
     {
-        $inputSelector = 'input.select2-search__field';
+        $inputSelector = '.select2-container--open input.select2-search__field';
         $this->tester->fillField($inputSelector, $name);
         $this->tester->waitForElementNotVisible('.loading-results', 120);
 

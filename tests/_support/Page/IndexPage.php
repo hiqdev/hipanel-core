@@ -59,6 +59,7 @@ class IndexPage extends Authenticated
     /**
      * @param string[] $columnNames array of column names
      * @param string|null $representation the representation name
+     * @throws \Codeception\Exception\ModuleException
      */
     public function containsColumns(array $columnNames, $representation = null): void
     {
@@ -69,7 +70,7 @@ class IndexPage extends Authenticated
         if ($representation !== null) {
             $I->click("//button[contains(text(), 'View:')]");
             $I->click("//ul/li/a[contains(text(), '$representation')]");
-            $I->waitForJS('return $.active == 0;', 30);
+            $I->waitForPageUpdate();
         }
 
         foreach ($columnNames as $column) {
@@ -82,6 +83,7 @@ class IndexPage extends Authenticated
      *
      * @param TestableInput $inputElement
      * @param $value
+     * @throws \Codeception\Exception\ModuleException
      */
     public function filterBy(TestableInput $inputElement, $value)
     {
@@ -129,6 +131,7 @@ class IndexPage extends Authenticated
      * Clicks to row menu option
      *
      * @param $option - the name of option that should be clicked
+     * @throws \Codeception\Exception\ModuleException
      */
     public function chooseRowMenuOption($option)
     {
