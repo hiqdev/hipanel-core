@@ -29,7 +29,7 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
                 if (combos.length > 0) {
                     combos.each(function() {
                         var comboItem = this;
-                        if (e.type === 'afterDelete') {
+                        if (e.type === 'afterDelete' && typeof $(comboItem).data('select2') === 'object') {
                             $(comboItem).select2('destroy');
                             comboItem.dataset.select2Id = this.getAttribute('id');
                         }
