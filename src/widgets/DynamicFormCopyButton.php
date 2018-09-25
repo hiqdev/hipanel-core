@@ -15,7 +15,8 @@ class DynamicFormCopyButton extends Widget
 
     public function run()
     {
-        $this->view->registerJs(<<<"JS"
+        $this->view->registerJs(/** @lang ECMA Script Level 4 */
+            <<<"JS"
             (function() {
                 window.prevItem = null;
                 var dynamicFormWrapper = $('{$this->widgetContainer}');
@@ -36,10 +37,13 @@ class DynamicFormCopyButton extends Widget
                                     if (newInput.attr('data-combo-field')) { // if select2
                                         var prevOption = $(prevInput).find(':selected');
                                         if (prevOption.length) {
-                                            var newOption = new Option(prevOption.text(), prevOption.attr('value'), true, true);
-                                            newOption.setAttribute('data-select2-id', prevOption.attr('data-select2-id'));
-                                            newInput.append(newOption).trigger('change');
-                                            newInput.trigger('select2:select');
+                                            prevOption.each(function(i, elem) {
+                                                var elem = $(elem);
+                                                var newOption = new Option(elem.text(), elem.attr('value'), true, true);
+                                                newOption.setAttribute('data-select2-id', elem.attr('data-select2-id'));
+                                                newInput.append(newOption).trigger('change');
+                                                newInput.trigger('select2:select');
+                                            });
                                         }
                                     } else if (newInput.attr('data-amount-with-currency') === 'currency') { // if amount with currency
                                         newInput.val(prevInput.value);
