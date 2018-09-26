@@ -21,6 +21,20 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
     public function registerAssets($view)
     {
         parent::registerAssets($view);
+        // ObjectSelector fix, rebind events
+        $view->registerJs(<<<JS
+            $('.{$this->widgetContainer}').on('afterDelete', function(e) {
+                var objectSelectorInputs = $(this).find('[data-object-selector-field]');
+                objectSelectorInputs.each(function(i, elem) {
+                    var elem = $(elem), changer = elem.prev('select');
+                    var objectInputId = elem.attr('id');
+                    var changerInputId = changer.attr('id');
+                    changer.off();
+                    initObjectSelectorChanger(changerInputId, objectInputId);
+                });
+            });
+JS
+        );
         // For init select2
         $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert afterDelete', function(e, item) {
