@@ -35,6 +35,20 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
             });
 JS
         );
+        // For init Destination Region Inputs
+        $view->registerJs(<<<JS
+            $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
+                var destinationRegionInputs = $(item).find('[data-destination-field]');
+                if (destinationRegionInputs.length) {
+                    destinationRegionInputs.each(function() {
+                        if (typeof tryToResolveDestinationRange === 'function') {
+                            $(this).on('select2:selecting', tryToResolveDestinationRange);
+                        }
+                    });
+                }
+            });
+JS
+        );
         // For init select2
         $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert afterDelete', function(e, item) {
