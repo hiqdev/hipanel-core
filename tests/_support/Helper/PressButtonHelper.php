@@ -13,17 +13,5 @@ class PressButtonHelper extends \Codeception\Module
         $I = $this->getModule('WebDriver');
 
         $I->click("//button[text() = '{$textOnButton}']");
-        $this->waitForPageUpdate();
-    }
-
-    /**
-     * @param int $timeOut
-     * @throws \Codeception\Exception\ModuleException
-     */
-    public function waitForPageUpdate($timeOut = 60): void
-    {
-        $I = $this->getModule('WebDriver');
-
-        $I->waitForJS("return $.active == 0;", $timeOut);
     }
 }
