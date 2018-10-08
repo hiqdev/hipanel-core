@@ -199,10 +199,11 @@ class Box extends Widget
      * Examples:
      * <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
      * <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove"><i class="fa fa-times"></i></button>.
+     * @param array $options
      */
-    public function beginTools()
+    public function beginTools(array $options = [])
     {
-        echo "\n" . Html::beginTag('div', ['class' => 'box-tools pull-right btn-group']);
+        echo "\n" . Html::beginTag('div', array_merge(['class' => 'box-tools pull-right btn-group'], $options));
     }
 
     /**
