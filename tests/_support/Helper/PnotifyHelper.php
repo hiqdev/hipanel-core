@@ -25,6 +25,5 @@ class PnotifyHelper extends \Codeception\Module
 JS
 , 60);
         $I->waitForElementNotVisible('.ui-pnotify');
-        $I->waitForElementNotVisible('.ui-pnotify');
     }
 }
