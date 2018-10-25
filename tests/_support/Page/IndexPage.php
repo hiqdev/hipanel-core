@@ -85,7 +85,7 @@ class IndexPage extends Authenticated
      * @param $value
      * @throws \Codeception\Exception\ModuleException
      */
-    public function filterBy(TestableInput $inputElement, $value)
+    public function filterBy(TestableInput $inputElement, string $value): void
     {
         $inputElement->setValue($value);
         if ($inputElement instanceof Input) {
@@ -122,7 +122,7 @@ class IndexPage extends Authenticated
      *
      * @param string $id - id of item which menu should be opened
      */
-    public function openRowMenuById(string $id)
+    public function openRowMenuById(string $id): void
     {
         $this->tester->click("tr[data-key='$id'] button");
     }
@@ -133,7 +133,7 @@ class IndexPage extends Authenticated
      * @param $option - the name of option that should be clicked
      * @throws \Codeception\Exception\ModuleException
      */
-    public function chooseRowMenuOption($option)
+    public function chooseRowMenuOption(string $option): void
     {
         $this->tester->click("//ul[@class='nav']//a[contains(text(), '{$option}')]");
         $this->tester->waitForPageUpdate();
