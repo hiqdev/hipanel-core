@@ -13,7 +13,7 @@ class SidebarMenu extends Authenticated
         $I->needPage(Url::to(['/']));
     }
 
-    public function ensureContains($rootMenuName, $items)
+    public function ensureContains(string $rootMenuName, array $items): void
     {
         $I = $this->tester;
 
@@ -26,7 +26,7 @@ class SidebarMenu extends Authenticated
         $I->click($rootMenuName, '.sidebar-menu');
     }
 
-    public function ensureDoesNotContain($rootMenuName, $items = null)
+    public function ensureDoesNotContain(string $rootMenuName, array $items = null): void
     {
         $I = $this->tester;
 
