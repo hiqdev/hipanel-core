@@ -24,16 +24,11 @@ All additional classes are divided by directories where dir-name is short name o
 
 ## \_support/Page/Widget/Input
 
-* **_abstract class TestableInput_** is basic class for input element. The elements can be created in three different ways: free input element, as Advanced search element, as Table filter element of index page.
-
-* **_class Dropdown extends TestableInput_** helps to check visible dropdown, set value, etc.
-
-* **_class Input extends TestableInput_** helps to search or filter by selector and set value in input.
-
-* **_class Select2 extends TestableInput_** helps to test dropdown select with query, search or filter by selector, set value in select, etc.
-
-* **_class Textarea extends TestableInput_** search or filter by selector and set value in textarea.
-
+- [TestableInput] is basic class for input element. The elements can be created in three different ways: free input element, as Advanced search element, as Table filter element of index page.
+    - [Dropdown] helps to check visible dropdown, set value, etc.
+    - [Input] helps to search or filter by selector and set value in input.
+    - [Select2] helps to test dropdown select with query, search or filter by selector, set value in select, etc.
+    - [Textarea] search or filter by selector and set value in textarea.
 
 ## \_support/Step
 
