@@ -1,9 +1,9 @@
-# Additional Classes for testing HiPanel with Codeception
+# HiPanel Tests
+
+## `_support` - additional Classes for testing HiPanel with Codeception
 
 All additional classes are divided by directories where dir-name is short name of class functionality.
 All methods aggregating in one file `_support/_generated/AcceptanceTesterActions.php`.
-
-## _support folder
 
 - [AcceptanceTester] helps to login and init creditionals.
 - Helper
@@ -28,25 +28,25 @@ All methods aggregating in one file `_support/_generated/AcceptanceTesterActions
 	- [Manager] helps to login Manager Role and init creditionals.
 	- [Seller] helps to login Seller Role and init creditionals.
     
-[AcceptanceTester]: _support/AcceptanceTester.php
+[AcceptanceTester]:     _support/AcceptanceTester.php
     
-[TestableInput]: _support/Page/Widget/Input/TestableInput.php
-[Dropdown]: _support/Page/Widget/Input/Dropdown.php
-[Input]: _support/Page/Widget/Input/Input.php
-[Select2]: _support/Page/Widget/Input/Select2.php
-[Textarea]: _support/Page/Widget/Input/Textarea.php
+[TestableInput]:        _support/Page/Widget/Input/TestableInput.php
+[Dropdown]:             _support/Page/Widget/Input/Dropdown.php
+[Input]:                _support/Page/Widget/Input/Input.php
+[Select2]:              _support/Page/Widget/Input/Select2.php
+[Textarea]:             _support/Page/Widget/Input/Textarea.php
     
-[Authenticated]: _support/Page/Authenticated.php
-[IndexPage]: _support/Page/IndexPage.php
-[SidebarMenu]: _support/Page/SidebarMenu.php
-[Login]: _support/Page/Login.php
+[Authenticated]:        _support/Page/Authenticated.php
+[IndexPage]:            _support/Page/IndexPage.php
+[SidebarMenu]:          _support/Page/SidebarMenu.php
+[Login]:                _support/Page/Login.php
     
-[CredentialsProvider]: _support/Helper/CredentialsProvider.php
-[PnotifyHelper]: _support/Helper/PnotifyHelper.php
-[PressButtonHelper]: _support/Helper/PressButtonHelper.php
-[WaitHelper]: _support/Helper/WaitHelper.php
+[CredentialsProvider]:  _support/Helper/CredentialsProvider.php
+[PnotifyHelper]:        _support/Helper/PnotifyHelper.php
+[PressButtonHelper]:    _support/Helper/PressButtonHelper.php
+[WaitHelper]:           _support/Helper/WaitHelper.php
 
-[Client]: _support/Step/Acceptance/Client.php
-[Admin]: _support/Step/Acceptance/Admin.php
-[Manager]: _support/Step/Acceptance/Manager.php
-[Seller]: _support/Step/Acceptance/Seller.php
+[Client]:               _support/Step/Acceptance/Client.php
+[Admin]:                _support/Step/Acceptance/Admin.php
+[Manager]:              _support/Step/Acceptance/Manager.php
+[Seller]:               _support/Step/Acceptance/Seller.php
