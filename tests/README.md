@@ -4,14 +4,12 @@ All additional classes are divided by directories where dir-name is short name o
 
 ## \_support/Helper
 
-* **_class CredentialsProvider_** helps to authorize different roles.
+- [CredentialsProvider] helps to authorize different roles.
+- [PnotifyHelper] helps to close the modal window after the event.
+- [PressButtonHelper] helps to press the buttons by the value of the text in the button.
+- [WaitHelper] helps to check if the Ajax requests have ended.
 
-* **_class PnotifyHelper_** helps to close the modal window after the event.
-
-* **_class PressButtonHelper_** helps to press the buttons by the value of the text in the button.
-
-* **_class WaitHelper_** helps to check if the Ajax requests have ended.
-
+[CredentialsProvider](_support/Helper/CredentialsProvider.php)
 
 ## \_support/Page
 
