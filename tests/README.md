@@ -10,17 +10,20 @@ All additional classes are divided by directories where dir-name is short name o
 - [WaitHelper] helps to check if the Ajax requests have ended.
 
 [CredentialsProvider]: _support/Helper/CredentialsProvider.php
+[PnotifyHelper]: _support/Helper/PnotifyHelper.php
+[PressButtonHelper]: _support/Helper/PressButtonHelper.php
+[WaitHelper]: _support/Helper/WaitHelper.php
 
 ## \_support/Page
+- [Authenticated] helps to log in and go to the tested page.
+    - [IndexPage] helps to check the presence of all blocks (legend, filters, columns) on the index page of the module, check the operation of filters, select a row of a table by ID or number, check the drop-down row-menu in the table.
+    - [SidebarMenu] helps to check the presence of menu items in the sidebar.
+- [Login] helps to log in.
 
-* **_class Authenticated_** helps to log in and go to the tested page.
-
-* **_class Login_** helps to log in.
-
-* **_class IndexPage extends Authenticated_** helps to check the presence of all blocks (legend, filters, columns) on the index page of the module, check the operation of filters, select a row of a table by ID or number, check the drop-down row-menu in the table.
-
-* **_class class SidebarMenu extends Authenticated_** helps to check the presence of menu items in the sidebar.
-
+[Authenticated]: _support/Page/Authenticated.php
+[IndexPage]: _support/Page/IndexPage.php
+[SidebarMenu]: _support/Page/SidebarMenu.php
+[Login]: _support/Page/Login.php
 
 ## \_support/Page/Widget/Input
 
@@ -30,14 +33,27 @@ All additional classes are divided by directories where dir-name is short name o
     - [Select2] helps to test dropdown select with query, search or filter by selector, set value in select, etc.
     - [Textarea] search or filter by selector and set value in textarea.
 
+[TestableInput]: _support/Page/Widget/Input/TestableInput.php
+[Dropdown]: _support/Page/Widget/Input/Dropdown.php
+[Input]: _support/Page/Widget/Input/Input.php
+[Select2]: _support/Page/Widget/Input/Select2.php
+[Textarea]: _support/Page/Widget/Input/Textarea.php
+
+
 ## \_support/Step
 
-* **_class AcceptanceTester extends \root\AcceptanceTester_** helps to login and init creditionals.
+-[AcceptanceTester] helps to login and init creditionals.
 
+[AcceptanceTester]: _support/Step/AcceptanceTester.php
 
 ## \_support/Step/Acceptance
 
-* **_class Client extends AcceptanceTester_** helps to login Client Role and init creditionals.
-* **_class Admin extends Client** helps to login Admin Role and init creditionals.
-* **_class Manager extends Client** helps to login Manager Role and init creditionals.
-* **_class Seller extends Client** helps to login Seller Role and init creditionals.
+- [Client] helps to login Client Role and init creditionals.
+    - [Admin] helps to login Admin Role and init creditionals.
+    - [Manager] helps to login Manager Role and init creditionals.
+    - [Seller] helps to login Seller Role and init creditionals.
+
+[Client]: _support/Step/Acceptance/Client.php
+[Admin]: _support/Step/Acceptance/Client.php
+[Manager]: _support/Step/Acceptance/Client.php
+[Seller]: _support/Step/Acceptance/Client.php
