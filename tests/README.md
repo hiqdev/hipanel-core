@@ -40,11 +40,11 @@ All additional classes are divided by directories where dir-name is short name o
 [Textarea]: _support/Page/Widget/Input/Textarea.php
 
 
-## \_support/Step
+## \_support
 
--[AcceptanceTester] helps to login and init creditionals.
+- [AcceptanceTester] helps to login and init creditionals.
 
-[AcceptanceTester]: _support/Step/AcceptanceTester.php
+[AcceptanceTester]: _support/AcceptanceTester.php
 
 ## \_support/Step/Acceptance
 
@@ -54,6 +54,6 @@ All additional classes are divided by directories where dir-name is short name o
     - [Seller] helps to login Seller Role and init creditionals.
 
 [Client]: _support/Step/Acceptance/Client.php
-[Admin]: _support/Step/Acceptance/Client.php
-[Manager]: _support/Step/Acceptance/Client.php
-[Seller]: _support/Step/Acceptance/Client.php
+[Admin]: _support/Step/Acceptance/Admin.php
+[Manager]: _support/Step/Acceptance/Manager.php
+[Seller]: _support/Step/Acceptance/Seller.php
