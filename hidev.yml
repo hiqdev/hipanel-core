@@ -9,7 +9,14 @@ package:
     description: |
         [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 
-        [HiPanel](http://hipanel.com) is next generation control panel for hosting, domains and more.
+        [HiPanel] is the next generation billing and control panel for hosting, domains and more.
 
+        HiPanel is split into many pluggable packages.
         This package is the core of the system.
+        Please see example [hiqdev/hipanel] package.
 
+        Also see [Tests README].
+
+        [HiPanel]           https://hipanel.com
+        [hiqdev/hipanel]:   https://github.com/hiqdev/hipanel
+        [Tests README]:     tests/README.md
