@@ -26,21 +26,25 @@ All additional classes are divided by directories where dir-name is short name o
 
 ## \_support/Page/Widget/Input
 
-* **_abstract class TestableInput_** is ...
-* **_class Dropdown extends TestableInput_** is ...
-* **_class Input extends TestableInput_** is ...
-* **_class Select2 extends TestableInput_** is ...
-* **_class Textarea extends TestableInput_** is ...
+* **_abstract class TestableInput_** is basic class for input element. The elements can be created in three different ways: free input element, as Advanced search element, as Table filter element of index page.
+
+* **_class Dropdown extends TestableInput_** helps to check visible dropdown, set value, etc.
+
+* **_class Input extends TestableInput_** helps to search or filter by selector and set value in input.
+
+* **_class Select2 extends TestableInput_** helps to test dropdown select with query, search or filter by selector, set value in select, etc.
+
+* **_class Textarea extends TestableInput_** search or filter by selector and set value in textarea.
 
 
 ## \_support/Step
 
-* **_class AcceptanceTester extends \root\AcceptanceTester_** is ...
+* **_class AcceptanceTester extends \root\AcceptanceTester_** helps to login and init creditionals.
 
 
 ## \_support/Step/Acceptance
 
-* **_class Client extends AcceptanceTester_** is ...
-* **_class Admin extends Client** is ...
-* **_class Manager extends Client** is ...
-* **_class Seller extends Client** is ...
+* **_class Client extends AcceptanceTester_** helps to login Client Role and init creditionals.
+* **_class Admin extends Client** helps to login Admin Role and init creditionals.
+* **_class Manager extends Client** helps to login Manager Role and init creditionals.
+* **_class Seller extends Client** helps to login Seller Role and init creditionals.
