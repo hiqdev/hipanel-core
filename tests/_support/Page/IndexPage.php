@@ -168,8 +168,8 @@ class IndexPage extends Authenticated
      */
     public function ensureCanSortWorks(string $sortBy): void
     {
-        $this->tester->click('//button[contains(text(),\'Sort\')]');
-        $this->tester->click('//ul//a[contains(text(),\''.$sortBy.'\')]');
+        $this->tester->click("//button[contains(text(),'Sort')]");
+        $this->tester->click("//ul//a[contains(text(),'$sortBy')]");
         $this->tester->waitForPageUpdate();
         $tableHaystack = $this->tester->grabMultiple('//tbody/tr');
         $tableWithNeedle = $this->tester->grabMultiple('//th/a');
@@ -187,14 +187,14 @@ class IndexPage extends Authenticated
          */
         $arrayForSort = array();
         for ($i = 1 ; $i <= $count; ++$i) {
-            $arrayForSort[$i] = $this->tester->grabTextFrom('//tbody/tr['.$i.']/td['.$whereNeedle.']');
+            $arrayForSort[$i] = $this->tester->grabTextFrom("//tbody/tr[$i]/td[$whereNeedle]");
         }
         /**
          *  After sort() function arrayForSort start index = 0, but xpath elements starting from 1
          */
         sort($arrayForSort);
         for ($i = 1 ; $i <= $count; ++$i) {
-            $this->tester->see($arrayForSort[$i - 1], '//tbody/tr['.$i.']/td['.($whereNeedle).']');
+            $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
         }
     }
 

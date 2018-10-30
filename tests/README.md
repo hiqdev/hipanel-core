@@ -16,7 +16,7 @@ All additional classes are divided by directories where dir-name is short name o
 
 ## \_support/Page
 - [Authenticated] helps to log in and go to the tested page.
-    - [IndexPage] helps to check the presence of all blocks (legend, filters, columns) on the index page of the module, check the operation of filters, select a row of a table by ID or number, check the drop-down row-menu in the table.
+    - [IndexPage] helps to check the presence of all blocks (legend, filters, columns) on the index page of the module, check the operation of filters or sort, select a row of a table by ID or number, check the drop-down row-menu in the table.
     - [SidebarMenu] helps to check the presence of menu items in the sidebar.
 - [Login] helps to log in.
 
