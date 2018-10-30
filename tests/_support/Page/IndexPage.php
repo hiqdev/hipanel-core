@@ -142,18 +142,30 @@ class IndexPage extends Authenticated
     }
 
     /**
+     * Parse tbody, count td and return result
+     *
+     * @return int
+     */
+    public function countRowInTableBody(): int
+    {
+        $tableHaystack = $this->tester->grabMultiple('//tbody/tr');
+        $count = count($tableHaystack);
+        return $count;
+    }
+
+    /**
      * Checked filtering correct works
      *
      * @param string $filterBy
+     * @param string $name
      * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureCanFilterWorks(string $filterBy): void
+    public function checkFilterBy(string $filterBy, string $name): void
     {
-        $this->filterBy(new Dropdown($this->tester, 'tr.filters select[name*=brand]'), $filterBy);
-        $table = $this->tester->grabTextFrom('//tbody');
-        $count = count(explode("\n", $table));
+        $this->filterBy(new Dropdown($this->tester, "tr.filters select[name*=$filterBy]"), $name);
+        $count = $this->countRowInTableBody();
         for ($i = 0 ; $i < $count; ++$i) {
-            $this->tester->see($filterBy, '//tbody/tr');
+            $this->tester->see($name, '//tbody/tr');
         }
     }
 
@@ -166,15 +178,14 @@ class IndexPage extends Authenticated
      * @param string $sortBy
      * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureCanSortWorks(string $sortBy): void
+    public function checkSortingBy(string $sortBy): void
     {
         $this->tester->click("//button[contains(text(),'Sort')]");
         $this->tester->click("//ul//a[contains(text(),'$sortBy')]");
         $this->tester->waitForPageUpdate();
-        $tableHaystack = $this->tester->grabMultiple('//tbody/tr');
         $tableWithNeedle = $this->tester->grabMultiple('//th/a');
-        $count = count($tableHaystack);
         $whereNeedle = 0;
+        $count = $this->countRowInTableBody();
         while ($whereNeedle < count($tableWithNeedle)) {
             if ($tableWithNeedle[$whereNeedle] === $sortBy) {
                 break ;
