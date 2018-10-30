@@ -4,6 +4,8 @@ namespace hipanel\tests\_support\Page;
 
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
+use hipanel\tests\_support\Page\Widget\Input\Dropdown;
+
 use WebDriverKeys;
 
 class IndexPage extends Authenticated
@@ -138,4 +140,62 @@ class IndexPage extends Authenticated
         $this->tester->click("//ul[@class='nav']//a[contains(text(), '{$option}')]");
         $this->tester->waitForPageUpdate();
     }
+
+    /**
+     * Checked filtering correct works
+     *
+     * @param string $filterBy
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureCanFilterWorks(string $filterBy): void
+    {
+        $this->filterBy(new Dropdown($this->tester, 'tr.filters select[name*=brand]'), $filterBy);
+        $table = $this->tester->grabTextFrom('//tbody');
+        $count = count(explode("\n", $table));
+        for ($i = 0 ; $i < $count; ++$i) {
+            $this->tester->see($filterBy, '//tbody/tr');
+        }
+    }
+
+    /**
+     * Checked sort correct works
+     *
+     * Method find column by $sortBy, parse data, call default sort by $sortBy
+     * and compare data in table with sort(copy_data_from_table)
+     *
+     * @param string $sortBy
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureCanSortWorks(string $sortBy): void
+    {
+        $this->tester->click('//button[contains(text(),\'Sort\')]');
+        $this->tester->click('//ul//a[contains(text(),\''.$sortBy.'\')]');
+        $this->tester->waitForPageUpdate();
+        $tableHaystack = $this->tester->grabMultiple('//tbody/tr');
+        $tableWithNeedle = $this->tester->grabMultiple('//th/a');
+        $count = count($tableHaystack);
+        $whereNeedle = 0;
+        while ($whereNeedle < count($tableWithNeedle)) {
+            if ($tableWithNeedle[$whereNeedle] === $sortBy) {
+                break ;
+            }
+            $whereNeedle++;
+        }
+        $whereNeedle += 2;
+        /**
+         *  $whereNeedle += 2 && $i = 1 because xpath elements starting from 1
+         */
+        $arrayForSort = array();
+        for ($i = 1 ; $i <= $count; ++$i) {
+            $arrayForSort[$i] = $this->tester->grabTextFrom('//tbody/tr['.$i.']/td['.$whereNeedle.']');
+        }
+        /**
+         *  After sort() function arrayForSort start index = 0, but xpath elements starting from 1
+         */
+        sort($arrayForSort);
+        for ($i = 1 ; $i <= $count; ++$i) {
+            $this->tester->see($arrayForSort[$i - 1], '//tbody/tr['.$i.']/td['.($whereNeedle).']');
+        }
+    }
+
 }
