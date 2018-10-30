@@ -146,7 +146,7 @@ class IndexPage extends Authenticated
      *
      * @return int
      */
-    public function countRowInTableBody(): int
+    public function countRowsInTableBody(): int
     {
         return count($this->tester->grabMultiple('//tbody/tr'));
     }
@@ -161,7 +161,7 @@ class IndexPage extends Authenticated
     public function checkFilterBy(string $filterBy, string $name): void
     {
         $this->filterBy(new Dropdown($this->tester, "tr.filters select[name*=$filterBy]"), $name);
-        $count = $this->countRowInTableBody();
+        $count = $this->countRowsInTableBody();
         for ($i = 0 ; $i < $count; ++$i) {
             $this->tester->see($name, '//tbody/tr');
         }
@@ -183,7 +183,7 @@ class IndexPage extends Authenticated
         $this->tester->waitForPageUpdate();
         $tableWithNeedle = $this->tester->grabMultiple('//th/a');
         $whereNeedle = 0;
-        $count = $this->countRowInTableBody();
+        $count = $this->countRowsInTableBody();
         while ($whereNeedle < count($tableWithNeedle)) {
             if ($tableWithNeedle[$whereNeedle] === $sortBy) {
                 break ;
