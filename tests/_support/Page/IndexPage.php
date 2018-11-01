@@ -162,8 +162,8 @@ class IndexPage extends Authenticated
     {
         $this->filterBy(new Dropdown($this->tester, "tr.filters select[name*=$filterBy]"), $name);
         $count = $this->countRowsInTableBody();
-        for ($i = 0 ; $i < $count; ++$i) {
-            $this->tester->see($name, '//tbody/tr');
+        for ($i = 1 ; $i <= $count; ++$i) {
+            $this->tester->see($name, "//tbody/tr[$i]");
         }
     }
 
