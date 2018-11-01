@@ -148,7 +148,7 @@ class IndexPage extends Authenticated
      */
     public function countRowsInTableBody(): int
     {
-        return count($this->tester->grabMultiple('//tbody/tr'));
+        return count($this->tester->grabMultiple('//tbody/tr[contains(@data-key,*)]'));
     }
 
     /**
