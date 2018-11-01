@@ -18,6 +18,11 @@ class Client extends AcceptanceTester
     protected $username;
     protected $password;
 
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+    
     public function login()
     {
         try {
