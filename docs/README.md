@@ -1,12 +1,3 @@
-Next Generation Control Panel
-=============================
+See docs in [hiqdev/hipanel] package.
 
-Goals:
-- Integration
-- Extensibility
-- Friendliness
-- Reliability
-- Security
-
-For more info see wiki:
-https://github.com/hiqdev/hipanel/wiki
+[hiqdev/hipanel]: https://github.com/hiqdev/hipanel

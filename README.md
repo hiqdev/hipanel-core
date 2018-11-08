@@ -15,11 +15,11 @@
 
 HiPanel is split into many pluggable packages.
 This package is the core of the system.
-Please see example [hiqdev/hipanel] package.
+Please see example package [hiqdev/hipanel] and docs there.
 
 Also see [Tests README].
 
-[HiPanel]           https://hipanel.com
+[HiPanel]:          https://hipanel.com
 [hiqdev/hipanel]:   https://github.com/hiqdev/hipanel
 [Tests README]:     tests/README.md
 
