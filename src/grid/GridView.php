@@ -9,7 +9,7 @@
  */
 
 namespace hipanel\grid;
-use hiqdev\themes\adminlte\CheckboxStyleAsset;
+use hipanel\assets\CheckboxStyleAsset;
 use hipanel\helpers\ArrayHelper;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\SellerColumn;
