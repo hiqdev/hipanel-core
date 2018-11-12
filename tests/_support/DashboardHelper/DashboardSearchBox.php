@@ -12,35 +12,29 @@ class DashboardSearchBox
     protected $tester;
 
     /**
-     * @var array $data
-     */
-    protected $data;
-
-    /**
      * DashboardSearchBox constructor.
      * @param AcceptanceTester $tester
-     * @param array $testData for protected $data
-     *  [
-     *     'formAction' => '/finance/tariff/index',
-     *     'inputName'  => 'TariffSearch[tariff_like]',
-     *     'typeInput'  => 'input',
-     *  ]
      */
-    public function __construct(AcceptanceTester $tester, array $testData)
+    public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
-        $this->data = $testData;
     }
 
     /**
      * Ensure is search box contains on testing page
-     *
+     * @param string $formAction
+     * @param string $inputName
+     * @param string $typeInput
      */
-    public function ensureSearchBoxContains(): void
+    public function ensureSearchBoxContains(
+        string $formAction,
+        string $inputName,
+        string $typeInput
+    ): void
     {
         $I = $this->tester;
-        $formAction = "//form[contains(@action,'" . $this->data['formAction'] . "')]";
-        $input = $formAction . "//". $this->data['typeInput'] . "[contains(@name, '" . $this->data['inputName'] . "')]";
+        $formActionXpath = "//form[contains(@action,'" . $formAction . "')]";
+        $input = $formActionXpath . "//". $typeInput . "[contains(@name, '$inputName')]";
 
         $I->seeInCurrentUrl('/dashboard/dashboard');
         $I->seeElement($formAction);
