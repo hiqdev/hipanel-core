@@ -1,6 +1,6 @@
 <?php
 
-namespace hipanel\tests\_support\DashboardHelpers;
+namespace hipanel\tests\_support\DashboardHelper;
 
 use hipanel\tests\_support\AcceptanceTester;
 
