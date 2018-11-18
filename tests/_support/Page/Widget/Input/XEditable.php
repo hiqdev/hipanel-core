@@ -10,25 +10,15 @@ namespace hipanel\tests\_support\Page\Widget\Input;
  */
 class XEditable extends TestableInput
 {
-    private $row;
-
-    /**
-     * @param mixed $row
-     */
-    public function setRow($row): void
-    {
-        $this->row = $row;
-    }
-
     /**
      * @param string $value
      */
     public function setValue(string $value): void
     {
-        $this->tester->click("div.price-item:nth-child($this->row) a.editable");
-        (new Input($this->tester, "div.price-item:nth-child($this->row) div.editable-input input"))
+        $this->tester->click("$this->selector a.editable");
+        (new Input($this->tester, "$this->selector div.editable-input input"))
             ->setValue($value);
-        $this->tester->click("div.price-item:nth-child($this->row) button[type=submit]");
+        $this->tester->click("$this->selector button[type=submit]");
     }
 
     /**
