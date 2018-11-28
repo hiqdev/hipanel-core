@@ -135,7 +135,7 @@ class AjaxModal extends \yii\bootstrap\Modal
         }
 
         Html::addCssClass($this->options['class'], 'text-left');
-        Html::addCssClass($this->options['tabindex'], false);
+        $this->options['tabindex'] = false;
 
         $this->initAdditionalOptions();
         if ($this->handleSubmit !== false) {
