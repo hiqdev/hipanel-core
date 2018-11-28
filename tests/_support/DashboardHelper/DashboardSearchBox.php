@@ -37,7 +37,7 @@ class DashboardSearchBox
         $input = $formActionXpath . "//". $typeInput . "[contains(@name, '$inputName')]";
 
         $I->seeInCurrentUrl('/dashboard/dashboard');
-        $I->seeElement($formAction);
+        $I->seeElement($formActionXpath);
         $I->seeElement($input);
     }
 }
