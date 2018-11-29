@@ -31,7 +31,7 @@ class PrepareBulkAction extends PrepareAjaxViewAction
         parent::getDataProvider();
 
         if (empty($this->dataProvider->query->limit)) {
-            $this->dataProvider->query->limit('ALL');
+            $this->dataProvider->query->limit(-1);
         }
 
         return $this->dataProvider;
