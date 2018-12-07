@@ -28,6 +28,17 @@ class ObjectCombo extends InputWidget
     public $class_attribute_name = 'class';
 
     /**
+     * @var string Normally, when $model already has $attribute property filled,
+     * and the $attribute is some ID, it will be resolved to name with an AJAX query.
+     * In case page that contains this combo has a lot of inputs (e.g. bulk edit form)
+     * each will produce an AJAX query, that will last forever.
+     *
+     * In case $model already has a name, corresponding to that ID (stored in $attribute),
+     * you can help Combo by hinting that attribute name and thus preventing AJAX queries.
+     */
+    public $selectedAttributeName;
+
+    /**
      * @var array
      */
     public $knownClasses = [
@@ -52,6 +63,7 @@ class ObjectCombo extends InputWidget
             'classes' => $this->getClasses(),
             'class_attribute' => $this->model->{$this->class_attribute},
             'class_attribute_name' => $this->class_attribute_name,
+            'selectedAttributeName' => $this->selectedAttributeName,
         ]);
     }
 
