@@ -32,10 +32,8 @@ if ($selectedAttributeName !== null) {
         <?= Html::activeDropDownList($model, $class_attribute_name, $classOptions, [
             'class' => 'form-control',
             'prompt' => '--',
-            'style' => 'width: 29%;',
+            'style' => 'width: 30%;',
         ]) ?>
-        <div style="width: 70%">
-            <?= InternalObjectCombo::widget($comboOptions) ?>
-        </div>
+        <?= InternalObjectCombo::widget($comboOptions) ?>
     </div>
 </div>
