@@ -47,7 +47,12 @@ window.hipanel = (function () {
                     }
                 });
             }
-        }
+        },
+        spinner: {
+            small: function() {
+                return $('<i class="fa fa-spinner fa-spin fa-lg"></i>');
+            }
+        },
     };
 
     return publicMethods;
