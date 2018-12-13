@@ -1,4 +1,6 @@
 window.hipanel = (function () {
+    var locale = null;
+
     var notify = {
         create: function (options) {
             options = $.extend({
@@ -53,6 +55,14 @@ window.hipanel = (function () {
                 return $('<i class="fa fa-spinner fa-spin fa-lg"></i>');
             }
         },
+        locale: {
+            get: function() {
+                return locale;
+            },
+            set: function (newLocale) {
+                locale = newLocale;
+            }
+        }
     };
 
     return publicMethods;
