@@ -14,6 +14,9 @@ return [
     'organization.termsUrl' => '',
 
     'hiam.site'             => '',
+    'hiam.authUrl'          => null,
+    'hiam.tokenUrl'         => null,
+    'hiam.apiBaseUrl'       => null,
     'hiam.client_id'        => '',
     'hiam.client_secret'    => '',
 

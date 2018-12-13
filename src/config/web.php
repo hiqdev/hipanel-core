@@ -62,12 +62,15 @@ return [
         'authClientCollection' => [
             'class' => \hiam\authclient\Collection::class,
             'clients' => [
-                'hiam' => [
-                    'class' => \hiam\authclient\HiamClient::class,
-                    'site' => $params['hiam.site'],
-                    'clientId' => $params['hiam.client_id'],
-                    'clientSecret' => $params['hiam.client_secret'],
-                ],
+                'hiam' => array_filter([
+                    'class'         => \hiam\authclient\HiamClient::class,
+                    'site'          => $params['hiam.site'],
+                    'authUrl'       => $params['hiam.authUrl'],
+                    'tokenUrl'      => $params['hiam.tokenUrl'],
+                    'apiBaseUrl'    => $params['hiam.apiBaseUrl'],
+                    'clientId'      => $params['hiam.client_id'],
+                    'clientSecret'  => $params['hiam.client_secret'],
+                ]),
             ],
         ],
         'urlManager' => [
