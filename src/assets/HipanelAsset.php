@@ -19,4 +19,11 @@ class HipanelAsset extends AssetBundle
     public $js = [
         'hipanel.js',
     ];
+
+    public function registerAssetFiles($view)
+    {
+        $locale = \Yii::$app->language;
+        $view->registerJs("hipanel.locale.set('$locale');");
+        parent::registerAssetFiles($view);
+    }
 }
