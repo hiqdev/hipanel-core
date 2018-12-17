@@ -92,8 +92,9 @@
         "npm-asset/checkboxes.js": "1.2.0"
     },
     "require-dev": {
-        "hiqdev/hidev-php": "<2.0",
-        "hiqdev/hidev-hiqdev": "<2.0"
+        "hiqdev/hidev": "dev-master",
+        "hiqdev/hidev-php": "dev-master",
+        "hiqdev/hidev-hiqdev": "dev-master"
     },
     "autoload": {
         "psr-4": {
