@@ -1,3 +1,9 @@
-See docs in [hiqdev/hipanel] package.
+1. [Installation] ([russian](ru/Installation.md))
+1. [Development]
+1. [Local panel install]
+1. [Create new panel]
 
-[hiqdev/hipanel]: https://github.com/hiqdev/hipanel
+[Installation]:             Installation.md
+[Development]:              Development.md
+[Local panel install]:      LocalPanelInstall.md
+[Create new panel]:         CreateNewPanel.md

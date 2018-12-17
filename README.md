@@ -14,7 +14,7 @@
 
 HiPanel is split into many pluggable packages.
 This package is the core of the system.
-Please see example package [hiqdev/hipanel] and docs there.
+Please see example setup [hiqdev/hipanel].
 
 Also see [Tests README].
 
@@ -24,21 +24,10 @@ Also see [Tests README].
 
 ## Installation
 
-The preferred way to install this yii2-extension is through [composer](http://getcomposer.org/download/).
+See [installation] and [development] manuals.
 
-Either run
-
-```sh
-php composer.phar require "hiqdev/hipanel-core"
-```
-
-or add
-
-```json
-"hiqdev/hipanel-core": "*"
-```
-
-to the require section of your composer.json.
+[installation]:             docs/Installation.md
+[development]:              docs/Development.md
 
 ## License
 
