@@ -40,7 +40,7 @@ window.hipanel = (function () {
         notify: notify,
         form: {
             preventSubmitWithEnter: function (formId) {
-                $(formId).on('keyup keypress', function (e) {
+                $(formId).find('input').on('keyup keypress', function (e) {
                     var keyCode = e.keyCode || e.which;
                     if (keyCode === 13) {
                         e.preventDefault();
