@@ -98,7 +98,7 @@ class Select2 extends TestableInput
     public function chooseOption($optionName): Select2
     {
         $this->tester->executeJS(<<<JS
-        $("li:contains('{$optionName}')").each(function() {
+        $(".select2-results li:contains('{$optionName}')").each(function() {
             if (this.firstChild.data === '{$optionName}') {
                 $(this).trigger('mouseup');
             }
@@ -115,7 +115,7 @@ JS
     public function chooseOptionLike($optionName): Select2
     {
         $this->tester->executeJS(<<<JS
-        $("li:contains('{$optionName}')").each(function() {
+        $(".select2-results li:contains('{$optionName}')").each(function() {
             if (this.firstChild.data.indexOf('{$optionName}') !== -1) {
                 $(this).trigger('mouseup');
             }
