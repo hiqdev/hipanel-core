@@ -93,6 +93,7 @@ class IndexPage extends Authenticated
         if ($inputElement instanceof Input) {
             $this->tester->pressKey($inputElement->getSelector(),WebDriverKeys::ENTER);
         }
+        $this->tester->wait(1);
         $this->tester->waitForPageUpdate();
     }
 
@@ -206,5 +207,4 @@ class IndexPage extends Authenticated
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
         }
     }
-
 }
