@@ -1,5 +1,6 @@
 <?php
-namespace root;
+
+namespace hipanel\tests\_support;
 
 /**
  * Inherited Methods
