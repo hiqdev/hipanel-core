@@ -13,25 +13,25 @@ return [
 
     'client' => [
         'id' => '360113632',
-        'login' => 'hipanel_test_user@hiqdev.com',
+        'login' => 'hipanel_test_user',
         'password' => 'random',
     ],
 
     'seller' => [
         'id' => '360113767',
-        'login' => 'hipanel_test_reseller@hiqdev.com',
+        'login' => 'hipanel_test_reseller',
         'password' => 'random',
     ],
 
     'manager' => [
         'id' => '360087881',
-        'login' => 'hipanel_test_manager@hiqdev.com',
+        'login' => 'hipanel_test_manager',
         'password' => 'random',
     ],
 
     'admin' => [
         'id' => '360113706',
-        'login' => 'hipanel_test_admin@hiqdev.com',
+        'login' => 'hipanel_test_admin',
         'password' => 'random',
     ],
 ];
