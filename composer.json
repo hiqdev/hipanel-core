@@ -108,7 +108,8 @@
             "params": "src/config/params.php",
             "common": "src/config/common.php",
             "console": "src/config/console.php",
-            "web": "src/config/web.php"
+            "web": "src/config/web.php",
+            "acceptance": "src/config/acceptance.php"
         }
     },
     "minimum-stability": "dev",
