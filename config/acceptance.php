@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'PARAMS_LOCATION' => dirname(__DIR__) . '/vendor/hiqdev/composer-config-plugin-output/acceptance.php',
+    'PARAMS_LOCATION' => dirname(__DIR__, 2) . '/composer-config-plugin-output/acceptance.php',
     'YII2_CONFIG_LOCATION' => dirname(__DIR__) . '/tests/acceptance/config/suite.php',
 
     'COMMON_SUITE_LOCATION' => dirname(__DIR__) . '/tests/acceptance.suite.yml',

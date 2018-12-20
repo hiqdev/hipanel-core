@@ -10,12 +10,4 @@
 
 error_reporting(E_ALL);
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
-
-use yii\web\Application;
-use hiqdev\composer\config\Builder;
-
-Yii::setAlias('@root', dirname(__DIR__));
-$config = require Builder::path('web');
-Yii::$app = new Application($config);
+require_once __DIR__ . '/../config/bootstrap.php';

@@ -2,9 +2,8 @@
 
 
 if (!defined('WEBAPP_ROOT_DIR')) {
-    define('WEBAPP_ROOT_DIR', dirname(__DIR__));
+    define('WEBAPP_ROOT_DIR', dirname(__DIR__, 4));
 }
-
 if (!defined('WEBAPP_VENDOR_DIR')) {
     define('WEBAPP_VENDOR_DIR', WEBAPP_ROOT_DIR . '/vendor');
 }
