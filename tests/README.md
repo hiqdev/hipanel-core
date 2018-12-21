@@ -42,16 +42,16 @@ All additional classes are divided by directories where dir-name is short name o
 
 ## \_support
 
-- [AcceptanceTester] helps to login and init creditionals.
+- [AcceptanceTester] helps to login and init credentials.
 
 [AcceptanceTester]: _support/AcceptanceTester.php
 
 ## \_support/Step/Acceptance
 
-- [Client] helps to login Client Role and init creditionals.
-    - [Admin] helps to login Admin Role and init creditionals.
-    - [Manager] helps to login Manager Role and init creditionals.
-    - [Seller] helps to login Seller Role and init creditionals.
+- [Client] helps to login Client Role and init creditials.
+    - [Admin] helps to login Admin Role and init credentials.
+    - [Manager] helps to login Manager Role and init credentials.
+    - [Seller] helps to login Seller Role and init credentials.
 
 [Client]: _support/Step/Acceptance/Client.php
 [Admin]: _support/Step/Acceptance/Admin.php
