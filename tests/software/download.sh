@@ -6,7 +6,7 @@ NC='\033[0m'
 
 wget -c http://selenium-release.storage.googleapis.com/3.1/selenium-server-standalone-3.1.0.jar
 wget -c https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
+unzip -f chromedriver_linux64.zip
 rm chromedriver_linux64.zip
 
 cat <<EOF > run.sh
