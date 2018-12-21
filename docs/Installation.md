@@ -6,8 +6,6 @@ __2.__ __Composer__.
 
 __3.__ __docker-compose__.
 
-__4.__ [HiDev](https://github.com/hiqdev/hidev).
-
 ## Installation
 
 __1.__ `git clone` [hipanel](https://git.hiqdev.com/advancedhosters/hipanel.advancedhosters.com)
