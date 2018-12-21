@@ -5,7 +5,7 @@
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
 actor: AcceptanceTester
-namespace: root
+namespace: hipanel\tests\_support
 modules:
     enabled:
         - WebDriver:
