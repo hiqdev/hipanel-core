@@ -1,6 +1,8 @@
-# [WIP] This guide is being developed.
+# [WIP] This guide is under development
 
+Also see [Testing] manual.
 
+[Testing]: Testing.md
 
 ## Overview
 
@@ -8,28 +10,11 @@
 
 // Codeception, PHPunit. Structure of tests
 
-## Running tests locally
-
-1. Install JDK
-
-2. Install Selenium Web Driver by executing `download.sh` which is located in your hipanel dir in `tests/software/`
-
-3. Execute `run.sh` (in same folder) to run on background
-
-4. To run tests locally use `codecept` which is located in your hipanel dir in `vendor/bin/`
-
-More info about how to run tests with codecept [Here](https://codeception.com/docs/02-GettingStarted#Running-Tests)
-
-### Running tests inside Docker
-
-// How to?
-
-
 ## Contributing
 
->Before contributing make sure you have last update of your repositories.
+> Before contributing make sure you have last update of your repositories.
 >
->(use `composer update` on whole project or `git pull` in specific module)
+> (use `composer update` on whole project or `git pull` in specific module)
 
 To contribute follow this steps:
 
@@ -41,7 +26,7 @@ To contribute follow this steps:
 
 2. Type `git remote add [remote name] [url]` inside your module dir
 
-    `[remote name]` is name of your remote branch (for example `forked`) 
+    `[remote name]` is name of your remote branch (for example `forked`)
 
     `[url]` is your forked url
 
@@ -52,7 +37,6 @@ To contribute follow this steps:
 4. After `git add` when you make `git commit -m [message]` follow this simple rules:
 
     1. Your `[message]` must start with __one__ word like `Added`, `Changed`, `Fixed`, `Removed`
-    
     2. Next will follow the description of what exactly was added, changed or removed.
 
 5. Next you `git push [remote name] [branch name]`
@@ -62,17 +46,17 @@ To contribute follow this steps:
 6. After that you need to create a __pull request__.
 
     You can do it at github website:
-    
+
     1. Open repository (for example [hipnel](https://github.com/hiqdev/hipanel))
-    
+
     2. Click __New pull request__
-    
+
         (or click green __Compare & pull request__ and skip __iii__ step)
 
     3. Click __compare across forks__ and on the right choose __your forked repository__ -> __brach name__
-    
+
     4. Click green __Create pull request__
-    
+
 7. After your pull request was reviewed and you have to make some changes,
    all you need to do is just make that changes and `push` to the same `[remote name] [branch name]`.
 
@@ -114,12 +98,4 @@ To make xDebug work in PHPStorm you need:
 // Troubleshooting:
 // - debug session does not get started;
 // - debug can not locate files;
-
-#### Contributing to Codeception tests
-
-// How to run tests and enhance them?
-
-To limit tests execution scope to a single cest, run codecept 
-`./vendor/bin/codecept` with arguments `run` and `path to file`
-[Examples](https://codeception.com/docs/02-GettingStarted#Running-Tests)
 

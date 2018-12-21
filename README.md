@@ -17,12 +17,11 @@ This package is the core of the system.
 
 Please see package with example setup [hiqdev/hipanel].
 
-Also see [documentation] and [Tests README].
+Also see [documentation].
 
 [HiPanel]:          https://hipanel.com
 [hiqdev/hipanel]:   https://github.com/hiqdev/hipanel
 [documentation]:    docs
-[Tests README]:     tests/README.md
 
 ## Installation
 
