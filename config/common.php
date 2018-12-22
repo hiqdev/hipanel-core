@@ -50,5 +50,11 @@ return [
             'notPanel' => $params['hipanel.notPanel'],
             'panelUrl' => $params['hipanel.url'],
         ],
+        'language' => [
+            'languages' => [
+                'en' => 'English',
+                'ru' => 'Русский',
+            ],
+        ],
     ],
 ];
