@@ -11,23 +11,4 @@ use hipanel\tests\_support\Page\Login;
  */
 class Seller extends Client
 {
-    public function login()
-    {
-        if ($this->retrieveSession('login-seller')) {
-            return $this;
-        }
-
-        $this->restartBrowser();
-        $hiam = new Login($this);
-        $hiam->login($this->username, $this->password);
-
-        $this->storeSession('login-seller');
-
-        return $this;
-    }
-
-    protected function initCredentials()
-    {
-        [$this->id, $this->username, $this->password] = $this->getSellerCredentials();
-    }
 }

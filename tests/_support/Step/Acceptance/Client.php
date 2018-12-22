@@ -25,8 +25,9 @@ class Client extends AcceptanceTester
     
     public function login()
     {
+        $sessionName = 'login-' . $this->getClientType();
         try {
-            if ($this->retrieveSession('login-client')) {
+            if ($this->retrieveSession($sessionName)) {
                 return $this;
             }
         } catch (\Facebook\WebDriver\Exception\UnknownServerException $exception) {
@@ -38,13 +39,30 @@ class Client extends AcceptanceTester
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
 
-        $this->storeSession('login-client');
+        $this->amOnPage('/site/healthcheck');
+        $this->id = $this->grabTextFrom('userId');
+        if (!$this->id) {
+            throw new \Exception('failed detect user ID');
+        }
+        $this->storeSession($sessionName);
 
         return $this;
     }
 
+    protected $clientType;
+
+    protected function getClientType(): string
+    {
+        if ($this->clientType === null) {
+            $this->clientType = strtolower((new \ReflectionClass($this))->getShortName());
+        }
+
+        return $this->clientType;
+    }
+
     protected function initCredentials()
     {
-        [$this->id, $this->username, $this->password] = $this->getClientCredentials();
+        $fun = 'get' . $this->getClientType() . 'Credentials';
+        [$this->id, $this->username, $this->password] = $this->{$func}();
     }
 }

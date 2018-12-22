@@ -12,25 +12,25 @@ return [
     'SELENIUM_HOST' => $params['tests.acceptance.selenium.host'],
 
     'client' => [
-        'id' => '360113632',
+        'id' => null,
         'login' => 'hipanel_test_user',
         'password' => 'random',
     ],
 
     'seller' => [
-        'id' => '360113767',
+        'id' => null,
         'login' => 'hipanel_test_reseller',
         'password' => 'random',
     ],
 
     'manager' => [
-        'id' => '360087881',
+        'id' => null,
         'login' => 'hipanel_test_manager',
         'password' => 'random',
     ],
 
     'admin' => [
-        'id' => '360113706',
+        'id' => null,
         'login' => 'hipanel_test_admin',
         'password' => 'random',
     ],
