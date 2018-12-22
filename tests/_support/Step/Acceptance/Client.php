@@ -25,6 +25,13 @@ class Client extends AcceptanceTester
     
     public function login()
     {
+        $this->loadOrLogin();
+
+        return $this->findId();
+    }
+
+    protected function loadOrLogin()
+    {
         $sessionName = 'login-' . $this->getClientType();
         try {
             if ($this->retrieveSession($sessionName)) {
@@ -38,13 +45,20 @@ class Client extends AcceptanceTester
         $this->restartBrowser();
         $hiam = new Login($this);
         $hiam->login($this->username, $this->password);
-
-        $this->amOnPage('/site/healthcheck');
-        $this->id = $this->grabTextFrom('userId');
-        if (!$this->id) {
-            throw new \Exception('failed detect user ID');
-        }
         $this->storeSession($sessionName);
+
+        return $this;
+    }
+
+    protected function findId(): self
+    {
+        if (empty($this->id)) {
+            $this->amOnPage('/site/healthcheck');
+            $this->id = $this->grabTextFrom('userId');
+            if (!$this->id) {
+                throw new \Exception('failed detect user ID');
+            }
+        }
 
         return $this;
     }
@@ -62,7 +76,7 @@ class Client extends AcceptanceTester
 
     protected function initCredentials()
     {
-        $fun = 'get' . $this->getClientType() . 'Credentials';
+        $func = 'get' . $this->getClientType() . 'Credentials';
         [$this->id, $this->username, $this->password] = $this->{$func}();
     }
 }
