@@ -33,10 +33,15 @@ class Url extends \yii\helpers\Url
 
     /**
      * Build search url.
+     *
+     * @param string $modelName
+     * @param array $params
+     * @param string $action
+     * @return array|string
      */
-    public static function toSearch($model, array $params = [], $action = 'index')
+    public static function toSearch(string $modelName, array $params = [], string $action = 'index')
     {
-        $formName = Inflector::id2camel($model) . 'Search';
-        return static::toAction($model, [$formName => $params], $action);
+        $formName = Inflector::id2camel($modelName) . 'Search';
+        return static::toAction($modelName, [$formName => $params], $action);
     }
 }
