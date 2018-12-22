@@ -140,6 +140,12 @@ class SiteController extends \hisite\controllers\SiteController
 
     public function actionHealthcheck()
     {
-        return "Up and running.";
+        $text = "Up and running.";
+        if (isset(Yii::$app->user->identity->id)) {
+            $id = Yii::$app->user->identity->id;
+            $text .= "\n<h6>User ID: <userId>$id</userId></h6>";
+        }
+
+        return $text;
     }
 }
