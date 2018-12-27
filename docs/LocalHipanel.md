@@ -6,6 +6,10 @@ HiPanel is split into 3 separate applications:
 2. hiam       [hiam-demo.hipanel.com]
 3. hipanel [hipanel-demo.hipanel.com]
 
+[hiapi-demo.hipanel.com]:     https://git.hiqdev.com/hiqdev/hiapi-demo.hipanel.com
+[hiam-demo.hipanel.com]:       https://git.hiqdev.com/hiqdev/hiam-demo.hipanel.com
+[hipanel-demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hipanel-demo.hipanel.com
+
 To have working system it is necessary to have them all up and running.
 
 ## Installation (to be repeated for all applications)
@@ -75,7 +79,7 @@ And setup (migrate) again.
 
 See [Testing] manual.
 
-[Testing]: [Testing.md]
+[Testing]: Testing.md
 
 Long story short, go to `hipanel` and run:
 
