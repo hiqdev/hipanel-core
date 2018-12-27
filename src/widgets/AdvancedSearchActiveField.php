@@ -37,17 +37,15 @@ class AdvancedSearchActiveField extends ActiveField
         $config['attribute'] = $this->attribute;
         $config['view'] = $this->form->getView();
         $widget = Yii::createObject($config);
-
         if ($widget instanceof Combo) {
             $this->_inputId = $this->_inputId ?: ($this->getInputId() . '-' . mt_rand());
             $widget->inputOptions['id'] = $this->getInputId();
-            $widget->setPluginOptions([
+            $widget->setPluginOptions(ArrayHelper::merge($widget->pluginOptions, [
                 'select2Options' => [
                     'placeholder' => $this->model->getAttributeLabel($this->attribute),
                 ],
-            ]);
+            ]));
         }
-
         $this->parts['{input}'] = $widget->run();
 
         return $this;
