@@ -81,9 +81,20 @@ See [Testing] manual.
 
 [Testing]: Testing.md
 
-Long story short, go to `hipanel` and run:
+Long story short:
+
+#### API Smoke tests
+
+In hiapi dir:
+
+```sh
+docker-compose exec php-fpm /app/vendor/bin/phpunit
+```
+
+#### Panel Codeception tests
+
+In hipanel dir:
 
 ```sh
 codecept run -f -vvv --debug
 ```
-
