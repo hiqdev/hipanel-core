@@ -52,4 +52,6 @@ return [
     ],
 
     'mailing.service.submitUrl' => '',
+
+    'tests.acceptance.selenium.host' => null,
 ];
