@@ -20,6 +20,8 @@ class ClassValuesAction extends Action
 {
     public $valuesClass;
 
+    public $setApiCommand;
+
     public $view;
 
     public $model;
@@ -35,7 +37,7 @@ class ClassValuesAction extends Action
             $this->model = (new Collection(['model' => $this->model]))->load()->first;
 
             $this->beforePerform();
-            $this->model->perform('set-class-values', [
+            $this->model->perform($this->setApiCommand ?: 'set-class-values', [
                 'id'     => $id,
                 'class'  => $this->valuesClass,
                 'values' => $this->model->dirtyAttributes,
