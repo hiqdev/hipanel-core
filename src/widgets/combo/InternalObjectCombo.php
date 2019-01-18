@@ -97,6 +97,7 @@ class InternalObjectCombo extends Combo
         $this->registerClientConfig();
         $varName = strtolower($this->model->formName()) . '_object_id_' . $className;
         $this->view->registerJsVar($varName, $this->configId, View::POS_END);
+        $this->reset();
     }
 
     private function fillRequiredAttributes()
@@ -166,5 +167,18 @@ JS
             }
 JS
         );
+    }
+
+    /**
+     * Reset attributes which may remains from the previous combo-object which leads to incorrect JS configuration
+     */
+    private function reset(): void
+    {
+        $attributes = [
+            '_primaryFilter' => null,
+        ];
+        foreach ($attributes as $attribute => $defaultValue) {
+            $this->$attribute = $defaultValue;
+        }
     }
 }
