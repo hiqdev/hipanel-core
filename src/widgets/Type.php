@@ -22,11 +22,17 @@ class Type extends \hipanel\widgets\Label
 
     /** @var[] which contains:
      * key - css class name which will be used to highlight label
-     * values - states or types, that represent current CSS class
+     * values - states or types, that represent current CSS class. Wildcards can be used.
      * Examples
      * ~~~
-     * ['info' => ['ok', 'expired']]
+     * [
+     *     'info' => ['ok', 'expired', 'error:recoverable'],
+     *     'warning' => ['problem', 'error:*'],
+     * ]
      * ~~~
+     *
+     * In the `warning` section, `error:*` wildcard is used. In this case the value
+     * will be checked for exact matches, then for wildcard matches.
      **/
     public $values = [];
 
@@ -40,6 +46,8 @@ class Type extends \hipanel\widgets\Label
 
     /** @var string field */
     public $field = 'state';
+    /** @var string $labelField */
+    public $labelField;
 
     public function init()
     {
@@ -53,20 +61,36 @@ class Type extends \hipanel\widgets\Label
         $this->values = ArrayHelper::merge($possible, $this->values);
 
         foreach ($this->values as $classes => $values) {
-            if (in_array($field, $values, true)) {
+            if (\in_array($field, $values, true)) {
                 $class = $classes;
                 break;
             }
         }
-
-        $this->color = isset($class) ? $class : 'warning';
-
-        if ($this->model->hasAttribute("{$this->field}_label") && $this->model->getAttribute("{$this->field}_label") !== null) {
-            $label = $this->model->getAttribute("{$this->field}_label");
-        } else {
-            $label = $this->titlelize($this->model->{$this->field});
+        if (!isset($class)) {
+            foreach ($this->values as $classes => $values) {
+                foreach ($values as $value) {
+                    if (fnmatch($value, $field)) {
+                        $class = $classes;
+                        break;
+                    }
+                }
+            }
         }
-        $this->label  = Yii::t($this->i18nDictionary, $label);
+
+        $this->color = $class ?? 'warning';
+        $labelField = $this->getLabelField();
+
+        if ($this->model->hasAttribute($labelField) && $this->model->getAttribute($labelField) !== null) {
+            $label = $this->model->getAttribute($labelField);
+        } else {
+            $label = $this->titlelize($this->model->{$labelField});
+        }
+        $this->label = Yii::t($this->i18nDictionary, $label);
+    }
+
+    protected function getLabelField(): string
+    {
+        return $this->labelField ?? ($this->field . '_label');
     }
 
     /**
