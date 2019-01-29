@@ -35,7 +35,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
      * and define keys `from` for Name and `to` for Value.
      *
      * @param string $name
-     * @param string $translate
+     * @param string|false $translate
      * @param array $options
      * @return array
      */
@@ -49,6 +49,11 @@ class Ref extends \hiqdev\hiart\ActiveRecord
         $group = ArrayHelper::remove($mapOptions, 'group', null);
 
         return ArrayHelper::map($models, $from, $to, $group);
+    }
+
+    public static function getListRecursively($name, $translate = null, $options = [])
+    {
+        return self::getList($name, $translate, array_merge($options, ['with_recursive' => true]));
     }
 
     public static function findCached($name, $translate = null, $options = [])
