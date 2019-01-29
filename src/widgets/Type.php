@@ -52,40 +52,50 @@ class Type extends \hipanel\widgets\Label
     public function init()
     {
         $possible = [];
-        $field = $this->model->{$this->field};
-
         foreach ($this->defaultValues as $key => $values) {
-            $possible[$key] = ArrayHelper::merge($values, $this->values[$key] ?: []);
+            $possible[$key] = ArrayHelper::merge($values, $this->values[$key] ?? []);
         }
-
         $this->values = ArrayHelper::merge($possible, $this->values);
+
+        $this->setColor($this->pickColor());
+        $this->setLabel(Yii::t($this->i18nDictionary, $this->getModelLabel()));
+    }
+
+    protected function pickColor(): string
+    {
+        $field = $this->getFieldValue();
 
         foreach ($this->values as $classes => $values) {
             if (\in_array($field, $values, true)) {
-                $class = $classes;
-                break;
+                return $classes;
             }
         }
-        if (!isset($class)) {
-            foreach ($this->values as $classes => $values) {
-                foreach ($values as $value) {
-                    if (fnmatch($value, $field)) {
-                        $class = $classes;
-                        break;
-                    }
+
+        foreach ($this->values as $classes => $values) {
+            foreach ($values as $value) {
+                if (fnmatch($value, $field)) {
+                    return $classes;
                 }
             }
         }
 
-        $this->color = $class ?? 'warning';
+        return 'warning'; // fallback
+    }
+
+    protected function getModelLabel(): string
+    {
         $labelField = $this->getLabelField();
 
         if ($this->model->hasAttribute($labelField) && $this->model->getAttribute($labelField) !== null) {
-            $label = $this->model->getAttribute($labelField);
-        } else {
-            $label = $this->titlelize($this->model->{$labelField});
+            return $this->model->getAttribute($labelField);
         }
-        $this->label = Yii::t($this->i18nDictionary, $label);
+
+        return $this->titlelize($this->getFieldValue());
+    }
+
+    protected function getFieldValue(): string
+    {
+        return $this->model->{$this->field};
     }
 
     protected function getLabelField(): string
