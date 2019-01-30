@@ -63,7 +63,7 @@ class Type extends \hipanel\widgets\Label
 
     protected function pickColor(): string
     {
-        $field = $this->getFieldValue();
+        $field = $this->getFieldValue() ?? '';
 
         foreach ($this->values as $classes => $values) {
             if (\in_array($field, $values, true)) {
@@ -90,15 +90,15 @@ class Type extends \hipanel\widgets\Label
             return $this->model->getAttribute($labelField);
         }
 
-        return $this->titlelize($this->getFieldValue());
+        return $this->titlelize($this->getFieldValue() ?? '');
     }
 
-    protected function getFieldValue(): string
+    protected function getFieldValue(): ?string
     {
         return $this->model->{$this->field};
     }
 
-    protected function getLabelField(): string
+    protected function getLabelField(): ?string
     {
         return $this->labelField ?? ($this->field . '_label');
     }
