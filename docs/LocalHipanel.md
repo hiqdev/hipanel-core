@@ -21,7 +21,7 @@ To have working system it is necessary to have them all up and running.
 4. make symlinks, see below (to be moved in hidev deploy)
 5. tweak `.env` (optional, should not be needed)
 6. setup database, see below
-7. `docker network create (hiapi or hipanel or hiam)-demo.hipanel.local`
+7. create all required networks and volumes with commands that docker will suggest
 8. `docker-compose up -d`
 
 ### Recommended hosts and IPs
