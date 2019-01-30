@@ -21,7 +21,7 @@ To have working system it is necessary to have them all up and running.
 4. make symlinks, see below (to be moved in hidev deploy)
 5. tweak `.env` (optional, should not be needed)
 6. setup database, see below
-7. `docker-compose up -d`
+7. `docker-compose up -d` (create all required networks and volumes with commands that docker will suggest)
 
 ### Recommended hosts and IPs
 
