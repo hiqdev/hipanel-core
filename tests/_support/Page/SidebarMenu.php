@@ -21,7 +21,7 @@ class SidebarMenu extends Authenticated
         $I->waitForElement('.menu-open');
         foreach ($items as $name => $url) {
             $I->see($name, '.menu-open');
-            $I->seeLink('', Url::to($url));
+            $I->seeElement(['css' => '.menu-open a[href~="' . Url::to($url) . '"]']);
         }
         $I->click($rootMenuName, '.sidebar-menu');
     }
