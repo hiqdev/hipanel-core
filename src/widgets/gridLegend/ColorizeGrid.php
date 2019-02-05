@@ -15,11 +15,22 @@ trait ColorizeGrid
         $this->colorizeRows();
     }
 
-    protected function colorizeColumns($column)
+    /**
+     * @param array $column
+     * @return array
+     */
+    protected function colorizeColumns(array $column): array
     {
-        if ($this->colorize && !isset($column['contentOptions'])) {
-            $column['contentOptions'] = function ($model) use ($column) {
-                return GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions($column['attribute']);
+        if ($this->colorize) {
+            $contentOptions = $column['contentOptions'] ?? [];
+            $column['contentOptions'] = function ($model) use ($column, $contentOptions) {
+                $coloredStyle = GridLegend::create(
+                    $this->findOrFailGridLegend($model)
+                )->gridColumnOptions($column['attribute']);
+                $coloredStyle = $coloredStyle['style'] ?? '';
+                $contentOptions['style'] .= $coloredStyle;
+
+                return $contentOptions;
             };
         }
 
