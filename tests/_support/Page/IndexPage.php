@@ -195,14 +195,14 @@ class IndexPage extends Authenticated
         /**
          *  $whereNeedle += 2 && $i = 1 because xpath elements starting from 1
          */
-        $arrayForSort = array();
+        $arrayForSort = [];
         for ($i = 1 ; $i <= $count; ++$i) {
             $arrayForSort[$i] = $this->tester->grabTextFrom("//tbody/tr[$i]/td[$whereNeedle]");
         }
         /**
          *  After sort() function arrayForSort start index = 0, but xpath elements starting from 1
          */
-        sort($arrayForSort);
+        sort($arrayForSort, SORT_NATURAL | SORT_FLAG_CASE);
         for ($i = 1 ; $i <= $count; ++$i) {
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
         }
