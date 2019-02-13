@@ -53,9 +53,9 @@ abstract class TestableInput
     /**
      * TestableInput constructor.
      * @param AcceptanceTester $tester
-     * @param $selector
+     * @param string $selector
      */
-    public function __construct(AcceptanceTester $tester, $selector)
+    public function __construct(AcceptanceTester $tester, string $selector)
     {
         $this->tester = $tester;
         $this->selector = $selector;
@@ -63,10 +63,10 @@ abstract class TestableInput
 
     /**
      * @param AcceptanceTester $tester
-     * @param $title
+     * @param string $title
      * @return TestableInput
      */
-    public static function asAdvancedSearch(AcceptanceTester $tester, $title): TestableInput
+    public static function asAdvancedSearch(AcceptanceTester $tester, string $title): TestableInput
     {
         $instance           = new static($tester, "");
         $instance->title    = $title;
@@ -78,10 +78,10 @@ abstract class TestableInput
 
     /**
      * @param AcceptanceTester $tester
-     * @param $name
+     * @param $columnName
      * @return TestableInput
      */
-    public static function asTableFilter(AcceptanceTester $tester, $columnName): TestableInput
+    public static function asTableFilter(AcceptanceTester $tester, string $columnName): TestableInput
     {
         $instance           = new static($tester, "");
         $instance->auxName  = $instance->computeAuxName($columnName);
