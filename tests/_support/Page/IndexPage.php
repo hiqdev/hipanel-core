@@ -81,6 +81,21 @@ class IndexPage extends Authenticated
     }
 
     /**
+     * @param int $amount
+     */
+    public function containsAmountOfRows(int $amount): void
+    {
+        $this->tester->seeNumberOfElements('//tbody/tr', $amount);
+    }
+
+    public function getRowDataKeyByNumber(int $rowNumber): string
+    {
+        $selector = "form tbody tr:nth-child($rowNumber)";
+
+        return $this->tester->grabAttributeFrom($selector, 'data-key');
+    }
+
+    /**
      * Filters index page table
      *
      * @param TestableInput $inputElement
@@ -153,7 +168,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Checked filtering correct works
+     * Checks whether filtering works properly
      *
      * @param string $filterBy
      * @param string $name
@@ -169,7 +184,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Checked sort correct works
+     * Checks whether sorting works properly
      *
      * Method find column by $sortBy, parse data, call default sort by $sortBy
      * and compare data in table with sort(copy_data_from_table)

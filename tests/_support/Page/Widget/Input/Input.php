@@ -31,6 +31,7 @@ class Input extends TestableInput
      */
     public function setValue(string $value): void
     {
+        $this->tester->clearField($this->selector);
         $this->tester->fillField($this->selector, $value);
     }
 }
