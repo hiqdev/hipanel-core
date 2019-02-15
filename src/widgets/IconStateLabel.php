@@ -105,10 +105,13 @@ class IconStateLabel extends Widget
 
     private function variate($variants): string
     {
-        if (is_array($variants) && count($variants) > 1) {
+        if (!is_array($variants)) {
+            $variants = [$variants];
+        }
+        if (count($variants) > 1) {
             return $this->getState() ? $variants[0] : $variants[1];
         }
 
-        return $variants;
+        return $variants[0];
     }
 }
