@@ -298,7 +298,9 @@ class ModalButton extends Widget
     public function beginForm()
     {
         $this->form = ActiveForm::begin($this->form);
-        echo Html::activeHiddenInput($this->model, 'id');
+
+        $inputId = $this->getModalId() . '-hidden-value';
+        echo Html::activeHiddenInput($this->model, 'id', ['id' => $inputId]);
     }
 
     /**
