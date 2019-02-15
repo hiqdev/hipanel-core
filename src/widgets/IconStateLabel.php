@@ -8,9 +8,11 @@ use yii\helpers\Html;
 
 /**
  *
- * @property array $colors
- * @property string|array $icons
- * @property string|array $messages
+ * @property integer $size
+ * @property string[] $color
+ * @property string[] $icon
+ * @property bool $state
+ * @property string[] $message
  */
 class IconStateLabel extends Widget
 {
@@ -25,41 +27,41 @@ class IconStateLabel extends Widget
     public $attribute;
 
     /**
-     * @var string|array
+     * If the array is passed, then the first parameter will be selected for the true state,
+     * and the second parameter will be selected for the false state. If the string is passed,
+     * then attribute will be in only one state for both options.
+     *
+     * @var string[]
      */
     public $icons;
 
     /**
-     * @var array
+     * If the array is passed, then the first parameter will be selected for the true state,
+     * and the second parameter will be selected for the false state. If the string is passed,
+     * then attribute will be in only one state for both options.
+     *
+     * @var string[]
      */
     public $colors = [
-        '#00c853',
+        '#008D50',
         '#bdbdbd',
     ];
 
     /**
-     * @var string|array
+     * If the array is passed, then the first parameter will be selected for the true state,
+     * and the second parameter will be selected for the false state. If the string is passed,
+     * then attribute will be in only one state for both options.
+     *
+     * @var string[]
      */
     public $messages;
 
-    private function variate($variants): string
-    {
-        if (is_array($variants) && count($variants) > 1) {
-            return $this->getState() ? $variants[0] : $variants[1];
-        }
-
-        return $variants;
-    }
-
-    protected function renderState(): string
-    {
-        return Html::tag('i', null, [
-            'aria-hidden' => 'true',
-            'class' => implode(' ', [$this->getIcon()]),
-            'style' => implode(' ', [$this->getColor(), $this->getSize()]),
-            'title' => $this->getMessage(),
-        ]);
-    }
+    /**
+     * Icon font size in `px`
+     *
+     * @var int
+     */
+    public $size = 18;
 
     public function run(): string
     {
@@ -83,12 +85,30 @@ class IconStateLabel extends Widget
 
     public function getSize(): string
     {
-        return 'font-size: 18px;';
+        return sprintf('font-size: %dpx;', $this->size);
     }
 
     public function getMessage(): string
     {
         return $this->variate($this->messages);
     }
-}
 
+    protected function renderState(): string
+    {
+        return Html::tag('i', null, [
+            'aria-hidden' => 'true',
+            'class' => implode(' ', [$this->getIcon()]),
+            'style' => implode(' ', [$this->getColor(), $this->getSize()]),
+            'title' => $this->getMessage(),
+        ]);
+    }
+
+    private function variate($variants): string
+    {
+        if (is_array($variants) && count($variants) > 1) {
+            return $this->getState() ? $variants[0] : $variants[1];
+        }
+
+        return $variants;
+    }
+}
