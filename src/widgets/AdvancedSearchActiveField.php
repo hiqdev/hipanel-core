@@ -57,11 +57,10 @@ class AdvancedSearchActiveField extends ActiveField
 
         return parent::textarea(ArrayHelper::merge([
             'data-autosize' => true, 'rows' => 1,
-            'placeholder' => $this->model->getAttributeLabel('domains'),
+            'placeholder' => $this->model->getAttributeLabel($this->attribute),
             'style' => ['max-height' => '30vh']
         ], $options));
     }
-
 
     protected function getInputId()
     {
