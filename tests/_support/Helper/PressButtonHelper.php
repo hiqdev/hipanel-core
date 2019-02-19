@@ -8,10 +8,11 @@ class PressButtonHelper extends \Codeception\Module
      * @param $textOnButton
      * @throws \Codeception\Exception\ModuleException
      */
-    public function pressButton($textOnButton): void
+    public function pressButton(string $textOnButton, string $xpathPrefix = ''): void
     {
         $I = $this->getModule('WebDriver');
 
-        $I->click("//button[text() = '{$textOnButton}']");
+        $selector = $xpathPrefix . "//button[text() = '{$textOnButton}']";
+        $I->click($selector);
     }
 }
