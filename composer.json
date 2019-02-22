@@ -90,7 +90,8 @@
         "bower-asset/components-font-awesome": "~4.6",
         "2amigos/yii2-chartjs-widget": "^2.0",
         "npm-asset/checkboxes.js": "1.2.0",
-        "npm-asset/ace-builds": "^1.4.2"
+        "npm-asset/ace-builds": "^1.4.2",
+        "psr/container": "^1.0"
     },
     "require-dev": {
         "hiqdev/hidev": "dev-master",
