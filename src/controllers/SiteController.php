@@ -42,7 +42,7 @@ class SiteController extends \hisite\controllers\SiteController
         return array_merge(parent::behaviors(), [
             'loginRequired' => [
                 'class' => AccessControl::class,
-                'only' => ['profile'],
+                'only' => ['profile', 'notification-settings'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -74,6 +74,14 @@ class SiteController extends \hisite\controllers\SiteController
             ],
             'lockscreen' => [
                 'class' => RenderAction::class,
+            ],
+            'notification-settings' => [
+                'class' => RedirectAction::class,
+                'url'   => [
+                    '@client/view',
+                    'id'    => Yii::$app->user->identity->id,
+                    '#'     => 'notification_settings',
+                ],
             ],
         ]);
     }
