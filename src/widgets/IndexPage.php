@@ -431,6 +431,18 @@ JS
     }
 
     /**
+     * @param string $permission
+     * @param string $button
+     * @return string|null
+     */
+    public function withPermission(string $permission, string $button): ?string
+    {
+        if (Yii::$app->user->can($permission)) {
+            return $button;
+        }
+    }
+
+    /**
      * @param string|array $action
      * @param string|null $text
      * @param array $options
