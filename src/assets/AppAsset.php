@@ -29,6 +29,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/panel.js',
+        '//polyfill.io/v2/polyfill.min.js?features=IntersectionObserver',
     ];
     public $depends = [
         YiiAsset::class,
