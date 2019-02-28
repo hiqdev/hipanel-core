@@ -112,7 +112,7 @@ class FileRender extends Widget
             $dimensions = new InsetDimensions($generator->getDimensions(), new Dimensions($this->thumbWidth, $this->thumbWidth));
             $src = 'data: ' . $generator->getContentType() . ';base64,' . base64_encode($generator->asBytes($dimensions));
             if ($generator instanceof PdfPreviewGenerator) {
-                return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), ['target' => '_blank']);
+                return Html::a(Html::tag('i', '', ['class' => 'fa fa-fw fas fa-download']), $this->getLink(), ['target' => '_blank']);
             } else {
                 $linkOptions = ArrayHelper::merge(['data-lightbox' => 'file-' . $file->id], $this->lightboxLinkOptions);
                 return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), $linkOptions);
