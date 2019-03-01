@@ -27,6 +27,9 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
     {
         if ($this->imagick === null) {
             $this->imagick = new Imagick(realpath($this->path) . '[0]');
+            $this->imagick->setResolution(600, 600);
+            $this->imagick->setCompressionQuality(95);
+            $this->imagick->setImageFormat('jpeg');
         }
 
         return $this->imagick;

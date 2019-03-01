@@ -23,7 +23,7 @@ class FilePreviewFactory implements FilePreviewFactoryInterface
 {
     public $generators = [
         '^image/.*$' => ImagePreviewGenerator::class,
-        '^application/pdf$' => PdfPreviewGenerator::class,
+//        '^application/pdf$' => PdfPreviewGenerator::class,
     ];
 
     /**
