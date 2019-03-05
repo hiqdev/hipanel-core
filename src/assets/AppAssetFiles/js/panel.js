@@ -12,3 +12,15 @@ function scrollTo(element, duration) {
         }, duration);
     }
 }
+
+(function () {
+    try {
+        var tooltipElementsWhitelist = $.fn.tooltip.Constructor.DEFAULTS.whiteList
+        tooltipElementsWhitelist.table = []
+        tooltipElementsWhitelist.thead = []
+        tooltipElementsWhitelist.tbody = []
+        tooltipElementsWhitelist.tr = []
+        tooltipElementsWhitelist.td = []
+        tooltipElementsWhitelist.kbd = []
+    } catch (e) {}
+})();
