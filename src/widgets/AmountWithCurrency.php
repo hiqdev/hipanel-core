@@ -11,8 +11,9 @@
 namespace hipanel\widgets;
 
 use yii\helpers\Html;
+use yii\widgets\InputWidget;
 
-class AmountWithCurrency extends \yii\base\Widget
+class AmountWithCurrency extends InputWidget
 {
     public static $widgetClass = 'amount-with-currency-widget';
 
@@ -22,10 +23,6 @@ class AmountWithCurrency extends \yii\base\Widget
     public $selectedCurrencyCode;
     public $currencyAttributeName;
     public $currencyAttributeOptions;
-    public $model;
-    public $form;
-    public $attribute;
-    public $inputOptions = [];
     /**
      * @var array The following keys are used:
      *
@@ -38,7 +35,7 @@ class AmountWithCurrency extends \yii\base\Widget
     {
         parent::init();
 
-        $this->inputOptions = array_merge(['class' => 'form-control'], $this->inputOptions);
+        $this->options = array_merge(['class' => 'form-control'], $this->options);
     }
 
     public function run()
@@ -48,7 +45,7 @@ class AmountWithCurrency extends \yii\base\Widget
         return $this->render((new \ReflectionClass($this))->getShortName(), [
             'containerClass' => self::$widgetClass,
 
-            'form' => $this->form,
+            'form' => $this->field->form,
             'model' => $this->model,
             'attribute' => $this->attribute,
 

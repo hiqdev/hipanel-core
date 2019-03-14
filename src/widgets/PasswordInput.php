@@ -12,27 +12,12 @@ namespace hipanel\widgets;
 
 use hipanel\helpers\ArrayHelper;
 use Yii;
-use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\JsExpression;
+use yii\widgets\InputWidget;
 
-class PasswordInput extends Widget
+class PasswordInput extends InputWidget
 {
-    /**
-     * @var \yii\base\Model
-     */
-    public $model;
-
-    /**
-     * @var string Name of model attribute
-     */
-    public $attribute;
-
-    /**
-     * @var array Will be passed to options of input field
-     */
-    public $inputOptions = [];
-
     /**
      * @var bool Whether to show 'random generator'
      */
@@ -50,7 +35,7 @@ class PasswordInput extends Widget
     {
         parent::init();
 
-        $this->inputOptions = ArrayHelper::merge(['class' => 'form-control'], $this->inputOptions);
+        $this->options = ArrayHelper::merge(['class' => 'form-control'], $this->options);
         $this->randomOptions = $this->randomOptions ?: [
             'weak' => ['label' => Yii::t('hipanel', 'Weak'), 'length' => 8, 'specialchars' => 0],
             'medium' => ['label' => Yii::t('hipanel', 'Medium'), 'length' => 10],
@@ -65,16 +50,16 @@ class PasswordInput extends Widget
     {
         $this->registerClientScript();
 
-        $html = Html::activePasswordInput($this->model, $this->attribute, $this->inputOptions);
+        $html = Html::activePasswordInput($this->model, $this->attribute, $this->options);
         $html .= '<div class="input-group-btn">';
         $html .= Html::button(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), [
-            'class' => 'btn btn-default show-password' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
+            'class' => 'btn btn-default show-password' . ($this->options['disabled'] ? ' disabled' : ''),
             'tabindex' => '-1',
         ]);
 
         if ($this->randomGenerator) {
             $html .= Html::button(Yii::t('hipanel', 'Random') . '&nbsp;<span class="caret"></span>', [
-                'class' => 'btn btn-default dropdown-toggle' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
+                'class' => 'btn btn-default dropdown-toggle' . ($this->options['disabled'] ? ' disabled' : ''),
                 'data-toggle' => 'dropdown',
                 'aria-expanded' => 'false',
                 'tabindex' => '-1',
