@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/app
+      - ./.docker/nginx/etc/nginx/conf.d:/etc/nginx/conf.d
+      - ./.docker/nginx/var/log/nginx:/var/log/nginx
+    links:
+      - php-fpm
+    networks:
+      - local-network
+      - proxy-network
+    environment:
+      - "VIRTUAL_HOST=${HOSTS}"
+      - "LETSENCRYPT_HOST=${HOSTS}"
+      - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
+
+  php-fpm:
+    image: hiqdev/php:7.2-fpm
+    volumes:
+      - ./:/app
+      - ./.docker/php/var/log/php:/var/log/php
+    networks:
+      - local-network
+      - hiapi-network
+    environment:
+      - "ENV=${ENV}"
+      - "PHP_IDE_CONFIG=serverName=${HOSTS}"
+
+networks:
+  local-network:
+    driver: bridge
+  hiapi-network:
+    external:
+      name: "${HIAPI_SITE}"
+  proxy-network:
+    external:
+      name: "nginx-proxy-network-${REAL_IP}"

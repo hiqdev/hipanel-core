@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80"
+    volumes:
+      - ./:/app
+      - ./.docker/nginx/etc/nginx/conf.d:/etc/nginx/conf.d
+      - ./.docker/nginx/var/log/nginx:/var/log/nginx
+    networks:
+       - proxy-network
+       - local-network
+    environment:
+      - "VIRTUAL_HOST=${HOSTS}"
+
+  php-fpm:
+    image: hiqdev/php:7.2-fpm
+    volumes:
+      - ./:/app
+      - ./.docker/php/var/log/php:/var/log/php
+    networks:
+      - local-network
+    extra_hosts:
+      - "${API_HOSTS_LINE}"
+    environment:
+      - "ENV=${ENV}"
+
+networks:
+  local-network:
+    driver: bridge
+  proxy-network:
+    external:
+      name: "nginx-proxy-network-${REAL_IP}"
+
