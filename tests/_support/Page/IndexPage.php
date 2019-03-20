@@ -184,6 +184,18 @@ class IndexPage extends Authenticated
     }
 
     /**
+     * Sorts table by specified column
+     *
+     * @param string $columnName
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function sortBy(string $columnName): void
+    {
+        $this->tester->click("//th/a[contains(text(), '$columnName')]");
+        $this->tester->waitForPageUpdate();
+    }
+
+    /**
      * Checks whether sorting works properly
      *
      * Method find column by $sortBy, parse data, call default sort by $sortBy
