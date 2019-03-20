@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  selenium:
+    image: selenium/standalone-chrome
+    volumes:
+      - /dev/shm:/dev/shm
+
+  hipanel:
+    build:
+      context: ..
+    links:
+      - hiam
+      - hiapi
+      - selenium
+    volumes:
+      - ${PWD}/_output:/app/tests/_output
+    ports:
+      - "80"
+    extra_hosts:
+      - php-fpm:127.0.0.1
+
+  hiam:
+    image: registry.hiqdev.com/advancedhosters/hiam.advancedhosters.com:latest
+    links:
+      - rcp
+    extra_hosts:
+      - php-fpm:127.0.0.1
+
+  hiapi:
+    image: registry.hiqdev.com/advancedhosters/hiapi.advancedhosters.com:latest
+    links:
+      - rcp
+    extra_hosts:
+      - php-fpm:127.0.0.1
+
+  rcp:
+    image: registry.hiqdev.com/advancedhosters/docker-pgsql-rcp:latest
