@@ -4,7 +4,7 @@ This is manual to create hipanel site but it must be mostly the same for panel a
 
 Start with copying root package from approriate existing hipanel site root project, e.g. `0domain.name`.
 
-Fix `.env.example`, pay attention:
+Fix `.env.dist`, pay attention:
 
     HOSTS=0domain.name
     HIAM_SITE=hiam.0domain.name
@@ -19,4 +19,4 @@ Fix ` composer.json`, pay attention:
 
     package name - 0domain.name
     namespace in autoload - ahnames\sites\site\odomainname
-    require proper asset - yii2-asset-0domain
+    require proper asset - yii-asset-0domain
