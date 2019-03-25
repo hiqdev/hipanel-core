@@ -1,8 +1,18 @@
 # Create new panel
 
-This is manual to create hipanel site but it must be mostly the same for panel and hiam.
+This is the manual on creating hipanel site but it must be very much the same for hipanel, hiapi and hiam.
 
-Start with copying root package from approriate existing hipanel site root project, e.g. `0domain.name`.
+1. Copy
+2. Fix names in `hidev.yml,` `composer.json,` `.env.*`
+3. `composer update`
+4. Add symlinks for `.env` and `docker-compose.yml`
+5. `chmod a+w runtime public/assets`
+
+## Copy
+
+Start with copying the root package from an approriate existing hipanel site root project, e.g. `ahnames/0domain.name`.
+
+## Fix names
 
 Fix `.env.dist`, pay attention:
 
