@@ -54,7 +54,7 @@
         "hiqdev/hipanel-rbac": "<2.0 || dev-master",
         "hiqdev/hipanel-hiart": "<2.0 || dev-master",
         "hiqdev/yii2-hiam-authclient": "*",
-        "hiqdev/yii2-combo": "<2.0 || dev-master",
+        "hiqdev/yii2-combo": "dev-master",
         "hiqdev/yii2-export": "<2.0 || dev-master",
         "hiqdev/yii2-higrid": "*@dev",
         "hiqdev/yii2-language": "*@dev",
