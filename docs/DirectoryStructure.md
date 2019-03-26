@@ -7,7 +7,7 @@
     - config/
         - params.php - non needed or minimal
     - core -> vendor/hiqdev/%the-core-package%/
-    - .docker/nginx/etc/nginx/conf.d/vhost.conf - standart but doesn't work when symlinked :(
+    - .docker/nginx/etc/nginx/conf.d/vhost.conf - almost standart but doesn't work when symlinked :(
     - .env.dist - production config
     - .env.local - local installation config
     - .gitignore
@@ -60,7 +60,7 @@
     - runtime/ - needs chmod a+w
     - composer.lock - commited at releases
     - ssl/ - normally not needed
-- copy pasted files (to be automated):
-    - .docker/nginx/etc/nginx/conf.d/vhost.conf - standart but doesn't work when symlinked :(
+- copy pasted files, to be automated:
+    - .docker/nginx/etc/nginx/conf.d/vhost.conf - can include IP restrictions
     - favicon.ico
 
