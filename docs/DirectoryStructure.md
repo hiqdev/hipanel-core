@@ -1,34 +1,34 @@
 # Directory Structure
 
 - commited files:
-    - composer.json
-    - composer.lock - commited at releases
-    - hidev.yml
-    - config/
-        - params.php - non needed or minimal
-    - core -> vendor/hiqdev/%the-core-package%/
-    - .docker/nginx/etc/nginx/conf.d/vhost.conf - almost standart but doesn't work when symlinked :(
-    - .env.dist - production config
-    - .env.local - local installation config
-    - .gitignore
-    - public/
-        - assets/
-            - .gitignore
-        - favicon.ico
-        - index.php -> ../core/public/index.php
-        - robots.txt -> ../core/public/robots.txt
-    - runtime/
-        - .gitignore
-    - phpunit.xml.dist -> core/phpunit.xml.dist
-    - tests/ -> core/tests
-    - ssl/ - normally not needed because automated
-        - fullchain.pem
-        - privkey.pem
-    - README.md
-    - LICENSE
+    - `core` -> vendor/hiqdev/%the-core-package%/
+    - `composer.json`
+    - `composer.lock` - commited at releases
+    - `hidev.yml`
+    - `config/`
+        - `params.php` - normally not needed or minimal
+    - `.docker/nginx/etc/nginx/conf.d/vhost.conf` - almost standart but doesn't work when symlinked :(
+    - `.env.dist` - production config
+    - `.env.local` - local installation config
+    - `.gitignore`
+    - `public/`
+        - `assets/`
+            - `.gitignore`
+        - `favicon.ico`
+        - `index.php` -> ../core/public/index.php
+        - `robots.txt` -> ../core/public/robots.txt
+    - `runtime/`
+        - `.gitignore`
+    - `phpunit.xml.dist` -> core/phpunit.xml.dist
+    - `tests/` -> core/tests
+    - `README.md`
+    - `LICENSE`
+    - `ssl/` - normally not needed because automated
+        - `fullchain.pem`
+        - `privkey.pem`
 - uncommited files:
-    - docker-compose.yml -> core/docker-compose.yml.dist
-    - .env -> .env.dist
+    - `docker-compose.yml` -> core/docker-compose.yml.dist
+    - `.env` -> .env.dist
 
 ## Ideas
 
@@ -44,7 +44,7 @@
     - tests/
     - phpunit.xml.dist
     - docker-compose.yml
-- thouroughly handcrafted files:
+- thouroughly handcrafted files with project configuration:
     - hidev.yml
     - composer.json
     - .env.dist - production config
