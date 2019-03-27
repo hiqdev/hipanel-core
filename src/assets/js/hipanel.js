@@ -65,7 +65,7 @@ window.hipanel = (function () {
         },
         googleAnalytics: function ($element, options) {
             $element.on('click', () => {
-                ga('send', 'event', options.category, options.action);
+                ga('send', 'pageview', '/virtual/' + options.category + '/' + options.action);
             })
         }
     };
