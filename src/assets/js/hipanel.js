@@ -62,6 +62,11 @@ window.hipanel = (function () {
             set: function (newLocale) {
                 locale = newLocale;
             }
+        },
+        googleAnalytics: function ($element, options) {
+            $element.on('click', () => {
+                ga('send', 'event', options.category, options.action);
+            })
         }
     };
 
