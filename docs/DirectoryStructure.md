@@ -67,3 +67,8 @@
         - fullchain.pem
         - privkey.pem
 
+## Examples
+
+- https://git.hiqdev.com/hiqdev/hiam-demo.hipanel.com
+- https://git.hiqdev.com/hiqdev/hiapi-demo.hipanel.com
+- https://git.hiqdev.com/hiqdev/hipanel-demo.hipanel.com
