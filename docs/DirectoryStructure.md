@@ -8,16 +8,16 @@
     - `.env.X`
         - `.env.dist` - production config
         - `.env.local` - local installation config
-    - `.gitignore`
+    - `.gitignore` -> core/.gitignore
+    - `phpunit.xml.dist` -> core/phpunit.xml.dist
     - `public/`
-        - `assets/.gitignore`
+        - `assets/.gitignore` - ignore everything, for git to keep the directory
         - `favicon.ico`
         - `index.php` -> ../core/public/index.php
         - `robots.txt` -> ../core/public/robots.txt
-    - `runtime/.gitignore`
-    - `phpunit.xml.dist` -> core/phpunit.xml.dist
+    - `runtime/.gitignore` - ignore everything, for git to keep the directory
     - `tests/` -> core/tests
-- uncommited files:
+- uncommited symlinks:
     - `.env` -> `.env.X`
         - `.env.dist`   for **production**
         - `.env.local`  for **local** development
@@ -45,8 +45,9 @@
     - composer.json
     - .env.X
         - .env.dist - production config
-        - .env.local - config for local isntallation
+        - .env.local - config for local installation
         - .env.dev - staging
+        - .env.myname-dev - personal configurations allowed
     - hidev.yml - not really needed, to be removed
     - config/params.php - not really needed, to be removed
 - thoughtfully simlinked files:
