@@ -54,7 +54,7 @@
     - .env.local - config for local isntallation
     - .env.dev - staging
     - config/params.php - not needed or minimal
-    - docker-compose.yml - may be deriviated from `core/docker-compose.yml.(dist|dev|local)`
+    - docker-compose.yml - normally is a symlink, but may be deriviated from `core/docker-compose.yml.(dist|dev|local)`
 - hidev generated files:
     - README.md
     - LICENSE
