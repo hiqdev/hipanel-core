@@ -56,7 +56,7 @@ These files are thoroughly prepared and ready to use.
 It is only necessary to symlink them:
 
 ```sh
-ln -s .env.local .env                            
+ln -s .env.local .env
 ln -s core/docker-compose.yml.local docker-compose.yml
 ```
 
@@ -68,10 +68,11 @@ Find docker volume mountpoint with `inspect` command and then chmod it with `a+w
 Also chmod +x all path. Like this:
 
 ```sh
-docker volume inspect var-hiapi-demo.hipanel.com
-sudo chmod a+w /var/lib/docker/volumes/var-hiapi-demo.hipanel.com/_data
-sudo chmod a+x /var/lib/docker/volumes/var-hiapi-demo.hipanel.com
-sudo chmod a+x /var/lib/docker/volumes
+API_VAR_DIR=$(docker volume inspect var-hiapi-demo.hipanel.com -f '{{json .Mountpoint}}')
+sudo chmod a+w $API_VAR_DIR
+sudo chmod a+x $(dirname $API_VAR_DIR)
+sudo chmod a+x $(dirname $(dirname $API_VAR_DIR))
+unset API_VAR_DIR
 ```
 
 ## Setup/Reset database
