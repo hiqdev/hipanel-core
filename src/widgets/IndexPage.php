@@ -1,18 +1,17 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
 use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\helpers\ArrayHelper;
-use hipanel\helpers\StringHelper;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use hiqdev\yii2\export\widgets\IndexPageExportLinks;

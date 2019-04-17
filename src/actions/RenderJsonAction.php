@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -23,6 +23,7 @@ class RenderJsonAction extends Action
     public function run()
     {
         $data = $this->return instanceof \Closure ? call_user_func($this->return, $this) : $this->return;
+
         return $this->controller->renderJson($data);
     }
 }

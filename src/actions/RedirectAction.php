@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -34,6 +34,7 @@ class RedirectAction extends Action
         if ($this->_url instanceof Closure) {
             return call_user_func($this->_url, $this);
         }
+
         return $this->_url ?: Yii::$app->request->referrer;
     }
 
@@ -52,6 +53,7 @@ class RedirectAction extends Action
         } elseif ($this->error) {
             $this->addFlash('error', $this->error);
         }
+
         return $this->controller->redirect($this->getUrl());
     }
 

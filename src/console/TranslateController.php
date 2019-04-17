@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\console;
@@ -139,11 +139,11 @@ class TranslateController extends MessageController
                     $ptr_first_curly = $i;
                 }
                 // increment nesting
-                $nest += 1;
+                ++$nest;
             } elseif ($s[$i] === '}') {
                 // found right curly
                 // reduce nesting
-                $nest -= 1;
+                --$nest;
                 if ($nest === 0) {
                     // end of nesting
                     if ($ptr_first_curly - $start >= 0) {
@@ -179,6 +179,7 @@ class TranslateController extends MessageController
         if (strlen($suffix) > 0) {
             array_push($result, substr($s, $start, $total_len - $start));
         }
+
         return $result;
     }
 
@@ -202,6 +203,7 @@ class TranslateController extends MessageController
             }
         }
         print_r($translation);
+
         return $translation;
     }
 
@@ -227,6 +229,7 @@ class TranslateController extends MessageController
             if (!$force) {
                 if (array_keys($existingMessages) === $messages) {
                     $this->stdout("Nothing new in \"$category\" category... Nothing to save.\n\n", Console::FG_GREEN);
+
                     return;
                 }
             }

@@ -1,18 +1,17 @@
 <?php
 /**
- * Hosting Plugin for HiPanel
+ * HiPanel core package
  *
- * @link      https://github.com/hiqdev/hipanel-module-hosting
- * @package   hipanel-module-hosting
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets\obj;
 
 use hipanel\models\Obj;
 use hipanel\widgets\Label;
-use Yii;
 
 class ObjLabelWidget extends Label
 {

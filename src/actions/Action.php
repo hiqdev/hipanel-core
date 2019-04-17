@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -47,7 +47,7 @@ class Action extends \yii\base\Action
     public $_scenario;
 
     /**
-     * Perform query options
+     * Perform query options.
      * @var array
      */
     public $queryOptions = [];
@@ -167,6 +167,7 @@ class Action extends \yii\base\Action
     public function saveCollection()
     {
         $this->beforeSave();
+
         return $this->collection->save();
     }
 
@@ -214,6 +215,7 @@ class Action extends \yii\base\Action
         }
 
         $this->afterPerform();
+
         return $error;
     }
 

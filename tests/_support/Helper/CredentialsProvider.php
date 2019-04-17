@@ -1,4 +1,13 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\tests\_support\Helper;
 
 use Codeception\Exception\ModuleException;
@@ -7,7 +16,7 @@ use Codeception\Module\WebDriver;
 use hipanel\helpers\Url;
 
 /**
- * Class CredentialsProvider
+ * Class CredentialsProvider.
  *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  */

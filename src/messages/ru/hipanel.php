@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 /**
@@ -324,5 +324,5 @@ return [
     'Autorenewal has been disabled' => 'Автообновление выключено',
     'Failed disabling Autorenewal' => 'Не удалось отключить автообновление',
     'Failed enabling Autorenewal' => 'Не удалось включить автообновление',
-    'You have not set a PIN code! Contact our support by e-mail {email}.' => 'У вас не установлен пин-код! Свяжитесь с нашей службой поддержки по электронной почте {email}.'
+    'You have not set a PIN code! Contact our support by e-mail {email}.' => 'У вас не установлен пин-код! Свяжитесь с нашей службой поддержки по электронной почте {email}.',
 ];

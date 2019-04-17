@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\gridLegend;
 
@@ -24,7 +32,7 @@ class GridLegend extends Widget
     public function gridRowOptions()
     {
         foreach ($this->legendItem->items() as $item) {
-            if (!isset($item['columns']) && isset($item['rule']) && (bool)$item['rule'] === true) {
+            if (!isset($item['columns']) && isset($item['rule']) && (bool) $item['rule'] === true) {
                 return ['style' => "background-color: {$this->getColor($item)} !important;"];
             }
         }
@@ -35,7 +43,7 @@ class GridLegend extends Widget
     public function gridColumnOptions($column)
     {
         foreach ($this->legendItem->items() as $item) {
-            if (isset($item['columns']) && \in_array($column, $item['columns'], true) && (bool)$item['rule'] === true) {
+            if (isset($item['columns']) && \in_array($column, $item['columns'], true) && (bool) $item['rule'] === true) {
                 return ['style' => "background-color: {$this->getColor($item)} !important;"];
             }
         }

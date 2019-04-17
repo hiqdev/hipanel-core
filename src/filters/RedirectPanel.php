@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\filters;
 
@@ -13,13 +21,12 @@ use yii\helpers\StringHelper;
  * ```
  *   'class' => RedirectPanel::class,
  *   'actions' => 'index,view',
- * ```
+ * ```.
  *
  * @author Andrii Vasyliev <sol@hiqdev.com>
  */
 class RedirectPanel extends ActionFilter
 {
-
     /**
      * @var string a list of actions requiring redirect to panel
      */
@@ -28,8 +35,8 @@ class RedirectPanel extends ActionFilter
     /**
      * This method is invoked right before an action is to be executed (after all possible filters.)
      * You may override this method to do last-minute preparation for the action.
-     * @param Action $action the action to be executed.
-     * @return bool whether the action execution should be continued.
+     * @param Action $action the action to be executed
+     * @return bool whether the action execution should be continued
      */
     public function beforeAction($action)
     {

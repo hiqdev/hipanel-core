@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -60,6 +60,7 @@ class HiBox extends Box
                     $icon = isset($this->boxTools[$name]['icon']) ? Html::tag('i', '', ['class' => 'fa ' . $this->boxTools[$name]['icon']]) : '';
                     $label = $icon . ' ' . $label;
                     $this->boxTools[$name]['options']['class'] = isset($this->boxTools[$name]['options']['class']) ? 'btn btn-sm ' . $this->boxTools[$name]['options']['class'] : 'btn btn-sm';
+
                     return Html::button($label, $this->boxTools[$name]['options']);
                 } else {
                     return '';

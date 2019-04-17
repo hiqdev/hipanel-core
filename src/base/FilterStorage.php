@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -115,11 +115,12 @@ class FilterStorage extends Component
      * Returns a value by a specific $key.
      *
      * @param $key
-     * @return null|mixed
+     * @return mixed|null
      */
     public function getByKey($key)
     {
         $storage = $this->getStorage();
+
         return isset($storage[$key]) ? $storage[$key] : null;
     }
 

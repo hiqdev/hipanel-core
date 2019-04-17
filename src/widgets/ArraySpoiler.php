@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -97,7 +97,7 @@ class ArraySpoiler extends Widget
 
     /**
      * @var string|null delimiter that is used to join hidden items
-     * Defaults to `null`, meaning that delimiter is the same as for visible items.
+     * Defaults to `null`, meaning that delimiter is the same as for visible items
      */
     public $hiddenDelimiter;
 
@@ -193,6 +193,7 @@ class ArraySpoiler extends Widget
             $spoiled[] = $iterator->current();
             $iterator->next();
         }
+
         return $spoiled;
     }
 
@@ -211,6 +212,7 @@ class ArraySpoiler extends Widget
     {
         if (count($this->getSpoiledItems()) === 0) {
             $this->parts['{button}'] = '';
+
             return;
         }
 
@@ -225,6 +227,7 @@ class ArraySpoiler extends Widget
     {
         if (count($this->getSpoiledItems()) === 0) {
             $this->parts['{hidden}'] = '';
+
             return;
         }
 
@@ -268,6 +271,7 @@ class ArraySpoiler extends Widget
     public function renderHiddenPopover()
     {
         $this->parts['{hidden}'] = '';
+
         return implode($this->hiddenDelimiter ?? $this->delimiter, $this->getSpoiledItems());
     }
 

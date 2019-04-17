@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\controllers;
@@ -86,7 +86,6 @@ class SiteController extends \hisite\controllers\SiteController
         ]);
     }
 
-
     public function actionUnimpersonate()
     {
         if ($this->impersonator->isUserImpersonated()) {
@@ -143,12 +142,13 @@ class SiteController extends \hisite\controllers\SiteController
         }
 
         $this->impersonator->backupCurrentToken();
+
         return $this->redirect($this->impersonator->buildAuthUrl($user_id));
     }
 
     public function actionHealthcheck()
     {
-        $text = "Up and running.";
+        $text = 'Up and running.';
         if (isset(Yii::$app->user->identity->id)) {
             $id = Yii::$app->user->identity->id;
             $text .= "\n<h6>User ID: <userId>$id</userId></h6>";

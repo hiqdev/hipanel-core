@@ -1,12 +1,19 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\tests\_support\Page\Widget\Input;
 
 /**
- * Class Select2
+ * Class Select2.
  *
  * Represent Select2 input element.
- * @package hipanel\tests\_support\Page\Widget\Input
  */
 class Select2 extends TestableInput
 {
@@ -79,8 +86,8 @@ class Select2 extends TestableInput
 
     /**
      * @param string $name
-     * @return Select2
      * @throws \Exception
+     * @return Select2
      */
     public function fillSearchField(string $name): Select2
     {
@@ -105,6 +112,7 @@ class Select2 extends TestableInput
         });
 JS
         );
+
         return $this;
     }
 
@@ -122,6 +130,7 @@ JS
         });
 JS
         );
+
         return $this;
     }
 }

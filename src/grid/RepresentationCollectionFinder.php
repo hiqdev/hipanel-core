@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\grid;
 
@@ -65,8 +73,8 @@ class RepresentationCollectionFinder
     }
 
     /**
-     * @return RepresentationCollection|RepresentationCollectionInterface
      * @throws InvalidConfigException When collection does not exist for the route
+     * @return RepresentationCollection|RepresentationCollectionInterface
      */
     public function findOrFail()
     {
@@ -78,7 +86,7 @@ class RepresentationCollectionFinder
         return $collection;
     }
 
-    static function forCurrentRoute(string $representationsLocation)
+    public static function forCurrentRoute(string $representationsLocation)
     {
         $controller = Yii::$app->controller;
 

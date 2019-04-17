@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\grid;
 
@@ -7,7 +15,7 @@ use yii\grid\Column;
 use yii\helpers\Html;
 
 /**
- * Class ColspanColumn
+ * Class ColspanColumn.
  *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  */
@@ -45,8 +53,8 @@ class ColspanColumn extends DataColumn
     }
 
     /**
-     * @return Column[]
      * @throws \yii\base\InvalidConfigException
+     * @return Column[]
      */
     protected function createSubColumns()
     {
@@ -59,6 +67,7 @@ class ColspanColumn extends DataColumn
                 'grid' => $this->grid,
             ], $column));
         }
+
         return $this->columns;
     }
 }

@@ -1,7 +1,14 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\tests\_support\Helper;
-
 
 class WaitHelper extends \Codeception\Module
 {
@@ -13,6 +20,6 @@ class WaitHelper extends \Codeception\Module
     {
         $I = $this->getModule('WebDriver');
 
-        $I->waitForJS("return $.active == 0;", $timeOut);
+        $I->waitForJS('return $.active == 0;', $timeOut);
     }
 }

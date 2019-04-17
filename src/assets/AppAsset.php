@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\assets;
@@ -14,7 +14,6 @@ use hiqdev\assets\pnotify\PNotifyAsset;
 use hiqdev\assets\select2_bootstrap3_css\Select2Bootstrap3CssAsset;
 use hiqdev\combo\ComboAsset;
 use hiqdev\yii2\assets\JqueryResizableColumns\ResizableColumnsAsset;
-use Yii;
 use yii\bootstrap\BootstrapAsset;
 use yii\bootstrap\BootstrapPluginAsset;
 use yii\web\AssetBundle;

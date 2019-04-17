@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\combo;
 
@@ -9,7 +17,7 @@ use yii\bootstrap\Html;
 use yii\web\View;
 
 /**
- * Class InternalObjectCombo
+ * Class InternalObjectCombo.
  */
 class InternalObjectCombo extends Combo
 {
@@ -73,7 +81,6 @@ class InternalObjectCombo extends Combo
         foreach ($this->classes as $className => $options) {
             $this->applyConfigByObjectClassName($className);
         }
-
     }
 
     private function registerChangerScript()
@@ -115,11 +122,11 @@ class InternalObjectCombo extends Combo
     private function registerSpecialAssets()
     {
         // Fix validation styles
-        $this->view->registerCss("
+        $this->view->registerCss('
             .form-group.has-error .select2-selection { border-color: #dd4b39; box-shadow: none; }
             .form-group.has-success .select2-selection { border-color: #00a65a; box-shadow: none; }
             select.object-selector-select:not([data-select2-id]) { display: none; }
-        ");
+        ');
         $this->view->registerJs(<<<'JS'
             (function( $ ){
 
@@ -170,7 +177,7 @@ JS
     }
 
     /**
-     * Reset attributes which may remains from the previous combo-object which leads to incorrect JS configuration
+     * Reset attributes which may remains from the previous combo-object which leads to incorrect JS configuration.
      */
     private function reset(): void
     {

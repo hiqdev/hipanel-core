@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -88,6 +88,7 @@ class FileRender extends Widget
     public function run()
     {
         $this->registerClientScript();
+
         return $this->renderHtml();
     }
 
@@ -115,6 +116,7 @@ class FileRender extends Widget
                 return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), ['target' => '_blank']);
             } else {
                 $linkOptions = ArrayHelper::merge(['data-lightbox' => 'file-' . $file->id], $this->lightboxLinkOptions);
+
                 return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), $linkOptions);
             }
         } catch (UnsupportedMimeTypeException $e) {

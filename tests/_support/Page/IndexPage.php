@@ -1,11 +1,18 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\tests\_support\Page;
 
+use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
-use hipanel\tests\_support\Page\Widget\Input\Dropdown;
-
 use WebDriverKeys;
 
 class IndexPage extends Authenticated
@@ -29,7 +36,7 @@ class IndexPage extends Authenticated
             $input->isVisible();
         }
         $I->see('Search', TestableInput::AS_BASE . "button[type='submit']");
-        $I->see('Clear', TestableInput::AS_BASE  . "a");
+        $I->see('Clear', TestableInput::AS_BASE . 'a');
     }
 
     /**
@@ -96,7 +103,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Filters index page table
+     * Filters index page table.
      *
      * @param TestableInput $inputElement
      * @param $value
@@ -113,7 +120,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Selects table row by its number
+     * Selects table row by its number.
      *
      * @param int $n - number of the row that should be selected
      */
@@ -126,7 +133,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Opens table row menu by its number
+     * Opens table row menu by its number.
      *
      * @param int $n - number of the row which menu should be opened
      */
@@ -136,7 +143,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Opens table row menu by item id
+     * Opens table row menu by item id.
      *
      * @param string $id - id of item which menu should be opened
      */
@@ -146,7 +153,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Clicks to row menu option
+     * Clicks to row menu option.
      *
      * @param $option - the name of option that should be clicked
      * @throws \Codeception\Exception\ModuleException
@@ -158,7 +165,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Parse tbody, count td and return result
+     * Parse tbody, count td and return result.
      *
      * @return int
      */
@@ -168,7 +175,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Checks whether filtering works properly
+     * Checks whether filtering works properly.
      *
      * @param string $filterBy
      * @param string $name
@@ -178,13 +185,13 @@ class IndexPage extends Authenticated
     {
         $this->filterBy(new Dropdown($this->tester, "tr.filters select[name*=$filterBy]"), $name);
         $count = $this->countRowsInTableBody();
-        for ($i = 1 ; $i <= $count; ++$i) {
+        for ($i = 1; $i <= $count; ++$i) {
             $this->tester->see($name, "//tbody/tr[$i]");
         }
     }
 
     /**
-     * Sorts table by specified column
+     * Sorts table by specified column.
      *
      * @param string $columnName
      * @throws \Codeception\Exception\ModuleException
@@ -196,7 +203,7 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Checks whether sorting works properly
+     * Checks whether sorting works properly.
      *
      * Method find column by $sortBy, parse data, call default sort by $sortBy
      * and compare data in table with sort(copy_data_from_table)
@@ -214,23 +221,23 @@ class IndexPage extends Authenticated
         $count = $this->countRowsInTableBody();
         while ($whereNeedle < count($tableWithNeedle)) {
             if ($tableWithNeedle[$whereNeedle] === $sortBy) {
-                break ;
+                break;
             }
-            $whereNeedle++;
+            ++$whereNeedle;
         }
         $whereNeedle += 2;
         /**
-         *  $whereNeedle += 2 && $i = 1 because xpath elements starting from 1
+         *  $whereNeedle += 2 && $i = 1 because xpath elements starting from 1.
          */
         $arrayForSort = [];
-        for ($i = 1 ; $i <= $count; ++$i) {
+        for ($i = 1; $i <= $count; ++$i) {
             $arrayForSort[$i] = $this->tester->grabTextFrom("//tbody/tr[$i]/td[$whereNeedle]");
         }
         /**
-         *  After sort() function arrayForSort start index = 0, but xpath elements starting from 1
+         *  After sort() function arrayForSort start index = 0, but xpath elements starting from 1.
          */
         sort($arrayForSort, SORT_NATURAL | SORT_FLAG_CASE);
-        for ($i = 1 ; $i <= $count; ++$i) {
+        for ($i = 1; $i <= $count; ++$i) {
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
         }
     }

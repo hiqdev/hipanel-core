@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\behaviors;
@@ -13,7 +13,6 @@ namespace hipanel\behaviors;
 use hipanel\components\UiOptionsStorage;
 use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\models\IndexPageUiOptions;
-use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
 use yii\base\Behavior;
 use yii\helpers\Html;
@@ -96,7 +95,7 @@ class UiOptionsBehavior extends Behavior
 
     protected function isRouteAllowed()
     {
-        return in_array($this->owner->action->id, $this->allowedRoutes);
+        return in_array($this->owner->action->id, $this->allowedRoutes, true);
     }
 
     /**
@@ -108,7 +107,7 @@ class UiOptionsBehavior extends Behavior
     }
 
     /**
-     * example: store/part/index
+     * example: store/part/index.
      *
      * @return string
      */

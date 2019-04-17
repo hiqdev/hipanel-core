@@ -1,12 +1,19 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\tests\_support\Page\Widget\Input;
 
 /**
- * Class Dropdown
+ * Class Dropdown.
  *
  * Represents dropdown input element
- * @package hipanel\tests\_support\Page\Widget\Input
  */
 class Dropdown extends TestableInput
 {

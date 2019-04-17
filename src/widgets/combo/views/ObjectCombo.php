@@ -8,7 +8,6 @@
 /** @var string $selectedAttributeName */
 
 /** @var array $classes */
-
 use hipanel\widgets\combo\InternalObjectCombo;
 use yii\bootstrap\Html;
 

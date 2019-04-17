@@ -1,19 +1,27 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\combo;
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\domain\widgets\combo\DomainCombo;
 use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
-use hipanel\modules\domain\widgets\combo\DomainCombo;
 use Yii;
 use yii\bootstrap\InputWidget;
 
 /**
- * Class BaseObjectSelector
+ * Class BaseObjectSelector.
  */
 class ObjectCombo extends InputWidget
 {
@@ -52,7 +60,7 @@ class ObjectCombo extends InputWidget
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -102,4 +110,3 @@ class ObjectCombo extends InputWidget
         return $class === 'device' ? 'Server' : ucfirst($class);
     }
 }
-

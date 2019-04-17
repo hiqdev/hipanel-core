@@ -12,7 +12,6 @@ use yii\helpers\ArrayHelper;
  * @var array $currencyAttributeOptions
  * @var array $currencyDropdownOptions
  */
-
 ?>
 <div class="input-group">
     <div class="input-group-btn">

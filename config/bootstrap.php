@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 if (!defined('WEBAPP_ROOT_DIR')) {
     define('WEBAPP_ROOT_DIR', dirname(__DIR__, 4));

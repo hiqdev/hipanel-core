@@ -1,11 +1,19 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\tests\_support\Page\Widget\Input;
 
 use hipanel\tests\_support\AcceptanceTester;
 
 /**
- * Class TestableInput
+ * Class TestableInput.
  *
  * Basic class for input elements.
  * The elements can be created in three different ways:
@@ -24,8 +32,6 @@ use hipanel\tests\_support\AcceptanceTester;
  *  constructors.
  *  The second argument is title of element in Advanced search or
  *  column name in Table filter respectively.
- *
- * @package hipanel\tests\_support\Page\Widget\Input
  */
 abstract class TestableInput
 {
@@ -68,7 +74,7 @@ abstract class TestableInput
      */
     public static function asAdvancedSearch(AcceptanceTester $tester, string $title): TestableInput
     {
-        $instance           = new static($tester, "");
+        $instance           = new static($tester, '');
         $instance->title    = $title;
         $instance->auxName  = $instance->computeAuxName($title);
         $instance->selector = $instance->getSearchSelector();
@@ -83,7 +89,7 @@ abstract class TestableInput
      */
     public static function asTableFilter(AcceptanceTester $tester, string $columnName): TestableInput
     {
-        $instance           = new static($tester, "");
+        $instance           = new static($tester, '');
         $instance->auxName  = $instance->computeAuxName($columnName);
         $instance->selector = $instance->getFilterSelector();
 
@@ -123,7 +129,7 @@ abstract class TestableInput
     }
 
     /**
-     * Checks whether input is visible
+     * Checks whether input is visible.
      */
     public function isVisible(): void
     {

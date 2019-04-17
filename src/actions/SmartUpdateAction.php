@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -61,8 +61,8 @@ class SmartUpdateAction extends SwitchAction
      * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]].
      *
      * @throws BadRequestHttpException
-     * @return ActiveDataProvider
      * @throws \yii\base\InvalidConfigException when failed to generate `WHERE` condition
+     * @return ActiveDataProvider
      */
     public function getDataProvider()
     {
@@ -105,6 +105,7 @@ class SmartUpdateAction extends SwitchAction
         if (is_null($this->_searchModel)) {
             $this->_searchModel = $this->controller->searchModel();
         }
+
         return $this->_searchModel;
     }
 
@@ -127,6 +128,7 @@ class SmartUpdateAction extends SwitchAction
                     foreach ($models as $model) {
                         $model->scenario = $this->scenario;
                     }
+
                     return [
                         'models' => $models,
                         'model' => reset($models),
@@ -143,6 +145,7 @@ class SmartUpdateAction extends SwitchAction
                         foreach ($models as $model) {
                             $model->scenario = $this->scenario;
                         }
+
                         return [
                             'models' => $models,
                             'model' => reset($models),
@@ -238,6 +241,7 @@ class SmartUpdateAction extends SwitchAction
         $this->beforeFetchLoad();
         $dataProvider = $this->getDataProvider();
         $this->beforeFetch();
+
         return $dataProvider->getModels();
     }
 

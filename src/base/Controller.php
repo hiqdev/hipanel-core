@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -159,7 +159,7 @@ class Controller extends \yii\web\Controller
      * @param int|array $condition scalar ID or array to be used for searching
      * @param array $config config to be used to create the [[Model]]
      * @throws NotFoundHttpException
-     * @return array|ActiveRecord|null|static
+     * @return array|ActiveRecord|static|null
      */
     public static function findModel($condition, $config = [])
     {

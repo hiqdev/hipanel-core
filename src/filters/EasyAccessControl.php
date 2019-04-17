@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\filters;
 
@@ -21,14 +29,14 @@ use yii\web\User;
  *       'delete'    => 'ticket.delete',
  *       '*'         => 'ticket.read',
  *   ],
- * ```
+ * ```.
  *
  * @author Andrii Vasyliev <sol@hiqdev.com>
  */
 class EasyAccessControl extends ActionFilter
 {
     /**
-     * @var User|array|string|false the user object representing the authentication status or the ID of the user application component.
+     * @var User|array|string|false the user object representing the authentication status or the ID of the user application component
      */
     public $user = 'user';
 
@@ -61,8 +69,8 @@ class EasyAccessControl extends ActionFilter
     /**
      * This method is invoked right before an action is to be executed (after all possible filters.)
      * You may override this method to do last-minute preparation for the action.
-     * @param Action $action the action to be executed.
-     * @return bool whether the action execution should be continued.
+     * @param Action $action the action to be executed
+     * @return bool whether the action execution should be continued
      */
     public function beforeAction($action)
     {
@@ -119,7 +127,7 @@ class EasyAccessControl extends ActionFilter
      * The default implementation will redirect the user to the login page if he is a guest;
      * if the user is already logged, a 403 HTTP exception will be thrown.
      * @param User|false $user the current user or boolean `false` in case of detached User component
-     * @throws ForbiddenHttpException if the user is already logged in or in case of detached User component.
+     * @throws ForbiddenHttpException if the user is already logged in or in case of detached User component
      */
     protected function denyAccess($action)
     {

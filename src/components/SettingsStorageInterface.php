@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\components;
@@ -37,7 +37,7 @@ interface SettingsStorageInterface
      * Gets value from user's storage $key.
      *
      * @param string $key
-     * @return mixed Empty array will be returned if no data exists.
+     * @return mixed empty array will be returned if no data exists
      */
     public function getGlobal($key);
 
@@ -45,7 +45,7 @@ interface SettingsStorageInterface
      * Gets value from user's storage bound to the OAuth `client_id`.
      *
      * @param string $key
-     * @return mixed Empty array will be returned if no data exists.
+     * @return mixed empty array will be returned if no data exists
      */
     public function getBounded($key);
 }

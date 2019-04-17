@@ -1,14 +1,22 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\actions;
 
 use hipanel\grid\RepresentationCollectionFinder;
-use Yii;
+use hiqdev\yii2\export\exporters\ExporterFactoryInterface;
 use hiqdev\yii2\export\exporters\Type;
 use hiqdev\yii2\export\models\CsvSettings;
 use hiqdev\yii2\export\models\TsvSettings;
 use hiqdev\yii2\export\models\XlsxSettings;
-use hiqdev\yii2\export\exporters\ExporterFactoryInterface;
+use Yii;
 
 class ExportAction extends IndexAction
 {
@@ -74,14 +82,14 @@ class ExportAction extends IndexAction
     }
 
     /**
-     * @return string
      * @throws \Exception
+     * @return string
      */
     protected function guessGridClassName()
     {
         $controllerName = ucfirst($this->controller->id);
         $ns = implode(array_diff(explode('\\', get_class($this->controller)), [
-            $controllerName . 'Controller', 'controllers'
+            $controllerName . 'Controller', 'controllers',
         ]), '\\');
         $girdClassName = sprintf('\%s\grid\%sGridView', $ns, $controllerName);
         if (class_exists($girdClassName)) {

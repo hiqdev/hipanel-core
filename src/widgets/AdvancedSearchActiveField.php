@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -18,7 +18,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveField;
 
 /**
- * Class AdvancedSearchActiveField
+ * Class AdvancedSearchActiveField.
  *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  */
@@ -58,7 +58,7 @@ class AdvancedSearchActiveField extends ActiveField
         return parent::textarea(ArrayHelper::merge([
             'data-autosize' => true, 'rows' => 1,
             'placeholder' => $this->model->getAttributeLabel($this->attribute),
-            'style' => ['max-height' => '30vh']
+            'style' => ['max-height' => '30vh'],
         ], $options));
     }
 

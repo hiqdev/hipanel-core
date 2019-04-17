@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets;
 
@@ -7,7 +15,6 @@ use yii\base\Widget;
 use yii\helpers\Html;
 
 /**
- *
  * @property integer $size
  * @property string[] $color
  * @property string[] $icon
@@ -57,7 +64,7 @@ class IconStateLabel extends Widget
     public $messages;
 
     /**
-     * Icon font size in `px`
+     * Icon font size in `px`.
      *
      * @var int
      */
@@ -70,7 +77,7 @@ class IconStateLabel extends Widget
 
     public function getState(): bool
     {
-        return (bool)$this->model->{$this->attribute};
+        return (bool) $this->model->{$this->attribute};
     }
 
     public function getIcon(): string

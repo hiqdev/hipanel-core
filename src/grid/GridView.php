@@ -1,14 +1,15 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
+
 use hipanel\assets\CheckboxStyleAsset;
 use hipanel\helpers\ArrayHelper;
 use hipanel\modules\client\grid\ClientColumn;
@@ -97,6 +98,7 @@ class GridView extends \hiqdev\higrid\GridView
     public static function detailView(array $config = [])
     {
         $config = ArrayHelper::merge(['gridOptions' => ['resizableColumns' => ['resizeFromBody' => true]]], $config);
+
         return parent::detailView($config);
     }
 

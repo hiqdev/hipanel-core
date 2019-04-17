@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
@@ -52,6 +52,7 @@ class MainColumn extends DataColumn
             return $url;
         }
         $baseUrl = isset($this->grid->controllerUrl) ? $this->grid->controllerUrl : '';
+
         return $baseUrl ? Url::to($baseUrl . '/' . $url) : Url::to($url);
     }
 
@@ -92,6 +93,7 @@ class MainColumn extends DataColumn
     public function renderViewLink($model, $key, $index)
     {
         $value = parent::renderDataCellContent($model, $key, $index);
+
         return Html::a($value, [$this->buildUrl('view'), 'id' => $model->id], ['class' => 'bold']);
     }
 

@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\helpers;
@@ -29,6 +29,7 @@ class FontIcon extends \yii\base\BaseObject
     public static function build($tag, $name, $params = [])
     {
         $class = get_called_class();
+
         return Yii::createObject(compact('class', 'tag', 'name', 'params'));
     }
 
@@ -40,6 +41,7 @@ class FontIcon extends \yii\base\BaseObject
     public function addClass($class)
     {
         Html::addCssClass($this->options, $class);
+
         return $this;
     }
 

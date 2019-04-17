@@ -1,4 +1,11 @@
 <?php
-// Here you can initialize variables that will be available to your tests
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 \Codeception\Util\Autoload::addNamespace('acceptance', __DIR__);

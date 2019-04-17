@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -38,6 +38,7 @@ class Gravatar extends \cebe\gravatar\Gravatar
     public static function hashEmail($email)
     {
         $email = strtolower(trim($email));
+
         return strpos($email, '@') === false ? $email : md5($email);
     }
 
@@ -46,6 +47,7 @@ class Gravatar extends \cebe\gravatar\Gravatar
         if (!$this->emailHash) {
             $this->defaultImage = '';
         }
+
         return parent::run();
     }
 }

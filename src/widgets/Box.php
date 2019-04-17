@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -117,6 +117,7 @@ class Box extends Widget
     {
         $resultTitle = Html::tag('h3', $title, ['class' => 'box-title']);
         $resultSmall = ($small === null) ? '' : Html::tag('span', $small, ['class' => 'box-title-helper']);
+
         return sprintf('%s %s', $resultTitle, $resultSmall);
     }
 

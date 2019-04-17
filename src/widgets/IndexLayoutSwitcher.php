@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -32,13 +32,13 @@ class IndexLayoutSwitcher extends Widget
                     '<i class="fa fa-pause" aria-hidden="true"></i>',
                     Url::current(['orientation' => IndexPageUiOptions::ORIENTATION_HORIZONTAL]),
                     ['class' => 'btn btn-default btn-sm ' .
-                            $this->getClassActive(IndexPageUiOptions::ORIENTATION_HORIZONTAL)
+                            $this->getClassActive(IndexPageUiOptions::ORIENTATION_HORIZONTAL),
                     ]),
                 Html::a(
                     '<i class="fa fa-pause fa-rotate-90" aria-hidden="true"></i>',
                     Url::current(['orientation' => IndexPageUiOptions::ORIENTATION_VERTICAL]),
                     ['class' => 'btn btn-default btn-sm ' .
-                            $this->getClassActive(IndexPageUiOptions::ORIENTATION_VERTICAL)
+                            $this->getClassActive(IndexPageUiOptions::ORIENTATION_VERTICAL),
                     ]),
             ],
         ]);

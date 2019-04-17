@@ -1,13 +1,13 @@
 <?php
 use yii\helpers\Html;
 
-$this->registerCss("
+$this->registerCss('
 .legend-item {
     position: relative;
     display: block;
     padding: 10px 15px 10px 10px;
 }
-"); ?>
+'); ?>
 
 <div class="box box-widget">
     <div class="box-header with-border">
