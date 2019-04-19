@@ -80,13 +80,15 @@ To make xDebug work in PHPStorm you need:
 
 4. In __server__ settings create server and fill data:
 
-   4.1 `localhost` in __Host__
+   4.1 Set __Name__ that matches your project domain name set in .env (e.g. `local.hipanel.hiqdev.com`)
 
-   4.2 `80` in __Port__
+   4.2 `localhost` in __Host__
 
-   4.3 `Xdebug` in __Debugger__
+   4.3 `80` in __Port__
 
-   4.4 Choose `Use path mappings` option and
+   4.4 `Xdebug` in __Debugger__
+
+   4.5 Choose `Use path mappings` option and
        type `/app` in __Absolute path on the server__
        where __File/Directory__ is root path of your project
 
@@ -94,8 +96,12 @@ To make xDebug work in PHPStorm you need:
    don't forget to activate your debug browser extension
 
 // What to do in PHPStorm, browser, etc?
+
 // How to check that xDebug is enabled on PHP side?
-// Troubleshooting:
+
+## Troubleshooting:
+
 // - debug session does not get started;
+
 // - debug can not locate files;
 
