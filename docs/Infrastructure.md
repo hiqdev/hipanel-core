@@ -10,8 +10,9 @@
     - PostgreSQL DB
     - HiAPI
     - Template2PDF
+    - Mailer
 - EPP
-- Other registrar stuff
+- Registrar stuff
     - WHOIS
     - Bots
     - DNS
@@ -23,6 +24,7 @@
         - Kibana
     - Grafana
     - PgWatch2
+- External backup
 
 ## By servers
 
@@ -30,6 +32,5 @@
     - Frontend
     - Backend
 - EPP
-- Aux & Other
-
-
+- Aux & Registrar stuff
+- External backup
