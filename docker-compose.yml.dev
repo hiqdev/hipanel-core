@@ -17,7 +17,7 @@ services:
       - "VIRTUAL_HOST=${HOSTS}"
 
   php-fpm:
-    image: hiqdev/php:7.2-fpm
+    image: hiqdev/php:7.3-fpm
     volumes:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
