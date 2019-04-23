@@ -56,6 +56,7 @@ class StringHelper extends \yii\helpers\StringHelper
      * @param string|null $locale   optional
      *
      * @return string|null the currency symbol or NULL if not found
+     * @see https://stackoverflow.com/questions/13897516/get-currency-symbol-in-php
      */
     public static function getCurrencySymbol($currency, $locale = null)
     {
