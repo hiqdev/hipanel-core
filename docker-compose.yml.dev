@@ -27,6 +27,7 @@ services:
       - "${API_HOSTS_LINE}"
     environment:
       - "ENV=${ENV}"
+      - "PHP_IDE_CONFIG=serverName=${HOSTS}"
 
 networks:
   local-network:
