@@ -160,7 +160,7 @@ class IndexPage extends Authenticated
      */
     public function chooseRowMenuOption(string $option): void
     {
-        $this->tester->click("//ul[@class='nav']//a[contains(text(), '{$option}')]");
+        $this->tester->click("//div[contains(@class, 'popover')]//a[contains(text(), '{$option}')]");
         $this->tester->waitForPageUpdate();
     }
 
