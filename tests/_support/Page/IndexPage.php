@@ -10,6 +10,7 @@
 
 namespace hipanel\tests\_support\Page;
 
+use hipanel\tests\_support\Page\Widget\Grid;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
@@ -73,18 +74,9 @@ class IndexPage extends Authenticated
     public function containsColumns(array $columnNames, $representation = null): void
     {
         $I = $this->tester;
-        $formId = $I->grabAttributeFrom("//form[contains(@id, 'bulk') " .
-                                        "and contains(@id, 'search')]", 'id');
-
-        if ($representation !== null) {
-            $I->click("//button[contains(text(), 'View:')]");
-            $I->click("//ul/li/a[contains(text(), '$representation')]");
-            $I->waitForPageUpdate(120);
-        }
-
-        foreach ($columnNames as $column) {
-            $I->see($column, "//form[@id='$formId']//table/thead/tr/th");
-        }
+        $gridPath = "//form[contains(@id, 'bulk') and contains(@id, 'search')]";
+        (new Grid($I, $gridPath))
+            ->containsColumns($columnNames, $representation);
     }
 
     /**
