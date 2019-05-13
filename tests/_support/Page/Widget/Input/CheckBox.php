@@ -46,6 +46,9 @@ JS
             , [$this->selector]);
     }
 
+    /**
+     * @return bool
+     */
     private function getCheckBoxState(): bool
     {
         $state = $this->tester->executeJS(<<<JS
