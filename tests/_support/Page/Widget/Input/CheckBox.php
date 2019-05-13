@@ -31,8 +31,7 @@ class CheckBox extends TestableInput
     public function setValue(string $value): void
     {
         $checkBoxState = $this->getCheckBoxState();
-        $boolState = $value === 'true' ? true : false;
-        if ($checkBoxState === $boolState) {
+        if ($checkBoxState === (bool)$value) {
             return;
         }
         $this->clickCheckBox();
