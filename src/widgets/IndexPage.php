@@ -439,6 +439,7 @@ JS
         if (Yii::$app->user->can($permission)) {
             return $button;
         }
+        return null;
     }
 
     /**

@@ -4,6 +4,9 @@ namespace hipanel\tests\_support\Page\Widget;
 
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Authenticated;
+use hipanel\tests\_support\Page\Widget\Input\Input;
+use hipanel\tests\_support\Page\Widget\Input\TestableInput;
+use WebDriverKeys;
 
 class Grid extends Authenticated
 {
@@ -37,5 +40,33 @@ class Grid extends Authenticated
         foreach ($columnNames as $column) {
             $I->see($column, "//form[@id='$formId']//table/thead/tr/th");
         }
+    }
+
+    /**
+     * Filters grids table.
+     *
+     * @param TestableInput $inputElement
+     * @param string $value
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function filterBy(TestableInput $inputElement, string $value): void
+    {
+        $inputElement->setValue($value);
+        if ($inputElement instanceof Input) {
+            $this->tester->pressKey($inputElement->getSelector(), WebDriverKeys::ENTER);
+        }
+        $this->tester->waitForPageUpdate();
+    }
+
+    /**
+     * Sorts grid by specified column.
+     *
+     * @param string $columnName
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function sortBy(string $columnName): void
+    {
+        $this->tester->click("//th/a[contains(text(), '$columnName')]");
+        $this->tester->waitForPageUpdate();
     }
 }
