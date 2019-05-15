@@ -53,7 +53,7 @@ class Grid extends Authenticated
     {
         $inputElement->setValue($value);
         if ($inputElement instanceof Input) {
-            $this->tester->pressKey($inputElement->getSelector(),WebDriverKeys::ENTER);
+            $this->tester->pressKey($inputElement->getSelector(), WebDriverKeys::ENTER);
         }
         $this->tester->waitForPageUpdate();
     }
