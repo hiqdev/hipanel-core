@@ -19,6 +19,11 @@ use WebDriverKeys;
 class IndexPage extends Authenticated
 {
     /**
+     * @var string
+     */
+    protected $gridPath = "//form[contains(@id, 'bulk') and contains(@id, 'search')]";
+
+    /**
      * @param TestableInput[] $inputs example:
      * ```php
      *  [
@@ -74,8 +79,7 @@ class IndexPage extends Authenticated
     public function containsColumns(array $columnNames, $representation = null): void
     {
         $I = $this->tester;
-        $gridPath = "//form[contains(@id, 'bulk') and contains(@id, 'search')]";
-        (new Grid($I, $gridPath))
+        (new Grid($I, $this->gridPath))
             ->containsColumns($columnNames, $representation);
     }
 
@@ -98,17 +102,13 @@ class IndexPage extends Authenticated
      * Filters index page table.
      *
      * @param TestableInput $inputElement
-     * @param $value
+     * @param string $value
      * @throws \Codeception\Exception\ModuleException
      */
     public function filterBy(TestableInput $inputElement, string $value): void
     {
-        $inputElement->setValue($value);
-        if ($inputElement instanceof Input) {
-            $this->tester->pressKey($inputElement->getSelector(),WebDriverKeys::ENTER);
-        }
-        $this->tester->wait(1);
-        $this->tester->waitForPageUpdate();
+        $I = $this->tester;
+        (new Grid($I, $this->gridPath))->filterBy($inputElement, $value);
     }
 
     /**
@@ -190,8 +190,8 @@ class IndexPage extends Authenticated
      */
     public function sortBy(string $columnName): void
     {
-        $this->tester->click("//th/a[contains(text(), '$columnName')]");
-        $this->tester->waitForPageUpdate();
+        $I = $this->tester;
+        (new Grid($I, $this->gridPath))->sortBy($columnName);
     }
 
     /**
