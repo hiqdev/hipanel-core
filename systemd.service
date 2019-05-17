@@ -1,0 +1,16 @@
+[Unit]
+Description=hipanel.VENDOR.com service in Docker container
+Requires=docker.service
+Requires=nginx-proxy-REAL_IP.service
+After=nginx-proxy-REAL_IP.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/sol/prj/VENDOR/hipanel.VENDOR.com
+Restart=always
+ExecStart=/usr/local/bin/docker-compose up
+ExecStop=/usr/local/bin/docker-compose stop
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=nginx-proxy-REAL_IP.service
