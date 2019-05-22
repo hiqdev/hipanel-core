@@ -10,18 +10,25 @@
 
 namespace hipanel\tests\_support\Page;
 
+use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Grid;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
-use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
-use WebDriverKeys;
 
 class IndexPage extends Authenticated
 {
-    /**
-     * @var string
-     */
-    protected $gridPath = "//form[contains(@id, 'bulk') and contains(@id, 'search')]";
+    /** @var string */
+    protected $gridSelector = "//form[contains(@id, 'bulk') and contains(@id, 'search')]";
+
+    /** @var Grid  */
+    protected $gridView;
+
+    public function __construct(AcceptanceTester $I, string $gridSelector = null)
+    {
+        parent::__construct($I);
+
+        $this->gridView = new Grid($I, $gridSelector ?? $this->gridSelector);
+    }
 
     /**
      * @param TestableInput[] $inputs example:
@@ -78,28 +85,32 @@ class IndexPage extends Authenticated
      */
     public function containsColumns(array $columnNames, $representation = null): void
     {
-        $I = $this->tester;
-        (new Grid($I, $this->gridPath))
-            ->containsColumns($columnNames, $representation);
+        $this->gridView->containsColumns($columnNames, $representation);
     }
 
     /**
+     * @see Grid::containsAmountOfRows()
+     *
      * @param int $amount
      */
     public function containsAmountOfRows(int $amount): void
     {
-        $this->tester->seeNumberOfElements('//tbody/tr', $amount);
-    }
-
-    public function getRowDataKeyByNumber(int $rowNumber): string
-    {
-        $selector = "form tbody tr:nth-child($rowNumber)";
-
-        return $this->tester->grabAttributeFrom($selector, 'data-key');
+        $this->gridView->containsAmountOfRows($amount);
     }
 
     /**
-     * Filters index page table.
+     * @see Grid::getRowDataKeyByNumber()
+     *
+     * @param int $rowNumber
+     * @return string
+     */
+    public function getRowDataKeyByNumber(int $rowNumber): string
+    {
+        return $this->getRowDataKeyByNumber($rowNumber);
+    }
+
+    /**
+     * @see Grid::filterBy()
      *
      * @param TestableInput $inputElement
      * @param string $value
@@ -107,63 +118,70 @@ class IndexPage extends Authenticated
      */
     public function filterBy(TestableInput $inputElement, string $value): void
     {
-        $I = $this->tester;
-        (new Grid($I, $this->gridPath))->filterBy($inputElement, $value);
+        $this->gridView->filterBy($inputElement, $value);
     }
 
     /**
-     * Selects table row by its number.
+     * @see Grid::selectRowByNumber()
      *
      * @param int $n - number of the row that should be selected
      */
     public function selectTableRowByNumber(int $n): void
     {
-        $I = $this->tester;
-
-        $selector = "form tbody tr:nth-child($n) input[type=checkbox]";
-        $I->click($selector);
+        $this->gridView->selectRowByNumber($n);
     }
 
     /**
-     * Opens table row menu by its number.
+     * @see Grid::openRowMenuByNumber()
      *
      * @param int $n - number of the row which menu should be opened
      */
     public function openRowMenuByNumber(int $n): void
     {
-        $this->tester->click("form tbody tr:nth-child($n) button");
+        $this->gridView->openRowMenuByNumber($n);
     }
 
     /**
-     * Opens table row menu by item id.
+     * @see Grid::openRowMenuById()
      *
      * @param string $id - id of item which menu should be opened
      */
     public function openRowMenuById(string $id): void
     {
-        $this->tester->click("tr[data-key='$id'] button");
+        $this->gridView->openRowMenuById($id);
     }
 
     /**
-     * Clicks to row menu option.
+     * @see Grid::openRowMenuByColumnValue()
+     *
+     * @param string $column
+     * @param string $value
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function openRowMenuByColumnValue(string $column, string $value): void
+    {
+        $this->gridView->openRowMenuByColumnValue($column, $value);
+    }
+
+    /**
+     * @see Grid::chooseRowMenuOption()
      *
      * @param $option - the name of option that should be clicked
      * @throws \Codeception\Exception\ModuleException
      */
     public function chooseRowMenuOption(string $option): void
     {
-        $this->tester->click("//div[contains(@class, 'popover')]//a[contains(text(), '{$option}')]");
-        $this->tester->waitForPageUpdate();
+        $this->gridView->chooseRowMenuOption($option);
     }
 
     /**
-     * Parse tbody, count td and return result.
+     * @see Grid::countRowsInTableBody()
      *
      * @return int
      */
     public function countRowsInTableBody(): int
     {
-        return count($this->tester->grabMultiple('//tbody/tr[contains(@data-key,*)]'));
+        return $this->gridView->countRowsInTableBody();
     }
 
     /**
@@ -183,54 +201,24 @@ class IndexPage extends Authenticated
     }
 
     /**
-     * Sorts table by specified column.
+     * @see Grid::sortBy()
      *
      * @param string $columnName
      * @throws \Codeception\Exception\ModuleException
      */
     public function sortBy(string $columnName): void
     {
-        $I = $this->tester;
-        (new Grid($I, $this->gridPath))->sortBy($columnName);
+        $this->gridView->sortBy($columnName);
     }
 
     /**
-     * Checks whether sorting works properly.
-     *
-     * Method find column by $sortBy, parse data, call default sort by $sortBy
-     * and compare data in table with sort(copy_data_from_table)
+     * @see Grid::checkSortingBy()
      *
      * @param string $sortBy
      * @throws \Codeception\Exception\ModuleException
      */
     public function checkSortingBy(string $sortBy): void
     {
-        $this->tester->click("//button[contains(text(),'Sort')]");
-        $this->tester->click("//ul//a[contains(text(),'$sortBy')]");
-        $this->tester->waitForPageUpdate();
-        $tableWithNeedle = $this->tester->grabMultiple('//th/a');
-        $whereNeedle = 0;
-        $count = $this->countRowsInTableBody();
-        while ($whereNeedle < count($tableWithNeedle)) {
-            if ($tableWithNeedle[$whereNeedle] === $sortBy) {
-                break;
-            }
-            ++$whereNeedle;
-        }
-        $whereNeedle += 2;
-        /**
-         *  $whereNeedle += 2 && $i = 1 because xpath elements starting from 1.
-         */
-        $arrayForSort = [];
-        for ($i = 1; $i <= $count; ++$i) {
-            $arrayForSort[$i] = $this->tester->grabTextFrom("//tbody/tr[$i]/td[$whereNeedle]");
-        }
-        /**
-         *  After sort() function arrayForSort start index = 0, but xpath elements starting from 1.
-         */
-        sort($arrayForSort, SORT_NATURAL | SORT_FLAG_CASE);
-        for ($i = 1; $i <= $count; ++$i) {
-            $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
-        }
+        $this->gridView->checkSortingBy($sortBy);
     }
 }

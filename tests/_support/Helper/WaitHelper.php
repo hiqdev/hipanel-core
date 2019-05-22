@@ -16,7 +16,7 @@ class WaitHelper extends \Codeception\Module
      * @param int $timeOut
      * @throws \Codeception\Exception\ModuleException
      */
-    public function waitForPageUpdate($timeOut = 60): void
+    public function waitForPageUpdate($timeOut = 180): void
     {
         $I = $this->getModule('WebDriver');
 
