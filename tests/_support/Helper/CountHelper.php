@@ -23,4 +23,39 @@ class CountHelper extends \Codeception\Module
 
         return count($I->grabMultiple($cssOrXpath));
     }
+
+    /**
+     * Returns position of the element in the set of elements.
+     *
+     * The position counts from 0.
+     * If the element is not found in the set -1 will be returned.
+     *
+     * ```html
+     *  <ul>
+     *      <li></li>
+     *      <li></li>
+     *      <li class="target"></li>
+     *      <li></li>
+     *  </ul>
+     *  <img />
+     * '''
+     *
+     * ```php
+     *  indexOf('li.target', 'li')  => 2
+     *  indexOf('img', 'li')        => -1
+     * ```
+     * @param string $elementSelector
+     * @param string $setSelector
+     * @return int
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function indexOf(string $elementSelector, string $setSelector): int
+    {
+        $I = $this->getModule('WebDriver');
+
+        return  $I->executeJS(<<<JS
+return $('{$setSelector}').index($("{$elementSelector}"));
+JS
+        );
+    }
 }
