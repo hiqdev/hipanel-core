@@ -21,7 +21,7 @@ class IndexPage extends Authenticated
     protected $gridSelector = "//form[contains(@id, 'bulk') and contains(@id, 'search')]";
 
     /** @var Grid  */
-    protected $gridView;
+    public $gridView;
 
     public function __construct(AcceptanceTester $I, string $gridSelector = null)
     {
