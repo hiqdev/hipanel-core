@@ -133,6 +133,14 @@ class Grid
         $this->tester->click($selector);
     }
 
+    public function selectRowById(int $id): void
+    {
+        $selector = $this->baseSelector . "//tbody//tr[@data-key={$id}]//" .
+            self::ROW_CHECKBOX_SELECTOR;
+
+        $this->tester->click($selector);
+    }
+
     /**
      * Opens table row menu by its number.
      *
