@@ -5,7 +5,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 wget -c https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar
-wget -c https://chromedriver.storage.googleapis.com/2.45/chromedriver_linux64.zip
+wget -c https://chromedriver.storage.googleapis.com/75.0.3770.90/chromedriver_linux64.zip
 unzip -u chromedriver_linux64.zip
 
 cat <<EOF > run.sh
