@@ -22,16 +22,19 @@ class PnotifyHelper extends \Codeception\Module
         $I->see($text, '.ui-pnotify');
         $I->moveMouseOver(['css' => '.ui-pnotify']);
         $I->wait(0.5);
-        $I->waitForJS(<<<JS
-            var selector = "div.ui-pnotify-closer>span[title='Close']";
-            var closeButton = document.querySelector(selector);
-            if (closeButton !== undefined) {
-                closeButton.click();
-                return true;
-            }
-            return false;
+        $I->executeJS(<<<JS
+            const selector = "div.ui-pnotify-closer>span[title='Close']";
+            const closeUntillItsDead = () => {
+                const bttn = document.querySelector(selector);
+                if (bttn) {
+                    bttn.click();
+                    setTimeout(closeUntillItsDead, 300);
+                }
+            };
+            closeUntillItsDead();
+           
 JS
-, 60);
+        );
         $I->waitForElementNotVisible('.ui-pnotify');
     }
 }
