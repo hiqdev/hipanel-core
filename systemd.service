@@ -6,7 +6,7 @@ After=nginx-proxy-REAL_IP.service
 
 [Service]
 Type=simple
-WorkingDirectory=/home/silverfire/prj/VENDOR/hipanel.VENDOR.com
+WorkingDirectory=/home/sol/prj/VENDOR/hipanel.VENDOR.com
 Restart=always
 ExecStart=/usr/local/bin/docker-compose up
 ExecStop=/usr/local/bin/docker-compose stop

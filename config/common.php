@@ -16,7 +16,6 @@ return [
         '@vendor/bower' => '@vendor/bower-asset',
         '@vendor/npm' => '@vendor/npm-asset',
         '@file' => '/file',
-        '@reminder' => '/reminder',
     ],
     'components' => [
         'cache' => [
