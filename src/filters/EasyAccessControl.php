@@ -35,6 +35,10 @@ use yii\web\User;
  */
 class EasyAccessControl extends ActionFilter
 {
+    public const GUEST = '?';
+    public const USER = '@';
+    public const ALLOW_ANY = '*';
+
     /**
      * @var User|array|string|false the user object representing the authentication status or the ID of the user application component
      */
@@ -106,15 +110,19 @@ class EasyAccessControl extends ActionFilter
             $permissions = [$permissions];
         }
         foreach ($permissions as $permission) {
-            if ($permission === '?') {
-                if ($this->user->getIsGuest()) {
-                    return true;
-                }
-            } elseif ($permission === '@') {
-                if (!$this->user->getIsGuest()) {
-                    return true;
-                }
-            } elseif ($this->user->can($permission)) {
+            if ($permission === self::GUEST) {
+                return $this->user->getIsGuest();
+            }
+
+            if ($permission === self::USER) {
+                return !$this->user->getIsGuest();
+            }
+
+            if ($permission === self::ALLOW_ANY) {
+                return true;
+            }
+
+            if ($this->user->can($permission)) {
                 return true;
             }
         }
