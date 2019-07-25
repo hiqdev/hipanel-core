@@ -14,9 +14,14 @@ use yii\web\Application;
 (function () {
     require __DIR__ . '/../config/bootstrap.php';
 
-    $config = require Builder::path(
-        (defined('HISITE_TEST') && HISITE_TEST) ? 'web-test' : 'web'
-    );
+    $host = $_SERVER['HTTP_HOST'];
+    $type = (defined('HISITE_TEST') && HISITE_TEST) ? 'web-test' : 'web';
+    $path = Builder::path($host . '/' . $type);
+    if (!file_exists($path)) {
+        $path = Builder::path($type);
+    }
+
+    $config = require $path;
 
     (new Application($config))->run();
 })();
