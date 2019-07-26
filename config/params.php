@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
+$hipanelSite = $_ENV['HIPANEL_SITE'];
+
 return [
     'adminEmail'            => '',
     'organization.url'      => '',
@@ -20,7 +22,7 @@ return [
     'hiam.client_id'        => '',
     'hiam.client_secret'    => '',
 
-    'hipanel.url'           => null,
+    'hipanel.url'           => $hipanelSite ? "https://$hipanelSite/" : null,
     'hipanel.notPanel'      => false,
 
     'debug.allowedIps'      => [],
