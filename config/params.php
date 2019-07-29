@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
-$hipanelSite = $_ENV['HIPANEL_SITE'];
+$hipanelSite = $_ENV['HIPANEL_SITE'] ?? null;
 
 return [
     'adminEmail'            => '',
