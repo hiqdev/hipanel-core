@@ -15,7 +15,7 @@ use hipanel\models\User;
 use hisite\actions\RedirectAction;
 use hisite\actions\RenderAction;
 use Yii;
-use yii\authclient\AuthAction;
+use hiam\authclient\AuthAction;
 use yii\base\Module;
 use yii\filters\AccessControl;
 
