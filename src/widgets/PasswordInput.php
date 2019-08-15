@@ -100,7 +100,7 @@ class PasswordInput extends InputWidget
                 var randomString = function (length, specialChars) {
                     var specialChars = specialChars !== undefined ? specialChars : true;
                     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
-                    chars = specialChars ? chars + '!@#$%^&*()_=./<>' : chars;
+                    chars = specialChars ? chars + '!@#$%^&*()\-_=+{};:,<.>' : chars;
                     chars = chars.split('');
                     if (!length) length = Math.floor(Math.random() * chars.length);
                     var str = '';
