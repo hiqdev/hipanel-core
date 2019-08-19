@@ -88,7 +88,12 @@ class SettingsStorage extends Component implements SettingsStorageInterface
             return [];
         }
 
-        return Client::perform($action, $data);
+        try {
+            return Client::perform($action, $data);
+        } catch (\Throwable $exception) {
+            \Yii::error('Failed to access client storage: ' . $exception->getMessage());
+            return [];
+        }
     }
 
     private function decodeResponse($response)
