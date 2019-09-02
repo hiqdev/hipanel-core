@@ -75,6 +75,14 @@ class SiteController extends \hisite\controllers\SiteController
             'lockscreen' => [
                 'class' => RenderAction::class,
             ],
+            'ip-restriction-settings' => [
+                'class' => RedirectAction::class,
+                'url'   => [
+                    '@client/view',
+                    'id'    => Yii::$app->user->identity->id,
+                    '#'     => 'ip_restriction_settings',
+                ],
+            ],
             'notification-settings' => [
                 'class' => RedirectAction::class,
                 'url'   => [
