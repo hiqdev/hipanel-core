@@ -28,6 +28,7 @@ return [
     'debug.allowedIps'      => [],
 
     'user.seller'           => '',
+    'pincode.forced'        => true,
 
     'currency'              => 'usd',
 
