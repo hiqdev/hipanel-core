@@ -11,12 +11,12 @@ use Yii;
  * Class I18nResponseErrorFormatter
  * @package hipanel\components
  */
-class I18nResponseErrorFormatter implements I18nResponseErrorFormatterInterface
+final class I18nResponseErrorFormatter
 {
     /**
      * @var string
      */
-    protected $dictionary;
+    private $dictionary;
 
     /**
      * I18nResponseErrorFormatter constructor.
