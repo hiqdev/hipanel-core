@@ -1,0 +1,44 @@
+<?php
+
+
+namespace hipanel\components;
+
+
+use hiqdev\hiart\Exception;
+use Yii;
+
+/**
+ * Class I18nResponseErrorFormatter
+ * @package hipanel\components
+ */
+final class I18nResponseErrorFormatter
+{
+    /**
+     * @var string
+     */
+    private $dictionary;
+
+    /**
+     * I18nResponseErrorFormatter constructor.
+     * @param string $dictionary
+     */
+    public function __construct(string $dictionary = 'hipanel')
+    {
+        $this->dictionary = $dictionary;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __invoke(Exception $exception): string
+    {
+        $responseData = $exception->getResponseData();
+        $message = $exception->getMessage();
+        if (!empty($responseData['_error_ops'])) {
+            $message = Yii::t($this->dictionary, $message, $responseData['_error_ops']);
+        } else {
+            $message = Yii::t($this->dictionary, $message);
+        }
+        return $message;
+    }
+}
