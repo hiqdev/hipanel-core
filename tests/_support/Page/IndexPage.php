@@ -106,7 +106,7 @@ class IndexPage extends Authenticated
      */
     public function getRowDataKeyByNumber(int $rowNumber): string
     {
-        return $this->getRowDataKeyByNumber($rowNumber);
+        return $this->gridView->getRowDataKeyByNumber($rowNumber);
     }
 
     /**

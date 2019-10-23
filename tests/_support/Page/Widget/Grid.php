@@ -115,7 +115,7 @@ class Grid
      */
     public function getRowDataKeyByNumber(int $rowNumber): string
     {
-        $selector = $this->baseSelector . "//tbody//tr[${$rowNumber}]";
+        $selector = $this->baseSelector . "//tbody//tr[$rowNumber]";
 
         return $this->tester->grabAttributeFrom($selector, 'data-key');
     }
