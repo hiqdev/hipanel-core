@@ -39,6 +39,10 @@ class Select2 extends TestableInput
      */
     public function setValue(string $value): void
     {
+        if ($value === '') {
+            $this->removeChosenOption();
+            return;
+        }
         $this->open();
         $this->fillSearchField($value);
         $this->chooseOption($value);
@@ -128,6 +132,19 @@ JS
                 $(this).trigger('mouseup');
             }
         });
+JS
+        );
+
+        return $this;
+    }
+
+    /**
+     * @return Select2
+     */
+    public function removeChosenOption(): Select2
+    {
+        $this->tester->executeJS(<<<JS
+document.querySelector('{$this->getSelector()}').innerHTML += '<option value="" selected></option>'
 JS
         );
 
