@@ -8,9 +8,18 @@ use yii\helpers\Html;
 use yii\helpers\StringHelper;
 
 /**
- * Class Banner lookup `module.core.ad.banners.sidebar` or `module.core.ad.banners.main` params and trying to display
- * banner images with a link transition. It expects that in these params there will be an associative array in which
- * the key is the transition link and the value is the link to the banner image.
+ * Class Banner trying to display banner images with a link transition.
+ * It expects that it will be configured by DI in the block `definitions` and there banners will be transferred
+ * to the properties `sidebarItems` and `mainItems`. The data must be of the key is the transition link
+ * and the value is the link to the banner image.
+ *
+ * Example:
+ * // to `definitions`
+ *
+ * \hipanel\widgets\Banner::class => [
+ *     'sidebarItems' => ['#' => 'https://cdn.hiqdev.com/hipanel/banners/cloud2.jpg', ...],
+ *     'mainItems' => ['#' => 'https://cdn.hiqdev.com/hipanel/banners/cloud1.jpg', ...],
+ * ],
  *
  * @package hipanel\widgets
  */
@@ -24,7 +33,12 @@ class Banner extends Widget
     /**
      * @var array
      */
-    public $items = [];
+    public $sidebarItems = [];
+
+    /**
+     * @var array
+     */
+    public $mainItems = [];
 
     /**
      * @var array
@@ -70,6 +84,18 @@ class Banner extends Widget
     /**
      * @return array
      */
+    protected function getItems(): array
+    {
+        if ($this->isSidebar === false && !StringHelper::endsWith(Yii::$app->request->url, 'dashboard/dashboard')) {
+            return [];
+        }
+
+        return $this->isSidebar ? $this->sidebarItems : $this->mainItems;
+    }
+
+    /**
+     * @return array
+     */
     private function getImgOptions(): array
     {
         return $this->isSidebar ? $this->sidebarImgOptions : $this->mainImgOptions;
@@ -81,26 +107,5 @@ class Banner extends Widget
     private function getLinkOptions(): array
     {
         return $this->isSidebar ? $this->sidebarLinkOptions : $this->mainLinkOptions;
-    }
-
-    /**
-     * @return array
-     */
-    private function getItems(): array
-    {
-        $items = [];
-        if ($this->isSidebar === false && !StringHelper::endsWith(Yii::$app->request->url, 'dashboard/dashboard')) {
-            return [];
-        }
-
-        if (!empty($this->items)) {
-            $items = $this->items;
-        }
-
-        if ($formParams = Yii::$app->params[sprintf('module.core.ad.banners.%s', $this->isSidebar ? 'sidebar' : 'main')]) {
-            $items = $formParams;
-        }
-
-        return $items;
     }
 }
