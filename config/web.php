@@ -125,6 +125,12 @@ return [
             \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
                 'class' => \hipanel\menus\SidebarMenu::class,
             ],
+            \hipanel\widgets\AdBanner::class => [
+                'items' => $params['ad-banner.dashboard.items'],
+            ],
+            \hipanel\widgets\SidebarAdBanner::class => [
+                'items' => $params['ad-banner.sidebar.items'],
+            ],
         ],
         'singletons' => [
             \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class,
