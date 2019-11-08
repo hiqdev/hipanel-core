@@ -56,4 +56,7 @@ return [
     'mailing.service.submitUrl' => '',
 
     'tests.acceptance.selenium.host' => null,
+
+    'ad-banner.dashboard.items' => [],
+    'ad-banner.sidebar.items' => [],
 ];
