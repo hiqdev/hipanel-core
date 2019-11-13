@@ -31,8 +31,8 @@ class SummaryWidget extends Widget
         $locals = $this->getSumsString($this->local_sums ?? []);
         $totals = $this->getSumsString($this->total_sums ?? []);
         return '<div class="summary">' .
-            ($totals ? Yii::t('hipanel:stock', 'TOTAL: {sum}', ['sum' => $totals]) : null) .
-            ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel:stock', 'on screen: {sum}', ['sum' => $locals]) . '</span>' : null) .
+            ($totals !== '' ? Yii::t('hipanel:stock', 'TOTAL: {sum}', ['sum' => $totals]) : null) .
+            ($locals !== '' ? '<br><span class="text-muted">' . Yii::t('hipanel:stock', 'on screen: {sum}', ['sum' => $locals]) . '</span>' : null) .
             '</div>';
     }
 
@@ -45,8 +45,15 @@ class SummaryWidget extends Widget
     {
         $totals = '';
         foreach ($sumsArray as $cur => $sum) {
-            if ($cur && $sum > 0) {
+            if (!$cur) {
+                continue;
+            }
+            if (is_numeric($sum)) {
                 $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+            } elseif (is_array($sum)) {
+                $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum['total'], $cur) . '</b>';
+                $totals .= ' &nbsp; (+<b>' . Yii::$app->formatter->asCurrency($sum['+'] ?? '0', $cur) . '</b>';
+                $totals .= ' &nbsp; -<b>' . Yii::$app->formatter->asCurrency($sum['-'] ?? '0', $cur) . '</b>)';
             }
         }
         return $totals;
