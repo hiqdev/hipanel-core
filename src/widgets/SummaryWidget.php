@@ -52,8 +52,8 @@ class SummaryWidget extends Widget
                 $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
             } elseif (is_array($sum)) {
                 $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum['total'], $cur) . '</b>';
-                $totals .= ' &nbsp; (+<b>' . Yii::$app->formatter->asCurrency($sum['+'] ?? '0', $cur) . '</b>';
-                $totals .= ' &nbsp; -<b>' . Yii::$app->formatter->asCurrency($sum['-'] ?? '0', $cur) . '</b>)';
+                $totals .= ' &nbsp; (+<b>' . Yii::$app->formatter->asCurrency($sum['positive'] ?? '0', $cur) . '</b>';
+                $totals .= ' &nbsp; -<b>' . Yii::$app->formatter->asCurrency($sum['negative'] ?? '0', $cur) . '</b>)';
             }
         }
         return $totals;
