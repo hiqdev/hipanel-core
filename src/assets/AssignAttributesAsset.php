@@ -31,8 +31,6 @@ class AssignAttributesAsset extends AssetBundle
      * {@inheridoc}
      */
     public $publishOptions = [
-        'forceCopy' => true,
         'linkAssets' => true,
-        'appendTimestamp' => true,
     ];
 }
