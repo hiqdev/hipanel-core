@@ -1,11 +1,51 @@
 (function ($, window, document, undefined) {
-    var pluginName = "assignHubs",
+    let pluginName = "assignHubs",
         defaults = {
             countModels: 1,
             attributes: [],
             formName: '',
             linkText: '',
         };
+
+    function getKeysArray(countModels) {
+        return [...Array(countModels).keys()];
+    }
+
+    function ApplyLink(settings, index, attribute) {
+        this.index = index;
+        this.attribute = attribute;
+        this.settings = settings;
+    }
+    ApplyLink.prototype = {
+        create: function ($attributeBlock) {
+            const $applyAllLink = $(`<a href="#">${this.settings.linkText}</a>`);
+            $applyAllLink.css('position', 'absolute');
+            $applyAllLink.addClass(`apply-all-${this.index}-${this.attribute}`);
+
+            $applyAllLink.on('click', event => {
+                getKeysArray(this.settings.countModels).forEach(el => {
+                    const value = $attributeBlock.children().last().clone();
+                    if (value === 0) {
+
+                    }
+                    const iterable = $(`#${this.settings.formName}-${el}-${this.attribute}_id`);
+                    iterable.empty();
+                    iterable.append(value);
+                });
+                $(event.target).addClass('hidden');
+            });
+
+            return $applyAllLink;
+        },
+        getLink: function ($attributeBlock) {
+            const searchedLink = $(`.apply-all-${this.index}-${this.attribute}`);
+            if (searchedLink.length > 0) {
+                searchedLink.removeClass('hidden');
+                return searchedLink;
+            }
+            return this.create($attributeBlock);
+        },
+    };
 
     function Plugin(element, options) {
         this.element = $(element);
@@ -17,11 +57,10 @@
         this.linkText = this.settings.linkText;
         this.init();
     }
-
     Plugin.prototype = {
         init: function () {
             if (this.settings.countModels > 1) {
-                this.getKeysArray().forEach(el => this.registerItems(el))
+                getKeysArray(this.settings.countModels).forEach(el => this.registerItems(el))
             }
         },
         registerItems: function (index) {
@@ -30,33 +69,14 @@
                 const itemAttribute = indexAttribute + '-' + attribute + '_id';
                 const $attributeBlock = $(`#${itemAttribute}`);
 
-                const $applyAllLink = this.getApplyLink(index, attribute);
-                $applyAllLink.on('click', event => {
-                    this.getKeysArray().forEach(el => {
-                        const value = $attributeBlock.children().last().clone();
-                        const iterable = $(`#${this.formName}-${el}-${attribute}_id`);
-                        iterable.empty();
-                        iterable.append(value);
-                    });
-                    $(event.target).remove();
-                });
+                const applyLinkObject = new ApplyLink(this.settings, index, attribute);
 
                 $attributeBlock.on('change', function(event) {
-                    $applyAllLink.insertAfter($(`.field-${itemAttribute}`));
+                    const $_applyLink = applyLinkObject.getLink($attributeBlock);
+                    $_applyLink.insertAfter($(`.field-${itemAttribute}`));
                 });
             });
         },
-        getApplyLink: function (index, attribute) {
-            const $applyAllLink = $(`<a href="#">${this.linkText}</a>`);
-            $applyAllLink.css('position', 'absolute');
-            $applyAllLink.addClass(`apply-all-${index}-${attribute}`);
-
-            return $applyAllLink;
-        },
-        getKeysArray: function () {
-            const _countModels = this.settings.countModels;
-            return [...Array(_countModels).keys()];
-        }
     };
 
     $.fn[pluginName] = function (options) {

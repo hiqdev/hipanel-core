@@ -24,11 +24,6 @@ class AssignAttributesWidget extends Widget
     public $attributes;
 
     /**
-     * @var \yii\web\View
-     */
-    public $view;
-
-    /**
      * @inheritDoc
      */
     public function run()
