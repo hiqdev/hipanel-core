@@ -1,5 +1,5 @@
 (function ($, window, document, undefined) {
-    let pluginName = "assignHubs",
+    let pluginName = "applyToAll",
         defaults = {
             countModels: 1,
             attributes: [],

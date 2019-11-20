@@ -4,14 +4,14 @@
 namespace hipanel\widgets;
 
 
-use hipanel\assets\AssignAttributesAsset;
+use hipanel\assets\ApplyToAllAsset;
 use yii\base\Widget;
 
 /**
  * Class AssignAttributesWidget
  * @package hipanel\widgets
  */
-class AssignAttributesWidget extends Widget
+class ApplyToAllWidget extends Widget
 {
     /**
      * @var \hipanel\base\Model[]
@@ -28,14 +28,14 @@ class AssignAttributesWidget extends Widget
      */
     public function run()
     {
-        AssignAttributesAsset::register($this->view);
+        ApplyToAllAsset::register($this->view);
         $options = \yii\helpers\Json::htmlEncode([
             'countModels' => count($this->models),
             'formName' => strtolower(reset($this->models)->formName()),
             'attributes' => $this->attributes,
             'linkText' => \Yii::t('hipanel', 'Apply to all'),
         ]);
-        $this->view->registerJs("\$('#assign-hubs-form').assignHubs($options);");
+        $this->view->registerJs("\$('#assign-hubs-form').applyToAll($options);");
 
         return parent::run();
     }

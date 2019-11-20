@@ -6,7 +6,7 @@ namespace hipanel\assets;
 
 use yii\web\AssetBundle;
 
-class AssignAttributesAsset extends AssetBundle
+class ApplyToAllAsset extends AssetBundle
 {
     /**
      * {@inheridoc}
@@ -17,7 +17,7 @@ class AssignAttributesAsset extends AssetBundle
      * {@inheridoc}
      */
     public $js = [
-        'js/AssignAttributes.js'
+        'js/ApplyToAll.js'
     ];
 
     /**
