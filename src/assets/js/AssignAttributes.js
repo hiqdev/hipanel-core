@@ -24,9 +24,9 @@
 
             $applyAllLink.on('click', event => {
                 getKeysArray(this.settings.countModels).forEach(el => {
-                    const value = $attributeBlock.children().last().clone();
+                    let value = $attributeBlock.children().last().clone();
                     if (value === 0) {
-
+                        value = $('<option value></option>');
                     }
                     const iterable = $(`#${this.settings.formName}-${el}-${this.attribute}_id`);
                     iterable.empty();
@@ -64,14 +64,14 @@
             }
         },
         registerItems: function (index) {
+            const _this = this;
             const indexAttribute = this.formName + '-' + index;
             this.attributes.forEach(attribute => {
                 const itemAttribute = indexAttribute + '-' + attribute + '_id';
                 const $attributeBlock = $(`#${itemAttribute}`);
 
-                const applyLinkObject = new ApplyLink(this.settings, index, attribute);
-
                 $attributeBlock.on('change', function(event) {
+                    const applyLinkObject = new ApplyLink(_this.settings, index, attribute);
                     const $_applyLink = applyLinkObject.getLink($attributeBlock);
                     $_applyLink.insertAfter($(`.field-${itemAttribute}`));
                 });
