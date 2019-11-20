@@ -68,12 +68,16 @@
                 const $attributeBlock = $(`#${itemAttribute}`);
 
                 $attributeBlock.on('change', event =>  {
+                    this.hideAttributeLinks(attribute);
                     const applyLinkObject = new ApplyLink(this.settings, index, attribute);
                     const $_applyLink = applyLinkObject.getLink($attributeBlock);
                     $_applyLink.insertAfter($(`.field-${itemAttribute}`));
                 });
             });
         },
+        hideAttributeLinks: function (attribute) {
+            $(`a[class*="apply-all-"][class*="-${attribute}"]`).addClass('hidden')
+        }
     };
 
     $.fn[pluginName] = function (options) {
