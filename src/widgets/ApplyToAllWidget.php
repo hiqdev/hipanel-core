@@ -6,6 +6,7 @@ namespace hipanel\widgets;
 
 use hipanel\assets\ApplyToAllAsset;
 use yii\base\Widget;
+use yii\helpers\Inflector;
 
 /**
  * Class AssignAttributesWidget
@@ -29,13 +30,16 @@ class ApplyToAllWidget extends Widget
     public function run()
     {
         ApplyToAllAsset::register($this->view);
+        $commonFormName = reset($this->models)->formName();
+        $formId = Inflector::camel2id($commonFormName);
+        $formName = strtolower($commonFormName);
         $options = \yii\helpers\Json::htmlEncode([
-            'countModels' => count($this->models),
-            'formName' => strtolower(reset($this->models)->formName()),
+            'formId' => $formId,
+            'formName' => $formName,
             'attributes' => $this->attributes,
             'linkText' => \Yii::t('hipanel', 'Apply to all'),
         ]);
-        $this->view->registerJs("\$('#assign-hubs-form').applyToAll($options);");
+        $this->view->registerJs("\$('#$formId').applyToAll($options);");
 
         return parent::run();
     }

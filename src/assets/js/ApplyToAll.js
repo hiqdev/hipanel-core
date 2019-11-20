@@ -7,10 +7,6 @@
             linkText: '',
         };
 
-    function getKeysArray(countModels) {
-        return [...Array(countModels).keys()];
-    }
-
     function ApplyLink(settings, index, attribute) {
         this.index = index;
         this.attribute = attribute;
@@ -23,12 +19,12 @@
             $applyAllLink.addClass(`apply-all-${this.index}-${this.attribute}`);
 
             $applyAllLink.on('click', event => {
-                getKeysArray(this.settings.countModels).forEach(el => {
+                $(`#${this.settings.formId} .item`).each((index, el) => {
                     let value = $attributeBlock.children().last().clone();
                     if (value === 0) {
                         value = $('<option value></option>');
                     }
-                    const iterable = $(`#${this.settings.formName}-${el}-${this.attribute}_id`);
+                    const iterable = $(`#${this.settings.formName}-${index}-${this.attribute}_id`);
                     iterable.empty();
                     iterable.append(value);
                 });
@@ -53,14 +49,16 @@
         this._defaults = defaults;
         this._name = pluginName;
         this.attributes = this.settings.attributes;
+        this.formId = this.settings.formId;
         this.formName = this.settings.formName;
         this.linkText = this.settings.linkText;
         this.init();
     }
     Plugin.prototype = {
         init: function () {
-            if (this.settings.countModels > 1) {
-                getKeysArray(this.settings.countModels).forEach(el => this.registerItems(el))
+            let formBlocks = $(`#${this.formId} .item`);
+            if (formBlocks.length > 1) {
+                formBlocks.each((index, el) => this.registerItems(index))
             }
         },
         registerItems: function (index) {
