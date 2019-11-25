@@ -221,7 +221,6 @@ CSS
             if (isDesktop) {
                 var stickySidebar = new StickySidebar('.horizontal-view .content-sidebar', {
                     topSpacing: 10,
-                    bottomSpacing: 20,
                     containerSelector: '.horizontal-content',
                     innerWrapperSelector: '.content-sidebar__inner'
                 });
