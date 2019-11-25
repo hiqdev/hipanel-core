@@ -89,6 +89,7 @@
         "bower-asset/eonasdan-bootstrap-datetimepicker": "*",
         "bower-asset/components-font-awesome": "~4.6",
         "bower-asset/chartjs": "~2.8.0",
+        "bower-asset/sticky-sidebar": "3.3.1",
         "2amigos/yii2-chartjs-widget": "^2.0",
         "npm-asset/checkboxes.js": "1.2.0",
         "npm-asset/ace-builds": "^1.4.2",

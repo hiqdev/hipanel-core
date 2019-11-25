@@ -10,6 +10,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\assets\StickySidebarAsset;
 use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\IndexPageUiOptions;
@@ -118,7 +119,6 @@ class IndexPage extends Widget
                 form.attr({'action': action, method: 'POST'}).submit();
             }
         });
-
         // Do not open select2 when it is clearing
         var comboSelector = 'div[role=grid] :input[data-combo-field], .advanced-search :input[data-combo-field]';
         $(document).on('select2:unselecting', comboSelector, function(e) {
@@ -195,68 +195,45 @@ JS
     private function horizontalClientScriptInit()
     {
         $view = $this->getView();
-        $view->registerCss('
-            .affix {
-                top: 5px;
-            }
-            .affix-bottom {
-                position: fixed!important;
-            }
-            @media (min-width: 768px) {
-                .affix {
-                    position: fixed;
-                }
-            }
-            @media (max-width: 768px) {
-                .affix {
-                    position: static;
-                }
-            }
+        StickySidebarAsset::register($view);
+        $view->registerCss(<<<'CSS'
             .advanced-search[min-width~="150px"] form > div {
                 width: 100%;
                 position: inherit;
             }
-            #scrollspy * {
-              /* Свойства изменение которых необходимо отслеживать */
-              transition-property: all;
-
-              /* Устанавливаем "незаметную для глаза" длительность перехода */
-              transition-duration: 1ms;
+            .horizontal-view .content-sidebar {
+                will-change: min-height;
             }
-        ');
-        $view->registerJs("
-            function affixInit() {
-                $('#scrollspy').affix({
-                    offset: {
-                        top: ($('header.main-header').outerHeight(true) + $('section.content-header').outerHeight(true)) + 15,
-                        bottom: ($('footer').outerHeight(true)) + 15
-                    }
+            .horizontal-view .content-sidebar .content-sidebar__inner {
+                transform: translate(0, 0); /* For browsers don't support translate3d. */
+                transform: translate3d(0, 0, 0);
+                will-change: position, transform;
+            }
+            .horizontal-view .content-sidebar__inner > .btn,
+            .horizontal-view .content-sidebar__inner .dropdown > .btn {
+                display: block;
+                margin-bottom: 10px;
+            }
+CSS
+        );
+        $view->registerJs(<<<"JS"
+            var isDesktop = $(window).innerWidth() > 750;
+            if (isDesktop) {
+                var stickySidebar = new StickySidebar('.horizontal-view .content-sidebar', {
+                    topSpacing: 10,
+                    bottomSpacing: 20,
+                    containerSelector: '.horizontal-content',
+                    innerWrapperSelector: '.content-sidebar__inner'
                 });
+                $(document).on('pjax:end', stickySidebar.updateSticky);
             }
+
             $(document).on('pjax:end', function() {
                 $('.advanced-search form > div').css({'width': '100%'});
-                
-                // Fix left search block position
-                $(window).trigger('scroll');
+                $(window).trigger('scroll'); // Fix left search block position
             });
-            if ($(window).height() > $('#scrollspy').outerHeight(true) && $(window).width() > 991) {
-                if ( $('#scrollspy').outerHeight(true) < $('.horizontal-view .col-md-9 > .box').outerHeight(true) ) {
-                    var fixAffixWidth = function() {
-                        $('#scrollspy').each(function() {
-                            $(this).width( $(this).parent().width() );
-                        });
-                    }
-                    fixAffixWidth();
-                    $(window).resize(fixAffixWidth);
-                    affixInit();
-                    $('a.sidebar-toggle').click(function() {
-                        setTimeout(function(){
-                            fixAffixWidth();
-                        }, 500);
-                    });
-                }
-            }
-        ", View::POS_LOAD);
+JS
+           , View::POS_LOAD);
     }
 
     public function detectLayout()
