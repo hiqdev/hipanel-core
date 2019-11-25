@@ -17,12 +17,12 @@ class StickySidebarAsset extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@hipanel/assets/js';
+    public $sourcePath = '@bower/sticky-sidebar/dist';
 
     /**
      * @var array
      */
     public $js = [
-        'sticky-sidebar.min.js',
+        'sticky-sidebar' . (YII_DEBUG ? '.js' : '.min.js'),
     ];
 }
