@@ -156,6 +156,21 @@ class ArraySpoiler extends Widget
         if (is_callable($this->button['label'])) {
             $this->button['label'] = call_user_func($this->button['label'], $this);
         }
+
+        $this->registerCss();
+    }
+
+    /**
+     * Register max width css of ArraySpoiler body
+     */
+    protected function registerCss(): void
+    {
+        $this->view->registerCss("
+            .popover .popover-content {
+                max-height: 300px;
+                overflow-y: scroll;
+            }
+        ");
     }
 
     /**
