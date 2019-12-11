@@ -48,6 +48,11 @@ return [
         'log' => [
             'traceLevel' => defined('YII_DEBUG') && YII_DEBUG ? 3 : 0,
             'targets' => [
+                'monitoring' => [
+                    'except' => [
+                        'yii\\web\HttpException:403',
+                    ],
+                ],
                 'default' => [
                     'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
