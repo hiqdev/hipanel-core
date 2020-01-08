@@ -38,11 +38,11 @@ class SwitchColumn extends DataColumn
 
     public function getDataCellValue($model, $key, $index)
     {
-        return SwitchInput::widget(ArrayHelper::merge([
+        return SwitchInput::widget([
             'name' => 'swc' . $key . $model->id,
-            'pluginOptions' => ArrayHelper::merge($this->pluginOptions, [
+            'clientOptions' => ArrayHelper::merge([
                 'state' => (bool) parent::getDataCellValue($model, $key, $index),
-            ]),
-        ], $this->switchInputOptions));
+            ], $this->switchInputOptions),
+        ]);
     }
 }

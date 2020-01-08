@@ -10,6 +10,6 @@
 
 namespace hipanel\widgets;
 
-class SwitchInput extends \kartik\switchinput\SwitchInput
+class SwitchInput extends \dosamigos\switchinput\SwitchBox
 {
 }
