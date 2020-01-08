@@ -42,7 +42,7 @@ class SwitchColumn extends DataColumn
             'name' => 'swc' . $key . $model->id,
             'clientOptions' => ArrayHelper::merge([
                 'state' => (bool) parent::getDataCellValue($model, $key, $index),
-            ], $this->switchInputOptions),
+            ], $this->pluginOptions, $this->switchInputOptions),
         ]);
     }
 }
