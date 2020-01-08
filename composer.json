@@ -73,6 +73,8 @@
         "hiqdev/yii2-maintenance": "<2.0 || dev-master",
         "mito/yii2-sentry": "^1.0",
         "2amigos/yii2-date-time-picker-widget": "^1.0",
+        "kartik-v/yii2-widget-fileinput": "^1.0",
+        "kartik-v/yii2-widget-timepicker": "^1.0",
         "vova07/yii2-select2-widget": "*",
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "^1.8.0",
