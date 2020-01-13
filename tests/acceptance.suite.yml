@@ -34,3 +34,4 @@ modules:
     - \hipanel\tests\_support\Helper\PressButtonHelper
     - \hipanel\tests\_support\Helper\WaitHelper
     - \hipanel\tests\_support\Helper\CountHelper
+    - Asserts
