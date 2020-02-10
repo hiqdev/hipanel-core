@@ -165,7 +165,7 @@ return [
     'Are you sure you want to delete these items?' => 'Вы уверены, что хотите удалить эти элементы?',
     'Example' => 'Пример',
     'Autorenew' => 'Автопродление',
-    'Autorenewal' => 'Автоматическе продление',
+    'Autorenewal' => 'Автоматическое продление',
     'Add to cart' => 'В корзину',
     'Not enabled' => 'Не включен',
     'Activated to' => 'Активированный для',
