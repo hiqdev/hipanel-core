@@ -162,7 +162,7 @@ return [
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
     'Example' => 'Пример',
     'Autorenew' => 'Автопродление',
-    'Autorenewal' => 'Автоматическе продление',
+    'Autorenewal' => 'Автоматическое продление',
     'Add to cart' => 'В корзину',
     'Not enabled' => 'Не включен',
     'Activated to' => 'Активированный для',
