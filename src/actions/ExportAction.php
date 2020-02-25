@@ -11,11 +11,14 @@
 namespace hipanel\actions;
 
 use hipanel\grid\RepresentationCollectionFinder;
+use hiqdev\higrid\DataColumn;
 use hiqdev\yii2\export\exporters\ExporterFactoryInterface;
+use hiqdev\yii2\export\exporters\ExporterInterface;
 use hiqdev\yii2\export\exporters\Type;
 use hiqdev\yii2\export\models\CsvSettings;
 use hiqdev\yii2\export\models\TsvSettings;
 use hiqdev\yii2\export\models\XlsxSettings;
+use RuntimeException;
 use Yii;
 
 class ExportAction extends IndexAction
@@ -34,6 +37,7 @@ class ExportAction extends IndexAction
     public function run()
     {
         $type = $this->getType();
+        /** @var ExporterInterface $exporter */
         $exporter = $this->exporterFactory->build($type);
         $settings = $this->loadSettings($type);
         if ($settings !== null) {
@@ -53,7 +57,7 @@ class ExportAction extends IndexAction
             'dataProvider' => $dataProvider,
             'columns' => $representation->getColumns(),
         ]);
-        $grid->dataColumnClass = \hiqdev\higrid\DataColumn::class;
+        $grid->dataColumnClass = DataColumn::class;
         $result = $exporter->export($grid);
         $filename = $exporter->filename . '.' . $type;
 
@@ -82,20 +86,20 @@ class ExportAction extends IndexAction
     }
 
     /**
-     * @throws \Exception
      * @return string
+     * @throws RuntimeException
      */
-    protected function guessGridClassName()
+    protected function guessGridClassName(): string
     {
         $controllerName = ucfirst($this->controller->id);
-        $ns = implode(array_diff(explode('\\', get_class($this->controller)), [
+        $ns = implode('\\', array_diff(explode('\\', get_class($this->controller)), [
             $controllerName . 'Controller', 'controllers',
-        ]), '\\');
+        ]));
         $girdClassName = sprintf('\%s\grid\%sGridView', $ns, $controllerName);
         if (class_exists($girdClassName)) {
             return $girdClassName;
         }
 
-        throw new \Exception("ExportAction cannot find a {$girdClassName}");
+        throw new RuntimeException("ExportAction cannot find a {$girdClassName}");
     }
 }
