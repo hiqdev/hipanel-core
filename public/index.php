@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
-use hiqdev\composer\config\Builder;
+use Yiisoft\Composer\Config\Builder;
 use yii\web\Application;
 
 (function () {
