@@ -20,7 +20,7 @@ services:
       - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS}"
 
   php-fpm:
-    image: hiqdev/php:7.3-fpm
+    image: hiqdev/php:7.4-fpm
     volumes:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
