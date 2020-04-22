@@ -20,7 +20,7 @@ if (!file_exists(WEBAPP_VENDOR_DIR . '/autoload.php')) {
 }
 
 require_once WEBAPP_VENDOR_DIR . '/autoload.php';
-require_once Yiisoft\Composer\Config\Builder::path('defines');
+require_once Yiisoft\Composer\Config\Builder::path('constants');
 require_once WEBAPP_VENDOR_DIR . '/yiisoft/yii2/Yii.php';
 
 Yii::setAlias('@root', WEBAPP_ROOT_DIR);
