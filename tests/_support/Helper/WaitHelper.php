@@ -13,6 +13,11 @@ namespace hipanel\tests\_support\Helper;
 class WaitHelper extends \Codeception\Module
 {
     /**
+     * @var int Default delay to wait while page updating
+     */
+    protected int $defaultDelay = 5;
+
+    /**
      * @param int $timeOut
      * @throws \Codeception\Exception\ModuleException
      */
@@ -20,6 +25,10 @@ class WaitHelper extends \Codeception\Module
     {
         $I = $this->getModule('WebDriver');
 
-        $I->waitForJS('return $.active == 0;', $timeOut);
+        try {
+            $I->waitForJS('return $.active == 0;', $timeOut);
+        } catch (\Facebook\WebDriver\Exception\JavascriptErrorException $exception) {
+            $I->wait($this->defaultDelay);
+        }
     }
 }
