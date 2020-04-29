@@ -13,7 +13,7 @@ namespace hipanel\tests\_support\Page\Widget;
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
-use WebDriverKeys;
+use Facebook\WebDriver\WebDriverKeys;
 
 /**
  * Class Grid

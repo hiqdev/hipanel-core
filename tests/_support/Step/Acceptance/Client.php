@@ -48,6 +48,9 @@ class Client extends AcceptanceTester
         } catch (\Facebook\WebDriver\Exception\UnknownServerException $exception) {
             // User is already logged in, but trying to open a session on a page that is not loaded
             return $this;
+        } catch (\Throwable $exception) {
+            codecept_debug('DEBUG: ' . get_class($exception) . ': ' . $exception->getMessage());
+            return $this;
         }
 
         $this->restartBrowser();
