@@ -21,6 +21,7 @@ return [
     'hiam.apiBaseUrl'       => null,
     'hiam.client_id'        => '',
     'hiam.client_secret'    => '',
+    'hiam.scope'            => null,
 
     'hipanel.url'           => $hipanelSite ? "https://$hipanelSite/" : null,
     'hipanel.notPanel'      => false,

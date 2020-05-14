@@ -69,6 +69,7 @@ return [
             'clients' => [
                 'hiam' => array_filter([
                     'class' => \hiam\authclient\HiamClient::class,
+                    'scope' => $params['hiam.scope'],
                     'site' => $params['hiam.site'],
                     'authUrl' => $params['hiam.authUrl'],
                     'tokenUrl' => $params['hiam.tokenUrl'],
