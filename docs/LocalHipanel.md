@@ -1,14 +1,16 @@
 # Local HiPanel installation and use
 
-HiPanel is split into 3 separate applications:
+HiPanel is split into 4 separate applications:
 
-1. hiapi     [hiapi-demo.hipanel.com]
-2. hiam       [hiam-demo.hipanel.com]
-3. hipanel [hipanel-demo.hipanel.com]
+1. hiapi     [hiapi.demo.hipanel.com]
+2. hiam       [hiam.demo.hipanel.com]
+3. hipanel [hipanel.demo.hipanel.com]
+4. hisite   [hisite.demo.hipanel.com]
 
-[hiapi-demo.hipanel.com]:     https://git.hiqdev.com/hiqdev/hiapi-demo.hipanel.com
-[hiam-demo.hipanel.com]:       https://git.hiqdev.com/hiqdev/hiam-demo.hipanel.com
-[hipanel-demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hipanel-demo.hipanel.com
+[hiapi.demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hiapi.demo.hipanel.com
+[hiam.demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hiam.demo.hipanel.com
+[hipanel.demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hipanel.demo.hipanel.com
+[hisite.demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hisite.demo.hipanel.com
 
 To have working system it is necessary to have them all up and running.
 
@@ -18,7 +20,7 @@ To have working system it is necessary to have them all up and running.
 1. setup nginx proxy with nginx-proxy-common for `127.0.0.2`
 2. `git clone` in a proper directory, see recommended dirs
 3. `composer update`
-4. `hidev deploy`
+4. `hidev up`
 5. make symlinks, see below (to be moved in hidev deploy)
 6. allow access to docker volume, see below (to be moved in hidev deploy)
 7. tweak `.env` (optional, should not be needed)
@@ -30,10 +32,10 @@ To have working system it is necessary to have them all up and running.
 Add recommended host names and IPs for local installation to `/ets/hosts`:
 
 ```hosts
-127.0.0.2   local.hiapi-demo.hipanel.com
-127.0.0.2   local.hiam-demo.hipanel.com
-127.0.0.2   local.hipanel-demo.hipanel.com
-127.0.0.2   local.hisite-demo.hipanel.com
+127.0.0.2   local.hiapi.demo.hipanel.com
+127.0.0.2   local.hiam.demo.hipanel.com
+127.0.0.2   local.hipanel.demo.hipanel.com
+127.0.0.2   local.hisite.demo.hipanel.com
 ```
 
 These IPs are registered in `.env.local` files, so if you change them be sure
@@ -43,9 +45,9 @@ to change there too.
 
 Recommended dirs are:
 
-- `~/prj/hiqdev/local.hipanel-demo.hipanel.com`
-- `~/prj/ahnames/local.hipanel.ahnames.com`
-- `~/prj/ahnames/local.hiapi.ahnames.com`
+- `~/prj/hiqdev/local.hipanel.demo.hipanel.com`
+- `~/prj/mybrand/local.hipanel.mybrand.com`
+- `~/prj/mybrand/local.hiapi.mybrand.com`
 - and so on
 
 ### Make symlinks
@@ -68,7 +70,7 @@ Find docker volume mountpoint with `inspect` command and then chmod it with `a+w
 Also chmod +x all path. Like this:
 
 ```sh
-API_VAR_DIR=$(docker volume inspect var-hiapi-demo.hipanel.com -f '{{json .Mountpoint}}')
+API_VAR_DIR=$(docker volume inspect var-hiapi.demo.hipanel.com -f '{{json .Mountpoint}}')
 sudo chmod a+w $API_VAR_DIR
 sudo chmod a+x $(dirname $API_VAR_DIR)
 sudo chmod a+x $(dirname $(dirname $API_VAR_DIR))
@@ -91,7 +93,7 @@ docker-compose down
 docker-compose up -d
 ```
 
-And setup (migrate) again.
+And migrate again.
 
 ## Development
 
