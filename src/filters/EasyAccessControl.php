@@ -98,7 +98,18 @@ class EasyAccessControl extends ActionFilter
             return true;
         }
 
-        return in_array($action->id, StringHelper::explode($names, ',', true, true), true);
+        $actions = StringHelper::explode($names, ',', true, true);
+        if (in_array($action->id, $actions, true)) {
+            return true;
+        }
+
+        foreach ($actions as $a) {
+            if (strpos($action->id, $a) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function checkAllowed($permissions)
