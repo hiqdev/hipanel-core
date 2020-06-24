@@ -11,7 +11,7 @@
 use Yiisoft\Composer\Config\Builder;
 
 $config = \yii\helpers\ArrayHelper::merge(
-    require Builder::path('web-test'),
+    require Builder::path('web'),
     [
         'bootstrap' => [
             'debug' => new \yii\helpers\UnsetArrayValue(),
