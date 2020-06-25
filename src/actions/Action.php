@@ -26,6 +26,7 @@ use yii\helpers\ArrayHelper;
  */
 class Action extends \yii\base\Action
 {
+    const EVENT_BEFORE_RUN = 'beforeRun';
     const EVENT_BEFORE_SAVE = 'beforeSave';
     const EVENT_BEFORE_LOAD = 'beforeLoad';
     const EVENT_BEFORE_PERFORM = 'beforePerform';
@@ -125,13 +126,16 @@ class Action extends \yii\base\Action
      */
     public $collectionLoader;
 
+    protected function beforeRun()
+    {
+        $this->thoroughTrigger(static::EVENT_BEFORE_RUN);
+
+        return parent::beforeRun();
+    }
+
     public function beforeLoad()
     {
-        if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_BEFORE_LOAD);
-        }
-
-        $this->trigger(static::EVENT_BEFORE_LOAD);
+        $this->thoroughTrigger(static::EVENT_BEFORE_LOAD);
     }
 
     /**
@@ -152,11 +156,7 @@ class Action extends \yii\base\Action
 
     public function beforeSave()
     {
-        if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_BEFORE_SAVE);
-        }
-
-        $this->trigger(static::EVENT_BEFORE_SAVE);
+        $this->thoroughTrigger(static::EVENT_BEFORE_SAVE);
     }
 
     /**
@@ -173,20 +173,21 @@ class Action extends \yii\base\Action
 
     public function beforePerform()
     {
+        $this->thoroughTrigger(static::EVENT_BEFORE_PERFORM);
+    }
+
+    protected function thoroughTrigger($event)
+    {
         if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_BEFORE_PERFORM);
+            $this->parent->trigger($event);
         }
 
-        $this->trigger(static::EVENT_BEFORE_PERFORM);
+        $this->trigger($event);
     }
 
     public function afterPerform()
     {
-        if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_AFTER_PERFORM);
-        }
-
-        $this->trigger(static::EVENT_AFTER_PERFORM);
+        $this->thoroughTrigger(static::EVENT_AFTER_PERFORM);
     }
 
     /**
