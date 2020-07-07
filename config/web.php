@@ -12,7 +12,7 @@ return [
     'id' => 'hipanel',
     'name' => 'HiPanel',
     'basePath' => dirname(__DIR__),
-    'viewPath' => '@hisite/views',
+    'viewPath' => '@vendor/hiqdev/hisite/src/views',
     'vendorPath' => '@root/vendor',
     'runtimePath' => '@root/runtime',
     'controllerNamespace' => 'hipanel\controllers',
@@ -31,7 +31,7 @@ return [
         ],
         'mailer' => [
             'class' => \yii\swiftmailer\Mailer::class,
-            'viewPath' => '@hipanel/mail',
+            'viewPath' => dirname(__DIR__) . '/src/mail',
         ],
         'orientationStorage' => [
             'class' => \hipanel\components\OrientationStorage::class,
@@ -102,7 +102,7 @@ return [
                 \hipanel\assets\AppAsset::class,
             ],
             'pathMap' => [
-                '$themedViewPaths' => ['@hipanel/views'],
+                '$themedViewPaths' => [dirname(__DIR__) . '/src/views'],
             ],
         ],
         'fileStorage' => [

@@ -15,7 +15,7 @@ class RequestStateAsset extends \yii\web\AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@hipanel/assets';
+    public $sourcePath = __DIR__ . '/../assets';
 
     /**
      * @var array
