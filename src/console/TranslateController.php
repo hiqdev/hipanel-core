@@ -24,7 +24,7 @@ use yii\helpers\VarDumper;
  */
 class TranslateController extends MessageController
 {
-    public $configFile = '@hipanel/config/i18n.php';
+    public $configFile = __DIR__ . '/../../config/i18n.php';
 
     public function actionIndex($message = 'hello {world} apple beta {gamma {horse, cat}} this {mysite} this is a draw {apple {beta,{cat,dog} dog} house} farm')
     {

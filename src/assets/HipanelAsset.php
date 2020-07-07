@@ -14,7 +14,7 @@ use yii\web\AssetBundle;
 
 class HipanelAsset extends AssetBundle
 {
-    public $sourcePath = '@hipanel/assets/js';
+    public $sourcePath = __DIR__ . '/js';
 
     public $js = [
         'hipanel.js',

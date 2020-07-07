@@ -15,7 +15,7 @@ use yii\web\JqueryAsset;
 
 class IsotopeAsset extends AssetBundle
 {
-    public $sourcePath = '@hipanel/assets/js';
+    public $sourcePath = __DIR__ . '/js';
 
     public $js = [
         '//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js',

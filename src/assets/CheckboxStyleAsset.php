@@ -15,7 +15,7 @@ class CheckboxStyleAsset extends \yii\web\AssetBundle
     /**
      * {@inheritdoc}
      */
-    public $sourcePath = '@hipanel/assets/css';
+    public $sourcePath = __DIR__ . '/css';
 
     /**
      * {@inheritdoc}

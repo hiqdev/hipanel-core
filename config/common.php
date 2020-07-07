@@ -27,19 +27,19 @@ return [
             'translations' => [
                 'hipanel' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:synt' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:block-reasons' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel.object-combo' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
             ],
         ],

@@ -11,7 +11,7 @@ class ApplyToAllAsset extends AssetBundle
     /**
      * {@inheridoc}
      */
-    public $sourcePath = '@hipanel/assets';
+    public $sourcePath = __DIR__;
 
     /**
      * {@inheridoc}
