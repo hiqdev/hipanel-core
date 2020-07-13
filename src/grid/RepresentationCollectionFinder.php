@@ -22,7 +22,7 @@ use yii\helpers\Inflector;
  *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  */
-class RepresentationCollectionFinder
+class RepresentationCollectionFinder implements RepresentationCollectionFinderInterface
 {
     private $module;
     private $controller;
@@ -86,9 +86,13 @@ class RepresentationCollectionFinder
         return $collection;
     }
 
-    public static function forCurrentRoute(string $representationsLocation)
+    public static function forCurrentRoute(string $representationsLocation): RepresentationCollectionFinderInterface
     {
         $controller = Yii::$app->controller;
+
+        if ($controller->module instanceof RepresentationCollectionFinderProviderInterface) {
+            return $controller->module->getRepresentationCollectionFinder();
+        }
 
         $module = $controller->module->id;
         $controller = Inflector::id2camel($controller->id);
