@@ -99,14 +99,14 @@ class EasyAccessControl extends ActionFilter
         }
 
         $actions = StringHelper::explode($names, ',', true, true);
-        if (in_array($action->id, $actions, true)) {
-            return true;
+        $mainAction = $action->id;
+
+        if (strpos($action->id, " ") !== false) {
+            $mainAction = array_shift(StringHelper::explode($action->id, ' ', true, true));
         }
 
-        foreach ($actions as $a) {
-            if (strpos($action->id, $a) === 0) {
-                return true;
-            }
+        if (in_array($action->id, $actions, true) || in_array($mainAction, $actions, true)) {
+            return true;
         }
 
         return false;
