@@ -25,8 +25,10 @@ services:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
     networks:
-      - local-network
-      - hiapi-network
+      hiapi-network:
+      local-network:
+        aliases:
+          - local-php-fpm
     extra_hosts:
       - "${API_HOSTS_LINE}"
     environment:

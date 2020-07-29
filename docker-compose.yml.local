@@ -17,6 +17,7 @@ services:
       - "VIRTUAL_HOST=${HOSTS}"
       - "LETSENCRYPT_HOST=${HOSTS}"
       - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
+      - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS}"
 
   php-fpm:
     image: hiqdev/php:7.4-fpm
@@ -24,8 +25,12 @@ services:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
     networks:
-      - local-network
-      - hiapi-network
+      hiapi-network:
+      local-network:
+        aliases:
+          - local-php-fpm
+    extra_hosts:
+      - "${API_HOSTS_LINE}"
     environment:
       - "ENV=${ENV}"
       - "PHP_IDE_CONFIG=serverName=${HOSTS}"
