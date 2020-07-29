@@ -4,12 +4,12 @@ services:
 
   nginx:
     image: nginx:latest
+    ports:
+      - "80"
     volumes:
       - ./:/app
       - ./.docker/nginx/etc/nginx/conf.d:/etc/nginx/conf.d
       - ./.docker/nginx/var/log/nginx:/var/log/nginx
-    links:
-      - php-fpm
     networks:
       - local-network
       - proxy-network
@@ -35,7 +35,7 @@ networks:
     driver: bridge
   hiapi-network:
     external:
-      name: "${HIAPI_SITE}"
+      name: "${HIAPI_DIST}"
   proxy-network:
     external:
       name: "nginx-proxy-network-${REAL_IP}"

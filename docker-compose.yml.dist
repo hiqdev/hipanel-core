@@ -38,7 +38,7 @@ networks:
     driver: bridge
   hiapi-network:
     external:
-      name: "${HIAPI_SITE}"
+      name: "${HIAPI_DIST}"
   proxy-network:
     external:
       name: "nginx-proxy-network-${REAL_IP}"
