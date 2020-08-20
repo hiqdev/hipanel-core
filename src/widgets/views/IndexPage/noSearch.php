@@ -1,7 +1,7 @@
 <?php
 $widget = $this->context;
 ?>
-<div class="box box-default">
+<div class="box box-widget">
     <div class="box-body no-padding">
         <div class="mailbox-controls">
             <?= $widget->renderContent('show-actions') ?>
