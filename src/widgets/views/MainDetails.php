@@ -67,14 +67,22 @@ use yii\helpers\Html;
 
 <div class="box box-widget widget-user-2">
     <div class="widget-user-header"
-         <?php if ($backgroundColor) : ?>style="background-color: <?= $backgroundColor ?> !important;"<?php endif; ?>>
-        <div class="widget-user-image">
-            <?php if ($image && $background === false) : ?>
-                <?= $image ?>
-            <?php else : ?>
-                <?= Html::tag('i', '', ['class' => sprintf('fa %s fa-4x pull-left fa-inverse', $icon)]) ?>
-            <?php endif; ?>
-        </div>
+        <?php if ($backgroundColor) : ?>style="background-color: <?= $backgroundColor ?> !important;"<?php endif; ?>>
+        <?php if ($image || $icon) : ?>
+            <div class="widget-user-image">
+                <?php if ($image && $background === false) : ?>
+                    <?= $image ?>
+                <?php else : ?>
+                    <?= Html::tag('i', '', ['class' => sprintf('fa %s fa-4x pull-left fa-inverse', $icon)]) ?>
+                <?php endif; ?>
+            </div>
+        <?php else : ?>
+            <style>
+                .widget-user-2 .widget-user-username, .widget-user-2 .widget-user-desc {
+                     margin-left: 0px;
+                }
+            </style>
+        <?php endif; ?>
         <?= Html::tag('h4', $title, array_merge(['class' => 'widget-user-username'], $titleOptions)) ?>
         <h5 class="widget-user-desc"><?= $subTitle ?></h5>
     </div>
