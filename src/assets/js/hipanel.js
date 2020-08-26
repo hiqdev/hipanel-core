@@ -24,9 +24,11 @@ window.hipanel = (function () {
     var publicMethods = {
         updateCart: function (callback) {
             $('.dropdown.notifications-cart a.dropdown-toggle').html('<i class="fa fa-refresh fa-spin fa-lg"></i>');
-            $.get("/cart/cart/topcart", function(data) {
-                $("li.dropdown.notifications-menu.notifications-cart").html( data );
-            }).done(callback);
+            fetch('/cart/cart/topcart')
+              .then(response => response.text())
+              .then(html => {
+                $("li.dropdown.notifications-menu.notifications-cart").html( html );
+              }).then(callback);
         },
         loadingBar: function (options) {
             options = $.extend({}, options, true);
