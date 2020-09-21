@@ -29,13 +29,29 @@ class ResourceGridView extends BoxedGridView
                 'dateFormat' => 'yyyy-MM-dd',
                 'options' => [
                     'class' => 'form-control',
+                    'id' => 'grid_time_range',
                 ],
                 'clientOptions' => [
                     'maxDate' => new JsExpression('moment()'),
                 ],
                 'clientEvents' => [
-//                    'hide.daterangepicker' => new JsExpression(/** @lang ECMAScript 6 */'(evt, picker) => {
-//                     }'),
+                    'apply.daterangepicker' => new JsExpression(/** @lang ECMAScript 6 */"(event, picker) => {
+                        const form = $(picker.element[0]).closest('form');
+                        const start = picker.startDate.format('yyyy-MM-dd'.toUpperCase());
+                        const end = picker.endDate.format('yyyy-MM-dd'.toUpperCase());
+                        
+                        $('#grid_time_range').val(start + ' - ' + end);
+                        form.find(\"input[name*='time_from']\").val(start);
+                        form.find(\"input[name*='time_till']\").val(end);
+                        $(event.target).change();
+                    }"),
+                    'cancel.daterangepicker' => new JsExpression(/** @lang ECMAScript 6 */ "(event, picker) => {
+                        const form = $(picker.element[0]).closest('form');
+                        $('#grid_time_range').val('');
+                        form.find(\"input[name*='time_from']\").val('');
+                        form.find(\"input[name*='time_till']\").val('');
+                        $(event.target).change();
+                    }"),
                 ],
             ]),
         ];
@@ -53,7 +69,7 @@ class ResourceGridView extends BoxedGridView
             'attribute' => 'total',
             'label' => Yii::t('hipanel', 'Consumed'),
             'filter' => false,
-            'value' => fn($model): ?string => number_format(ResourceHelper::convert('byte', 'gb', $model->total), 3),
+            'value' => fn(Resource $resource): ?string => number_format($resource->getConvertedAmount('byte', 'gb'), 3),
         ];
 
         return array_merge(parent::columns(), $columns);

@@ -5,8 +5,8 @@ namespace hipanel\helpers;
 use hipanel\models\Resource;
 use hiqdev\php\units\Quantity;
 use hiqdev\php\units\Unit;
-use Yii;
 use yii\helpers\ArrayHelper;
+use Yii;
 
 class ResourceHelper
 {
@@ -34,6 +34,10 @@ class ResourceHelper
         return $columns;
     }
 
+    /**
+     * @param Resource[] $resources
+     * @return array
+     */
     public static function aggregateByObject(array $resources): array
     {
         $result = [];
@@ -42,7 +46,7 @@ class ResourceHelper
                 'type' => $resource['type'],
                 'unit' => 'gb',
             ];
-            $object['amount'] += self::convert('byte', 'gb', $resource['total']);
+            $object['amount'] += self::convert('byte', 'gb', $resource->getAmount());
             $result[$resource['object_id']][$resource['type']] = $object;
         }
 
@@ -65,7 +69,7 @@ class ResourceHelper
         ArrayHelper::multisort($models, 'date');
         foreach ($models as $model) {
             $labels[$model->date] = $model;
-            $data[$model->type][] = $model->getDisplayAmount();
+            $data[$model->type][] = $model->getChartAmount();
         }
         foreach ($labels as $date => $model) {
             $labels[$date] = $model->getDisplayDate();

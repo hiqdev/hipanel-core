@@ -6,6 +6,8 @@ use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\modules\server\models\Server;
 use hiqdev\hiart\ActiveQuery;
+use hiqdev\php\units\Quantity;
+use hiqdev\php\units\Unit;
 use Yii;
 use yii\db\QueryInterface;
 
@@ -56,7 +58,12 @@ class Resource extends Model
         return $this->total;
     }
 
-    public function getDisplayAmount()
+    public function getConvertedAmount(string $from, string $to)
+    {
+        return Quantity::create(Unit::create($from), $this->getAmount())->convert(Unit::create($to))->getQuantity();
+    }
+
+    public function getChartAmount()
     {
         if (in_array($this->type, $this->getBandwidthTypes(), true)) {
             return round($this->getAmount() / (10 ** 6), 2);

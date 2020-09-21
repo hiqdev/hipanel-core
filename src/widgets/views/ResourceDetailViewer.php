@@ -16,7 +16,6 @@ use yii\helpers\Html;
 
 <div class="row">
     <div class="col-md-6 col-sm-12">
-        <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => false])) ?>
             <?php $page = IndexPage::begin(['model' => $model, 'layout' => 'resourceDetail']) ?>
                 <?php $page->beginContent('title') ?>
                     <?= Yii::t('hipanel', 'Resources') ?>
@@ -42,6 +41,7 @@ use yii\helpers\Html;
                     <?php $page->endBulkForm() ?>
                 <?php $page->endContent() ?>
             <?php IndexPage::end() ?>
+        <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => false])) ?>
         <?php Pjax::end() ?>
     </div>
     <div class="col-md-6 col-sm-12"></div>
