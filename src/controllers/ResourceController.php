@@ -3,54 +3,19 @@
 namespace hipanel\controllers;
 
 use DateTime;
-use hipanel\actions\Action;
-use hipanel\actions\IndexAction;
 use hipanel\base\CrudController;
 use hipanel\helpers\ResourceHelper;
 use hipanel\models\Resource;
 use hipanel\models\ResourceSearch;
-use hipanel\modules\server\models\Server;
-use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\widgets\ResourceConsumption;
 use http\Exception\RuntimeException;
 use Yii;
 use yii\base\DynamicModel;
-use yii\base\Event;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class ResourceController extends CrudController
 {
-    public function actions()
-    {
-        return [
-            'servers' => [
-                'class' => IndexAction::class,
-                'searchModel' => ServerSearch::class,
-                'view' => 'servers',
-            ],
-            'server' => [
-                'class' => IndexAction::class,
-                'searchModel' => ResourceSearch::class,
-                'on beforePerform' => function (Event $event) {
-                    $query = $event->sender->getDataProvider()->query;
-                    $query->andWhere([
-                        'time_from' => (new DateTime())->modify('first day of last month')->format('Y-m-d'),
-                        'time_till' => (new DateTime())->modify('last day of last month')->format('Y-m-d'),
-                    ]);
-                    $query->andWhere([
-                        'object_id' => $this->request->get('id'),
-                        'groupby' => 'server_traf_day',
-                    ]);
-                },
-                'view' => 'server',
-                'data' => static fn(Action $action): array => [
-                    'originalModel' => Server::findOne($action->controller->request->get('id')),
-                ],
-            ],
-        ];
-    }
-
     public function actionFetchResources()
     {
         $request = Yii::$app->request;

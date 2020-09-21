@@ -18,6 +18,8 @@ class ResourceListViewer extends Widget
 
     public ViewContextInterface $originalContext;
 
+    public $originalModel;
+
     public $searchModel;
 
     public $uiModel;
@@ -30,6 +32,7 @@ class ResourceListViewer extends Widget
         return $this->render('ResourceListViewer', [
             'dataProvider' => $this->dataProvider,
             'originalContext' => $this->originalContext,
+            'originalModel' => $this->originalModel,
             'searchModel' => $this->searchModel,
             'uiModel' => $this->uiModel,
             'model' => new Resource(),
@@ -89,7 +92,7 @@ class ResourceListViewer extends Widget
     formData.append('{$csrf_param}', '{$csrf_token}');
     
     try {
-      const response = await fetch('fetch-resources', {
+      const response = await fetch('/resource/fetch-resources', {
         method: 'POST',
         body: formData
       });
@@ -117,7 +120,7 @@ class ResourceListViewer extends Widget
   fetchResources(ids, time_from, time_till);
 })();
 JS
-    , View::POS_READY);
+            , View::POS_READY);
     }
 
     private function registerCss()

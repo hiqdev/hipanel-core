@@ -35,7 +35,7 @@ class ResourceGridView extends BoxedGridView
                     'maxDate' => new JsExpression('moment()'),
                 ],
                 'clientEvents' => [
-                    'apply.daterangepicker' => new JsExpression(/** @lang ECMAScript 6 */"(event, picker) => {
+                    'apply.daterangepicker' => new JsExpression(/** @lang ECMAScript 6 */ "(event, picker) => {
                         const form = $(picker.element[0]).closest('form');
                         const start = picker.startDate.format('yyyy-MM-dd'.toUpperCase());
                         const end = picker.endDate.format('yyyy-MM-dd'.toUpperCase());
@@ -83,9 +83,7 @@ class ResourceGridView extends BoxedGridView
             'attribute' => 'name',
             'label' => Yii::t('hipanel', 'Object'),
             'contentOptions' => ['style' => 'width: 1%; white-space:nowrap;'],
-            'value' => function (ActiveRecordInterface $model): string {
-                return Html::a($model->name, ['/resource/server', 'id' => $model->id], ['class' => 'text-bold']);
-            },
+            'value' => fn(ActiveRecordInterface $model): string => Html::a($model->name, ["@{$name}/resource-detail", 'id' => $model->id], ['class' => 'text-bold']),
         ];
         $columns[] = 'client_like';
         foreach (ResourceHelper::getColumns($name) as $type => $label) {

@@ -26,9 +26,9 @@ class ResourceDetailViewer extends Widget
         return $this->render('ResourceDetailViewer', [
             'dataProvider' => $this->dataProvider,
             'originalContext' => $this->originalContext,
-            'searchModel' => $this->searchModel,
             'originalModel' => $this->originalModel,
             'uiModel' => $this->uiModel,
+            'searchModel' => $this->searchModel,
             'model' => new Resource(),
         ]);
     }
