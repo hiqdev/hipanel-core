@@ -5,25 +5,12 @@ namespace hipanel\widgets;
 use hipanel\assets\BootstrapDatetimepickerAsset;
 use hipanel\models\Resource;
 use Yii;
-use yii\base\ViewContextInterface;
-use yii\base\Widget;
-use yii\data\DataProviderInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\View;
 
-class ResourceListViewer extends Widget
+class ResourceListViewer extends BaseResourceViewer
 {
-    public DataProviderInterface $dataProvider;
-
-    public ViewContextInterface $originalContext;
-
-    public $originalModel;
-
-    public $searchModel;
-
-    public $uiModel;
-
     public function run(): string
     {
         $this->registerJs();
@@ -32,9 +19,8 @@ class ResourceListViewer extends Widget
         return $this->render('ResourceListViewer', [
             'dataProvider' => $this->dataProvider,
             'originalContext' => $this->originalContext,
-            'originalModel' => $this->originalModel,
-            'searchModel' => $this->searchModel,
             'uiModel' => $this->uiModel,
+            'configurator' => $this->configurator,
             'model' => new Resource(),
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace hipanel\grid;
 
+use hipanel\helpers\ResourceConfigurator;
 use hipanel\helpers\ResourceHelper;
 use hipanel\models\Resource;
 use hiqdev\yii2\daterangepicker\DateRangePicker;
@@ -14,9 +15,11 @@ class ResourceGridView extends BoxedGridView
 {
     public string $name = 'server';
 
+    public ResourceConfigurator $configurator;
+
     public function columns()
     {
-        $columns = self::getColumns($this->name);
+        $columns = $this->configurator->getColumns();
         $columns['date'] = [
             'format' => 'html',
             'attribute' => 'date',
@@ -59,7 +62,7 @@ class ResourceGridView extends BoxedGridView
             'format' => 'html',
             'attribute' => 'type',
             'label' => Yii::t('hipanel', 'Type'),
-            'filter' => ResourceHelper::getFilterColumns($this->name),
+            'filter' => $this->configurator->getFilterColumns(),
             'filterInputOptions' => ['class' => 'form-control', 'id' => null, 'prompt' => '---'],
             'enableSorting' => false,
             'value' => fn($model): ?string => $columns[$model->type]['label'] ?? $model->type,
@@ -75,7 +78,7 @@ class ResourceGridView extends BoxedGridView
         return array_merge(parent::columns(), $columns);
     }
 
-    public static function getColumns(string $name): array
+    public static function getColumns(ResourceConfigurator $configurator): array
     {
         $columns = [];
         $columns['object'] = [
@@ -83,10 +86,10 @@ class ResourceGridView extends BoxedGridView
             'attribute' => 'name',
             'label' => Yii::t('hipanel', 'Object'),
             'contentOptions' => ['style' => 'width: 1%; white-space:nowrap;'],
-            'value' => fn(ActiveRecordInterface $model): string => Html::a($model->name, ["@{$name}/resource-detail", 'id' => $model->id], ['class' => 'text-bold']),
+            'value' => fn(ActiveRecordInterface $model): string => Html::a($model->name, [$configurator->getToObjectUrl(), 'id' => $model->id], ['class' => 'text-bold']),
         ];
         $columns[] = 'client_like';
-        foreach (ResourceHelper::getColumns($name) as $type => $label) {
+        foreach ($configurator->getColumns() as $type => $label) {
             $columns[$type] = [
                 'class' => DataColumn::class,
                 'label' => $label,

@@ -2,41 +2,20 @@
 
 namespace hipanel\widgets;
 
-use hipanel\models\Resource;
-use yii\base\ViewContextInterface;
-use yii\base\Widget;
-use yii\data\DataProviderInterface;
+use yii\db\ActiveRecordInterface;
 
-class ResourceDetailViewer extends Widget
+class ResourceDetailViewer extends BaseResourceViewer
 {
-    public DataProviderInterface $dataProvider;
-
-    public ViewContextInterface $originalContext;
-
-    public $originalModel;
-
-    public $searchModel;
-
-    public $uiModel;
+    public ActiveRecordInterface $originalModel;
 
     public function run(): string
     {
-        $this->registerJs();
-
         return $this->render('ResourceDetailViewer', [
+            'configurator' => $this->configurator,
             'dataProvider' => $this->dataProvider,
             'originalContext' => $this->originalContext,
             'originalModel' => $this->originalModel,
             'uiModel' => $this->uiModel,
-            'searchModel' => $this->searchModel,
-            'model' => new Resource(),
         ]);
-    }
-
-    private function registerJs(): void
-    {
-        $this->view->registerJs(<<<'JS'
-JS
-        );
     }
 }
