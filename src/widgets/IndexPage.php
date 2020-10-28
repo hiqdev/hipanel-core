@@ -137,7 +137,7 @@ JS
     public function getUiModel()
     {
         if ($this->uiModel === null) {
-            $this->uiModel = $this->originalContext->indexPageUiOptionsModel;
+            $this->uiModel = $this->originalContext->indexPageUiOptionsModel ?? $this->originalContext->uiModel;
         }
 
         return $this->uiModel;
