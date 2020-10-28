@@ -35,7 +35,7 @@ class Dropdown extends TestableInput
      */
     protected function getFilterSelector(): string
     {
-        return self::TF_BASE . "select[id*={$this->auxName}]";
+        return self::TF_BASE . "select[name*={$this->auxName}]";
     }
 
     /**
