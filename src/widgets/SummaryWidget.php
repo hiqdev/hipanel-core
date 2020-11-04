@@ -30,10 +30,9 @@ class SummaryWidget extends Widget
     {
         $locals = $this->getSumsString($this->local_sums ?? []);
         $totals = $this->getSumsString($this->total_sums ?? []);
-        return '<div class="summary">' .
-            ($totals !== '' ? Yii::t('hipanel:stock', 'TOTAL: {sum}', ['sum' => $totals]) : null) .
-            ($locals !== '' ? '<br><span class="text-muted">' . Yii::t('hipanel:stock', 'on screen: {sum}', ['sum' => $locals]) . '</span>' : null) .
-            '</div>';
+
+        return ($totals !== '' ? Yii::t('hipanel:stock', 'TOTAL: {sum}', ['sum' => $totals]) : null) .
+            ($locals !== '' ? '<br><span class="text-muted">' . Yii::t('hipanel:stock', 'on screen: {sum}', ['sum' => $locals]) . '</span>' : null);
     }
 
     /**
@@ -56,6 +55,7 @@ class SummaryWidget extends Widget
                 $totals .= ' &nbsp; -<b>' . Yii::$app->formatter->asCurrency($sum['negative'] ?? '0', $cur) . '</b>)';
             }
         }
+
         return $totals;
     }
 }
