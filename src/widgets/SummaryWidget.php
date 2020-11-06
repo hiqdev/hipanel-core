@@ -31,8 +31,9 @@ class SummaryWidget extends Widget
         $locals = $this->getSumsString($this->local_sums ?? []);
         $totals = $this->getSumsString($this->total_sums ?? []);
 
-        return ($totals !== '' ? Yii::t('hipanel:stock', 'TOTAL: {sum}', ['sum' => $totals]) : null) .
-            ($locals !== '' ? '<br><span class="text-muted">' . Yii::t('hipanel:stock', 'on screen: {sum}', ['sum' => $locals]) . '</span>' : null);
+        return '<div class="summary">' . ($totals !== '' ? Yii::t('hipanel:stock', 'TOTAL: {sum}', ['sum' => $totals]) : null) .
+            ($locals !== '' ? '<br><span class="text-muted">' . Yii::t('hipanel:stock', 'on screen: {sum}', ['sum' => $locals]) . '</span>' : null)
+            . '</div>';
     }
 
     /**

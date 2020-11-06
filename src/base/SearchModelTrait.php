@@ -12,7 +12,7 @@ namespace hipanel\base;
 
 use hiqdev\hiart\ActiveQuery;
 use hiqdev\hiart\ActiveRecord;
-use yii\data\ActiveDataProvider;
+use hiqdev\hiart\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
 /**
