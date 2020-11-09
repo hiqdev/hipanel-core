@@ -12,7 +12,7 @@ namespace hipanel\actions;
 
 use hipanel\base\FilterStorage;
 use hipanel\grid\RepresentationCollectionFinder;
-use hipanel\widgets\SynchronouslyCountEnabler;
+use hipanel\widgets\SynchronousCountEnabler;
 use hiqdev\higrid\representations\RepresentationCollection;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
@@ -86,11 +86,11 @@ class IndexAction extends SearchAction
             'GET ajax' => [
                 'class' => VariantsAction::class,
                 'variants' => array_merge([
-                    'pager' => fn(VariantsAction $action): string => SynchronouslyCountEnabler::widget([
+                    'pager' => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
                         'dataProvider' => $action->parent->getDataProvider(),
                         'content' => fn(GridView $grid): string => $grid->renderPager(),
                     ]),
-                    'summary' => fn(VariantsAction $action): string => SynchronouslyCountEnabler::widget([
+                    'summary' => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
                         'dataProvider' => $action->parent->getDataProvider(),
                         'content' => fn(GridView $grid): string => $grid->renderSummary(),
                     ]),

@@ -14,18 +14,13 @@ use Yii;
 
 class VariantsAction extends RenderAction
 {
-    public array $variants;
-
-    public function init()
-    {
-        parent::init();
-    }
+    public ?array $variants = null;
 
     public function run()
     {
-        $headerName = $this->controller->request->headers->get(self::EXPECTED_AJAX_RESPONSE_HEADER_NAME);
+        $headerValue = $this->controller->request->headers->get(self::EXPECTED_AJAX_RESPONSE_HEADER_NAME);
         foreach ($this->variants as $expected => $variant) {
-            if ($expected === $headerName) {
+            if ($expected === $headerValue) {
                 return $variant($this);
             }
         }

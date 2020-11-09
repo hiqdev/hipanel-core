@@ -7,7 +7,7 @@ use Yii;
 use yii\base\Widget;
 use yii\grid\GridView;
 
-class SynchronouslyCountEnabler extends Widget
+class SynchronousCountEnabler extends Widget
 {
     public ActiveDataProvider $dataProvider;
 
@@ -15,7 +15,7 @@ class SynchronouslyCountEnabler extends Widget
 
     public function run()
     {
-        $this->dataProvider->enableSynchronouslyCount();
+        $this->dataProvider->enableSynchronousCount();
         $grid = Yii::createObject([
             'class' => GridView::class,
             'dataProvider' => $this->dataProvider,
