@@ -56,7 +56,7 @@ class GridView extends \hiqdev\higrid\GridView
     {
         parent::init();
 
-        if ($this->dataProvider instanceof ActiveDataProvider && $this->dataProvider->useRealCount === false) {
+        if ($this->dataProvider instanceof ActiveDataProvider && $this->dataProvider->countSynchronously === false) {
             $this->pager = ['class' => PagerHook::class];
             $this->summaryRenderer = static fn() => SummaryHook::widget();
         }
