@@ -26,6 +26,10 @@ use yii\web\Controller;
  */
 class IndexAction extends SearchAction
 {
+    public const VARIANT_PAGER_RESPONSE = 'pager';
+
+    public const VARIANT_SUMMARY_RESPONSE = 'summary';
+
     /**
      * @var string view to render
      */
@@ -86,11 +90,11 @@ class IndexAction extends SearchAction
             'GET ajax' => [
                 'class' => VariantsAction::class,
                 'variants' => array_merge([
-                    'pager' => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
+                    self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
                         'dataProvider' => $action->parent->getDataProvider(),
                         'content' => fn(GridView $grid): string => $grid->renderPager(),
                     ]),
-                    'summary' => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
+                    self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
                         'dataProvider' => $action->parent->getDataProvider(),
                         'content' => fn(GridView $grid): string => $grid->renderSummary(),
                     ]),
