@@ -327,6 +327,6 @@ return [
     'Failed enabling Autorenewal' => 'Не удалось включить автообновление',
     'You have not set a PIN code! Contact our support by e-mail {email}.' => 'У вас не установлен пин-код! Свяжитесь с нашей службой поддержки по электронной почте {email}.',
 
-    'loading pager...' => 'загружаю пагинацию...',
-    'loading summary...' => 'загружаю самари...',
+    'loading pager...' => 'загружаю страницы...',
+    'loading summary...' => 'загружаю итог...',
 ];
