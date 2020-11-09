@@ -35,6 +35,16 @@ class IndexAction extends SearchAction
      */
     protected $_view;
 
+    /**
+     * GET AJAX answer options for `VariantAction`, for example:
+     * ```
+     *      [
+     *          'headerValue1' => fn(VariantAction $action): string => 'response1',
+     *          'headerValue2' => fn(VariantAction $action): string => 'response2',
+     *      ],
+     * ```
+     * @var array
+     */
     public array $responseVariants = [];
 
     /**
