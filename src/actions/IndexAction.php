@@ -10,11 +10,14 @@
 
 namespace hipanel\actions;
 
+use Closure;
 use hipanel\base\FilterStorage;
 use hipanel\grid\RepresentationCollectionFinder;
+use hipanel\widgets\CountEnabler;
 use hiqdev\higrid\representations\RepresentationCollection;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
+use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\web\Controller;
@@ -28,6 +31,9 @@ class IndexAction extends SearchAction
      * @var string view to render
      */
     protected $_view;
+
+    public array $responseVariants = [];
+
     /**
      * @var RepresentationCollectionFinder
      */
@@ -60,7 +66,7 @@ class IndexAction extends SearchAction
 
     protected function getDefaultRules()
     {
-        return array_merge([
+        return ArrayHelper::merge([
             'html | pjax' => [
                 'save' => false,
                 'flash' => false,
@@ -77,6 +83,19 @@ class IndexAction extends SearchAction
                         ];
                     },
                 ],
+            ],
+            'GET ajax' => [
+                'class' => VariantsAction::class,
+                'variants' => array_merge([
+                    'pager' => fn(VariantsAction $action): string => CountEnabler::widget([
+                        'dataProvider' => $action->parent->getDataProvider(),
+                        'content' => fn(GridView $grid): string => $grid->renderPager(),
+                    ]),
+                    'summary' => fn(VariantsAction $action): string => CountEnabler::widget([
+                        'dataProvider' => $action->parent->getDataProvider(),
+                        'content' => fn(GridView $grid): string => $grid->renderSummary(),
+                    ]),
+                ], $this->responseVariants),
             ],
         ], parent::getDefaultRules());
     }

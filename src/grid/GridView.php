@@ -15,7 +15,10 @@ use hipanel\helpers\ArrayHelper;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\SellerColumn;
 use hipanel\widgets\LinkSorter;
+use hipanel\widgets\PagerHook;
+use hipanel\widgets\SummaryHook;
 use hiqdev\assets\datatables\DataTablesAsset;
+use hiqdev\hiart\ActiveDataProvider;
 use Yii;
 
 /**
@@ -47,6 +50,17 @@ class GridView extends \hiqdev\higrid\GridView
      * {@inheritdoc}
      */
     public $layout = "<div class='row'><div class='col-xs-12'>{sorter}</div></div><div class=\"table-responsive\">{items}</div>\n<div class='row'><div class='col-sm-6 col-xs-12'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-sm-6 col-xs-12'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
+
+
+    public function init()
+    {
+        parent::init();
+
+        if ($this->dataProvider instanceof ActiveDataProvider && $this->dataProvider->useRealCount === false) {
+            $this->pager = ['class' => PagerHook::class];
+            $this->summaryRenderer = static fn() => SummaryHook::widget();
+        }
+    }
 
     /**
      * {@inheritdoc}
