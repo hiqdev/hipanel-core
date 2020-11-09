@@ -19,10 +19,8 @@ class VariantsAction extends RenderAction
     public function run()
     {
         $headerValue = $this->controller->request->headers->get(self::EXPECTED_AJAX_RESPONSE_HEADER_NAME);
-        foreach ($this->variants as $expected => $variant) {
-            if ($expected === $headerValue) {
-                return $variant($this);
-            }
+        if (isset($this->variants[$headerValue])) {
+            return $this->variants[$headerValue]($this);
         }
         Yii::$app->end();
     }
