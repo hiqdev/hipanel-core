@@ -24,7 +24,9 @@ class VariantsAction extends RenderAction
     public function run()
     {
         $headerName = $this->controller->request->headers->get(self::EXPECTED_AJAX_RESPONSE_HEADER_NAME);
-        foreach ($this->variants as $expected => $variant) {
+        if (isset($this->variants[$headerName])) {
+            return $this->variants[$headerName]($this);
+        }
             if ($expected === $headerName) {
                 return $variant($this);
             }
