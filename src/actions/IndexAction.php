@@ -12,9 +12,11 @@ namespace hipanel\actions;
 
 use hipanel\base\FilterStorage;
 use hipanel\grid\RepresentationCollectionFinder;
+use hipanel\widgets\SynchronousCountEnabler;
 use hiqdev\higrid\representations\RepresentationCollection;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
+use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\web\Controller;
@@ -24,10 +26,27 @@ use yii\web\Controller;
  */
 class IndexAction extends SearchAction
 {
+    public const VARIANT_PAGER_RESPONSE = 'pager';
+
+    public const VARIANT_SUMMARY_RESPONSE = 'summary';
+
     /**
      * @var string view to render
      */
     protected $_view;
+
+    /**
+     * GET AJAX answer options for `VariantAction`, for example:
+     * ```
+     *      [
+     *          'headerValue1' => fn(VariantAction $action): string => 'response1',
+     *          'headerValue2' => fn(VariantAction $action): string => 'response2',
+     *      ],
+     * ```
+     * @var array
+     */
+    public array $responseVariants = [];
+
     /**
      * @var RepresentationCollectionFinder
      */
@@ -60,7 +79,7 @@ class IndexAction extends SearchAction
 
     protected function getDefaultRules()
     {
-        return array_merge([
+        return ArrayHelper::merge([
             'html | pjax' => [
                 'save' => false,
                 'flash' => false,
@@ -77,6 +96,19 @@ class IndexAction extends SearchAction
                         ];
                     },
                 ],
+            ],
+            'GET ajax' => [
+                'class' => VariantsAction::class,
+                'variants' => array_merge([
+                    self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
+                        'dataProvider' => $action->parent->getDataProvider(),
+                        'content' => fn(GridView $grid): string => $grid->renderPager(),
+                    ]),
+                    self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
+                        'dataProvider' => $action->parent->getDataProvider(),
+                        'content' => fn(GridView $grid): string => $grid->renderSummary(),
+                    ]),
+                ], $this->responseVariants),
             ],
         ], parent::getDefaultRules());
     }

@@ -12,7 +12,8 @@ namespace hipanel\base;
 
 use hiqdev\hiart\ActiveQuery;
 use hiqdev\hiart\ActiveRecord;
-use yii\data\ActiveDataProvider;
+use hiqdev\hiart\ActiveDataProvider;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -88,7 +89,10 @@ trait SearchModelTrait
         $class = get_parent_class();
         $query = $class::find(); // $class::find()->orderBy($sort->orders)->all(); if $sort is Sort
 
-        $dataProvider = new ActiveDataProvider(ArrayHelper::merge(['query' => $query], $dataProviderConfig));
+        $dataProvider = Yii::createObject(ArrayHelper::merge([
+            'class' => ActiveDataProvider::class,
+            'query' => $query
+        ], $dataProviderConfig));
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;

@@ -3,23 +3,20 @@
 namespace hipanel\widgets;
 
 use Yii;
-use yii\base\Widget;
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 
-class SummaryHook extends Widget implements HookInterface
+class PagerHook extends LinkPager implements HookInterface
 {
     use HookTrait;
 
     public string $tag = 'div';
 
-    public array $options = [];
-
     public string $content;
 
     public function init()
     {
-        parent::init();
-        $this->registerJsHook('summary');
+        $this->registerJsHook('pager');
     }
 
     public function run()
@@ -29,6 +26,6 @@ class SummaryHook extends Widget implements HookInterface
 
     private function getLoader(): string
     {
-        return Html::tag('span', null, ['class' => 'fa fa-spinner fa-pulse', 'style' => 'margin: .7rem; 0 1rem']) . Yii::t('hipanel', 'loading summary...');
+        return Html::tag('span', null, ['class' => 'fa fa-spinner fa-pulse', 'style' => 'margin-right: .7rem;']) . Yii::t('hipanel', 'loading pager...');
     }
 }
