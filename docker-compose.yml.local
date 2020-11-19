@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  selenium:
+    image: selenium/standalone-chrome:3.141.0
+    networks:
+      - local-network
+      - proxy-network
+      - hiapi-network
+    volumes:
+      - /dev/shm:/dev/shm
 
   nginx:
     image: nginx:latest
