@@ -88,7 +88,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
         if (!isset(static::$mergedLabels[static::class])) {
             $default = $this->defaultAttributeLabels();
             foreach ($this->attributes() as $k) {
-                $label = $labels[$k] ?: $default[$k];
+                $label = $labels[$k] ?? null ?: $default[$k] ?? null;
                 if (!$label) {
                     if (preg_match('/(.+)_[a-z]+$/', $k, $m)) {
                         if (isset($labels[$m[1]])) {
