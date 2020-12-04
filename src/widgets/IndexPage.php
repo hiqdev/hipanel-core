@@ -179,7 +179,7 @@ JS
      */
     public function renderContent($name)
     {
-        return $this->contents[$name];
+        return $this->contents[$name] ?? '';
     }
 
     public function run()

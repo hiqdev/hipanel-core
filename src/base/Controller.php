@@ -152,7 +152,8 @@ class Controller extends \yii\web\Controller
 
     public static function controllerId()
     {
-        return Inflector::camel2id(substr(end(explode('\\', get_called_class())), 0, -10)); // todo: remove
+        $parts = explode('\\', get_called_class());
+        return Inflector::camel2id(substr(end($parts), 0, -10)); // todo: remove
     }
 
     /**
@@ -226,7 +227,7 @@ class Controller extends \yii\web\Controller
 
     public function createAction($id)
     {
-        $config = $this->_internalActions[$id];
+        $config = $this->_internalActions[$id] ?? null;
 
         return $config ? Yii::createObject($config, [$id, $this]) : parent::createAction($id);
     }
