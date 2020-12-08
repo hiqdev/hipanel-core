@@ -102,6 +102,7 @@ class IndexAction extends SearchAction
                 'variants' => array_merge([
                     self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
                         'dataProvider' => $action->parent->getDataProvider(),
+                        'loadModels' => false,
                         'content' => fn(GridView $grid): string => $grid->renderPager(),
                     ]),
                     self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([

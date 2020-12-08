@@ -13,9 +13,14 @@ class SynchronousCountEnabler extends Widget
 
     public $content;
 
+    public bool $loadModels = true;
+
     public function run()
     {
         $this->dataProvider->enableSynchronousCount();
+        if ($this->loadModels === false) {
+            $this->dataProvider->preventLoadModels();
+        }
         $grid = Yii::createObject([
             'class' => GridView::class,
             'dataProvider' => $this->dataProvider,
