@@ -14,6 +14,8 @@ class PagerHook extends LinkPager implements HookInterface
 
     public string $content;
 
+    public $options = [];
+
     public function init()
     {
         $this->registerJsHook('pager');
