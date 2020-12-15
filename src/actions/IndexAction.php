@@ -100,14 +100,14 @@ class IndexAction extends SearchAction
             'GET ajax' => [
                 'class' => VariantsAction::class,
                 'variants' => array_merge([
-                    self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
-                        'dataProvider' => $action->parent->getDataProvider(),
-                        'content' => fn(GridView $grid): string => $grid->renderPager(),
-                    ]),
-                    self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => SynchronousCountEnabler::widget([
-                        'dataProvider' => $action->parent->getDataProvider(),
-                        'content' => fn(GridView $grid): string => $grid->renderSummary(),
-                    ]),
+                    self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => (new SynchronousCountEnabler(
+                        $action->parent->getDataProvider(),
+                        fn(GridView $grid): string => $grid->renderPager(),
+                    ))->preventModelsLoading()->__invoke(),
+                    self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => (new SynchronousCountEnabler(
+                        $action->parent->getDataProvider(),
+                        fn(GridView $grid): string => $grid->renderSummary(),
+                    ))(),
                 ], $this->responseVariants),
             ],
         ], parent::getDefaultRules());
