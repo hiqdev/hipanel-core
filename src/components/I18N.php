@@ -32,6 +32,6 @@ class I18N extends \yii\i18n\I18N
      */
     public function removeLegacyLangTags($message)
     {
-        return preg_replace('/{lang:([^}]*)}/i', '$1', $message);
+        return preg_replace('/{lang:([^}<>]*)}/i', '$1', $message);
     }
 }
