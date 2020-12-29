@@ -82,7 +82,7 @@
         "wbraganca/yii2-dynamicform": "dev-master",
         "bower-asset/css-element-queries": "<1.0",
         "bower-asset/less-space": "*",
-        "bower-asset/eonasdan-bootstrap-datetimepicker": "*",
+        "bower-asset/eonasdan-bootstrap-datetimepicker": "^4.17",
         "bower-asset/components-font-awesome": "~4.6",
         "bower-asset/chartjs": "~2.8.0",
         "bower-asset/sticky-sidebar": "3.3.1",
