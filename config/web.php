@@ -97,7 +97,6 @@ return [
             'sizeFormatBase' => 1000,
         ],
         'themeManager' => [
-            'defaultTheme' => 'adminlte',
             'assets' => [
                 \hipanel\assets\AppAsset::class,
             ],
