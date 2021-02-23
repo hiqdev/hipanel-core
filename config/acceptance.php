@@ -15,9 +15,9 @@ return [
     'COMMON_SUITE_LOCATION' => dirname(__DIR__) . '/tests/acceptance.suite.yml',
     'COMMON_TESTS_LOCATION' => dirname(__DIR__) . '/tests',
 
-    'URL' => $params['hipanel.url'],
+    'URL' => getenv('URL'),
     'BROWSER' => 'chrome',
-    'SELENIUM_HOST' => $params['tests.acceptance.selenium.host'],
+    'SELENIUM_HOST' => getenv('TESTS_ACCEPTANCE_SELENIUM_HOST'),
 
     'client' => [
         'id' => null,
