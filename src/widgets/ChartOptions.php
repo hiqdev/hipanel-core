@@ -253,7 +253,7 @@ HTML;
      */
     protected function buildAggregationSelect()
     {
-        return Html::dropDownList('aggregation', 'month', [
+        return Html::dropDownList('aggregation', 'day', [
             'day' => Yii::t('hipanel', 'Daily'),
             'week' => Yii::t('hipanel', 'Weekly'),
             'month' => Yii::t('hipanel', 'Monthly'),
