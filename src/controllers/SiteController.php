@@ -70,7 +70,10 @@ class SiteController extends \hisite\controllers\SiteController
             ],
             'profile' => [
                 'class' => RedirectAction::class,
-                'url' => ['@client/view', 'id' => Yii::$app->user->identity->id],
+                'url' => [
+                    '@client/view',
+                    'id' => Yii::$app->user->isGuest ? '' :  Yii::$app->user->identity->id,
+                ],
             ],
             'lockscreen' => [
                 'class' => RenderAction::class,
@@ -79,7 +82,7 @@ class SiteController extends \hisite\controllers\SiteController
                 'class' => RedirectAction::class,
                 'url'   => [
                     '@client/view',
-                    'id'    => Yii::$app->user->identity->id,
+                    'id'    => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->id,
                     '#'     => 'ip_restriction_settings',
                 ],
             ],
@@ -87,7 +90,7 @@ class SiteController extends \hisite\controllers\SiteController
                 'class' => RedirectAction::class,
                 'url'   => [
                     '@client/view',
-                    'id'    => Yii::$app->user->identity->id,
+                    'id'    => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->id,
                     '#'     => 'notification_settings',
                 ],
             ],
