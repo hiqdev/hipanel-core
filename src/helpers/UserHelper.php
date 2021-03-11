@@ -36,7 +36,7 @@ class UserHelper
             return Yii::$app->user->identity->seller;
         }
 
-        return self::getSiteSeller();
+        return self::getDefaultSeller();
     }
 
     public static function getSellerId(): integer
@@ -45,9 +45,12 @@ class UserHelper
             return Yii::$app->user->seller_id;
         }
 
-        $sellerModel = Client::perform('check', [
-            'client' => self::getSiteSeller(),
-        ]);
+        $seller = self::getDefaultSeller();
+        $sellerModel = Yii::$app->get('cache')->getOrSet([__CLASS__, __METHOD__, $seller], function () use ($seller) {
+            return Client::perform('check', [
+                'client' => $seller,
+            ]);
+        });
 
         return $sellerModel->id;
     }
@@ -55,7 +58,7 @@ class UserHelper
     /**
      * @throw InvalidConfigException
      */
-    protected static function getSiteSeller(): string
+    protected static function getDefaultSeller(): string
     {
         if (empty(Yii::$app->params['user.seller'])) {
             throw new InvalidConfigException('"seller" param must be set');
