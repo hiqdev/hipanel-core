@@ -10,6 +10,7 @@
 
 namespace hipanel\controllers;
 
+use hipanel\helpers\UserHelper;
 use hipanel\logic\Impersonator;
 use hipanel\models\User;
 use hisite\actions\RedirectAction;
@@ -70,7 +71,10 @@ class SiteController extends \hisite\controllers\SiteController
             ],
             'profile' => [
                 'class' => RedirectAction::class,
-                'url' => ['@client/view', 'id' => Yii::$app->user->identity->id],
+                'url' => [
+                    '@client/view',
+                    'id' => UserHelper::getId(),
+                ],
             ],
             'lockscreen' => [
                 'class' => RenderAction::class,
@@ -79,7 +83,7 @@ class SiteController extends \hisite\controllers\SiteController
                 'class' => RedirectAction::class,
                 'url'   => [
                     '@client/view',
-                    'id'    => Yii::$app->user->identity->id,
+                    'id'    => UserHelper::getId(),
                     '#'     => 'ip_restriction_settings',
                 ],
             ],
@@ -87,7 +91,7 @@ class SiteController extends \hisite\controllers\SiteController
                 'class' => RedirectAction::class,
                 'url'   => [
                     '@client/view',
-                    'id'    => Yii::$app->user->identity->id,
+                    'id'    => UserHelper::getId(),
                     '#'     => 'notification_settings',
                 ],
             ],
