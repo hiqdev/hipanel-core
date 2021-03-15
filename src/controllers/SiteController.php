@@ -26,7 +26,7 @@ use yii\filters\AccessControl;
 class SiteController extends \hisite\controllers\SiteController
 {
     /** @var string */
-    protected $defaultAuthClient = 'hiam';
+    public $defaultAuthClient = 'hiam';
     /**
      * @var Impersonator
      */
