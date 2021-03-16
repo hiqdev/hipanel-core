@@ -12,14 +12,11 @@ trait NoWidgetEventTrait
 
     public function beforeRun()
     {
-        return (new WidgetEvent())->isValid;
+        return true;
     }
 
     public function afterRun($result)
     {
-        $event = new WidgetEvent();
-        $event->result = $result;
-
-        return $event->result;
+        return $result;
     }
 }
