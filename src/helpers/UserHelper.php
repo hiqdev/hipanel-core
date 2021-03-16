@@ -10,7 +10,7 @@
 
 namespace hipanel\helpers;
 
-use hipanel\module\client\models\Client;
+use hipanel\modules\client\models\Client;
 use Yii;
 use yii\base\InvalidConfigException;
 
@@ -23,11 +23,11 @@ class UserHelper
             : Yii::$app->user->login;
     }
 
-    public static function getId(): ?integer
+    public static function getId(): ?int
     {
         return Yii::$app->user->isGuest
             ? null
-            : (integer) Yii::$app->user->id;
+            : (int) Yii::$app->user->id;
     }
 
     public static function getSeller(): string
@@ -39,7 +39,7 @@ class UserHelper
         return self::getDefaultSeller();
     }
 
-    public static function getSellerId(): integer
+    public static function getSellerId(): int
     {
         if (!Yii::$app->user->isGuest) {
             return Yii::$app->user->seller_id;
