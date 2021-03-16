@@ -23,6 +23,8 @@ use yii\helpers\Html;
  */
 class IconStateLabel extends Widget
 {
+    use NoWidgetEventTrait;
+
     /**
      * @var Model
      */
