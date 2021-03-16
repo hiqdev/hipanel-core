@@ -27,6 +27,8 @@ use yii\helpers\Html;
  */
 class Label extends \yii\base\Widget
 {
+    use NoWidgetEventTrait;
+
     public $default = 'default';
 
     public $noneOptions = [];
