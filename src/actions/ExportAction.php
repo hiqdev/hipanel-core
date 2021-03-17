@@ -34,7 +34,7 @@ class ExportAction extends IndexAction
         $this->exporterFactory = $exporterFactory;
     }
 
-    public function run()
+    public function run(): string
     {
         $type = $this->getType();
         /** @var ExporterInterface $exporter */
@@ -58,10 +58,16 @@ class ExportAction extends IndexAction
             'columns' => $representation->getColumns(),
         ]);
         $grid->dataColumnClass = DataColumn::class;
+
         $result = $exporter->export($grid);
         $filename = $exporter->filename . '.' . $type;
+        $response = Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_RAW;
+        $response->getHeaders()
+            ->set("Content-Type", "application/octet-stream")
+            ->add("Content-Disposition", "attachment; filename={$filename}");
 
-        return Yii::$app->response->sendContentAsFile($result, $filename);
+        return $result;
     }
 
     public function loadSettings($type)
