@@ -59,7 +59,7 @@ class ExportAction extends IndexAction
         ]);
         $grid->dataColumnClass = DataColumn::class;
 
-        $result = $exporter->export($grid);
+        $content = $exporter->export($grid);
         $filename = $exporter->filename . '.' . $type;
         $response = Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_RAW;
@@ -67,7 +67,7 @@ class ExportAction extends IndexAction
             ->set("Content-Type", "application/octet-stream")
             ->add("Content-Disposition", "attachment; filename={$filename}");
 
-        return $result;
+        return $content;
     }
 
     public function loadSettings($type)
