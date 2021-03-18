@@ -16,9 +16,13 @@ class Response extends \yii\web\Response
 {
     public function sendContent()
     {
-        if ($this->stream === null) {
+        if ($this->stream === null
+            && $this->format === self::FORMAT_HTML
+            && !$this->headers->has('Content-Length')
+        ) {
             $this->content = Yii::$app->getI18n()->removeLegacyLangTags($this->content);
         }
+
         parent::sendContent();
     }
 }
