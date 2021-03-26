@@ -1,3 +1,8 @@
+<?php
+
+use yii\helpers\Html;
+
+?>
 <?= $this->render('//layouts/gravatar', [
     'email' => Yii::$app->user->identity->email ?? null,
     'size'  => 90,
@@ -16,6 +21,6 @@
     <?php endif ?>
 
     <?php if (Yii::$app->user->identity->name) : ?>
-        <?= Yii::$app->user->identity->name ?>
+        <?= Html::encode(Yii::$app->user->identity->name) ?>
     <?php endif ?>
 </p>
