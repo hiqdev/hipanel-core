@@ -26,4 +26,8 @@ class HipanelAsset extends AssetBundle
         $view->registerJs("hipanel.locale.set('$locale');");
         parent::registerAssetFiles($view);
     }
+
+    public $depends = [
+        DoubleClickPreventAsset::class,
+    ];
 }
