@@ -49,4 +49,10 @@ class SidebarMenu extends Authenticated
             $I->click($rootMenuName, '.sidebar-menu');
         }
     }
+
+    public function ensureDontSeeRootLevelItem(string $name): void
+    {
+        $I = $this->tester;
+        $I->dontSee($name, ['css' => '.treeview a span']);
+    }
 }
