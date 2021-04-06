@@ -11,6 +11,7 @@
 namespace hipanel\widgets\combo;
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\client\widgets\combo\PartnerCombo;
 use hipanel\modules\domain\widgets\combo\DomainCombo;
 use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
@@ -51,6 +52,7 @@ class ObjectCombo extends InputWidget
      */
     public $knownClasses = [
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
+        'partner' => ['alias' => '@client', 'combo' => PartnerCombo::class],
         'device' => ['alias' => '@server', 'combo' => ServerCombo::class],
         'domain' => ['alias' => '@domain', 'combo' => DomainCombo::class],
         'zone' => ['alias' => '@domain', 'combo' => ZoneCombo::class],
@@ -105,7 +107,7 @@ class ObjectCombo extends InputWidget
      * @param string $class
      * @return string
      */
-    private function getLabel($class): string
+    private function getLabel(string $class): string
     {
         return $class === 'device' ? 'Server' : ucfirst($class);
     }

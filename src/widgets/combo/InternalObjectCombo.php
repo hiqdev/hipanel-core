@@ -12,6 +12,7 @@ namespace hipanel\widgets\combo;
 
 use hiqdev\combo\Combo;
 use ReflectionClass;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\Html;
 use yii\web\View;
@@ -91,9 +92,15 @@ class InternalObjectCombo extends Combo
         $this->view->registerJs("initObjectSelectorChanger('{$changerId}', '{$inputId}')");
     }
 
-    private function applyConfigByObjectClassName($className)
+    private function applyConfigByObjectClassName($className): void
     {
         $options = $this->classes[$className];
+        $widget = Yii::createObject([
+            'class' => $options['combo'],
+            'model' => $this->model,
+            'attribute' => $this->attribute,
+            'view' => $this->view,
+        ]);
         if ($options['comboOptions']) {
             foreach ($this->requiredAttributes as $attribute) {
                 if (isset($options['comboOptions'][$attribute->name])) {
@@ -101,9 +108,9 @@ class InternalObjectCombo extends Combo
                 }
             }
         }
-        $this->registerClientConfig();
+        $widget->registerClientConfig();
         $varName = strtolower($this->model->formName()) . '_object_id_' . $className;
-        $this->view->registerJsVar($varName, $this->configId, View::POS_END);
+        $this->view->registerJsVar($varName, $widget->configId, View::POS_END);
         $this->reset();
     }
 
@@ -128,10 +135,9 @@ class InternalObjectCombo extends Combo
             select.object-selector-select:not([data-select2-id]) { display: none; }
         ');
         $this->view->registerJs(<<<'JS'
-            (function( $ ){
+            (function($) {
 
                 var originalDynamicForm = $.fn.yiiDynamicForm;
-                
                 var methods = {
                     addItem : function(widgetOptions, e, elem) { 
                         originalDynamicForm('addItem', widgetOptions, e, elem);
@@ -149,14 +155,12 @@ class InternalObjectCombo extends Combo
                         } 
                     }
                 };
-                
                 $.fn.yiiDynamicForm = function(method) {
                     if (method === 'addItem') {
                         return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
                     }
                     originalDynamicForm.apply(this, arguments);
                 }
-                
             })(window.jQuery);
 JS
         );
