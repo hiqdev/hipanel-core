@@ -68,6 +68,11 @@ class FileRender extends Widget
      * @var array
      */
     private $extMatch = [
+        'png' => 'fa-file-image-o',
+        'jpeg' => 'fa-file-image-o',
+        'jpg' => 'fa-file-image-o',
+        'bmp' => 'fa-file-image-o',
+        'gif' => 'fa-file-image-o',
         'pdf' => 'fa-file-pdf-o',
         'doc' => 'fa-file-word-o',
         'docx' => 'fa-file-word-o',
@@ -124,7 +129,7 @@ class FileRender extends Widget
         }
     }
 
-    private function getLink($download = false)
+    protected function getLink($download = false)
     {
         return Url::to($this->getRoute($download));
     }
@@ -143,7 +148,7 @@ class FileRender extends Widget
         return ['/file/view', 'id' => $this->file->id];
     }
 
-    private function getExtIcon($ext)
+    protected function getExtIcon($ext)
     {
         $defaultIcon = 'fa-file-text-o';
         $icon =  array_key_exists($ext, $this->extMatch) ? $this->extMatch[$ext] : $defaultIcon;
