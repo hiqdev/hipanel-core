@@ -123,7 +123,9 @@ class InternalObjectCombo extends Combo
 
     private function applyDefaultAttributes()
     {
-        $this->applyConfigByObjectClassName($this->class_attribute ?: 'client');
+        if ($this->class_attribute) {
+            $this->applyConfigByObjectClassName($this->class_attribute);
+        }
     }
 
     private function registerSpecialAssets()
