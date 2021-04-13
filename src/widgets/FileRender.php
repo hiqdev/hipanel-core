@@ -17,13 +17,13 @@ use hipanel\widgets\filePreview\Dimensions;
 use hipanel\widgets\filePreview\FilePreviewFactoryInterface;
 use hipanel\widgets\filePreview\InsetDimensions;
 use hipanel\widgets\filePreview\types\PdfPreviewGenerator;
-use hipanel\widgets\filePreview\UnsupportedMimeTypeException;
 use hiqdev\assets\lightbox2\LightboxAsset;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use Throwable;
 
 /**
  * @property mixed iconOptions
@@ -124,7 +124,7 @@ class FileRender extends Widget
 
                 return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), $linkOptions);
             }
-        } catch (UnsupportedMimeTypeException $e) {
+        } catch (Throwable $e) {
             return Html::a($this->getExtIcon($file->type), $this->getLink(true));
         }
     }
