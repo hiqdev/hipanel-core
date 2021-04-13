@@ -125,9 +125,7 @@ class FileRender extends Widget
 
                 return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), $linkOptions);
             }
-        } catch (UnsupportedMimeTypeException $e) {
-            return Html::a($this->getExtIcon($file->type), $this->getLink(true));
-        } catch (Throwable $e) {
+        } catch (UnsupportedMimeTypeException | Throwable $e) {
             return Html::a($this->getExtIcon($file->type), $this->getLink(true));
         }
     }
