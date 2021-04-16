@@ -109,11 +109,11 @@ class IconStateLabel extends Widget
 
     protected function renderState(): string
     {
-        return Html::tag('i', Html::tag('span', $this->getMessage(), ['class' => 'sr-only']), [
+        return Html::tag('i', Html::tag('span', Html::encode($this->getMessage()), ['class' => 'sr-only']), [
             'aria-hidden' => 'true',
             'class' => implode(' ', [$this->getIcon()]),
             'style' => array_merge($this->getColor(), $this->getSize(), $this->cssStyles),
-            'title' => $this->getMessage(),
+            'title' => Html::encode($this->getMessage()),
         ]);
     }
 
