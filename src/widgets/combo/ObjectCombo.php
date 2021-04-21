@@ -66,7 +66,7 @@ class ObjectCombo extends InputWidget
         'model' => ['alias' => '@model', 'combo' => ModelCombo::class],
         'model_group' => ['alias' => '@model-group', 'combo' => ModelGroupCombo::class],
         'switch' => ['alias' => '@hub', 'combo' => HubCombo::class],
-        'location' => ['alias' => '@part', 'combo' => LocationCombo::class],
+        'location' => ['alias' => '@hub', 'combo' => LocationCombo::class],
     ];
 
     /**
