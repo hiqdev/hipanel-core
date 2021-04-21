@@ -24,6 +24,7 @@ use hipanel\modules\stock\widgets\combo\ModelGroupCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use Yii;
 use yii\bootstrap\InputWidget;
+use Yiisoft\Strings\Inflector;
 
 /**
  * Class BaseObjectSelector.
@@ -66,7 +67,7 @@ class ObjectCombo extends InputWidget
         'model' => ['alias' => '@model', 'combo' => ModelCombo::class],
         'model_group' => ['alias' => '@model-group', 'combo' => ModelGroupCombo::class],
         'switch' => ['alias' => '@hub', 'combo' => HubCombo::class],
-        'location' => ['alias' => '@hub', 'combo' => LocationCombo::class],
+        'data_center' => ['alias' => '@hub', 'combo' => LocationCombo::class],
     ];
 
     /**
@@ -117,6 +118,6 @@ class ObjectCombo extends InputWidget
      */
     private function getLabel(string $class): string
     {
-        return $class === 'device' ? 'Server' : ucfirst($class);
+        return $class === 'device' ? 'Server' : ucwords(Yii::createObject(Inflector::class)->toWords($class));
     }
 }
