@@ -17,6 +17,10 @@ use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
+use hipanel\modules\server\widgets\combo\HubCombo;
+use hipanel\modules\server\widgets\combo\LocationCombo;
+use hipanel\modules\stock\widgets\combo\ModelCombo;
+use hipanel\modules\stock\widgets\combo\ModelGroupCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use Yii;
 use yii\bootstrap\InputWidget;
@@ -59,6 +63,10 @@ class ObjectCombo extends InputWidget
         'part' => ['alias' => '@part', 'combo' => PartCombo::class],
         'account' => ['alias' => '@account', 'combo' => AccountCombo::class],
         'plan' => ['alias' => '@plan', 'combo' => PlanCombo::class],
+        'model' => ['alias' => '@model', 'combo' => ModelCombo::class],
+        'model_group' => ['alias' => '@model-group', 'combo' => ModelGroupCombo::class],
+        'switch' => ['alias' => '@hub', 'combo' => HubCombo::class],
+        'location' => ['alias' => '@part', 'combo' => LocationCombo::class],
     ];
 
     /**
