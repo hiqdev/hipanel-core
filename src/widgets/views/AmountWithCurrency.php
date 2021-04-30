@@ -44,5 +44,5 @@ use yii\helpers\ArrayHelper;
             <?php endforeach ?>
         </ul>
     </div>
-    <?= Html::activeInput('number', $model, $attribute, $this->context->options) ?>
+    <?= Html::activeInput('text', $model, $attribute, $this->context->options) ?>
 </div>
