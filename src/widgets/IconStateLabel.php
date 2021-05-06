@@ -122,10 +122,11 @@ class IconStateLabel extends Widget
         if (!is_array($variants)) {
             $variants = [$variants];
         }
-        if (count($variants) > 1) {
-            return $this->getState() ? $variants[0] : $variants[1];
-        }
 
-        return $variants[0];
+        $res = (count($variants) > 1 && !$this->getState())
+                    ? $variants[1]
+                    : $variants[2];
+
+        return Html::encode($res);
     }
 }
