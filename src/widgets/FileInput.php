@@ -23,7 +23,7 @@ class FileInput extends \kartik\file\FileInput
     protected function setAvailableFileTypes()
     {
         $refs = implode(', ', array_map(
-            fn (Ref $model) => "\"$model->name\"",
+            fn (Ref $model) => "\"{$model->name}\"",
             Ref::findCached('type,file')
         ));
         $this->options['data-allowed-file-extensions'] = "[{$refs}]";
