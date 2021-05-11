@@ -1,0 +1,16 @@
+.form-horizontal .form-group {
+    margin-bottom: 5px;
+}
+
+.form-control,
+.select2-container--default .select2-selection--single {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.form-control + .input-group-btn > button {
+    padding: 4px 10px;
+}

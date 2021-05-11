@@ -44,5 +44,6 @@ class AppAsset extends AssetBundle
         ElementQueryAsset::class,
         ResizableColumnsAsset::class,
         CheckboxesAsset::class,
+        CondensedFromInputsAsset::class,
     ];
 }
