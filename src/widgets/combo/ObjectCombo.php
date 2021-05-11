@@ -16,6 +16,7 @@ use hipanel\modules\domain\widgets\combo\DomainCombo;
 use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
+use hipanel\modules\server\widgets\combo\RackCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use hipanel\modules\server\widgets\combo\LocationCombo;
@@ -66,7 +67,7 @@ class ObjectCombo extends InputWidget
         'plan' => ['alias' => '@plan', 'combo' => PlanCombo::class],
         'model' => ['alias' => '@model', 'combo' => ModelCombo::class],
         'model_group' => ['alias' => '@model-group', 'combo' => ModelGroupCombo::class],
-        'switch' => ['alias' => '@hub', 'combo' => HubCombo::class],
+        'rack' => ['alias' => '@hub', 'combo' => RackCombo::class],
         'data_center' => ['alias' => '@hub', 'combo' => LocationCombo::class],
     ];
 
