@@ -26,6 +26,6 @@ class FileInput extends \kartik\file\FileInput
             fn (Ref $model) => "\"$model->name\"",
             Ref::findCached('type,file')
         ));
-        $this->options['data-allowed-file-extensions'] = "[$refs]";
+        $this->options['data-allowed-file-extensions'] = "[{$refs}]";
     }
 }
