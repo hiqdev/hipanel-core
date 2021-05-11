@@ -19,7 +19,6 @@ use hipanel\modules\hosting\widgets\combo\AccountCombo;
 use hipanel\modules\server\widgets\combo\NetCombo;
 use hipanel\modules\server\widgets\combo\RackCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
-use hipanel\modules\server\widgets\combo\HubCombo;
 use hipanel\modules\server\widgets\combo\LocationCombo;
 use hipanel\modules\stock\widgets\combo\ModelCombo;
 use hipanel\modules\stock\widgets\combo\ModelGroupCombo;
