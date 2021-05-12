@@ -147,6 +147,16 @@ class SiteController extends \hisite\controllers\SiteController
         return $this->redirect($url);
     }
 
+    public function actionPushImpersonateAuth()
+    {
+        if ($this->impersonator->isUserImpersonated()) {
+            $this->impersonator->unimpersonateUser();
+        }
+        $this->impersonator->backupCurrentToken();
+
+        return $this->redirect($this->impersonator->buildRedirectUri($this->request->getQueryParams()));
+    }
+
     public function actionImpersonate($user_id)
     {
         if ($this->impersonator->isUserImpersonated()) {

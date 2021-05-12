@@ -10,8 +10,9 @@
 
 namespace hipanel\logic;
 
-use hiam\authclient\HiamClient;
 use hipanel\models\User;
+use yii\authclient\BaseClient;
+use yii\authclient\BaseOAuth;
 use yii\authclient\Collection;
 use yii\helpers\Url;
 use yii\web\Session;
@@ -48,13 +49,23 @@ class Impersonator
     public function buildAuthUrl($user_id)
     {
         return $this->getClient()->buildAuthUrl([
-            'redirect_uri' => Url::toRoute(['/site/impersonate-auth', 'authclient' => $this->defaultAuthClient], true),
+            'redirect_uri' => $this->buildRedirectUri(),
             'user_id' => $user_id,
         ]);
     }
 
+    public function buildRedirectUri(array $getParams = []): string
+    {
+        $route = array_merge([
+            '/site/impersonate-auth',
+            'authclient' => $this->defaultAuthClient,
+        ], $getParams);
+
+        return Url::toRoute($route, true);
+    }
+
     /**
-     * @return \hiam\authclient\HiamClient $client
+     * @return BaseClient $client
      */
     private function getClient()
     {
@@ -63,9 +74,8 @@ class Impersonator
 
     /**
      * Method should be called when authentication succeeded.
-     * @param HiamClient $client
      */
-    public function impersonateUser(HiamClient $client)
+    public function impersonateUser(BaseOAuth $client): void
     {
         $attributes = $client->getUserAttributes();
         $identity = new User();
@@ -99,12 +109,23 @@ class Impersonator
         }
     }
 
+    protected function getStateStorageKeyName(string $name): string
+    {
+        $client = $this->getClient();
+
+        return get_class($client) . '_' . $client->getId() . '_' . $name;
+    }
+
     protected function restoreBackedUpToken()
     {
-        $token = $this->getClient()->getState('real_token');
-        $this->getClient()->removeState('real_token');
+        $stateStorage = $this->getClient()->getStateStorage();
+        $realTokenKeyName = $this->getStateStorageKeyName('real_token');
+
+        $token = $stateStorage->get($realTokenKeyName);
+        $stateStorage->remove($realTokenKeyName);
         if ($token !== null) {
-            $this->getClient()->setState('token', $token);
+            $tokenKeyName = $this->getStateStorageKeyName('token');
+            $stateStorage->set($tokenKeyName, $token);
         }
     }
 
@@ -113,8 +134,10 @@ class Impersonator
      */
     public function backupCurrentToken()
     {
-        $token = $this->getClient()->getState('token');
-        $this->getClient()->setState('real_token', $token);
+        $stateStorage = $this->getClient()->getStateStorage();
+
+        $token = $stateStorage->get($this->getStateStorageKeyName('token'));
+        $stateStorage->set($this->getStateStorageKeyName('real_token'), $token);
     }
 
     /**
