@@ -153,6 +153,7 @@ class SiteController extends \hisite\controllers\SiteController
             $this->impersonator->unimpersonateUser();
         }
         $this->impersonator->backupCurrentToken();
+        $this->impersonator->registerAuthState($this->request->get('state'));
 
         return $this->redirect($this->impersonator->buildRedirectUri($this->request->getQueryParams()));
     }

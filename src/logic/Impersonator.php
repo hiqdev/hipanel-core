@@ -56,10 +56,10 @@ class Impersonator
 
     public function buildRedirectUri(array $getParams = []): string
     {
-        $route = array_merge([
+        $route = array_merge($getParams, [
             '/site/impersonate-auth',
             'authclient' => $this->defaultAuthClient,
-        ], $getParams);
+        ]);
 
         return Url::toRoute($route, true);
     }
@@ -138,6 +138,17 @@ class Impersonator
 
         $token = $stateStorage->get($this->getStateStorageKeyName('token'));
         $stateStorage->set($this->getStateStorageKeyName('real_token'), $token);
+    }
+
+    /**
+     * Registers the passed oAuth state as a valid one.
+     * Used for push-impersonation.
+     *
+     * @param string $state
+     */
+    public function registerAuthState(string $state): void
+    {
+        $this->getClient()->getStateStorage()->set($this->getStateStorageKeyName('authState'), $state);
     }
 
     /**
