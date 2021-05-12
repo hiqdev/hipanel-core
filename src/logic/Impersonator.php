@@ -11,9 +11,9 @@
 namespace hipanel\logic;
 
 use hipanel\models\User;
-use yii\authclient\BaseClient;
 use yii\authclient\BaseOAuth;
 use yii\authclient\Collection;
+use yii\authclient\OAuth2;
 use yii\helpers\Url;
 use yii\web\Session;
 
@@ -65,7 +65,7 @@ class Impersonator
     }
 
     /**
-     * @return BaseClient $client
+     * @return OAuth2 $client
      */
     private function getClient()
     {
@@ -157,5 +157,19 @@ class Impersonator
     public function isUserImpersonated()
     {
         return $this->session->has('__realId');
+    }
+
+    /**
+     * Impersonates a User using oAuth access code and oAuth state.
+     *
+     * @param string $code
+     * @param string|null $state
+     * @throws \yii\web\HttpException
+     */
+    public function impersonateWithStateAndCode(string $code, string $state = null): void
+    {
+        $this->registerAuthState($state);
+        $token = $this->getClient()->fetchAccessToken($code);
+        $this->impersonateUser($this->getClient());
     }
 }
