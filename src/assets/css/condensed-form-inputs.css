@@ -11,6 +11,7 @@
     border-radius: 3px;
 }
 
-.form-control + .input-group-btn > button {
+.form-control + .input-group-btn > button,
+.control-label + .input-group .btn {
     padding: 4px 10px;
 }
