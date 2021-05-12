@@ -60,17 +60,17 @@ JS
                             $(comboItem).select2('destroy');
                             comboItem.dataset.select2Id = this.getAttribute('id');
                         }
-                        var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-combo-field]').filter(function () {
-                            return $(this).data('combo-field') == $(comboItem).data('combo-field');
+                        var templates = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-combo-field]').filter(function () {
+                            return $(this).data('combo-field') === $(comboItem).data('combo-field');
                         });
-
-                        if (template.length === 0) {
+                        if (templates.length === 0) {
                             return true;
                         }
-
-                        var tpl = $(template[0]);
-                        if (tpl.data('field')) {
-                            var config_id = tpl.data('field').id;
+                        var template = templates.length === 1 ? $(templates[0]) : $(templates.filter((idx, entry) => {
+                          return entry.id.split('-').slice(-1)[0] === comboItem.id.split('-').slice(-1)[0];
+                        }));
+                        if (template.data('field')) {
+                            var config_id = template.data('field').id;
                             if (item) {
                                 $(item).closest(options.widgetItem).combo().register($(this), config_id);
                             } else {
