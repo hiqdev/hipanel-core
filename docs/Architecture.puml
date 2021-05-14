@@ -1,0 +1,108 @@
+@startuml
+
+legend left
+    |<#lightsteelblue>|  HiQDev  |
+	|<#bisque>        |  proprietory  |
+endlegend
+
+!define OpenSource(name,desc) component name as "desc" #lightsteelblue
+!define Proprietory(name,desc) component name as "desc"
+
+!define OAuth2(src,dst) src -[thickness=2]-> dst #green;text:green : OAuth2
+!define REST(src,dst) src -[thickness=2]-> dst #red;text:red : REST
+!define AMQP(src,dst,dir='') src -dir-> dst #blue;text:blue;line.bold : AMQP
+!define SQL(src,dst,dir='') src -dir-> dst #darkblue;text:darkblue;line.bold : SQL
+!define API(src,dst,dir='') src -dir-> dst #orange;text:orange;line.bold : API
+!define SSH(src,dst,dir='') src -dir-> dst #black;text:black;line.bold : SSH
+
+package "HiPanel" {
+    OpenSource([hipanel-core], "hipanel-core")
+    OpenSource([hipanel-modules], "hipanel-module")
+    collections "Proprietory HiPanel extensions"
+}
+
+package "External users" {
+    collections externalSystems as "External systems"
+}
+
+package "Other interfaces" {
+    Proprietory(gsheets, "Google sheets")
+    Proprietory(kibana, "Kibana")
+    Proprietory(grafana, "Grafana")
+}
+
+package "HiAPI" {
+    OpenSource([hiapi-core], "hiapi-core")
+    OpenSource([hiapi-modules], "hiapi-modules")
+    collections "Proprietory HiAPI extensions"
+}
+
+package "HIAM" {
+    OpenSource([hiam-core], "hiam-core")
+    OpenSource([hiam-modules], "hiam-modules")
+    collections "Proprietory HIAM extensions"
+}
+
+frame internalServices as "Internal Services" {
+    package "Billing" {
+        OpenSource([php-billing], "php-billing")
+        collections "Proprietory billing extensions"
+    }
+    package "Merchant" {
+        OpenSource(cashew, cashew)
+    }
+    package "Workers" {
+        [recon]
+        [hiapi-bots]
+    }
+    collections "Other services"
+}
+
+database DataBase [
+    <b>PgSQL</b>
+    ====
+    clients
+    ----
+    objects
+]
+
+queue "RabbitMQ" {
+}
+
+
+cloud "External services" {
+    [some-api]
+    [other-api]
+}
+
+cloud "Hardware" {
+    [Servers]
+    [Switches]
+}
+
+REST(externalSystems, HiAPI)
+REST([hipanel-core], HiAPI)
+REST(grafana, HiAPI)
+
+OAuth2(externalSystems, HIAM)
+OAuth2([hipanel-core], HIAM)
+OAuth2(grafana, HIAM)
+
+SQL([hiapi-core], DataBase)
+SQL([hiam-core], DataBase)
+
+AMQP([DataBase], RabbitMQ, down)
+AMQP([hiapi-bots], RabbitMQ, up)
+AMQP([recon], RabbitMQ, up)
+
+SSH([hiapi-bots], [Servers])
+
+API(internalServices, [some-api])
+API("HiAPI", internalServices)
+API(internalServices, "HiAPI")
+
+skinparam database {
+    backgroundColor Moccasin
+}
+
+@enduml
