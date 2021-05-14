@@ -26,9 +26,9 @@ package "External users" {
 }
 
 package "Other interfaces" {
-    Proprietory(gsheets, "Google sheets")
     Proprietory(kibana, "Kibana")
     Proprietory(grafana, "Grafana")
+    Proprietory(hisite, "HiSite")
 }
 
 package "HiAPI" {
