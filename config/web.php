@@ -50,7 +50,8 @@ return [
             'targets' => [
                 'monitoring' => [
                     'except' => [
-                        'yii\\web\HttpException:403',
+                        'yii\web\HttpException:403',
+                        'yii\web\HttpException:404',
                     ],
                 ],
                 'default' => [
