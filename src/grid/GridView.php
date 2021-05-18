@@ -20,6 +20,7 @@ use hipanel\widgets\SummaryHook;
 use hiqdev\assets\datatables\DataTablesAsset;
 use hiqdev\hiart\ActiveDataProvider;
 use Yii;
+use yii\helpers\Url;
 
 /**
  * Class GridView.
@@ -55,6 +56,13 @@ class GridView extends \hiqdev\higrid\GridView
     public function init()
     {
         parent::init();
+
+        // todo: find more sophisticated solution
+        if (!isset($this->filterUrl) && $this->dataProvider->getCount() <= 0 && Yii::$app->request->get('page', 0) > 1) {
+            $url = Url::current(['page' => 1]);
+            $this->view->registerJs("document.location.assign('$url');");
+
+        }
 
         if ($this->dataProvider instanceof ActiveDataProvider && $this->dataProvider->countSynchronously === false) {
             $this->pager = ['class' => PagerHook::class];
