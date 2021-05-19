@@ -29,13 +29,13 @@ To have working system it is necessary to have them all up and running.
 10. Chmod for runtime & public/assets
 
 ### Environment install
-PHP install ```sudo apt install php7.4```
-Composer install ```sudo apt install composer```
-Docker install ```$ sudo apt install docker```
-Docker-compose install ```sudo apt install docker-compose```
-JDK install ```sudo apt install default-jre ```(for local testing)
-Nginx Proxy Server install ```sudo apt-get install nginx``` 
-Nginx Proxy Server start ```sudo systemctl start nginx```
+- PHP install ```sudo apt install php7.4```
+- Composer install ```sudo apt install composer```
+- Docker install ```$ sudo apt install docker```
+- Docker-compose install ```sudo apt install docker-compose```
+- JDK install ```sudo apt install default-jre ```(for - local testing)
+- Nginx Proxy Server install ```sudo apt-get install nginx``` 
+- Nginx Proxy Server start ```sudo systemctl start nginx```
 
 
 ### Recommended hosts and IPs
