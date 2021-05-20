@@ -35,7 +35,6 @@ To have working system it is necessary to have them all up and running.
 - Docker install ```sudo apt install docker```
 - Docker-compose install ```sudo apt install docker-compose```
 - JDK install ```sudo apt install default-jre ```(for - local testing)
-- Nginx Proxy Server install from hiqdev/nginx-proxy-common
 
 ### Recommended hosts and IPs
 
@@ -55,9 +54,9 @@ to change there too.
 
 Recommended dirs are:
 
-- `~/prj/hiqdev/local.hipanel.demo.hipanel.com`
-- `~/prj/mybrand/local.hipanel.mybrand.com`
-- `~/prj/mybrand/local.hiapi.mybrand.com`
+- `~/prj/hiqdev/hipanel.demo.hipanel.com`
+- `~/prj/hiqdev/hiam.demo.hipanel.com`
+- `~/prj/hiqdev/hiapi.demo.hipanel.com`
 - and so on
 
 ## Make symlinks
@@ -71,10 +70,10 @@ It is only necessary to symlink them:
 ln -s .env.local .env
 ln -s core/docker-compose.yml.local docker-compose.yml
 ```
-Provide read, write and execute for .env & docker-compose.yml in hipanel, hiapi, hiam
+Provide read, write and execute for runtime & public/assets in hipanel, hiapi, hiam
 ``` 
-chmod 777 .env
-chmod 777 .docker-compose.yml
+chmod 777 runtime
+chmod 777 public/assets
 ```
 
 Yes. For production installation you just need to use `.dist` versions.
