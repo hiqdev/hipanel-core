@@ -109,11 +109,11 @@ class IconStateLabel extends Widget
 
     protected function renderState(): string
     {
-        return Html::tag('i', Html::tag('span', $this->getMessage(), ['class' => 'sr-only']), [
+        return Html::tag('i', Html::tag('span', Html::encode($this->getMessage()), ['class' => 'sr-only']), [
             'aria-hidden' => 'true',
             'class' => implode(' ', [$this->getIcon()]),
             'style' => array_merge($this->getColor(), $this->getSize(), $this->cssStyles),
-            'title' => $this->getMessage(),
+            'title' => Html::encode($this->getMessage()),
         ]);
     }
 
@@ -122,10 +122,11 @@ class IconStateLabel extends Widget
         if (!is_array($variants)) {
             $variants = [$variants];
         }
-        if (count($variants) > 1) {
-            return $this->getState() ? $variants[0] : $variants[1];
-        }
 
-        return $variants[0];
+        $res = (count($variants) > 1 && !$this->getState())
+                    ? $variants[1]
+                    : $variants[2];
+
+        return Html::encode($res);
     }
 }

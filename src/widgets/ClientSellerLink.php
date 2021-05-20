@@ -58,7 +58,7 @@ class ClientSellerLink extends \yii\base\Widget
 
     public function getClient()
     {
-        return $this->getValue($this->clientAttribute);
+        return Html::encode($this->getValue($this->clientAttribute));
     }
 
     public function getClientId()
@@ -68,7 +68,7 @@ class ClientSellerLink extends \yii\base\Widget
 
     public function getSeller()
     {
-        return $this->getValue($this->sellerAttribute);
+        return Html::encode($this->getValue($this->sellerAttribute));
     }
 
     public function getSellerId()
