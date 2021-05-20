@@ -29,14 +29,13 @@ To have working system it is necessary to have them all up and running.
 10. Chmod for runtime & public/assets
 
 ### Environment install
-- PHP install ```sudo apt install php7.4```
-- Composer install ```sudo apt install composer```
-- Docker install ```$ sudo apt install docker```
+
+- PHP install & all needed extensions ```sudo apt install php7.4```
+- Composer install ```curl -sS https://getcomposer.org/installer -o composer-setup.php```
+- Docker install ```sudo apt install docker```
 - Docker-compose install ```sudo apt install docker-compose```
 - JDK install ```sudo apt install default-jre ```(for - local testing)
-- Nginx Proxy Server install ```sudo apt-get install nginx``` 
-- Nginx Proxy Server start ```sudo systemctl start nginx```
-
+- Nginx Proxy Server install from hiqdev/nginx-proxy-common
 
 ### Recommended hosts and IPs
 
@@ -61,7 +60,7 @@ Recommended dirs are:
 - `~/prj/mybrand/local.hiapi.mybrand.com`
 - and so on
 
-### Make symlinks
+## Make symlinks
 
 All root repositories contain `.env.local`.
 All core repositories contain `docker-compose.yml.local`.
@@ -71,6 +70,11 @@ It is only necessary to symlink them:
 ```sh
 ln -s .env.local .env
 ln -s core/docker-compose.yml.local docker-compose.yml
+```
+Provide read, write and execute for .env & docker-compose.yml in hipanel, hiapi, hiam
+``` 
+chmod 777 .env
+chmod 777 .docker-compose.yml
 ```
 
 Yes. For production installation you just need to use `.dist` versions.
