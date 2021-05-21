@@ -5,6 +5,21 @@ use hipanel\widgets\ArraySpoiler;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
+/**
+ * @var string $scenario
+ * @var string $bodyWarning
+ * @var string $affectedObjects
+ * @var string $panelBody
+ * @var string $formatterField
+ * @var string $submitButton
+ * @var array $submitButtonOptions
+ * @var \yii\base\Model $model
+ * @var \yii\base\Model[] $models
+ * @var string[] $hiddenInputs
+ * @var string[] $visibleInputs
+ * @var string[] $dropDownInputs
+ */
+
 $form = ActiveForm::begin([
     'id' => "bulk-{$scenario}-form",
     'action' => Url::toRoute($scenario),
@@ -23,11 +38,8 @@ $form = ActiveForm::begin([
         <div class="panel-body">
             <?php if ($panelBody === null) : ?>
                 <?= ArraySpoiler::widget([
-                    'data' => $models,
+                    'data' => array_map(fn ($model) => $model->{$formatterField}, $models),
                     'visibleCount' => count($models),
-                    'formatter' => function ($model) use ($formatterField) {
-                        return $model->{$formatterField};
-                    },
                     'delimiter' => ',&nbsp; ',
                 ]); ?>
             <?php else : ?>

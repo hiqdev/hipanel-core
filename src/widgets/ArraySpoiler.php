@@ -81,9 +81,12 @@ class ArraySpoiler extends Widget
 
     /**
      * @var callable the function will be called for every element to format it.
-     * Gets two arguments - value and key
+     * Gets two arguments - value and key.
+     * Default formatter is ```Yii::$app->formatter->asText```
+     * @see yii\i18n\Formatter
+     * If you want to reinitialize it you should take care about html encoding of your spoiled data.
      */
-    public $formatter = null;
+    public $formatter;
 
     /**
      * @var int count of elements, that are visible out of spoiler
@@ -149,9 +152,10 @@ class ArraySpoiler extends Widget
             throw new InvalidValueException('Input can not be processed as an array');
         }
 
-        if (is_callable($this->formatter)) {
-            $this->data = array_map($this->formatter, $this->data, array_keys($this->data));
+        if (!is_callable($this->formatter)) {
+            $this->formatter = Closure::fromCallable([Yii::$app->formatter, 'asText']);
         }
+        $this->data = array_map($this->formatter, $this->data, array_keys($this->data));
 
         if (is_callable($this->button['label'])) {
             $this->button['label'] = call_user_func($this->button['label'], $this);
