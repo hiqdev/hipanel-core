@@ -16,16 +16,25 @@ To have working system it is necessary to have them all up and running.
 
 ## Installation (to be repeated for all applications)
 
-0. edit `/etc/hosts`, see recommended hosts and IPs
-1. setup nginx proxy with nginx-proxy-common for `127.0.0.2`
-2. `git clone` in a proper directory, see recommended dirs
-3. `composer update`
-4. `hidev up`
-5. make symlinks, see below (to be moved in hidev deploy)
-6. allow access to docker volume, see below (to be moved in hidev deploy)
-7. tweak `.env` (optional, should not be needed)
-8. setup database, see below
-9. `docker-compose up -d` (create all required networks and volumes with commands that docker will suggest)
+0. Edit `/etc/hosts`, see recommended hosts and IPs
+1. Environment install
+2. Setup nginx proxy with nginx-proxy-common for `127.0.0.2`
+3. `git clone` in a proper directory, see recommended dirs
+4. `composer update`
+5. Make symlinks, see below (to be moved in hidev deploy)
+6. Allow access to docker volume, see below (to be moved in hidev deploy)
+7. Tweak `.env` (optional, should not be needed)
+8. Chmod for runtime & public/assets
+9. Setup database, see below 
+10. `docker-compose up -d` (create all required networks and volumes with commands that docker will suggest)
+
+### Environment install
+
+- PHP install & all needed extensions ```sudo apt install php7.4```
+- Composer install ```curl -sS https://getcomposer.org/installer -o composer-setup.php```
+- Docker install ```sudo apt install docker```
+- Docker-compose install ```sudo apt install docker-compose```
+- JDK install ```sudo apt install default-jre ```(for - local testing)
 
 ### Recommended hosts and IPs
 
@@ -45,12 +54,12 @@ to change there too.
 
 Recommended dirs are:
 
-- `~/prj/hiqdev/local.hipanel.demo.hipanel.com`
-- `~/prj/mybrand/local.hipanel.mybrand.com`
-- `~/prj/mybrand/local.hiapi.mybrand.com`
+- `~/prj/hiqdev/hipanel.demo.hipanel.com`
+- `~/prj/hiqdev/hiam.demo.hipanel.com`
+- `~/prj/hiqdev/hiapi.demo.hipanel.com`
 - and so on
 
-### Make symlinks
+## Make symlinks
 
 All root repositories contain `.env.local`.
 All core repositories contain `docker-compose.yml.local`.
@@ -60,6 +69,11 @@ It is only necessary to symlink them:
 ```sh
 ln -s .env.local .env
 ln -s core/docker-compose.yml.local docker-compose.yml
+```
+Provide read, write and execute for runtime & public/assets in hipanel, hiapi, hiam
+``` 
+chmod 777 runtime
+chmod 777 public/assets
 ```
 
 Yes. For production installation you just need to use `.dist` versions.
