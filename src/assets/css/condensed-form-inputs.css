@@ -2,7 +2,7 @@
     margin-bottom: 5px;
 }
 
-.form-control,
+.form-control:not(textarea),
 .select2-container--default .select2-selection--single {
     height: 30px !important;
     padding: 5px 10px !important;
@@ -12,6 +12,7 @@
 }
 
 .form-control + .input-group-btn > button,
+.form-control + .input-group-btn > .btn-file,
 .control-label + .input-group .btn {
     padding: 4px 10px;
 }
