@@ -135,3 +135,8 @@ In hipanel dir:
 ```sh
 codecept run -f -vvv --debug
 ```
+### Clearing directory with temp files
+
+After server's reboot you have to clear temp data in '''hipanel.demo.hipanel.com'''
+
+'''rm -rf tests/_data/*'''
