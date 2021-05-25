@@ -174,7 +174,7 @@ class ArraySpoiler extends Widget
         $visible = [];
         $iterator = (new ArrayObject($this->data))->getIterator();
         while (count($visible) < $this->visibleCount && $iterator->valid()) {
-            $visible[] = Html::encode($iterator->current());
+            $visible[] = $iterator->current();
             $iterator->next();
         }
 
@@ -194,7 +194,7 @@ class ArraySpoiler extends Widget
         $iterator = (new ArrayObject($this->data))->getIterator();
         $iterator->seek($this->visibleCount);
         while ($iterator->valid()) {
-            $spoiled[] = Html::encode($iterator->current());
+            $spoiled[] = $iterator->current();
             $iterator->next();
         }
 
