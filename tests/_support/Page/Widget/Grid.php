@@ -122,14 +122,14 @@ class Grid
 
     public function ensureSeeValueInColumn($columnNumber, $tableValue): void
     {
-        $this->tester->see($tableValue, "//table//tbody//td[" . $columnNumber . "]//a[contains(text(), '" . $tableValue . "')]");
+        $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
     }
 
     public function getColumnNumber($columnName)
     {
         for($columnNumber = 2; $columnNumber <= 10; $columnNumber++)
         {
-            $currentColumn = $this->tester->grabTextFrom('//thead//th[' . $columnNumber . ']//a');
+            $currentColumn = $this->tester->grabTextFrom("//thead//th[$columnNumber]//a");
             if($currentColumn == $columnName) break;
         }
         return $columnNumber;
