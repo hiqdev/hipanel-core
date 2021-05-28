@@ -14,6 +14,7 @@ use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
 use Facebook\WebDriver\WebDriverKeys;
+use Codeception\Scenario;
 
 /**
  * Class Grid
@@ -118,6 +119,21 @@ class Grid
         $selector = $this->baseSelector . "//tbody//tr[$rowNumber]";
 
         return $this->tester->grabAttributeFrom($selector, 'data-key');
+    }
+
+    public function ensureSeeValueInColumn($columnNumber, $tableValue): void
+    {
+        $this->tester->see($tableValue, "//table//tbody//td[" . $columnNumber . "]//a[contains(text(), '" . $tableValue . "')]");
+    }
+
+    public function getColumnNumber($columnName)
+    {
+        for($columnNumber = 2; $columnNumber <= 10; $columnNumber++)
+        {
+            $currentColumn = $this->tester->grabTextFrom('//thead//th[' . $columnNumber . ']//a');
+            if($currentColumn == $columnName) break;
+        }
+        return $columnNumber;
     }
 
     /**
@@ -255,6 +271,27 @@ class Grid
         sort($arrayForSort, SORT_NATURAL | SORT_FLAG_CASE);
         for ($i = 1; $i <= $count; ++$i) {
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
+        }
+    }
+
+    public function ensureBillViewContainsData($element): void
+    {
+        foreach($element as $tableContent){
+            $this->tester->see($tableContent, "//div[@class='box']//table");
+        }
+    }
+
+    public function ensureChargeViewContainsData($element): void
+    {
+        foreach($element as $tableContent){
+            $this->tester->see($tableContent, "//table//table//tbody");
+        }
+    }
+
+    public function ensureBillViewDontContainData($element): void
+    {
+        foreach($element as $tableContent){
+            $this->tester->dontSee($tableContent, "//table//table//tbody");
         }
     }
 }
