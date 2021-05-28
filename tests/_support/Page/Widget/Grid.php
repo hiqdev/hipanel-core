@@ -14,7 +14,6 @@ use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
 use Facebook\WebDriver\WebDriverKeys;
-use Codeception\Scenario;
 
 /**
  * Class Grid
