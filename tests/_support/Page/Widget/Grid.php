@@ -293,11 +293,5 @@ class Grid
             $this->tester->dontSee($tableContent, "//table//table//tbody");
         }
     }
-    
-    public function ensureDataExistInTable($chargeData): void
-    {
-        foreach($chargeData as $key => $element){
-            $this->tester->see($element, '//div[@class="table-responsive"]//tr');
-        }
-    }
+
 }
