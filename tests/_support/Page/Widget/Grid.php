@@ -280,7 +280,7 @@ class Grid
         }
     }
 
-    public function ensureChargeViewContainsData($element): void
+    public function ensureChargeViewContainsData($chargeData): void
     {
         foreach($chargeData as $key => $element)
         {
