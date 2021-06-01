@@ -282,8 +282,9 @@ class Grid
 
     public function ensureChargeViewContainsData($element): void
     {
-        foreach($element as $tableContent){
-            $this->tester->see($tableContent, "//table//table//tbody");
+        foreach($chargeData as $key => $element)
+        {
+            $this->tester->see($element, '//div[@class="table-responsive"]//tr');
         }
     }
 
@@ -293,5 +294,4 @@ class Grid
             $this->tester->dontSee($tableContent, "//table//table//tbody");
         }
     }
-
 }
