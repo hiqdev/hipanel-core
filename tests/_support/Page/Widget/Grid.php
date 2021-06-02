@@ -125,7 +125,7 @@ class Grid
         $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
     }
 
-    public function getColumnNumber($columnName)
+    public function getColumnNumber(string $columnName): string
     {
         for($columnNumber = 2; $columnNumber <= 10; $columnNumber++)
         {
@@ -275,22 +275,21 @@ class Grid
 
     public function ensureBillViewContainsData($element): void
     {
-        foreach($element as $tableContent){
+        foreach ($element as $tableContent) {
             $this->tester->see($tableContent, "//div[@class='box']//table");
         }
     }
 
-    public function ensureChargeViewContainsData($chargeData): void
+    public function ensureChargeViewContainsData(array $chargeData): void
     {
-        foreach($chargeData as $key => $element)
-        {
+        foreach ($chargeData as $key => $element) {
             $this->tester->see($element, '//div[@class="table-responsive"]//tr');
         }
     }
 
-    public function ensureBillViewDontContainData($element): void
+    public function ensureBillViewDontContainData(array $element): void
     {
-        foreach($element as $tableContent){
+        foreach ($element as $tableContent) {
             $this->tester->dontSee($tableContent, "//table//table//tbody");
         }
     }
