@@ -127,7 +127,7 @@ class Grid
 
     public function getColumnNumber(string $columnName): string
     {
-        for($columnNumber = 2; $columnNumber <= 10; $columnNumber++)
+        foreach (range(2, 10) as $columnNumber) {
         {
             $currentColumn = $this->tester->grabTextFrom("//thead//th[$columnNumber]//a");
             if($currentColumn == $columnName) break;
@@ -275,11 +275,7 @@ class Grid
 
     public function ensureBillViewContainsData(array $elements): void
     {
-<<<<<<< HEAD
         foreach ($element as $tableContent) {
-=======
-        foreach($element as $tableContent) {
->>>>>>> 0685d362457dbf7d3752d43ea7040f41b9abb708
             $this->tester->see($tableContent, "//div[@class='box']//table");
         }
     }
