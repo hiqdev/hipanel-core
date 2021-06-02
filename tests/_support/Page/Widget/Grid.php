@@ -273,9 +273,13 @@ class Grid
         }
     }
 
-    public function ensureBillViewContainsData($element): void
+    public function ensureBillViewContainsData(array $elements): void
     {
+<<<<<<< HEAD
         foreach ($element as $tableContent) {
+=======
+        foreach($element as $tableContent) {
+>>>>>>> 0685d362457dbf7d3752d43ea7040f41b9abb708
             $this->tester->see($tableContent, "//div[@class='box']//table");
         }
     }
