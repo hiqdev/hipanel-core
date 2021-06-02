@@ -275,7 +275,7 @@ class Grid
 
     public function ensureBillViewContainsData($element): void
     {
-        foreach($element as $tableContent){
+        foreach($element as $tableContent) {
             $this->tester->see($tableContent, "//div[@class='box']//table");
         }
     }
