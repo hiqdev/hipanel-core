@@ -12,11 +12,24 @@ use hipanel\models\RefSearch;
 $this->registerJs(<<<JS
 
 (() => {
+    function removeElementsAfter(number) {
+        $(`select[class="changeable"]`).each(function () {
+            if ($(this).data().num > number) {
+                $(this).parent().parent().remove();
+            }
+        });
+    }
+
     function changeableHandler() {
         const context = this;
         const contextValue = $(context).children("option:selected").val();
         const contextNumber = $(context).data().num;
         
+        if (contextValue === "") {
+            removeElementsAfter(contextNumber);
+            return;
+        }
+
         $.ajax({
             method: "GET",
             contentType: "application/json; charset=utf-8",
@@ -27,11 +40,7 @@ $this->registerJs(<<<JS
                 return;
             }
 
-            $(`select[class="changeable"]`).each(function () {
-                if ($(this).data().num > contextNumber) {
-                    $(this).parent().parent().remove();  
-                }
-            })
+            removeElementsAfter(contextNumber);
 
             let options = Object.keys(result).map(function (value) {
                 const newValue = contextValue + ',' + value;
@@ -60,7 +69,6 @@ $this->registerJs(<<<JS
                             : maxFilter - 1;
         
         $(`select[class="changeable"]:not([data-num="\${keyToSave}"])`).parent().parent().remove();
-        debugger;
     });
     
     $('.changeable').change(changeableHandler);
@@ -81,12 +89,17 @@ $gtypeParts = ['', ...explode(',', $gtype)];
         $refBuild = implode(',', array_filter([$refBuild, $refPart]));
         $childs = array_keys(Ref::getList($refBuild));
         $arrayRefs = array_combine($childs, $childs);
-        $search->model->gtype = $refBuild;
+        $arrayRefs = array_flip(
+            array_map(
+                fn ($el) => implode(',', array_filter([$refBuild, $el])),
+                $arrayRefs
+            )
+        );
     ?>
     <div class="col-md-4 col-sm-6 col-xs-12 ">
         <?= $search->field('gtype')->dropDownList($arrayRefs, [
             'class' => 'changeable',
-            'data-num' => 1,
+            'data-num' => $key + 1,
             'prompt'    => Yii::t('hipanel', '----------'),
             'options' => [
                 $arrayRefs[$gtypeParts[$key + 1]] ?? '' => ['selected' => true],
