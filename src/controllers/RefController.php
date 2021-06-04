@@ -5,30 +5,29 @@ namespace hipanel\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\base\CrudController;
-use hipanel\grid\RefRepresentations;
 use hipanel\models\Ref;
 use hipanel\models\RefSearch;
 use hipanel\modules\client\models\query\ClientQuery;
-use Yii;
 use yii\base\Event;
+use yii\filters\AccessControl;
 
 class RefController extends CrudController
 {
-//    public function behaviors()
-//    {
-//        return array_merge(parent::behaviors(), [
-//            'loginRequired' => [
-//                'class' => AccessControl::class,
-//                'only' => ['profile', 'notification-settings'],
-//                'rules' => [
-//                    [
-//                        'allow' => true,
-//                        'roles' => ['@'],
-//                    ],
-//                ],
-//            ],
-//        ]);
-//    }
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'loginRequired' => [
+                'class' => AccessControl::class,
+                'only' => ['index'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ]);
+    }
 
     public function actions()
     {
