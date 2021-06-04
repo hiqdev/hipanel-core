@@ -34,11 +34,13 @@ class RefGridView extends BoxedGridView
             'name' => [
                 'attribute' => 'name',
                 'filter' => false,
+                'enableSorting' => false,
                 'contentOptions' => ['class' => 'text-nowrap'],
             ],
             'label' => [
                 'attribute' => 'label',
                 'filter' => false,
+                'enableSorting' => false,
                 'contentOptions' => ['class' => 'text-nowrap'],
             ],
         ]);
