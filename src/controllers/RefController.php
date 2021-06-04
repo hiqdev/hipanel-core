@@ -5,9 +5,11 @@ namespace hipanel\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\base\CrudController;
+use hipanel\grid\RefRepresentations;
 use hipanel\models\Ref;
 use hipanel\models\RefSearch;
 use hipanel\modules\client\models\query\ClientQuery;
+use Yii;
 use yii\base\Event;
 
 class RefController extends CrudController
