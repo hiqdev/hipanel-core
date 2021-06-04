@@ -7,7 +7,6 @@ use hipanel\actions\IndexAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\models\RefSearch;
-use hipanel\modules\client\models\query\ClientQuery;
 use yii\base\Event;
 use yii\filters\AccessControl;
 
@@ -35,7 +34,6 @@ class RefController extends CrudController
             'index' => [
                 'class' => IndexAction::class,
                 'on beforePerform' => function (Event $event) {
-                    /** @var ClientQuery $query */
                     $query = $event->sender->getDataProvider()->query;
 
                     $query->andWhere(['with_hierarchy' => true]);

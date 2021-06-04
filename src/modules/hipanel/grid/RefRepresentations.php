@@ -2,8 +2,6 @@
 
 namespace hipanel\modules\hipanel\grid;
 
-use hipanel\modules\client\helpers\ClientProfitColumns;
-use hipanel\modules\stock\helpers\ProfitColumns;
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
 
