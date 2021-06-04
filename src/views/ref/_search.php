@@ -13,7 +13,7 @@ $this->registerJs(<<<JS
 
 (() => {
     function removeElementsAfter(number) {
-        $(`select[class="changeable"]`).each(function () {
+        $(`select[class*="changeable"]`).each(function () {
             if ($(this).data().num > number) {
                 $(this).parent().parent().remove();
             }
@@ -50,7 +50,7 @@ $this->registerJs(<<<JS
             
             $('<div class="col-md-4 col-sm-6 col-xs-12 ">' +
                 '<div class="form-group field-refsearch-gtype" data-toggle="tooltip" data-title="Gtype" data-original-title="" title="" xpath="1">' +
-                    `<select id="refsearch-gtype" class="changeable" name="RefSearch[gtype]" data-num="\${contextNumber + 1}">` +
+                    `<select id="refsearch-gtype" class="changeable form-control" name="RefSearch[gtype]" data-num="\${contextNumber + 1}">` +
                         options.join() +
                     '</select>' +
                 '</div>' +
@@ -62,13 +62,13 @@ $this->registerJs(<<<JS
     }
     
     $("#form-advancedsearch-ref-search").submit(function(event) {
-        const maxFilter = parseInt(Math.max.apply(Math, $(`select[class="changeable"]`).map(function() { return $(this).data().num; })));
+        const maxFilter = parseInt(Math.max.apply(Math, $(`select[class*="changeable"]`).map(function() { return $(this).data().num; })));
         
-        const keyToSave = $(`select[class="changeable"][data-num="\${maxFilter}"]`).children("option:selected").val() !== ""
+        const keyToSave = $(`select[class*="changeable"][data-num="\${maxFilter}"]`).children("option:selected").val() !== ""
                             ? maxFilter
                             : maxFilter - 1;
         
-        $(`select[class="changeable"]:not([data-num="\${keyToSave}"])`).parent().parent().remove();
+        $(`select[class*="changeable"]:not([data-num="\${keyToSave}"])`).parent().parent().remove();
     });
     
     $('.changeable').change(changeableHandler);
@@ -96,7 +96,7 @@ $gtypeParts = ['', ...explode(',', $gtype)];
     ?>
     <div class="col-md-4 col-sm-6 col-xs-12 ">
         <?= $search->field('gtype')->dropDownList(array_flip($arrayRefs), [
-            'class' => 'changeable',
+            'class' => 'changeable form-control',
             'data-num' => $key + 1,
             'prompt'    => Yii::t('hipanel', '----------'),
             'options' => [
