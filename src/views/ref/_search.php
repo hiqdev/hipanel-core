@@ -46,7 +46,7 @@ $this->registerJs(<<<JS
                 const newValue = contextValue + ',' + value;
                 return `<option value="\${newValue}">\${value}</option>`;
             });
-            options.push(`<option value="" selected>---</option>`);
+            options.push(`<option value="" selected>----------</option>`);
             
             $('<div class="col-md-4 col-sm-6 col-xs-12 ">' +
                 '<div class="form-group field-refsearch-gtype" data-toggle="tooltip" data-title="Gtype" data-original-title="" title="" xpath="1">' +
@@ -89,15 +89,13 @@ $gtypeParts = ['', ...explode(',', $gtype)];
         $refBuild = implode(',', array_filter([$refBuild, $refPart]));
         $childs = array_keys(Ref::getList($refBuild));
         $arrayRefs = array_combine($childs, $childs);
-        $arrayRefs = array_flip(
-            array_map(
-                fn ($el) => implode(',', array_filter([$refBuild, $el])),
-                $arrayRefs
-            )
+        $arrayRefs = array_map(
+            fn ($el) => implode(',', array_filter([$refBuild, $el])),
+            $arrayRefs
         );
     ?>
     <div class="col-md-4 col-sm-6 col-xs-12 ">
-        <?= $search->field('gtype')->dropDownList($arrayRefs, [
+        <?= $search->field('gtype')->dropDownList(array_flip($arrayRefs), [
             'class' => 'changeable',
             'data-num' => $key + 1,
             'prompt'    => Yii::t('hipanel', '----------'),
