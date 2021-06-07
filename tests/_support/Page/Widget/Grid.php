@@ -122,10 +122,10 @@ class Grid
     }
 
     public function ensureSeeValueInColumn($columnNumber, $tableValue): void
-   {
-       $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
-   }
- 
+    {
+        $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
+    }
+
    public function getColumnNumber(string $columnName): int
    {
     $columnNumber = $this->countColumnInTableBody();
