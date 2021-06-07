@@ -10,6 +10,7 @@
 
 namespace hipanel\tests\_support\Page\Widget;
 
+use Codeception\Scenario;
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
@@ -127,13 +128,14 @@ class Grid
  
    public function getColumnNumber(string $columnName): string
    {
-    $count = $this->countRowsInTableBody();
-       for($columnNumber = 2; $columnNumber <= $count; $columnNumber++)
-       {
-           $currentColumn = $this->tester->grabTextFrom("//thead//th[$columnNumber]//a");
-           if($currentColumn == $columnName) break;
-       }
-       return $columnNumber;
+    $columnNumber = $this->countColumnInTableBody();
+
+    for($columnNumber; $columnNumber > 1; $columnNumber--){
+        $currentColumn = $this->tester->grabTextFrom("//thead//th[$columnNumber]//a");
+        if($columnName == $currentColumn) return $columnNumber;;
+    }
+
+    throw new \Exception("failed detect column with name $columnName");
    }
 
     /**
@@ -234,6 +236,11 @@ class Grid
         return count($this->tester->grabMultiple('//tbody/tr[contains(@data-key,*)]'));
     }
 
+    public function countColumnInTableBody(): int
+    {
+        return count($this->tester->grabMultiple('//thead//th'));
+    }
+
     /**
      * Checks whether sorting works properly.
      *
@@ -271,27 +278,6 @@ class Grid
         sort($arrayForSort, SORT_NATURAL | SORT_FLAG_CASE);
         for ($i = 1; $i <= $count; ++$i) {
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
-        }
-    }
- 
-    public function ensureBillViewContainsData(array $elements): void
-    {
-        foreach ($elements as $tableContent) {
-            $this->tester->see($tableContent, "//div[@class='box']//table");
-        }
-    }
-  
-    public function ensureChargeViewContainsData(array $chargeData): void
-    {
-        foreach ($chargeData as $key => $element) {
-            $this->tester->see($element, '//div[@class="table-responsive"]//tr');
-        }
-    }
-  
-    public function ensureBillViewDontContainData(array $element): void
-    {
-        foreach ($element as $tableContent) {
-            $this->tester->dontSee($tableContent, "//table//table//tbody");
         }
     }
 }
