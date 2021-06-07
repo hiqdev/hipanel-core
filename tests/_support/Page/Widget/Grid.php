@@ -126,11 +126,13 @@ class Grid
        $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
    }
  
-   public function getColumnNumber(string $columnName): string
+   public function getColumnNumber(string $columnName): int
    {
     $columnNumber = $this->countColumnInTableBody();
+    $columnNamesTotal = count($this->tester->grabMultiple('//thead//th//a'));
+    $column = $columnNumber - $columnNamesTotal;
 
-    for($columnNumber; $columnNumber > 1; $columnNumber--){
+    for($columnNumber; $columnNumber > $column; $columnNumber--){
         $currentColumn = $this->tester->grabTextFrom("//thead//th[$columnNumber]//a");
         if($columnName == $currentColumn) return $columnNumber;;
     }
