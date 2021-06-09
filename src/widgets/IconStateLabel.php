@@ -124,7 +124,7 @@ class IconStateLabel extends Widget
         }
 
         if (count($variants) > 1) {
-            $res = $variants[(int) $this->getState()];
+            $res = $variants[(int) !$this->getState()];
         } else {
             $res = $variants[0];
         }
