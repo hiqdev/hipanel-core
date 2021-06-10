@@ -126,18 +126,28 @@ class Grid
         $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
     }
 
-   public function getColumnNumber(string $columnName): int
-   {
-    $columnNumber = $this->countColumnInTableBody();
-    $columnNamesTotal = count($this->tester->grabMultiple('//thead//th//a'));
-    $column = $columnNumber - $columnNamesTotal;
-
-    for($columnNumber; $columnNumber > $column; $columnNumber--){
-        $currentColumn = $this->tester->grabTextFrom("//thead//th[$columnNumber]//a");
-        if($columnName == $currentColumn) return $columnNumber;;
-    }
+    public function getColumnNumber(string $columnName): int
+    {
+        $columnNumber = 2;
+        $I = $this->tester;
+        $headElements = $I->grabMultiple('//th[not(./input)]');
+        foreach ($headElements as $currentColummName) {
+            if($columnName == $currentColummName) {
+                return $columnNumber;
+            }
+            $columnNumber++;
+        }
 
     throw new \Exception("failed detect column with name $columnName");
+   }
+
+   public function ensureBillViewDontContainData($billData)
+   {
+       $I = $this->tester;
+
+        foreach ($billData as $billInfo) {
+            $I->see($billInfo, '//table');
+        }
    }
 
     /**
