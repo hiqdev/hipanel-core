@@ -21,6 +21,12 @@ use hiqdev\yii2\export\models\XlsxSettings;
 use RuntimeException;
 use Yii;
 
+/**
+ * Class ExportAction
+ * @package hipanel\actions
+ *
+ * IMPORTANT: this action doesn't work without existing representation collection for grid
+ */
 class ExportAction extends IndexAction
 {
     /**

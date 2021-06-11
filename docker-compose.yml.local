@@ -19,8 +19,11 @@ services:
       - ./.docker/nginx/etc/nginx/conf.d:/etc/nginx/conf.d
       - ./.docker/nginx/var/log/nginx:/var/log/nginx
     networks:
-      - local-network
-      - proxy-network
+      local-network:
+      proxy-network:
+      hiapi-network:
+        aliases:
+          - "${HOSTS}"
     environment:
       - "VIRTUAL_HOST=${HOSTS}"
       - "LETSENCRYPT_HOST=${HOSTS}"

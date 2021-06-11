@@ -15,6 +15,7 @@ use hipanel\modules\client\widgets\combo\PartnerCombo;
 use hipanel\modules\domain\widgets\combo\DomainCombo;
 use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
+use hipanel\modules\finance\widgets\combo\TargetCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
 use hipanel\modules\server\widgets\combo\NetCombo;
 use hipanel\modules\server\widgets\combo\RackCombo;
@@ -70,6 +71,7 @@ class ObjectCombo extends InputWidget
         'switch' => ['alias' => '@hub', 'combo' => NetCombo::class],
         'rack' => ['alias' => '@hub', 'combo' => RackCombo::class],
         'data_center' => ['alias' => '@hub', 'combo' => LocationCombo::class],
+        'anycastcdn' => ['alias' => '@finance', 'combo' => TargetCombo::class],
     ];
 
     /**
