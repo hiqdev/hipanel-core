@@ -140,9 +140,8 @@ class Grid
     throw new \Exception("failed detect column with name $columnName");
     }
 
-    public function ensureBillViewContainData($billData): void
+    public function ensureBillViewContainData(array $billData): void
     {
-
         foreach ($billData as $billInfo) {
             $this->tester->see($billInfo, '//table');
         }
