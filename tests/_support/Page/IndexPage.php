@@ -187,13 +187,13 @@ class IndexPage extends Authenticated
     /**
      * Checks whether filtering works properly.
      *
-     * @param string $filterBy
+     * @param TestableInput $filterBy
      * @param string $name
      * @throws \Codeception\Exception\ModuleException
      */
-    public function checkFilterBy(string $filterBy, string $name): void
+    public function checkFilterBy(TestableInput $filterBy, string $name): void
     {
-        $this->filterBy(new Dropdown($this->tester, "tr.filters select[name*=$filterBy]"), $name);
+        $this->filterBy($filterBy, $name);
         $count = $this->countRowsInTableBody();
         for ($i = 1; $i <= $count; ++$i) {
             $this->tester->see($name, "//tbody/tr[$i]");
