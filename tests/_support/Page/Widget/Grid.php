@@ -10,6 +10,7 @@
 
 namespace hipanel\tests\_support\Page\Widget;
 
+use Codeception\Scenario;
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
@@ -120,6 +121,32 @@ class Grid
         return $this->tester->grabAttributeFrom($selector, 'data-key');
     }
 
+    public function ensureSeeValueInColumn(string $columnNumber, string $tableValue): void
+    {
+        $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
+    }
+
+    public function getColumnNumber(string $columnName): int
+    {
+        $columnNumber = 2;
+        $headElements = $this->tester->grabMultiple('//th[not(./input)]');
+        foreach ($headElements as $currentColummName) {
+            if($columnName === $currentColummName) {
+                return $columnNumber;
+            }
+            $columnNumber++;
+        }
+
+        throw new \Exception("failed detect column with name $columnName");
+    }
+
+    public function ensureBillViewContainData(array $billData): void
+    {
+        foreach ($billData as $billInfo) {
+            $this->tester->see($billInfo, '//table');
+        }
+    }
+
     /**
      * Selects table row by its number.
      *
@@ -216,6 +243,11 @@ class Grid
     public function countRowsInTableBody(): int
     {
         return count($this->tester->grabMultiple('//tbody/tr[contains(@data-key,*)]'));
+    }
+
+    public function countColumnInTableBody(): int
+    {
+        return count($this->tester->grabMultiple('//thead//th'));
     }
 
     /**
