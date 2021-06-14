@@ -121,7 +121,7 @@ class Grid
         return $this->tester->grabAttributeFrom($selector, 'data-key');
     }
 
-    public function ensureSeeValueInColumn(string $columnNumber,string $tableValue): void
+    public function ensureSeeValueInColumn(string $columnNumber, string $tableValue): void
     {
         $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
     }
