@@ -137,7 +137,7 @@ class Grid
             $columnNumber++;
         }
 
-       throw new \Exception("failed detect column with name $columnName");
+        throw new \Exception("failed detect column with name $columnName");
     }
 
     public function ensureBillViewContainData(array $billData): void
