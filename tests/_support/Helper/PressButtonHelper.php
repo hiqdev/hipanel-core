@@ -23,4 +23,15 @@ class PressButtonHelper extends \Codeception\Module
         $selector = $xpathPrefix . "//button[text() = '{$textOnButton}']";
         $I->click($selector);
     }
+
+    /**
+     * @param $linkText
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function clickLink(string $linkText, string $xpathPrefix = ''): void
+    {
+        $I = $this->getModule('WebDriver');
+        $selector = $xpathPrefix . "//a[contains(text(), '$linkText')]";
+        $I->click($selector);
+    }
 }
