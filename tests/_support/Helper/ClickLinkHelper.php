@@ -11,7 +11,7 @@ class ClickLinkHelper extends \Codeception\Module
     public function clickLink(string $linkText, string $xpathPrefix = ''): void
     {
         $I = $this->getModule('WebDriver');
-        $selector = $xpathPrefix . "//a[contains(text(), '$xpathPrefix')]";
+        $selector = $xpathPrefix . "//a[contains(text(), '$linkText')]";
         $I->click($selector);
     }
 }
