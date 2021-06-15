@@ -289,4 +289,18 @@ class Grid
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
         }
     }
+
+    public function BillViewContainsData(array $elements): void
+    {
+        foreach ($elements as $tableContent) {
+            $this->tester->see($tableContent, "//div[@class='box']//table");
+        }
+    }
+
+    public function ChargeViewContainsData(array $chargeData): void
+    {
+        foreach ($chargeData as $key => $billData) {
+                $this->tester->see($billData, '//div[@class="table-responsive"]//tr');
+        }
+    }
 }
