@@ -217,7 +217,7 @@ JS
 CSS
         );
         $view->registerJs(<<<"JS"
-            var isDesktop = $(window).innerWidth() > 750;
+            var isDesktop = $(window).innerWidth() > 991;
             if (isDesktop) {
                 var stickySidebar = new StickySidebar('.horizontal-view .content-sidebar', {
                     topSpacing: 10,
