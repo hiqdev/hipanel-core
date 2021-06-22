@@ -292,13 +292,8 @@ class Grid
 
     public function containsDataInTable(array $data): void
     {
-<<<<<<< HEAD
         foreach ($data as $key => $element) {
                 $this->tester->see($element, '//div[@class="table-responsive"]//tr');
-=======
-        foreach ($chargeData as $key => $billData) {
-            $this->tester->see($billData, '//div[@class="table-responsive"]//tr');
->>>>>>> ff917f67d3362a3e1bdd72750737a7f30a00a753
         }
     }
 }
