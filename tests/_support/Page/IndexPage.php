@@ -226,7 +226,7 @@ class IndexPage extends Authenticated
     {
         $I = $this->tester;
 
-        $I->click("//div[@class='mailbox-controls']//button[contains(text(), '" . $optionsName . "')]");
+        $I->click("//div[@class='mailbox-controls']//button[contains(text(), '" . $optionName . "')]");
 
         foreach ($optionData as $element) {
             $I->seeElement("//ul//li//a[contains(text(),'$element')]");
