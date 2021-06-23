@@ -222,14 +222,13 @@ class IndexPage extends Authenticated
         $this->gridView->checkSortingBy($sortBy);
     }
 
-    public function openAndSeeBulkOptionByName(array $option): void
+    public function openAndSeeBulkOptionByName(string $optionsName,array $optionData): void
     {
         $I = $this->tester;
 
-        $keyName = key($option);
-        $I->click("//div[@class='mailbox-controls']//button[contains(text(), '" . $keyName . "')]");
+        $I->click("//div[@class='mailbox-controls']//button[contains(text(), '" . $optionsName . "')]");
 
-        foreach ($option[$keyName] as $element) {
+        foreach ($optionData as $element) {
             $I->seeElement("//ul//li//a[contains(text(),'$element')]");
         }
     }
