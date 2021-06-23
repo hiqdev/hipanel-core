@@ -222,7 +222,7 @@ class IndexPage extends Authenticated
         $this->gridView->checkSortingBy($sortBy);
     }
 
-    public function openAndSeeBulkOptionByName(string $optionsName, array $optionData): void
+    public function openAndSeeBulkOptionByName(string $optionName, array $optionData): void
     {
         $I = $this->tester;
 
