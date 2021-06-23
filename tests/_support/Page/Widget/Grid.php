@@ -289,4 +289,11 @@ class Grid
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
         }
     }
+
+    public function containsDataInTable(array $data): void
+    {
+        foreach ($data as $element) {
+            $this->tester->see($element, '//div[@class="table-responsive"]//tr');
+        }
+    }
 }
