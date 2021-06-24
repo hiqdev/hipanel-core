@@ -80,7 +80,12 @@ class InternalObjectCombo extends Combo
     private function generateConfigs()
     {
         foreach ($this->classes as $className => $options) {
-            $this->applyConfigByObjectClassName($className);
+            $widget = $this->applyConfigByObjectClassName($className);
+
+            if ($this->class_attribute === $className) {
+                $this->configId = $widget->configId;
+                $this->pluginOptions = $widget->pluginOptions;
+            }
         }
     }
 
@@ -92,9 +97,11 @@ class InternalObjectCombo extends Combo
         $this->view->registerJs("initObjectSelectorChanger('{$changerId}', '{$inputId}')");
     }
 
-    private function applyConfigByObjectClassName($className): void
+    private function applyConfigByObjectClassName($className): Combo
     {
         $options = $this->classes[$className];
+
+        /** @var Combo $widget */
         $widget = Yii::createObject([
             'class' => $options['combo'],
             'model' => $this->model,
@@ -112,6 +119,8 @@ class InternalObjectCombo extends Combo
         $varName = strtolower($this->model->formName()) . '_object_id_' . $className;
         $this->view->registerJsVar($varName, $widget->configId, View::POS_END);
         $this->reset();
+
+        return $widget;
     }
 
     private function fillRequiredAttributes()
@@ -169,6 +178,7 @@ JS
         $this->view->registerJs(<<<JS
             function initObjectSelectorChanger(changerInputId, objectInputId) {
                 $('#' + changerInputId).change(function(e) {
+                    console.log(e.target.value);
                     var regexID = /^(.+?)([-\d-]{1,})(.+)$/i;
                     var matches = objectInputId.match(regexID);
                     var combo = $('#' + objectInputId).closest('form').combo();
