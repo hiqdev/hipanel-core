@@ -10,7 +10,7 @@ use yii\base\Behavior;
 
 class CustomAttributes extends Behavior
 {
-    public string $attributeDataField = 'custom_data';
+    public string $attributeDataField = 'custom_attributes';
 
     public function events()
     {
@@ -25,11 +25,11 @@ class CustomAttributes extends Behavior
         $request = Yii::$app->request;
         $attributeModel = new CustomAttribute();
         $planAttributeData = $request->post($attributeModel->formName(), []);
-        $customData['attributes'] = [];
+        $customData = [];
         foreach ($planAttributeData as $planAttribute) {
             $attributeModel->load($planAttribute, '');
             if ($attributeModel->validate()) {
-                $customData['attributes'][$attributeModel->name] = $attributeModel->value;
+                $customData[$attributeModel->name] = $attributeModel->value;
             }
         }
         $this->owner->{$this->attributeDataField} = $customData;
@@ -37,7 +37,7 @@ class CustomAttributes extends Behavior
 
     public function getCustomAttributes(): array
     {
-        $attributes = $this->owner->{$this->attributeDataField}['attributes'] ?? [];
+        $attributes = $this->owner->{$this->attributeDataField} ?? [];
         $models = [];
         foreach ($attributes as $name => $value) {
             $model = new CustomAttribute(compact('name', 'value'));
