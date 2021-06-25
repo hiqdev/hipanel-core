@@ -145,7 +145,9 @@ class Grid
         $headElements = $this->tester->grabMultiple("//div[@class='summary']//tbody//td[1]");
 
         $res = array_flip($headElements)[$rowName] ?? null;
-        if ($res === null) new \Exception("failed detect row with name $rowName");
+        if ($res === null) {
+            new \Exception("failed detect row with name $rowName");
+        }
         return ++$res;
     }
 
