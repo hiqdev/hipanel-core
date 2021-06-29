@@ -18,7 +18,7 @@ class CustomAttribute extends Model
     public function rules()
     {
         return [
-            [['name', 'value'], 'string'],
+            [['name', 'value'], 'string', 'min' => 1],
             [['name', 'value'], 'trim'],
         ];
     }

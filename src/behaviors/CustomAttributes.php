@@ -48,4 +48,9 @@ class CustomAttributes extends Behavior
 
         return empty($models) ? [] : $models;
     }
+
+    public function getCustomAttributesList(): array
+    {
+        return [];
+    }
 }
