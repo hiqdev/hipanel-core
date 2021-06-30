@@ -140,6 +140,17 @@ class Grid
         throw new \Exception("failed detect column with name $columnName");
     }
 
+    public function getRowNumberByNameFromSummary(string $rowName): int
+    {
+        $headElements = $this->tester->grabMultiple("//div[@class='summary']//tbody//td[1]");
+
+        $res = array_flip($headElements)[$rowName] ?? null;
+        if ($res === null) {
+            throw new \Exception("failed detect row with name $rowName");
+        }
+        return ++$res;
+    }
+
     public function ensureBillViewContainData(array $billData): void
     {
         foreach ($billData as $billInfo) {
