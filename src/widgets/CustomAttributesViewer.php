@@ -5,7 +5,6 @@ namespace hipanel\widgets;
 
 use hipanel\models\CustomAttribute;
 use hiqdev\hiart\ActiveRecord;
-use Yii;
 use yii\base\Widget;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -16,8 +15,6 @@ final class CustomAttributesViewer extends Widget
 
     public function run(): string
     {
-        $customAttributesList = $this->owner->getCustomAttributesList();
-
         return GridView::widget([
             'layout' => '{items}',
             'tableOptions' => ['class' => 'table table-striped', 'style' => 'margin: 0'],
@@ -32,7 +29,7 @@ final class CustomAttributesViewer extends Widget
                 'name' => [
                     'attribute' => 'name',
                     'format' => 'text',
-                    'value' => fn(CustomAttribute $model): string => $customAttributesList[$model->name] ?? $model->name,
+                    'value' => fn(CustomAttribute $model): string => $this->owner->getCustomAttributeName($model->name),
                 ],
                 'value:text',
             ],

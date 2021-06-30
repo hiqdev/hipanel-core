@@ -53,4 +53,9 @@ class CustomAttributes extends Behavior
     {
         return [];
     }
+
+    public function getCustomAttributeName(string $attributeName): string
+    {
+        return $this->owner->getCustomAttributesList()[$attributeName] ?? $attributeName;
+    }
 }
