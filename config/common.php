@@ -16,7 +16,7 @@ return [
         '@vendor/bower' => '@vendor/bower-asset',
         '@vendor/npm' => '@vendor/npm-asset',
         '@file' => '/file',
-        '@HIAM_SITE' => 'https://' . $params['hiam.site'],
+        '@HIAM_SITE' => 'http://' . $params['hiam.site'],
     ],
     'components' => [
         'cache' => [
