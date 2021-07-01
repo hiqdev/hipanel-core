@@ -9,6 +9,7 @@ use yii\widgets\ActiveForm;
 /**
  * @var CustomAttribute[] $customAttributes
  * @var ActiveForm $form
+ * @var array $dropDownList
  */
 
 ?>
@@ -43,7 +44,11 @@ use yii\widgets\ActiveForm;
     <?php foreach ($customAttributes as $idx => $attribute): ?>
         <tr class="attribute-item">
             <td class="text-center" style="vertical-align: middle">
-                <?= $form->field($attribute, "[$idx]name")->label('')->textInput(['maxlength' => true]) ?>
+                <?php if (empty($dropDownList)) : ?>
+                    <?= $form->field($attribute, "[$idx]name")->textInput(['maxlength' => true])->label('') ?>
+                <?php else : ?>
+                    <?= $form->field($attribute, "[$idx]name")->dropDownList($dropDownList, ['prompt' => '--'])->label('') ?>
+                <?php endif ?>
             </td>
             <td class="text-center" style="vertical-align: middle">
                 <?= $form->field($attribute, "[$idx]value")->label('')->textInput(['maxlength' => true]) ?>

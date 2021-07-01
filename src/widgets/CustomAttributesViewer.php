@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\widgets;
 
+use hipanel\models\CustomAttribute;
 use hiqdev\hiart\ActiveRecord;
 use yii\base\Widget;
 use yii\data\ArrayDataProvider;
@@ -24,7 +25,14 @@ final class CustomAttributesViewer extends Widget
                 'sort' => false,
                 'pagination' => false,
             ]),
-            'columns' => ['name:text', 'value:text'],
+            'columns' => [
+                'name' => [
+                    'attribute' => 'name',
+                    'format' => 'text',
+                    'value' => fn(CustomAttribute $model): string => $this->owner->getCustomAttributeName($model->name),
+                ],
+                'value:text',
+            ],
         ]);
     }
 }

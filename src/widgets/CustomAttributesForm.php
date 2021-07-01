@@ -25,6 +25,10 @@ class CustomAttributesForm extends Widget
         ');
         $customAttributes = empty($this->owner->getCustomAttributes()) ? [new CustomAttribute()] : $this->owner->getCustomAttributes();
 
-        return $this->render('CustomAttributesForm', ['form' => $this->form, 'customAttributes' => $customAttributes]);
+        return $this->render('CustomAttributesForm', [
+            'form' => $this->form,
+            'customAttributes' => $customAttributes,
+            'dropDownList' => $this->owner->getCustomAttributesList(),
+        ]);
     }
 }
