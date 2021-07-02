@@ -307,4 +307,9 @@ class Grid
             $this->tester->see($element, '//div[@class="table-responsive"]//tr');
         }
     }
+
+    public function setAdvancedFilter(TestableInput $filter, $value): void
+    {
+        $filter->setValue($value);
+    }
 }
