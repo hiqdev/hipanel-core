@@ -18,15 +18,15 @@ To have working system it is necessary to have them all up and running.
 
 0. Edit `/etc/hosts`, see recommended hosts and IPs
 1. Environment install
-2. Setup nginx proxy with nginx-proxy-common for `127.0.0.2`
+2. Setup nginx proxy with [nginx-proxy-common](https://github.com/hiqdev/nginx-proxy-common) for `127.0.0.2`
 3. `git clone` in a proper directory, see recommended dirs
 4. `composer update`
 5. Make symlinks, see below (to be moved in hidev deploy)
 6. Allow access to docker volume, see below (to be moved in hidev deploy)
 7. Tweak `.env` (optional, should not be needed)
 8. Chmod for runtime & public/assets
-9. Setup database, see below 
-10. `docker-compose up -d` (create all required networks and volumes with commands that docker will suggest)
+9. `docker-compose up -d` (create all required networks and volumes with commands that docker will suggest)
+10. Setup database, see below
 
 ### Environment install
 
