@@ -233,7 +233,7 @@ class IndexPage extends Authenticated
         }
     }
 
-    public function setAdvancedFilter(TestableInput $filter, $value): void
+    public function setAdvancedFilter(TestableInput $filter, string $value): void
     {
         $this->gridView->setAdvancedFilter($filter, $value);
     }

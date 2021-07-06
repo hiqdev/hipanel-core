@@ -308,7 +308,7 @@ class Grid
         }
     }
 
-    public function setAdvancedFilter(TestableInput $filter, $value): void
+    public function setAdvancedFilter(TestableInput $filter, string $value): void
     {
         $filter->setValue($value);
     }

@@ -16,6 +16,7 @@ use \Facebook\WebDriver\WebDriverKeys;
 class MultipleSelect2 extends Select2
 {
     private $inputSelector;
+
     public function setValue(string $value): void
     {
         if ($value === '') {
