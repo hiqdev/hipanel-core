@@ -232,4 +232,9 @@ class IndexPage extends Authenticated
             $I->seeElement("//ul//li//a[contains(text(), '$element')]");
         }
     }
+
+    public function setAdvancedFilter(TestableInput $filter, string $value): void
+    {
+        $this->gridView->setAdvancedFilter($filter, $value);
+    }
 }
