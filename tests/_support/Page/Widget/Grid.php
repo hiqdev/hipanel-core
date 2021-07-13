@@ -308,6 +308,17 @@ class Grid
         }
     }
 
+    public function containsBillDataInTable(array $billData): void
+    {
+        if (isset($billData['currency'])) {
+            unset($billData['currency']);
+        }
+
+        foreach ($billData as $element) {
+            $this->tester->see($element, "table[class *= 'detail-view']");
+        }
+    }
+
     public function setAdvancedFilter(TestableInput $filter, string $value): void
     {
         $filter->setValue($value);
