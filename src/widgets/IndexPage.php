@@ -10,6 +10,7 @@
 
 namespace hipanel\widgets;
 
+use Closure;
 use hipanel\assets\StickySidebarAsset;
 use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\helpers\ArrayHelper;
@@ -89,6 +90,8 @@ class IndexPage extends Widget
      * @see renderSearchForm()
      */
     public $searchView = '_search';
+
+    public ?Closure $insteadPerPageRender = null;
 
     /** {@inheritdoc} */
     public function init()
@@ -292,6 +295,9 @@ JS
 
     public function renderPerPage()
     {
+        if ($this->insteadPerPageRender instanceof Closure) {
+            return call_user_func($this->insteadPerPageRender, $this);
+        }
         $items = [];
         foreach ([25, 50, 100, 200, 500] as $pageSize) {
             $items[] = ['label' => $pageSize, 'url' => Url::current(['per_page' => $pageSize])];
