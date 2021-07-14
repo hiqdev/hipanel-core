@@ -301,9 +301,9 @@ class Grid
         }
     }
 
-    public function containsChargeDataInTable(array $chargeData): void
+    public function containsDataInTable(array $data): void
     {
-        foreach ($chargeData as $element) {
+        foreach ($data as $element) {
             $this->tester->see($element, '//div[@class="table-responsive"]//tr');
         }
     }
