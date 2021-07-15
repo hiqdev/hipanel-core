@@ -38,6 +38,7 @@ class MultipleSelect2 extends Select2
 
     public function close(): Select2
     {
+        $this->tester->waitForElementNotVisible('.loading-results', 120);
         $this->tester->pressKey($this->inputSelector, WebDriverKeys::ENTER);
         $this->tester->pressKey($this->inputSelector, WebDriverKeys::ESCAPE);
         $this->seeIsClosed();
