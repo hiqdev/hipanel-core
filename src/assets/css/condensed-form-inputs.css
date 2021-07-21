@@ -2,7 +2,7 @@
     margin-bottom: 5px;
 }
 
-.form-control:not(textarea, input[type="tel"], input[name*="daterangepicker"]),
+.form-control:not(textarea, input[type="tel"], input[name*="daterangepicker"], select[multiple]),
 .select2-container--default .select2-selection--single {
     height: 30px !important;
     padding: 5px 10px !important;
