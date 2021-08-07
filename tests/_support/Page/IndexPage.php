@@ -12,6 +12,7 @@ namespace hipanel\tests\_support\Page;
 
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Grid;
+use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
 
@@ -236,5 +237,16 @@ class IndexPage extends Authenticated
     public function setAdvancedFilter(TestableInput $filter, string $value): void
     {
         $this->gridView->setAdvancedFilter($filter, $value);
+    }
+
+    public function filterTable(array $sellData): void
+    {
+        $I = $this->tester;
+
+        $this->filterBy(Dropdown::asTableFilter($I, 'Type'),
+            '-- ' . $sellData['type']);
+
+        $this->filterBy(Input::asTableFilter($I, 'Description'),
+            $sellData['descr']);
     }
 }
