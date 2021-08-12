@@ -32,6 +32,7 @@ class MultipleSelect2 extends Select2
     {
         $this->inputSelector = '.select2-container--open input.select2-search__field';
         $this->tester->fillField($this->inputSelector, $name);
+        $this->tester->waitForElementNotVisible('.loading-results', 120);
 
         return $this;
     }
