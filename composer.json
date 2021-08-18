@@ -44,7 +44,7 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.3||^8.0",
         "yiisoft/yii2": "^2.0",
         "yiisoft/yii2-jui": "^2.0",
         "yiisoft/yii2-debug": "^2.0",
@@ -71,7 +71,7 @@
         "hiqdev/yii2-reminder": "dev-master",
         "hiqdev/yii2-monitoring": "dev-master",
         "hiqdev/yii2-maintenance": "dev-master",
-        "sentry/sdk": "^2.1.0",
+        "sentry/sdk": "^3.1.0",
         "2amigos/yii2-date-time-picker-widget": "^1.0",
         "kartik-v/yii2-widget-fileinput": "^1.0",
         "kartik-v/yii2-widget-timepicker": "^1.0",
