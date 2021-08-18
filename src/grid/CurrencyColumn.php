@@ -33,6 +33,8 @@ class CurrencyColumn extends DataColumn
 
     public $urlCallback;
 
+    public ?\Closure $valueFormatter = null;
+
     public function getColor($type)
     {
         return $this->colors[$type] ?: $type;
@@ -59,6 +61,7 @@ class CurrencyColumn extends DataColumn
             'colors' => $this->colors,
             'urlCallback' => $this->urlCallback,
             'url' => $this->getUrl($model, $key, $index),
+            'valueFormatter' => $this->valueFormatter,
         ]);
     }
 }
