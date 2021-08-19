@@ -25,4 +25,14 @@ class Response extends \yii\web\Response
 
         parent::sendContent();
     }
+
+    public function refresh($anchor = '')
+    {
+        $request = Yii::$app->request;
+        if ($request->getIsAjax()) {
+            return $this->redirect($request->getReferrer() . $anchor);
+        }
+
+        return parent::refresh($anchor);
+    }
 }
