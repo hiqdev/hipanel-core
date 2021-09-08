@@ -238,8 +238,8 @@ class IndexPage extends Authenticated
         $this->gridView->setAdvancedFilter($filter, $value);
     }
 
-    public function getRowNumberInColumnByValue(int $column, string $vaule): int
+    public function getRowNumberInColumnByValue(string $columnName, string $vaule): int
     {
-        return $this->gridView->getRowNumberInColumnByValue($column, $vaule);
+        return $this->gridView->getRowNumberInColumnByValue($columnName, $vaule);
     }
 }

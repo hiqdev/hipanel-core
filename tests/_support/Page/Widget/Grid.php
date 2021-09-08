@@ -140,8 +140,10 @@ class Grid
         throw new \Exception("failed detect column with name $columnName");
     }
 
-    public function getRowNumberInColumnByValue(int $column, string $rowValue): int
+    public function getRowNumberInColumnByValue(string $columnName, string $rowValue): int
     {
+        $column = $this->getColumnNumber($columnName);
+
         $rowNumber = 1;
         $headElements = $this->tester->grabMultiple("//section[@class='content container-fluid']//tbody//td[$column]");
         foreach ($headElements as $currentRow) {

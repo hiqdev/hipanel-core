@@ -76,8 +76,8 @@ class Client extends AcceptanceTester
 
     public function logout(AcceptanceTester $I): void
     {
-        $I->click("//header//ul[1]/li[4]/a[1]");
-        $I->click("//a[contains(text(),'Sign out')]");
+        $I->click("//li[@class='dropdown user user-menu']/a[@class='dropdown-toggle']");
+        $I->clickLink('Sign out');
     }
 
     protected $clientType;
