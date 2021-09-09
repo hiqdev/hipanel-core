@@ -147,7 +147,7 @@ class Grid
         $rowNumber = 1;
         $headElements = $this->tester->grabMultiple("//section[@class='content container-fluid']//tbody//td[$column]");
         foreach ($headElements as $currentRow) {
-            if($rowValue === $currentRow) {
+            if ($rowValue === $currentRow) {
                 return $rowNumber;
             }
             $rowNumber++;
