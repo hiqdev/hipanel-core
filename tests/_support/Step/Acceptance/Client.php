@@ -74,6 +74,12 @@ class Client extends AcceptanceTester
         return $this;
     }
 
+    public function logout(AcceptanceTester $I): void
+    {
+        $I->click("//li[@class='dropdown user user-menu']/a[@class='dropdown-toggle']");
+        $I->clickLink('Sign out');
+    }
+
     protected $clientType;
 
     protected function getClientType(): string
