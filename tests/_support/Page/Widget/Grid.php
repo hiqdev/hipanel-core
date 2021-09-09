@@ -153,7 +153,7 @@ class Grid
             $rowNumber++;
         }
 
-        throw new \Exception("Failed detect column with name $rowValue");
+        throw new \Exception("failed detect column with name $rowValue");
     }
 
     public function getRowNumberByNameFromSummary(string $rowName): int
@@ -320,5 +320,15 @@ class Grid
     public function setAdvancedFilter(TestableInput $filter, string $value): void
     {
         $filter->setValue($value);
+    }
+
+    public function getRowIdByNumber(int $rowNumber): ?string
+    {
+        return $this->tester->grabAttributeFrom("//tbody/tr[$rowNumber]", 'data-key');
+    }
+
+    public function getValueFromCell(int $column, int $row): ?string
+    {
+        return $this->tester->grabValueFrom("//tbody/tr[$column]/td[$row]");
     }
 }
