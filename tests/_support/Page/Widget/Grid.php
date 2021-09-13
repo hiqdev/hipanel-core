@@ -167,13 +167,6 @@ class Grid
         return ++$res;
     }
 
-    public function ensureBillViewContainData(array $billData): void
-    {
-        foreach ($billData as $billInfo) {
-            $this->tester->see($billInfo, '//table');
-        }
-    }
-
     /**
      * Selects table row by its number.
      *
