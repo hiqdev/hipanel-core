@@ -121,11 +121,6 @@ class Grid
         return $this->tester->grabAttributeFrom($selector, 'data-key');
     }
 
-    public function ensureSeeValueInColumn(string $columnNumber, string $tableValue): void
-    {
-        $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
-    }
-
     public function getColumnNumber(string $columnName): int
     {
         $columnNumber = 2;
@@ -153,7 +148,7 @@ class Grid
             $rowNumber++;
         }
 
-        throw new \Exception("failed detect column with name $rowValue");
+        throw new \Exception("failed detect row with name $rowValue");
     }
 
     public function getRowNumberByNameFromSummary(string $rowName): int
@@ -162,7 +157,7 @@ class Grid
 
         $res = array_flip($headElements)[$rowName] ?? null;
         if ($res === null) {
-            throw new \Exception("failed detect row with name $rowName");
+            throw new \Exception("Failed detect row with name $rowName");
         }
         return ++$res;
     }
@@ -272,11 +267,6 @@ class Grid
         return count($this->tester->grabMultiple('//tbody/tr[contains(@data-key,*)]'));
     }
 
-    public function countColumnInTableBody(): int
-    {
-        return count($this->tester->grabMultiple('//thead//th'));
-    }
-
     /**
      * Checks whether sorting works properly.
      *
@@ -320,15 +310,5 @@ class Grid
     public function setAdvancedFilter(TestableInput $filter, string $value): void
     {
         $filter->setValue($value);
-    }
-
-    public function getRowIdByNumber(int $rowNumber): ?string
-    {
-        return $this->tester->grabAttributeFrom("//tbody/tr[$rowNumber]", 'data-key');
-    }
-
-    public function getValueFromCell(int $column, int $row): ?string
-    {
-        return $this->tester->grabValueFrom("//tbody/tr[$column]/td[$row]");
     }
 }

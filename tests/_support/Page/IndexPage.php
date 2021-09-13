@@ -243,16 +243,6 @@ class IndexPage extends Authenticated
         return $this->gridView->getRowNumberInColumnByValue($columnName, $vaule);
     }
 
-    public function getRowIdByNumber(int $rowNumber): ?string
-    {
-        return $this->gridView->getRowIdByNumber($rowNumber);
-    }
-
-    public function getValueFromCell(int $column, int $row): ?string
-    {
-        return $this->gridView->getValueFromCell($column, $row);
-    }
-
     public function getColumnNumber(string $columnName): int
     {
         return $this->gridView->getColumnNumber($columnName);
