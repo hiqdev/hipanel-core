@@ -121,11 +121,6 @@ class Grid
         return $this->tester->grabAttributeFrom($selector, 'data-key');
     }
 
-    public function ensureSeeValueInColumn(string $columnNumber, string $tableValue): void
-    {
-        $this->tester->see($tableValue, "//table//tbody//td[$columnNumber]//a[contains(text(), '$tableValue')]");
-    }
-
     public function getColumnNumber(string $columnName): int
     {
         $columnNumber = 2;
@@ -165,13 +160,6 @@ class Grid
             throw new \Exception("failed detect row with name $rowName");
         }
         return ++$res;
-    }
-
-    public function ensureBillViewContainData(array $billData): void
-    {
-        foreach ($billData as $billInfo) {
-            $this->tester->see($billInfo, '//table');
-        }
     }
 
     /**
@@ -272,11 +260,6 @@ class Grid
         return count($this->tester->grabMultiple('//tbody/tr[contains(@data-key,*)]'));
     }
 
-    public function countColumnInTableBody(): int
-    {
-        return count($this->tester->grabMultiple('//thead//th'));
-    }
-
     /**
      * Checks whether sorting works properly.
      *
@@ -315,10 +298,5 @@ class Grid
         for ($i = 1; $i <= $count; ++$i) {
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
         }
-    }
-
-    public function setAdvancedFilter(TestableInput $filter, string $value): void
-    {
-        $filter->setValue($value);
     }
 }
