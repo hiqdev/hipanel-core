@@ -162,13 +162,6 @@ class Grid
         return ++$res;
     }
 
-    public function ensureBillViewContainData(array $billData): void
-    {
-        foreach ($billData as $billInfo) {
-            $this->tester->see($billInfo, '//table');
-        }
-    }
-
     /**
      * Selects table row by its number.
      *
@@ -305,10 +298,5 @@ class Grid
         for ($i = 1; $i <= $count; ++$i) {
             $this->tester->see($arrayForSort[$i - 1], "//tbody/tr[$i]/td[$whereNeedle]");
         }
-    }
-
-    public function setAdvancedFilter(TestableInput $filter, string $value): void
-    {
-        $filter->setValue($value);
     }
 }
