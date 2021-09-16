@@ -132,7 +132,7 @@ class Grid
             $columnNumber++;
         }
 
-        throw new \Exception("failed detect column with name $columnName");
+        throw new \Exception("Failed detect column with name $columnName");
     }
 
     public function getRowNumberInColumnByValue(string $columnName, string $rowValue): int
@@ -148,7 +148,7 @@ class Grid
             $rowNumber++;
         }
 
-        throw new \Exception("failed detect row with name $rowValue");
+        throw new \Exception("Failed detect row with name $rowValue");
     }
 
     public function getRowNumberByNameFromSummary(string $rowName): int
