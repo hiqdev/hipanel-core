@@ -16,7 +16,7 @@ For testing `phpunit` or `behat` command is the same but also you can add custom
 For example:
 
     docker-compose exec php-fpm ./vendor/bin/phpunit -c ./vendor/hiqdev/hiapi-legacy/phpunit.xml.dist
-    docker-compose exec php-fpm ./vendor/bin/behat -c ./vendor/hiqdev/billing-mrdp/behat.xml
+    docker-compose exec php-fpm ./vendor/bin/behat -c ./vendor/hiqdev/billing-mrdp/behat.yml
 
 ## Running tests locally 
 
