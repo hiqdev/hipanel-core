@@ -28,6 +28,15 @@ class CustomAttribute extends Model
         return empty($this->name) || empty($this->value);
     }
 
+    public function stringValue(): string
+    {
+        if (!is_array($this->value)) {
+            return $this->value;
+        }
+
+        return json_encode($this->value, JSON_THROW_ON_ERROR);
+    }
+
     public function attributeLabels()
     {
         return [

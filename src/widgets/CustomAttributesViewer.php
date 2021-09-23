@@ -31,7 +31,10 @@ final class CustomAttributesViewer extends Widget
                     'format' => 'text',
                     'value' => fn(CustomAttribute $model): string => $this->owner->getCustomAttributeName($model->name),
                 ],
-                'value:text',
+                'value' => [
+                    'attribute' => 'value',
+                    'value' => fn(CustomAttribute $model): string => $model->stringValue(),
+                ]
             ],
         ]);
     }

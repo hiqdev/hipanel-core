@@ -51,7 +51,7 @@ use yii\widgets\ActiveForm;
                 <?php endif ?>
             </td>
             <td class="text-center" style="vertical-align: middle">
-                <?= $form->field($attribute, "[$idx]value")->label('')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($attribute, "[$idx]value")->label('')->textInput(['maxlength' => true, 'value' => $attribute->stringValue()]) ?>
             </td>
             <td class="text-center" style="vertical-align: middle">
                 <button type="button" class="remove-attribute btn btn-danger btn-sm"
