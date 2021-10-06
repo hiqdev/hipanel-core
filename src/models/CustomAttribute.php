@@ -30,11 +30,7 @@ class CustomAttribute extends Model
 
     public function stringValue(): string
     {
-        if (!is_array($this->value)) {
-            return $this->value;
-        }
-
-        return json_encode($this->value, JSON_THROW_ON_ERROR);
+        return (string)json_encode($this->value, JSON_THROW_ON_ERROR);
     }
 
     public function attributeLabels()
