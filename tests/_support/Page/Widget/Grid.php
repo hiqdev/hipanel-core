@@ -126,7 +126,7 @@ class Grid
         $columnNumber = 2;
         $headElements = $this->tester->grabMultiple('//th[not(./input)]');
         foreach ($headElements as $currentColummName) {
-            if($columnName === $currentColummName) {
+            if(str_contains($currentColummName, $columnName)) {
                 return $columnNumber;
             }
             $columnNumber++;
@@ -142,7 +142,7 @@ class Grid
         $rowNumber = 1;
         $headElements = $this->tester->grabMultiple("//section[@class='content container-fluid']//tbody//td[$column]");
         foreach ($headElements as $currentRow) {
-            if ($rowValue === $currentRow) {
+            if (str_contains($currentRow, $rowValue)) {
                 return $rowNumber;
             }
             $rowNumber++;
