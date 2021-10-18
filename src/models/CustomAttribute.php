@@ -30,6 +30,10 @@ class CustomAttribute extends Model
 
     public function stringValue(): string
     {
+        if (!is_array($this->value)) {
+            return (string)$this->value;
+        }
+
         return (string)json_encode($this->value, JSON_THROW_ON_ERROR);
     }
 
