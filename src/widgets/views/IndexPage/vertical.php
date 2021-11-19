@@ -18,6 +18,7 @@ $widget = $this->context;
                 <?= $widget->renderContent('show-actions') ?>
 
                 <div class="box-tools box-bulk-actions pull-right">
+                    <?= $widget->renderContent('alt-actions') ?>
                     <fieldset disabled="disabled">
                         <?= $widget->renderContent('bulk-actions') ?>
                     </fieldset>
