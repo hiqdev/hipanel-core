@@ -20,7 +20,7 @@ class PressButtonHelper extends \Codeception\Module
     {
         $I = $this->getModule('WebDriver');
 
-        $selector = $xpathPrefix . "//button[text() = '{$textOnButton}']";
+        $selector = $xpathPrefix . "//button[contains(text(), '{$textOnButton}')]";
         $I->click($selector);
     }
 
