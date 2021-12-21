@@ -22,4 +22,13 @@ return [
     'Switch' => 'Свитч',
     'Rack' => 'Стойка',
     'Data Center' => 'Дата центр',
+    'Anycastcdn' => 'Anycast CDN',
+    'Backup' => 'Бэкап',
+    'Private Cloud' => 'Личное облако',
+    'Private Cloud Backup' => 'Бэкап личного облака',
+    'Snapshot' => 'Снимок',
+    'Storage' => 'Хранилище',
+    'Videocdn' => 'Video CDN',
+    'Volume' => 'Раздел',
+    'Vps' => 'VPS',
 ];

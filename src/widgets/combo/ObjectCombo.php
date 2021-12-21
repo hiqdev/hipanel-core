@@ -16,6 +16,15 @@ use hipanel\modules\domain\widgets\combo\DomainCombo;
 use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
 use hipanel\modules\finance\widgets\combo\TargetCombo;
+use hipanel\modules\finance\widgets\combo\target\AnycastCDNCombo;
+use hipanel\modules\finance\widgets\combo\target\BackupCombo;
+use hipanel\modules\finance\widgets\combo\target\PrivateCloudBackupCombo;
+use hipanel\modules\finance\widgets\combo\target\PrivateCloudCombo;
+use hipanel\modules\finance\widgets\combo\target\SnapshotCombo;
+use hipanel\modules\finance\widgets\combo\target\StorageCombo;
+use hipanel\modules\finance\widgets\combo\target\VideoCDNCombo;
+use hipanel\modules\finance\widgets\combo\target\VolumeCombo;
+use hipanel\modules\finance\widgets\combo\target\VPSCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
 use hipanel\modules\server\widgets\combo\NetCombo;
 use hipanel\modules\server\widgets\combo\RackCombo;
@@ -71,7 +80,15 @@ class ObjectCombo extends InputWidget
         'switch' => ['alias' => '@hub', 'combo' => NetCombo::class],
         'rack' => ['alias' => '@hub', 'combo' => RackCombo::class],
         'data_center' => ['alias' => '@hub', 'combo' => LocationCombo::class],
-        'anycastcdn' => ['alias' => '@finance', 'combo' => TargetCombo::class],
+        'anycastcdn' => ['alias' => '@finance', 'combo' => AnycastCDNCombo::class],
+        'backup' => ['alias' => '@finance', 'combo' => BackupCombo::class],
+        'private_cloud' => ['alias' => '@finance', 'combo' => PrivateCloudCombo::class],
+        'private_cloud_backup' => ['alias' => '@finance', 'combo' => PrivateCloudBackupCombo::class],
+        'snapshot' => ['alias' => '@finance', 'combo' => SnapshotCombo::class],
+        'storage' => ['alias' => '@finance', 'combo' => StorageCombo::class],
+        'videocdn' => ['alias' => '@finance', 'combo' => VideoCDNCombo::class],
+        'volume' => ['alias' => '@finance', 'combo' => VolumeCombo::class],
+        'vps' => ['alias' => '@finance', 'combo' => VPSCombo::class],
     ];
 
     /**
