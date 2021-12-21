@@ -11,7 +11,7 @@
 return [
     'Plan' => 'Tariff plan',
     'Zone' => 'Domain zone',
-    'Anycastcdn' => 'AnycastCDN',
-    'Videocdn' => 'VideoCDN',
+    'Anycastcdn' => 'Anycast CDN',
+    'Videocdn' => 'Video CDN',
     'Vps' => 'VPS',
 ];
