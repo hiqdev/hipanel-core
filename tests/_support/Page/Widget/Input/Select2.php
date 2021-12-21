@@ -116,7 +116,6 @@ class Select2 extends TestableInput
         });
 JS
         );
-        $this->tester->click('//body');
 
         return $this;
     }
