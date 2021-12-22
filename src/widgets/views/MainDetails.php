@@ -40,6 +40,12 @@ use yii\helpers\Html;
         background-position: 100% 0;
     }
 
+    .widget-user-username {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
     .widget-user-username,
     .widget-user-username a,
     .widget-user-username a:focus,
