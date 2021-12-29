@@ -19,6 +19,8 @@ return [
     'BROWSER' => 'chrome',
     'SELENIUM_HOST' => getenv('TESTS_ACCEPTANCE_SELENIUM_HOST'),
 
+    'USER_CREATION_DISABLED' => $params['module.client.user.creation.disabled'] === true ? '1' : '0',
+
     'client' => [
         'id' => null,
         'login' => 'hipanel_test_user',
