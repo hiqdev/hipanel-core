@@ -28,7 +28,7 @@ return [
     'Private Cloud Backup' => 'Бэкап личного облака',
     'Snapshot' => 'Снимок',
     'Storage' => 'Хранилище',
-    'Videocdn' => 'Video CDN',
+    'Videocdn' => 'VideoCDN',
     'Volume' => 'Раздел',
     'Vps' => 'VPS',
 ];
