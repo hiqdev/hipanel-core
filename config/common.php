@@ -33,7 +33,7 @@ return [
                 ],
             ]
             : ['class' => \hipanel\components\Cache::class]
-        ],
+        ,
         'i18n' => [
             'class' => \hipanel\components\I18N::class,
             'translations' => [
