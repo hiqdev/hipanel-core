@@ -19,11 +19,19 @@ services:
       - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
       - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS}"
 
+  memcached:
+    image: memcached
+    networks:
+      - local-network
+    command: '-m 128'
+
   php-fpm:
     image: hiqdev/php:7.4-fpm
     volumes:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
+    tmpfs:
+      - /app/runtime/debug:uid=33,gid=33
     networks:
       hiapi-network:
       local-network:

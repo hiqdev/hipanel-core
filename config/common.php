@@ -19,8 +19,20 @@ return [
         '@HIAM_SITE' => (YII_ENV === 'prod' ? 'https://' : 'http://') . $params['hiam.site'],
     ],
     'components' => [
-        'cache' => [
-            'class' => \hipanel\components\Cache::class,
+        'cache' =>
+            $params['cache.driver'] === 'memcached'
+            ? [
+                'class' => \yii\caching\MemCache::class,
+                'useMemcached' => true,
+                'servers' => [
+                    'memcached' => [
+                        'host' => 'memcached',
+                        'port' => 11211,
+                        'weight' => 60,
+                    ],
+                ],
+            ]
+            : ['class' => \hipanel\components\Cache::class]
         ],
         'i18n' => [
             'class' => \hipanel\components\I18N::class,

@@ -11,6 +11,8 @@
 $hipanelSite = $_ENV['HIPANEL_SITE'] ?? null;
 
 return [
+    'cache.driver'          => 'file',
+
     'adminEmail'            => '',
     'organization.url'      => '',
     'organization.termsUrl' => '',
