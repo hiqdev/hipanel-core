@@ -62,4 +62,6 @@ return [
 
     'ad-banner.dashboard.items' => [],
     'ad-banner.sidebar.items' => [],
+
+    'memcached.host' => 'memcached',
 ];

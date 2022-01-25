@@ -26,7 +26,7 @@ return [
                 'useMemcached' => true,
                 'servers' => [
                     'memcached' => [
-                        'host' => 'memcached',
+                        'host' => $params['memcached.host'],
                         'port' => 11211,
                         'weight' => 60,
                     ],
