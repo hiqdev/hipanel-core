@@ -68,7 +68,7 @@ return [
                 'ru' => 'Русский',
             ],
         ],
-        'debug' => empty($params['debug.event.enable']) ? null : [
+        'debug' => !empty($params['debug.event.enable']) ? [] : [
             'panels' => [
                 'event' => [
                     'class' => \hipanel\panels\FakeEventPanel::class,
