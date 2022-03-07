@@ -29,6 +29,7 @@ return [
     'hipanel.notPanel'      => false,
 
     'debug.allowedIps'      => [],
+    'debug.event.enable'    => false,
 
     'user.seller'           => '',
 
