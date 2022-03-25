@@ -17,6 +17,7 @@ use hiqdev\hiart\ResponseErrorException;
 use Yii;
 use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
+use \yii\base\Action as BaseAction;
 
 /**
  * HiPanel basic action.
@@ -24,7 +25,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property Collection collection
  */
-class Action extends \yii\base\Action
+class Action extends BaseAction
 {
     const EVENT_BEFORE_RUN = 'beforeRun';
     const EVENT_BEFORE_SAVE = 'beforeSave';
@@ -103,7 +104,7 @@ class Action extends \yii\base\Action
         }
 
         if (!is_object($this->_collection)) {
-            $action = $this->controller->action;
+            $action = $this->controller->action ?? $this;
             if ($action instanceof self) {
                 $scenario = $action->getScenario();
             } else {

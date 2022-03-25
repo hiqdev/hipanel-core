@@ -40,11 +40,11 @@ use yii\helpers\Html;
                 </button>
 
                 <?php if (!$this->context->isPINFailed()) : ?>
-                    <?= Html::button(Yii::t('hipanel', 'Send'), [
+                    <?= Html::button(Yii::t('hipanel', 'Send'), array_filter([
                         'class' => 'btn btn-primary pincode-submit',
                         'data-toggle' => 'button',
-                        'data-loading-text' => $widget->loadingText,
-                    ]) ?>
+                        'data-loading-text' => $widget->loadingText ?? null,
+                    ])) ?>
                 <?php endif; ?>
             </div>
         </div>

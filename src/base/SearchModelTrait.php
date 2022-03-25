@@ -112,7 +112,7 @@ trait SearchModelTrait
             preg_match('/^(.*?)(_((?:.(?!_))+))?$/', $attribute, $matches);
 
             /// If the suffix is in the list of acceptable suffix filer conditions
-            if ($matches[3] && in_array($matches[3], static::$filterConditions, true)) {
+            if (!empty($matches[3]) && in_array($matches[3], static::$filterConditions, true)) {
                 $cmp = $matches[3];
                 $attribute = $matches[1];
             } else {
