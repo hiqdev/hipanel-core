@@ -150,6 +150,9 @@ class AdvancedSearch extends Widget
      */
     public function field($attribute, $options = []): AdvancedSearchActiveField
     {
+        if (is_array($this->model->{$attribute})) {
+            $this->model->{$attribute} = reset($this->model->{$attribute});
+        }
         return $this->_form->field($this->model, $attribute, $options)
             ->textInput(['placeholder' => $this->model->getAttributeLabel($attribute)])
             ->label(false);

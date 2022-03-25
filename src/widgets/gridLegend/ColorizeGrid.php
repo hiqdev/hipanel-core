@@ -31,6 +31,7 @@ trait ColorizeGrid
     {
         if ($this->colorize) {
             $contentOptions = $column['contentOptions'] ?? [];
+            $contentOptions['style'] = '';
             $column['contentOptions'] = function ($model) use ($column, $contentOptions) {
                 $coloredStyle = GridLegend::create(
                     $this->findOrFailGridLegend($model)

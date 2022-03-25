@@ -59,7 +59,7 @@
         "hiqdev/yii2-higrid": "*@dev",
         "hiqdev/yii2-language": "*@dev",
         "hiqdev/yii2-collection": "*@dev",
-        "hiqdev/yii2-x-editable": "dev-master",
+        "hiqdev/yii2-x-editable": "dev-php8",
         "hiqdev/yii2-pnotify": "*",
         "hiqdev/yii2-daterangepicker": "dev-master",
         "hiqdev/yii2-bootstrap-switch": "dev-master",
