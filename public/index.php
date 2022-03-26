@@ -11,7 +11,7 @@
 use Yiisoft\Composer\Config\Builder;
 use yii\web\Application;
 
-(function () {
+(static function () {
     require __DIR__ . '/../config/bootstrap.php';
 
     $host = $_SERVER['HTTP_HOST'];
