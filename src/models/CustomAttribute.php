@@ -25,11 +25,15 @@ class CustomAttribute extends Model
 
     public function isEmpty(): bool
     {
-        return empty($this->name) || empty($this->value);
+        return empty($this->name) || $this->value === '';
     }
 
     public function stringValue(): string
     {
+        if (is_bool($this->value)) {
+            return json_encode($this->value);
+        }
+
         if (!is_array($this->value)) {
             return (string)$this->value;
         }
