@@ -20,9 +20,14 @@ class PrepareBulkAction extends PrepareAjaxViewAction
     /** {@inheritdoc} */
     public function run($id = null)
     {
-        $this->setId(Yii::$app->request->get('selection', []));
+        $request = Yii::$app->request;
+        $selection = $request->get('selection', []);
+        if (empty($selection)) {
+            $selection = $request->post('selection', []);
+        }
+        $this->setId($selection);
 
-        return parent::run();
+        return parent::run($id);
     }
 
     /** {@inheritdoc} */
