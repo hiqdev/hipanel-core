@@ -45,7 +45,7 @@ class InternalObjectCombo extends Combo
      *
      * @var array
      */
-    public $classes = [];
+    public array $classes = [];
 
     /**
      * @var string
@@ -77,7 +77,7 @@ class InternalObjectCombo extends Combo
         $this->applyDefaultAttributes();
     }
 
-    private function generateConfigs()
+    private function generateConfigs(): void
     {
         foreach ($this->classes as $className => $options) {
             $widget = $this->applyConfigByObjectClassName($className);
@@ -89,7 +89,7 @@ class InternalObjectCombo extends Combo
         }
     }
 
-    private function registerChangerScript()
+    private function registerChangerScript(): void
     {
         $changerId = Html::getInputId($this->model, $this->class_attribute_name);
         $inputId = $this->inputOptions['id'];
@@ -130,14 +130,14 @@ class InternalObjectCombo extends Combo
         });
     }
 
-    private function applyDefaultAttributes()
+    private function applyDefaultAttributes(): void
     {
-        if ($this->class_attribute) {
+        if ($this->class_attribute && array_key_exists($this->class_attribute, $this->classes)) {
             $this->applyConfigByObjectClassName($this->class_attribute);
         }
     }
 
-    private function registerSpecialAssets()
+    private function registerSpecialAssets(): void
     {
         // Fix validation styles
         $this->view->registerCss('

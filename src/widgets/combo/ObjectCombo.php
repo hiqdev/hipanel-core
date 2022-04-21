@@ -15,7 +15,6 @@ use hipanel\modules\client\widgets\combo\PartnerCombo;
 use hipanel\modules\domain\widgets\combo\DomainCombo;
 use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
-use hipanel\modules\finance\widgets\combo\TargetCombo;
 use hipanel\modules\finance\widgets\combo\target\AnycastCDNCombo;
 use hipanel\modules\finance\widgets\combo\target\BackupCombo;
 use hipanel\modules\finance\widgets\combo\target\PrivateCloudBackupCombo;
@@ -66,7 +65,7 @@ class ObjectCombo extends InputWidget
     /**
      * @var array
      */
-    public $knownClasses = [
+    public array $knownClasses = [
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
         'partner' => ['alias' => '@client', 'combo' => PartnerCombo::class],
         'device' => ['alias' => '@server', 'combo' => ServerCombo::class],
@@ -136,6 +135,7 @@ class ObjectCombo extends InputWidget
     /**
      * @param string $class
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
     private function getLabel(string $class): string
     {
