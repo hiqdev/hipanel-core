@@ -20,7 +20,7 @@ services:
       - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS}"
 
   php-fpm:
-    image: hiqdev/php:7.4-fpm
+    image: hiqdev/php:8.1-fpm-alpine
     tmpfs:
       - /app/runtime/debug:uid=33,gid=33
     volumes:
