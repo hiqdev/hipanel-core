@@ -8,8 +8,6 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
-error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-
 if (!defined('WEBAPP_ROOT_DIR')) {
     define('WEBAPP_ROOT_DIR', dirname(__DIR__, 4));
 }
