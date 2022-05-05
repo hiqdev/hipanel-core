@@ -42,7 +42,7 @@ services:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
     tmpfs:
-      - /app/runtime/debug:uid=33,gid=33
+      - /app/runtime/debug:uid=82,gid=82
     networks:
       hiapi-network:
       local-network:
