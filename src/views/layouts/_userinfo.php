@@ -9,19 +9,26 @@ use yii\helpers\Url;
  * @var Client $client
  */
 
-$client = Client::findOne(Yii::$app->user->identity->id);
+$client = Client::find()
+    ->where([
+        'id' => Yii::$app->user->identity->id,
+    ])
+    ->addSelect(['purses'])
+    ->withPurses()
+    ->one();
 
-if ($client->balance > 0) {
+if ($client->total_balance > 0) {
     $balanceColor = 'text-success';
-} elseif ($client->balance < 0) {
+} elseif ($client->total_balance < 0) {
     $balanceColor = 'text-danger';
 } else {
     $balanceColor = 'text-muted';
 }
 
 $this->registerCss('
-.user-panel > .info { padding-top: 0; } 
-.user-panel > .info a:first-child { font-size: 16px; } 
+.user-panel { padding-bottom: 16px }
+.user-panel > .info { padding-top: 0; }
+.user-panel > .info a:first-child { font-size: 16px; }
 ');
 $tooltip = [];
 if ($client->credit >= 0) {
@@ -42,10 +49,30 @@ if ($client->credit >= 0) {
 ], $tooltip)) ?>
 
 <i class="fa fa-circle <?= $balanceColor ?>"></i>
-<?= Yii::t('adminlte', 'Balance: {balance}', [
-    'balance' => Yii::$app->formatter->asCurrency($client->balance, $client->currency),
-]) ?>
+<?php if (is_countable($client->purses) && count($client->purses) > 1): ?>
+    <?= Yii::t('adminlte', 'Total balance: {balance}', [
+        'balance' => Yii::$app->formatter->asCurrency($client->total_balance, $client->currency),
+    ]) ?>
+<?php else: ?>
+    <?= Yii::t('adminlte', 'Balance: {balance}', [
+        'balance' => Yii::$app->formatter->asCurrency($client->total_balance, $client->currency),
+    ]) ?>
+<?php endif ?>
 
 <?= Html::endTag('a') ?>
 <br/>
+<?php if (is_countable($client->purses) && count($client->purses) > 1): ?>
+    <?php foreach ($client->purses ?? [] as $purse): ?>
+        <?= Html::beginTag('a', array_merge([
+            'href' => Yii::$app->user->can('deposit') ? Url::to('@pay/deposit') : '#',
+        ], [])) ?>
+            <i class="fa fa-circle <?= $balanceColor ?>"></i>
+            <?= Yii::t('adminlte', 'Balance: {balance}', [
+                'balance' => Yii::$app->formatter->asCurrency($purse->balance, $purse->currency),
+            ]) ?>
+        <?= Html::endTag('a') ?>
+        <br/>
+    <?php endforeach ?>
+    <br />
+<?php endif ?>
 <?= Html::a(Yii::t('hipanel', 'User profile'), ['/site/profile']) ?>
