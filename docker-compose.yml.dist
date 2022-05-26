@@ -4,6 +4,7 @@ services:
 
   nginx:
     image: nginx:latest
+    restart: unless-stopped
     ports:
       - "80"
     volumes:
@@ -21,12 +22,14 @@ services:
 
   memcached:
     image: memcached
+    restart: unless-stopped
     networks:
       - local-network
     command: '-m 128'
 
   php-fpm:
     image: hiqdev/php:8.1-fpm-alpine
+    restart: unless-stopped
     volumes:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
