@@ -18,6 +18,7 @@ use hisite\actions\RenderAction;
 use Yii;
 use hiam\authclient\AuthAction;
 use yii\base\Module;
+use yii\caching\MemCache;
 use yii\filters\AccessControl;
 
 /**
@@ -175,6 +176,12 @@ class SiteController extends \hisite\controllers\SiteController
     public function actionHealthcheck()
     {
         $text = 'Up and running.';
+        $cache = Yii::$app->cache;
+        if ($cache instanceof MemCache) {
+            $text .= "\n<h6>Cache is OK</h6>";
+        } else {
+            $text .= "\n<h6>Cache is ABSENT</h6>";
+        }
         if (isset(Yii::$app->user->identity->id)) {
             $id = Yii::$app->user->identity->id;
             $text .= "\n<h6>User ID: <userId>$id</userId></h6>";
