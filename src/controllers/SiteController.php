@@ -18,7 +18,6 @@ use hisite\actions\RenderAction;
 use Yii;
 use hiam\authclient\AuthAction;
 use yii\base\Module;
-use yii\caching\MemCache;
 use yii\filters\AccessControl;
 
 /**
