@@ -175,11 +175,27 @@ class SiteController extends \hisite\controllers\SiteController
     public function actionHealthcheck()
     {
         $text = 'Up and running.';
+        $text .= $this->testCache();
         if (isset(Yii::$app->user->identity->id)) {
             $id = Yii::$app->user->identity->id;
             $text .= "\n<h6>User ID: <userId>$id</userId></h6>";
         }
 
         return $text;
+    }
+
+    private function testCache(): string
+    {
+        $cache = Yii::$app->cache;
+        if (!empty($cache)) {
+            $cache->set('test_cache', 'test');
+            $testCache = $cache->get('test_cache');
+        }
+        if (isset($testCache) && $testCache === 'test') {
+            $result = "\n<h6>Cache is OK</h6>";
+        } else {
+            $result = "\n<h6>Cache is ABSENT</h6>";
+        }
+        return $result;
     }
 }
