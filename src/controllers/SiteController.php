@@ -176,8 +176,7 @@ class SiteController extends \hisite\controllers\SiteController
     public function actionHealthcheck()
     {
         $text = 'Up and running.';
-        $cache = Yii::$app->cache;
-        if ($cache instanceof MemCache) {
+        if (Yii::$app->cache instanceof MemCache) {
             $text .= "\n<h6>Cache is OK</h6>";
         } else {
             $text .= "\n<h6>Cache is ABSENT</h6>";
