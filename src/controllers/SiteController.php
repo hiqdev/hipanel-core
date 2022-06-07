@@ -184,16 +184,6 @@ class SiteController extends \hisite\controllers\SiteController
         return $text;
     }
 
-    public function actionCheckforwardedheader(): string
-    {
-        $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? null;
-        $forwardedAddr = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? null;
-        if (strripos($forwardedAddr, $remoteAddr) && $remoteAddr === '1.1.1.1') {
-            Yii::$app->response->statusCode = 409;
-        }
-        return '{}';
-    }
-
     private function testCache(): string
     {
         $cache = Yii::$app->cache;
