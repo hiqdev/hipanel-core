@@ -13,8 +13,8 @@ use yii\web\Application;
 use hidev\webapp\components\TestEndpoints;
 
 (static function () {
-    require __DIR__ . '/../config/bootstrap.php';
     TestEndpoints::try();
+    require __DIR__ . '/../config/bootstrap.php';
 
     $host = $_SERVER['HTTP_HOST'];
     $type = (defined('HISITE_TEST') && HISITE_TEST) ? 'web-test' : 'web';
