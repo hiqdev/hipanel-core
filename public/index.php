@@ -13,7 +13,9 @@ use yii\web\Application;
 use hidev\webapp\components\TestEndpoints;
 
 (static function () {
+    require_once(dirname(__DIR__, 2) . '/hidev-webapp/src/components/TestEndpoints.php');
     TestEndpoints::try();
+
     require __DIR__ . '/../config/bootstrap.php';
 
     $host = $_SERVER['HTTP_HOST'];
