@@ -47,6 +47,8 @@ For more info about how to run tests see [codeception manual].
 
 ### Playwright tips
 
+First you should install `nodejs`
+
 In order to run tests locally with a browser, change `.env` file `URL` param to your local url to HiPanel
 
 ```dotenv
@@ -65,6 +67,27 @@ or run a specific test
 
 ```shell
 npm run test vendor/hiqdev/hipanel-module-document/tests/playwright/e2e/manager/document.spec.ts # run a specific test
+```
+
+In order to add new module for testing you should add module folder name to `playwright.config.ts`
+
+```javascript
+projects: [
+  "hipanel-module-document",
+  "hipanel-module-finance", // <---- new module folder here
+]
+```
+
+Then you should to add namespace of new module to `tsconfig.json` to `path` object
+
+```json
+{
+  "paths": {
+    "@hipanel-module-finance/tests/e2e/*": [
+      "vendor/hiqdev/hipanel-module-finance/tests/playwright/e2e/*"
+    ]
+  } 
+}
 ```
 
 For more info about how to run Playwright tests see [playwright intro].
