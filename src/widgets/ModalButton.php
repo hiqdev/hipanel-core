@@ -258,7 +258,7 @@ class ModalButton extends Widget
                 $toggleButton['type'] = 'button';
             }
 
-            if (isset($button['disabled'])) {
+            if (isset($button['disabled']) && $button['disabled'] === true) {
                 $button = ArrayHelper::merge([
                     'onClick' => new JsExpression('return false'),
                 ], $button);
