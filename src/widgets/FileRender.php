@@ -109,11 +109,10 @@ class FileRender extends Widget
     private function renderHtml()
     {
         $file = $this->file;
-        $path = $this->fileStorage->get($file);
-
-        /** @var FilePreviewFactoryInterface $factory */
-        $factory = Yii::createObject(FilePreviewFactoryInterface::class);
         try {
+            $path = $this->fileStorage->get($file);
+            /** @var FilePreviewFactoryInterface $factory */
+            $factory = Yii::createObject(FilePreviewFactoryInterface::class);
             $generator = $factory->createGenerator($path);
             $dimensions = new InsetDimensions($generator->getDimensions(), new Dimensions($this->thumbWidth, $this->thumbWidth));
             $src = 'data: ' . $generator->getContentType() . ';base64,' . base64_encode($generator->asBytes($dimensions));
