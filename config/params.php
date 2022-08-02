@@ -42,7 +42,7 @@ return [
     'poweredBy.url'         => 'https://hipanel.com/',
 
     'skin' => [
-        'default-skin' => 'skin-blue',
+        'default-skin' => $_ENV['SITE_THEME_SKIN'] ?? 'skin-blue',
         'default-theme' => 'adminlte',
     ],
 

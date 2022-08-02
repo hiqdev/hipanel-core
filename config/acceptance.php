@@ -20,7 +20,7 @@ return [
     'SELENIUM_HOST' => getenv('TESTS_ACCEPTANCE_SELENIUM_HOST'),
 
     'USER_CREATION_DISABLED' => $params['module.client.user.creation.disabled'] === true ? '1' : '0',
-    'SERVER_ORDER_ALLOWED' => $params['module.server.order.allowed'] === true ? '1' : '0',
+    'SERVER_ORDER_ALLOWED' => ($params['module.server.order.allowed'] ?? null) === true ? '1' : '0',
 
     'client' => [
         'id' => null,
