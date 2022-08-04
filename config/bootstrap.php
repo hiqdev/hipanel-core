@@ -26,6 +26,13 @@ require_once WEBAPP_VENDOR_DIR . '/autoload.php';
         require_once $path;
     }
 })();
+
+error_reporting(YII_ENV === 'prod'
+    ? E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING
+    # XXX to be fixed to E_ALL & ~E_NOTICE & ~E_STRICT for non prod
+    : E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING
+);
+
 require_once WEBAPP_VENDOR_DIR . '/yiisoft/yii2/Yii.php';
 
 Yii::setAlias('@root', WEBAPP_ROOT_DIR);
