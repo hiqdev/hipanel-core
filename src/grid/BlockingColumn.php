@@ -19,7 +19,8 @@ class BlockingColumn extends \hiqdev\higrid\DataColumn
     public function init()
     {
         try {
-            $this->visible = reset($this->grid->dataProvider->getModels())->blocking->reason;
+            $models = $this->grid->dataProvider->getModels();
+            $this->visible = reset($models)->blocking->reason;
         } catch (Exception $e) {
         } finally {
             parent::init();
