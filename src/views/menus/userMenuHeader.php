@@ -7,6 +7,7 @@ use yii\helpers\Html;
     'email' => Yii::$app->user->identity->email ?? null,
     'size'  => 90,
 ]) ?>
+<?php if (!is_null(Yii::$app->user->identity)) : ?>
 <p>
     <b><?= Yii::$app->user->identity->username ?></b>
 
@@ -24,3 +25,4 @@ use yii\helpers\Html;
         <?= Html::encode(Yii::$app->user->identity->name) ?>
     <?php endif ?>
 </p>
+<?php endif ?>

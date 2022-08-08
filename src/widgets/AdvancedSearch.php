@@ -90,7 +90,8 @@ class AdvancedSearch extends Widget
         $display_none = '';
 
         if (ArrayHelper::remove($this->options, 'displayNone', true) === true) {
-            $display_none = Yii::$app->request->get($this->model->formName())['search_form'] ? '' : 'display:none';
+            $display = Yii::$app->request->get($this->model->formName());
+            $display_none = is_array($display) ? ($display['search_form'] ?? 'display:none') : 'display:none';
         }
 
         if ($this->submitButtonWrapperOptions !== false) {
