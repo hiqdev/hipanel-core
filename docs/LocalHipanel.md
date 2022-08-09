@@ -2,15 +2,13 @@
 
 HiPanel is split into 4 separate applications:
 
-1. hiapi     [hiapi.demo.hipanel.com]
-2. hiam       [hiam.demo.hipanel.com]
-3. hipanel [hipanel.demo.hipanel.com]
-4. hisite   [hisite.demo.hipanel.com]
+1. hiapi     [hiapi.advancedhosters.com]
+2. hiam       [hiam.advancedhosters.com]
+3. hipanel [hipanel.advancedhosters.com]
 
-[hiapi.demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hiapi.demo.hipanel.com
-[hiam.demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hiam.demo.hipanel.com
-[hipanel.demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hipanel.demo.hipanel.com
-[hisite.demo.hipanel.com]: https://git.hiqdev.com/hiqdev/hisite.demo.hipanel.com
+[hiapi.advancedhosters.com]: https://git.hiqdev.com/advancedhosters/hiapi.advancedhosters.com
+[hiam.advancedhosters.com]: https://git.hiqdev.com/advancedhosters/hiam.advancedhosters.com
+[hipanel.advancedhosters.com]: https://git.hiqdev.com/advancedhosters/hipanel.advancedhosters.com
 
 To have working system it is necessary to have them all up and running.
 
@@ -30,7 +28,7 @@ To have working system it is necessary to have them all up and running.
 
 ### Environment install
 
-- PHP install & all needed extensions ```sudo apt install php7.4```
+- PHP install & all needed extensions ```sudo apt install php8.1```
 - Composer install ```curl -sS https://getcomposer.org/installer -o composer-setup.php```
 - Docker install ```sudo apt install docker```
 - Docker-compose install ```sudo apt install docker-compose```
@@ -41,10 +39,9 @@ To have working system it is necessary to have them all up and running.
 Add recommended host names and IPs for local installation to `/ets/hosts`:
 
 ```hosts
-127.0.0.2   local.hiapi.demo.hipanel.com
-127.0.0.2   local.hiam.demo.hipanel.com
-127.0.0.2   local.hipanel.demo.hipanel.com
-127.0.0.2   local.hisite.demo.hipanel.com
+127.0.0.2   local.hiapi.advancedhosting.com
+127.0.0.2   local.hiam.advancedhosting.com
+127.0.0.2   local.hipanel.advancedhosting.com
 ```
 
 These IPs are registered in `.env.local` files, so if you change them be sure
@@ -54,9 +51,9 @@ to change there too.
 
 Recommended dirs are:
 
-- `~/prj/hiqdev/hipanel.demo.hipanel.com`
-- `~/prj/hiqdev/hiam.demo.hipanel.com`
-- `~/prj/hiqdev/hiapi.demo.hipanel.com`
+- `~/prj/hiqdev/hipanel.advancedhosting.com`
+- `~/prj/hiqdev/hiam.advancedhosting.com`
+- `~/prj/hiqdev/hiapi.advancedhosting.com`
 - and so on
 
 ## Make symlinks
