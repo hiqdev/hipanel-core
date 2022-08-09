@@ -79,6 +79,9 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
     {
         $result = [];
         foreach ($keys as $key) {
+            if (is_null($key)) {
+                continue;
+            }
             $result[$key] = static::getValue($array, $key);
         }
 
