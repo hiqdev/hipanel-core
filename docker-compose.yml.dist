@@ -4,6 +4,7 @@ services:
 
   nginx:
     image: nginx:latest
+    restart: unless-stopped
     ports:
       - "80"
     volumes:
@@ -17,16 +18,18 @@ services:
       - "VIRTUAL_HOST=${HOSTS}"
       - "LETSENCRYPT_HOST=${HOSTS}"
       - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
-      - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS}"
+      - "LETSENCRYPT_SINGLE_DOMAIN_CERTS=${LETSENCRYPT_SINGLE_DOMAIN_CERTS}"
 
   memcached:
     image: memcached
+    restart: unless-stopped
     networks:
       - local-network
     command: '-m 128'
 
   php-fpm:
     image: hiqdev/php:8.1-fpm-alpine
+    restart: unless-stopped
     volumes:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php

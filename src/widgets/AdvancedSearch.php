@@ -102,16 +102,16 @@ class AdvancedSearch extends Widget
 
         $tag = ArrayHelper::remove($this->options, 'tag', 'div');
         echo Html::beginTag($tag, ArrayHelper::merge([
-            'id'    => $this->getDivId(),
+            'id' => $this->getDivId(),
             'class' => 'row',
             'style' => 'margin-bottom: 1rem; margin-top: 1rem; ' . $display_none,
         ], $this->options));
 
         $this->_form = ActiveForm::begin([
-            'id'        => 'form-' . $this->getDivId(),
-            'action'    => $this->action,
-            'method'    => $this->method,
-            'options'   => $this->formOptions,
+            'id' => 'form-' . $this->getDivId(),
+            'action' => $this->action,
+            'method' => $this->method,
+            'options' => $this->formOptions,
             'fieldClass' => AdvancedSearchActiveField::class,
         ]);
         echo Html::hiddenInput(Html::getInputName($this->model, 'search_form'), 1);
@@ -151,12 +151,12 @@ class AdvancedSearch extends Widget
      */
     public function field($attribute, $options = []): AdvancedSearchActiveField
     {
-        if (is_array($this->model->{$attribute})) {
-            $this->model->{$attribute} = reset($this->model->{$attribute});
-        }
-        return $this->_form->field($this->model, $attribute, $options)
-            ->textInput(['placeholder' => $this->model->getAttributeLabel($attribute)])
-            ->label(false);
+        return $this->_form->field($this->model, $attribute, ArrayHelper::merge($options, [
+            'inputOptions' => [
+                'placeholder' => $this->model->getAttributeLabel($attribute),
+                'class' => 'form-control',
+            ],
+        ]))->label(false);
     }
 
     public function registerMyJs()
