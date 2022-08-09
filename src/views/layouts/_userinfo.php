@@ -14,7 +14,7 @@ if (Yii::$app->user->identity !== null) {
 }
 
 ?>
-<?php if ($client !== null) : ?>
+<?php if (($client ?? null) !== null) : ?>
     <?php
     if ($client->balance > 0) {
         $balanceColor = 'text-success';
