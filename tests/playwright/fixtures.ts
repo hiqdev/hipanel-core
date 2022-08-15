@@ -1,5 +1,5 @@
-import { expect, test as base, type Page, type Locator, type BrowserContext } from "@playwright/test";
-import { login, type Credentials } from "@hipanel-core/tests/common/auth";
+import { test as base, type Page, type BrowserContext } from "@playwright/test";
+import { login, type Credentials } from "@hipanel-core/common/auth";
 
 export const test = base.extend<{
   clientContext: BrowserContext, clientPage: Page,
