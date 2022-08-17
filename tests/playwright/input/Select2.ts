@@ -17,8 +17,7 @@ export default class Select2 {
     await this.combobox.click();
     await this.dropdownSearchField.fill(value);
     await this.page.locator("ul.select2-results__options .loading-results").waitFor({ state: "hidden" });
-    await this.page.locator(`//ul[contains(@class, 'select2-results__options')]/li[normalize-space(text())='${value}']`).highlight();
-    await this.page.waitForTimeout(2000);
+    await this.page.locator(`//ul[contains(@class, 'select2-results__options')]/li[normalize-space(text())='${value}']`).click();
   }
 }
 
