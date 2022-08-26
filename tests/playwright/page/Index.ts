@@ -26,10 +26,6 @@ export default class Index {
     await expect(this.page.locator('input[name="selection[]"]')).toHaveCount(count);
   }
 
-  async hasTitle(title: string) {
-    await expect(this.page).toHaveTitle(title);
-  }
-
   async chooseNumberRowOnTable(number: number) {
     await this.page.locator('input[name="selection[]"]').nth(number - 1).highlight();
     await this.page.locator('input[name="selection[]"]').nth(number - 1).click();
