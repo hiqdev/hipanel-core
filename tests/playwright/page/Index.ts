@@ -32,9 +32,8 @@ export default class Index {
   }
 
   async chooseRangeOfRowsOnTable(start: number, end: number) {
-    for (let i = start - 1; i < end; i++) {
-      await this.page.locator('input[name="selection[]"]').nth(i).highlight();
-      await this.page.locator('input[name="selection[]"]').nth(i).click();
+    for (let i = start; i <= end; i++) {
+      await this.chooseNumberRowOnTable(i);
     }
   }
 
@@ -46,5 +45,27 @@ export default class Index {
     await this.page.locator(`fieldset button:has-text("${buttonName}")`).click();
     await this.page.locator(`fieldset a:has-text("${selectName}")`).highlight();
     await this.page.locator(`fieldset a:has-text("${selectName}")`).click();
+  }
+
+  async clickColumnOnTable(columnName: string, row: number) {
+    const allColumns = await this.page.locator('//th[not(./input)]').allInnerTexts();
+    const column = this.getColumnNumber(allColumns, columnName);
+
+    await this.page.locator(`//tr[${row}]//td[${column}]//a`).click();
+    await this.page.locator('text=Tariff information').waitFor();
+  }
+
+  private getColumnNumber(columns: Array<string>, columnName: string){
+    let columnNumber = 0;
+    columns.forEach((column, index) => {
+      if (columnName === column) {
+        columnNumber = index + 2;
+      }
+    });
+    if (columnNumber === 0) {
+      expect(false, `column by name "${columnName}" does not exist`).toBeTruthy();
+    }
+    
+    return columnNumber;
   }
 }
