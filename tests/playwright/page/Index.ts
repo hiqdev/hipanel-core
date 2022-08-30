@@ -48,11 +48,13 @@ export default class Index {
   }
 
   async clickColumnOnTable(columnName: string, row: number) {
-    const allColumns = await this.page.locator('//th[not(./input)]').allInnerTexts();
-    const column = this.getColumnNumber(allColumns, columnName);
-
+    const column = await this.getColumnNumberByName(columnName);
     await this.page.locator(`//tr[${row}]//td[${column}]//a`).click();
-    await this.page.locator('text=Tariff information').waitFor();
+  }
+
+  async getColumnNumberByName(columnName: string) {
+    const allColumns = await this.page.locator('//th[not(./input)]').allInnerTexts();
+    return this.getColumnNumber(allColumns, columnName);
   }
 
   private getColumnNumber(columns: Array<string>, columnName: string){
@@ -67,5 +69,26 @@ export default class Index {
     }
     
     return columnNumber;
+  }
+
+  private getRowNumber(rows: Array<string>, value: string) {
+    let rowNumber = 0;
+    rows.forEach((rowValue, index) => {
+      if (rowValue === value) {
+        rowNumber = index + 1;
+      }
+    });
+    if (rowNumber === 0) {
+      expect(false, `column by name "${value}" does not exist`).toBeTruthy();
+    }
+
+    return rowNumber;
+  }
+
+  async getRowNumberInColumnByValue(columnName: string, value: string) {
+    const column = await this.getColumnNumberByName(columnName);
+    const allRows = await this.page.locator(`//section[@class='content container-fluid']//tbody//td[${column}]`).allInnerTexts();
+
+    return this.getRowNumber(allRows, value);
   }
 }
