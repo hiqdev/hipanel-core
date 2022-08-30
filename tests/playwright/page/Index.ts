@@ -52,7 +52,6 @@ export default class Index {
     const column = this.getColumnNumber(allColumns, columnName);
 
     await this.page.locator(`//tr[${row}]//td[${column}]//a`).click();
-    await this.page.locator('text=Tariff information').waitFor();
   }
 
   private getColumnNumber(columns: Array<string>, columnName: string){
