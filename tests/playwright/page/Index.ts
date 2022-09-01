@@ -91,4 +91,10 @@ export default class Index {
 
     return this.getRowNumber(allRows, value);
   }
+
+  async getValueInColumnByNumberRow(columnName: string, numberRow: number) {
+    const column = await this.getColumnNumberByName(columnName);
+    let value = await this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${numberRow}]//td[${column}]`).innerText();
+    return value.trim();
+  }
 }
