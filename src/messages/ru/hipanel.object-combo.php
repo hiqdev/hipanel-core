@@ -31,4 +31,5 @@ return [
     'Videocdn' => 'VideoCDN',
     'Volume' => 'Раздел',
     'Vps' => 'VPS',
+    'Ip Aggregate' => 'IP aгрегат',
 ];
