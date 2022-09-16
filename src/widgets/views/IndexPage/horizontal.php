@@ -1,5 +1,5 @@
 <?php
-
+/** @var \hipanel\widgets\IndexPage $widget */
 $widget = $this->context;
 
 ?>
