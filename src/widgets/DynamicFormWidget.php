@@ -19,6 +19,7 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
      */
     public function registerAssets($view)
     {
+
         parent::registerAssets($view);
         // ObjectSelector fix, rebind events
         $view->registerJs(<<<JS
@@ -154,6 +155,49 @@ JS
                     });
                 }
             });
+JS
+        );
+        // For copy the selected object from the latest detalization
+
+        $view->registerJs(<<<JS
+            $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
+                var objectSelectorInputs = $(this).find('[data-object-selector-field]');
+                var lengthObjects = objectSelectorInputs.length;
+                objectSelectorInputs.each(function(i, elem) {
+                    var objectInputId = $(elem).attr('id');
+                    var changerInputId = $(elem).prev('select').attr('id');
+                    
+                    if (!objectInputId || objectInputId.includes('billform')) {
+                        return ;
+                    }
+                    initObjectSelectorChanger(changerInputId, objectInputId);
+                    
+                    var objectNumber = getBillAndChargeNumber(objectInputId);
+                    var objectType = null;
+                    var objectValue = null;
+                    if (lengthObjects === 1) {
+                        var objectType = $('#billform-' + objectNumber.billNumber + '-class').val();
+                        var objectValue = $('#billform-' + objectNumber.billNumber + '-object_id').val();
+                        var objectTitle = $('#billform-' + objectNumber.billNumber + '-object_id option:selected').text();
+                    } else if (lengthObjects === (i + 1)) {
+                        var objectType = $('#charge-' + objectNumber.billNumber + '-' + i + '-class').val();
+                        var objectValue = $('#charge-' + objectNumber.billNumber + '-' + i + '-object_id').val();
+                        var objectTitle = $('#charge-' + objectNumber.billNumber + '-' + i + '-object_id option:selected').text();
+                    }
+                    
+                    if (objectType && objectValue) {
+                        $('#' + changerInputId).val(objectType).change();
+                        setTimeout(() => {
+                            $('#' + objectInputId).append(new Option(objectTitle, objectValue)).change();
+                        }, 0)
+                    }
+                });
+            });
+            function getBillAndChargeNumber(objectInputId) {
+                var splitInput = objectInputId.split('-');
+                
+                return {'billNumber': splitInput[1], 'chargeNumber': splitInput[2]};
+            }
 JS
         );
     }
