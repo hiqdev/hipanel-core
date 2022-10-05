@@ -25,6 +25,7 @@ use hipanel\modules\finance\widgets\combo\target\VideoCDNCombo;
 use hipanel\modules\finance\widgets\combo\target\VolumeCombo;
 use hipanel\modules\finance\widgets\combo\target\VPSCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
+use hipanel\modules\ipam\widgets\combo\AggregateCombo;
 use hipanel\modules\server\widgets\combo\NetCombo;
 use hipanel\modules\server\widgets\combo\RackCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
@@ -88,6 +89,7 @@ class ObjectCombo extends InputWidget
         'videocdn' => ['alias' => '@finance', 'combo' => VideoCDNCombo::class],
         'volume' => ['alias' => '@finance', 'combo' => VolumeCombo::class],
         'vps' => ['alias' => '@finance', 'combo' => VPSCombo::class],
+        'ip_aggregate' => ['alias' => '@aggregate', 'combo' => AggregateCombo::class],
     ];
 
     /**
