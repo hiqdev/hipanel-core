@@ -166,7 +166,9 @@ class InternalObjectCombo extends Combo
                         } 
                     },
                     deleteItem: function (widgetOptions, e, elem) {
-                        widgetOptions.min -= 1;
+                        if (widgetOptions.widgetContainer === 'charges_dynamicform_wrapper' && widgetOptions.min > 0) {
+                            widgetOptions.min -= 1;
+                        }
                         originalDynamicForm('deleteItem', widgetOptions, e, elem);
                     }
                 };
