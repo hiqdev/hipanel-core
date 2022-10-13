@@ -149,12 +149,40 @@ JS
                         return $(this).find('.show-password').length > 0;
                     }).each(function() {
                         if ($.isFunction($.fn.passwordInput)) {
-                            $(this).passwordInput(); 
+                            $(this).passwordInput();
                         }
                     });
                 }
             });
 JS
+        );
+        // For VueTreeselect
+        $view->registerJs(
+            sprintf(/** @lang JavaScript */ "
+              (() => {
+                const treeSelectHandler = function (e, item) {
+                  const treeSelectInputs = $(item).find('treeselect');
+                  if (treeSelectInputs.length > 0 && typeof window.Vue !== 'undefined') {
+                    treeSelectInputs.each(function () {
+                      const container = $(this).parents('div').eq(0);
+                      const input = container.find('input[type=hidden]');
+                      new Vue({
+                        el: container.get(0),
+                        data: {
+                          value: input.data('value'),
+                          options: input.data('options')
+                        }
+                      });
+                    });
+                  }
+                };
+                const containerSelector = $('.%s');
+                containerSelector.on('afterInsert', treeSelectHandler);
+                containerSelector.parents('div[class*=_dynamicform_wrapper]').on('afterInsert', function (e, item) {
+                  $(item).find('div[class*=_dynamicform_wrapper]').on('afterInsert', treeSelectHandler);
+                });
+              })();
+            ", $this->widgetContainer)
         );
     }
 }

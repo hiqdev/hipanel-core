@@ -178,7 +178,6 @@ JS
         $this->view->registerJs(<<<JS
             function initObjectSelectorChanger(changerInputId, objectInputId) {
                 $('#' + changerInputId).change(function(e) {
-                    console.log(e.target.value);
                     var regexID = /^(.+?)([-\d-]{1,})(.+)$/i;
                     var matches = objectInputId.match(regexID);
                     var combo = $('#' + objectInputId).closest('form').combo();
