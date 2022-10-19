@@ -14,6 +14,21 @@ use Yii;
 
 class Response extends \yii\web\Response
 {
+    public function sendContent()
+    {
+        if ($this->stream === null
+            && $this->format === self::FORMAT_HTML
+            && !$this->headers->has('Content-Length')
+        ) {
+            if (preg_match('/{lang:([^}<>]*)}/i', $this->content)) {
+                Yii::warning('Deprecated {lang:} tag used in ' . Yii::$app->controller->route);
+                $this->content = Yii::$app->getI18n()->removeLegacyLangTags($this->content);
+            }
+        }
+
+        parent::sendContent();
+    }
+
     public function refresh($anchor = '')
     {
         $request = Yii::$app->request;
