@@ -21,6 +21,9 @@ return [
         'themeManager' => 'themeManager',
         'language' => 'language',
     ]),
+    'aliases' => [
+        '@ref' => '/ref',
+    ],
     'components' => [
         'request' => [
             'enableCsrfCookie' => false,
