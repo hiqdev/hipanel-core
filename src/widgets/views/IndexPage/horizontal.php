@@ -8,6 +8,7 @@ $widget = $this->context;
         <div class="col-md-2">
             <div class="content-sidebar">
                 <div class="content-sidebar__inner clearfix">
+                    <?= $widget->renderExportProgress() ?>
                     <?= $widget->renderContent('main-actions') ?>
                     <div class="box box-solid">
                         <div class="box-header with-border">
