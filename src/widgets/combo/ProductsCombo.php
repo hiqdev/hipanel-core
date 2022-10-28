@@ -27,6 +27,7 @@ class ProductsCombo extends Combo
     {
         return ArrayHelper::merge(parent::getFilter(), [
             'gtype'  => ['format' => 'type,costprice_fraction'],
+            'select' => ['format' => 'full'],
         ]);
     }
 }
