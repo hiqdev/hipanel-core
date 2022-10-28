@@ -18,7 +18,7 @@ services:
       - "VIRTUAL_HOST=${HOSTS}"
       - "LETSENCRYPT_HOST=${HOSTS}"
       - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
-      - "LETSENCRYPT_SINGLE_DOMAIN_CERTS=${LETSENCRYPT_SINGLE_DOMAIN_CERTS}"
+      - "LETSENCRYPT_SINGLE_DOMAIN_CERTS=${LETSENCRYPT_SINGLE_DOMAIN_CERTS:-false}"
 
   memcached:
     image: memcached
