@@ -22,7 +22,6 @@ class Response extends \yii\web\Response
         ) {
             if (preg_match('/{lang:([^}<>]*)}/i', $this->content)) {
                 Yii::warning('Deprecated {lang:} tag used in ' . Yii::$app->controller->route);
-                $this->content = Yii::$app->getI18n()->removeLegacyLangTags($this->content);
             }
         }
 
