@@ -21,7 +21,7 @@ return [
     'Model Group' => 'Группа моделей',
     'Switch' => 'Свитч',
     'Rack' => 'Стойка',
-    'Data Center' => 'Дата центр',
+    'Location' => 'Локация',
     'Anycastcdn' => 'Anycast CDN',
     'Backup' => 'Бэкап',
     'Private Cloud' => 'Личное облако',

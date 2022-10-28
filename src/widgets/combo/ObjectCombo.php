@@ -79,7 +79,7 @@ class ObjectCombo extends InputWidget
         'model_group' => ['alias' => '@model-group', 'combo' => ModelGroupCombo::class],
         'switch' => ['alias' => '@hub', 'combo' => NetCombo::class],
         'rack' => ['alias' => '@hub', 'combo' => RackCombo::class],
-        'data_center' => ['alias' => '@hub', 'combo' => LocationCombo::class],
+        'location' => ['alias' => '@hub', 'combo' => LocationCombo::class],
         'anycastcdn' => ['alias' => '@finance', 'combo' => AnycastCDNCombo::class],
         'backup' => ['alias' => '@finance', 'combo' => BackupCombo::class],
         'private_cloud' => ['alias' => '@finance', 'combo' => PrivateCloudCombo::class],
