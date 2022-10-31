@@ -90,6 +90,7 @@ class ObjectCombo extends InputWidget
         'volume' => ['alias' => '@finance', 'combo' => VolumeCombo::class],
         'vps' => ['alias' => '@finance', 'combo' => VPSCombo::class],
         'ip_aggregate' => ['alias' => '@aggregate', 'combo' => AggregateCombo::class],
+        'products' => ['alias' => '@ref', 'combo' => ProductsCombo::class],
     ];
 
     /**

@@ -32,4 +32,5 @@ return [
     'Volume' => 'Раздел',
     'Vps' => 'VPS',
     'Ip Aggregate' => 'IP aгрегат',
+    'Products' => 'Продукты'
 ];

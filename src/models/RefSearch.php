@@ -19,6 +19,7 @@ class RefSearch extends Ref
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
             'gtype',
+            'select',
         ]);
     }
 
