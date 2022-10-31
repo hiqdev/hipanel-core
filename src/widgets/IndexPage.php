@@ -16,6 +16,7 @@ use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
+use hiqdev\yii2\export\widgets\ExportProgress;
 use hiqdev\yii2\export\widgets\IndexPageExportLinks;
 use Yii;
 use yii\base\InvalidParamException;
@@ -356,16 +357,27 @@ JS
         ], $options));
     }
 
-    public function renderExport()
+    public function canShowExport(): bool
     {
         $isGridExportActionExists = (bool) Yii::$app->controller->createAction('export');
         /** @var RepresentationCollectionFinder $repColFinder */
         $repColFinder = Yii::createObject(RepresentationCollectionFinder::class);
         $collection = $repColFinder->findOrFallback();
-        $isRepresentationExists = count($collection->getAll()) > 0;
-        if ($isGridExportActionExists && $isRepresentationExists) {
+        $isRepresentationExists = count($collection?->getAll()) > 0;
+
+        return $isGridExportActionExists && $isRepresentationExists;
+    }
+
+    public function renderExport()
+    {
+        if ($this->canShowExport()) {
             return IndexPageExportLinks::widget();
         }
+    }
+
+    public function renderExportProgress(): string
+    {
+        return $this->canShowExport() ? ExportProgress::widget() : '';
     }
 
     public function getViewPath()

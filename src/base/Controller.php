@@ -10,12 +10,15 @@
 
 namespace hipanel\base;
 
-use hipanel\actions\ExportAction;
 use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\hiart\ActiveRecord;
+use hiqdev\yii2\export\actions\BackgroundExportAction;
+use hiqdev\yii2\export\actions\BackgroundProgressAction;
+use hiqdev\yii2\export\actions\DownloadExportAction;
+use hiqdev\yii2\export\actions\ExportAction;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\Inflector;
@@ -58,6 +61,15 @@ class Controller extends \yii\web\Controller
         return [
             'export' => [
                 'class' => ExportAction::class,
+            ],
+            'background-export' => [
+                'class' => BackgroundExportAction::class,
+            ],
+            'progress-export' => [
+                'class' => BackgroundProgressAction::class,
+            ],
+            'download-export' => [
+                'class' => DownloadExportAction::class,
             ],
         ];
     }
