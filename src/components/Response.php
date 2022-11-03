@@ -20,7 +20,8 @@ class Response extends \yii\web\Response
             && $this->format === self::FORMAT_HTML
             && !$this->headers->has('Content-Length')
         ) {
-            if (preg_match('/{lang:([^}<>]*)}/i', $this->content)) {
+            $content = $this->content ?? '';
+            if (preg_match('/{lang:([^}<>]*)}/i', $content)) {
                 Yii::warning('Deprecated {lang:} tag used in ' . Yii::$app->controller->route);
             }
         }
