@@ -144,7 +144,7 @@ return [
         'singletons' => [
             \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class,
             \yii\web\Session::class => function () {
-                return new \yii\web\Session();
+                return Yii::$app->getSession();
             },
             \yii\web\User::class => function () {
                 return Yii::$app->getUser();
