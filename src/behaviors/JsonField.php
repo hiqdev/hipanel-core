@@ -36,7 +36,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @param string|array $value
      */
-    public function set($value)
+    public function set($value): void
     {
         if ($value === null || $value === '') {
             $value = [];
@@ -55,7 +55,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function fields()
+    public function fields(): array
     {
         $fields = array_keys($this->value);
 
@@ -65,7 +65,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function extraFields()
+    public function extraFields(): array
     {
         return [];
     }
@@ -73,7 +73,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function toArray(array $fields = [], array $expand = [], $recursive = true)
+    public function toArray(array $fields = [], array $expand = [], $recursive = true): mixed
     {
         return empty($fields) ? $this->value : array_intersect_key($this->value, array_flip($fields));
     }
@@ -81,7 +81,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return !$this->value;
     }
@@ -89,7 +89,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->value[$offset]);
     }
@@ -97,7 +97,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function &offsetGet($offset)
+    public function &offsetGet($offset): mixed
     {
         $null = null;
         if (isset($this->value[$offset])) {
@@ -110,7 +110,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
             $this->value[] = $value;
@@ -122,7 +122,7 @@ class JsonField implements \ArrayAccess, Arrayable, \IteratorAggregate
     /**
      * @inheritdoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->value[$offset]);
     }
