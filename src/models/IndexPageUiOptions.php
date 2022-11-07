@@ -27,7 +27,7 @@ class IndexPageUiOptions extends Model
 
     public $representation;
 
-    public $availableRepresentations = [];
+    public array $availableRepresentations = [];
 
     public function fields()
     {
@@ -47,9 +47,11 @@ class IndexPageUiOptions extends Model
             ['orientation', 'in', 'range' => array_keys($this->getOrientationOptions())],
 
             ['representation', 'default', 'value' => null],
-            ['representation', function ($attribute, $params, $validator) {
-                if (!empty($this->availableRepresentations) && in_array($this->{$attribute}, $this->availableRepresentations, true)) {
-                    $this->addError($attribute, 'The token must contain letters or digits.');
+            ['representation', function ($attribute) {
+                $representationsAreNotEmpty = !empty($this->availableRepresentations);
+                $representationIsNotExists = !array_key_exists($this->{$attribute}, $this->availableRepresentations);
+                if ($representationsAreNotEmpty && $representationIsNotExists) {
+                    $this->addError($attribute, 'This view is not available.');
                 }
             }],
         ];
