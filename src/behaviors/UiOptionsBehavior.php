@@ -23,7 +23,7 @@ class UiOptionsBehavior extends Behavior
     /**
      * @var array
      */
-    public $allowedRoutes = ['index', 'export'];
+    public array $allowedRoutes = ['index', 'export', 'background-export'];
 
     /**
      * @var mixed
@@ -113,9 +113,9 @@ class UiOptionsBehavior extends Behavior
      */
     protected function getRoute()
     {
-        $request = Yii::$app->request;
-        if ($this->isRouteAllowed() && $request->get('route', false)) {
-            return Html::encode($request->get('route'));
+        $request = $this->owner->request;
+        if ($this->isRouteAllowed() && ($route = $request->get('route', false))) {
+            return Html::encode($route);
         }
 
         return Yii::$app->request->pathInfo;
