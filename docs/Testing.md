@@ -69,6 +69,18 @@ or run a specific test
 npm run test vendor/hiqdev/hipanel-module-document/tests/playwright/e2e/manager/document.spec.ts # run a specific test
 ```
 
+or running codegen
+
+```shell
+npx codegen http://local.hipanel.advancedhosting.com
+```
+
+or run tests with debug
+
+```shell
+PWDEBUG=1 npm run test vendor/hiqdev/hipanel-module-document/tests/playwright/e2e/manager/document.spec.ts # run a specific test
+```
+
 In order to add new module for testing you should add module folder name to `playwright.config.ts`
 
 ```javascript

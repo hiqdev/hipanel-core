@@ -13,7 +13,7 @@ export type Credential = {
 }
 
 export async function login(page: Page, credential: Credential) {
-  await page.goto("/site/login");
+  await page.goto(`${process.env.URL}/site/login`);
   await page.fill("#loginform-username", credential.login);
   await page.fill("#loginform-password", credential.password);
   await page.click("#login-form button[type=submit]");

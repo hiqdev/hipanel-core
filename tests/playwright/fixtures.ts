@@ -1,107 +1,55 @@
-import { test as base, type Page, type BrowserContext } from "@playwright/test";
-import { login, type Credentials } from "@hipanel-core/common/auth";
+import { type Page, test as base, type TestInfo } from "@playwright/test";
+import * as path from "path";
+import * as fs from "fs";
+import { login } from "@hipanel-core/common/auth";
 
+const testClients = {
+  client: { login: "hipanel_test_user", password: "random" },
+  admin: { login: "hipanel_test_admin", password: "random" },
+  manager: { login: "hipanel_test_manager", password: "random" },
+  seller: { login: "hipanel_test_reseller", password: "random" },
+};
+
+export { expect } from "@playwright/test";
 export const test = base.extend<{
-  clientContext: BrowserContext, clientPage: Page,
-  adminContext: BrowserContext, adminPage: Page,
-  managerContext: BrowserContext, managerPage: Page,
-  sellerContext: BrowserContext, sellerPage: Page,
-}, {
-  clientState: any,
-  adminState: any,
-  managerState: any,
-  sellerState: any,
-} & Credentials>({
-  client: [{ login: "", password: "" }, { scope: "worker", option: true }],
-  admin: [{ login: "", password: "" }, { scope: "worker", option: true }],
-  manager: [{ login: "", password: "" }, { scope: "worker", option: true }],
-  seller: [{ login: "", password: "" }, { scope: "worker", option: true }],
-  // Client
-  clientState: [async ({ browser, client }, use) => {
-    const page = await browser.newPage();
-    await login(page, client);
-
-    const cookies = await page.context().cookies();
-    const state = { cookies };
-
-    use(state);
-
-  }, { scope: "worker" }],
-  clientContext: async ({ context, clientState }, use) => {
-    const { cookies } = clientState;
-    await context.addCookies(cookies);
-
-    use(context);
+  clientPage: Page,
+  adminPage: Page,
+  managerPage: Page,
+  sellerPage: Page,
+}>({
+  storageState: async ({ browser }, use, testInfo: TestInfo) => {
+    let actor;
+    const testTitle = testInfo.title;
+    ["seller", "manager", "client", "admin"].forEach((role: string) => {
+      if (testTitle.includes(`@${role}`)) {
+        actor = role;
+        return;
+      }
+    });
+    if (!actor) {
+      throw new Error("Test role is not found, the role tag must be present in the test title, for example: @seller, @manager, @client, @admin");
+    }
+    // const fileName = path.join(testInfo.project.outputDir, `auth-storage-${actor}`);
+    const fileName = path.join(process.cwd(), 'tests/_data', `auth-storage-${actor}`);
+    if (!fs.existsSync(fileName)) {
+      const page = await browser.newPage({ storageState: undefined });
+      await login(page, testClients[actor]);
+      await page.context().storageState({ path: fileName });
+      await page.close();
+    }
+    await use(fileName);
   },
-  clientPage: async ({ clientContext }, use) => {
-    const page = await clientContext.newPage();
-
-    use(page);
+  // TODO: legacy auth flow compatibility, remove after refactoring from older implementation
+  sellerPage: async ({ page }, use) => {
+    await use(page);
   },
-  // Admin
-  adminState: [async ({ browser, admin }, use) => {
-    const page = await browser.newPage();
-    await login(page, admin);
-
-    const cookies = await page.context().cookies();
-    const state = { cookies };
-
-    use(state);
-
-  }, { scope: "worker" }],
-  adminContext: async ({ context, adminState }, use) => {
-    const { cookies } = adminState;
-    await context.addCookies(cookies);
-
-    use(context);
+  managerPage: async ({ page }, use) => {
+    await use(page);
   },
-  adminPage: async ({ adminContext }, use) => {
-    const page = await adminContext.newPage();
-
-    use(page);
+  adminPage: async ({ page }, use) => {
+    await use(page);
   },
-  // Manager
-  managerState: [async ({ browser, manager }, use) => {
-    const page = await browser.newPage();
-    await login(page, manager);
-
-    const cookies = await page.context().cookies();
-    const state = { cookies };
-
-    use(state);
-
-  }, { scope: "worker" }],
-  managerContext: async ({ context, managerState }, use) => {
-    const { cookies } = managerState;
-    await context.addCookies(cookies);
-
-    use(context);
-  },
-  managerPage: async ({ managerContext }, use) => {
-    const page = await managerContext.newPage();
-
-    use(page);
-  },
-  // Seller
-  sellerState: [async ({ browser, seller }, use) => {
-    const page = await browser.newPage();
-    await login(page, seller);
-
-    const cookies = await page.context().cookies();
-    const state = { cookies };
-
-    use(state);
-
-  }, { scope: "worker" }],
-  sellerContext: async ({ context, sellerState }, use) => {
-    const { cookies } = sellerState;
-    await context.addCookies(cookies);
-
-    use(context);
-  },
-  sellerPage: async ({ sellerContext }, use) => {
-    const page = await sellerContext.newPage();
-
-    use(page);
+  clientPage: async ({ page }, use) => {
+    await use(page);
   },
 });
