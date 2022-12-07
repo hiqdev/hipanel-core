@@ -1,7 +1,7 @@
-import { type Page, test as base, type TestInfo } from "@playwright/test";
+import { type Browser, type Page, test as base, type TestInfo } from "@playwright/test";
+import { login } from "@hipanel-core/common/auth";
 import * as path from "path";
 import * as fs from "fs";
-import { login } from "@hipanel-core/common/auth";
 
 const testClients = {
   client: { login: "hipanel_test_user", password: "random" },
@@ -10,7 +10,13 @@ const testClients = {
   seller: { login: "hipanel_test_reseller", password: "random" },
 };
 
-export { expect } from "@playwright/test";
+const doLogin = async (fileName: string, actor: string, browser: Browser) => {
+  const page = await browser.newPage({ storageState: undefined });
+  await login(page, testClients[actor]);
+  await page.context().storageState({ path: fileName });
+  await page.close();
+};
+
 export const test = base.extend<{
   clientPage: Page,
   adminPage: Page,
@@ -21,21 +27,22 @@ export const test = base.extend<{
     let actor;
     const testTitle = testInfo.title;
     ["seller", "manager", "client", "admin"].forEach((role: string) => {
-      if (testTitle.includes(`@${role}`)) {
+      if (!actor && testTitle.includes(`@${role}`)) {
         actor = role;
-        return;
       }
     });
     if (!actor) {
       throw new Error("Test role is not found, the role tag must be present in the test title, for example: @seller, @manager, @client, @admin");
     }
-    // const fileName = path.join(testInfo.project.outputDir, `auth-storage-${actor}`);
-    const fileName = path.join(process.cwd(), 'tests/_data', `auth-storage-${actor}`);
+    const fileName = path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
     if (!fs.existsSync(fileName)) {
-      const page = await browser.newPage({ storageState: undefined });
-      await login(page, testClients[actor]);
-      await page.context().storageState({ path: fileName });
-      await page.close();
+      await doLogin(fileName, actor, browser);
+    } else {
+      const { mtime } = fs.statSync(fileName);
+      const timeWhenWeShouldReplaceTheOldOne = new Date(mtime).getTime() + 86400000; // 24 hours in milliseconds
+      if (new Date().getTime() > timeWhenWeShouldReplaceTheOldOne) {
+        await doLogin(fileName, actor, browser);
+      }
     }
     await use(fileName);
   },
@@ -53,3 +60,5 @@ export const test = base.extend<{
     await use(page);
   },
 });
+
+export { expect } from "@playwright/test";
