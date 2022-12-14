@@ -171,6 +171,15 @@ JS
                         data: {
                           value: input.data('value'),
                           options: input.data('options')
+                        },
+                        methods: {
+                          typeChange: function (node) {
+                            this.value = typeof node === 'undefined' ? null : node.id;
+                            this.\$nextTick(function () {
+                              const el = this.\$el.querySelector('input:not(.vue-treeselect__input)');
+                              $(el).trigger('change');
+                            });
+                          }
                         }
                       });
                     });
