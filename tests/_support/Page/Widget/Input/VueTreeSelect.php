@@ -28,6 +28,7 @@ class VueTreeSelect extends TestableInput
 
     private function selectOption(string $value): void
     {
+        $this->tester->waitForElement($this->selector);
         $this->tester->click($this->selector);
         $this->tester->fillField($this->selector, $value);
         $this->tester->click("//*[@class='vue-treeselect__label'][text()='$value']");
