@@ -35,6 +35,7 @@ use hipanel\tests\_support\AcceptanceTester;
  */
 abstract class TestableInput
 {
+    /** @var AcceptanceTester */
     protected $tester;
 
     /**
@@ -84,7 +85,7 @@ abstract class TestableInput
 
     /**
      * @param AcceptanceTester $tester
-     * @param $columnName
+     * @param string $columnName
      * @return TestableInput
      */
     public static function asTableFilter(AcceptanceTester $tester, string $columnName): TestableInput
