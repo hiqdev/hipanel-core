@@ -79,7 +79,6 @@ class Grid
      */
     public function filterBy(TestableInput $inputElement, string $value): void
     {
-        $this->tester->waitForPageUpdate();
         $inputElement->setValue($value);
         if ($inputElement instanceof Input) {
             $this->tester->pressKey($inputElement->getSelector(), WebDriverKeys::ENTER);
