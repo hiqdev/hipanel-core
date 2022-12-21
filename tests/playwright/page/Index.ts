@@ -1,13 +1,15 @@
 import { expect, Page } from "@playwright/test";
+import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
 
 export default class Index {
+  public advancedSearch: AdvancedSearch;
+
   constructor(private page: Page) {
+    this.advancedSearch = new AdvancedSearch(page);
   }
 
   async hasAdvancedSearchInputs(names: Array<string>) {
-    for (const name of names) {
-      await expect(this.page.locator(`div.advanced-search *[name='${name}']`)).toBeVisible();
-    }
+    await this.advancedSearch.hasInputsByNames(names);
   }
 
   async hasBulkButtons(names: Array<string>) {
@@ -23,12 +25,12 @@ export default class Index {
   }
 
   async hasRowsOnTable(count: number) {
-    await expect(this.page.locator('input[name="selection[]"]')).toHaveCount(count);
+    await expect(this.page.locator("input[name=\"selection[]\"]")).toHaveCount(count);
   }
 
   async chooseNumberRowOnTable(number: number) {
-    await this.page.locator('input[name="selection[]"]').nth(number - 1).highlight();
-    await this.page.locator('input[name="selection[]"]').nth(number - 1).click();
+    await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).highlight();
+    await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).click();
   }
 
   async chooseRangeOfRowsOnTable(start: number, end: number) {
@@ -53,11 +55,11 @@ export default class Index {
   }
 
   async getColumnNumberByName(columnName: string) {
-    const allColumns = await this.page.locator('//th[not(./input)]').allInnerTexts();
+    const allColumns = await this.page.locator("//th[not(./input)]").allInnerTexts();
     return this.getColumnNumber(allColumns, columnName);
   }
 
-  private getColumnNumber(columns: Array<string>, columnName: string){
+  private getColumnNumber(columns: Array<string>, columnName: string) {
     let columnNumber = 0;
     columns.forEach((column, index) => {
       if (columnName === column) {
@@ -67,7 +69,7 @@ export default class Index {
     if (columnNumber === 0) {
       expect(false, `column by name "${columnName}" does not exist`).toBeTruthy();
     }
-    
+
     return columnNumber;
   }
 
@@ -100,8 +102,8 @@ export default class Index {
   }
 
   async getAuthenticatedUserId() {
-    await this.page.goto('/site/healthcheck');
+    await this.page.goto("/site/healthcheck");
 
-    return await this.page.locator('userid').innerText();
+    return await this.page.locator("userid").innerText();
   }
 }

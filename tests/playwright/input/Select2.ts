@@ -13,6 +13,13 @@ export default class Select2 {
     return new Select2(page, fieldId);
   }
 
+  static fieldByName(page: Page, fieldName: string): Select2 {
+    const select2 = new Select2(page, '');
+    select2.combobox = page.locator(`[name="${fieldName}"] + .select2-container [role=combobox]`);
+
+    return select2;
+  }
+
   static filterBy(page: Page, columnName: string) {
     const subId = columnName.toLowerCase().substring(0, 5);
     return this.field(page, `tr.filters select[id*=${subId}]`);
