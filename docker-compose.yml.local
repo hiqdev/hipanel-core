@@ -37,7 +37,7 @@ services:
     command: '-m 128'
 
   php-fpm:
-    image: hiqdev/php:8.1-fpm-alpine
+    image: hiqdev/php:8.2-fpm-alpine
     volumes:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
