@@ -216,7 +216,14 @@ JS
             .horizontal-view .content-sidebar__inner > .btn,
             .horizontal-view .content-sidebar__inner .dropdown > .btn {
                 display: block;
-                margin-bottom: 10px;
+                margin-bottom: 1em;
+            }
+            .horizontal-view .content-sidebar__inner .btn-group {
+                display: flex;
+                margin-bottom: 1em;
+            }
+            .horizontal-view .content-sidebar__inner .btn-group > a.btn {
+                width: 100%;
             }
 CSS
         );
