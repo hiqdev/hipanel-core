@@ -81,7 +81,10 @@ class SmartUpdateAction extends SwitchAction
                 throw new BadRequestHttpException('Where condition is empty!');
             }
 
-            $this->dataProvider->query->andFilterWhere($this->findOptions);
+            $this->dataProvider->query
+                ->andFilterWhere($this->findOptions)
+                ->andWhere(['show_deleted' => 1])
+            ;
         }
         $limit = $this->dataProvider->query->limit;
         $this->dataProvider->query->andFilterWhere($this->findOptions)->limit($limit ?? -1);
