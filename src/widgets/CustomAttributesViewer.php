@@ -34,6 +34,7 @@ final class CustomAttributesViewer extends Widget
                 'value' => [
                     'attribute' => 'value',
                     'value' => fn(CustomAttribute $model): string => $model->stringValue(),
+                    'format' => 'raw',
                 ]
             ],
         ]);
