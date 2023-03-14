@@ -6,6 +6,7 @@ namespace hipanel\models;
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use Yii;
+use yii\helpers\Html;
 
 /**
  * @property string|null name
@@ -35,14 +36,14 @@ class CustomAttribute extends Model
         }
 
         if (!is_array($this->value)) {
-            return (string)$this->value;
+            return Html::encode($this->value);
         } else if (array_is_list($this->value) && count($this->value) > 0) {
-            return implode('<br>', $this->value);
+            return implode('<br>', array_map([Html::class, 'encode'], $this->value));
         }
 
         $content = '';
         foreach ($this->value as $key => $value) {
-            $content .= $key . ': ' . $value . '<br>';
+            $content .= Html::encode($key) . ': ' . Html::encode($value) . '<br>';
         }
         return $content;
     }
