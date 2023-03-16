@@ -54,7 +54,7 @@ class ValidateFormAction extends Action
 
     public function run()
     {
-        if (Yii::$app->request->isPost) {
+        if ($this->controller->request->isPost || $this->controller->request->isAjax) {
             $this->loadCollection();
 
             return $this->controller->renderJson($this->validateMultiple());
