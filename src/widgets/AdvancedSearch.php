@@ -55,8 +55,10 @@ class AdvancedSearch extends Widget
     /**
      * @var array options passed to ActiveForm
      */
-    public $formOptions = [
-        'data-pjax' => true,
+    public array $formOptions = [
+        'options' => [
+            'data-pjax' => true,
+        ]
     ];
 
     /**
@@ -107,13 +109,12 @@ class AdvancedSearch extends Widget
             'style' => 'margin-bottom: 1rem; margin-top: 1rem; ' . $display_none,
         ], $this->options));
 
-        $this->_form = ActiveForm::begin([
+        $this->_form = ActiveForm::begin(array_merge([
             'id' => 'form-' . $this->getDivId(),
             'action' => $this->action,
             'method' => $this->method,
-            'options' => $this->formOptions,
             'fieldClass' => AdvancedSearchActiveField::class,
-        ]);
+        ], $this->formOptions));
         echo Html::hiddenInput(Html::getInputName($this->model, 'search_form'), 1);
     }
 
@@ -203,5 +204,13 @@ JS
         }
 
         return $this->_view;
+    }
+
+    /**
+     * @return ActiveForm
+     */
+    public function getForm(): ActiveForm
+    {
+        return $this->_form;
     }
 }
