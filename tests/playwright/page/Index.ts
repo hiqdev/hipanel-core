@@ -28,6 +28,11 @@ export default class Index {
     await expect(this.page.locator("input[name=\"selection[]\"]")).toHaveCount(count);
   }
 
+  async seeTextOnTable(columnName: string, row: number, text: string) {
+    const column = await this.getColumnNumberByName(columnName);
+    await expect(this.page.locator(`//tr[${row}]//td[${column}]`)).toHaveText(text);
+  }
+
   async chooseNumberRowOnTable(number: number) {
     await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).highlight();
     await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).click();
@@ -37,6 +42,10 @@ export default class Index {
     for (let i = start; i <= end; i++) {
       await this.chooseNumberRowOnTable(i);
     }
+  }
+
+  async clickButton(name: string) {
+    await this.page.locator(`button:has-text("${name}")`).click();
   }
 
   async clickBulkButton(name: string) {
@@ -52,6 +61,15 @@ export default class Index {
   async clickColumnOnTable(columnName: string, row: number) {
     const column = await this.getColumnNumberByName(columnName);
     await this.page.locator(`//tr[${row}]//td[${column}]//a`).click();
+  }
+
+  async clickLinkOnTable(columnName: string, link: string) {
+    const row = await this.getRowNumberInColumnByValue(columnName, link);
+    await this.clickColumnOnTable(columnName, row);
+  }
+
+  async clickProfileMenuOnViewPage(menuName: string) {
+    await this.page.locator(`a:has-text("${menuName}")`).click();
   }
 
   async getColumnNumberByName(columnName: string) {
@@ -105,5 +123,12 @@ export default class Index {
     await this.page.goto("/site/healthcheck");
 
     return await this.page.locator("userid").innerText();
+  }
+
+  async getParameterFromCurrentUrl(parameterName) {
+    const currentUrl = new URL(await this.page.url());
+    const searchParams = currentUrl.searchParams;
+
+    return searchParams.get(parameterName);
   }
 }

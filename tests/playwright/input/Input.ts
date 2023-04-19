@@ -7,6 +7,10 @@ export default class Input {
     this.inputLocator = page.locator(selector);
   }
 
+  static field(page: Page, selector: string): Input {
+    return new Input(page, selector);
+  }
+
   static filterBy(page: Page, columnName: string): Input {
     const fieldId = columnName.toLowerCase().substring(0, 5);
     return new Input(page, `tr.filters input[name*=${fieldId}]`);
@@ -16,6 +20,10 @@ export default class Input {
     await this.inputLocator.fill(value);
     await this.page.keyboard.press('Enter');
     await this.page.waitForLoadState('networkidle');
+  }
+
+  async fill(value: string) {
+    await this.inputLocator.fill(value);
   }
 }
 
