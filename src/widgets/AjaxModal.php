@@ -141,6 +141,9 @@ class AjaxModal extends \yii\bootstrap\Modal
         if ($this->handleSubmit !== false) {
             $this->registerClientScript();
         }
+        // Select2 does not function properly in some browsers when use it inside a Bootstrap modal
+        // https://select2.org/troubleshooting/common-problems
+        $this->view->registerJs(";(() => $.fn.modal.Constructor.prototype.enforceFocus = function() {})();");
         parent::init();
     }
 
@@ -186,7 +189,7 @@ class AjaxModal extends \yii\bootstrap\Modal
         }
         if (!isset($this->clientEvents['hidden.bs.modal'])) {
             $this->clientEvents['hidden.bs.modal'] = new JsExpression("function() {
-                jQuery('#{$this->id} .modal-body').html({$quotedHtml});
+                jQuery('#$this->id .modal-body').html($quotedHtml);
             }");
         }
     }
