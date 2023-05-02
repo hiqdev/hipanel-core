@@ -97,7 +97,6 @@ return [
             ],
         ],
         'formatter' => [
-            'locale' => 'ru-RU',
             'nullDisplay' => '&nbsp;',
             'sizeFormatBase' => 1000,
         ],
