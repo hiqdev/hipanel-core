@@ -30,7 +30,7 @@ export default class Index {
 
   async seeTextOnTable(columnName: string, row: number, text: string) {
     const column = await this.getColumnNumberByName(columnName);
-    await expect(this.page.locator(`//tr[${row}]//td[${column}]`)).toHaveText(text);
+    await expect(this.page.locator(`//tbody//tr[${row}]//td[${column}]`)).toHaveText(text);
   }
 
   async chooseNumberRowOnTable(number: number) {
