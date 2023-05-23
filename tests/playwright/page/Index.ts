@@ -45,7 +45,7 @@ export default class Index {
   }
 
   async clickButton(name: string) {
-    await this.page.locator(`button:has-text("${name}")`).click();
+    await this.page.locator(`button[type='submit']:has-text("${name}")`).click();
   }
 
   async clickBulkButton(name: string) {
@@ -94,7 +94,7 @@ export default class Index {
   private getRowNumber(rows: Array<string>, value: string) {
     let rowNumber = 0;
     rows.forEach((rowValue, index) => {
-      if (rowValue === value) {
+      if (rowValue.trim() === value) {
         rowNumber = index + 1;
       }
     });
@@ -105,8 +105,9 @@ export default class Index {
     return rowNumber;
   }
 
-  async getRowNumberInColumnByValue(columnName: string, value: string) {
-    const column = await this.getColumnNumberByName(columnName);
+  async getRowNumberInColumnByValue(columnName: string, value: string, withCheckBox: boolean = true) {
+    let column = await this.getColumnNumberByName(columnName);
+    column = withCheckBox ? column : column - 1;
     const allRows = await this.page.locator(`//section[@class='content container-fluid']//tbody//td[${column}]`).allInnerTexts();
 
     return this.getRowNumber(allRows, value);
