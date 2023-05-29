@@ -60,7 +60,7 @@ export default class Index {
 
   async clickColumnOnTable(columnName: string, row: number) {
     const column = await this.getColumnNumberByName(columnName);
-    await this.page.locator(`//tr[${row}]//td[${column}]//a`).click();
+    await this.page.locator(`//tr[${row}]//td[${column}]//a`).first().click();
   }
 
   async clickLinkOnTable(columnName: string, link: string) {
@@ -131,5 +131,11 @@ export default class Index {
     const searchParams = currentUrl.searchParams;
 
     return searchParams.get(parameterName);
+  }
+
+  async checkFieldInTable(columnName, fieldName) {
+    const rowNumber = await this.getRowNumberInColumnByValue(columnName, fieldName);
+    const column = await this.getColumnNumberByName(columnName);
+    expect(await this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${rowNumber}]//td[${column}]`)).toHaveText(fieldName);
   }
 }
