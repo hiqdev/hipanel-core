@@ -26,7 +26,8 @@ use yii\helpers\Url;
  * Class GridView.
  * HiPanel specific GridView.
  */
-class GridView extends \hiqdev\higrid\GridView
+class
+GridView extends \hiqdev\higrid\GridView
 {
     public $sorter = [
         'class' => LinkSorter::class,

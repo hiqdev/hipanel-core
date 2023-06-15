@@ -247,12 +247,8 @@ class User extends Model implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    /**
-     * @param $seller string|integer
-     * @return bool
-     */
-    public function hasSeller($seller)
+    public function hasOwnSeller(string|int $seller): bool
     {
-        return ((string) $seller === (string) $this->seller) || ((int) $seller === (int) $this->seller_id);
+        return ((string)$seller === (string)$this->seller) || ((int)$seller === (int)$this->seller_id);
     }
 }
