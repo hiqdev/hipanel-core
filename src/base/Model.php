@@ -111,7 +111,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
 
     public function getClient()
     {
-        return $this->client;
+        return $this->client ?? null;
     }
 
     public function getClientId()
