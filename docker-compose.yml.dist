@@ -21,7 +21,7 @@ services:
       - "LETSENCRYPT_SINGLE_DOMAIN_CERTS=${LETSENCRYPT_SINGLE_DOMAIN_CERTS:-false}"
 
   memcached:
-    image: memcached
+    image: memcached:1.5
     restart: unless-stopped
     networks:
       - local-network
