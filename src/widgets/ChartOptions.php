@@ -154,10 +154,14 @@ class ChartOptions extends \yii\base\Widget
                 "),
             ],
             'clientOptions' => [
+                'showDropdowns' => true,
+                'minDate' => new JsExpression("moment().year('2007')"),
+                'maxDate' => new JsExpression("moment()"),
                 'ranges' => [
                     Yii::t('hipanel', 'Current Month') => new JsExpression('[moment().startOf("month"), new Date()]'),
                     Yii::t('hipanel', 'Previous Month') => new JsExpression('[moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]'),
                     Yii::t('hipanel', 'Last 3 months') => new JsExpression('[moment().subtract(3, "month").startOf("month"), new Date()]'),
+                    Yii::t('hipanel', 'Last 6 months') => new JsExpression('[moment().subtract(6, "month").startOf("month"), new Date()]'),
                     Yii::t('hipanel', 'Last year') => new JsExpression('[moment().subtract(1, "year").startOf("year"), new Date()]'),
                 ],
             ],
@@ -253,7 +257,7 @@ HTML;
      */
     protected function buildAggregationSelect()
     {
-        return Html::dropDownList('aggregation', 'day', [
+        return Html::dropDownList('aggregation', 'month', [
             'day' => Yii::t('hipanel', 'Daily'),
             'week' => Yii::t('hipanel', 'Weekly'),
             'month' => Yii::t('hipanel', 'Monthly'),
