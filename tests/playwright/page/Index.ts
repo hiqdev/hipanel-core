@@ -63,6 +63,13 @@ export default class Index {
     await this.page.locator(`//tr[${row}]//td[${column}]//a`).first().click();
   }
 
+  async clickColumnOnTableByName(columnName: string, value: string) {
+    await this.page.pause();
+    const column = await this.getColumnNumberByName(columnName);
+    const row = await this.getRowNumberInColumnByValue(columnName, value);
+    await this.page.locator(`//tr[${row}]//td[${column}]//a`).first().click();
+  }
+
   async clickLinkOnTable(columnName: string, link: string) {
     const row = await this.getRowNumberInColumnByValue(columnName, link);
     await this.clickColumnOnTable(columnName, row);
