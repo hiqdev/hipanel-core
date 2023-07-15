@@ -12,7 +12,6 @@ export default class Dropdown {
     }
 
     async setValue(value: string) {
-        console.log(value);
         await this.selector.selectOption(value);
     }
 }
