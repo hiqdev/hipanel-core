@@ -101,6 +101,9 @@ class GridView extends \hiqdev\higrid\GridView
                 'label' => Yii::t('hipanel', 'Block'),
                 'class' => BlockingColumn::class,
             ],
+            'tags' => [
+                'class' => TagsColumn::class,
+            ],
         ]);
     }
 

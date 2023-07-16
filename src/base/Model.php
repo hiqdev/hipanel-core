@@ -70,6 +70,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
             'comment' => Yii::t('hipanel', 'Comment'),
             'created_date' => Yii::t('hipanel', 'Registered'),
             'updated_date' => Yii::t('hipanel', 'Last update'),
+            'tags' => Yii::t('hipanel', 'Tags'),
         ];
     }
 

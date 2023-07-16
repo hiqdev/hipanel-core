@@ -12,9 +12,9 @@ namespace hipanel\grid;
 
 use Closure;
 use hipanel\helpers\ArrayHelper;
+use hipanel\models\TaggableInterface;
 use hipanel\widgets\NoteBlock;
-use hipanel\widgets\XEditable;
-use Yii;
+use hipanel\widgets\TagsManager;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -73,8 +73,21 @@ class MainColumn extends DataColumn
         $note = $this->renderNoteLink($model, $key, $index);
         $extra = $this->renderExtra($model);
         $badges = $this->renderBadges($model, $key, $index);
+        $tags = $this->renderTags($model);
 
-        return $value . $extra . $badges . $note;
+        return $value . $extra . $badges . $note . $tags;
+    }
+
+    protected function renderTags($model): string
+    {
+        if (!$model instanceof TaggableInterface) {
+            return '';
+        }
+        $output = [];
+        $output[] = '<br><br>';
+        $output[] = TagsManager::widget(['model' => $model]);
+
+        return implode(' ', $output);
     }
 
     protected function renderValue($model, $key, $index)
