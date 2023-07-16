@@ -34,7 +34,7 @@ class TagsInput extends VueTreeSelectInput
         ]);
 
         return <<<"HTML"
-            <div id="$this->id" style="margin-bottom: 1em;">
+            <span id="$this->id" style="margin-bottom: 1em;">
                 <treeselect
                   placeholder="{$this->model->getAttributeLabel($this->attribute)}"
                   v-model="value"
@@ -49,7 +49,7 @@ class TagsInput extends VueTreeSelectInput
                     <div slot="value-label" slot-scope="{ node }">{{ node.raw.id }}</div>
                 </treeselect>
                 $activeInput
-            </div>
+            </span>
 HTML;
     }
 
@@ -66,11 +66,13 @@ HTML;
                     data: {
                         value: container.find("input[type=hidden]").data("value"),
                         options: container.find('input[type=hidden]').data('options'),
-                        // options: null,
                     },
                     methods: {
                       saveTags: function () {
-                        $.post("set-tags", {id: '{$this->model->id}', tags: this.value}).done((response) => {
+                        $.post("set-tags", {id: '{$this->model->id}', tags: this.value}).done((rsp) => {
+                          if (rsp.hasError) {
+                            hipanel.notify.error(rsp.data.errorMessage);
+                          }
                         }).fail(function(err) {
                           console.error(err.responseText);
                           hipanel.notify.error("Failed to save tags");
@@ -87,7 +89,11 @@ HTML;
                             query = `?tagLike=\${searchQuery}`;
                           }
                           $.get(`get-tags\${query}`).done((rsp) => {
-                            callback(null, typedValue.concat(rsp.data));
+                            if (rsp.hasError) {
+                              hipanel.notify.error(rsp.data.errorMessage);
+                            } else {
+                              callback(null, typedValue.concat(rsp.data));
+                            }
                           }).fail(function(err) {
                             console.error(err.responseText);
                             hipanel.notify.error("Failed to get tags");

@@ -44,18 +44,12 @@ class TaggableBehavior extends Behavior
         return $tags;
     }
 
-    public function saveTags(string $id, string $tags): bool
+    public function saveTags(string $id, string $tags): void
     {
-        try {
-            $rsp = $this->owner->perform(
-                'set-tags',
-                ['id' => $id, 'tags' => $tags]
-            );
-
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        $this->owner->perform(
+            'set-tags',
+            ['id' => $id, 'tags' => $tags]
+        );
     }
 
     public function fetchTags(?string $tagLike = null): mixed

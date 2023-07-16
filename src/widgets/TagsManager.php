@@ -22,7 +22,7 @@ class TagsManager extends Widget
 
         return <<<"HTML"
             <span id="$this->id">
-                <span class="tags">$tagsWithEditButton</span>
+                <span class="tags" style="line-height: 3">$tagsWithEditButton</span>
                 <span class="tags" style="display: none;">$tagInput</span>
             </span>
 HTML;

@@ -21,7 +21,7 @@ class TagsAction extends Action
             if ($request->isPost) {
                 $entityId = $request->post('id', null);
                 $tags = $request->post('tags', []);
-                $response = $model->saveTags($entityId, implode(",", $tags));
+                $model->saveTags($entityId, implode(",", $tags));
 
                 return $this->makeResponse(true);
             }
