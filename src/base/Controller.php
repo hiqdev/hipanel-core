@@ -10,6 +10,7 @@
 
 namespace hipanel\base;
 
+use hipanel\actions\TagsAction;
 use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
@@ -70,6 +71,12 @@ class Controller extends \yii\web\Controller
             ],
             'download-export' => [
                 'class' => DownloadExportAction::class,
+            ],
+            'set-tags' => [
+                'class' => TagsAction::class
+            ],
+            'get-tags' => [
+                'class' => TagsAction::class
             ],
         ];
     }
