@@ -37,7 +37,7 @@ class TaggableBehavior extends Behavior
 
     public function fetchTags(?string $tagLike = null): mixed
     {
-        return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike]), ['batch' => true]);
+        return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike]));
     }
 
     public function isNotAllowed(): bool
