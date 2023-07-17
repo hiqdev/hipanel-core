@@ -3,13 +3,24 @@ declare(strict_types=1);
 
 namespace hipanel\widgets;
 
+use yii\caching\CacheInterface;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\User;
 
 class TagsInput extends VueTreeSelectInput
 {
     public $name = 'tags';
     public $attribute = 'tags';
+
+    public function __construct(
+        private readonly CacheInterface $cache,
+        private readonly User $user,
+        $config = []
+    )
+    {
+        parent::__construct($config);
+    }
 
     public function run(): string
     {
@@ -32,6 +43,7 @@ class TagsInput extends VueTreeSelectInput
                 'options' => Json::encode($this->buildOptions()),
             ],
         ]);
+        $isAsync = str_contains($this->model->formName(), 'Search') ? 'false' : 'true';
 
         return <<<"HTML"
             <span id="$this->id" style="margin-bottom: 1em;">
@@ -43,7 +55,7 @@ class TagsInput extends VueTreeSelectInput
                   :options="options"
                   :load-options="loadOptions"
                   :multiple="true"
-                  :async="true"
+                  :async="$isAsync"
                   @input="saveTags"
                 >
                     <div slot="value-label" slot-scope="{ node }">{{ node.raw.id }}</div>
@@ -69,14 +81,17 @@ HTML;
                     },
                     methods: {
                       saveTags: function () {
-                        $.post("set-tags", {id: '{$this->model->id}', tags: this.value}).done((rsp) => {
-                          if (rsp.hasError) {
-                            hipanel.notify.error(rsp.data.errorMessage);
-                          }
-                        }).fail(function(err) {
-                          console.error(err.responseText);
-                          hipanel.notify.error("Failed to save tags");
-                        });
+                        const entityId = '{$this->model->id}';
+                        if (entityId.length) {
+                          $.post("set-tags", {id: entityId, tags: this.value}).done((rsp) => {
+                            if (rsp.hasError) {
+                              hipanel.notify.error(rsp.data.errorMessage);
+                            }
+                          }).fail(function(err) {
+                            console.error(err.responseText);
+                            hipanel.notify.error("Failed to save tags");
+                          });
+                        }
                       },
                       loadOptions: function({ action, searchQuery, callback }) {
                         if (action === "ASYNC_SEARCH") {
@@ -92,7 +107,8 @@ HTML;
                             if (rsp.hasError) {
                               hipanel.notify.error(rsp.data.errorMessage);
                             } else {
-                              callback(null, typedValue.concat(rsp.data));
+                              const tags = rsp.data.filter(item => item.id !== searchQuery);
+                              callback(null, typedValue.concat(tags));
                             }
                           }).fail(function(err) {
                             console.error(err.responseText);
@@ -110,9 +126,14 @@ JS
 
     private function buildOptions(): array
     {
+        $availableTags = $this->cache->getOrSet(
+            [$this->model->formName(), $this->user->id],
+            fn() => $this->model->fetchTags(),
+            10 // in seconds
+        );
         $options = [];
-        foreach ($this->model->tags as $tag) {
-            $options[] = ['id' => $tag, 'label' => $tag];
+        foreach ($availableTags as $tag) {
+            $options[] = ['id' => $tag['tag'], 'label' => $tag['tag']];
         }
 
         return $options;

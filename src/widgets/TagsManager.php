@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace hipanel\widgets;
@@ -17,6 +18,7 @@ class TagsManager extends Widget
     {
         Vue2CdnAsset::register($this->view);
         $this->registerJs();
+
         $tagsWithEditButton = $this->renderTagsWithEditButton();
         $tagInput = TagsInput::widget(['model' => $this->model]);
 

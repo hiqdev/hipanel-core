@@ -83,6 +83,9 @@ class MainColumn extends DataColumn
         if (!$model instanceof TaggableInterface) {
             return '';
         }
+        if ($model->isNotAllowed()) {
+            return '';
+        }
         $output = [];
         $output[] = '<br><br>';
         $output[] = TagsManager::widget(['model' => $model]);
