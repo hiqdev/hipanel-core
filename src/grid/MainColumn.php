@@ -87,7 +87,7 @@ class MainColumn extends DataColumn
             return '';
         }
         $output = [];
-        $output[] = '<br><br>';
+        $output[] = '<br>';
         $output[] = TagsManager::widget(['model' => $model]);
 
         return implode(' ', $output);
