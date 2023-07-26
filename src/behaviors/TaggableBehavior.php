@@ -4,18 +4,13 @@ declare(strict_types=1);
 namespace hipanel\behaviors;
 
 use hipanel\helpers\ArrayHelper;
-use hipanel\models\Tag;
 use yii\base\Behavior;
 use yii\web\User;
+use Yii;
 
 class TaggableBehavior extends Behavior
 {
     private array $tags = [];
-
-    public function __construct(private readonly User $user, $config)
-    {
-        parent::__construct($config);
-    }
 
     public function setTags(string|array|null $tags = null): void
     {
@@ -42,12 +37,14 @@ class TaggableBehavior extends Behavior
 
     public function isNotAllowed(): bool
     {
+        $user = Yii::$app->user;
+
         return match (str_replace('search', '', mb_strtolower($this->owner->formName()))) {
-            'client' => !$this->user->can('client.update'),
-            'contact' => !$this->user->can('contact.update'),
-            'target' => !$this->user->can('target.update'),
-            'server' => !$this->user->can('server.update'),
-            'hub' => !$this->user->can('hub.update'),
+            'client' => !$user->can('client.update'),
+            'contact' => !$user->can('contact.update'),
+            'target' => !$user->can('target.update'),
+            'server' => !$user->can('server.update'),
+            'hub' => !$user->can('hub.update'),
         };
     }
 }
