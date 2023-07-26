@@ -67,7 +67,7 @@ HTML;
         if (empty($output)) {
             return Html::tag(
                 'sapn',
-                Yii::t('hipanel', 'Tags have not yet benn assigned'),
+                Yii::t('hipanel', 'Tags have not yet been assigned'),
                 ['class' => 'text-muted', 'style' => 'font-size: smaller; line-height: 3']
             );
         }
