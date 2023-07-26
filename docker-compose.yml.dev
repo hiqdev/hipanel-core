@@ -20,7 +20,7 @@ services:
       - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS:-false}"
 
   memcached:
-    image: memcached
+    image: memcached:1.5
     networks:
       - local-network
     command: '-m 128'
@@ -47,8 +47,8 @@ networks:
   local-network:
     driver: bridge
   hiapi-network:
-    external:
-      name: "${HIAPI_DIST}"
+    name: "${HIAPI_DIST}"
+    external: true
   proxy-network:
-    external:
-      name: "nginx-proxy-network-${REAL_IP}"
+    name: "nginx-proxy-network-${REAL_IP}"
+    external: true
