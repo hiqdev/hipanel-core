@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\behaviors;
 
+use hipanel\client\debt\models\ClientDebtSearch;
 use hipanel\helpers\ArrayHelper;
 use yii\base\Behavior;
 use yii\web\User;
@@ -32,7 +33,11 @@ class TaggableBehavior extends Behavior
 
     public function fetchTags(?string $tagLike = null): mixed
     {
-        return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike]));
+        if (!$this->owner instanceof ClientDebtSearch) {
+            return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike]));
+        }
+
+        return [];
     }
 
     public function isNotAllowed(): bool

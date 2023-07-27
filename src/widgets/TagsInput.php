@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\widgets;
 
+use hipanel\client\debt\models\ClientDebtSearch;
 use yii\caching\CacheInterface;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -24,6 +25,9 @@ class TagsInput extends VueTreeSelectInput
 
     public function run(): string
     {
+        if ($this->model instanceof ClientDebtSearch) {
+            return '';
+        }
         $this->registerJs();
         $value = Html::getAttributeValue($this->model, $this->attribute);
         if (empty($value)) {
