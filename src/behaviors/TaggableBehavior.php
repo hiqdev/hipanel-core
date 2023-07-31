@@ -6,7 +6,6 @@ namespace hipanel\behaviors;
 use hipanel\client\debt\models\ClientDebtSearch;
 use hipanel\helpers\ArrayHelper;
 use yii\base\Behavior;
-use yii\web\User;
 use Yii;
 
 class TaggableBehavior extends Behavior
@@ -50,6 +49,7 @@ class TaggableBehavior extends Behavior
             'target' => !$user->can('target.update'),
             'server' => !$user->can('server.update'),
             'hub' => !$user->can('hub.update'),
+            default => true,
         };
     }
 }
