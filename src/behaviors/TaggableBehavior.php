@@ -14,7 +14,7 @@ class TaggableBehavior extends Behavior
 
     public function setTags(string|array|null $tags = null): void
     {
-        $this->tags = is_array($tags) ? $tags : ArrayHelper::csplit($tags);
+        $this->tags = is_array($tags) ? $tags : ArrayHelper::csplit((string)$tags);
     }
 
     public function getTags(): array
