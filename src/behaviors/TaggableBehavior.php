@@ -46,7 +46,7 @@ class TaggableBehavior extends Behavior
         return match (str_replace('search', '', mb_strtolower($this->owner->formName()))) {
             'client' => !$user->can('client.update'),
             'contact' => !$user->can('contact.update'),
-            'target' => !$user->can('target.update'),
+            'target' => !$user->can('plan.update'),
             'server' => !$user->can('server.update'),
             'hub' => !$user->can('hub.update'),
             default => true,

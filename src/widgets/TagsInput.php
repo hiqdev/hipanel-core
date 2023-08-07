@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace hipanel\widgets;
 
 use hipanel\client\debt\models\ClientDebtSearch;
+use hipanel\helpers\Url;
 use yii\caching\CacheInterface;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -71,6 +72,9 @@ HTML;
 
     private function registerJs(): void
     {
+        $alias = str_replace("search", "", strtolower($this->model->formName()));
+        $getTagsLink = Url::to("@$alias/set-tags");
+        $setTagsLink = Url::to("@$alias/get-tags");
         $this->view->registerJs(<<<"JS"
             ;(() => {
                 const container = $("#$this->id");
@@ -87,7 +91,7 @@ HTML;
                       saveTags: function () {
                         const entityId = '{$this->model->id}';
                         if (entityId.length) {
-                          $.post("set-tags", {id: entityId, tags: this.value}).done((rsp) => {
+                          $.post("$setTagsLink", {id: entityId, tags: this.value}).done((rsp) => {
                             if (rsp.hasError) {
                               hipanel.notify.error(rsp.data.errorMessage);
                             }
@@ -107,7 +111,7 @@ HTML;
                           if (searchQuery) {
                             query = `?tagLike=\${searchQuery}`;
                           }
-                          $.get(`get-tags\${query}`).done((rsp) => {
+                          $.get(`$getTagsLink\${query}`).done((rsp) => {
                             if (rsp.hasError) {
                               hipanel.notify.error(rsp.data.errorMessage);
                             } else {
