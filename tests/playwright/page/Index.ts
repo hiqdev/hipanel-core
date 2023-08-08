@@ -79,6 +79,11 @@ export default class Index {
     await this.page.locator(`a:has-text("${menuName}")`).click();
   }
 
+  async clickPopoverMenu(row: number, menuName: string) {
+    await this.page.locator('tr td button').nth(row - 1).click();
+    await this.page.locator(`div[role="tooltip"] >> text=${menuName}`).click();
+  }
+
   async getColumnNumberByName(columnName: string) {
     const allColumns = await this.page.locator("//th[not(./input)]").allInnerTexts();
     return this.getColumnNumber(allColumns, columnName);
