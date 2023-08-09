@@ -39,7 +39,7 @@ class TaggableBehavior extends Behavior
         return [];
     }
 
-    public function isNotAllowed(): bool
+    public function isTagsHidden(): bool
     {
         $user = Yii::$app->user;
 

@@ -65,11 +65,10 @@ HTML;
         }
 
         if (empty($output)) {
-            return Html::tag(
-                'sapn',
-                Yii::t('hipanel', 'Tags have not yet been assigned'),
-                ['class' => 'text-muted', 'style' => 'font-size: smaller; line-height: 3']
-            );
+            $id = $this->id;
+            $content = Yii::t('hipanel', 'Tags have not yet been assigned');
+            $this->view->registerCss("#$id span.text-muted:after { content: '$content'; }");
+            return Html::tag('span', null, ['class' => 'text-muted', 'style' => 'font-size: smaller; line-height: 3']);
         }
 
         return implode(' ', $output);
