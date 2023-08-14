@@ -16,7 +16,7 @@ class TagsAction extends Action
         $request = $this->controller->request;
         $model = $this->getCollection()->getModel();
         try {
-            if ($model->isNotAllowed()) {
+            if ($model->isTagsHidden()) {
                 throw new MethodNotAllowedHttpException('No permission to manage Tags');
             }
             if ($request->isGet) {

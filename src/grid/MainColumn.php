@@ -83,7 +83,7 @@ class MainColumn extends DataColumn
         if (!$model instanceof TaggableInterface) {
             return '';
         }
-        if ($model->isNotAllowed()) {
+        if ($model->isTagsHidden()) {
             return '';
         }
         $output = [];
