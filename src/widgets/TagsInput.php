@@ -5,6 +5,7 @@ namespace hipanel\widgets;
 
 use hipanel\client\debt\models\ClientDebtSearch;
 use hipanel\helpers\Url;
+use hipanel\models\TaggableInterface;
 use yii\caching\CacheInterface;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -14,6 +15,7 @@ class TagsInput extends VueTreeSelectInput
 {
     public $name = 'tags';
     public $attribute = 'tags';
+    public TaggableInterface $searchModel;
 
     public function __construct(
         private readonly CacheInterface $cache,
@@ -22,6 +24,12 @@ class TagsInput extends VueTreeSelectInput
     )
     {
         parent::__construct($config);
+    }
+
+    public function init(): void
+    {
+        $this->searchModel ??= $this->model;
+        parent::init();
     }
 
     public function run(): string
@@ -136,7 +144,7 @@ JS
     {
         $availableTags = $this->cache->getOrSet(
             [$this->model->formName(), $this->user->id],
-            fn() => $this->model->fetchTags(),
+            fn() => $this->searchModel->fetchTags(),
             10 // in seconds
         );
         $options = [];
