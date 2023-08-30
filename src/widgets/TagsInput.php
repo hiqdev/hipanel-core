@@ -73,7 +73,7 @@ class TagsInput extends VueTreeSelectInput
                 >
                     <div slot="value-label" slot-scope="{ node }">{{ node.raw.id }}</div>
                 </treeselect>
-                $activeInput
+                <fieldset disabled>$activeInput</fieldset>
             </span>
 HTML;
     }
