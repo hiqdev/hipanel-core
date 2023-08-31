@@ -8,5 +8,5 @@ use yii\web\AssetBundle;
 class Vue2CdnAsset extends AssetBundle
 {
     public $sourcePath = __DIR__;
-    public $js = ['https://cdn.jsdelivr.net/npm/vue@^2'];
+    public $js = [(YII_DEBUG ? 'https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js' : 'https://cdn.jsdelivr.net/npm/vue@2')];
 }
