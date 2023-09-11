@@ -57,6 +57,7 @@ class TagsInput extends VueTreeSelectInput
             ],
         ]);
         $isAsync = str_contains($this->model->formName(), 'Search') ? 'false' : 'true';
+        $input = Html::tag('fieldset', $activeInput, ['disabled' => $isAsync === 'true']);
 
         return <<<"HTML"
             <span id="$this->id" style="margin-bottom: 1em;">
@@ -73,7 +74,7 @@ class TagsInput extends VueTreeSelectInput
                 >
                     <div slot="value-label" slot-scope="{ node }">{{ node.raw.id }}</div>
                 </treeselect>
-                <fieldset disabled>$activeInput</fieldset>
+                $input
             </span>
 HTML;
     }
