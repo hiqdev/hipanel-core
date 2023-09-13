@@ -43,7 +43,7 @@ class SiteController extends \hisite\controllers\SiteController
         return array_merge(parent::behaviors(), [
             'loginRequired' => [
                 'class' => AccessControl::class,
-                'only' => ['profile', 'notification-settings'],
+                'only' => ['profile', 'notification-settings', 'index'],
                 'rules' => [
                     [
                         'allow' => true,
