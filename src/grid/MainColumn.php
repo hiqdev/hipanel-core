@@ -15,6 +15,7 @@ use hipanel\helpers\ArrayHelper;
 use hipanel\models\TaggableInterface;
 use hipanel\widgets\NoteBlock;
 use hipanel\widgets\TagsManager;
+use hipanel\widgets\TagsClient;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -74,8 +75,9 @@ class MainColumn extends DataColumn
         $extra = $this->renderExtra($model);
         $badges = $this->renderBadges($model, $key, $index);
         $tags = $this->renderTags($model);
+        $simpleTags = $this->renderSimpleTags($model);
 
-        return $value . $extra . $badges . $note . $tags;
+        return $value . $extra . $badges . $note . $tags . $simpleTags;
     }
 
     protected function renderTags($model): string
@@ -89,6 +91,21 @@ class MainColumn extends DataColumn
         $output = [];
         $output[] = '<br>';
         $output[] = TagsManager::widget(['model' => $model]);
+
+        return implode(' ', $output);
+    }
+
+    protected function renderSimpleTags($model): string
+    {
+        if (!$model instanceof TaggableInterface) {
+            return '';
+        }
+        if ($model->isTagsSimpleHidden()) {
+            return '';
+        }
+        $output = [];
+        $output[] = '<br>';
+        $output[] = TagsClient::widget(['model' => $model]);
 
         return implode(' ', $output);
     }

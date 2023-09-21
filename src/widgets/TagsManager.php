@@ -10,7 +10,7 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 
-class TagsManager extends Widget
+class TagsManager extends TagsClient
 {
     public TaggableInterface $model;
 
@@ -49,28 +49,6 @@ HTML;
             ['class' => 'btn btn-link', 'alt' => Yii::t('hipanel', 'Assign tags')]
         );
         $output[] = Html::endTag('span');
-
-        return implode(' ', $output);
-    }
-
-    private function renderTags(): string
-    {
-        $output = [];
-        foreach ($this->model->tags as $tag) {
-            $output[] = Html::tag(
-                'span',
-                $tag,
-                ['class' => 'label label-default', 'style' => 'font-size: x-small;']
-            );
-        }
-
-        if (empty($output)) {
-            $id = $this->id;
-            $content = Yii::t('hipanel', 'Tags have not yet been assigned');
-            $this->view->registerCss("#$id span.text-muted:after { content: '$content'; white-space: nowrap; }");
-
-            return Html::tag('span', null, ['class' => 'text-muted', 'style' => 'font-size: smaller; line-height: 3']);
-        }
 
         return implode(' ', $output);
     }

@@ -32,11 +32,7 @@ class TaggableBehavior extends Behavior
 
     public function fetchTags(?string $tagLike = null): mixed
     {
-        if (!$this->owner instanceof ClientDebtSearch) {
-            return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike]));
-        }
-
-        return [];
+        return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike]));
     }
 
     public function isTagsHidden(): bool
@@ -49,6 +45,15 @@ class TaggableBehavior extends Behavior
             'target' => !$user->can('plan.update'),
             'server' => !$user->can('server.update'),
             'hub' => !$user->can('hub.update'),
+            default => true,
+        };
+    }
+
+    public function isTagsSimpleHidden(): bool
+    {
+        $user = Yii::$app->user;
+        return match (str_replace('search', '', mb_strtolower($this->owner->formName()))) {
+            'clientdebt' => !$user->can('client.update'),
             default => true,
         };
     }
