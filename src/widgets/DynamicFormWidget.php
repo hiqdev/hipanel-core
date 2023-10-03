@@ -168,6 +168,9 @@ JS
                       const input = container.find('input[type=hidden]');
                       new Vue({
                         el: container.get(0),
+                        components: {
+                          'treeselect': VueTreeselect.Treeselect,
+                        },
                         data: {
                           value: input.data('value'),
                           options: input.data('options')
