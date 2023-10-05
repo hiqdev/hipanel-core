@@ -47,7 +47,10 @@ class ClientSellerLink extends \yii\base\Widget
 
         if ($user->can('support') && $this->getSeller() !== false) {
             $result .= ' / ';
-            if ($user->can('access-reseller') && $user->identity->hasOwnSeller($this->getSeller())) {
+            if (
+                $user->can('owner-staff') ||
+                ($user->can('access-reseller') && $user->identity->hasOwnSeller($this->getSeller()))
+            ) {
                 $result .= Html::a($this->getSeller(), ['@client/view', 'id' => $this->getSellerId()]);
             } else {
                 $result .= $this->getSeller();
