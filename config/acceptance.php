@@ -15,9 +15,9 @@ return [
     'COMMON_SUITE_LOCATION' => dirname(__DIR__) . '/tests/acceptance.suite.yml',
     'COMMON_TESTS_LOCATION' => dirname(__DIR__) . '/tests',
 
-    'URL' => getenv('URL'),
+    'URL' => $_ENV['URL'] ?? '',
     'BROWSER' => 'chrome',
-    'SELENIUM_HOST' => getenv('TESTS_ACCEPTANCE_SELENIUM_HOST'),
+    'SELENIUM_HOST' => $_ENV['TESTS_ACCEPTANCE_SELENIUM_HOST'] ?? '',
 
     'USER_CREATION_DISABLED' => ($params['module.client.user.creation.disabled'] ?? null) === true ? '1' : '0',
     'SERVER_ORDER_ALLOWED' => ($params['module.server.order.allowed'] ?? null) === true ? '1' : '0',
