@@ -24,6 +24,7 @@ class RunProcessAction extends Action
         ob_end_flush();
         @ob_flush();
         flush();
+        session_write_close();
         fastcgi_finish_request(); // required for PHP-FPM (PHP > 5.3.3)
 
         try {

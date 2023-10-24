@@ -80,7 +80,11 @@ window.hipanel = (function () {
             return {
                 onMessage: function (callback) {
                     eventSource.onmessage = function (event) {
-                        callback(event, eventSource);
+                        if (event.data === '') {
+                            eventSource.close();
+                        } else {
+                            callback(event, eventSource);
+                        }
                     };
                 },
             };
