@@ -15,7 +15,7 @@ use hipanel\helpers\ArrayHelper;
 use hipanel\models\TaggableInterface;
 use hipanel\widgets\NoteBlock;
 use hipanel\widgets\TagsManager;
-use hipanel\widgets\TagsClient;
+use hipanel\widgets\TagsReadOnly;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -105,7 +105,7 @@ class MainColumn extends DataColumn
         }
         $output = [];
         $output[] = '<br>';
-        $output[] = TagsClient::widget(['model' => $model]);
+        $output[] = TagsReadOnly::widget(['model' => $model]);
 
         return implode(' ', $output);
     }

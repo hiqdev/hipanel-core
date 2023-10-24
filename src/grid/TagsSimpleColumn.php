@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace hipanel\grid;
 
 use hipanel\models\TaggableInterface;
-use hipanel\widgets\TagsClient;
+use hipanel\widgets\TagsReadOnly;
 use Yii;
 
 class TagsSimpleColumn extends TagsColumn
@@ -16,7 +16,7 @@ class TagsSimpleColumn extends TagsColumn
 
     public function getDataCellValue($model, $key, $index)
     {
-        return TagsClient::widget([
+        return TagsReadOnly::widget([
             'model' => $model,
         ]);
     }

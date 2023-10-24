@@ -10,7 +10,7 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 
-class TagsClient extends Widget
+class TagsReadOnly extends Widget
 {
     public TaggableInterface $model;
 
