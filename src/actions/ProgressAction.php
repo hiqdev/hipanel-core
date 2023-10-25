@@ -12,7 +12,9 @@ class ProgressAction extends Action
 {
     public ?Closure $onProgress = null;
     public ?Closure $onGettingId = null;
-    private array $tries = [];
+    private const INIT_TRIES = 99;
+    private int $triesLeft = self::INIT_TRIES;
+    private ?string $lastHash = null;
 
     public function run()
     {
@@ -22,9 +24,7 @@ class ProgressAction extends Action
         header('Connection: keep-alive');
         header('X-Accel-Buffering: no');
         $id = $this->onGettingId ? call_user_func($this->onGettingId, $this) : Yii::$app->user->id;
-        $triesLeft = 250;
         do {
-            $triesLeft--;
             try {
                 $data = call_user_func($this->onProgress, $this);
             } catch (Exception $exception) {
@@ -38,21 +38,22 @@ class ProgressAction extends Action
                 break;
             }
             sleep(1);
-        } while (!$this->isLimitHasBeenReached($id, $data, $triesLeft));
+        } while (!$this->isLimitHasBeenReached($id, $data));
         $response = Yii::$app->response;
         $response->statusCode = 402;
         $response->send();
     }
 
-    private function isLimitHasBeenReached(mixed $id, string $data, int $triesLeft): bool
+    private function isLimitHasBeenReached(mixed $id, string $data): bool
     {
         $hash = hash('sha256', implode("", [$id, $data]));
-        if (isset($this->tries[$hash]) && $this->tries[$hash] === 1) {
-            return true;
+        if ($hash !== $this->lastHash) {
+            $this->lastHash = $hash;
+            $this->triesLeft = self::INIT_TRIES;
         }
-        $this->tries[$hash] = $triesLeft;
+        $this->triesLeft--;
 
-        return false;
+        return $this->triesLeft < 0;
     }
 
     private function printMessage(mixed $id, string $data): void
