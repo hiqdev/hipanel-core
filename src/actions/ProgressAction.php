@@ -27,6 +27,7 @@ class ProgressAction extends Action
         do {
             try {
                 $data = call_user_func($this->onProgress, $this);
+                $data = str_replace(["\n", "\r"], '', $data);
             } catch (Exception $exception) {
                 Yii::error(implode(PHP_EOL, [__CLASS__, $exception->getMessage()]));
                 break;
@@ -59,7 +60,6 @@ class ProgressAction extends Action
     private function printMessage(mixed $id, string $data): void
     {
         // the order of the array elements is IMPORTANT (id after data)
-        $data = str_replace(["\n", "\r"], '', $data);
         echo implode(PHP_EOL, [
             "data: $data",
             "id: $id",
