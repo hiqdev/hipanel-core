@@ -41,7 +41,7 @@ class ProgressAction extends Action
             sleep(1);
         } while (!$this->isLimitHasBeenReached($id, $data));
         $response = Yii::$app->response;
-        $response->statusCode = 402;
+        $response->statusCode = 204;
         $response->send();
     }
 
