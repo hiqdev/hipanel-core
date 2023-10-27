@@ -40,9 +40,8 @@ class ProgressAction extends Action
             }
             sleep(1);
         } while (!$this->isLimitHasBeenReached($id, $data));
-        $response = Yii::$app->response;
-        $response->statusCode = 204;
-        $response->send();
+        $this->controller->response->statusCode = 204;
+        $this->controller->response->send();
     }
 
     private function isLimitHasBeenReached(mixed $id, string $data): bool
