@@ -32,7 +32,7 @@ class Action extends BaseAction
     const EVENT_BEFORE_LOAD = 'beforeLoad';
     const EVENT_BEFORE_PERFORM = 'beforePerform';
     const EVENT_AFTER_PERFORM = 'afterPerform';
-    const EXPECTED_AJAX_RESPONSE_HEADER_NAME = 'X-Expected-Ajax-Response';
+    public const EXPECTED_AJAX_RESPONSE_HEADER_NAME = 'X-Expected-Ajax-Response';
 
     /**
      * @var Controller the controller that owns this action

@@ -143,7 +143,7 @@ class IndexAction extends SearchAction
     {
         if ($this->forceStorageFiltersApply || $this->dataProvider === null) {
             $requestFilters = $this->getRequestFilters();
-            $requestFilters = $this->applyFiltersFromStorage($requestFilters);
+//            $requestFilters = $this->applyFiltersFromStorage($requestFilters); // todo: fix me
             $search = $this->detectSearchQuery($requestFilters);
             $this->dataProvider = $this->getSearchModel()->search($search, $this->dataProviderOptions);
             // Set sort
