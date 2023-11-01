@@ -44,11 +44,20 @@ class TaggableBehavior extends Behavior
         $user = Yii::$app->user;
 
         return match (str_replace('search', '', mb_strtolower($this->owner->formName()))) {
-            'client' => !$user->can('client.update'),
-            'contact' => !$user->can('contact.update'),
+            'client' => !$user->can('owner-staff'),
+            'contact' => !$user->can('owner-staff'),
             'target' => !$user->can('plan.update'),
             'server' => !$user->can('server.update'),
             'hub' => !$user->can('hub.update'),
+            default => true,
+        };
+    }
+
+    public function isTagsReadOnlyHidden(): bool
+    {
+        $user = Yii::$app->user;
+        return match (str_replace('search', '', mb_strtolower($this->owner->formName()))) {
+            'clientdebt' => !$user->can('owner-staff'),
             default => true,
         };
     }
