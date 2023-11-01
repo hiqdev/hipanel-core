@@ -40,7 +40,6 @@ class IndexAction extends SearchAction
      * @var array
      */
     public array $responseVariants = [];
-    public bool $forceStorageFiltersApply = false;
 
     /**
      * @var string view to render
@@ -109,15 +108,11 @@ class IndexAction extends SearchAction
                         $action->parent->getDataProvider(),
                         fn(GridView $grid): string => $grid->renderPager(),
                     ))->preventModelsLoading()->__invoke(),
-                    self::VARIANT_SUMMARY_RESPONSE => function (VariantsAction $action): string {
-                        $action->parent->forceStorageFiltersApply = true;
-                        $dataProvider = $action->parent->getDataProvider();
+                    self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => (new SynchronousCountEnabler(
+                        $action->parent->getDataProvider(),
+                        fn(GridView $grid): string => $grid->renderSummary(),
+                    ))(),
 
-                        return (new SynchronousCountEnabler(
-                            $dataProvider,
-                            fn(GridView $grid): string => $grid->renderSummary(),
-                        ))();
-                    },
                 ], $this->responseVariants),
             ],
         ], parent::getDefaultRules());
@@ -141,9 +136,8 @@ class IndexAction extends SearchAction
 
     public function getDataProvider(): ActiveDataProvider
     {
-        if ($this->forceStorageFiltersApply || $this->dataProvider === null) {
+        if ($this->dataProvider === null) {
             $requestFilters = $this->getRequestFilters();
-//            $requestFilters = $this->applyFiltersFromStorage($requestFilters); // todo: fix me
             $search = $this->detectSearchQuery($requestFilters);
             $this->dataProvider = $this->getSearchModel()->search($search, $this->dataProviderOptions);
             // Set sort
@@ -182,18 +176,21 @@ class IndexAction extends SearchAction
         return $this->controller->request->get($formName) ?: $this->controller->request->get() ?: $this->controller->request->post();
     }
 
+    /**
+     * @deprecated
+     */
     public function applyFiltersFromStorage(?array $requestFilters = []): array
     {
         // Don't save filters for ajax requests, because
         // the request is probably triggered with select2 or smt similar
-        if ($this->forceStorageFiltersApply || ($this->controller->request->getIsPjax() || !$this->controller->request->getIsAjax())) {
+        if (($this->controller->request->getIsPjax() || !$this->controller->request->getIsAjax())) {
             $filterStorage = new FilterStorage(['map' => $this->filterStorageMap]);
             if ($this->controller->request->isPost && $this->controller->request->post('clear-filters')) {
                 $filterStorage->clearFilters();
             }
             $filterStorage->set($requestFilters);
             // Apply filters from storage only when request does not contain any data
-            if ($this->forceStorageFiltersApply || empty($requestFilters)) {
+            if (empty($requestFilters)) {
                 $requestFilters = $filterStorage->get();
             }
         }
