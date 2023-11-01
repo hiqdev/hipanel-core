@@ -7,7 +7,7 @@ use hipanel\models\TaggableInterface;
 use hipanel\widgets\TagsReadOnly;
 use Yii;
 
-class TagsSimpleColumn extends TagsColumn
+class TagsReadOnlyColumn extends TagsColumn
 {
     public function init()
     {

@@ -75,7 +75,7 @@ class MainColumn extends DataColumn
         $extra = $this->renderExtra($model);
         $badges = $this->renderBadges($model, $key, $index);
         $tags = $this->renderTags($model);
-        $simpleTags = $this->renderSimpleTags($model);
+        $simpleTags = $this->renderTagsReadOnly($model);
 
         return $value . $extra . $badges . $note . $tags . $simpleTags;
     }
@@ -95,12 +95,12 @@ class MainColumn extends DataColumn
         return implode(' ', $output);
     }
 
-    protected function renderSimpleTags($model): string
+    protected function renderTagsReadOnly($model): string
     {
         if (!$model instanceof TaggableInterface) {
             return '';
         }
-        if ($model->isTagsSimpleHidden()) {
+        if ($model->isTagsReadOnlyHidden()) {
             return '';
         }
         $output = [];

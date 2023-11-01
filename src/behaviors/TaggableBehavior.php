@@ -53,7 +53,7 @@ class TaggableBehavior extends Behavior
         };
     }
 
-    public function isTagsSimpleHidden(): bool
+    public function isTagsReadOnlyHidden(): bool
     {
         $user = Yii::$app->user;
         return match (str_replace('search', '', mb_strtolower($this->owner->formName()))) {
