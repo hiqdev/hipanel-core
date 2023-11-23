@@ -340,7 +340,7 @@ JS
         foreach ($representations as $name => $representation) {
             $items[] = [
                 'label' => $representation->getLabel(),
-                'url' => Url::current(['representation' => $name]),
+                'url' => Url::current(['representation' => $name, 'sort' => '']),
             ];
         }
 
