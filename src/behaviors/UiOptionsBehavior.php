@@ -64,7 +64,7 @@ class UiOptionsBehavior extends Behavior
         $model->availableRepresentations = $this->findRepresentations();
         if ($params) {
             foreach ($params as $key => $value) {
-                if (in_array($key, array_keys($model->toArray()), true)) {
+                if (array_key_exists($key, $model->toArray())) {
                     $options[$key] = $value;
                 }
             }
