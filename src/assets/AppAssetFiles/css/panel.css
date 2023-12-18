@@ -957,3 +957,12 @@ TABLE THEAD .filters TD.narrow-filter SELECT {
 td .popover {
     max-width: 100%;
 }
+
+/* Space is used to set the spacing between inline elements */
+.space-sm, .space-md, .space-lg {
+    display: inline-flex;
+}
+
+.space-sm { gap: 8px; }
+.space-md { gap: 16px; }
+.space-lg { gap: 24px; }
