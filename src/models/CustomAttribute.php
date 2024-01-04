@@ -29,7 +29,20 @@ class CustomAttribute extends Model
         return empty($this->name) || $this->value === '';
     }
 
-    public function stringValue(): string
+    public function asInputValue(): string
+    {
+        if (is_bool($this->value)) {
+            return json_encode($this->value);
+        }
+
+        if (!is_array($this->value)) {
+            return Html::encode($this->value);
+        }
+
+        return json_encode($this->value);
+    }
+
+    public function asHtml(): string
     {
         if (is_bool($this->value)) {
             return json_encode($this->value);
