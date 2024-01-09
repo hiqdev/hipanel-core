@@ -11,6 +11,8 @@
 namespace hipanel\actions;
 
 use Closure;
+use hipanel\base\FilterStorage;
+use hipanel\helpers\Url;
 
 /**
  * Class RenderAction.
@@ -70,6 +72,24 @@ class RenderAction extends Action
      */
     public function run()
     {
+        $storedFilters = $this->getStoredFilters();
+        $formName = $this->parent->getSearchModel()->formName();
+        $queryParams = $this->controller->request->getQueryParams();
+        if (!empty($storedFilters) && !isset($queryParams[$formName])) {
+            return $this->controller->redirect(Url::toSearch($this->controller->id, $storedFilters));
+        }
+
         return $this->controller->render($this->getViewName(), $this->getParams());
+
+    }
+
+    private function getStoredFilters(): array
+    {
+        if (!$this->parent instanceof IndexAction) {
+            return [];
+        }
+        $filterStorage = new FilterStorage(['map' => $this->parent->filterStorageMap]);
+
+        return array_filter($filterStorage->get(), static fn($value) => !is_null($value) && $value !== '' && $value !== '0');
     }
 }
