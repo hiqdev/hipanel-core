@@ -138,6 +138,7 @@ class IndexAction extends SearchAction
     {
         if ($this->dataProvider === null) {
             $requestFilters = $this->getRequestFilters();
+            $this->applyFiltersFromStorage($requestFilters);
             $search = $this->detectSearchQuery($requestFilters);
             $this->dataProvider = $this->getSearchModel()->search($search, $this->dataProviderOptions);
             // Set sort
@@ -176,10 +177,7 @@ class IndexAction extends SearchAction
         return $this->controller->request->get($formName) ?: $this->controller->request->get() ?: $this->controller->request->post();
     }
 
-    /**
-     * @deprecated
-     */
-    public function applyFiltersFromStorage(?array $requestFilters = []): array
+    public function applyFiltersFromStorage(?array &$requestFilters = []): void
     {
         // Don't save filters for ajax requests, because
         // the request is probably triggered with select2 or smt similar
@@ -194,7 +192,5 @@ class IndexAction extends SearchAction
                 $requestFilters = $filterStorage->get();
             }
         }
-
-        return $requestFilters;
     }
 }
