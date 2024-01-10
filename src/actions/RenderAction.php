@@ -13,6 +13,7 @@ namespace hipanel\actions;
 use Closure;
 use hipanel\base\FilterStorage;
 use hipanel\helpers\Url;
+use yii\base\InvalidConfigException;
 
 /**
  * Class RenderAction.
@@ -72,8 +73,7 @@ class RenderAction extends Action
      */
     public function run()
     {
-        $storedFilters = $this->getStoredFilters();
-        $formName = $this->parent->getSearchModel()->formName();
+        [$storedFilters, $formName] = $this->getStoredFilters();
         $queryParams = $this->controller->request->getQueryParams();
         if (!empty($storedFilters) && !isset($queryParams[$formName])) {
             return $this->controller->redirect(Url::toSearch($this->controller->id, $storedFilters));
@@ -83,6 +83,13 @@ class RenderAction extends Action
 
     }
 
+    /**
+     * @return array{
+     *     0: array,
+     *     1: string
+     * }
+     * @throws InvalidConfigException
+     */
     private function getStoredFilters(): array
     {
         if (!$this->parent instanceof IndexAction) {
@@ -90,6 +97,9 @@ class RenderAction extends Action
         }
         $filterStorage = new FilterStorage(['map' => $this->parent->filterStorageMap]);
 
-        return array_filter($filterStorage->get(), static fn($value) => !is_null($value) && $value !== '' && $value !== '0');
+        return [
+            array_filter($filterStorage->get(), static fn($value) => !is_null($value) && $value !== '' && $value !== '0'),
+            $this->parent->getSearchModel()->formName(),
+        ];
     }
 }
