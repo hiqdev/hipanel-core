@@ -13,6 +13,7 @@ namespace hipanel\actions;
 
 use hipanel\base\FilterStorage;
 use hipanel\grid\RepresentationCollectionFinder;
+use hipanel\grid\RepresentationCollectionFinderInterface;
 use hipanel\widgets\SynchronousCountEnabler;
 use hiqdev\hiart\ActiveDataProvider;
 use hiqdev\higrid\representations\RepresentationCollection;
@@ -50,6 +51,11 @@ class IndexAction extends SearchAction
      * @var RepresentationCollectionFinder
      */
     private $representationCollectionFinder;
+
+    public function getRepresentationCollectionFinder(): RepresentationCollectionFinderInterface
+    {
+        return $this->representationCollectionFinder;
+    }
 
     public function setView($value)
     {

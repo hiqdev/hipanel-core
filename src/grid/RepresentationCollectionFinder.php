@@ -30,7 +30,7 @@ class RepresentationCollectionFinder implements RepresentationCollectionFinderIn
      * @var string
      * // TODO: declare format. example: '\hipanel\modules\%s\grid\%sRepresentations'
      */
-    private $representationsLocation;
+    private string $representationsLocation;
 
     public function __construct($module, $controller, string $representationsLocation)
     {
@@ -98,5 +98,15 @@ class RepresentationCollectionFinder implements RepresentationCollectionFinderIn
         $controller = Inflector::id2camel($controller->id);
 
         return new static($module, $controller, $representationsLocation);
+    }
+
+    public function getRepresentationsLocation(): string
+    {
+        return $this->representationsLocation;
+    }
+
+    public function setRepresentationsLocation(string $representationsLocation): void
+    {
+        $this->representationsLocation = $representationsLocation;
     }
 }
