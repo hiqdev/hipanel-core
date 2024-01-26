@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
   selenium:
@@ -58,8 +58,8 @@ networks:
   local-network:
     driver: bridge
   hiapi-network:
-    external:
-      name: "${HIAPI_DIST}"
+    name: "${HIAPI_DIST}"
+    external: true
   proxy-network:
-    external:
-      name: "nginx-proxy-network-${REAL_IP}"
+    name: "nginx-proxy-network-${REAL_IP}"
+    external: true
