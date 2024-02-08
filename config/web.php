@@ -156,7 +156,7 @@ return [
                 return Yii::$app->get('authClientCollection');
             },
             \hipanel\grid\RepresentationCollectionFinder::class => function ($container, $params, $config) {
-                return \hipanel\grid\RepresentationCollectionFinder::forCurrentRoute('\hipanel\modules\%s\grid\%sRepresentations');
+                return \hipanel\grid\RepresentationCollectionFinder::forCurrentRoute('%s\hipanel\modules\%s\grid\%sRepresentations');
             },
         ],
     ],
