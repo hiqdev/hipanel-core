@@ -18,36 +18,24 @@ class TagsManager extends Widget
     {
         Vue2CdnAsset::register($this->view);
         $this->registerJs();
+        $this->view->registerCss(".editable-click { text-decoration: none; border-bottom: dashed 1px #0088cc; }");
 
-        $tagsWithEditButton = $this->renderTagsWithEditButton();
-        $tagInput = TagsInput::widget(['model' => $this->model]);
+        $tagsWithEditButton = $this->renderTagsWithLabel();
+        $tagInput = $this->model->isTagsReadOnly() ? '' : TagsInput::widget(['model' => $this->model]);
 
         return <<<"HTML"
             <span id="$this->id">
-                <span class="tags" style="line-height: 3">$tagsWithEditButton</span>
+                <span class="tags">$tagsWithEditButton</span>
                 <span class="tags" style="display: none;">$tagInput</span>
             </span>
 HTML;
     }
 
-    private function renderTagsWithEditButton(): string
+    private function renderTagsWithLabel(): string
     {
-        $output = [];
-        $output[] = Html::beginTag(
-            'span',
-            [
-                'style' => [
-                    'display' => 'flex',
-                    'flex-direction' => 'row',
-                    'justify-content' => 'space-between',
-                ],
-            ],
-        );
+        $output[] = Html::beginTag('span');
+        $output[] = Html::tag('span', Yii::t('hipanel', 'Tags:'), ['class' => 'text-bold']);
         $output[] = Html::tag('span', $this->renderTags());
-        $output[] = Html::button(
-            '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>',
-            ['class' => 'btn btn-link', 'alt' => Yii::t('hipanel', 'Assign tags')]
-        );
         $output[] = Html::endTag('span');
 
         return implode(' ', $output);
@@ -57,11 +45,7 @@ HTML;
     {
         $output = [];
         foreach ($this->model->tags as $tag) {
-            $output[] = Html::tag(
-                'span',
-                $tag,
-                ['class' => 'label label-default', 'style' => 'font-size: x-small;']
-            );
+            $output[] = Html::tag('span', $tag);
         }
 
         if (empty($output)) {
@@ -69,10 +53,10 @@ HTML;
             $content = Yii::t('hipanel', 'Tags have not yet been assigned');
             $this->view->registerCss("#$id span.text-muted:after { content: '$content'; white-space: nowrap; }");
 
-            return Html::tag('span', null, ['class' => 'text-muted', 'style' => 'font-size: smaller; line-height: 3']);
+            $output[] = Html::tag('span', null, ['class' => 'text-muted', 'style' => 'font-size: smaller;']);
         }
 
-        return implode(' ', $output);
+        return Html::tag('span', implode(', ', $output), ['class' => $this->model->isTagsReadOnly() ? '' : 'editable-click clickable']);
     }
 
     private function registerJs(): void
@@ -80,7 +64,7 @@ HTML;
         $this->view->registerJs(<<<"JS"
             ;(() => {
               const container = $("#$this->id");
-              container.on("click", ".btn-link", function(event) {
+              container.on("click", ".editable-click", function(event) {
                 event.preventDefault();
                 $(".tags", container).toggle();
               });

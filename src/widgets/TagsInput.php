@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\widgets;
 
-use hipanel\client\debt\models\ClientDebtSearch;
+use hipanel\client\debt\models\DebtSearch;
 use hipanel\helpers\Url;
 use hipanel\models\TaggableInterface;
 use yii\caching\CacheInterface;
@@ -34,7 +34,7 @@ class TagsInput extends VueTreeSelectInput
 
     public function run(): string
     {
-        if ($this->model instanceof ClientDebtSearch) {
+        if ($this->model instanceof DebtSearch) {
             return '';
         }
         $this->registerJs();
