@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace hipanel\behaviors;
 
-use hipanel\client\debt\models\ClientDebtSearch;
+use hipanel\client\debt\models\Debt;
 use hipanel\helpers\ArrayHelper;
 use yii\base\Behavior;
 use Yii;
@@ -32,7 +33,7 @@ class TaggableBehavior extends Behavior
 
     public function fetchTags(?string $tagLike = null): mixed
     {
-        if (!$this->owner instanceof ClientDebtSearch) {
+        if (!$this->owner instanceof Debt) {
             return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike]));
         }
 
@@ -44,8 +45,7 @@ class TaggableBehavior extends Behavior
         $user = Yii::$app->user;
 
         return match (str_replace('search', '', mb_strtolower($this->owner->formName()))) {
-            'client' => !$user->can('owner-staff'),
-            'contact' => !$user->can('owner-staff'),
+            'client', 'contact', 'debt' => !$user->can('owner-staff'),
             'target' => !$user->can('plan.update'),
             'server' => !$user->can('server.update'),
             'hub' => !$user->can('hub.update'),
@@ -53,12 +53,11 @@ class TaggableBehavior extends Behavior
         };
     }
 
-    public function isTagsReadOnlyHidden(): bool
+    public function isTagsReadOnly(): bool
     {
-        $user = Yii::$app->user;
         return match (str_replace('search', '', mb_strtolower($this->owner->formName()))) {
-            'clientdebt' => !$user->can('owner-staff'),
-            default => true,
+            'debt', 'requisite' => true,
+            default => false,
         };
     }
 }
