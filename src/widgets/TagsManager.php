@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace hipanel\widgets;
 
 use hipanel\assets\Vue2CdnAsset;
-use hipanel\helpers\Url;
 use hipanel\models\TaggableInterface;
+use hiqdev\xeditable\assets\XEditableAsset;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -19,6 +19,7 @@ class TagsManager extends Widget
     public function run(): ?string
     {
         Vue2CdnAsset::register($this->view);
+        XEditableAsset::register($this->view);
 
         $id = $this->getId();
         $objectId = $this->model->id;
