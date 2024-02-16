@@ -34,6 +34,7 @@ class TagsManager extends Widget
         $tagInput = $tagsInputWidget->run();
         $tpl = Json::htmlEncode($tagInput);
         $mixin = $tagsInputWidget->getMixin();
+        $readOnly = $this->model->isTagsReadOnly() ? 'true' : 'false';
 
         $this->view->registerJs(/** @lang JavaScript */ <<<"JS"
           (() => {
@@ -87,7 +88,7 @@ class TagsManager extends Widget
 
             }(window.jQuery));
 
-            $("#$id").editable({ emptytext: "Tags", showbuttons: false, onblur: "submit" });
+            $("#$id").editable({ emptytext: "Tags", showbuttons: false, onblur: "submit", disabled: $readOnly });
 
 })();
 JS
