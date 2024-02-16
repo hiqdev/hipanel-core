@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\actions;
 
+use hipanel\models\TaggableInterface;
 use Yii;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\Response;
@@ -14,13 +15,14 @@ class TagsAction extends Action
     public function run()
     {
         $request = $this->controller->request;
+        /** @var TaggableInterface $model */
         $model = $this->getCollection()->getModel();
         try {
             if ($model->isTagsHidden()) {
                 throw new MethodNotAllowedHttpException('No permission to manage Tags');
             }
             if ($request->isGet) {
-                $searchQuery = $request->get('tagLike');
+                $searchQuery = $request->get();
                 $tags = $this->transformForTreeSelect($model->fetchTags($searchQuery));
 
                 return $this->makeResponse($tags);

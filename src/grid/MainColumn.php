@@ -63,6 +63,8 @@ class MainColumn extends DataColumn
     {
         parent::init();
         $this->noteOptions = ArrayHelper::merge(['url' => $this->buildUrl('set-note')], $this->noteOptions);
+        $this->contentOptions = $this->contentOptions instanceof Closure ? call_user_func($this->contentOptions, $this->grid->filterModel) : $this->contentOptions;
+        $this->contentOptions['style'] .= ' white-space: nowrap;';
     }
 
     /** {@inheritdoc} */
@@ -71,7 +73,7 @@ class MainColumn extends DataColumn
         $value = $this->renderValue($model, $key, $index);
         $extra = $this->renderExtra($model);
         $badges = $this->renderBadges($model, $key, $index);
-        $noteAndLabel = $this->renderNoteLink($model);
+        $noteAndLabel = $this->renderNoteLinks($model);
         $tags = $this->renderTags($model);
 
         return Html::tag(
@@ -79,8 +81,8 @@ class MainColumn extends DataColumn
             implode(" ",
                 array_map(static fn(string $html): string => Html::tag('span',
                     $html,
-                    ['style' => 'display: flex; flex-direction: column; flex-wrap: nowrap;']), [
-                    Html::tag('span', $value . $extra . $badges),
+                    ['style' => 'display: flex; flex-direction: row; flex-wrap: nowrap; gap: 1rem;']), [
+                    Html::tag('span', implode('', array_filter([$value, $extra, $badges]))),
                     $noteAndLabel,
                     $tags,
                 ])),
@@ -112,18 +114,16 @@ class MainColumn extends DataColumn
         return $value;
     }
 
-    protected function renderBadges($model, $key, $index): string
+    protected function renderBadges($model, $key, $index): ?string
     {
         $badges = $this->badges instanceof Closure ? call_user_func($this->badges, $model, $key, $index) : $this->badges;
 
-        return $badges ? (' ' . $badges) : '';
+        return $badges ? (' ' . $badges) : null;
     }
 
-    protected function renderExtra($model): string
+    protected function renderExtra($model): ?string
     {
-        $value = $this->extraAttribute ? $model->{$this->extraAttribute} : null;
-
-        return $value ?: '';
+        return $this->extraAttribute ? $model->{$this->extraAttribute} : null;
     }
 
     protected function renderViewLink($model, $key, $index): string
@@ -139,7 +139,7 @@ class MainColumn extends DataColumn
      * @return string
      * @throws Throwable
      */
-    protected function renderNoteLink($model): string
+    protected function renderNoteLinks($model): string
     {
         if (empty($this->note)) {
             return '';

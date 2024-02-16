@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace hipanel\widgets;
 
 use hipanel\assets\Vue2CdnAsset;
+use hipanel\helpers\Url;
 use hipanel\models\TaggableInterface;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 class TagsManager extends Widget
 {
@@ -17,59 +19,89 @@ class TagsManager extends Widget
     public function run(): ?string
     {
         Vue2CdnAsset::register($this->view);
-        $this->registerJs();
-        $this->view->registerCss(".editable-click { text-decoration: none; border-bottom: dashed 1px #0088cc; }");
 
-        $tagsWithEditButton = $this->renderTagsWithLabel();
-        $tagInput = $this->model->isTagsReadOnly() ? '' : TagsInput::widget(['model' => $this->model]);
+        $id = $this->getId();
+        $objectId = $this->model->id;
 
-        return <<<"HTML"
-            <span id="$this->id">
-                <span class="tags">$tagsWithEditButton</span>
-                <span class="tags" style="display: none;">$tagInput</span>
-            </span>
-HTML;
-    }
+        /** @var TagsInput $tagsInputWidget */
+        $tagsInputWidget = Yii::createObject([
+            'class' => TagsInput::class,
+            'model' => $this->model,
+            'templateOnly' => true,
+        ]);
+        $tagsInputWidget->init();
+        $tagInput = $tagsInputWidget->run();
+        $tag = Json::htmlEncode($tagInput);
+        $mixin = $tagsInputWidget->getMixin();
 
-    private function renderTagsWithLabel(): string
-    {
-        $output[] = Html::beginTag('span');
-        $output[] = Html::tag('span', Yii::t('hipanel', 'Tags:'), ['class' => 'text-bold']);
-        $output[] = Html::tag('span', $this->renderTags());
-        $output[] = Html::endTag('span');
+        $this->view->registerJs(/** @lang JavaScript */ <<<"JS"
+          (() => {
 
-        return implode(' ', $output);
-    }
+            (function ($) {
+              "use strict";
 
-    private function renderTags(): string
-    {
-        $output = [];
-        foreach ($this->model->tags as $tag) {
-            $output[] = Html::tag('span', $tag);
-        }
+              const Tags = function (options) {
+                this.init('tags', options, Tags.defaults);
+              };
 
-        if (empty($output)) {
-            $id = $this->id;
-            $content = Yii::t('hipanel', 'Tags have not yet been assigned');
-            $this->view->registerCss("#$id span.text-muted:after { content: '$content'; white-space: nowrap; }");
+              $.fn.editableutils.inherit(Tags, $.fn.editabletypes.text);
 
-            $output[] = Html::tag('span', null, ['class' => 'text-muted', 'style' => 'font-size: smaller;']);
-        }
+              $.extend(Tags.prototype, {
+                input2value: function () {
+                  const id = this.\$input.attr('id');
+                  const value = $(`#\${id} input:hidden`).val();
 
-        return Html::tag('span', implode(', ', $output), ['class' => $this->model->isTagsReadOnly() ? '' : 'editable-click clickable']);
-    }
-
-    private function registerJs(): void
-    {
-        $this->view->registerJs(<<<"JS"
-            ;(() => {
-              const container = $("#$this->id");
-              container.on("click", ".editable-click", function(event) {
-                event.preventDefault();
-                $(".tags", container).toggle();
+                  return value;
+                },
+                value2input: function (value) {
+                  this.\$input.filter('[type="hidden"]').val(Array.isArray(value) ? value.join(", ") : value);
+                },
+                render: function() {
+                  this.setClass();
+                  this.\$input.css({"width": "30rem", "display": "inline-block"});
+                  const container = this.\$input;
+                  const mixin = $mixin;
+                  new Vue({
+                    el: container.get(0),
+                    mixins: [mixin],
+                    data: {
+                      objectId: "$objectId",
+                      value: [],
+                      options: container.find('input[type=hidden]').data('options'),
+                    },
+                    mounted() {
+                      this.getTags(`?id=\${this.objectId}`, function(rsp) {
+                        this.value = rsp.data.map(item => item.id);
+                      }, this);
+                    },
+                  });
+                }
               });
-            })();
+
+              Tags.defaults = $.extend({}, $.fn.editabletypes.list.defaults, {
+                tpl: $tag,
+              });
+
+              $.fn.editabletypes.tags = Tags;
+
+            }(window.jQuery));
+
+            $("#$id").editable({ emptytext: "Tags", showbuttons: false, onblur: "submit" });
+
+})();
 JS
         );
+
+        return Html::a(null, '#', [
+            'id' => $id,
+            'title' => 'Tags',
+            'data' => [
+                'id' => $this->model->id,
+                'value' => implode(", ", $this->model->tags),
+                'name' => 'tags',
+                'type' => 'tags',
+                'title' => Yii::t('hipanel', 'Tags'),
+            ],
+        ]);
     }
 }

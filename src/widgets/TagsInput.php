@@ -16,6 +16,7 @@ class TagsInput extends VueTreeSelectInput
     public $name = 'tags';
     public $attribute = 'tags';
     public TaggableInterface $searchModel;
+    public bool $templateOnly = false;
 
     public function __construct(
         private readonly CacheInterface $cache,
@@ -37,7 +38,29 @@ class TagsInput extends VueTreeSelectInput
         if ($this->model instanceof DebtSearch) {
             return '';
         }
-        $this->registerJs();
+        if (!$this->templateOnly) {
+            $this->view->registerJs($this->getScript());
+        }
+        $activeInput = $this->buildActiveInput();
+        $inputFieldset = $this->wrapToFieldset($activeInput);
+
+        return $this->buildTemplate($inputFieldset);
+    }
+
+    public function wrapToFieldset(string $activeInput): string
+    {
+        $isAsync = $this->isAsync();
+
+        return Html::tag('fieldset', $activeInput, ['disabled' => $isAsync === 'true']);
+    }
+
+    public function isAsync(): string
+    {
+        return str_contains($this->model->formName(), 'Search') ? 'false' : 'true';
+    }
+
+    public function getValue(): array
+    {
         $value = Html::getAttributeValue($this->model, $this->attribute);
         if (empty($value)) {
             $value = [];
@@ -48,18 +71,27 @@ class TagsInput extends VueTreeSelectInput
         } else {
             $value = [$value];
         }
-        $activeInput = Html::activeHiddenInput($this->model, $this->attribute, [
+
+        return $value;
+    }
+
+    public function buildActiveInput(): string
+    {
+        return Html::activeHiddenInput($this->model, $this->attribute, [
             'v-model' => 'value',
             'value' => null,
             'data' => [
-                'value' => $value,
+                'value' => $this->getValue(),
                 'options' => Json::encode($this->buildOptions()),
             ],
         ]);
-        $isAsync = str_contains($this->model->formName(), 'Search') ? 'false' : 'true';
-        $input = Html::tag('fieldset', $activeInput, ['disabled' => $isAsync === 'true']);
+    }
 
-        return <<<"HTML"
+    public function buildTemplate(string $inputField): string
+    {
+        return preg_replace(["/\s\s+/"],
+            ' ',
+            <<<"HTML"
             <span id="$this->id" style="margin-bottom: 1em;">
                 <treeselect
                   placeholder="{$this->model->getAttributeLabel($this->attribute)}"
@@ -69,84 +101,121 @@ class TagsInput extends VueTreeSelectInput
                   :options="options"
                   :load-options="loadOptions"
                   :multiple="true"
-                  :async="$isAsync"
-                  @input="saveTags"
+                  :async="{$this->isAsync()}"
+                  @select="saveTags"
+                  @deselect="saveTags"
                 >
                     <div slot="value-label" slot-scope="{ node }">{{ node.raw.id }}</div>
                 </treeselect>
-                $input
+                $inputField
             </span>
-HTML;
+HTML
+        );
     }
 
-    private function registerJs(): void
+    public function getTagLinks(): array
     {
         $alias = str_replace("search", "", strtolower($this->model->formName()));
-        $getTagsLink = Url::to("@$alias/set-tags");
-        $setTagsLink = Url::to("@$alias/get-tags");
-        $this->view->registerJs(<<<"JS"
-            ;(() => {
-                const container = $("#$this->id");
-                new Vue({
-                    el: container.get(0),
-                    components: {
-                      'treeselect': VueTreeselect.Treeselect,
-                    },
-                    data: {
-                        value: container.find("input[type=hidden]").data("value"),
-                        options: container.find('input[type=hidden]').data('options'),
-                    },
-                    methods: {
-                      saveTags: function () {
-                        const entityId = '{$this->model->id}';
-                        if (entityId.length) {
-                          $.post("$setTagsLink", {id: entityId, tags: this.value}).done((rsp) => {
-                            if (rsp.hasError) {
-                              hipanel.notify.error(rsp.data.errorMessage);
-                            }
-                          }).fail(function(err) {
-                            console.error(err.responseText);
-                            hipanel.notify.error("Failed to save tags");
-                          });
-                        }
-                      },
-                      loadOptions: function({ action, searchQuery, callback }) {
-                        if (action === "ASYNC_SEARCH") {
-                          const typedValue = [{
-                            id: `\${searchQuery}`,
-                            label: `\${searchQuery}`,
-                          }];
-                          let query = "";
-                          if (searchQuery) {
-                            query = `?tagLike=\${searchQuery}`;
-                          }
-                          $.get(`$getTagsLink\${query}`).done((rsp) => {
-                            if (rsp.hasError) {
-                              hipanel.notify.error(rsp.data.errorMessage);
-                            } else {
-                              const tags = rsp.data.filter(item => item.id !== searchQuery);
-                              callback(null, typedValue.concat(tags));
-                            }
-                          }).fail(function(err) {
-                            console.error(err.responseText);
-                            hipanel.notify.error("Failed to get tags");
-                          });
-                        }
-                      },
-                    },
-                });
-            })();
-JS
-        );
+        $getTagsLink = Url::to("@$alias/get-tags");
+        $setTagsLink = Url::to("@$alias/set-tags");
+
+        return [$getTagsLink, $setTagsLink];
+    }
+
+    public function getScript(): string
+    {
+        $mixin = $this->getMixin();
+
+        return <<<"JS"
+          ;(() => {
+            const container = $("#$this->id");
+            const mixin = $mixin;
+            new Vue({
+              el: container.get(0),
+              mixins: [mixin],
+              data: function () {
+                return {
+                  value: container.find("input[type=hidden]").data("value"),
+                  options: container.find("input[type=hidden]").data("options"),
+                };
+              },
+            });
+          })();
+JS;
 
     }
 
-    private function buildOptions(): array
+    public function getMixin(): string
+    {
+        [$getTagsLink, $setTagsLink] = $this->getTagLinks();
+
+        return /** @lang JavaScript */ <<<JS
+            {
+              components: {
+                "treeselect": VueTreeselect.Treeselect,
+              },
+              data: function () {
+                return {
+                  objectId: null,
+                  value: [],
+                  options: [],
+                };
+              },
+              methods: {
+                saveTags: function () {
+                  if (this.objectId) {
+                    this.\$nextTick(() => {
+                      $.post("$setTagsLink", {id: this.objectId, tags: this.value}).done((rsp) => {
+                        if (rsp.hasError) {
+                          hipanel.notify.error(rsp.data.errorMessage);
+                        }
+                      }).fail(function(err) {
+                        console.error(err.responseText);
+                        hipanel.notify.error("Failed to save tags");
+                      });
+                    });
+                  }
+                },
+                loadOptions: function({ action, searchQuery, callback }) {
+                  if (action === "ASYNC_SEARCH") {
+                    const typedValue = [{
+                      id: `\${searchQuery}`,
+                      label: `\${searchQuery}`,
+                    }];
+                    let query = "";
+                    if (searchQuery) {
+                      query = `?tagLike=\${searchQuery}`;
+                    }
+                    this.getTags(query, function(rsp) {
+                      const tags = rsp.data.filter(item => item.id !== searchQuery);
+                      callback(null, typedValue.concat(tags));
+                    }, this);
+                  }
+                },
+                getTags: function (searchQeury, callback, callbackObject) {
+                  $.get(`$getTagsLink\${searchQeury}`).done((rsp) => {
+                    if (rsp.hasError) {
+                      hipanel.notify.error(rsp.data.errorMessage);
+                    } else {
+                      callback.apply(callbackObject, [rsp]);
+                    }
+                  }).fail(function(err) {
+                    console.error(err.responseText);
+                    hipanel.notify.error("Failed to get tags");
+                  });
+                }
+              },
+           }
+
+JS;
+    }
+
+    public function buildOptions(): array
     {
         $availableTags = $this->cache->getOrSet(
             [$this->model->formName(), $this->user->id],
             fn() => $this->searchModel->fetchTags(),
-            10 // in seconds
+            5 // in seconds
         );
         $options = [];
         foreach ($availableTags as $tag) {
