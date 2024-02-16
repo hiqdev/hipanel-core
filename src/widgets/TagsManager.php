@@ -32,7 +32,7 @@ class TagsManager extends Widget
         ]);
         $tagsInputWidget->init();
         $tagInput = $tagsInputWidget->run();
-        $tag = Json::htmlEncode($tagInput);
+        $tpl = Json::htmlEncode($tagInput);
         $mixin = $tagsInputWidget->getMixin();
 
         $this->view->registerJs(/** @lang JavaScript */ <<<"JS"
@@ -80,7 +80,7 @@ class TagsManager extends Widget
               });
 
               Tags.defaults = $.extend({}, $.fn.editabletypes.list.defaults, {
-                tpl: $tag,
+                tpl: $tpl,
               });
 
               $.fn.editabletypes.tags = Tags;
