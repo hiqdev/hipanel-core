@@ -37,15 +37,17 @@ class NoteBlock extends Widget
      */
     public function run()
     {
-        $result = Html::tag('span', $this->model->getAttributeLabel($this->note) . ': ', ['class' => 'bold']);
         if (empty($this->noteOptions['url'])) {
             $value = $this->model->{$this->note};
-            $result .= empty($value) ? $this->getEmptyMessage() : $value;
+            $result = empty($value) ? $this->getEmptyMessage() : $value;
         } else {
-            $result .= XEditable::widget([
+            $result = XEditable::widget([
                 'model' => $this->model,
                 'attribute' => $this->note,
-                'pluginOptions' => $this->noteOptions,
+                'pluginOptions' => array_merge([
+                    'emptytext' => $this->model->getAttributeLabel($this->note),
+                    'type' => 'textarea',
+                ], $this->noteOptions),
             ]);
         }
 
