@@ -235,6 +235,7 @@ class IndexPage extends Authenticated
 
     public function setAdvancedFilter(TestableInput $filter, string $value): void
     {
+        throw new \Exception('not implemented');
         $this->gridView->setAdvancedFilter($filter, $value);
     }
 
