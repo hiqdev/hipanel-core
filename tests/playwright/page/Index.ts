@@ -106,8 +106,9 @@ export default class Index {
   private getRowNumber(rows: Array<string>, value: string) {
     let rowNumber = 0;
     rows.forEach((rowValue, index) => {
-      if (rowValue.trim() === value) {
+      if (rowValue.includes(value)) {
         rowNumber = index + 1;
+        return;
       }
     });
     if (rowNumber === 0) {
