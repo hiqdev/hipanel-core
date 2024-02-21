@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * HiPanel core package
  *
@@ -9,6 +10,8 @@
  */
 
 namespace hipanel\widgets;
+
+use yii\helpers\Inflector;
 
 class LinkSorter extends \yii\widgets\LinkSorter
 {
@@ -36,31 +39,59 @@ class LinkSorter extends \yii\widgets\LinkSorter
     public function run()
     {
         if ($this->show) {
+            $this->addSortClassToOptions();
             parent::run();
         }
     }
 
-    /**
-     * Renders the sort links.
-     *
-     * @return string the rendering result
-     */
-    protected function renderSortLinks()
+    protected function renderSortLinks(): string
     {
         $attributes = empty($this->attributes) ? array_keys($this->sort->attributes) : $this->attributes;
-        $links      = [];
+        $links = [];
         foreach ($attributes as $name) {
             $links[] = $this->sort->link($name);
         }
 
         return $this->render('LinkSorterView', [
-            'id'             => $this->id,
-            'links'          => $links,
-            'attributes'     => $this->sort->attributes,
-            'options'        => array_merge($this->options, ['encode' => false]),
+            'id' => $this->id,
+            'links' => $links,
+            'label' => $this->getSortLabel($this->uiModel->sort),
+            'options' => array_merge($this->options, ['encode' => false]),
             'containerClass' => $this->containerClass,
-            'buttonClass'    => $this->buttonClass,
-            'uiModel'        => $this->uiModel,
+            'buttonClass' => $this->buttonClass,
         ]);
+    }
+
+    private function getSortLabel(?string $attribute): ?string
+    {
+        if (isset($this->options['label'])) {
+            $label = $this->options['label'];
+            unset($this->options['label']);
+        } else {
+            if (isset($this->sort->attributes[$attribute]['label'])) {
+                $label = $this->sort->attributes[$attribute]['label'];
+            } elseif ($this->sort->modelClass !== null) {
+                $modelClass = $this->sort->modelClass;
+                /** @var \yii\base\Model $model */
+                $model = $modelClass::instance();
+                $label = $model->getAttributeLabel($attribute);
+            } else {
+                $label = Inflector::camel2words($attribute);
+            }
+        }
+
+        return $label ?: null;
+    }
+
+    public function addSortClassToOptions(): void
+    {
+        if ($this->uiModel->sort && ($direction = $this->sort->getAttributeOrder(ltrim($this->uiModel->sort, '+-'))) !== null) {
+            $class = $direction === SORT_DESC ? 'desc' : 'asc';
+            if (isset($this->options['label-class'])) {
+                $this->options['label-class'] .= ' ' . $class;
+            } else {
+                $this->options['label-class'] = $class;
+            }
+        }
     }
 }

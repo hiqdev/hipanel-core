@@ -428,7 +428,9 @@ table.dataTable thead > tr > th:first-child {
 
 /* ASC/DESC state  */
 a.asc:after,
-a.desc:after {
+a.desc:after,
+span.asc:after,
+span.desc:after {
     position: relative;
     display: inline-block;
     font-family: 'Glyphicons Halflings';
@@ -437,11 +439,11 @@ a.desc:after {
     padding-left: 5px;
 }
 
-a.desc:after {
+span.desc:after, a.desc:after {
     content: "\e152";
 }
 
-a.asc:after {
+span.asc:after, a.asc:after {
     content: "\e151";
 }
 
