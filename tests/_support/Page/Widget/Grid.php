@@ -11,6 +11,7 @@
 namespace hipanel\tests\_support\Page\Widget;
 
 use Codeception\Scenario;
+use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
@@ -124,7 +125,12 @@ class Grid
     public function getColumnNumber(string $columnName): int
     {
         $columnNumber = 2;
-        $headElements = $this->tester->grabMultiple('//th[not(./input)]');
+        try {
+            $headElements = $this->tester->grabMultiple('//th[not(./input)]');
+        } catch (StaleElementReferenceException $exception) {
+            $this->tester->wait(5);
+            $headElements = $this->tester->grabMultiple('//th[not(./input)]');
+        }
         foreach ($headElements as $currentColumnName) {
             if(str_contains($currentColumnName, $columnName)) {
                 return $columnNumber;
