@@ -125,8 +125,8 @@ class Grid
     {
         $columnNumber = 2;
         $headElements = $this->tester->grabMultiple('//th[not(./input)]');
-        foreach ($headElements as $currentColummName) {
-            if(str_contains($currentColummName, $columnName)) {
+        foreach ($headElements as $currentColumnName) {
+            if(str_contains($currentColumnName, $columnName)) {
                 return $columnNumber;
             }
             $columnNumber++;
