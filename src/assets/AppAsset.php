@@ -23,7 +23,6 @@ class AppAsset extends AssetBundle
 {
     public $sourcePath = __DIR__ . '/AppAssetFiles';
     public $css = [
-        '//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
         'css/panel.css',
     ];
     public $js = [
