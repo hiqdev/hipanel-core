@@ -86,6 +86,7 @@
         "bower-asset/components-font-awesome": "~4.6",
         "bower-asset/chartjs": "~2.8.0",
         "bower-asset/sticky-sidebar": "3.3.1",
+        "bower-asset/seiyria-bootstrap-slider": "dev-bs3",
         "2amigos/yii2-chartjs-widget": "^2.0",
         "2amigos/yii2-switch-widget": "~1.0",
         "npm-asset/checkboxes.js": "1.2.0",
