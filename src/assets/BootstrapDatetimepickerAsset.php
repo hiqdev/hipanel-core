@@ -11,6 +11,7 @@
 namespace hipanel\assets;
 
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 class BootstrapDatetimepickerAsset extends AssetBundle
 {
@@ -25,8 +26,8 @@ class BootstrapDatetimepickerAsset extends AssetBundle
     ];
 
     public $depends = [
-        \yii\web\JqueryAsset::class,
-        \yii\bootstrap\BootstrapAsset::class,
-        \hipanel\assets\MomentAsset::class,
+        JqueryAsset::class,
+        BootstrapAsset::class,
+        MomentAsset::class,
     ];
 }

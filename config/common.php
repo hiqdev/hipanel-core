@@ -78,6 +78,7 @@ return [
     ],
     'container' => [
         'singletons' => [
+            \yii\bootstrap\BootstrapAsset::class => \hipanel\assets\BootstrapAsset::class,
             \Psr\Container\ContainerInterface::class => function (\yii\di\Container $container) {
                 return new class($container) implements \Psr\Container\ContainerInterface {
                     /**
