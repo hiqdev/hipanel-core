@@ -17,6 +17,7 @@ use hipanel\modules\client\grid\SellerColumn;
 use hipanel\widgets\LinkSorter;
 use hipanel\widgets\PagerHook;
 use hipanel\widgets\SummaryHook;
+use hiqdev\assets\datatables\DataTablesAsset;
 use hiqdev\hiart\ActiveDataProvider;
 use Yii;
 use yii\helpers\Url;
@@ -113,6 +114,7 @@ class GridView extends \hiqdev\higrid\GridView
     {
         $this->tableOptions['class'] .= ' ' . Yii::$app->themeManager->settings->getCssClass('table_condensed');
         parent::run();
+        DataTablesAsset::register($this->view);
     }
 
     /**
