@@ -10,7 +10,6 @@
 
 namespace hipanel\grid;
 
-use hipanel\assets\CheckboxStyleAsset;
 use hipanel\helpers\ArrayHelper;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\SellerColumn;

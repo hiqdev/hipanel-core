@@ -202,9 +202,9 @@ JS
         StickySidebarAsset::register($view);
         $view->registerCss(<<<'CSS'
             .advanced-search {
-                container: advanceSearch / inline-size;
+                container: advancedSearch / inline-size;
             }
-            @container advanceSearch (width >= 120px) {
+            @container advancedSearch (width >= 120px) {
                 form > div {
                     width: 100%!important;
                     position: inherit!important;
