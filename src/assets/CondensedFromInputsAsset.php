@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\assets;
 
+use yii\bootstrap\BootstrapAsset;
 use yii\web\AssetBundle;
 
 class CondensedFromInputsAsset extends AssetBundle

@@ -14,9 +14,6 @@ use yii\web\AssetBundle;
 
 class LessSpaceAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/less-space';
-
-    public $css = [
-        'dist/less-space.min.css',
-    ];
+    public $sourcePath = '@bower/less-space/dist';
+    public $css = ['less-space.min.css'];
 }

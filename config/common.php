@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
+/** @var array $params */
+
 return [
     'aliases' => [
         '@organization' => $params['organization.url'],
@@ -78,7 +80,6 @@ return [
     ],
     'container' => [
         'singletons' => [
-            \yii\bootstrap\BootstrapAsset::class => \hipanel\assets\BootstrapAsset::class,
             \Psr\Container\ContainerInterface::class => function (\yii\di\Container $container) {
                 return new class($container) implements \Psr\Container\ContainerInterface {
                     /**

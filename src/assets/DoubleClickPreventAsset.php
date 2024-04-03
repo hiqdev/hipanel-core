@@ -2,6 +2,7 @@
 
 namespace hipanel\assets;
 
+use yii\bootstrap\BootstrapAsset;
 use yii\web\AssetBundle;
 use yii\web\JqueryAsset;
 

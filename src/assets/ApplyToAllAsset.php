@@ -1,36 +1,18 @@
 <?php
 
+declare(strict_types=1);
 
 namespace hipanel\assets;
 
-
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 class ApplyToAllAsset extends AssetBundle
 {
-    /**
-     * {@inheridoc}
-     */
-    public $sourcePath = __DIR__;
-
-    /**
-     * {@inheridoc}
-     */
-    public $js = [
-        'js/ApplyToAll.js'
-    ];
-
-    /**
-     * {@inheridoc}
-     */
+    public $sourcePath = __DIR__ . '/js';
+    public $js = ['ApplyToAll.js'];
     public $depends = [
-        'yii\web\JqueryAsset',
+        JqueryAsset::class,
     ];
-
-    /**
-     * {@inheridoc}
-     */
-    public $publishOptions = [
-        'linkAssets' => true,
-    ];
+    public $publishOptions = ['only' => ['ApplyToAll.js']];
 }

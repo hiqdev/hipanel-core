@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
+/** @var array $params */
+
 return [
     'id' => 'hipanel',
     'name' => 'HiPanel',
@@ -108,6 +110,9 @@ return [
                 '$themedViewPaths' => [dirname(__DIR__) . '/src/views'],
             ],
         ],
+        'assetManager' => [
+            'bundles' => YII_ENV === 'prod' ? require(dirname(__DIR__, 4) . '/runtime/assets-prod.php') : [],
+        ],
         'fileStorage' => [
             'class' => \hipanel\components\FileStorage::class,
             'secret' => $params['fileStorageSecret'],
@@ -117,13 +122,6 @@ return [
         ],
         'themeSettingsStorage' => [
             'class' => \hipanel\components\ThemeSettingsStorage::class,
-        ],
-        'assetManager' => [
-            'bundles' => [
-                \omnilight\assets\MomentAsset::class => [
-                    'class' => \hipanel\assets\MomentAsset::class,
-                ],
-            ],
         ],
     ],
     'container' => [
