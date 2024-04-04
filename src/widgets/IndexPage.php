@@ -201,15 +201,15 @@ JS
         $view = $this->getView();
         StickySidebarAsset::register($view);
         $view->registerCss(<<<'CSS'
-            .advanced-search {
-                container: advancedSearch / inline-size;
-            }
-            @container advancedSearch (width >= 120px) {
-                form > div {
-                    width: 100%!important;
-                    position: inherit!important;
-                }
-            }
+            /*.advanced-search {*/
+            /*    container: advancedSearch / inline-size;*/
+            /*}*/
+            /*@container advancedSearch (width >= 70px) {*/
+            /*    form > div {*/
+            /*        width: 100%!important;*/
+            /*        position: inherit!important;*/
+            /*    }*/
+            /*}*/
             .horizontal-view .content-sidebar {
                 will-change: min-height;
             }
