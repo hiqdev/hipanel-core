@@ -46,6 +46,9 @@ class AdvancedSearchActiveField extends ActiveField
                 ],
             ]));
         }
+        if (isset($widget->template)) {
+            $this->template = $widget->template;
+        }
         $this->parts['{input}'] = $widget->run();
 
         return $this;
