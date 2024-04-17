@@ -4,10 +4,8 @@ services:
   app:
     image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
     restart: unless-stopped
-    ports:
-      - "80"
     volumes:
-      - ./:/app
+      - ./.env:/app/.env
       - ./.docker/php/var/log/php:/var/log/php
       - ./.docker/nginx/var/log/nginx:/var/log/nginx
     tmpfs:
@@ -27,6 +25,7 @@ services:
       - "LETSENCRYPT_HOST=${HOSTS}"
       - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
       - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS:-false}"
+      - "BEFORE_ENTRYPOINT=composer dump"
 
   memcached:
     image: memcached:1.5
