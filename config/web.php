@@ -111,7 +111,7 @@ return [
             ],
         ],
         'assetManager' => [
-            'bundles' => YII_ENV === 'prod' ? require(dirname(__DIR__, 4) . '/runtime/assets-prod.php') : [],
+            'bundles' => YII_ENV === 'prod' ? require(dirname(__DIR__, 4) . '/config/assets-prod.php') : [],
         ],
         'fileStorage' => [
             'class' => \hipanel\components\FileStorage::class,
