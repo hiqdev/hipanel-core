@@ -68,13 +68,14 @@ class UiOptionsBehavior extends Behavior
                     $options[$key] = $value;
                 }
             }
-            $model->attributes = $options;
-
-            if ($model->validate()) {
-                $this->getUiOptionsStorage()->set($this->getRoute(), $model->toArray());
-            } else {
-                $errors = json_encode($model->getErrors());
-                Yii::warning('UiOptionsBehavior - IndexPageUiModel validation errors: ' . $errors);
+            if ($options !== []) {
+                $model->attributes = $options;
+                if ($model->validate()) {
+                    $this->getUiOptionsStorage()->set($this->getRoute(), $model->toArray());
+                } else {
+                    $errors = json_encode($model->getErrors());
+                    Yii::warning('UiOptionsBehavior - IndexPageUiModel validation errors: ' . $errors);
+                }
             }
         }
     }
