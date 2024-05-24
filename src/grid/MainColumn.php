@@ -92,11 +92,11 @@ class MainColumn extends DataColumn
 
     protected function renderTags($model): string
     {
-        if (!$model instanceof TaggableInterface || $model->isTagsHidden()) {
-            return '';
+        if ($model instanceof TaggableInterface && !$model->isTagsHidden()) {
+            return TagsManager::widget(['model' => $model]);
         }
 
-        return TagsManager::widget(['model' => $model]);
+        return '';
     }
 
     protected function renderValue($model, $key, $index)

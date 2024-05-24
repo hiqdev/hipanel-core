@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace hipanel\grid;
@@ -12,15 +13,13 @@ class TagsColumn extends DataColumn
     public $format = 'raw';
     public $attribute = 'tags';
 
-    public function init()
+    public function init(): void
     {
         $this->label = Yii::t('hipanel', 'Tags');
         $this->enableSorting = false;
-        $this->exportedValue = static function ($model) {
+        $this->visible = Yii::$app->user->can('owner-staff');
+        $this->exportedValue = static function (TaggableInterface $model) {
             $output = [];
-            if (!$model instanceof TaggableInterface) {
-                return '';
-            }
             if ($model->isTagsHidden()) {
                 return '';
             }

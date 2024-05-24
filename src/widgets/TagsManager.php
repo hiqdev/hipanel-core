@@ -18,6 +18,9 @@ class TagsManager extends Widget
 
     public function run(): ?string
     {
+        if ($this->model->isTagsHidden()) {
+            return '';
+        }
         Vue2CdnAsset::register($this->view);
         XEditableAsset::register($this->view);
 
