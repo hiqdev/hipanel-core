@@ -5,6 +5,7 @@ export type Credentials = {
   admin: Credential,
   manager: Credential,
   seller: Credential,
+  osrc: Credential,
 }
 
 export type Credential = {
