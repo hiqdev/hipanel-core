@@ -8,7 +8,6 @@ const testClients = {
   admin: { login: "hipanel_test_admin", password: "random" },
   manager: { login: "hipanel_test_manager", password: "random" },
   seller: { login: "hipanel_test_reseller", password: "random" },
-  osrc: { login: "osrc_testuser", password: "random" },
 };
 
 const doLogin = async (fileName: string, actor: string, browser: Browser) => {
@@ -23,18 +22,17 @@ export const test = base.extend<{
   adminPage: Page,
   managerPage: Page,
   sellerPage: Page,
-  osrcPage: Page,
 }>({
   storageState: async ({ browser }, use, testInfo: TestInfo) => {
     let actor;
     const testTitle = testInfo.title;
-    Object.keys(testClients).forEach((role: string) => {
+    ["seller", "manager", "client", "admin"].forEach((role: string) => {
       if (!actor && testTitle.includes(`@${role}`)) {
         actor = role;
       }
     });
     if (!actor) {
-      throw new Error("Test role is not found, the role tag must be present in the test title, for example: @seller, @manager, @client, @admin, @osrc");
+      throw new Error("Test role is not found, the role tag must be present in the test title, for example: @seller, @manager, @client, @admin");
     }
     const fileName = path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
     if (!fs.existsSync(fileName)) {
@@ -59,9 +57,6 @@ export const test = base.extend<{
     await use(page);
   },
   clientPage: async ({ page }, use) => {
-    await use(page);
-  },
-  osrcPage: async ({ page }, use) => {
     await use(page);
   },
 });
