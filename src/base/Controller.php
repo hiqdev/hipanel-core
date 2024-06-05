@@ -16,8 +16,9 @@ use hipanel\components\Cache;
 use hipanel\components\Response;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\hiart\ActiveRecord;
-use hiqdev\yii2\export\actions\BackgroundExportAction;
-use hiqdev\yii2\export\actions\BackgroundProgressAction;
+use hiqdev\yii2\export\actions\CancelExportAction;
+use hiqdev\yii2\export\actions\StartExportAction;
+use hiqdev\yii2\export\actions\ProgressExportAction;
 use hiqdev\yii2\export\actions\DownloadExportAction;
 use hiqdev\yii2\export\actions\ExportAction;
 use Yii;
@@ -63,14 +64,17 @@ class Controller extends \yii\web\Controller
             'export' => [
                 'class' => ExportAction::class,
             ],
-            'background-export' => [
-                'class' => BackgroundExportAction::class,
+            'start-export' => [
+                'class' => StartExportAction::class,
             ],
             'progress-export' => [
-                'class' => BackgroundProgressAction::class,
+                'class' => ProgressExportAction::class,
             ],
             'download-export' => [
                 'class' => DownloadExportAction::class,
+            ],
+            'cancel-export' => [
+                'class' => CancelExportAction::class,
             ],
             'set-tags' => [
                 'class' => TagsAction::class

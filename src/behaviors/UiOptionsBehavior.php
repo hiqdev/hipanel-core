@@ -23,7 +23,7 @@ class UiOptionsBehavior extends Behavior
     /**
      * @var array
      */
-    public array $allowedRoutes = ['index', 'export', 'background-export'];
+    public array $allowedRoutes = ['index', 'export', 'start-export'];
 
     /**
      * @var mixed

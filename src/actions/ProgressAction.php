@@ -13,9 +13,9 @@ class ProgressAction extends Action
     public ?Closure $onProgress = null;
     public ?Closure $onGettingId = null;
     public bool $needsToBeEnd = false;
-    private const INIT_TRIES = 99;
     private int $triesLeft = self::INIT_TRIES;
     private ?string $lastHash = null;
+    private const int INIT_TRIES = 99;
 
     public function run()
     {
