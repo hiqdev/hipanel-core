@@ -17,6 +17,7 @@ final class SynchronousCountEnabler
 
     public function __construct(ActiveDataProvider $dataProvider, Closure $renderContent)
     {
+        $dataProvider->refresh();
         $dataProvider->enableSynchronousCount();
 
         $this->dataProvider = clone $dataProvider;
