@@ -199,7 +199,6 @@ JS
     private function horizontalClientScriptInit()
     {
         $view = $this->getView();
-        StickySidebarAsset::register($view);
         $view->registerCss(<<<'CSS'
             .advanced-search {
                 container: advancedSearch / inline-size;
@@ -232,23 +231,6 @@ JS
             }
 CSS
         );
-        $view->registerJs(<<<"JS"
-            var isDesktop = $(window).innerWidth() > 991;
-            if (isDesktop) {
-                var stickySidebar = new StickySidebar('.horizontal-view .content-sidebar', {
-                    topSpacing: 10,
-                    containerSelector: '.horizontal-content',
-                    innerWrapperSelector: '.content-sidebar__inner'
-                });
-                $(document).on('pjax:end', stickySidebar.updateSticky);
-            }
-
-            $(document).on('pjax:end', function() {
-                $('.advanced-search form > div').css({'width': '100%'});
-                $(window).trigger('scroll'); // Fix left search block position
-            });
-JS
-           , View::POS_LOAD);
     }
 
     public function detectLayout()
