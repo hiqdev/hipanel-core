@@ -76,14 +76,14 @@ window.hipanel = (function () {
         ga("send", "pageview", "/virtual/" + options.category + "/" + options.action);
       });
     },
-    progress: function (url, closeHendler) {
+    progress: function (url, withCallback) {
       if (!window.EventSource || !url) {
         console.error("EVENTSOURCE ERROR");
         return;
       }
       const eventSource = new EventSource(url);
-      if (closeHendler) {
-        closeHendler(eventSource);
+      if (withCallback) {
+        withCallback(eventSource);
       }
 
       return {
@@ -94,43 +94,21 @@ window.hipanel = (function () {
         },
       };
     },
-    process: function () {
-      let beforeSendHandler = null;
-      let completeHandler = null;
-      let successHandler = null;
-
-      return {
-        onBeforeSend: function (handler) {
-          beforeSendHandler = handler;
+    runProcess: function (url, data = {}, onBeforeSend, onAfterSend, timeout = 1000) {
+      if (onAfterSend) {
+        setTimeout(onAfterSend, timeout);
+      }
+      $.ajax({
+        url: url,
+        method: "POST",
+        data: data,
+        beforeSend: function (xhr) {
+          if (onBeforeSend) {
+            onBeforeSend(xhr);
+          }
         },
-        onSuccess: function (handler) {
-          successHandler = handler;
-        },
-        onComplete: function (handler) {
-          completeHandler = handler;
-        },
-        run: function (url, data = {}) {
-          $.ajax({
-            url: url,
-            method: "POST",
-            data: data,
-            beforeSend: function (xhr) {
-              if (beforeSendHandler) {
-                beforeSendHandler(xhr);
-              }
-            },
-            complete: function (xhr, status) {
-              if (completeHandler) {
-                completeHandler(shr, status);
-              }
-            },
-            success: function (data, status, xhr) {
-              successHandler(data, status, xhr);
-            },
-          });
-        },
-      };
-    },
+      });
+    }
   };
 
   return publicMethods;
