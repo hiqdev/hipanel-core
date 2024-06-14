@@ -64,4 +64,9 @@ final class SynchronousCountEnabler
 
         return $this;
     }
+
+    public function getDataProvider(): ActiveDataProvider
+    {
+        return $this->dataProvider;
+    }
 }

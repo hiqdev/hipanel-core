@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace hipanel\actions;
 
@@ -15,7 +13,7 @@ class RunProcessAction extends Action
     public function run()
     {
         ignore_user_abort(true);
-        ini_set('memory_limit', '2G');
+        ini_set('memory_limit', '10G');
 
         ob_start();
 

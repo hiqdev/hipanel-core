@@ -57,7 +57,7 @@ class GridView extends \hiqdev\higrid\GridView
         parent::init();
 
         // todo: find more sophisticated solution
-        if (!isset($this->filterUrl) && $this->dataProvider->getCount() <= 0 && Yii::$app->request->get('page', 0) > 1) {
+        if (!isset($this->filterUrl) && Yii::$app->request->get('page', 0) > 1 && $this->dataProvider->getCount() <= 0) {
             $url = Url::current(['page' => 1]);
             $this->view->registerJs("document.location.assign('$url');");
 
