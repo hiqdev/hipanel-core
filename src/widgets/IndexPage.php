@@ -295,7 +295,7 @@ CSS
         }
         $items = [];
         foreach ([25, 50, 100, 200, 500] as $pageSize) {
-            $items[] = ['label' => $pageSize, 'url' => Url::current(['per_page' => $pageSize])];
+            $items[] = ['label' => $pageSize, 'url' => Url::current(['per-page' => $pageSize])];
         }
 
         return ButtonDropdown::widget([

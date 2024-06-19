@@ -94,10 +94,7 @@ window.hipanel = (function () {
         },
       };
     },
-    runProcess: function (url, data = {}, onBeforeSend, onAfterSend, timeout = 1000) {
-      if (onAfterSend) {
-        setTimeout(onAfterSend, timeout);
-      }
+    runProcess: function (url, data = {}, onBeforeSend, onAfterSend, timeout = 2000) {
       $.ajax({
         url: url,
         method: "POST",
@@ -105,6 +102,11 @@ window.hipanel = (function () {
         beforeSend: function (xhr) {
           if (onBeforeSend) {
             onBeforeSend(xhr);
+          }
+        },
+        complete: function (jqXHR, textStatus) {
+          if (textStatus === 'success' && onAfterSend) {
+            setTimeout(onAfterSend, timeout);
           }
         },
       });

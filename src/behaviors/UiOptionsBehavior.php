@@ -15,6 +15,7 @@ use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\models\IndexPageUiOptions;
 use Yii;
 use yii\base\Behavior;
+use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 use yii\web\Controller;
 
@@ -35,15 +36,10 @@ class UiOptionsBehavior extends Behavior
      */
     private $_model;
 
-    /**
-     * @var RepresentationCollectionFinder
-     */
-    private $representationCollectionFinder;
 
-    public function __construct(RepresentationCollectionFinder $representationCollectionFinder, array $config = [])
+    public function __construct(private readonly RepresentationCollectionFinder $representationCollectionFinder, array $config = [])
     {
         parent::__construct($config);
-        $this->representationCollectionFinder = $representationCollectionFinder;
     }
 
     public function events()
@@ -56,10 +52,11 @@ class UiOptionsBehavior extends Behavior
         if (!$this->isRouteAllowed()) {
             return;
         }
-
         $options = [];
-        $params = Yii::$app->request->get();
         $model = $this->getModel();
+        $queryParams = Yii::$app->request->get();
+        $keys = array_map(static fn($key): string => $key === 'per-page' ? 'per_page' : $key, array_keys($queryParams));
+        $params = array_combine($keys, array_values($queryParams));
         $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());
         $model->availableRepresentations = $this->findRepresentations();
         if ($params) {
@@ -101,8 +98,9 @@ class UiOptionsBehavior extends Behavior
 
     /**
      * @return UiOptionsStorage
+     * @throws InvalidConfigException
      */
-    protected function getUiOptionsStorage()
+    protected function getUiOptionsStorage(): UiOptionsStorage
     {
         return Yii::$app->get('uiOptionsStorage');
     }
