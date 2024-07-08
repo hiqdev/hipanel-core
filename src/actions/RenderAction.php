@@ -93,7 +93,7 @@ class RenderAction extends Action
     private function getStoredFilters(): array
     {
         if (!$this->parent instanceof IndexAction) {
-            return [];
+            return [null, null];
         }
         $filterStorage = new FilterStorage(['map' => $this->parent->filterStorageMap]);
 
