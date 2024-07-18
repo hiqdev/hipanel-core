@@ -33,7 +33,7 @@ class TaggableBehavior extends Behavior
 
     public function fetchTags(mixed $searchQuery = null): mixed
     {
-        if (!$this->owner instanceof Debt) {
+        if ($searchQuery && !$this->owner instanceof Debt) {
             $tagLike ??= $searchQuery['tagLike'];
             $id ??= $searchQuery['id'];
 
