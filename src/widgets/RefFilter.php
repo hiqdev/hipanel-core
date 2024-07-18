@@ -72,7 +72,7 @@ class RefFilter extends Widget
         if (isset($config['options'])) {
             $options = &$config['options'];
         }
-        $vars = get_class_vars(get_class());
+        $vars = get_class_vars(static::class);
         foreach ($config as $k => $v) {
             if (array_key_exists($k, $vars)) {
                 continue;
