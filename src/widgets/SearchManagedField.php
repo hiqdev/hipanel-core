@@ -56,11 +56,13 @@ class SearchManagedField extends InputWidget
     private function currentCnd(): array
     {
         $options = $this->view->context->request->get($this->model->formName());
-        foreach ($options as $option => $value) {
-            foreach ($this->searchVariants() as $searchVariant) {
-                $attributeName = $this->attribute . '_' . $searchVariant;
-                if ($option === $attributeName) {
-                    return [$searchVariant, $value];
+        if ($options) {
+            foreach ($options as $option => $value) {
+                foreach ($this->searchVariants() as $searchVariant) {
+                    $attributeName = $this->attribute . '_' . $searchVariant;
+                    if ($option === $attributeName) {
+                        return [$searchVariant, $value];
+                    }
                 }
             }
         }
