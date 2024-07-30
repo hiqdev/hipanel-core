@@ -176,6 +176,13 @@ JS
         $this->_current = null;
     }
 
+    public function content(string $name, callable|string $content): void
+    {
+        $this->beginContent($name);
+        echo is_callable($content) ? call_user_func($content) : $content;
+        $this->endContent();
+    }
+
     /**
      * Returns content saved in [[content]] by $name.
      * @param string $name

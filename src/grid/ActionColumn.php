@@ -22,16 +22,8 @@ class ActionColumn extends \yii\grid\ActionColumn
     }
 
     public $attribute;
-
-    /**
-     * @var
-     */
-    public $buttonOptions = [];
-
-    /**
-     * @var integer count of visible buttons that will be shown without spoiler
-     */
-    public $visibleButtonsCount = 1;
+    public int $visibleButtonsCount = 1;
+    public bool $rawTemplate = false;
 
     /**
      * {@inheritdoc}
@@ -44,7 +36,9 @@ class ActionColumn extends \yii\grid\ActionColumn
         $this->traitInit();
         $this->registerBtnGroupDirectionFix();
         $this->getCountButtons();
-        $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
+        if (!$this->rawTemplate) {
+            $this->template = ($this->getCountButtons() > $this->visibleButtonsCount) ? '<div class="btn-group btn-group-fix">' . $this->template . '</ul></div>' : '<div class="btn-group btn-group-fix">' . $this->template . '</div>';
+        }
     }
 
     public function getCountButtons()
