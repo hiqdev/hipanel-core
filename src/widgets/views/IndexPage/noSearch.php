@@ -1,10 +1,15 @@
-<?php
-$widget = $this->context;
-?>
+<?php $widget = $this->context ?>
 <div class="box box-widget">
+    <div class="box-header with-border no-padding">
+        <div class="mailbox-controls">
+            <?= $widget->renderContent('sorter-actions') ?>
+            <?= $widget->renderContent('representation-actions') ?>
+            <?= $widget->renderPerPage() ?>
+            <?= $widget->renderContent('show-actions') ?>
+        </div>
+    </div>
     <div class="box-body no-padding">
         <div class="mailbox-controls">
-            <?= $widget->renderContent('show-actions') ?>
             <div class="box-tools box-bulk-actions pull-right">
                 <fieldset disabled="disabled">
                     <?= $widget->renderContent('bulk-actions') ?>
@@ -12,7 +17,6 @@ $widget = $this->context;
             </div>
             <div class="box-tools pull-right">
                 <?= $widget->renderContent('main-actions') ?>
-                &nbsp;
             </div>
         </div>
         <?= $widget->renderContent('table') ?>
