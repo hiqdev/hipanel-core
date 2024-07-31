@@ -22,7 +22,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     }
 
     public $attribute;
-    public int $visibleButtonsCount = 1;
+    public int $visibleButtonsCount = 1; # Count of visible buttons that will be shown without spoiler
     public bool $rawTemplate = false;
 
     /**
@@ -82,10 +82,10 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->buttons['view'])) {
             $this->buttons['view'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title'      => Yii::t('hipanel', 'Details'),
+                    'title' => Yii::t('hipanel', 'Details'),
                     'aria-label' => Yii::t('hipanel', 'Details'),
-                    'data-pjax'  => '0',
-                    'class'      => 'btn btn-default btn-xs',
+                    'data-pjax' => '0',
+                    'class' => 'btn btn-default btn-xs',
                 ], $this->buttonOptions);
 
                 return Html::a('<i class="fa fa-bars"></i>&nbsp;' . Yii::t('hipanel', 'Details'), $url, $options);
@@ -94,9 +94,9 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->buttons['update'])) {
             $this->buttons['update'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title'      => Yii::t('hipanel', 'Update'),
+                    'title' => Yii::t('hipanel', 'Update'),
                     'aria-label' => Yii::t('hipanel', 'Update'),
-                    'data-pjax'  => '0',
+                    'data-pjax' => '0',
                 ], $this->buttonOptions);
 
                 return Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel', 'Update'), $url, $options);
@@ -105,11 +105,11 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title'        => Yii::t('hipanel', 'Delete'),
-                    'aria-label'   => Yii::t('hipanel', 'Delete'),
+                    'title' => Yii::t('hipanel', 'Delete'),
+                    'aria-label' => Yii::t('hipanel', 'Delete'),
                     'data' => [
                         'confirm' => Yii::t('hipanel', 'Are you sure you want to delete this item?'),
-                        'method'  => 'POST',
+                        'method' => 'POST',
                         'data-pjax' => '0',
                     ],
                 ], $this->buttonOptions);
@@ -137,9 +137,10 @@ class ActionColumn extends \yii\grid\ActionColumn
             }
 
             if ($isVisible && isset($this->buttons[$name])) {
-                $url          = $this->createUrl($name, $model, $key, $index);
+                $url = $this->createUrl($name, $model, $key, $index);
                 $renderedItem = call_user_func($this->buttons[$name], $url, $model, $key);
-                $result       = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem, $index) : $this->renderOtherButton($renderedItem);
+                $result = ($renderedCount < $this->visibleButtonsCount) ? $this->renderFirstButton($renderedItem,
+                    $index) : $this->renderOtherButton($renderedItem);
                 ++$renderedCount;
 
                 return $result;
