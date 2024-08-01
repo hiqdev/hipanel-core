@@ -155,7 +155,11 @@ class AjaxModal extends \yii\bootstrap\Modal
                 if ($this->usePost) {
                     $this->clientEvents['show.bs.modal'] = new JsExpression("function(e) {
                         if (e.namespace !== 'bs.modal') return true;
-                        var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        const grid = jQuery('div[role=\"grid\"]');
+                        let selection = [];
+                        if (grid.length) {
+                            selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        }
                         $.post('{$this->actionUrl}', {selection: selection}).done(function (data) {
                             $('#{$this->id} .modal-body').html(data);
                         });
@@ -163,7 +167,11 @@ class AjaxModal extends \yii\bootstrap\Modal
                 } else {
                     $this->clientEvents['show.bs.modal'] = new JsExpression("function(e) {
                         if (e.namespace !== 'bs.modal') return true;
-                        var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        const grid = jQuery('div[role=\"grid\"]');
+                        let selection = [];
+                        if (grid.length) {
+                            selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        }
                         $.get('{$this->actionUrl}', {selection: selection}).done(function (data) {
                             $('#{$this->id} .modal-body').html(data);
                         });
