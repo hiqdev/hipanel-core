@@ -14,9 +14,8 @@ services:
       proxy-network:
       hiapi-network:
       local-network:
-        aliases:
-          - local-php-fpm
     extra_hosts:
+      - "local-php-fpm:127.0.0.1"
       - "${API_HOSTS_LINE}"
     environment:
       - "ENV=${ENV}"
