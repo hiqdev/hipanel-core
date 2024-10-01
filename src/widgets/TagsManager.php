@@ -15,6 +15,7 @@ use yii\helpers\Json;
 class TagsManager extends Widget
 {
     public TaggableInterface $model;
+    public bool $forceReadOnly = false;
 
     public function run(): ?string
     {
@@ -37,7 +38,7 @@ class TagsManager extends Widget
         $tagInput = $tagsInputWidget->run();
         $tpl = Json::htmlEncode($tagInput);
         $mixin = $tagsInputWidget->getMixin();
-        $readOnly = $this->model->isTagsReadOnly() ? 'true' : 'false';
+        $readOnly = $this->model->isTagsReadOnly() || $this->forceReadOnly ? 'true' : 'false';
 
         $this->view->registerJs(/** @lang JavaScript */ <<<"JS"
           (() => {
