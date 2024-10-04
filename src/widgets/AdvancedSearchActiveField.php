@@ -97,6 +97,9 @@ class AdvancedSearchActiveField extends ActiveField
         $options['class'] = implode(' ', $class);
 
         $tag = ArrayHelper::remove($options, 'tag', 'div');
+        if (isset($this->options['class']) && str_contains($this->options['class'], 'checkbox')) {
+            return Html::beginTag($tag, $options);
+        }
         // Added tooltip help
         $options['data'] = [
             'toggle' => 'tooltip',
