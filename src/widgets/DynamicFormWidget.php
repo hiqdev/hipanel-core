@@ -10,6 +10,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\modules\finance\widgets\BillTypeVueTreeSelect;
 use yii\web\View;
 
 class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
@@ -156,34 +157,28 @@ JS
             });
 JS
         );
-        // For VueTreeselect
+        // For VueTreeSelect
+        $mixin = BillTypeVueTreeSelect::mixin();
         $view->registerJs(
             sprintf(/** @lang JavaScript */ "
               (() => {
                 const treeSelectHandler = function (e, item) {
                   const treeSelectInputs = $(item).find('treeselect');
+                  const prevAdjusment = $(item).prev().find('[id*=type_id]');
                   if (treeSelectInputs.length > 0 && typeof window.Vue !== 'undefined') {
                     treeSelectInputs.each(function () {
                       const container = $(this).parents('div').eq(0);
-                      const input = container.find('input[type=hidden]');
+                      const mixin = $mixin;
                       new Vue({
                         el: container.get(0),
-                        components: {
-                          'treeselect': VueTreeselect.Treeselect,
-                        },
-                        data: {
-                          value: input.data('value'),
-                          options: input.data('options')
-                        },
-                        methods: {
-                          typeChange: function (node) {
-                            this.value = typeof node === 'undefined' ? null : node.id;
-                            this.\$nextTick(function () {
-                              const el = this.\$el.querySelector('input:not(.vue-treeselect__input)');
-                              $(el).trigger('change');
-                            });
+                        mixins: [mixin],
+                        mounted() {
+                          this.value = prevAdjusment.val();
+                          if (prevAdjusment.data('adjustment') === 'yes') {
+                            this.adjustmentOnly = true;
+                            this.toggleOptions(true);
                           }
-                        }
+                        },
                       });
                     });
                   }
