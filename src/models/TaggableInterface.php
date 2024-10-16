@@ -9,7 +9,7 @@ namespace hipanel\models;
  * @method void setTags()
  * @method array getTags()
  * @method void saveTags()
- * @method mixed fetchTags()
+ * @method mixed fetchTags(?array $searchQuery = null)
  * @method bool isTagsHidden()
  * @method bool isTagsReadOnly()
  */
