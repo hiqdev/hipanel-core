@@ -31,11 +31,11 @@ class TaggableBehavior extends Behavior
         );
     }
 
-    public function fetchTags(mixed $searchQuery = null): mixed
+    public function fetchTags(?array $searchQuery = null): mixed
     {
-        if ($searchQuery && !$this->owner instanceof Debt) {
-            $tagLike ??= $searchQuery['tagLike'];
-            $id ??= $searchQuery['id'];
+        if (!$this->owner instanceof Debt) {
+            $tagLike = $searchQuery['tagLike'] ?? null;
+            $id = $searchQuery['id'] ?? null;
 
             return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike, 'id' => $id]));
         }
