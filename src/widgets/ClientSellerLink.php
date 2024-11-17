@@ -39,13 +39,13 @@ class ClientSellerLink extends \yii\base\Widget
         $user = Yii::$app->user;
         if ($this->getClient() === 'anonym') {
             $result = Html::tag('b', 'anonym');
-        } elseif ($this->getClientId() === $user->id || $user->can('support')) {
+        } elseif ($this->getClientId() === $user->id || $user->can('access-subclients')) {
             $result = Html::a($this->getClient(), ['@client/view', 'id' => $this->getClientId()]);
         } else {
             $result = $this->getClient();
         }
 
-        if ($user->can('support') && $this->getSeller() !== false) {
+        if ($user->can('access-subclients') && $this->getSeller() !== false) {
             $result .= ' / ';
             if (
                 $user->can('owner-staff') ||

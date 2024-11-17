@@ -61,6 +61,16 @@ class User extends \yii\web\User
         return empty($this->getIdentity()->id);
     }
 
+    public function isAccountOwner()
+    {
+        $identity = $this->getIdentity();
+        if (!$identity) {
+            throw new InvalidCallException();
+        }
+
+        return $identity->isAccountOwner();
+    }
+
     /**
      * Prepares authorization data.
      * Redirects to authorization if necessary.
