@@ -66,23 +66,23 @@ use yii\helpers\Html;
             ]) ?>
         </div>
     <?php endforeach ?>
-    <?php if (count($visibleInputs) > 1) : ?>
-        <?php foreach ($visibleInputs as $visibleInput) : ?>
+    <?php foreach ($visibleInputs as $visibleInput) : ?>
+        <?php if (count($visibleInputs) > 1) : ?>
             <div class="col-sm-6">
                 <?= $form->field($model, $visibleInput)->textInput([
                     'id' => "$scenario-comment",
                     'name' => $visibleInput,
                 ]) ?>
             </div>
-        <?php endforeach ?>
-    <?php else : ?>
-        <div class="col-sm-12">
-            <?= $form->field($model, reset($visibleInputs))->textarea([
-                'id' => "$scenario-comment",
-                'name' => reset($visibleInputs),
-            ]) ?>
-        </div>
-    <?php endif ?>
+        <?php else : ?>
+            <div class="col-sm-12">
+                <?= $form->field($model, reset($visibleInputs))->textarea([
+                    'id' => "$scenario-comment",
+                    'name' => reset($visibleInputs),
+                ]) ?>
+            </div>
+        <?php endif ?>
+    <?php endforeach ?>
 </div>
 
 <div class="modal-footer">
