@@ -44,6 +44,8 @@ class User extends Model implements IdentityInterface
     public $auth_key;
     public $password_hash;
 
+    public $account_owner_id;
+
     private static $_users = [];
 
     const TYPE_CLIENT = 'client';
@@ -167,6 +169,11 @@ class User extends Model implements IdentityInterface
     public function is($key)
     {
         return (int) $this->id === (int) $key || (string) $this->username === (string) $key;
+    }
+
+    public function isAccountOwner(): bool
+    {
+        return $this->id === $this->account_owner_id;
     }
 
     public function not($key)
