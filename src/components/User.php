@@ -65,7 +65,7 @@ class User extends \yii\web\User
     {
         $identity = $this->getIdentity();
         if (!$identity) {
-            throw new InvalidCallException();
+            throw new InvalidCallException("The Identity instance is required to check if a user is an account owner");
         }
 
         return $identity->isAccountOwner();
