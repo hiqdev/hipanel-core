@@ -74,7 +74,7 @@ use yii\helpers\Html;
                     'name' => $visibleInput,
                 ]) ?>
             </div>
-        <?php else : ?>
+        <?php elseif (!empty($visibleInputs)) : ?>
             <div class="col-sm-12">
                 <?= $form->field($model, reset($visibleInputs))->textarea([
                     'id' => "$scenario-comment",
