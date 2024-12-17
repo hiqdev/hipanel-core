@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace hipanel\widgets;
 
@@ -10,7 +8,6 @@ use yii\helpers\Html;
 
 class SearchManagedField extends InputWidget
 {
-    public string $default = 'eq';
     public string $template = '{input}';
     public array $searchBy = [];
 
@@ -18,15 +15,17 @@ class SearchManagedField extends InputWidget
     {
         parent::init();
 
+        $this->options['class'] = ($this->options['class'] ?? '') . ' form-control';
         $items = [];
         $variants = $this->searchVariants();
         [$condition] = $this->currentCnd();
         if (!empty($variants)) {
             foreach ($this->searchVariants() as $variant) {
+                $v = implode('_', array_filter([$this->attribute, $variant]));
                 $items[] = [
-                    'label' => $variant,
+                    'label' => $v,
                     'url' => '#',
-                    'linkOptions' => ['data' => ['condition' => $variant]],
+                    'linkOptions' => ['data' => ['condition' => $v]],
                 ];
             }
             $buttonDropdown = ButtonDropdown::widget([
@@ -37,20 +36,24 @@ class SearchManagedField extends InputWidget
                     'items' => $items,
                 ],
             ]);
-            $this->template = strtr(
-                '<div class="input-group">{input}<span class="input-group-btn">{btn}</span></div>',
-                ['{btn}' => $buttonDropdown]
-            );
+            $this->template = strtr('<div class="input-group">{input}<span class="input-group-btn">{btn}</span></div>', [
+                '{btn}' => $buttonDropdown,
+            ]);
             $this->registerClientScript();
         }
     }
 
+    public function run(): string
+    {
+        return $this->renderInputHtml('text');
+    }
+
     private function searchVariants(): array
     {
-        return array_intersect(
-            ['and', 'between', 'eq', 'ne', 'in', 'ni', 'like', 'ilike', 'likei', 'leftLikei', 'gt', 'ge', 'lt', 'le'],
-            $this->searchBy
-        );
+        $result = array_intersect(['in', 'like', 'ilike', 'likei', 'leftLikei'], $this->searchBy);
+        array_unshift($result, '');
+
+        return $result;
     }
 
     private function currentCnd(): array
@@ -59,7 +62,7 @@ class SearchManagedField extends InputWidget
         if ($options) {
             foreach ($options as $option => $value) {
                 foreach ($this->searchVariants() as $searchVariant) {
-                    $attributeName = $this->attribute . '_' . $searchVariant;
+                    $attributeName = empty($searchVariant) ? $this->attribute : $this->attribute . '_' . $searchVariant;
                     if ($option === $attributeName) {
                         return [$searchVariant, $value];
                     }
@@ -67,7 +70,7 @@ class SearchManagedField extends InputWidget
             }
         }
 
-        return [$this->default, ''];
+        return [$this->attribute, ''];
     }
 
     private function registerClientScript(): void
@@ -78,7 +81,7 @@ class SearchManagedField extends InputWidget
         $this->view->registerJs(<<<"JS"
           ;(() => {
             const updateInput = (condition) => {
-              \$("#$inputId").attr("name", `{$formName}[{$this->attribute}_\${condition}]`).val("$value");
+              \$("#$inputId").attr("name", `{$formName}[\${condition}]`).val("$value");
             };
             const updateButtonDropdown = (condition) => {
               \$("#$inputId").siblings('span').find('button span.condition').text(condition);
