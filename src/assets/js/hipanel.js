@@ -92,6 +92,11 @@ window.hipanel = (function () {
             callback(event, eventSource);
           };
         },
+        onError: function (callback) {
+          eventSource.onerror = function (event) {
+            callback(event, eventSource);
+          };
+        }
       };
     },
     runProcess: function (url, data = {}, onBeforeSend, onAfterSend, timeout = 2000) {
