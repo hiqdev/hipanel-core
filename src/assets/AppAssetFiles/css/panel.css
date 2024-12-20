@@ -22,7 +22,8 @@ table.dataTable thead > tr > th:first-child {
 
 /* Attachment */
 .comment .comment-text p {
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 
 .comment .attachment {
