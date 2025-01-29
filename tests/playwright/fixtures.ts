@@ -48,17 +48,43 @@ export const test = base.extend<{
   },
   // TODO: legacy auth flow compatibility, remove after refactoring from older implementation
   sellerPage: async ({ page }, use) => {
+    attachNetworkResponseListener(page);
     await use(page);
   },
   managerPage: async ({ page }, use) => {
+    attachNetworkResponseListener(page);
     await use(page);
   },
   adminPage: async ({ page }, use) => {
+    attachNetworkResponseListener(page);
     await use(page);
   },
   clientPage: async ({ page }, use) => {
+    attachNetworkResponseListener(page);
     await use(page);
   },
 });
+
+function attachNetworkResponseListener(page: Page) {
+  page.on("response", async (response) => {
+    const resourceType = response.request().resourceType();
+
+    // Filter for XMLHttpRequest (XHR) and Fetch requests
+    if (resourceType === "xhr" || resourceType === "fetch") {
+      const formattedDate = new Date().toUTCString().replace(/GMT/, "+0000")
+          .replace(",", ""); // Format: 28/Jan/2025:13:46:29 +0000
+      const url = new URL(response.url());
+      const method = response.request().method();
+      const path = url.pathname + (url.search || "");
+      const status = response.status();
+
+      // Fetch server IP address
+      const serverInfo = await response.serverAddr();
+      const serverIp = serverInfo?.ipAddress || "Unknown"; // If unavailable, fallback to "Unknown"
+
+      console.log(`${serverIp} - ${formattedDate} "${method} ${path}" ${status}`);
+    }
+  });
+}
 
 export { expect } from "@playwright/test";
