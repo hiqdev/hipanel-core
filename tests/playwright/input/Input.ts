@@ -18,7 +18,7 @@ export default class Input {
 
   async setValue(value: string) {
     await this.inputLocator.fill(value);
-    await this.page.keyboard.press('Enter');
+    await this.inputLocator.blur();
     await this.page.waitForLoadState('networkidle');
   }
 
