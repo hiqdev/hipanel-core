@@ -79,7 +79,7 @@ class TagsInput extends VueTreeSelectInput
     {
         return Html::activeHiddenInput($this->model, $this->attribute, [
             'v-model' => 'value',
-            'value' => null,
+            'value' => '',
             'data' => [
                 'value' => $this->getValue(),
                 'options' => Json::encode($this->buildOptions()),

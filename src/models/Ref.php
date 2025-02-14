@@ -47,8 +47,12 @@ class Ref extends \hiqdev\hiart\ActiveRecord
         $from = ArrayHelper::remove($mapOptions, 'from', 'name');
         $to = ArrayHelper::remove($mapOptions, 'to', 'label');
         $group = ArrayHelper::remove($mapOptions, 'group', null);
+        $refs = ArrayHelper::map($models, $from, $to, $group);
+        if (!empty($refs) && is_iterable($refs)) {
+            asort($refs);
+        }
 
-        return ArrayHelper::map($models, $from, $to, $group);
+        return $refs;
     }
 
     public static function getListRecursively($name, $translate = null, $options = [])

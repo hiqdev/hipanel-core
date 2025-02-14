@@ -42,7 +42,7 @@ class SearchManagedField extends InputWidget
                 ];
             }
             $buttonDropdown = ButtonDropdown::widget([
-                'label' => Html::tag('span', implode('_', array_filter([$this->attribute, $condition->value])), ['class' => 'condition']),
+                'label' => Html::tag('span', implode('_', array_filter(array_unique([$this->attribute, $condition]))), ['class' => 'condition']),
                 'options' => ['class' => 'btn-default btn-sm'],
                 'encodeLabel' => false,
                 'dropdown' => [
@@ -77,13 +77,13 @@ class SearchManagedField extends InputWidget
                 foreach ($this->getVariants() as $searchVariant) {
                     $attributeName = empty($searchVariant) ? $this->attribute : $this->attribute . '_' . $searchVariant->value;
                     if ($param === $attributeName) {
-                        return [$searchVariant, $value];
+                        return [$searchVariant->value, $value];
                     }
                 }
             }
         }
 
-        return [$this->attribute, $queryParams[$this->attribute] ?? ''];
+        return [$this->attribute, $queryParams[$this->attribute] ?? null];
     }
 
     private function registerClientScript(): void
