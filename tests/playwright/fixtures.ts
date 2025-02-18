@@ -10,11 +10,46 @@ const testClients = {
   seller: { login: "hipanel_test_reseller", password: "random" },
 };
 
-const doLogin = async (fileName: string, actor: string, browser: Browser) => {
+const AUTH_STORAGE_PATH = (actor: string) =>
+    path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
+
+const USER_ID_STORAGE_PATH = (actor: string) =>
+    path.join(process.cwd(), "tests/_data", `userId-${actor}.json`);
+
+async function performLogin(fileName: string, actor: string, browser: Browser) {
   const page = await browser.newPage({ storageState: undefined });
   await login(page, testClients[actor]);
-  await page.context().storageState({ path: fileName });
+  const userId = await fetchUserId(page);
+
+  saveUserId(actor, userId);
+  await saveAuthState(page, actor);
   await page.close();
+};
+
+// Navigate to healthcheck page and extract userId
+async function fetchUserId(page: Page): Promise<string> {
+  await page.goto(`${process.env.URL}/site/healthcheck`);
+  const userId = await page.textContent("userId");
+
+  if (!userId) throw new Error("Failed to retrieve user ID after login");
+  console.log(`User ID retrieved: ${userId}`);
+  return userId;
+};
+
+async function saveUserId(actor: string, userId: string) {
+  fs.writeFileSync(USER_ID_STORAGE_PATH(actor), JSON.stringify({ userId }, null, 2));
+};
+
+async function saveAuthState(page: Page, actor: string){
+  await page.context().storageState({ path: AUTH_STORAGE_PATH(actor) });
+};
+
+export function getUserId(actor: string): string {
+  if (!fs.existsSync(USER_ID_STORAGE_PATH(actor))) {
+    throw new Error(`User ID file not found for ${actor}`);
+  }
+
+  return JSON.parse(fs.readFileSync(USER_ID_STORAGE_PATH(actor), "utf-8")).userId;
 };
 
 export const test = base.extend<{
@@ -36,12 +71,12 @@ export const test = base.extend<{
     }
     const fileName = path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
     if (!fs.existsSync(fileName)) {
-      await doLogin(fileName, actor, browser);
+      await performLogin(fileName, actor, browser);
     } else {
       const { mtime } = fs.statSync(fileName);
       const timeWhenWeShouldReplaceTheOldOne = new Date(mtime).getTime() + 86400000; // 24 hours in milliseconds
       if (new Date().getTime() > timeWhenWeShouldReplaceTheOldOne) {
-        await doLogin(fileName, actor, browser);
+        await performLogin(fileName, actor, browser);
       }
     }
     await use(fileName);
