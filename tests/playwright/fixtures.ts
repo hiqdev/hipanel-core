@@ -37,10 +37,14 @@ async function fetchUserId(page: Page): Promise<string> {
 };
 
 async function saveUserId(actor: string, userId: string) {
+  console.log(`USER_ID_STORAGE_PATH: ` + USER_ID_STORAGE_PATH(actor));
+
   fs.writeFileSync(USER_ID_STORAGE_PATH(actor), JSON.stringify({ userId }, null, 2));
 };
 
 async function saveAuthState(page: Page, actor: string){
+  console.log(`AUTH_STORAGE_PATH: ` + AUTH_STORAGE_PATH(actor));
+
   await page.context().storageState({ path: AUTH_STORAGE_PATH(actor) });
 };
 
@@ -70,6 +74,9 @@ export const test = base.extend<{
       throw new Error("Test role is not found, the role tag must be present in the test title, for example: @seller, @manager, @client, @admin");
     }
     const fileName = path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
+
+    console.log(`fileName: ` + fileName);
+
     if (!fs.existsSync(fileName)) {
       await performLogin(fileName, actor, browser);
     } else {
