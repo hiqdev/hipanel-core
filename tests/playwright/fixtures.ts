@@ -39,6 +39,14 @@ async function fetchUserId(page) {
 
 function saveUserId(actor, userId) {
   const filePath = getUserIdStoragePath(actor);
+  const dir = path.dirname(filePath);
+
+  // Ensure the directory exists
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+    console.log(`Created missing directory: ${dir}`);
+  }
+
   console.log(`Saving User ID for ${actor} to ${filePath}`);
   fs.writeFileSync(filePath, JSON.stringify({ userId }, null, 2));
 }
