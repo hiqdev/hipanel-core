@@ -10,13 +10,16 @@ const testClients = {
   seller: { login: "hipanel_test_reseller", password: "random" },
 };
 
-const AUTH_STORAGE_PATH = (actor: string) =>
-    path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
+function getAuthStoragePath(actor) {
+  return path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
+}
 
-const USER_ID_STORAGE_PATH = (actor: string) =>
-    path.join(process.cwd(), "tests/_data", `userId-${actor}.json`);
+function getUserIdStoragePath(actor) {
+  return path.join(process.cwd(), "tests/_data", `userId-${actor}.json`);
+}
 
-async function performLogin(fileName: string, actor: string, browser: Browser) {
+async function performLogin(actor, browser) {
+  console.log(`Performing login for: ${actor}`);
   const page = await browser.newPage({ storageState: undefined });
   await login(page, testClients[actor]);
   const userId = await fetchUserId(page);
@@ -24,71 +27,77 @@ async function performLogin(fileName: string, actor: string, browser: Browser) {
   saveUserId(actor, userId);
   await saveAuthState(page, actor);
   await page.close();
-};
+}
 
-// Navigate to healthcheck page and extract userId
-async function fetchUserId(page: Page): Promise<string> {
+async function fetchUserId(page) {
   await page.goto(`${process.env.URL}/site/healthcheck`);
   const userId = await page.textContent("userId");
-
   if (!userId) throw new Error("Failed to retrieve user ID after login");
   console.log(`User ID retrieved: ${userId}`);
   return userId;
-};
+}
 
-async function saveUserId(actor: string, userId: string) {
-  console.log(`USER_ID_STORAGE_PATH: ` + USER_ID_STORAGE_PATH(actor));
+function saveUserId(actor, userId) {
+  const filePath = getUserIdStoragePath(actor);
+  console.log(`Saving User ID for ${actor} to ${filePath}`);
+  fs.writeFileSync(filePath, JSON.stringify({ userId }, null, 2));
+}
 
-  fs.writeFileSync(USER_ID_STORAGE_PATH(actor), JSON.stringify({ userId }, null, 2));
-};
+async function saveAuthState(page, actor) {
+  const filePath = getAuthStoragePath(actor);
+  console.log(`Saving Auth State for ${actor} to ${filePath}`);
+  await page.context().storageState({ path: filePath });
+}
 
-async function saveAuthState(page: Page, actor: string){
-  console.log(`AUTH_STORAGE_PATH: ` + AUTH_STORAGE_PATH(actor));
-
-  await page.context().storageState({ path: AUTH_STORAGE_PATH(actor) });
-};
-
-export function getUserId(actor: string): string {
-  if (!fs.existsSync(USER_ID_STORAGE_PATH(actor))) {
+export function getUserId(actor) {
+  const filePath = getUserIdStoragePath(actor);
+  if (!fs.existsSync(filePath)) {
     throw new Error(`User ID file not found for ${actor}`);
   }
+  return JSON.parse(fs.readFileSync(filePath, "utf-8")).userId;
+}
 
-  return JSON.parse(fs.readFileSync(USER_ID_STORAGE_PATH(actor), "utf-8")).userId;
-};
+async function determineActor(testTitle) {
+  return Object.keys(testClients).find(role => testTitle.includes(`@${role}`)) || null;
+}
 
-export const test = base.extend<{
-  clientPage: Page,
-  adminPage: Page,
-  managerPage: Page,
-  sellerPage: Page,
-}>({
-  storageState: async ({ browser }, use, testInfo: TestInfo) => {
-    let actor;
-    const testTitle = testInfo.title;
-    Object.keys(testClients).forEach((role: string) => {
-      if (!actor && testTitle.includes(`@${role}`)) {
-        actor = role;
-      }
-    });
-    if (!actor) {
-      throw new Error("Test role is not found, the role tag must be present in the test title, for example: @seller, @manager, @client, @admin");
-    }
-    const fileName = path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
+async function handleStorageState({ browser }, use, testInfo) {
+  const actor = await determineActor(testInfo.title);
+  if (!actor) throw new Error("Role tag not found in test title. Expected: @seller, @manager, @client, @admin");
 
-    console.log(`fileName: ` + fileName);
+  const authFilePath = getAuthStoragePath(actor);
+  console.log(`Checking authentication file: ${authFilePath}`);
 
-    if (!fs.existsSync(fileName)) {
-      await performLogin(fileName, actor, browser);
-    } else {
-      const { mtime } = fs.statSync(fileName);
-      const timeWhenWeShouldReplaceTheOldOne = new Date(mtime).getTime() + 86400000; // 24 hours in milliseconds
-      if (new Date().getTime() > timeWhenWeShouldReplaceTheOldOne) {
-        await performLogin(fileName, actor, browser);
-      }
-    }
-    await use(fileName);
-  },
-  // TODO: legacy auth flow compatibility, remove after refactoring from older implementation
+  if (!fs.existsSync(authFilePath) || isAuthFileExpired(authFilePath)) {
+    await performLogin(actor, browser);
+  }
+  await use(authFilePath);
+}
+
+function isAuthFileExpired(filePath) {
+  const { mtime } = fs.statSync(filePath);
+  return (Date.now() - new Date(mtime).getTime()) > 86400000; // 24 hours
+}
+
+function attachNetworkResponseListener(page) {
+  page.on("response", async (response) => {
+    const resourceType = response.request().resourceType();
+    if (resourceType !== "xhr" && resourceType !== "fetch") return;
+
+    const formattedDate = new Date().toUTCString().replace(/GMT/, "+0000").replace(",", "");
+    const { pathname, search } = new URL(response.url());
+    const path = pathname + (search || "");
+    const method = response.request().method();
+    const status = response.status();
+    const serverInfo = await response.serverAddr();
+    const serverIp = serverInfo?.ipAddress || "Unknown";
+
+    console.log(`${serverIp} - ${formattedDate} "${method} ${path}" ${status}`);
+  });
+}
+
+export const test = base.extend({
+  storageState: handleStorageState,
   sellerPage: async ({ page }, use) => {
     attachNetworkResponseListener(page);
     await use(page);
@@ -106,27 +115,5 @@ export const test = base.extend<{
     await use(page);
   },
 });
-
-function attachNetworkResponseListener(page: Page) {
-  page.on("response", async (response) => {
-    const resourceType = response.request().resourceType();
-
-    // Filter for XMLHttpRequest (XHR) and Fetch requests
-    if (resourceType === "xhr" || resourceType === "fetch") {
-      const formattedDate = new Date().toUTCString().replace(/GMT/, "+0000")
-          .replace(",", ""); // Format: 28/Jan/2025:13:46:29 +0000
-      const url = new URL(response.url());
-      const method = response.request().method();
-      const path = url.pathname + (url.search || "");
-      const status = response.status();
-
-      // Fetch server IP address
-      const serverInfo = await response.serverAddr();
-      const serverIp = serverInfo?.ipAddress || "Unknown"; // If unavailable, fallback to "Unknown"
-
-      console.log(`${serverIp} - ${formattedDate} "${method} ${path}" ${status}`);
-    }
-  });
-}
 
 export { expect } from "@playwright/test";
