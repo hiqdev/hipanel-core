@@ -10,43 +10,94 @@ const testClients = {
   seller: { login: "hipanel_test_reseller", password: "random" },
 };
 
-const doLogin = async (fileName: string, actor: string, browser: Browser) => {
+function getAuthStoragePath(actor) {
+  return path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
+}
+
+function getUserIdStoragePath(actor) {
+  return path.join(process.cwd(), "tests/_data", `userId-${actor}.json`);
+}
+
+async function performLogin(actor, browser) {
+  console.log(`Performing login for: ${actor}`);
   const page = await browser.newPage({ storageState: undefined });
   await login(page, testClients[actor]);
-  await page.context().storageState({ path: fileName });
-  await page.close();
-};
+  const userId = await fetchUserId(page);
 
-export const test = base.extend<{
-  clientPage: Page,
-  adminPage: Page,
-  managerPage: Page,
-  sellerPage: Page,
-}>({
-  storageState: async ({ browser }, use, testInfo: TestInfo) => {
-    let actor;
-    const testTitle = testInfo.title;
-    Object.keys(testClients).forEach((role: string) => {
-      if (!actor && testTitle.includes(`@${role}`)) {
-        actor = role;
-      }
-    });
-    if (!actor) {
-      throw new Error("Test role is not found, the role tag must be present in the test title, for example: @seller, @manager, @client, @admin");
-    }
-    const fileName = path.join(process.cwd(), "tests/_data", `auth-storage-${actor}.json`);
-    if (!fs.existsSync(fileName)) {
-      await doLogin(fileName, actor, browser);
-    } else {
-      const { mtime } = fs.statSync(fileName);
-      const timeWhenWeShouldReplaceTheOldOne = new Date(mtime).getTime() + 86400000; // 24 hours in milliseconds
-      if (new Date().getTime() > timeWhenWeShouldReplaceTheOldOne) {
-        await doLogin(fileName, actor, browser);
-      }
-    }
-    await use(fileName);
-  },
-  // TODO: legacy auth flow compatibility, remove after refactoring from older implementation
+  saveUserId(actor, userId);
+  await saveAuthState(page, actor);
+  await page.close();
+}
+
+async function fetchUserId(page) {
+  await page.goto(`${process.env.URL}/site/healthcheck`);
+  const userId = await page.textContent("userId");
+  if (!userId) throw new Error("Failed to retrieve user ID after login");
+  console.log(`User ID retrieved: ${userId}`);
+  return userId;
+}
+
+function saveUserId(actor, userId) {
+  const filePath = getUserIdStoragePath(actor);
+  console.log(`Saving User ID for ${actor} to ${filePath}`);
+  fs.writeFileSync(filePath, JSON.stringify({ userId }, null, 2));
+}
+
+async function saveAuthState(page, actor) {
+  const filePath = getAuthStoragePath(actor);
+  console.log(`Saving Auth State for ${actor} to ${filePath}`);
+  await page.context().storageState({ path: filePath });
+}
+
+export function getUserId(actor) {
+  const filePath = getUserIdStoragePath(actor);
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`User ID file not found for ${actor}`);
+  }
+  return JSON.parse(fs.readFileSync(filePath, "utf-8")).userId;
+}
+
+async function determineActor(testTitle) {
+  return Object.keys(testClients).find(role => testTitle.includes(`@${role}`)) || null;
+}
+
+async function handleStorageState({ browser }, use, testInfo) {
+  const actor = await determineActor(testInfo.title);
+  if (!actor) throw new Error("Role tag not found in test title. Expected: @seller, @manager, @client, @admin");
+
+  const authFilePath = getAuthStoragePath(actor);
+  console.log(`Checking authentication file: ${authFilePath}`);
+
+  if (!fs.existsSync(authFilePath) || isAuthFileExpired(authFilePath)) {
+    await performLogin(actor, browser);
+  }
+  await use(authFilePath);
+}
+
+function isAuthFileExpired(filePath) {
+  const { mtime } = fs.statSync(filePath);
+  return (Date.now() - new Date(mtime).getTime()) > 86400000; // 24 hours
+}
+
+function attachNetworkResponseListener(page) {
+  page.on("response", async (response) => {
+    const resourceType = response.request().resourceType();
+    if (resourceType !== "xhr" && resourceType !== "fetch") return;
+
+    const formattedDate = new Date().toUTCString().replace(/GMT/, "+0000").replace(",", "");
+    const { pathname, search } = new URL(response.url());
+    const path = pathname + (search || "");
+    const method = response.request().method();
+    const status = response.status();
+    const serverInfo = await response.serverAddr();
+    const serverIp = serverInfo?.ipAddress || "Unknown";
+
+    console.log(`${serverIp} - ${formattedDate} "${method} ${path}" ${status}`);
+  });
+}
+
+export const test = base.extend({
+  storageState: handleStorageState,
   sellerPage: async ({ page }, use) => {
     attachNetworkResponseListener(page);
     await use(page);
@@ -64,27 +115,5 @@ export const test = base.extend<{
     await use(page);
   },
 });
-
-function attachNetworkResponseListener(page: Page) {
-  page.on("response", async (response) => {
-    const resourceType = response.request().resourceType();
-
-    // Filter for XMLHttpRequest (XHR) and Fetch requests
-    if (resourceType === "xhr" || resourceType === "fetch") {
-      const formattedDate = new Date().toUTCString().replace(/GMT/, "+0000")
-          .replace(",", ""); // Format: 28/Jan/2025:13:46:29 +0000
-      const url = new URL(response.url());
-      const method = response.request().method();
-      const path = url.pathname + (url.search || "");
-      const status = response.status();
-
-      // Fetch server IP address
-      const serverInfo = await response.serverAddr();
-      const serverIp = serverInfo?.ipAddress || "Unknown"; // If unavailable, fallback to "Unknown"
-
-      console.log(`${serverIp} - ${formattedDate} "${method} ${path}" ${status}`);
-    }
-  });
-}
 
 export { expect } from "@playwright/test";
