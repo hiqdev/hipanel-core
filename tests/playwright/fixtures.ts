@@ -32,7 +32,11 @@ async function performLogin(actor, browser) {
 async function fetchUserId(page) {
   await page.goto(`${process.env.URL}/site/healthcheck`);
   const userId = await page.textContent("userId");
-  if (!userId) throw new Error("Failed to retrieve user ID after login");
+
+  if (!userId) {
+    throw new Error("Failed to retrieve user ID after login");
+  }
+
   console.log(`User ID retrieved: ${userId}`);
   return userId;
 }
