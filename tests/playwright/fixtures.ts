@@ -104,7 +104,12 @@ function attachNetworkResponseListener(page) {
   });
 }
 
-export const test = base.extend({
+export const test = base.extend<{
+  clientPage: Page,
+  adminPage: Page,
+  managerPage: Page,
+  sellerPage: Page,
+}>({
   storageState: handleStorageState,
   sellerPage: async ({ page }, use) => {
     attachNetworkResponseListener(page);
