@@ -17,12 +17,13 @@ class RunProcessAction extends Action
 
         ob_start();
 
-        header('Connection: close');
-        header('Content-Length: ' . ob_get_length());
+        // todo: need to understand the process of work with headers in more detail, an attempt to send headers or close the session leads to errors in the `Session::open()`
+//        header('Connection: close');
+//        header('Content-Length: ' . ob_get_length());
         ob_end_flush();
         @ob_flush();
         flush();
-        session_write_close();
+//        session_write_close();
         fastcgi_finish_request(); // required for PHP-FPM (PHP > 5.3.3)
 
         try {
