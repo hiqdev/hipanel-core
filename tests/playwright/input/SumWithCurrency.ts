@@ -19,7 +19,7 @@ export default class SumWithCurrency {
   async setSumAndCurrency(sum: number, currency: string) {
     await this.sum.fill(sum.toString());
     await this.currencyContainer.filter({ has: this.page.locator("button:has-text(\"Toggle dropdown\")") }).click();
-    await this.page.locator(`.input-group-btn.open ul a:has-text("${currency}")`).first().click();
+    await this.page.locator(`.input-group-btn.open ul a:text-is("${currency}")`).first().click();
   }
 }
 
