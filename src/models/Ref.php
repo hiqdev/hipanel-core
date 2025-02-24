@@ -48,9 +48,6 @@ class Ref extends \hiqdev\hiart\ActiveRecord
         $to = ArrayHelper::remove($mapOptions, 'to', 'label');
         $group = ArrayHelper::remove($mapOptions, 'group', null);
         $refs = ArrayHelper::map($models, $from, $to, $group);
-        if (!empty($refs) && is_iterable($refs)) {
-            asort($refs);
-        }
 
         return $refs;
     }
