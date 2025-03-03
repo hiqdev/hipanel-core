@@ -1,8 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 
 /**
- * Abstract base class for handling sum and currency selection.
- * This allows extension for different selector strategies.
+ * Abstract base class for handling input and currency selection.
  */
 export default abstract class InputWithCurrency {
     protected page: Page;
