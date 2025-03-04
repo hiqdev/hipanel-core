@@ -1,15 +1,27 @@
 import { expect, Page } from "@playwright/test";
 import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
+import Notification from "@hipanel-core/helper/Notification";
 
 export default class Index {
   public advancedSearch: AdvancedSearch;
+  private notification: Notification;
 
   constructor(private page: Page) {
     this.advancedSearch = new AdvancedSearch(page);
+    this.notification = new Notification(page);
   }
 
-  async hasAdvancedSearchInputs(names: Array<string>) {
+  public async hasAdvancedSearchInputs(names: Array<string>) {
     await this.advancedSearch.hasInputsByNames(names);
+  }
+
+  public async setFilter(name: string, value: string) {
+    await this.advancedSearch.setFilter(name, value);
+  }
+
+  public async submitSearchButton()
+  {
+    await this.advancedSearch.submitButton.click();
   }
 
   async hasBulkButtons(names: Array<string>) {
@@ -38,7 +50,7 @@ export default class Index {
     await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).click();
   }
 
-  async chooseRangeOfRowsOnTable(start: number, end: number) {
+  public async chooseRangeOfRowsOnTable(start: number, end: number) {
     for (let i = start; i <= end; i++) {
       await this.chooseNumberRowOnTable(i);
     }
@@ -150,5 +162,10 @@ export default class Index {
     const rowNumber = await this.getRowNumberInColumnByValue(columnName, fieldName);
     const column = await this.getColumnNumberByName(columnName);
     expect(await this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${rowNumber}]//td[${column}]`)).toHaveText(fieldName);
+  }
+
+  public async hasNotification(message: string)
+  {
+    await this.notification.hasNotification(message);
   }
 }
