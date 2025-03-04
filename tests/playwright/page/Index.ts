@@ -45,7 +45,7 @@ export default class Index {
     await expect(this.page.locator(`//tbody//tr[${row}]//td[${column}]`)).toHaveText(text);
   }
 
-  async chooseNumberRowOnTable(number: number) {
+  public async chooseNumberRowOnTable(number: number) {
     await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).highlight();
     await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).click();
   }
@@ -66,8 +66,11 @@ export default class Index {
 
   public async clickDropdownBulkButton(buttonName: string, selectName: string) {
     await this.clickBulkButton(buttonName);
-    await this.page.locator(`fieldset a:has-text("${selectName}")`).highlight();
-    await this.page.locator(`fieldset a:has-text("${selectName}")`).click();
+    const button = this.page.locator(`fieldset a`)
+        .filter({ hasText: new RegExp(`^${selectName}$`) });
+
+    await button.highlight();
+    await button.click();
   }
 
   async clickColumnOnTable(columnName: string, row: number) {
