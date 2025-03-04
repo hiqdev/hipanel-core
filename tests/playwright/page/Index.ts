@@ -168,4 +168,15 @@ export default class Index {
   {
     await this.notification.hasNotification(message);
   }
+
+  public async closeNotification()
+  {
+    await this.notification.closeNotification();
+  }
+
+  public async getRowDataKeyByNumber(rowNumber: number): Promise<string | null> {
+    const selector = `//section[@class='content container-fluid']//tbody//tr[${rowNumber}]`;
+
+    return await this.page.locator(selector).getAttribute("data-key");
+  }
 }
