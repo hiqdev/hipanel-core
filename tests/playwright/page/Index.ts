@@ -64,8 +64,8 @@ export default class Index {
     await this.page.locator(`fieldset button:has-text("${name}")`).click();
   }
 
-  async clickDropdownBulkButton(buttonName: string, selectName: string) {
-    await this.page.locator(`fieldset button:has-text("${buttonName}")`).click();
+  public async clickDropdownBulkButton(buttonName: string, selectName: string) {
+    await this.clickBulkButton(buttonName);
     await this.page.locator(`fieldset a:has-text("${selectName}")`).highlight();
     await this.page.locator(`fieldset a:has-text("${selectName}")`).click();
   }
