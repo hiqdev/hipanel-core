@@ -100,7 +100,11 @@ export default class Index {
 
   public async clickPopoverMenu(row: number, menuName: string) {
     await this.page.locator('tr td button').nth(row - 1).click();
-    await this.page.locator(`div[role="tooltip"] >> text=${menuName}`).click();
+
+    await Promise.all([
+      this.page.waitForNavigation({ waitUntil: "domcontentloaded" }), // Wait for the page to start loading
+      this.page.locator(`div[role="tooltip"] >> text=${menuName}`).click(),
+    ]);
   }
 
   public async getColumnNumberByName(columnName: string) {
