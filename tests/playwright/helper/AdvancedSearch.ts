@@ -13,8 +13,9 @@ export default class AdvancedSearch {
         }
     }
 
-    public get submitButton(): Locator {
-        return this.root.locator("button[type=submit]");
+    public async submitButton() {
+        await this.root.locator("button[type=submit]").click();
+        await this.page.waitForFunction(() => window.location.search.includes("Search"));
     }
 
     public get cancelButton(): Locator {
@@ -47,6 +48,6 @@ export default class AdvancedSearch {
 
     public async applyFilter(name: string, value: string) {
         await this.setFilter(name, value);
-        await this.submitButton.click();
+        await this.submitButton();
     }
 }
