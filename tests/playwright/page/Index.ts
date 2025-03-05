@@ -24,6 +24,10 @@ export default class Index {
     await this.advancedSearch.submitButton.click();
   }
 
+  public async applyFilter(name: string, value: string) {
+    await this.advancedSearch.applyFilter(name, value);
+  }
+
   async hasBulkButtons(names: Array<string>) {
     for (const name of names) {
       await expect(this.page.locator(`div.box-bulk-actions :has-text("${name}")`).first()).toBeVisible();

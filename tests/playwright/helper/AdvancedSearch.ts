@@ -44,4 +44,9 @@ export default class AdvancedSearch {
             throw new Error(`Unsupported field type: ${tagName} for name="${name}"`);
         }
     }
+
+    public async applyFilter(name: string, value: string) {
+        await this.setFilter(name, value);
+        await this.submitButton.click();
+    }
 }
