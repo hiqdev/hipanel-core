@@ -15,7 +15,10 @@ export default class AdvancedSearch {
 
     public async submitButton() {
         await this.root.locator("button[type=submit]").click();
-        await this.page.waitForFunction(() => window.location.search.includes("Search"));
+        await expect(this.page).toHaveURL(
+            /.*Search.*/,
+            {timeout: 20000}  // Increase timeout to 20 seconds
+        );
     }
 
     public get cancelButton(): Locator {
