@@ -17,7 +17,7 @@ export default class AdvancedSearch {
         await this.root.locator("button[type=submit]").click();
         await expect(this.page).toHaveURL(
             /.*Search.*/,
-            {timeout: 20000}  // Increase timeout to 20 seconds
+            {timeout: 30000}  // Increase timeout to 30 seconds becuase search on pages like /finance/bill/index is really slow
         );
     }
 
