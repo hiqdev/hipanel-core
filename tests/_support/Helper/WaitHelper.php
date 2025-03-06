@@ -21,13 +21,21 @@ class WaitHelper extends \Codeception\Module
      * @param int $timeOut
      * @throws \Codeception\Exception\ModuleException
      */
-    public function waitForPageUpdate($timeOut = 180): void
+    public function waitForPageUpdate(int $timeOut = 180): void
     {
         $I = $this->getModule('WebDriver');
 
         try {
             $I->waitForJS('return $.active == 0;', $timeOut);
+
+            $I->debug('JS check passed: no active requests.');
         } catch (\Facebook\WebDriver\Exception\JavascriptErrorException $exception) {
+            $I->wait($this->defaultDelay);
+
+            $I->debug('JS Error: ' . $exception->getMessage());
+        } catch (\Exception $e) {
+            // Log any other exceptions
+            $I->debug('Exception: ' . $e->getMessage());
             $I->wait($this->defaultDelay);
         }
     }
