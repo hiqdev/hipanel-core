@@ -239,9 +239,9 @@ class IndexPage extends Authenticated
         $this->gridView->setAdvancedFilter($filter, $value);
     }
 
-    public function getRowNumberInColumnByValue(string $columnName, string $vaule): int
+    public function getRowNumberInColumnByValue(string $columnName, string $value): int
     {
-        return $this->gridView->getRowNumberInColumnByValue($columnName, $vaule);
+        return $this->gridView->getRowNumberInColumnByValue($columnName, $value);
     }
 
     public function getColumnNumber(string $columnName): int
