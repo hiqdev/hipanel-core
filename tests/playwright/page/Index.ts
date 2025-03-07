@@ -1,15 +1,31 @@
 import { expect, Page } from "@playwright/test";
 import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
+import Notification from "@hipanel-core/helper/Notification";
 
 export default class Index {
   public advancedSearch: AdvancedSearch;
+  private notification: Notification;
 
   constructor(private page: Page) {
     this.advancedSearch = new AdvancedSearch(page);
+    this.notification = new Notification(page);
   }
 
-  async hasAdvancedSearchInputs(names: Array<string>) {
+  public async hasAdvancedSearchInputs(names: Array<string>) {
     await this.advancedSearch.hasInputsByNames(names);
+  }
+
+  public async setFilter(name: string, value: string) {
+    await this.advancedSearch.setFilter(name, value);
+  }
+
+  public async submitSearchButton()
+  {
+    await this.advancedSearch.submitButton();
+  }
+
+  public async applyFilter(name: string, value: string) {
+    await this.advancedSearch.applyFilter(name, value);
   }
 
   async hasBulkButtons(names: Array<string>) {
@@ -33,12 +49,12 @@ export default class Index {
     await expect(this.page.locator(`//tbody//tr[${row}]//td[${column}]`)).toHaveText(text);
   }
 
-  async chooseNumberRowOnTable(number: number) {
+  public async chooseNumberRowOnTable(number: number) {
     await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).highlight();
     await this.page.locator("input[name=\"selection[]\"]").nth(number - 1).click();
   }
 
-  async chooseRangeOfRowsOnTable(start: number, end: number) {
+  public async chooseRangeOfRowsOnTable(start: number, end: number) {
     for (let i = start; i <= end; i++) {
       await this.chooseNumberRowOnTable(i);
     }
@@ -52,10 +68,13 @@ export default class Index {
     await this.page.locator(`fieldset button:has-text("${name}")`).click();
   }
 
-  async clickDropdownBulkButton(buttonName: string, selectName: string) {
-    await this.page.locator(`fieldset button:has-text("${buttonName}")`).click();
-    await this.page.locator(`fieldset a:has-text("${selectName}")`).highlight();
-    await this.page.locator(`fieldset a:has-text("${selectName}")`).click();
+  public async clickDropdownBulkButton(buttonName: string, selectName: string) {
+    await this.clickBulkButton(buttonName);
+    const button = this.page.locator(`fieldset a`)
+        .filter({ hasText: new RegExp(`^${selectName}$`) });
+
+    await button.highlight();
+    await button.click();
   }
 
   async clickColumnOnTable(columnName: string, row: number) {
@@ -75,16 +94,20 @@ export default class Index {
     await this.clickColumnOnTable(columnName, row);
   }
 
-  async clickProfileMenuOnViewPage(menuName: string) {
+  public async clickProfileMenuOnViewPage(menuName: string) {
     await this.page.locator(`a:has-text("${menuName}")`).click();
   }
 
-  async clickPopoverMenu(row: number, menuName: string) {
+  public async clickPopoverMenu(row: number, menuName: string) {
     await this.page.locator('tr td button').nth(row - 1).click();
-    await this.page.locator(`div[role="tooltip"] >> text=${menuName}`).click();
+
+    await Promise.all([
+      this.page.waitForNavigation({ waitUntil: "domcontentloaded" }), // Wait for the page to start loading
+      this.page.locator(`div[role="tooltip"] >> text=${menuName}`).click(),
+    ]);
   }
 
-  async getColumnNumberByName(columnName: string) {
+  public async getColumnNumberByName(columnName: string) {
     const allColumns = await this.page.locator("//th[not(./input)]").allInnerTexts();
     return this.getColumnNumber(allColumns, columnName);
   }
@@ -150,5 +173,21 @@ export default class Index {
     const rowNumber = await this.getRowNumberInColumnByValue(columnName, fieldName);
     const column = await this.getColumnNumberByName(columnName);
     expect(await this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${rowNumber}]//td[${column}]`)).toHaveText(fieldName);
+  }
+
+  public async hasNotification(message: string)
+  {
+    await this.notification.hasNotification(message);
+  }
+
+  public async closeNotification()
+  {
+    await this.notification.closeNotification();
+  }
+
+  public async getRowDataKeyByNumber(rowNumber: number): Promise<string | null> {
+    const selector = `//section[@class='content container-fluid']//tbody//tr[${rowNumber}]`;
+
+    return await this.page.locator(selector).getAttribute("data-key");
   }
 }

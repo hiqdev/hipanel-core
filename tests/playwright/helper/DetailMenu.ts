@@ -4,7 +4,7 @@ export default class DetailMenu {
     public root: Locator;
 
     constructor(private readonly page: Page) {
-        this.root = this.page.locator(".profile-usermenu .nav");
+        this.root = this.page.locator(".profile-usermenu .nav, .box-menu .nav");
     }
 
     detailMenuItem(item: string): Locator {

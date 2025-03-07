@@ -101,7 +101,12 @@ function attachNetworkResponseListener(page) {
     const path = pathname + (search || "");
     const method = response.request().method();
     const status = response.status();
-    const serverInfo = await response.serverAddr();
+
+    const serverInfo = await Promise.race([
+      response.serverAddr(),
+      new Promise(resolve => setTimeout(() => resolve(null), 5000)), // Timeout after 5 seconds
+    ]);
+
     const serverIp = serverInfo?.ipAddress || "Unknown";
 
     console.log(`${serverIp} - ${formattedDate} "${method} ${path}" ${status}`);
