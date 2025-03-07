@@ -10,12 +10,30 @@
 
 namespace hipanel\tests\_support\Helper;
 
+use Codeception\TestInterface;
+
 class WaitHelper extends \Codeception\Module
 {
+    private $webDriver = null;
+    private $webDriverModule = null;
+
     /**
      * @var int Default delay to wait while page updating
      */
-    protected int $defaultDelay = 5;
+    protected int $defaultDelay = 1;
+
+    public function _before(TestInterface $test)
+    {
+        if (!$this->hasModule('WebDriver') && !$this->hasModule('Selenium2')) {
+            throw new \Exception('PageWait uses the WebDriver. Please be sure that this module is activated.');
+        }
+
+        // Use WebDriver
+        if ($this->hasModule('WebDriver')) {
+            $this->webDriverModule = $this->getModule('WebDriver');
+            $this->webDriver = $this->webDriverModule->webDriver;
+        }
+    }
 
     /**
      * @param int $timeOut
@@ -23,20 +41,28 @@ class WaitHelper extends \Codeception\Module
      */
     public function waitForPageUpdate(int $timeOut = 180): void
     {
-        $I = $this->getModule('WebDriver');
+        $this->webDriverModule = $this->getModule('WebDriver');
 
         try {
-            $I->waitForJS('return $.active == 0;', $timeOut);
+            $this->webDriverModule->waitForJS('return $.active == 0;', $timeOut);
 
-            $I->debug('JS check passed: no active requests.');
+            $this->webDriverModule->debug('JS check passed: no active requests.');
         } catch (\Facebook\WebDriver\Exception\JavascriptErrorException $exception) {
-            $I->wait($this->defaultDelay);
+            $this->webDriverModule->wait($this->defaultDelay);
 
-            $I->debug('JS Error: ' . $exception->getMessage());
-        } catch (\Exception $e) {
-            // Log any other exceptions
-            $I->debug('Exception: ' . $e->getMessage());
-            $I->wait($this->defaultDelay);
+            $this->webDriverModule->debug('JS Error: ' . $exception->getMessage());
         }
+    }
+
+    public function waitPageLoad($timeout = 10)
+    {
+        $this->webDriverModule->waitForJs('return document.readyState == "complete"', $timeout);
+        $this->waitAjaxLoad($timeout);
+    }
+
+    public function waitAjaxLoad($timeout = 10)
+    {
+        $this->webDriverModule->waitForJS('return !!window.jQuery && window.jQuery.active == 0;', $timeout);
+        $this->webDriverModule->wait($this->defaultDelay);
     }
 }
