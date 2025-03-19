@@ -93,6 +93,7 @@ class IndexPage extends Widget
     public $searchView = '_search';
 
     public ?Closure $insteadPerPageRender = null;
+    public array|Closure $exportVariants = [];
 
     /** {@inheritdoc} */
     public function init()
@@ -372,7 +373,7 @@ CSS
     public function renderExport()
     {
         if ($this->canShowExport()) {
-            return IndexPageExportLinks::widget();
+            return IndexPageExportLinks::widget(['exportVariants' => $this->exportVariants]);
         }
     }
 
