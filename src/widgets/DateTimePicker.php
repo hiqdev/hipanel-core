@@ -41,7 +41,7 @@ class DateTimePicker extends InputWidget
         return Html::tag(
             'div',
             strtr('{input}{icon}', ['{input}' => $input, '{icon}' => $icon]),
-            ['class' => 'form-group has-feedback date']
+            ['class' => 'input-group has-feedback date', 'style' => ['width' => '100%']]
         );
     }
 
