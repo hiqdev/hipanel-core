@@ -969,3 +969,8 @@ td .popover {
 .space-sm { gap: 8px; }
 .space-md { gap: 16px; }
 .space-lg { gap: 24px; }
+
+.flatpickr-calendar {
+  opacity: 0;
+  display: none;
+}

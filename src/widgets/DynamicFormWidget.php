@@ -1,12 +1,6 @@
 <?php
-/**
- * HiPanel core package
- *
- * @link      https://hipanel.com/
- * @package   hipanel-core
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
- */
+
+declare(strict_types=1);
 
 namespace hipanel\widgets;
 
@@ -87,35 +81,6 @@ JS
         $view->registerJs(<<<JS
             $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
                 var options = eval($(this).data('dynamicform'));
-                var pickers = $(item).find('[data-krajee-datetimepicker]');
-                if (pickers.length > 0) {
-                    pickers.each(function() {
-                        var pickerItem = this;
-                        var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-krajee-datetimepicker]').filter(function () {
-                            return $(this).data('krajee-datetimepicker') === $(pickerItem).data('krajee-datetimepicker');
-                        });
-
-                        if (template.length == 0) {
-                            return true;
-                        }
-
-                        var config_id = $(template[0]).data('krajee-datetimepicker');
-                        var configObj = window[config_id];
-                        var elementId = $(pickerItem).attr('id');
-                        if (configObj !== null && typeof configObj === 'object') {
-                            $('#' + elementId + '-datetime').datetimepicker(configObj);
-                        } else {
-                            console.error('config_id ' + config_id + ' not found');
-                        }
-                    });
-                }
-            });
-JS
-        );
-        // For init datetime picker
-        $view->registerJs(<<<JS
-            $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
-                var options = eval($(this).data('dynamicform'));
                 var pickers = $(item).find('[data-hiqdev-datetimepicker]');
                 if (pickers.length > 0) {
                     pickers.each(function() {
@@ -132,7 +97,7 @@ JS
                         var configObj = window.hiqdev_datetimepicker_options[config_id];
                         var elementId = $(pickerItem).attr('id');
                         if (configObj !== null && typeof configObj === 'object') {
-                            $('#' + elementId).parent().datetimepicker(configObj);
+                            $('#' + elementId).flatpickr(configObj);
                         } else {
                             console.error('config_id ' + config_id + ' not found');
                         }
@@ -189,7 +154,8 @@ JS
                   $(item).find('div[class*=_dynamicform_wrapper]').on('afterInsert', treeSelectHandler);
                 });
               })();
-            ", $this->widgetContainer)
+            ",
+                $this->widgetContainer)
         );
     }
 }
