@@ -1,0 +1,202 @@
+.file-input {
+  width: 100%;
+  height: 100%;
+  container: fileInput / inline-size;
+
+  & > article {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #ccc;
+    border-radius: 3px;
+    gap: 1rem;
+    position: relative;
+
+    .hidden {
+      display: none;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      justify-items: center;
+      z-index: 0;
+      text-align: center;
+
+      p, i {
+        opacity: 0;
+      }
+
+      &.dragover {
+        background-color: rgba(255, 255, 255, 0.7);
+        height: 100%;
+        width: 100%;
+        z-index: 50;
+      }
+
+      &.dragover p, &.dragover i {
+        opacity: 1;
+      }
+    }
+
+    & > section {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+
+      input[type=file] {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        left: 1em;
+        top: 1.75em;
+        width: calc(100% - 2em);
+        opacity: 0;
+        font-size: 0;
+      }
+
+      header {
+        padding: 0.5rem 0 1.5rem;
+        text-align: center;
+
+        p {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          font-weight: bold;
+          margin-bottom: 0.75rem;
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex: 1 1 0%;
+        flex-wrap: wrap;
+        align-self: flex-start;
+        width: 100%;
+
+        li.empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+
+          span {
+            font-size: 1.5rem;
+            color: #999;
+          }
+        }
+
+        li.empty i:before {
+          font-size: 3rem;
+          color: #cfcfcf;
+        }
+
+        li:not(.empty) {
+          height: 12rem;
+          padding: .5rem;
+          display: block;
+          width: calc(1 / 8 * 100%);
+          @container fileInput (max-width: 1000px) {
+            width: calc(1 / 4 * 100%);
+          }
+
+          &:hover button, &:hover section {
+            background: rgba(96, 96, 96, 0.45);
+          }
+
+          article {
+            position: relative;
+            border-radius: 3px;
+            width: 100%;
+            height: 100%;
+            background-color: #d3d3d3ab;
+
+            &:hover, &:hover button {
+              color: white;
+            }
+
+            img {
+              object-fit: cover;
+              background-attachment: fixed;
+              border-radius: 3px;
+              width: 100%;
+              height: 100%;
+              position: sticky;
+              max-width: 100%;
+              vertical-align: middle;
+              display: block;
+            }
+
+            section {
+              position: absolute;
+              top: 0;
+              display: flex;
+              flex-direction: column;
+              padding: 0.5rem 0.75rem;
+              width: 100%;
+              height: 100%;
+
+              h1 {
+                flex: 1 1 0%;
+                font-size: 1rem;
+                line-height: 1rem;
+                text-align: center;
+                margin: 0;
+              }
+
+              div {
+                display: flex;
+
+                p {
+                  padding: 0.25rem;
+                  font-size: 1rem;
+                  line-height: 0.75rem;
+                  margin: 0;
+                  margin-top: 0.5rem;
+                }
+
+                button {
+                  margin-left: auto;
+                  padding: 0.25rem;
+                  background-color: transparent;
+                  background-image: none;
+                  border: none;
+                  color: black;
+                  border-radius: 3px;
+                  width: 24px;
+                  height: 24px;
+
+                  &:hover {
+                    color: white;
+                    background-color: black;
+                  }
+
+                  svg {
+                    width: 1rem;
+                    height: 1rem;
+                    fill: currentColor;
+                    pointer-events: none;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
