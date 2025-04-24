@@ -55,7 +55,7 @@ class LinkSorter extends \yii\widgets\LinkSorter
         return $this->render('LinkSorterView', [
             'id' => $this->id,
             'links' => $links,
-            'label' => $this->getSortLabel($this->uiModel->sort),
+            'label' => $this->uiModel->sort ? $this->getSortLabel($this->uiModel->sort) : null,
             'options' => array_merge($this->options, ['encode' => false]),
             'containerClass' => $this->containerClass,
             'buttonClass' => $this->buttonClass,
