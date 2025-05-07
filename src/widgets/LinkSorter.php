@@ -64,10 +64,11 @@ class LinkSorter extends \yii\widgets\LinkSorter
 
     private function getSortLabel(?string $attribute): ?string
     {
+        $label = null;
         if (isset($this->options['label'])) {
             $label = $this->options['label'];
             unset($this->options['label']);
-        } else {
+        } else if ($attribute) {
             if (isset($this->sort->attributes[$attribute]['label'])) {
                 $label = $this->sort->attributes[$attribute]['label'];
             } elseif ($this->sort->modelClass !== null) {
@@ -80,7 +81,7 @@ class LinkSorter extends \yii\widgets\LinkSorter
             }
         }
 
-        return $label ?: null;
+        return $label;
     }
 
     public function addSortClassToOptions(): void
