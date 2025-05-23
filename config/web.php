@@ -10,6 +10,8 @@
 
 /** @var array $params */
 
+$assetsProd = dirname(__DIR__, 4) . '/config/assets-prod.php';
+
 return [
     'id' => 'hipanel',
     'name' => 'HiPanel',
@@ -111,7 +113,7 @@ return [
             ],
         ],
         'assetManager' => [
-            'bundles' => YII_ENV === 'prod' ? require(dirname(__DIR__, 4) . '/config/assets-prod.php') : [],
+            'bundles' => YII_ENV === 'prod' && file_exists($assetsProd) ? require($assetsProd) : [],
         ],
         'fileStorage' => [
             'class' => \hipanel\components\FileStorage::class,
