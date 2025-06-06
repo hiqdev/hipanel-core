@@ -2,6 +2,7 @@
 
 namespace hipanel\widgets;
 
+use Yii;
 use yii\bootstrap\ButtonDropdown;
 use yii\bootstrap\InputWidget;
 use yii\helpers\Html;
@@ -71,7 +72,8 @@ class SearchManagedField extends InputWidget
 
     private function currentCnd(): array
     {
-        $queryParams = $this->view->context->request->get($this->model->formName());
+        $request = Yii::$app->getRequest();
+        $queryParams = $request->get($this->model->formName());
         if ($queryParams) {
             foreach ($queryParams as $param => $value) {
                 foreach ($this->getVariants() as $searchVariant) {
