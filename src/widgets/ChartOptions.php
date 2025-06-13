@@ -85,6 +85,8 @@ class ChartOptions extends \yii\base\Widget
      */
     public $pickerOptions = [];
 
+    public bool $autoload = false;
+
     /**
      * {@inheritdoc}
      * @throws InvalidConfigException
@@ -284,20 +286,12 @@ HTML;
     {
         $id = $this->getId();
         $options = Json::encode($this->ajaxOptions);
-        $this->getView()->registerJs(/** @lang JavaScript */"
-            $('.{$id}').on('change.updateChart', function (event) {
-                var defaultOptions = {
-                    url: $(this).attr('action'),
-                    data: $(this).serializeArray(),
-                    type: 'post',
-                    success: function (html) {
-                        $('.{$id}-chart-wrapper').closest('.box').find('.box-body').html(html);
-                    }
-                };
-                event.preventDefault();
-                var options = $.extend(defaultOptions, $options, true)
-                $.ajax(options);
-            });
+        $view = $this->getView();
+        $view->registerJs(/** @lang JavaScript */"
+$(function() {
+    const chart = new HiPanelChart('{$id}', {$options}, {$this->autoload});
+    chart.init();
+});
             ");
     }
 }

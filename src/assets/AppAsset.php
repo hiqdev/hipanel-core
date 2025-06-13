@@ -37,6 +37,7 @@ class AppAsset extends AssetBundle
         Select2Bootstrap3CssAsset::class,
         Select2Asset::class,
         HipanelAsset::class,
+        HiPanelChartAsset::class,
         CondensedFromInputsAsset::class,
         PNotifyAsset::class,
         ReminderTopAsset::class,
