@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace hipanel\grid;
 
@@ -10,6 +12,7 @@ class TagsColumn extends DataColumn
 {
     public $format = 'raw';
     public $attribute = 'tags';
+    public array $widgetOptions = [];
 
     public function init(): void
     {
@@ -32,6 +35,6 @@ class TagsColumn extends DataColumn
 
     public function getDataCellValue($model, $key, $index)
     {
-        return TagsManager::widget(['model' => $model]);
+        return TagsManager::widget(['model' => $model, ...$this->widgetOptions]);
     }
 }

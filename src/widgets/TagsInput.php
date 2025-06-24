@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace hipanel\widgets;
@@ -11,6 +12,12 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\User;
 
+/**
+ *
+ * @property-read string $mixin
+ * @property-read array $tagLinks
+ * @property-read string $script
+ */
 class TagsInput extends VueTreeSelectInput
 {
     public $name = 'tags';
@@ -115,7 +122,7 @@ HTML
 
     public function getTagLinks(): array
     {
-        $alias = str_replace("search", "", strtolower($this->model->formName()));
+        $alias = str_replace("search", "", strtolower($this->searchModel->formName()));
         $getTagsLink = Url::to("@$alias/get-tags");
         $setTagsLink = Url::to("@$alias/set-tags");
 
