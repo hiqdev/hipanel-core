@@ -24,11 +24,13 @@ return [
         'log' => 'log',
         'themeManager' => 'themeManager',
         'language' => 'language',
+        'timezone',
     ]),
     'aliases' => [
         '@ref' => '/ref',
     ],
     'components' => [
+        'timezone' => ['class' => hipanel\components\Timezone::class],
         'request' => [
             'enableCsrfCookie' => false,
             'cookieValidationKey' => $params['cookieValidationKey'],
