@@ -9,6 +9,9 @@
  */
 
 return [
+    'language.languages'    => [
+        'en' => 'English',
+    ],
     'adminEmail'            => '',
     'organization.url'      => '',
     'organization.termsUrl' => '',
