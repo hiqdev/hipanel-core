@@ -52,7 +52,6 @@ return [
         'language' => [
             'languages' => $params['language.languages'] ?? [
                 'en' => 'English',
-                'ru' => 'Русский',
             ],
         ],
     ],
