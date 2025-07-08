@@ -28,6 +28,7 @@ return [
     ]),
     'aliases' => [
         '@ref' => '/ref',
+        '@audit' => '/audit',
     ],
     'components' => [
         'timezone' => ['class' => hipanel\components\Timezone::class],
@@ -96,6 +97,8 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
+                'audit/<table:\w+>/<id:\w+>' => 'audit/index',
+                'audit/<id:[\w\-]+>' => 'audit/trace',
                 '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
                 '<_c:[\w\-]+>' => '<_c>/index',
                 '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',

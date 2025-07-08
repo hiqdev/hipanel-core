@@ -1,0 +1,12 @@
+.json-diff-viewer pre {
+  border-radius: inherit;
+  border: none !important;
+  color: inherit !important;
+  background: inherit !important;
+  white-space: pre-wrap !important;
+  padding: inherit !important;
+}
+
+.json-diff-viewer td.line-number {
+  white-space: nowrap;
+}
