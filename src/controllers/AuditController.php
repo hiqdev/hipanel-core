@@ -31,8 +31,7 @@ class AuditController extends Controller
                 'class' => EasyAccessControl::class,
                 'actions' => [
                     '*' => [
-//                        'audit.see-everything',
-                        'owner-staff',
+                        'audit.read',
                     ],
                 ],
             ],
