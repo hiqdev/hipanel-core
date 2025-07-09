@@ -65,7 +65,7 @@ class MainColumn extends DataColumn
         $this->noteOptions = ArrayHelper::merge(['url' => $this->buildUrl('set-note')], $this->noteOptions);
         $this->contentOptions = $this->contentOptions instanceof Closure ? call_user_func($this->contentOptions, $this->grid->filterModel) : $this->contentOptions;
         if (isset($this->contentOptions['style'])) {
-            $this->contentOptions['style'] .= ' white-space: nowrap;';
+            $this->contentOptions['style'] .= str_contains($this->contentOptions['style'], 'white-space') ? '' : ' white-space: nowrap;';
         } else {
             $this->contentOptions['style'] = 'white-space: nowrap;';
         }
