@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace hipanel\widgets;
 
 use hipanel\actions\Action;
+use Yii;
 use yii\helpers\Json;
-use yii\web\View;
 
 trait HookTrait
 {
@@ -15,15 +17,23 @@ trait HookTrait
         $id = $this->getId();
         $headerName = Action::EXPECTED_AJAX_RESPONSE_HEADER_NAME;
         $url = $this->url ? Json::encode($this->url) : 'document.URL';
-        $this->view->registerJs("$.ajax({
-           type: 'GET',
-           url: {$url},
-           beforeSend: xhr => {
-             xhr.setRequestHeader('{$headerName}', '{$reqHeaderParamName}');
-           },
-           success: html => {
-             $('#{$id}').html(html);
-           }
-        });", View::POS_LOAD);
+        $post = Json::htmlEncode(Yii::$app->request->post(null, []));
+        $this->view->registerJs(
+            <<<"JS"
+;(() => {
+  $.ajax({
+    type: 'POST',
+    url: $url,
+    data: $post,
+    beforeSend: xhr => {
+      xhr.setRequestHeader('$headerName', '$reqHeaderParamName');
+    },
+    success: html => {
+      $('#$id').html(html);
+    }
+  });
+})();
+JS
+        );
     }
 }

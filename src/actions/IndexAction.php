@@ -107,7 +107,7 @@ class IndexAction extends SearchAction
                     },
                 ],
             ],
-            'GET ajax' => [
+            'GET ajax | POST ajax' => [
                 'class' => VariantsAction::class,
                 'variants' => array_merge([
                     self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => (new SynchronousCountEnabler(
@@ -179,8 +179,11 @@ class IndexAction extends SearchAction
     public function getRequestFilters(): ?array
     {
         $formName = $this->getSearchModel()->formName();
+        if ($this->controller->request->get($formName)) {
+            return $this->controller->request->get($formName);
+        }
 
-        return $this->controller->request->get($formName) ?: $this->controller->request->get() ?: $this->controller->request->post();
+        return [...$this->controller->request->get(null, []), ...$this->controller->request->post(null, [])];
     }
 
     public function applyFiltersFromStorage(?array &$requestFilters = []): void
