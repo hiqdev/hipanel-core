@@ -22,7 +22,7 @@ class AuditButton extends Widget
     public function run(): string
     {
         $user = Yii::$app->user;
-        if (!$user->can('audit.see-everything') || !$user->can('test.beta')) {
+        if (!$user->can('audit.read')) {
             return '';
         }
         $icon = Html::tag('i', '', ['class' => 'fa fa-history fa-fw ' . ($this->rightIcon ? 'pull-right' : '')]);
