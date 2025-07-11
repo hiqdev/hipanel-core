@@ -50,9 +50,7 @@ return [
             'panelUrl' => $params['hipanel.url'],
         ],
         'language' => [
-            'languages' => $params['language.languages'] ?? [
-                'en' => 'English',
-            ],
+            'languages' => $params['language.languages'],
         ],
     ],
     'container' => [
