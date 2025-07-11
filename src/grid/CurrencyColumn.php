@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * HiPanel core package
  *
@@ -10,6 +12,7 @@
 
 namespace hipanel\grid;
 
+use Closure;
 use hipanel\base\Model;
 use hipanel\modules\finance\widgets\ColoredBalance;
 
@@ -19,25 +22,25 @@ use hipanel\modules\finance\widgets\ColoredBalance;
 class CurrencyColumn extends DataColumn
 {
     public $attribute = 'balance';
-    public $nameAttribute = 'balance';
-    public $format = 'html';
+    public $format = 'raw';
     public $filter = false;
+    public string $nameAttribute = 'balance';
 
     /**
      * @var bool|string Whether to compare [[attribute]] with another attribute to change the display colors
      *  - boolean false - do not compare
      *  - string - name of attribute to compare with
      */
-    public $compare = false;
-    public $colors = [];
+    public bool $compare = false;
+    public array $colors = [];
 
     public $urlCallback;
 
-    public ?\Closure $valueFormatter = null;
+    public ?Closure $valueFormatter = null;
 
     public function getColor($type)
     {
-        return $this->colors[$type] ?: $type;
+        return $this->colors[$type] ?? $type;
     }
 
     public function getUrl($model, $key, $index)
