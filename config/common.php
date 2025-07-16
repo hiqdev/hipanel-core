@@ -65,9 +65,8 @@ return [
             'panelUrl' => $params['hipanel.url'],
         ],
         'language' => [
-            'languages' => [
+            'languages' => $params['language.languages'] ?? [
                 'en' => 'English',
-                'ru' => 'Русский',
             ],
         ],
         'debug' => !empty($params['debug.event.enable']) ? [] : [
