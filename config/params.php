@@ -10,9 +10,18 @@
 
 $hipanelSite = $_ENV['HIPANEL_SITE'] ?? null;
 
+$multiLanguage = $_ENV['LANGUAGES_MULTI'] ?? 1;
+
 return [
     'cache.driver'          => 'file',
-
+    'language.languages'    => $multiLanguage
+        ? [
+            'en' => 'English',
+            'ru' => 'Русский',
+        ]
+        : [
+            'en' => 'English',
+        ],
     'adminEmail'            => '',
     'organization.url'      => '',
     'organization.termsUrl' => '',
