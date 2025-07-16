@@ -71,6 +71,19 @@ class User extends \yii\web\User
         return $identity->isAccountOwner();
     }
 
+    public function canHasSubclients()
+    {
+        if (!$this->can('access-subclients')) {
+            return false;
+        }
+
+        if (!$this->isAccountOwner()) {
+            return true;
+        }
+
+        return $this->getIdentity()->type !== 'client';
+    }
+
     /**
      * Prepares authorization data.
      * Redirects to authorization if necessary.
