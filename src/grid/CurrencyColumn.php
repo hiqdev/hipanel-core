@@ -31,7 +31,7 @@ class CurrencyColumn extends DataColumn
      *  - boolean false - do not compare
      *  - string - name of attribute to compare with
      */
-    public bool $compare = false;
+    public $compare = false;
     public array $colors = [];
 
     public $urlCallback;
