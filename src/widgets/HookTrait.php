@@ -22,9 +22,9 @@ trait HookTrait
             <<<"JS"
 ;(() => {
   $.ajax({
-    type: 'POST',
+    type: 'GET', // 'POST' todo: make to able to receive the POST requests
     url: $url,
-    data: $post,
+//    data: $post,
     beforeSend: xhr => {
       xhr.setRequestHeader('$headerName', '$reqHeaderParamName');
     },

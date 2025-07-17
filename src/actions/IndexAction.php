@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * HiPanel core package
@@ -90,7 +91,7 @@ class IndexAction extends SearchAction
     protected function getDefaultRules()
     {
         return ArrayHelper::merge([
-            'html | pjax' => [
+            'html | pjax | POST ids' => [
                 'save' => false,
                 'flash' => false,
                 'success' => [
@@ -107,7 +108,7 @@ class IndexAction extends SearchAction
                     },
                 ],
             ],
-            'GET ajax | POST ajax' => [
+            'GET ajax' => [ // todo: make to able to receive the POST requests
                 'class' => VariantsAction::class,
                 'variants' => array_merge([
                     self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => (new SynchronousCountEnabler(
