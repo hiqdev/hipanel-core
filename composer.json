@@ -50,6 +50,7 @@
         "yiisoft/yii2-debug": "dev-master",
         "yiisoft/yii2-imagine": "^2.0",
         "yiisoft/yii2-bootstrap": "^2.0",
+        "yiisoft/yii2-symfonymailer": "~3.0.0",
         "hiqdev/hisite": "dev-master",
         "hiqdev/hipanel-rbac": "dev-master",
         "hiqdev/hipanel-hiart": "dev-master",

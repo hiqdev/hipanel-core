@@ -40,7 +40,7 @@ return [
             'class' => \hipanel\components\Response::class,
         ],
         'mailer' => [
-            'class' => \yii\swiftmailer\Mailer::class,
+            'class' => \yii\symfonymailer\Mailer::class,
             'viewPath' => dirname(__DIR__) . '/src/mail',
         ],
         'orientationStorage' => [
