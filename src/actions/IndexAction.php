@@ -118,7 +118,7 @@ class IndexAction extends SearchAction
                     self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => (new SynchronousCountEnabler(
                         $action->parent->getDataProvider(),
                         fn(GridView $grid): string => $grid->renderSummary(),
-                    ))(),
+                    ))->preventModelsLoading()->__invoke(),
 
                 ], $this->responseVariants),
             ],
