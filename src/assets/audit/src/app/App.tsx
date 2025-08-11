@@ -1,11 +1,14 @@
 import React from "react";
-import type { TableProps } from "antd";
+import { TableProps, Tooltip } from "antd";
 import { Table, Tag } from "antd";
 import * as dayjs from "dayjs";
 import { Differ, Viewer } from "json-diff-kit";
+import { Typography } from "antd";
 
 import "json-diff-kit/dist/viewer.css";
 import "./App.css";
+
+const { Text } = Typography;
 
 declare global {
   interface Window {
@@ -64,25 +67,20 @@ const colors: Record<string, string> = {
 
 const columns: TableProps<DataType>["columns"] = [
   {
-    title: "Version",
-    dataIndex: "id",
-    key: "id",
-    render: (id: string, { link }) => <a id={`#${id}`} href={`#${id}`}>{id}</a>,
-  },
-  {
     title: "Timestamp",
     dataIndex: "timestamp",
     key: "timestamp",
-    render: (timestamp: string) => {
+    render: (timestamp: string, record) => {
       const timestampMs = parseInt(timestamp, 10);
+      const toLink = (text: string) => (<a id={`#${record.id}`} href={`#${record.id}`}>{text}</a>);
       if (!isNaN(timestampMs)) {
         // check if timestamp in ms (13 digits)
         const timestampSec = timestampMs > 999999999999 ? Math.floor(timestampMs / 1000) : timestampMs;
 
-        return dayjs.unix(timestampSec).format("YYYY-MM-DD HH:mm");
+        return toLink(dayjs.unix(timestampSec).format("YYYY-MM-DD HH:mm"));
       }
 
-      return timestamp;
+      return toLink(timestamp);
     },
   },
   {
@@ -95,6 +93,24 @@ const columns: TableProps<DataType>["columns"] = [
     title: "Table",
     dataIndex: "table",
     key: "table",
+    render: (table: string) => {
+      const pathSegments = new URL(window.location.href).pathname.split("/");
+      // UUID v4 regex
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const segment = pathSegments[2];
+      const entityTable = segment && !uuidRegex.test(segment) ? segment : undefined;
+      if (entityTable === table || typeof entityTable === "undefined") {
+        return (
+          <Text>{table}</Text>
+        );
+      }
+
+      return (
+        <Tooltip title={"This change belongs to a nested object"}>
+          <Text><span className={"fa fa-link fa-fw"}></span> {table}</Text>
+        </Tooltip>
+      );
+    },
   },
   {
     title: "Entity",
