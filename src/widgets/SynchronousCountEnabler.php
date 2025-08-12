@@ -11,7 +11,6 @@ use yii\grid\GridView;
 
 final class SynchronousCountEnabler
 {
-    private bool $shouldLoadModels = true;
     private ActiveDataProvider $dataProvider;
     private Closure $renderContent;
 
@@ -41,16 +40,22 @@ final class SynchronousCountEnabler
 
     private function applyModelLoadingStrategy(ActiveDataProvider $dataProvider): void
     {
-        if ($this->shouldLoadModels) {
-            return;
-        }
-
-        $pageSize = $dataProvider->pagination->pageSize;
-        $emptyModels = array_pad([], $pageSize, new DynamicModel());
-        $emptyKeys = array_pad([], $pageSize, null);
+        $pageSize = $this->pageSize($dataProvider);
+        $emptyModels = $this->createEmptyModels($pageSize);
+        $emptyKeys = $this->createEmptyKeys($pageSize);
 
         $dataProvider->setModels($emptyModels);
         $dataProvider->setKeys($emptyKeys);
+    }
+
+    private function createEmptyModels(int $pageSize): array
+    {
+        return array_pad([], $pageSize, new DynamicModel());
+    }
+
+    private function createEmptyKeys(int $pageSize): array
+    {
+        return array_pad([], $pageSize, null);
     }
 
     private function applyCachedTotalCount(ActiveDataProvider $dataProvider): void
@@ -78,14 +83,19 @@ final class SynchronousCountEnabler
         return Yii::createObject([
             'class' => GridView::class,
             'dataProvider' => $dataProvider,
+            // Disable guessing columns from models (don't load models)
+            'columns' => [
+                'dummy' => 'foo',
+            ],
         ]);
     }
 
-    public function preventModelsLoading(): self
+    private function pageSize(ActiveDataProvider $dataProvider): int
     {
-        $this->shouldLoadModels = false;
+        $pageSize = $dataProvider->pagination->pageSize;
+        $totalCount = $this->fetchCachedTotalCount($dataProvider);
 
-        return $this;
+        return min($pageSize, $totalCount);
     }
 
     public function getDataProvider(): ActiveDataProvider
