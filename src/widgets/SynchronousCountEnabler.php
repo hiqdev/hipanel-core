@@ -11,39 +11,54 @@ use yii\grid\GridView;
 
 final class SynchronousCountEnabler
 {
-    private bool $loadModels = true;
+    private bool $shouldLoadModels = true;
     private ActiveDataProvider $dataProvider;
     private Closure $renderContent;
 
     public function __construct(ActiveDataProvider $dataProvider, Closure $renderContent)
     {
+        $this->dataProvider = $this->prepareDataProvider($dataProvider);
+        $this->renderContent = $renderContent;
+    }
+
+    private function prepareDataProvider(ActiveDataProvider $dataProvider): ActiveDataProvider
+    {
         $dataProvider->refresh();
         $dataProvider->enableSynchronousCount();
 
-        $this->dataProvider = clone $dataProvider;
-        $this->renderContent = $renderContent;
+        return clone $dataProvider;
     }
 
     public function __invoke(): string
     {
-        $dataProvider = $this->dataProvider;
+        $this->applyModelLoadingStrategy($this->dataProvider);
+        $this->applyCachedTotalCount($this->dataProvider);
 
-        if (! $this->loadModels) {
-            $pageSize = $dataProvider->pagination->pageSize;
-            $dataProvider->setModels(array_pad([], $pageSize, new DynamicModel()));
-            $dataProvider->setKeys(array_pad([], $pageSize, null));
-        }
-        $dataProvider->pagination->totalCount = $this->getCachedTotalCount($dataProvider);
+        $gridView = $this->createGridView($this->dataProvider);
 
-        $grid = Yii::createObject([
-            'class' => GridView::class,
-            'dataProvider' => $dataProvider,
-        ]);
-
-        return call_user_func($this->renderContent, $grid);
+        return call_user_func($this->renderContent, $gridView);
     }
 
-    private function getCachedTotalCount(ActiveDataProvider $dataProvider): int
+    private function applyModelLoadingStrategy(ActiveDataProvider $dataProvider): void
+    {
+        if ($this->shouldLoadModels) {
+            return;
+        }
+
+        $pageSize = $dataProvider->pagination->pageSize;
+        $emptyModels = array_pad([], $pageSize, new DynamicModel());
+        $emptyKeys = array_pad([], $pageSize, null);
+
+        $dataProvider->setModels($emptyModels);
+        $dataProvider->setKeys($emptyKeys);
+    }
+
+    private function applyCachedTotalCount(ActiveDataProvider $dataProvider): void
+    {
+        $dataProvider->pagination->totalCount = $this->fetchCachedTotalCount($dataProvider);
+    }
+
+    private function fetchCachedTotalCount(ActiveDataProvider $dataProvider): int
     {
         return Yii::$app->cache->getOrSet(
             [
@@ -58,9 +73,17 @@ final class SynchronousCountEnabler
         );
     }
 
+    private function createGridView(ActiveDataProvider $dataProvider): GridView
+    {
+        return Yii::createObject([
+            'class' => GridView::class,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     public function preventModelsLoading(): self
     {
-        $this->loadModels = false;
+        $this->shouldLoadModels = false;
 
         return $this;
     }
