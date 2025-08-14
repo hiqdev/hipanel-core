@@ -8,6 +8,7 @@ use hiqdev\hiart\ActiveDataProvider;
 use Yii;
 use yii\base\DynamicModel;
 use yii\grid\GridView;
+use yii\grid\SerialColumn;
 
 class DataProviderGridRenderer
 {
@@ -44,7 +45,14 @@ class DataProviderGridRenderer
 
     private function calculatePageSize(ActiveDataProvider $dataProvider): int
     {
-        $pageSize = $dataProvider->pagination->pageSize;
+        $pagination = $dataProvider->pagination;
+        if ($pagination === false) {
+            // No pagination
+            return 0;
+        }
+
+        $pageSize = $pagination->pageSize;
+
         $totalCount = $this->getCachedTotalCount($dataProvider);
         $page = $this->getPage(); // 1-based index
 
@@ -93,7 +101,14 @@ class DataProviderGridRenderer
 
     private function createEmptyModels(int $pageSize): array
     {
-        return array_pad([], $pageSize, new DynamicModel());
+        if ($pageSize <= 0) {
+            return [];
+        }
+
+        return array_map(
+            static fn() => new DynamicModel(),
+            array_fill(0, $pageSize, null)
+        );
     }
 
     private function createEmptyKeys(int $pageSize): array
@@ -113,7 +128,7 @@ class DataProviderGridRenderer
             'dataProvider' => $dataProvider,
             // Disable guessing columns from models (don't load models)
             'columns' => [
-                'dummy' => 'foo',
+                ['class' => SerialColumn::class],
             ],
         ]);
     }
