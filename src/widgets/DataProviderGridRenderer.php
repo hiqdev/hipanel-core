@@ -67,7 +67,7 @@ class DataProviderGridRenderer
 
     private function getPage(): int
     {
-        // Because the page in DataProvider pagination is always null
+        // Because the page value form DataProvider pagination is always null
         return isset($_REQUEST['page']) ? max(1, (int)$_REQUEST['page']) : 1;
     }
 
