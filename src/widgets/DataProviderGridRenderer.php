@@ -44,10 +44,31 @@ class DataProviderGridRenderer
 
     private function calculatePageSize(ActiveDataProvider $dataProvider): int
     {
-        return min(
-            $dataProvider->pagination->pageSize,
-            $this->getCachedTotalCount($dataProvider)
-        );
+        $pageSize = $dataProvider->pagination->pageSize;
+        $totalCount = $this->getCachedTotalCount($dataProvider);
+        $page = $this->getPage(); // 1-based index
+
+        // Offset of first item on current page
+        $offset = ($page - 1) * $pageSize;
+
+        // If fewer total items than a single page
+        if ($totalCount <= $pageSize) {
+            return $totalCount;
+        }
+
+        // If last page
+        if ($offset + $pageSize > $totalCount) {
+            return $totalCount - $offset;
+        }
+
+        // Full page
+        return $pageSize;
+    }
+
+    private function getPage(): int
+    {
+        // Because the page in DataProvider pagination is always null
+        return isset($_REQUEST['page']) ? max(1, (int)$_REQUEST['page']) : 1;
     }
 
     private function getCachedTotalCount(ActiveDataProvider $dataProvider): int
