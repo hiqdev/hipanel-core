@@ -15,11 +15,10 @@ namespace hipanel\actions;
 use hipanel\base\FilterStorage;
 use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\grid\RepresentationCollectionFinderInterface;
-use hipanel\widgets\SynchronousCountEnabler;
+use hipanel\widgets\DataProviderGridRenderer;
 use hiqdev\hiart\ActiveDataProvider;
 use hiqdev\higrid\representations\RepresentationCollection;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
-use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\web\Controller;
@@ -111,14 +110,12 @@ class IndexAction extends SearchAction
             'GET ajax' => [ // todo: make to able to receive the POST requests
                 'class' => VariantsAction::class,
                 'variants' => array_merge([
-                    self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => (new SynchronousCountEnabler(
+                    self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => (new DataProviderGridRenderer(
                         $action->parent->getDataProvider(),
-                        fn(GridView $grid): string => $grid->renderPager(),
-                    ))->preventModelsLoading()->__invoke(),
-                    self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => (new SynchronousCountEnabler(
+                    ))->renderPager(),
+                    self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => (new DataProviderGridRenderer(
                         $action->parent->getDataProvider(),
-                        fn(GridView $grid): string => $grid->renderSummary(),
-                    ))(),
+                    ))->renderSummary(),
 
                 ], $this->responseVariants),
             ],
