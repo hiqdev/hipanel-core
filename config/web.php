@@ -148,6 +148,9 @@ return [
         ],
         'singletons' => [
             \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class,
+            \yii\web\Session::class => function () {
+                return Yii::$app->getSession();
+            },
             \yii\web\User::class => function () {
                 return Yii::$app->getUser();
             },
