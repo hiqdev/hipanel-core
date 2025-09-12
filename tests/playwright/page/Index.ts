@@ -19,8 +19,7 @@ export default class Index {
     await this.advancedSearch.setFilter(name, value);
   }
 
-  public async submitSearchButton()
-  {
+  public async submitSearchButton() {
     await this.advancedSearch.submitButton();
   }
 
@@ -65,13 +64,13 @@ export default class Index {
   }
 
   async clickBulkButton(name: string) {
-    await this.page.locator(`fieldset button:has-text("${name}")`).click();
+    // use locator + filter with RegExp to match by substring (not exact)
+    await this.page.locator('fieldset button').filter({ hasText: new RegExp(name) }).first().click();
   }
 
   public async clickDropdownBulkButton(buttonName: string, selectName: string) {
     await this.clickBulkButton(buttonName);
-    const button = this.page.locator(`fieldset a`)
-        .filter({ hasText: new RegExp(`^${selectName}$`) });
+    const button = this.page.locator(`fieldset a`).filter({ hasText: new RegExp(`${selectName}$`) });
 
     await button.highlight();
     await button.click();
@@ -99,7 +98,7 @@ export default class Index {
   }
 
   public async clickPopoverMenu(row: number, menuName: string) {
-    await this.page.locator('tr td button').nth(row - 1).click();
+    await this.page.locator("tr td button").nth(row - 1).click();
 
     await Promise.all([
       this.page.waitForNavigation({ waitUntil: "domcontentloaded" }), // Wait for the page to start loading
@@ -175,13 +174,11 @@ export default class Index {
     expect(await this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${rowNumber}]//td[${column}]`)).toHaveText(fieldName);
   }
 
-  public async hasNotification(message: string)
-  {
+  public async hasNotification(message: string) {
     await this.notification.hasNotification(message);
   }
 
-  public async closeNotification()
-  {
+  public async closeNotification() {
     await this.notification.closeNotification();
   }
 
