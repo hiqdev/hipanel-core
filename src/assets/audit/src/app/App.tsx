@@ -1,9 +1,8 @@
 import React from "react";
-import { TableProps, Tooltip } from "antd";
-import { Table, Tag } from "antd";
+import type { DescriptionsProps } from "antd";
+import { Descriptions, Space, Table, TableProps, Tag, Tooltip, Typography } from "antd";
 import * as dayjs from "dayjs";
 import { Differ, Viewer } from "json-diff-kit";
-import { Typography } from "antd";
 
 import "json-diff-kit/dist/viewer.css";
 import "./App.css";
@@ -28,9 +27,11 @@ interface User extends HasLink {
 }
 
 interface Request extends HasLink {
-  ip: string;
-  log_id: number;
-  trace_id: string;
+  ip?: string;
+  log_id?: number;
+  trace_id?: string;
+  app?: string;
+  run_id?: string;
 }
 
 interface Diff {
@@ -183,20 +184,30 @@ export default function App() {
       expandable={{
         expandedRowRender: (record) => {
           const diff = differ.diff(record.diff.old, record.diff.new);
+          const items: DescriptionsProps["items"] = Object.entries(record.request)
+            .filter(([key]) => ["app", "log_id", "ip"].includes(key))
+            .map(([key, value]) => ({
+              key,
+              label: key.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ").toLocaleUpperCase(),
+              children: value ?? "-",
+            }));
 
           return (
-            <p style={{ margin: 0 }}>
-              <Viewer
-                diff={diff}
-                indent={4}                 // default `2`
-                lineNumbers={true}         // default `false`
-                highlightInlineDiff={true} // default `false`
-                inlineDiffOptions={{
-                  mode: "word",            // default `"char"`, but `"word"` may be more useful
-                  wordSeparator: " ",      // default `""`, but `" "` is more useful for sentences
-                }}
-              />
-            </p>
+            <Space direction={"vertical"} size={"large"}>
+              <Descriptions size={"small"} bordered colon column={1} items={items} style={{ width: "50%" }}/>
+              <p style={{ margin: 0 }}>
+                <Viewer
+                  diff={diff}
+                  indent={4}                 // default `2`
+                  lineNumbers={true}         // default `false`
+                  highlightInlineDiff={true} // default `false`
+                  inlineDiffOptions={{
+                    mode: "word",            // default `"char"`, but `"word"` may be more useful
+                    wordSeparator: " ",      // default `""`, but `" "` is more useful for sentences
+                  }}
+                />
+              </p>
+            </Space>
           );
         },
         defaultExpandedRowKeys: expandedRowKeys,
