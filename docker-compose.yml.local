@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   selenium:
-    image: selenium/standalone-chrome:3.141.0
+    image: selenium/standalone-chrome:latest
     networks:
       - local-network
       - proxy-network
