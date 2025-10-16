@@ -130,6 +130,9 @@ return [
         'themeSettingsStorage' => [
             'class' => \hipanel\components\ThemeSettingsStorage::class,
         ],
+        'session' => [
+            'class' => yii\web\CacheSession::class,
+        ],
     ],
     'container' => [
         'definitions' => [
