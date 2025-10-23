@@ -75,7 +75,8 @@ class RenderAction extends Action
     {
         [$storedFilters, $formName] = $this->getStoredFilters();
         $queryParams = $this->controller->request->getQueryParams();
-        if (!empty($storedFilters) && !isset($queryParams[$formName])) {
+        $theFiltersShouldBeCleaned = $this->controller->request->post('clear-filters') === 'true';
+        if (!empty($storedFilters) && !isset($queryParams[$formName]) && !$theFiltersShouldBeCleaned) {
             return $this->controller->redirect(Url::toSearch($this->controller->id, $storedFilters));
         }
 
