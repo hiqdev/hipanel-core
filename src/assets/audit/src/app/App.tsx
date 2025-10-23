@@ -180,7 +180,7 @@ export default function App() {
     <Table<DataType>
       columns={columns}
       dataSource={dataSource}
-      pagination={{ position: ["none", "none"] }}
+      // pagination={{ position: ["none", "none"] }}
       expandable={{
         expandedRowRender: (record) => {
           const diff = differ.diff(record.diff.old, record.diff.new);
