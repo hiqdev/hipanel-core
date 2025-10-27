@@ -10,7 +10,9 @@
 
 namespace hipanel\base;
 
+use hipanel\actions\Action;
 use hipanel\actions\TagsAction;
+use hipanel\behaviors\SmartRedirectBehavior;
 use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
@@ -52,9 +54,8 @@ class Controller extends \yii\web\Controller
     public function behaviors()
     {
         return [
-            [
-                'class' => UiOptionsBehavior::class,
-            ],
+            UiOptionsBehavior::class,
+            SmartRedirectBehavior::class,
         ];
     }
 
@@ -275,5 +276,17 @@ class Controller extends \yii\web\Controller
     public static function getSearchUrl(array $params = [])
     {
         return static::getActionUrl('index', [static::searchFormName() => $params]);
+    }
+
+    public function smartRedirect(Action $action): array
+    {
+        return match (true) {
+            $action->collection->count() === 1 => $action->controller->getActionUrl(
+                'view',
+                ['id' => $action->collection->first->id]
+            ),
+            ($previousUrl = $action->controller->getPreviousUrl($action)) !== null => $previousUrl,
+            default => $action->controller->getSearchUrl(),
+        };
     }
 }

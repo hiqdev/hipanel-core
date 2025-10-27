@@ -34,7 +34,7 @@ class SmartDeleteAction extends SmartPerformAction
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
-                    'url'   => 'index',
+                    'url' => fn(RedirectAction $action) => $action->controller->smartRedirect($this),
                 ],
             ],
         ], parent::getDefaultRules());
