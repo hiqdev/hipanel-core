@@ -7,8 +7,9 @@ services:
       - local-network
       - proxy-network
       - hiapi-network
-    volumes:
-      - /dev/shm:/dev/shm
+    shm_size: 4g
+    ports:
+      - "127.0.0.1:5912:7900"
 
   nginx:
     image: nginx:latest
