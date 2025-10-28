@@ -157,11 +157,7 @@ class SmartUpdateAction extends SwitchAction
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
-                    'url'   => function ($action) {
-                        return $action->collection->count() > 1
-                            ? $action->controller->getSearchUrl()
-                            : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id]);
-                    },
+                    'url' => fn(RedirectAction $action) => $action->controller->smartRedirect($this),
                 ],
                 'error'   => [
                     'class'  => RenderAction::class,
