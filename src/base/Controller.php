@@ -281,7 +281,7 @@ class Controller extends \yii\web\Controller
     public function smartRedirect(Action $action): string|array
     {
         return match (true) {
-            $action->collection->count() === 1 => $action->controller->getActionUrl(
+            $action->collection->count() === 1 && $action->id !== 'delete' => $action->controller->getActionUrl(
                 'view',
                 ['id' => $action->collection->first->id]
             ),
