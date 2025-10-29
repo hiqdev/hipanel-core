@@ -361,10 +361,10 @@ CSS
 
     public function canShowExport(): bool
     {
-        $isGridExportActionExists = (bool) Yii::$app->controller->createAction('export');
-        /** @var RepresentationCollectionFinder $repColFinder */
-        $repColFinder = Yii::createObject(RepresentationCollectionFinder::class);
-        $collection = $repColFinder->findOrFallback();
+        $isGridExportActionExists = (bool)Yii::$app->controller->createAction('start-export');
+        /** @var RepresentationCollectionFinder $representationCollectionFinder */
+        $representationCollectionFinder = Yii::createObject(RepresentationCollectionFinder::class);
+        $collection = $representationCollectionFinder->findOrFallback();
         $isRepresentationExists = count($collection?->getAll()) > 0;
 
         return $isGridExportActionExists && $isRepresentationExists;

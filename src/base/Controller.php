@@ -22,7 +22,6 @@ use hiqdev\yii2\export\actions\CancelExportAction;
 use hiqdev\yii2\export\actions\StartExportAction;
 use hiqdev\yii2\export\actions\ProgressExportAction;
 use hiqdev\yii2\export\actions\DownloadExportAction;
-use hiqdev\yii2\export\actions\ExportAction;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\Inflector;
@@ -62,9 +61,6 @@ class Controller extends \yii\web\Controller
     public function actions()
     {
         return [
-            'export' => [
-                'class' => ExportAction::class,
-            ],
             'start-export' => [
                 'class' => StartExportAction::class,
             ],
