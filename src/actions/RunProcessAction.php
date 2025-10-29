@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 
 namespace hipanel\actions;
 
@@ -30,8 +33,9 @@ class RunProcessAction extends Action
             call_user_func($this->onRunProcess, $this);
         } catch (Exception $exception) {
             Yii::error(implode(PHP_EOL, [__CLASS__, $exception->getMessage()]));
+            throw $exception;
         }
 
-        die(); // a must especially if set_time_limit=0 is used and the task ends
+        die(); // a must, especially if set_time_limit=0 is used and the task ends
     }
 }
