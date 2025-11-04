@@ -66,102 +66,123 @@ const colors: Record<string, string> = {
   "delete": "volcano",
 };
 
-const columns: TableProps<DataType>["columns"] = [
-  {
-    title: "Timestamp",
-    dataIndex: "timestamp",
-    key: "timestamp",
-    render: (timestamp: string, record) => {
-      const timestampMs = parseInt(timestamp, 10);
-      const toLink = (text: string) => (<a id={`#${record.id}`} href={`#${record.id}`}>{text}</a>);
-      if (!isNaN(timestampMs)) {
-        // check if timestamp in ms (13 digits)
-        const timestampSec = timestampMs > 999999999999 ? Math.floor(timestampMs / 1000) : timestampMs;
-
-        return toLink(dayjs.unix(timestampSec).format("YYYY-MM-DD HH:mm"));
-      }
-
-      return toLink(timestamp);
-    },
-  },
-  {
-    title: "User",
-    dataIndex: "user",
-    key: "user",
-    render: (user: User) => <a href={user.link} target={"_blank"}>{user.login}</a>,
-  },
-  {
-    title: "Table",
-    dataIndex: "table",
-    key: "table",
-    render: (table: string) => {
-      const pathSegments = new URL(window.location.href).pathname.split("/");
-      // UUID v4 regex
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      const segment = pathSegments[2];
-      const entityTable = segment && !uuidRegex.test(segment) ? segment : undefined;
-      if (entityTable === table || typeof entityTable === "undefined") {
-        return (
-          <Text>{table}</Text>
-        );
-      }
-
-      return (
-        <Tooltip title={"This change belongs to a nested object"}>
-          <Text><span className={"fa fa-link fa-fw"}></span> {table}</Text>
-        </Tooltip>
-      );
-    },
-  },
-  {
-    title: "Entity",
-    dataIndex: "entity",
-    key: "entity",
-    render: (_, record: DataType) => <a href={record.link} target={"_blank"}>#{record.entity_id}</a>,
-  },
-  {
-    title: "Operation",
-    dataIndex: "operation",
-    key: "operation",
-    render: (_, { operation }) => (
-      <Tag color={colors[operation] || "default"} key={operation}>
-        {operation.toUpperCase()}
-      </Tag>
-    ),
-    onFilter: (value, record) => record.operation.indexOf(value as string) === 0,
-    filters: [
-      {
-        text: "CREATE",
-        value: "create",
-      },
-      {
-        text: "UPDATE",
-        value: "update",
-      },
-      {
-        text: "DELETE",
-        value: "delete",
-      },
-    ],
-  },
-  {
-    title: "Trace ID",
-    dataIndex: "trace_id",
-    key: "trace_id",
-    render: (_, { request }) => <a href={request.link}>{request.trace_id}</a>,
-  },
-];
-
 
 export default function App() {
   const dataSource = JSON.parse(window["__audit_data__"] || "[]") as DataType[];
-  dataSource.sort((a, b) => parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10));
   const version = window.location.hash.substring(1);
   let expandedRowKeys: string[] = [];
   if (version) {
     const foundItem = dataSource.find(item => item.id === version);
     expandedRowKeys = foundItem ? [foundItem.key] : [];
   }
+  const columns: TableProps<DataType>["columns"] = [
+    {
+      title: "Timestamp",
+      dataIndex: "timestamp",
+      key: "timestamp",
+      filterSearch: true,
+      defaultFilteredValue: version ? [version] : [],
+      onFilter: (value, record) => record.id.indexOf(value as string) === 0,
+      filters: dataSource.map(({ id }) => ({
+        text: id,
+        value: id,
+      })),
+      render: (timestamp: string, record) => {
+        const timestampMs = parseInt(timestamp, 10);
+        const url = window.location.href.split("#")[0];
+        const toLink = (text: string) => (
+          <>
+            <a id={`#${record.id}`} href={`${url}#${record.id}`} target={"_blank"}>{text}</a>
+            <br/>
+            <Text type={"secondary"}>{record.id}</Text>
+          </>
+        );
+        if (!isNaN(timestampMs)) {
+          // check if timestamp in ms (13 digits)
+          const timestampSec = timestampMs > 999999999999 ? Math.floor(timestampMs / 1000) : timestampMs;
+
+          return toLink(dayjs.unix(timestampSec).format("YYYY-MM-DD HH:mm"));
+        }
+
+        return toLink(timestamp);
+      },
+    },
+    {
+      title: "User",
+      dataIndex: "user",
+      key: "user",
+      render: (user: User) => <a href={user.link} target={"_blank"}>{user.login}</a>,
+    },
+    {
+      title: "Table",
+      dataIndex: "table",
+      key: "table",
+      onFilter: (value, record) => record.table.indexOf(value as string) === 0,
+      filters: Array.from(
+        new Set(dataSource.map(({ table }) => table)),
+      ).map((table) => ({
+        text: table,
+        value: table,
+      })),
+      render: (table: string) => {
+        const pathSegments = new URL(window.location.href).pathname.split("/");
+        // UUID v4 regex
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        const segment = pathSegments[2];
+        const entityTable = segment && !uuidRegex.test(segment) ? segment : undefined;
+        if (entityTable === table || typeof entityTable === "undefined") {
+          return (
+            <Text>{table}</Text>
+          );
+        }
+
+        return (
+          <Tooltip title={"This change belongs to a nested object"}>
+          <Text><span className={"fa fa-link fa-fw"}></span> {table}</Text>
+        </Tooltip>
+        );
+      },
+    },
+    {
+      title: "Entity",
+      dataIndex: "entity",
+      key: "entity",
+      render: (_, record: DataType) => <span>{record.entity_id}</span>,
+    },
+    {
+      title: "Operation",
+      dataIndex: "operation",
+      key: "operation",
+      render: (_, { operation }) => (
+        <Tag color={colors[operation] || "default"} key={operation}>
+        {operation.toUpperCase()}
+      </Tag>
+      ),
+      onFilter: (value, record) => record.operation.indexOf(value as string) === 0,
+      filters: [
+        {
+          text: "CREATE",
+          value: "create",
+        },
+        {
+          text: "UPDATE",
+          value: "update",
+        },
+        {
+          text: "DELETE",
+          value: "delete",
+        },
+      ],
+    },
+    {
+      title: "Trace ID",
+      dataIndex: "trace_id",
+      key: "trace_id",
+      render: (_, { request }) => <a href={request.link}>{request.trace_id}</a>,
+    },
+  ];
+
+  dataSource.sort((a, b) => parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10));
   const differ = new Differ({
     detectCircular: true,    // default `true`
     maxDepth: Infinity,      // default `Infinity`
@@ -180,7 +201,7 @@ export default function App() {
     <Table<DataType>
       columns={columns}
       dataSource={dataSource}
-      // pagination={{ position: ["none", "none"] }}
+      pagination={{ pageSize: 100 }}
       expandable={{
         expandedRowRender: (record) => {
           const diff = differ.diff(record.diff.old, record.diff.new);
