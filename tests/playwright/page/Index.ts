@@ -76,9 +76,9 @@ export default class Index {
     await button.click();
   }
 
-  async clickColumnOnTable(columnName: string, row: number) {
+  async clickColumnOnTable(columnName: string, row: number, timeout: number = 50_000) {
     const column = await this.getColumnNumberByName(columnName);
-    await this.page.locator(`//tr[${row}]//td[${column}]//a`).first().click();
+    await this.page.locator(`//tr[${row}]//td[${column}]//a`).first().click({ timeout: timeout });
   }
 
   async clickColumnOnTableByName(columnName: string, value: string) {
