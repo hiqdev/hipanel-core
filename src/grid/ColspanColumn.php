@@ -22,7 +22,7 @@ use yii\helpers\Html;
 class ColspanColumn extends DataColumn
 {
     /** @var Column[] */
-    public $columns;
+    public array $columns;
 
     public function init()
     {
@@ -53,8 +53,8 @@ class ColspanColumn extends DataColumn
     }
 
     /**
-     * @throws \yii\base\InvalidConfigException
      * @return Column[]
+     * @throws \yii\base\InvalidConfigException
      */
     protected function createSubColumns()
     {
@@ -63,7 +63,7 @@ class ColspanColumn extends DataColumn
                 continue;
             }
             $this->columns[$id] = Yii::createObject(array_merge([
-                'class' => $this->grid->dataColumnClass ?: DataColumn::class,
+                'class' => $this->grid->dataColumnClass ?? DataColumn::class,
                 'grid' => $this->grid,
             ], $column));
         }
