@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export default class Select2 {
   private dropdownSearchField: Locator;
@@ -14,7 +14,7 @@ export default class Select2 {
   }
 
   static fieldByName(page: Page, fieldName: string): Select2 {
-    const select2 = new Select2(page, '');
+    const select2 = new Select2(page, "");
     select2.combobox = page.locator(`[name="${fieldName}"] + .select2-container [role=combobox]`);
 
     return select2;
@@ -22,6 +22,7 @@ export default class Select2 {
 
   static filterBy(page: Page, columnName: string) {
     const subId = columnName.toLowerCase().substring(0, 5);
+
     return this.field(page, `tr.filters select[id*=${subId}]`);
   }
 
@@ -37,6 +38,9 @@ export default class Select2 {
     await this.page.locator("ul.select2-results__options .loading-results").waitFor({ state: "hidden" });
     await this.page.locator(`//ul[contains(@class, 'select2-results__options')]/li`).click();
   }
+
+  async clearValue() {
+    await this.combobox.getByLabel("Remove all items").click();
+    await this.combobox.locator('.select2-selection__arrow').first().click();
+  }
 }
-
-
