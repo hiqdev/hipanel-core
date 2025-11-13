@@ -38,7 +38,7 @@ class ProgressAction extends Action
                 break;
             }
             sleep(1);
-        } while ($this->needToTerminate || $this->isLimitHasNotBeenReachedYet($id, $data));
+        } while (!$this->needToTerminate && $this->isLimitHasNotBeenReachedYet($id, $data));
         die();
     }
 
