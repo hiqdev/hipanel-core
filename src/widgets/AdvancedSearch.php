@@ -118,7 +118,7 @@ class AdvancedSearch extends Widget
         echo Html::hiddenInput(Html::getInputName($this->model, 'search_form'), 1);
     }
 
-    public static function renderButton()
+    public static function renderButton(): string
     {
         return Html::a(Yii::t('hipanel', 'Advanced search'), '#', ['class' => 'btn btn-info btn-sm', 'id' => 'advancedsearch-button']);
     }
@@ -131,6 +131,7 @@ class AdvancedSearch extends Widget
             echo Html::submitButton(Yii::t('hipanel', 'Search'), ['class' => 'btn btn-sm btn-info']);
             echo ' &nbsp; ';
             echo Html::a(Yii::t('hipanel', 'Clear'), $this->action, [
+                'id' => 'clear-filters',
                 'class' => 'btn btn-sm btn-default',
                 'data-params' => [
                     'clear-filters' => true,
@@ -160,22 +161,25 @@ class AdvancedSearch extends Widget
         ]))->label(false);
     }
 
-    public function registerMyJs()
+    public function registerMyJs(): void
     {
         $div_id = $this->getDivId();
-        Yii::$app->getView()->registerJs(new JsExpression(<<<JS
-$('#advancedsearch-button').click(function (event) {
-    $('#${div_id}').toggle();
-    event.preventDefault();
-});
-$('#search-form-ticket-pjax').on('pjax:end', function () {
-    $.pjax.reload({container:'#ticket-grid-pjax', timeout: false});
-});
-JS
-        ), \yii\web\View::POS_READY);
+        Yii::$app->getView()->registerJs(
+            new JsExpression(
+                <<<JS
+                $('#advancedsearch-button').click(function (event) {
+                    $('#${div_id}').toggle();
+                    event.preventDefault();
+                });
+                $('#search-form-ticket-pjax').on('pjax:end', function () {
+                    $.pjax.reload({container:'#ticket-grid-pjax', timeout: false});
+                });
+                JS
+            )
+        );
     }
 
-    public function getDivId()
+    public function getDivId(): string
     {
         if ($this->getId(false) !== null) {
             $id = $this->getId(false);
@@ -189,7 +193,7 @@ JS
     /**
      * @param mixed $view
      */
-    public function setView($view)
+    public function setView($view): void
     {
         $this->_view = $view;
     }
