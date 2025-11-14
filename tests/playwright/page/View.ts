@@ -10,7 +10,7 @@ export default class View {
 
   async see(values: string[]): Promise<void> {
     for (const text of values) {
-      await expect(this.page.locator(`:has-text("${text}")`).first()).toBeVisible();
+      await expect(this.page.getByText(text, { exact: false }).first()).toBeVisible();
     }
   }
 }

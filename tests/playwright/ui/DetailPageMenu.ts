@@ -8,6 +8,6 @@ export default class DetailPageMenu {
   }
 
   async clickMenuItem(item: string) {
-    await this.menuLocator.locator(`:scope a:text("${item}")`).click();
+    await this.menuLocator.locator("a").filter({ hasText: item }).click();
   }
 }

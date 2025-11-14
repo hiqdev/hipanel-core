@@ -8,10 +8,13 @@ export default class ColumnFilters {
   }
 
   public async hasFilter(inputName: string) {
-    await this.page.waitForSelector(`tr.filters input[name*=${inputName.toLowerCase().substring(0, 5)}]`);
+    await this.page.waitForSelector(`tr.filters input[name*=${inputName}]`);
   }
 
   public async clearFilter(inputName: string) {
+    const filter = this.getFilter(inputName);
+    await filter.fill("");
+    await this.apply(filter);
   }
 
   public async clearAllFilters() {
@@ -34,6 +37,6 @@ export default class ColumnFilters {
   }
 
   private getFilter(inputName: string) {
-     return this.grid.locator(`tr.filters input[name*=${inputName}]`);
+    return this.grid.locator(`tr.filters input[name*=${inputName}]`);
   }
 }

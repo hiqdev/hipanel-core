@@ -11,7 +11,7 @@ export default class Input {
     return new Input(page, selector);
   }
 
-  public async setValue(value?: string | null) {
+  public async setValue(value?: string | null): Promise<void> {
     if (value) {
       await this.inputLocator.fill(value);
     } else {
@@ -21,7 +21,7 @@ export default class Input {
     await this.page.waitForLoadState("networkidle");
   }
 
-  public async fill(value: string | null) {
+  public async fill(value: string | null | undefined): Promise<void> {
     await this.inputLocator.fill(value ?? "");
   }
 }

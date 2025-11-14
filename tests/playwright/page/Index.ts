@@ -96,7 +96,9 @@ export default class Index {
     await this.clickColumnOnTable(columnName, row);
   }
 
-  // @deprecated use DetailPageMenu ui component instead
+  /**
+   * @deprecated use DetailPageMenu ui component instead
+   */
   public async clickProfileMenuOnViewPage(menuName: string) {
     await this.page.locator(`a:has-text("${menuName}")`).click();
   }
@@ -165,7 +167,7 @@ export default class Index {
     return await this.page.locator("userid").innerText();
   }
 
-  async getParameterFromCurrentUrl(parameterName) {
+  getParameterFromCurrentUrl(parameterName: string) {
     const currentUrl = new URL(this.page.url());
     const searchParams = currentUrl.searchParams;
 

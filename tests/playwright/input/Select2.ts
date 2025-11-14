@@ -26,7 +26,7 @@ export default class Select2 {
     return this.field(page, `tr.filters select[id*=${subId}]`);
   }
 
-  async setValue(value: string) {
+  async setValue(value: string): Promise<void> {
     await this.combobox.click();
     await this.dropdownSearchField.fill(value);
     await this.page.locator("ul.select2-results__options .loading-results").waitFor({ state: "hidden" });
@@ -39,8 +39,8 @@ export default class Select2 {
     await this.page.locator(`//ul[contains(@class, 'select2-results__options')]/li`).click();
   }
 
-  async clearValue() {
+  async clearValue(): Promise<void> {
     await this.combobox.getByLabel("Remove all items").click();
-    await this.combobox.locator('.select2-selection__arrow').first().click();
+    await this.combobox.locator(".select2-selection__arrow").first().click();
   }
 }
