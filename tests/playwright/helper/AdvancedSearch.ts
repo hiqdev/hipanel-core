@@ -1,4 +1,5 @@
 import {expect, Locator, Page} from "@playwright/test";
+import Select2 from "@hipanel-core/input/Select2";
 
 export default class AdvancedSearch {
     public root: Locator;
@@ -35,7 +36,13 @@ export default class AdvancedSearch {
         const tagName = await fieldLocator.evaluate((el) => el.tagName.toLowerCase());
 
         if (tagName === "select") {
-          await fieldLocator.selectOption(value);
+          const isSelect2 = await fieldLocator.evaluate((el) => el.classList.contains('select2-hidden-accessible'));
+          if (isSelect2) {
+            const id = await fieldLocator.getAttribute('id');
+            await Select2.field(this.page, "#" + id).setValue(value);
+          } else {
+            await fieldLocator.selectOption(value);
+          }
         } else if (tagName === "input") {
             const type = await fieldLocator.first().getAttribute("type");
 
