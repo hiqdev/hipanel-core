@@ -1,11 +1,11 @@
 import { expect, Page } from "@playwright/test";
-import DetailPageMenu from "@hipanel-core/ui/DetailPageMenu";
+import { DetailMenu } from "@hipanel-core/shared/ui/components";
 
 export default class View {
-  readonly detailPageMenu: DetailPageMenu;
+  readonly detailMenu: DetailMenu;
 
   constructor(readonly page: Page) {
-    this.detailPageMenu = new DetailPageMenu(page);
+    this.detailMenu = new DetailMenu(page);
   }
 
   async see(values: string[]): Promise<void> {
