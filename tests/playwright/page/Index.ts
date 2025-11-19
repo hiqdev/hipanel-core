@@ -2,14 +2,17 @@ import { expect, Page } from "@playwright/test";
 import * as fs from "fs";
 import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
 import Notification from "@hipanel-core/helper/Notification";
+import ColumnFilters from "@hipanel-core/helper/ColumnFilters";
 
 export default class Index {
-  public advancedSearch: AdvancedSearch;
-  private notification: Notification;
+  readonly advancedSearch: AdvancedSearch;
+  readonly columnFilters: ColumnFilters;
+  readonly notification: Notification;
 
-  constructor(private page: Page) {
+  constructor(readonly page: Page) {
     this.advancedSearch = new AdvancedSearch(page);
     this.notification = new Notification(page);
+    this.columnFilters = new ColumnFilters(page);
   }
 
   public async hasAdvancedSearchInputs(names: Array<string>) {
@@ -94,6 +97,9 @@ export default class Index {
     await this.clickColumnOnTable(columnName, row);
   }
 
+  /**
+   * @deprecated use DetailPageMenu ui component instead
+   */
   public async clickProfileMenuOnViewPage(menuName: string) {
     await this.page.locator(`a:has-text("${menuName}")`).click();
   }
@@ -120,7 +126,7 @@ export default class Index {
       }
     });
     if (columnNumber === 0) {
-      expect(false, `column by name "${columnName}" does not exist`).toBeTruthy();
+      expect(false, `column name "${columnName}" does not exist`).toBeTruthy();
     }
 
     return columnNumber;
@@ -162,14 +168,14 @@ export default class Index {
     return await this.page.locator("userid").innerText();
   }
 
-  async getParameterFromCurrentUrl(parameterName) {
-    const currentUrl = new URL(await this.page.url());
+  getParameterFromCurrentUrl(parameterName: string) {
+    const currentUrl = new URL(this.page.url());
     const searchParams = currentUrl.searchParams;
 
     return searchParams.get(parameterName);
   }
 
-  async checkFieldInTable(columnName, fieldName) {
+  async checkFieldInTable(columnName: string, fieldName: string) {
     const rowNumber = await this.getRowNumberInColumnByValue(columnName, fieldName);
     const column = await this.getColumnNumberByName(columnName);
     await expect(this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${rowNumber}]//td[${column}]`)).toHaveText(fieldName);
