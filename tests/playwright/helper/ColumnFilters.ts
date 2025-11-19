@@ -7,22 +7,22 @@ export default class ColumnFilters {
     this.grid = page.locator("table.table");
   }
 
-  public async hasFilter(inputName: string) {
+  async hasFilter(inputName: string) {
     await this.page.waitForSelector(`tr.filters input[name*=${inputName}]`);
   }
 
-  public async clearFilter(inputName: string) {
+  async clearFilter(inputName: string) {
     const filter = this.getFilter(inputName);
     await filter.fill("");
     await this.apply(filter);
   }
 
-  public async clearAllFilters() {
+  async clearAllFilters() {
     const clearAllButton = this.page.locator("a#clear-filters");
     await clearAllButton.click();
   }
 
-  public async applyFilter(inputName: string, value: string) {
+  async applyFilter(inputName: string, value: string) {
     const filter = this.getFilter(inputName);
     await filter.fill(value);
     await this.apply(filter);
