@@ -1,4 +1,5 @@
 import { expect, Page } from "@playwright/test";
+import * as fs from "fs";
 import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
 import Notification from "@hipanel-core/helper/Notification";
 
@@ -65,7 +66,7 @@ export default class Index {
 
   async clickBulkButton(name: string) {
     // use locator + filter with RegExp to match by substring (not exact)
-    await this.page.locator('fieldset button').filter({ hasText: new RegExp(name) }).first().click();
+    await this.page.locator("fieldset button").filter({ hasText: new RegExp(name) }).first().click();
   }
 
   public async clickDropdownBulkButton(buttonName: string, selectName: string) {
@@ -171,7 +172,7 @@ export default class Index {
   async checkFieldInTable(columnName, fieldName) {
     const rowNumber = await this.getRowNumberInColumnByValue(columnName, fieldName);
     const column = await this.getColumnNumberByName(columnName);
-    expect(await this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${rowNumber}]//td[${column}]`)).toHaveText(fieldName);
+    await expect(this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${rowNumber}]//td[${column}]`)).toHaveText(fieldName);
   }
 
   public async hasNotification(message: string) {
@@ -186,5 +187,55 @@ export default class Index {
     const selector = `//section[@class='content container-fluid']//tbody//tr[${rowNumber}]`;
 
     return await this.page.locator(selector).getAttribute("data-key");
+  }
+
+  public async testExport() {
+    const linkNames = ["CSV", "TSV", "Excel XLSX", "Clipboard MD"];
+    const exportButton = this.page.locator("#export-btn");
+
+    await expect(exportButton).toBeVisible();
+
+    await exportButton.click();
+
+    for (const linkName of linkNames) {
+      const linkLocator = this.page.locator(`a:has-text("${linkName}")`);
+
+      await expect(linkLocator).toBeVisible();
+
+      if (linkName === "Clipboard MD") {
+        continue;
+      }
+
+      await this.checkDownloadByLinkName(linkName);
+
+      await exportButton.click();
+    }
+  }
+
+  private async checkDownloadByLinkName(linkName: string) {
+    const linkLocator = this.page.locator(`a:has-text("${linkName}")`);
+
+    await linkLocator.highlight();
+
+    const [download] = await Promise.all([
+      this.page.waitForEvent("download"),
+      linkLocator.click(),
+    ]);
+
+    const downloadPath = `runtime/${download.suggestedFilename()}`;
+    await download.saveAs(downloadPath);
+
+    const fileExissts = fs.existsSync(downloadPath);
+    const stats = fs.statSync(downloadPath);
+
+    const path = await download.path();
+
+    console.log("Temporary path:", path);
+
+    expect(fileExissts, `File not found at path: ${downloadPath}`).toBeTruthy();
+
+    console.log(`File ${path}: ${stats.size} bytes`);
+
+    expect(stats.size).toBeGreaterThan(0);
   }
 }
