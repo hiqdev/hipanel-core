@@ -1,15 +1,19 @@
 import { expect, Page } from "@playwright/test";
 import * as fs from "fs";
 import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
-import { Alert } from "@hipanel-core/shared/ui/components";
+import { Alert, BulkActions, ColumnFilters } from "@hipanel-core/shared/ui/components";
 
 export default class Index {
   advancedSearch: AdvancedSearch;
-  private alert: Alert;
+  columnFilters: ColumnFilters;
+  bulkActions: BulkActions;
+  alert: Alert;
 
   constructor(readonly page: Page) {
     this.advancedSearch = new AdvancedSearch(page);
+    this.columnFilters = new ColumnFilters(page);
     this.alert = Alert.on(page);
+    this.bulkActions = BulkActions.on(page);
   }
 
   async hasAdvancedSearchInputs(names: Array<string>) {
