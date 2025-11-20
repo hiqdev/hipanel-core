@@ -9,7 +9,7 @@ export default class Form extends BasePage {
     this.formLocator = page.locator(".content form").first();
   }
 
-  public async submit(text?: string | null): Promise<void> {
+  async submit(text?: string | null): Promise<void> {
     await this.page.waitForLoadState("networkidle");
     let submitButton: Locator;
     if (text) {
@@ -25,17 +25,17 @@ export default class Form extends BasePage {
     await this.page.waitForLoadState("networkidle");
   }
 
-  public async seeAlert(text: string): Promise<void> {
+  async seeAlert(text: string): Promise<void> {
     await this.page.waitForSelector("div[role=alert]");
     await expect(this.page.locator("div[role=alert]")).toContainText(text);
   }
 
-  public async cancel(): Promise<void> {
+  async cancel(): Promise<void> {
     const cancelButton = this.formLocator.getByRole("button", { name: "Cancel" }).first();
     await cancelButton.click();
   }
 
-  public async hasErrors(): Promise<boolean> {
+  async hasErrors(): Promise<boolean> {
     return await this.formLocator.locator(":scope .help-block-error").count() > 0;
   }
 }

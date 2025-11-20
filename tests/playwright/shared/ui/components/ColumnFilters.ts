@@ -26,6 +26,7 @@ export default class ColumnFilters {
     const filter = this.getFilter(inputName);
     await filter.fill(value);
     await this.apply(filter);
+    await this.page.waitForLoadState("networkidle");
   }
 
   private async apply(filter: Locator) {
