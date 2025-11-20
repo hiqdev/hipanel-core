@@ -1,4 +1,4 @@
-import { type Browser, type Page, test as base, type TestInfo } from "@playwright/test";
+import { type Page, test as base } from "@playwright/test";
 import { login } from "@hipanel-core/common/auth";
 import * as path from "path";
 import * as fs from "fs";

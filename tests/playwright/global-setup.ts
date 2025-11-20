@@ -1,4 +1,4 @@
-import { chromium, FullConfig } from "@playwright/test";
+import { FullConfig } from "@playwright/test";
 
 async function globalSetup(config: FullConfig) {
 }

@@ -1,16 +1,12 @@
-import { expect, Page } from "@playwright/test";
-import DetailPageMenu from "@hipanel-core/ui/DetailPageMenu";
+import { Page } from "@playwright/test";
+import { DetailMenu } from "@hipanel-core/shared/ui/components";
+import BasePage from "./BasePage";
 
-export default class View {
-  readonly detailPageMenu: DetailPageMenu;
+export default class View extends BasePage {
+  readonly detailMenu: DetailMenu;
 
   constructor(readonly page: Page) {
-    this.detailPageMenu = new DetailPageMenu(page);
-  }
-
-  async see(values: string[]): Promise<void> {
-    for (const text of values) {
-      await expect(this.page.getByText(text, { exact: false }).first()).toBeVisible();
-    }
+    super(page);
+    this.detailMenu = new DetailMenu(page);
   }
 }
