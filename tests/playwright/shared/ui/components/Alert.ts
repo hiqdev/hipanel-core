@@ -1,7 +1,10 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 export default class Alert {
+  private alertLocator: Locator;
+
   private constructor(readonly page: Page) {
+    this.alertLocator = page.locator("div[role=alert]");
   }
 
   static on(page: Page): Alert {
@@ -9,20 +12,14 @@ export default class Alert {
   }
 
   async hasText(text: string): Promise<void> {
-    await this.page.waitForSelector("div[role=alert]");
-    await expect(this.page.locator("div[role=alert]")).toContainText(text);
+    await expect(this.alertLocator).toContainText(text);
   }
 
   async close(): Promise<void> {
-    const isVisible = await this.isVisible();
-    if (isVisible) {
-      await this.page.locator("button[aria-label=Close]").click();
-    }
+    await this.page.getByTitle("Close").click();
   }
 
   async isVisible(): Promise<boolean> {
-    await this.page.waitForSelector("div[role=alert]");
-
-    return this.page.locator("div[role=alert]").isVisible();
+    return this.alertLocator.waitFor({ state: "visible" }).then(() => true).catch(() => false);
   }
 }

@@ -181,21 +181,14 @@ export default class Index {
     const column = await this.getColumnNumberByName(columnName);
     await expect(this.page.locator(`//section[@class='content container-fluid']//tbody//tr[${rowNumber}]//td[${column}]`)).toHaveText(fieldName);
   }
-
   async hasNotification(message: string) {
     await this.alert.hasText(message);
   }
-
-  async closeNotification() {
-    await this.alert.close();
-  }
-
   async getRowDataKeyByNumber(rowNumber: number): Promise<string | null> {
     const selector = `//section[@class='content container-fluid']//tbody//tr[${rowNumber}]`;
 
     return await this.page.locator(selector).getAttribute("data-key");
   }
-
   public async testExport() {
     const linkNames = ["CSV", "TSV", "Excel XLSX", "Clipboard MD"];
     const exportButton = this.page.locator("#export-btn");
