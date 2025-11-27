@@ -25,7 +25,7 @@ export default class Index {
   }
 
   async submitSearchButton() {
-    await this.advancedSearch.submitButton();
+    await this.advancedSearch.search();
   }
 
   async applyFilter(name: string, value: string) {
