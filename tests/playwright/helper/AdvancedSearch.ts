@@ -25,9 +25,7 @@ export default class AdvancedSearch {
 
     await this.searchButton.focus();
 
-    await this.page.evaluate(() => {
-      document.querySelector("#form-advancedsearch-part-search > div.col-md-12 > button").click();
-    });
+    await this.searchButton.dispatchEvent('click', { timeout: 10_000 });
 
     /* Increase timeout to 30 seconds becuase search on pages like /finance/bill/index is really slow */
     await expect(this.page).toHaveURL(/.*Search.*/, { timeout: 30_000 });
