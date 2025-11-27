@@ -1,10 +1,13 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { FilterInput } from "@hipanel-core/shared/ui/inputs";
 
 export default class ColumnFilters {
   private grid: Locator;
+  private filterInput: FilterInput;
 
   constructor(readonly page: Page) {
     this.grid = page.locator("table.table");
+    this.filterInput = new FilterInput(this.page, this.grid);
   }
 
   async hasFilter(inputName: string) {
@@ -12,9 +15,8 @@ export default class ColumnFilters {
   }
 
   async clearFilter(inputName: string) {
-    const filter = this.getFilter(inputName);
-    await filter.fill("");
-    await this.apply(filter);
+    await this.filterInput.setFilter(inputName, "");
+    await this.apply();
   }
 
   async clearAllFilters() {
@@ -23,21 +25,12 @@ export default class ColumnFilters {
   }
 
   async applyFilter(inputName: string, value: string) {
-    const filter = this.getFilter(inputName);
-    await filter.fill(value);
-    await this.apply(filter);
+    await this.filterInput.setFilter(inputName, value);
+    await this.apply();
+  }
+
+  private async apply() {
+    await expect(this.page).toHaveURL(/.*Search.*/, { timeout: 30_000 });
     await this.page.waitForLoadState("networkidle");
-  }
-
-  private async apply(filter: Locator) {
-    await filter.press("Enter");
-    await expect(this.page).toHaveURL(
-      /.*Search.*/,
-      { timeout: 30000 },
-    );
-  }
-
-  private getFilter(inputName: string) {
-    return this.grid.locator(`tr.filters input[name*=${inputName}]`);
   }
 }
