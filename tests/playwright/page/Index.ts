@@ -2,6 +2,7 @@ import { expect, Page } from "@playwright/test";
 import * as fs from "fs";
 import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
 import { Alert, BulkActions, ColumnFilters } from "@hipanel-core/shared/ui/components";
+import {Download} from "@playwright/test";
 
 export default class Index {
   advancedSearch: AdvancedSearch;
@@ -212,30 +213,55 @@ export default class Index {
     }
   }
 
-  private async checkDownloadByLinkName(linkName: string) {
-    const linkLocator = this.page.locator(`a:has-text("${linkName}")`);
+  private async checkDownloadByLinkName(linkName: string): Promise<void> {
+    const download = await this.triggerDownloadByLinkName(linkName);
+    const downloadPath = this.buildDownloadPath(download);
 
-    await linkLocator.highlight();
+    await this.saveDownload(download, downloadPath);
+
+    this.assertFileWasDownloaded(downloadPath);
+    this.assertFileIsNotEmpty(downloadPath, download);
+  }
+
+  private async triggerDownloadByLinkName(linkName: string) {
+    const link = this.page.locator(`a:has-text("${linkName}")`);
+    await link.highlight();
 
     const [download] = await Promise.all([
       this.page.waitForEvent("download"),
-      linkLocator.click(),
+      link.click(),
     ]);
 
-    const downloadPath = `runtime/${download.suggestedFilename()}`;
-    await download.saveAs(downloadPath);
+    return download;
+  }
 
-    const fileExissts = fs.existsSync(downloadPath);
-    const stats = fs.statSync(downloadPath);
+  private buildDownloadPath(download: Download): string {
+    return `runtime/${download.suggestedFilename()}`;
+  }
 
-    const path = await download.path();
+  private async saveDownload(download: Download, filePath: string): Promise<void> {
+    await download.saveAs(filePath);
 
-    console.log("Temporary path:", path);
+    console.log("Temporary download path:", await download.path());
+  }
 
-    expect(fileExissts, `File not found at path: ${downloadPath}`).toBeTruthy();
+  private assertFileWasDownloaded(filePath: string): void {
+    const isFileDownloaded = fs.existsSync(filePath);
 
-    console.log(`File ${path}: ${stats.size} bytes`);
+    expect(
+      isFileDownloaded,
+      `Expected downloaded file to exist at: ${filePath}`
+    ).toBeTruthy();
+  }
 
-    expect(stats.size).toBeGreaterThan(0);
+  private assertFileIsNotEmpty(filePath: string, download: Download): void {
+    const stats = fs.statSync(filePath);
+
+    console.log(`Saved file ${filePath}: ${stats.size} bytes`);
+
+    expect(
+      stats.size,
+      `Downloaded file "${download.suggestedFilename()}" is empty`
+    ).toBeGreaterThan(0);
   }
 }
