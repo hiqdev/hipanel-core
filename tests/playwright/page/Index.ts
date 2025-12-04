@@ -219,8 +219,7 @@ export default class Index {
 
     await this.saveDownload(download, downloadPath);
 
-    this.assertFileWasDownloaded(downloadPath);
-    this.assertFileIsNotEmpty(downloadPath, download);
+    await this.waitForFile(downloadPath);
   }
 
   private async triggerDownloadByLinkName(linkName: string) {
@@ -245,23 +244,38 @@ export default class Index {
     console.log("Temporary download path:", await download.path());
   }
 
-  private assertFileWasDownloaded(filePath: string): void {
-    const isFileDownloaded = fs.existsSync(filePath);
+  private async waitForFile(filePath: string, timeoutMs = 5000): Promise<void> {
+    const pollingIntervalMs = 100;
+    const deadline = Date.now() + timeoutMs;
 
-    expect(
-      isFileDownloaded,
-      `Expected downloaded file to exist at: ${filePath}`
-    ).toBeTruthy();
+    while (Date.now() < deadline) {
+      if (this.isFileReady(filePath)) {
+        return;
+      }
+
+      console.log(`Waiting for file to be ready: ${filePath}`);
+      await this.delay(pollingIntervalMs);
+    }
+
+    throw new Error(`Timed out waiting for file: ${filePath}`);
   }
 
-  private assertFileIsNotEmpty(filePath: string, download: Download): void {
-    const stats = fs.statSync(filePath);
+  private isFileReady(filePath: string): boolean {
+    if (!fs.existsSync(filePath)) {
+      return false;
+    }
 
-    console.log(`Saved file ${filePath}: ${stats.size} bytes`);
+    const { size } = fs.statSync(filePath);
 
-    expect(
-      stats.size,
-      `Downloaded file "${download.suggestedFilename()}" is empty`
-    ).toBeGreaterThan(0);
+    if (size > 0) {
+      console.log(`Downloaded file ready: ${filePath} (${size} bytes)`);
+      return true;
+    }
+
+    return false;
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
