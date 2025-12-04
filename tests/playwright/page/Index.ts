@@ -223,13 +223,13 @@ export default class Index {
   }
 
   private async triggerDownloadByLinkName(linkName: string) {
+    const downloadPromise = this.page.waitForEvent('download');
+
     const link = this.page.locator(`a:has-text("${linkName}")`);
     await link.highlight();
+    await link.click();
 
-    const [download] = await Promise.all([
-      this.page.waitForEvent("download"),
-      link.click(),
-    ]);
+    const download = await downloadPromise;
 
     return download;
   }
