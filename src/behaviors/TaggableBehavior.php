@@ -1,17 +1,18 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace hipanel\behaviors;
 
 use hipanel\client\debt\models\Debt;
 use hipanel\helpers\ArrayHelper;
-use yii\base\Behavior;
 use Yii;
+use yii\base\Behavior;
+use yii\caching\TagDependency;
 
 class TaggableBehavior extends Behavior
 {
     private array $tags = [];
+    private const string CACHE_TAG = 'hipanel-tags';
+    private const int CACHE_DURATION_DAY = 86400;
 
     public function setTags(string|array|null $tags = null): void
     {
@@ -29,18 +30,26 @@ class TaggableBehavior extends Behavior
             'set-tags',
             ['id' => $this->owner->id, 'tags' => $tags]
         );
+        TagDependency::invalidate(Yii::$app->cache, self::CACHE_TAG);
     }
 
     public function fetchTags(?array $searchQuery = null): mixed
     {
-        if (!$this->owner instanceof Debt) {
+        if ($this->owner instanceof Debt) {
+            return [];
+        }
+
+        return Yii::$app->cache->getOrSet([
+            'fetchTags',
+            Yii::$app->user->id,
+            get_class($this->owner),
+            $searchQuery,
+        ], function () use ($searchQuery) {
             $tagLike = $searchQuery['tagLike'] ?? null;
             $id = $searchQuery['id'] ?? null;
 
             return $this->owner->perform('get-available-tags', array_filter(['tags' => $tagLike, 'id' => $id]));
-        }
-
-        return [];
+        }, self::CACHE_DURATION_DAY, new TagDependency(['tags' => self::CACHE_TAG]));
     }
 
     public function isTagsHidden(): bool
