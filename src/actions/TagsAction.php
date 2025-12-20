@@ -29,6 +29,9 @@ class TagsAction extends Action
             }
             if ($request->isPost) {
                 $entityId = $request->post('id');
+                if ($entityId === null) {
+                    return $this->makeResponse([self::ERROR_MESSAGE => 'No entity ID provided']);
+                }
                 $model->id = $entityId;
                 $tags = $request->post('tags', []);
                 $model->saveTags(implode(",", $tags));
@@ -36,6 +39,8 @@ class TagsAction extends Action
                 return $this->makeResponse();
             }
         } catch (Exception $exception) {
+            Yii::error($exception, __METHOD__);
+
             return $this->makeResponse([self::ERROR_MESSAGE => $exception->getMessage()]);
         }
         Yii::$app->end();
