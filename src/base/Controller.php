@@ -273,16 +273,4 @@ class Controller extends \yii\web\Controller
     {
         return static::getActionUrl('index', [static::searchFormName() => $params]);
     }
-
-    public function smartRedirect(Action $action): string|array
-    {
-        return match (true) {
-            $action->collection->count() === 1 && $action->id !== 'delete' => $action->controller->getActionUrl(
-                'view',
-                ['id' => $action->collection->first->id]
-            ),
-            ($previousUrl = $action->controller->getPreviousUrl($action)) !== null => $previousUrl,
-            default => $action->controller->getSearchUrl(),
-        };
-    }
 }
