@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace hipanel\actions;
 
-use hidev\base\Component;
 use hipanel\actions\RedirectPolicy\PostActionRedirectPolicy;
 use hipanel\actions\RedirectPolicy\PreferViewRedirectPolicy;
 use hipanel\actions\RedirectPolicy\RedirectTarget;
+use yii\base\Component;
 use yii\di\Instance;
 
 class ActionRedirectResolver extends Component
@@ -54,7 +54,7 @@ class ActionRedirectResolver extends Component
 
     private function resolvePrevious(Action $action): string|array
     {
-        return $action->controller->getPreviousUrl()
+        return $action->controller->getPreviousUrl($action)
             ?? $this->resolveSearch($action);
     }
 }
