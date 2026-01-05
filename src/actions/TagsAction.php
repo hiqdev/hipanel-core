@@ -1,8 +1,8 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace hipanel\actions;
 
+use Exception;
 use hipanel\models\TaggableInterface;
 use Yii;
 use yii\web\MethodNotAllowedHttpException;
@@ -10,7 +10,7 @@ use yii\web\Response;
 
 class TagsAction extends Action
 {
-    private const ERROR_MESSAGE = 'errorMessage';
+    private const string ERROR_MESSAGE = 'errorMessage';
 
     public function run()
     {
@@ -28,14 +28,19 @@ class TagsAction extends Action
                 return $this->makeResponse($tags);
             }
             if ($request->isPost) {
-                $entityId = $request->post('id', null);
+                $entityId = $request->post('id');
+                if ($entityId === null) {
+                    return $this->makeResponse([self::ERROR_MESSAGE => 'No entity ID provided']);
+                }
                 $model->id = $entityId;
                 $tags = $request->post('tags', []);
                 $model->saveTags(implode(",", $tags));
 
                 return $this->makeResponse();
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
+            Yii::error($exception, __METHOD__);
+
             return $this->makeResponse([self::ERROR_MESSAGE => $exception->getMessage()]);
         }
         Yii::$app->end();
