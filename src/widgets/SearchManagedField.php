@@ -44,7 +44,7 @@ class SearchManagedField extends InputWidget
             }
             $buttonDropdown = ButtonDropdown::widget([
                 'label' => Html::tag('span', implode('_', array_filter(array_unique([$this->attribute, $condition]))), ['class' => 'condition']),
-                'options' => ['class' => 'btn-default btn-sm'],
+                'options' => ['class' => 'btn-default btn-sm', 'type' => 'button'],
                 'encodeLabel' => false,
                 'dropdown' => [
                     'items' => $items,
