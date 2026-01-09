@@ -4,8 +4,12 @@ import Input from "@hipanel-core/input/Input";
 export default class Modal {
     private readonly root: Locator;
 
-    constructor(private readonly page: Page, selector: string) {
-        this.root = page.locator(selector);
+    constructor(private readonly page: Page) {
+        this.root = this.activeModal(page);
+    }
+
+    private activeModal(page: Page): Locator {
+        return page.locator('[role="dialog"]:visible');
     }
 
     async waitForOpen(timeout = 5000) {

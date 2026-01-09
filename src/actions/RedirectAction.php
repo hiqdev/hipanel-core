@@ -12,13 +12,17 @@ namespace hipanel\actions;
 
 use Closure;
 use Yii;
-use yii\helpers\Url;
+use yii\di\Instance;
 
 /**
  * @property array url the URL for redirect. Every element can be a callback, which gets the model and $this pointer as arguments
  */
 class RedirectAction extends Action
 {
+    public $error;
+
+    public $success;
+
     /**
      * @var string|array url to redirect to
      */
@@ -31,6 +35,11 @@ class RedirectAction extends Action
      */
     public function getUrl()
     {
+        if (is_array($this->_url) && isset($this->_url['class'])) {
+            $resolver = Instance::ensure($this->_url, ActionRedirectResolver::class);
+            return $resolver->resolve($this);
+        }
+
         if ($this->_url instanceof Closure) {
             return call_user_func($this->_url, $this);
         }
@@ -56,7 +65,4 @@ class RedirectAction extends Action
 
         return $this->controller->redirect($this->getUrl());
     }
-
-    public $error;
-    public $success;
 }

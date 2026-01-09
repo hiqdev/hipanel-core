@@ -10,6 +10,7 @@
 
 namespace hipanel\actions;
 
+use hipanel\actions\RedirectPolicy\PreferSearchRedirectPolicy;
 use Yii;
 
 /**
@@ -23,6 +24,7 @@ class SmartDeleteAction extends SmartPerformAction
         // When button in being pressed, the system submits POST request which contains
         // POST model ClassSearch and GET attribute with ID
         $data = Yii::$app->request->get() ? [Yii::$app->request->get()] : null;
+
         parent::loadCollection($data);
     }
 
@@ -34,7 +36,10 @@ class SmartDeleteAction extends SmartPerformAction
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
-                    'url' => fn(RedirectAction $action) => $action->controller->smartRedirect($this),
+                    'url' => [
+                        'class' => ActionRedirectResolver::class,
+                        'policy' => PreferSearchRedirectPolicy::class,
+                    ],
                 ],
             ],
         ], parent::getDefaultRules());

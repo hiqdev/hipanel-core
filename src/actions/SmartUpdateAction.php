@@ -157,7 +157,9 @@ class SmartUpdateAction extends SwitchAction
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
-                    'url' => fn(RedirectAction $action) => $action->controller->smartRedirect($this),
+                    'url' => [
+                        'class' => ActionRedirectResolver::class,
+                    ],
                 ],
                 'error'   => [
                     'class'  => RenderAction::class,
