@@ -2,6 +2,7 @@ import { expect, Page } from "@playwright/test";
 import * as fs from "fs";
 import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
 import { Alert, BulkActions, ColumnFilters } from "@hipanel-core/shared/ui/components";
+import {Download} from "@playwright/test";
 
 export default class Index {
   advancedSearch: AdvancedSearch;
@@ -212,30 +213,69 @@ export default class Index {
     }
   }
 
-  private async checkDownloadByLinkName(linkName: string) {
-    const linkLocator = this.page.locator(`a:has-text("${linkName}")`);
+  private async checkDownloadByLinkName(linkName: string): Promise<void> {
+    const download = await this.triggerDownloadByLinkName(linkName);
+    const downloadPath = this.buildDownloadPath(download);
 
-    await linkLocator.highlight();
+    await this.saveDownload(download, downloadPath);
 
-    const [download] = await Promise.all([
-      this.page.waitForEvent("download"),
-      linkLocator.click(),
-    ]);
+    await this.waitForFile(downloadPath);
+  }
 
-    const downloadPath = `runtime/${download.suggestedFilename()}`;
-    await download.saveAs(downloadPath);
+  private async triggerDownloadByLinkName(linkName: string) {
+    const downloadPromise = this.page.waitForEvent('download');
 
-    const fileExissts = fs.existsSync(downloadPath);
-    const stats = fs.statSync(downloadPath);
+    const link = this.page.locator(`a:has-text("${linkName}")`);
+    await link.highlight();
+    await link.click();
 
-    const path = await download.path();
+    const download = await downloadPromise;
 
-    console.log("Temporary path:", path);
+    return download;
+  }
 
-    expect(fileExissts, `File not found at path: ${downloadPath}`).toBeTruthy();
+  private buildDownloadPath(download: Download): string {
+    return `runtime/${download.suggestedFilename()}`;
+  }
 
-    console.log(`File ${path}: ${stats.size} bytes`);
+  private async saveDownload(download: Download, filePath: string): Promise<void> {
+    await download.saveAs(filePath);
 
-    expect(stats.size).toBeGreaterThan(0);
+    console.log("Temporary download path:", await download.path());
+  }
+
+  private async waitForFile(filePath: string, timeoutMs = 5000): Promise<void> {
+    const pollingIntervalMs = 100;
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+      if (this.isFileReady(filePath)) {
+        return;
+      }
+
+      console.log(`Waiting for file to be ready: ${filePath}`);
+      await this.delay(pollingIntervalMs);
+    }
+
+    throw new Error(`Timed out waiting for file: ${filePath}`);
+  }
+
+  private isFileReady(filePath: string): boolean {
+    if (!fs.existsSync(filePath)) {
+      return false;
+    }
+
+    const { size } = fs.statSync(filePath);
+
+    if (size > 0) {
+      console.log(`Downloaded file ready: ${filePath} (${size} bytes)`);
+      return true;
+    }
+
+    return false;
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
