@@ -77,7 +77,7 @@
         "cebe/yii2-gravatar": "*",
         "michelf/php-smartypants": "^1.8.0",
         "stichoza/google-translate-php": "^4.1.6",
-        "wbraganca/yii2-dynamicform": "*@dev",
+        "wbraganca/yii2-dynamicform": "dev-master",
         "bower-asset/less-space": "*",
         "bower-asset/eonasdan-bootstrap-datetimepicker": "^4.17",
         "bower-asset/components-font-awesome": "~4.6",
