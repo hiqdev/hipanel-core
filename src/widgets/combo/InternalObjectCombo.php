@@ -164,10 +164,18 @@ class InternalObjectCombo extends Combo
                                 $('#' + objectInputId).find('option').remove().end().val(null).trigger('change');
                             });
                         } 
+                    },
+                    deleteItem: function (widgetOptions, e, elem) {
+                        if (widgetOptions.widgetContainer === 'charges_dynamicform_wrapper' && widgetOptions.min > 0) {
+                            widgetOptions.min -= 1;
+                        }
+                        originalDynamicForm('deleteItem', widgetOptions, e, elem);
                     }
                 };
                 $.fn.yiiDynamicForm = function(method) {
                     if (method === 'addItem') {
+                        return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+                    } else if (method === 'deleteItem') {
                         return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
                     }
                     originalDynamicForm.apply(this, arguments);
