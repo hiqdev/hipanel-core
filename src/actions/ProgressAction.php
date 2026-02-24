@@ -13,7 +13,7 @@ class ProgressAction extends Action
     public bool $needToTerminate = false;
     private int $triesLeft = self::INIT_TRIES;
     private ?string $lastHash = null;
-    private const int INIT_TRIES = 99;
+    private const int INIT_TRIES = 60;
 
     public function run()
     {
