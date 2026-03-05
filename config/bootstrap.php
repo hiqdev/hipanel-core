@@ -28,9 +28,9 @@ require_once WEBAPP_VENDOR_DIR . '/autoload.php';
 })();
 
 error_reporting(YII_ENV === 'prod'
-    ? E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING
-    # XXX to be fixed to E_ALL & ~E_NOTICE & ~E_STRICT for non prod
-    : E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
+    ? E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING
+    # XXX to be fixed to E_ALL & ~E_NOTICE for non prod
+    : E_ALL & ~E_NOTICE & ~E_DEPRECATED
 );
 
 require_once WEBAPP_VENDOR_DIR . '/yiisoft/yii2/Yii.php';
