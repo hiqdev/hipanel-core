@@ -12,7 +12,7 @@ namespace hipanel\base;
 
 use hipanel\actions\Action;
 use hipanel\actions\TagsAction;
-use hipanel\behaviors\SmartRedirectBehavior;
+use hipanel\behaviors\ReferrerUrlMemoryBehavior;
 use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
@@ -54,7 +54,7 @@ class Controller extends \yii\web\Controller
     {
         return [
             UiOptionsBehavior::class,
-            SmartRedirectBehavior::class,
+            ReferrerUrlMemoryBehavior::class,
         ];
     }
 
