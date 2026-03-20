@@ -1,8 +1,4 @@
-<?php
-
-
-declare(strict_types=1);
-
+<?php declare(strict_types=1);
 
 namespace hipanel\behaviors;
 
@@ -17,7 +13,7 @@ use yii\helpers\Url;
  *
  * @property-read null|string $previousUrl
  */
-class SmartRedirectBehavior extends Behavior
+class ReferrerUrlMemoryBehavior extends Behavior
 {
     public function events(): array
     {
@@ -45,7 +41,7 @@ class SmartRedirectBehavior extends Behavior
 
     private function getUrlKey(Controller $controller, Action $action): string
     {
-        return implode('.', [$controller->id, $action->id]);
+        return implode('.', [$controller->id, $action->parent->id ?? $action->id]);
     }
 
     private function suitableReferrer(string $referrer): bool
