@@ -101,7 +101,7 @@ export default function App() {
           // check if timestamp in ms (13 digits)
           const timestampSec = timestampMs > 999999999999 ? Math.floor(timestampMs / 1000) : timestampMs;
 
-          return toLink(dayjs.unix(timestampSec).format("YYYY-MM-DD HH:mm"));
+          return toLink(dayjs.unix(timestampSec).format("YYYY-MM-DD HH:mm:ss"));
         }
 
         return toLink(timestamp);
