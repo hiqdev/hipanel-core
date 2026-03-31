@@ -10,7 +10,8 @@
 
 namespace hipanel\actions;
 
-use hipanel\actions\RedirectPolicy\PreferPreviousRedirectPolicy;
+use hipanel\module\SmartRedirect\Application\ActionRedirectResolver;
+use hipanel\module\SmartRedirect\Domain\PreferPreviousRedirectPolicy;
 use hipanel\base\Model;
 use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;

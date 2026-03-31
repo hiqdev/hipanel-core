@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace hipanel\behaviors;
+namespace hipanel\module\SmartRedirect\Infrastructure;
 
 use hipanel\actions\SmartUpdateAction;
 use hipanel\base\Controller;
