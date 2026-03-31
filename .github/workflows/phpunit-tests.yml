@@ -1,24 +1,46 @@
-name: Tests
+name: phpunit-tests
 
 on:
   push:
   pull_request:
+  schedule:
+    - cron: "0 9 * * 1"
 
 jobs:
-  phpunit:
+  PHPUnit:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        php: ['8.4']
+        coverage-driver: [pcov]
+    name: PHP ${{ matrix.php }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup PHP
+      - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
-          coverage: none
+          php-version: ${{ matrix.php }}
+          extensions: gmp
+          coverage: pcov
+          tools: composer:v2, infection
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
-      - name: Run tests
-        run: vendor/bin/phpunit -c phpunit.xml.dist src/module
+      - name: Update composer
+        run: composer self-update
+
+      - name: Composer install
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install -n
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+        env:
+          XDEBUG_MODE: coverage
