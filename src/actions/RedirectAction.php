@@ -11,6 +11,7 @@
 namespace hipanel\actions;
 
 use Closure;
+use hipanel\module\SmartRedirect\Application\ActionRedirectResolver;
 use Yii;
 use yii\di\Instance;
 

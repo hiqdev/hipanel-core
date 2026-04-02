@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace hipanel\actions\RedirectPolicy;
+namespace hipanel\module\SmartRedirect\Domain;
 
 /**
  * Defines a strategy for deciding where the application should redirect

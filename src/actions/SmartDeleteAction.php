@@ -10,7 +10,8 @@
 
 namespace hipanel\actions;
 
-use hipanel\actions\RedirectPolicy\PreferSearchRedirectPolicy;
+use hipanel\module\SmartRedirect\Application\ActionRedirectResolver;
+use hipanel\module\SmartRedirect\Domain\PreferSearchRedirectPolicy;
 use Yii;
 
 /**

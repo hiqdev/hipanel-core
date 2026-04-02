@@ -12,7 +12,7 @@ namespace hipanel\base;
 
 use hipanel\actions\Action;
 use hipanel\actions\TagsAction;
-use hipanel\behaviors\ReferrerUrlMemoryBehavior;
+use hipanel\module\SmartRedirect\Infrastructure\ReferrerUrlMemoryBehavior;
 use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
