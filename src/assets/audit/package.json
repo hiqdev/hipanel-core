@@ -9,7 +9,7 @@
   "author": "",
   "scripts": {
     "watch": "npx mix watch",
-    "prod": "npx mix --production",
+    "build": "npx mix --production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

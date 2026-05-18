@@ -1,6 +1,6 @@
 import React from "react";
 import type { DescriptionsProps } from "antd";
-import { Descriptions, Space, Table, TableProps, Tag, Tooltip, Typography } from "antd";
+import { Flex, Descriptions, Space, Table, TableProps, Tag, Tooltip, Typography } from "antd";
 import * as dayjs from "dayjs";
 import { Differ, Viewer } from "json-diff-kit";
 
@@ -66,6 +66,8 @@ const colors: Record<string, string> = {
   "delete": "volcano",
 };
 
+const Restricted = () => <Text type={"danger"}>RESTRICTED</Text>;
+
 
 export default function App() {
   const dataSource = JSON.parse(window["__audit_data__"] || "[]") as DataType[];
@@ -111,7 +113,7 @@ export default function App() {
       title: "User",
       dataIndex: "user",
       key: "user",
-      render: (user: User) => <a href={user.link} target={"_blank"}>{user.login}</a>,
+      render: (user: User) => user?.link ? <a href={user.link} target={"_blank"}>{user.login}</a> : <Restricted/>,
     },
     {
       title: "Table",
@@ -125,6 +127,11 @@ export default function App() {
         value: table,
       })),
       render: (table: string) => {
+        if (!table) {
+          return (
+            <Restricted/>
+          );
+        }
         const pathSegments = new URL(window.location.href).pathname.split("/");
         // UUID v4 regex
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -147,7 +154,7 @@ export default function App() {
       title: "Entity",
       dataIndex: "entity",
       key: "entity",
-      render: (_, record: DataType) => <span>{record.entity_id}</span>,
+      render: (_, { entity_id }: DataType) => entity_id ? <span>{entity_id}</span> : <Restricted/>,
     },
     {
       title: "Operation",
@@ -178,7 +185,7 @@ export default function App() {
       title: "Trace ID",
       dataIndex: "trace_id",
       key: "trace_id",
-      render: (_, { request }) => <a href={request.link}>{request.trace_id}</a>,
+      render: (_, { request }) => request ? <a href={request.link}>{request.trace_id}</a> : <Restricted/>,
     },
   ];
 
@@ -196,6 +203,14 @@ export default function App() {
 
     return false;
   };
+
+  const Desc: React.FC<Readonly<{ text: string }>> = (props) => (
+    <Flex justify="center" align="center" style={{ height: "100%" }}>
+      <Typography.Title type="secondary" level={5} style={{ whiteSpace: "nowrap" }}>
+        {props.text.toUpperCase()}
+      </Typography.Title>
+    </Flex>
+  );
 
   return (
     <Table<DataType>
@@ -216,6 +231,10 @@ export default function App() {
           return (
             <Space direction={"vertical"} size={"large"}>
               <Descriptions size={"small"} bordered colon column={1} items={items} style={{ width: "50%" }}/>
+              <Flex gap={"medium"} style={{ width: "100%", height: "100%" }} justify={"space-around"} align={"center"} wrap={"wrap"}>
+                <Desc text="Before" />
+                <Desc text="After" />
+              </Flex>
               <p style={{ margin: 0 }}>
                 <Viewer
                   diff={diff}
