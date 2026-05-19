@@ -11,7 +11,7 @@ mix.webpackConfig({
    })
    .autoload({})
    .ts("src/app/main.tsx", "build")
-   .sourceMaps()
+   .sourceMaps(false)
    .setPublicPath("build")
    .version()
    .react();

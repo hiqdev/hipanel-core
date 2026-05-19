@@ -54,7 +54,7 @@ interface DataType extends HasLink {
   operation: string;
   timestamp: string;
   user: User;
-  request: Request;
+  request?: Request;
   diff: Diff;
   metadata: Metadata;
   key: string;
@@ -220,7 +220,7 @@ export default function App() {
       expandable={{
         expandedRowRender: (record) => {
           const diff = differ.diff(record.diff.old, record.diff.new);
-          const items: DescriptionsProps["items"] = Object.entries(record.request)
+          const items: DescriptionsProps["items"] = Object.entries(record.request ?? {})
             .filter(([key]) => ["app", "log_id", "ip"].includes(key))
             .map(([key, value]) => ({
               key,
