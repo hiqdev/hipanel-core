@@ -4,6 +4,8 @@ services:
   app:
     image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
     restart: unless-stopped
+    stop_signal: SIGKILL
+    stop_grace_period: 0s
     volumes:
       - ./.env:/app/.env
       - ./.docker/php/var/log/php:/var/log/php
