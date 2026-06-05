@@ -92,7 +92,7 @@ return [
             ],
         ],
         'urlManager' => [
-            'class' => \yii\web\UrlManager::class,
+            'class' => \hipanel\components\UrlManager::class,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
@@ -106,6 +106,7 @@ return [
             ],
         ],
         'formatter' => [
+            'class' => \hipanel\components\Formatter::class,
             'nullDisplay' => '&nbsp;',
             'sizeFormatBase' => 1000,
         ],
