@@ -92,7 +92,11 @@ function isAuthFileExpired(filePath) {
 }
 
 function attachNetworkResponseListener(page) {
+  let isClosed = false;
+  page.on("close", () => { isClosed = true; });
+
   page.on("response", async (response) => {
+    if (isClosed) return;
     const resourceType = response.request().resourceType();
     if (resourceType !== "xhr" && resourceType !== "fetch") return;
 
