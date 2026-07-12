@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace hipanel\components;
 
-use hidev\base\Component;
 use hipanel\helpers\Url;
 use Yii;
+use yii\base\Component;
 use yii\web\Application;
 use yii\web\View;
 
