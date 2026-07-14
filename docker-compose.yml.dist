@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   app:
     image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
