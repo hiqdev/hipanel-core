@@ -38,7 +38,17 @@ jobs:
 
       - name: Composer install
         if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install -n
+        run: |
+          n=0
+          until [ "$n" -ge 5 ]
+          do
+            composer install -n && exit 0
+            n=$((n+1))
+            echo "Composer install failed (attempt $n/5), retrying in 10s..."
+            sleep 10
+          done
+          echo "Composer install failed after 5 attempts."
+          exit 1
 
       - name: PHPUnit
         run: vendor/bin/phpunit

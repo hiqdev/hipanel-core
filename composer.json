@@ -12,9 +12,9 @@
     "license": "BSD-3-Clause",
     "support": {
         "email": "support@hiqdev.com",
-        "source": "https://github.com/hiqdev/hipanel",
-        "issues": "https://github.com/hiqdev/hipanel/issues",
-        "wiki": "https://github.com/hiqdev/hipanel/wiki",
+        "source": "https://github.com/hiqdev/hipanel-core",
+        "issues": "https://github.com/hiqdev/hipanel-core/issues",
+        "wiki": "https://github.com/hiqdev/hipanel-core/wiki",
         "forum": "http://forum.hiqdev.com/"
     },
     "authors": [
