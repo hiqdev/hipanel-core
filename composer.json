@@ -68,7 +68,7 @@
         "hiqdev/yii2-asset-lightbox2": "^2.8",
         "hiqdev/yii2-asset-select2-bootstrap3-css": "dev-master",
         "hiqdev/yii2-asset-paulzi-form": "~2.4",
-        "hiqdev/yii2-asset-visibilityjs": "*",
+        :"hiqdev/yii2-asset-visibilityjs": "*",
         "hiqdev/yii2-reminder": "dev-master",
         "hiqdev/yii2-monitoring": "dev-master",
         "hiqdev/yii2-maintenance": "dev-master",
@@ -94,6 +94,7 @@
     },
     "require-dev": {
         "opis/closure": "3.x-dev as 3.6.x-dev",
+        "phpunit/phpunit": "^9.5.20 | ^10.0 | ^11.0 | ^12.0 | ^13.0",
         "hiqdev/hidev": "dev-master",
         "hiqdev/hidev-php": "dev-master",
         "hiqdev/hidev-hiqdev": "dev-master"
