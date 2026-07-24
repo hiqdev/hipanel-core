@@ -198,6 +198,7 @@ return [
     'Registered' => 'Зарегистрирован',
     'Last update' => 'Последнее изменение',
     'Balance: {balance}' => 'Баланс: {balance}',
+    'Total balance: {balance}' => 'Общий баланс: {balance}',
     'Credit: {credit}' => 'Кредит: {credit}',
     'Credit' => 'Кредит',
     'Balance' => 'Баланс',
