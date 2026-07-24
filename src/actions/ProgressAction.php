@@ -10,10 +10,10 @@ class ProgressAction extends Action
 {
     public ?Closure $onProgress = null;
     public ?Closure $onGettingId = null;
-    public bool $needsToBeEnd = false;
+    public bool $needToTerminate = false;
     private int $triesLeft = self::INIT_TRIES;
     private ?string $lastHash = null;
-    private const int INIT_TRIES = 99;
+    private const int INIT_TRIES = 60;
 
     public function run()
     {
@@ -38,7 +38,7 @@ class ProgressAction extends Action
                 break;
             }
             sleep(1);
-        } while ($this->needsToBeEnd || $this->isLimitHasNotBeenReachedYet($id, $data));
+        } while (!$this->needToTerminate && $this->isLimitHasNotBeenReachedYet($id, $data));
         die();
     }
 

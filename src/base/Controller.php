@@ -10,7 +10,9 @@
 
 namespace hipanel\base;
 
+use hipanel\actions\Action;
 use hipanel\actions\TagsAction;
+use hipanel\module\SmartRedirect\Infrastructure\ReferrerUrlMemoryBehavior;
 use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
@@ -20,7 +22,6 @@ use hiqdev\yii2\export\actions\CancelExportAction;
 use hiqdev\yii2\export\actions\StartExportAction;
 use hiqdev\yii2\export\actions\ProgressExportAction;
 use hiqdev\yii2\export\actions\DownloadExportAction;
-use hiqdev\yii2\export\actions\ExportAction;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\Inflector;
@@ -52,18 +53,14 @@ class Controller extends \yii\web\Controller
     public function behaviors()
     {
         return [
-            [
-                'class' => UiOptionsBehavior::class,
-            ],
+            UiOptionsBehavior::class,
+            ReferrerUrlMemoryBehavior::class,
         ];
     }
 
     public function actions()
     {
         return [
-            'export' => [
-                'class' => ExportAction::class,
-            ],
             'start-export' => [
                 'class' => StartExportAction::class,
             ],

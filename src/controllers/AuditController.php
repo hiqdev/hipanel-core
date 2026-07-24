@@ -83,8 +83,16 @@ class AuditController extends Controller
                     '#' => $datum['id'],
                 ]
             );
-            $datum['user']['link'] = Url::toRoute(['@client/view', 'id' => $datum['user']['id']]);
-            $datum['request']['link'] = Url::toRoute(['@audit/trace', 'id' => $datum['request']['trace_id']]);
+
+            $userId = $datum['user']['id'] ?? null;
+            if ($userId !== null) {
+                $datum['user']['link'] = Url::toRoute(['@client/view', 'id' => $userId]);
+            }
+
+            $traceId = $datum['request']['trace_id'] ?? null;
+            if ($traceId !== null && $traceId !== '') {
+                $datum['request']['link'] = Url::toRoute(['`@audit/trace`', 'id' => $traceId]);
+            }
         }
 
         return Json::encode($data);

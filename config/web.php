@@ -40,7 +40,7 @@ return [
             'class' => \hipanel\components\Response::class,
         ],
         'mailer' => [
-            'class' => \yii\swiftmailer\Mailer::class,
+            'class' => \yii\symfonymailer\Mailer::class,
             'viewPath' => dirname(__DIR__) . '/src/mail',
         ],
         'orientationStorage' => [
@@ -92,7 +92,7 @@ return [
             ],
         ],
         'urlManager' => [
-            'class' => \yii\web\UrlManager::class,
+            'class' => \hipanel\components\UrlManager::class,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
@@ -106,6 +106,7 @@ return [
             ],
         ],
         'formatter' => [
+            'class' => \hipanel\components\Formatter::class,
             'nullDisplay' => '&nbsp;',
             'sizeFormatBase' => 1000,
         ],
@@ -130,6 +131,9 @@ return [
         'themeSettingsStorage' => [
             'class' => \hipanel\components\ThemeSettingsStorage::class,
         ],
+        'session' => [
+            'class' => yii\web\CacheSession::class,
+        ],
     ],
     'container' => [
         'definitions' => [
@@ -149,7 +153,7 @@ return [
         'singletons' => [
             \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class,
             \yii\web\Session::class => function () {
-                return new \yii\web\Session();
+                return Yii::$app->getSession();
             },
             \yii\web\User::class => function () {
                 return Yii::$app->getUser();

@@ -15,12 +15,12 @@
 HiPanel is split into many pluggable packages.
 This package is the core of the system.
 
-Please see package with example setup [hiqdev/hipanel].
+Please see package with example setup [hiqdev/hipanel-core].
 
 Also see [documentation].
 
-[HiPanel]:          https://hipanel.com
-[hiqdev/hipanel]:   https://github.com/hiqdev/hipanel
+[HiPanel]:              https://hipanel.com
+[hiqdev/hipanel-core]:  https://github.com/hiqdev/hipanel-core
 [documentation]:    docs
 
 ## Installation

@@ -157,6 +157,8 @@ class SwitchRule extends \yii\base\Component
         $request = Yii::$app->request;
         if (is_array($request->post('selection'))) {
             return 'selection';
+        } elseif ($request->post('ids')) {
+            return 'ids';
         } elseif ($request->isPjax) {
             return 'pjax';
         } elseif ($request->isAjax) {

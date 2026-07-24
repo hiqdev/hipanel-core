@@ -1,11 +1,13 @@
 import React from "react";
-import type { TableProps } from "antd";
-import { Table, Tag } from "antd";
+import type { DescriptionsProps } from "antd";
+import { Flex, Descriptions, Space, Table, TableProps, Tag, Tooltip, Typography } from "antd";
 import * as dayjs from "dayjs";
 import { Differ, Viewer } from "json-diff-kit";
 
 import "json-diff-kit/dist/viewer.css";
 import "./App.css";
+
+const { Text } = Typography;
 
 declare global {
   interface Window {
@@ -25,9 +27,11 @@ interface User extends HasLink {
 }
 
 interface Request extends HasLink {
-  ip: string;
-  log_id: number;
-  trace_id: string;
+  ip?: string;
+  log_id?: number;
+  trace_id?: string;
+  app?: string;
+  run_id?: string;
 }
 
 interface Diff {
@@ -50,7 +54,7 @@ interface DataType extends HasLink {
   operation: string;
   timestamp: string;
   user: User;
-  request: Request;
+  request?: Request;
   diff: Diff;
   metadata: Metadata;
   key: string;
@@ -62,89 +66,130 @@ const colors: Record<string, string> = {
   "delete": "volcano",
 };
 
-const columns: TableProps<DataType>["columns"] = [
-  {
-    title: "Version",
-    dataIndex: "id",
-    key: "id",
-    render: (id: string, { link }) => <a id={`#${id}`} href={`#${id}`}>{id}</a>,
-  },
-  {
-    title: "Timestamp",
-    dataIndex: "timestamp",
-    key: "timestamp",
-    render: (timestamp: string) => {
-      const timestampMs = parseInt(timestamp, 10);
-      if (!isNaN(timestampMs)) {
-        // check if timestamp in ms (13 digits)
-        const timestampSec = timestampMs > 999999999999 ? Math.floor(timestampMs / 1000) : timestampMs;
-
-        return dayjs.unix(timestampSec).format("YYYY-MM-DD HH:mm");
-      }
-
-      return timestamp;
-    },
-  },
-  {
-    title: "User",
-    dataIndex: "user",
-    key: "user",
-    render: (user: User) => <a href={user.link} target={"_blank"}>{user.login}</a>,
-  },
-  {
-    title: "Table",
-    dataIndex: "table",
-    key: "table",
-  },
-  {
-    title: "Entity",
-    dataIndex: "entity",
-    key: "entity",
-    render: (_, record: DataType) => <a href={record.link} target={"_blank"}>#{record.entity_id}</a>,
-  },
-  {
-    title: "Operation",
-    dataIndex: "operation",
-    key: "operation",
-    render: (_, { operation }) => (
-      <Tag color={colors[operation] || "default"} key={operation}>
-        {operation.toUpperCase()}
-      </Tag>
-    ),
-    onFilter: (value, record) => record.operation.indexOf(value as string) === 0,
-    filters: [
-      {
-        text: "CREATE",
-        value: "create",
-      },
-      {
-        text: "UPDATE",
-        value: "update",
-      },
-      {
-        text: "DELETE",
-        value: "delete",
-      },
-    ],
-  },
-  {
-    title: "Trace ID",
-    dataIndex: "trace_id",
-    key: "trace_id",
-    render: (_, { request }) => <a href={request.link}>{request.trace_id}</a>,
-  },
-];
+const Restricted = () => <Text type={"danger"}>RESTRICTED</Text>;
 
 
 export default function App() {
   const dataSource = JSON.parse(window["__audit_data__"] || "[]") as DataType[];
-  dataSource.sort((a, b) => parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10));
   const version = window.location.hash.substring(1);
   let expandedRowKeys: string[] = [];
   if (version) {
     const foundItem = dataSource.find(item => item.id === version);
     expandedRowKeys = foundItem ? [foundItem.key] : [];
   }
+  const columns: TableProps<DataType>["columns"] = [
+    {
+      title: "Timestamp",
+      dataIndex: "timestamp",
+      key: "timestamp",
+      filterSearch: true,
+      defaultFilteredValue: version ? [version] : [],
+      onFilter: (value, record) => record.id.indexOf(value as string) === 0,
+      filters: dataSource.map(({ id }) => ({
+        text: id,
+        value: id,
+      })),
+      render: (timestamp: string, record) => {
+        const timestampMs = parseInt(timestamp, 10);
+        const url = window.location.href.split("#")[0];
+        const toLink = (text: string) => (
+          <>
+            <a id={`#${record.id}`} href={`${url}#${record.id}`} target={"_blank"}>{text}</a>
+            <br/>
+            <Text type={"secondary"}>{record.id}</Text>
+          </>
+        );
+        if (!isNaN(timestampMs)) {
+          // check if timestamp in ms (13 digits)
+          const timestampSec = timestampMs > 999999999999 ? Math.floor(timestampMs / 1000) : timestampMs;
+
+          return toLink(dayjs.unix(timestampSec).format("YYYY-MM-DD HH:mm:ss"));
+        }
+
+        return toLink(timestamp);
+      },
+    },
+    {
+      title: "User",
+      dataIndex: "user",
+      key: "user",
+      render: (user: User) => user?.link ? <a href={user.link} target={"_blank"}>{user.login}</a> : <Restricted/>,
+    },
+    {
+      title: "Table",
+      dataIndex: "table",
+      key: "table",
+      onFilter: (value, record) => record.table.indexOf(value as string) === 0,
+      filters: Array.from(
+        new Set(dataSource.map(({ table }) => table)),
+      ).map((table) => ({
+        text: table,
+        value: table,
+      })),
+      render: (table: string) => {
+        if (!table) {
+          return (
+            <Restricted/>
+          );
+        }
+        const pathSegments = new URL(window.location.href).pathname.split("/");
+        // UUID v4 regex
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        const segment = pathSegments[2];
+        const entityTable = segment && !uuidRegex.test(segment) ? segment : undefined;
+        if (entityTable === table || typeof entityTable === "undefined") {
+          return (
+            <Text>{table}</Text>
+          );
+        }
+
+        return (
+          <Tooltip title={"This change belongs to a nested object"}>
+          <Text><span className={"fa fa-link fa-fw"}></span> {table}</Text>
+        </Tooltip>
+        );
+      },
+    },
+    {
+      title: "Entity",
+      dataIndex: "entity",
+      key: "entity",
+      render: (_, { entity_id }: DataType) => entity_id ? <span>{entity_id}</span> : <Restricted/>,
+    },
+    {
+      title: "Operation",
+      dataIndex: "operation",
+      key: "operation",
+      render: (_, { operation }) => (
+        <Tag color={colors[operation] || "default"} key={operation}>
+        {operation.toUpperCase()}
+      </Tag>
+      ),
+      onFilter: (value, record) => record.operation.indexOf(value as string) === 0,
+      filters: [
+        {
+          text: "CREATE",
+          value: "create",
+        },
+        {
+          text: "UPDATE",
+          value: "update",
+        },
+        {
+          text: "DELETE",
+          value: "delete",
+        },
+      ],
+    },
+    {
+      title: "Trace ID",
+      dataIndex: "trace_id",
+      key: "trace_id",
+      render: (_, { request }) => request ? <a href={request.link}>{request.trace_id}</a> : <Restricted/>,
+    },
+  ];
+
+  dataSource.sort((a, b) => parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10));
   const differ = new Differ({
     detectCircular: true,    // default `true`
     maxDepth: Infinity,      // default `Infinity`
@@ -159,28 +204,50 @@ export default function App() {
     return false;
   };
 
+  const Desc: React.FC<Readonly<{ text: string }>> = (props) => (
+    <Flex justify="center" align="center" style={{ height: "100%" }}>
+      <Typography.Title type="secondary" level={5} style={{ whiteSpace: "nowrap" }}>
+        {props.text.toUpperCase()}
+      </Typography.Title>
+    </Flex>
+  );
+
   return (
     <Table<DataType>
       columns={columns}
       dataSource={dataSource}
-      pagination={{ position: ["none", "none"] }}
+      pagination={{ pageSize: 100 }}
       expandable={{
         expandedRowRender: (record) => {
           const diff = differ.diff(record.diff.old, record.diff.new);
+          const items: DescriptionsProps["items"] = Object.entries(record.request ?? {})
+            .filter(([key]) => ["app", "log_id", "ip"].includes(key))
+            .map(([key, value]) => ({
+              key,
+              label: key.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ").toLocaleUpperCase(),
+              children: value ?? "-",
+            }));
 
           return (
-            <p style={{ margin: 0 }}>
-              <Viewer
-                diff={diff}
-                indent={4}                 // default `2`
-                lineNumbers={true}         // default `false`
-                highlightInlineDiff={true} // default `false`
-                inlineDiffOptions={{
-                  mode: "word",            // default `"char"`, but `"word"` may be more useful
-                  wordSeparator: " ",      // default `""`, but `" "` is more useful for sentences
-                }}
-              />
-            </p>
+            <Space direction={"vertical"} size={"large"}>
+              <Descriptions size={"small"} bordered colon column={1} items={items} style={{ width: "50%" }}/>
+              <Flex gap={"medium"} style={{ width: "100%", height: "100%" }} justify={"space-around"} align={"center"} wrap={"wrap"}>
+                <Desc text="Before" />
+                <Desc text="After" />
+              </Flex>
+              <p style={{ margin: 0 }}>
+                <Viewer
+                  diff={diff}
+                  indent={4}                 // default `2`
+                  lineNumbers={true}         // default `false`
+                  highlightInlineDiff={true} // default `false`
+                  inlineDiffOptions={{
+                    mode: "word",            // default `"char"`, but `"word"` may be more useful
+                    wordSeparator: " ",      // default `""`, but `" "` is more useful for sentences
+                  }}
+                />
+              </p>
+            </Space>
           );
         },
         defaultExpandedRowKeys: expandedRowKeys,

@@ -1,4 +1,4 @@
-import { type Browser, type Page, test as base, type TestInfo } from "@playwright/test";
+import { type Page, test as base } from "@playwright/test";
 import { login } from "@hipanel-core/common/auth";
 import * as path from "path";
 import * as fs from "fs";
@@ -92,7 +92,11 @@ function isAuthFileExpired(filePath) {
 }
 
 function attachNetworkResponseListener(page) {
+  let isClosed = false;
+  page.on("close", () => { isClosed = true; });
+
   page.on("response", async (response) => {
+    if (isClosed) return;
     const resourceType = response.request().resourceType();
     if (resourceType !== "xhr" && resourceType !== "fetch") return;
 

@@ -18,6 +18,7 @@ use Yii;
 use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
 use \yii\base\Action as BaseAction;
+use yii\web\Response;
 
 /**
  * HiPanel basic action.
@@ -314,5 +315,14 @@ class Action extends BaseAction
         Yii::$app->session->addFlash($type, [
             'text' => $text,
         ]);
+    }
+
+    public function asJson(array $data = []): Response
+    {
+        $response = $this->controller->response;
+        $response->format = Response::FORMAT_JSON;
+        $response->data = $data;
+
+        return $response;
     }
 }

@@ -10,6 +10,7 @@
 
 namespace hipanel\actions;
 
+use hipanel\module\SmartRedirect\Application\ActionRedirectResolver;
 use hipanel\base\Model;
 use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
@@ -157,11 +158,9 @@ class SmartUpdateAction extends SwitchAction
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
-                    'url'   => function ($action) {
-                        return $action->collection->count() > 1
-                            ? $action->controller->getSearchUrl()
-                            : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id]);
-                    },
+                    'url' => [
+                        'class' => ActionRedirectResolver::class,
+                    ],
                 ],
                 'error'   => [
                     'class'  => RenderAction::class,
