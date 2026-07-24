@@ -1,15 +1,10 @@
 <?php
-/**
- * HiPanel core package
- *
- * @link      https://hipanel.com/
- * @package   hipanel-core
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
- */
+
+declare(strict_types=1);
 
 namespace hipanel\widgets;
 
+use hipanel\modules\finance\widgets\BillTypeVueTreeSelect;
 use yii\web\View;
 
 class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
@@ -60,51 +55,22 @@ JS
                             $(comboItem).select2('destroy');
                             comboItem.dataset.select2Id = this.getAttribute('id');
                         }
-                        var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-combo-field]').filter(function () {
-                            return $(this).data('combo-field') == $(comboItem).data('combo-field');
+                        var templates = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-combo-field]').filter(function () {
+                            return $(this).data('combo-field') === $(comboItem).data('combo-field');
                         });
-
-                        if (template.length === 0) {
+                        if (templates.length === 0) {
                             return true;
                         }
-
-                        var tpl = $(template[0]);
-                        if (tpl.data('field')) {
-                            var config_id = tpl.data('field').id;
+                        var template = templates.length === 1 ? $(templates[0]) : $(templates.filter((idx, entry) => {
+                          return entry.id.split('-').slice(-1)[0] === comboItem.id.split('-').slice(-1)[0];
+                        }));
+                        if (template.data('field')) {
+                            var config_id = template.data('field').id;
                             if (item) {
                                 $(item).closest(options.widgetItem).combo().register($(this), config_id);
                             } else {
                                 $(comboItem).closest('form').combo().register($(comboItem), config_id);
                             }
-                        }
-                    });
-                }
-            });
-JS
-        );
-        // For init datetime picker
-        $view->registerJs(<<<JS
-            $('.{$this->widgetContainer}').on('afterInsert', function(e, item) {
-                var options = eval($(this).data('dynamicform'));
-                var pickers = $(item).find('[data-krajee-datetimepicker]');
-                if (pickers.length > 0) {
-                    pickers.each(function() {
-                        var pickerItem = this;
-                        var template = $('.' + options.widgetContainer).find(options.widgetItem).first().find('[data-krajee-datetimepicker]').filter(function () {
-                            return $(this).data('krajee-datetimepicker') === $(pickerItem).data('krajee-datetimepicker');
-                        });
-
-                        if (template.length == 0) {
-                            return true;
-                        }
-
-                        var config_id = $(template[0]).data('krajee-datetimepicker');
-                        var configObj = window[config_id];
-                        var elementId = $(pickerItem).attr('id');
-                        if (configObj !== null && typeof configObj === 'object') {
-                            $('#' + elementId + '-datetime').datetimepicker(configObj);
-                        } else {
-                            console.error('config_id ' + config_id + ' not found');
                         }
                     });
                 }
@@ -131,7 +97,7 @@ JS
                         var configObj = window.hiqdev_datetimepicker_options[config_id];
                         var elementId = $(pickerItem).attr('id');
                         if (configObj !== null && typeof configObj === 'object') {
-                            $('#' + elementId).parent().datetimepicker(configObj);
+                            $('#' + elementId).flatpickr(configObj);
                         } else {
                             console.error('config_id ' + config_id + ' not found');
                         }
@@ -149,12 +115,47 @@ JS
                         return $(this).find('.show-password').length > 0;
                     }).each(function() {
                         if ($.isFunction($.fn.passwordInput)) {
-                            $(this).passwordInput(); 
+                            $(this).passwordInput();
                         }
                     });
                 }
             });
 JS
+        );
+        // For VueTreeSelect
+        $mixin = BillTypeVueTreeSelect::mixin();
+        $view->registerJs(
+            sprintf(/** @lang JavaScript */ "
+              (() => {
+                const treeSelectHandler = function (e, item) {
+                  const treeSelectInputs = $(item).find('treeselect');
+                  const prevAdjusment = $(item).prev().find('[id*=type_id]');
+                  if (treeSelectInputs.length > 0 && typeof window.Vue !== 'undefined') {
+                    treeSelectInputs.each(function () {
+                      const container = $(this).parents('div').eq(0);
+                      const mixin = $mixin;
+                      new Vue({
+                        el: container.get(0),
+                        mixins: [mixin],
+                        mounted() {
+                          this.value = prevAdjusment.val();
+                          if (prevAdjusment.data('adjustment') === 'yes') {
+                            this.adjustmentOnly = true;
+                            this.toggleOptions(true);
+                          }
+                        },
+                      });
+                    });
+                  }
+                };
+                const containerSelector = $('.%s');
+                containerSelector.on('afterInsert', treeSelectHandler);
+                containerSelector.parents('div[class*=_dynamicform_wrapper]').on('afterInsert', function (e, item) {
+                  $(item).find('div[class*=_dynamicform_wrapper]').on('afterInsert', treeSelectHandler);
+                });
+              })();
+            ",
+                $this->widgetContainer)
         );
     }
 }

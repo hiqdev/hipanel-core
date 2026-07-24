@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * HiPanel core package
  *
@@ -12,9 +14,11 @@ namespace hipanel\actions;
 
 use hipanel\base\FilterStorage;
 use hipanel\grid\RepresentationCollectionFinder;
+use hipanel\grid\RepresentationCollectionFinderInterface;
+use hipanel\widgets\DataProviderGridRenderer;
+use hiqdev\hiart\ActiveDataProvider;
 use hiqdev\higrid\representations\RepresentationCollection;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
-use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\web\Controller;
@@ -24,14 +28,34 @@ use yii\web\Controller;
  */
 class IndexAction extends SearchAction
 {
+    public const VARIANT_PAGER_RESPONSE = 'pager';
+    public const VARIANT_SUMMARY_RESPONSE = 'summary';
+    /**
+     * GET AJAX answer options for `VariantAction`, for example:
+     * ```
+     *      [
+     *          'headerValue1' => fn(VariantAction $action): string => 'response1',
+     *          'headerValue2' => fn(VariantAction $action): string => 'response2',
+     *      ],
+     * ```
+     * @var array
+     */
+    public array $responseVariants = [];
+
     /**
      * @var string view to render
      */
     protected $_view;
+
     /**
      * @var RepresentationCollectionFinder
      */
     private $representationCollectionFinder;
+
+    public function getRepresentationCollectionFinder(): RepresentationCollectionFinderInterface
+    {
+        return $this->representationCollectionFinder;
+    }
 
     public function setView($value)
     {
@@ -47,7 +71,12 @@ class IndexAction extends SearchAction
         return $this->_view;
     }
 
-    public function __construct(string $id, Controller $controller, RepresentationCollectionFinder $representationCollectionFinder, array $config = [])
+    public function __construct(
+        string $id,
+        Controller $controller,
+        RepresentationCollectionFinder $representationCollectionFinder,
+        array $config = []
+    )
     {
         parent::__construct($id, $controller, $config);
         $this->representationCollectionFinder = $representationCollectionFinder;
@@ -60,8 +89,8 @@ class IndexAction extends SearchAction
 
     protected function getDefaultRules()
     {
-        return array_merge([
-            'html | pjax' => [
+        return ArrayHelper::merge([
+            'html | pjax | POST ids' => [
                 'save' => false,
                 'flash' => false,
                 'success' => [
@@ -78,6 +107,18 @@ class IndexAction extends SearchAction
                     },
                 ],
             ],
+            'GET ajax' => [ // todo: make to able to receive the POST requests
+                'class' => VariantsAction::class,
+                'variants' => array_merge([
+                    self::VARIANT_PAGER_RESPONSE => fn(VariantsAction $action): string => (new DataProviderGridRenderer(
+                        $action->parent->getDataProvider(),
+                    ))->renderPager(),
+                    self::VARIANT_SUMMARY_RESPONSE => fn(VariantsAction $action): string => (new DataProviderGridRenderer(
+                        $action->parent->getDataProvider(),
+                    ))->renderSummary(),
+
+                ], $this->responseVariants),
+            ],
         ], parent::getDefaultRules());
     }
 
@@ -92,56 +133,22 @@ class IndexAction extends SearchAction
      *
      * @return RepresentationCollection|RepresentationCollectionInterface
      */
-    protected function ensureRepresentationCollection()
+    protected function ensureRepresentationCollection(): RepresentationCollection|RepresentationCollectionInterface
     {
         return $this->representationCollectionFinder->findOrFallback();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataProvider()
+    public function getDataProvider(): ActiveDataProvider
     {
         if ($this->dataProvider === null) {
-            $request = Yii::$app->request;
-
-            $formName = $this->getSearchModel()->formName();
-            $requestFilters = $request->get($formName) ?: $request->get() ?: $request->post();
-
-            // Don't save filters for ajax requests, because
-            // the request is probably triggered with select2 or smt similar
-            if ($request->getIsPjax() || !$request->getIsAjax()) {
-                $filterStorage = new FilterStorage(['map' => $this->filterStorageMap]);
-
-                if ($request->getIsPost() && $request->post('clear-filters')) {
-                    $filterStorage->clearFilters();
-                }
-
-                $filterStorage->set($requestFilters);
-
-                // Apply filters from storage only when request does not contain any data
-                if (empty($requestFilters)) {
-                    $requestFilters = $filterStorage->get();
-                }
-            }
-
-            $search = ArrayHelper::merge($this->findOptions, $requestFilters);
-
-            $this->returnOptions[$this->controller->modelClassName()] = ArrayHelper::merge(
-                ArrayHelper::remove($search, 'return', []),
-                ArrayHelper::remove($search, 'rename', [])
-            );
-
-            if ($formName !== '') {
-                $search = [$formName => $search];
-            }
+            $requestFilters = $this->getRequestFilters();
+            $this->applyFiltersFromStorage($requestFilters);
+            $search = $this->detectSearchQuery($requestFilters);
             $this->dataProvider = $this->getSearchModel()->search($search, $this->dataProviderOptions);
-
             // Set sort
             if ($this->getUiModel()->sort) {
                 $this->dataProvider->setSort(['defaultOrder' => [$this->getUiModel()->sortAttribute => $this->getUiModel()->sortDirection]]);
             }
-
             // Set pageSize
             if ($this->getUiModel()->per_page) {
                 $this->dataProvider->setPagination(['pageSize' => $this->getUiModel()->per_page]);
@@ -149,5 +156,48 @@ class IndexAction extends SearchAction
         }
 
         return $this->dataProvider;
+    }
+
+    public function detectSearchQuery(?array $requestFilters): array
+    {
+        $formName = $this->getSearchModel()->formName();
+        $search = ArrayHelper::merge($this->findOptions, $requestFilters);
+        $this->returnOptions[$this->controller::modelClassName()] = ArrayHelper::merge(
+            ArrayHelper::remove($search, 'return', []),
+            ArrayHelper::remove($search, 'rename', [])
+        );
+
+        if ($formName !== '') {
+            $search = [$formName => $search];
+        }
+
+        return $search;
+    }
+
+    public function getRequestFilters(): ?array
+    {
+        $formName = $this->getSearchModel()->formName();
+        if ($this->controller->request->get($formName)) {
+            return $this->controller->request->get($formName);
+        }
+
+        return [...$this->controller->request->get(null, []), ...$this->controller->request->post(null, [])];
+    }
+
+    public function applyFiltersFromStorage(?array &$requestFilters = []): void
+    {
+        // Don't save filters for ajax requests, because
+        // the request is probably triggered with select2 or smt similar
+        if (($this->controller->request->getIsPjax() || !$this->controller->request->getIsAjax())) {
+            $filterStorage = new FilterStorage(['map' => $this->filterStorageMap]);
+            if ($this->controller->request->isPost && $this->controller->request->post('clear-filters')) {
+                $filterStorage->clearFilters();
+            }
+            $filterStorage->set($requestFilters);
+            // Apply filters from storage only when request does not contain any data
+            if (empty($requestFilters)) {
+                $requestFilters = $filterStorage->get();
+            }
+        }
     }
 }

@@ -50,7 +50,7 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
      */
     public function validateAttribute($model, $attribute)
     {
-        $value = mb_strtolower($model->$attribute);
+        $value = mb_strtolower($model->$attribute ?? '');
 
         if ($this->enableIdn) {
             $value = static::convertIdnToAscii($value);
@@ -67,17 +67,21 @@ class DomainValidator extends \yii\validators\RegularExpressionValidator
         }
     }
 
-    /**
-     * @param string $value the IDN domain name that should be converted to ASCII
-     * @return string
-     */
-    public static function convertIdnToAscii($value)
+    public static function convertIdnToAscii(?string $value): ?string
     {
+        if (empty($value)) {
+            return $value;
+        }
+
         return idn_to_ascii($value, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
     }
 
-    public static function convertAsciiToIdn($value)
+    public static function convertAsciiToIdn(?string $value): ?string
     {
+        if (empty($value)) {
+            return $value;
+        }
+
         return idn_to_utf8($value, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
     }
 

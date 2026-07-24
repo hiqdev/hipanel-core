@@ -1,13 +1,14 @@
 <?php
-
+/** @var \hipanel\widgets\IndexPage $widget */
 $widget = $this->context;
 
 ?>
 <div class="horizontal-view">
     <div class="row horizontal-content clearfix">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="content-sidebar">
                 <div class="content-sidebar__inner clearfix">
+                    <?= $widget->renderExportProgress() ?>
                     <?= $widget->renderContent('main-actions') ?>
                     <div class="box box-solid">
                         <div class="box-header with-border">
@@ -27,7 +28,7 @@ $widget = $this->context;
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="box box-widget">
                 <div class="box-body no-padding">
                     <div class="mailbox-controls">
@@ -40,6 +41,7 @@ $widget = $this->context;
                         <?= $widget->renderContent('show-actions') ?>
 
                         <div class="box-tools box-bulk-actions pull-right">
+                            <?= $widget->renderContent('alt-actions') ?>
                             <fieldset disabled="disabled">
                                 <?= $widget->renderContent('bulk-actions') ?>
                             </fieldset>

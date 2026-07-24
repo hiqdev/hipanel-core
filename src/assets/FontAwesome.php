@@ -15,8 +15,8 @@ use yii\web\AssetBundle;
 class FontAwesome extends AssetBundle
 {
     public $sourcePath = '@bower/components-font-awesome';
-
-    public $css = [
-         'css/font-awesome.min.css',
+    public $css = [(YII_DEBUG ? 'css/font-awesome.css' : 'css/font-awesome.min.css')];
+    public $publishOptions = [
+        'only' => ['fonts/*', 'css/*'],
     ];
 }

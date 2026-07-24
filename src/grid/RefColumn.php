@@ -11,6 +11,7 @@
 namespace hipanel\grid;
 
 use hipanel\widgets\RefFilter;
+use Yii;
 
 class RefColumn extends DataColumn
 {
@@ -45,5 +46,14 @@ class RefColumn extends DataColumn
             'options' => $this->filterInputOptions,
             'elementOverrides' => $this->filterOverrides,
         ]);
+    }
+
+    public function getDataCellValue($model, $key, $index)
+    {
+        if (!empty($this->i18nDictionary)) {
+            return Yii::t($this->i18nDictionary, parent::getDataCellValue($model, $key, $index));
+        }
+
+        return parent::getDataCellValue($model, $key, $index);
     }
 }

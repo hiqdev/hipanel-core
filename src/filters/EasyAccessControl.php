@@ -81,7 +81,7 @@ class EasyAccessControl extends ActionFilter
         return $this->checkActions($action) ?: $this->denyAccess($action);
     }
 
-    protected function checkActions($action)
+    protected function checkActions(Action $action)
     {
         foreach ($this->actions as $names => $permissions) {
             if ($this->matchAction($action, $names)) {
@@ -92,13 +92,21 @@ class EasyAccessControl extends ActionFilter
         return false;
     }
 
-    protected function matchAction($action, $names)
+    protected function matchAction(Action $action, string $effectiveActions)
     {
-        if ($names === '*') {
+        if ($effectiveActions === '*') {
             return true;
         }
+        $currentAction = $action->id;
+        $effectiveActionsArray = StringHelper::explode($effectiveActions, ',', true, true);
 
-        return in_array($action->id, StringHelper::explode($names, ',', true, true), true);
+        if (str_contains($action->id, ' ')) { // When used with SwitchAction, may be e.g. 'update POST xeditable'
+            $array = StringHelper::explode($action->id, ' ', true, true);
+            $currentAction = array_shift($array);
+        }
+
+        return in_array($action->id, $effectiveActionsArray, true)
+            || in_array($currentAction, $effectiveActionsArray, true);
     }
 
     protected function checkAllowed($permissions)

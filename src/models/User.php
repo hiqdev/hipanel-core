@@ -44,6 +44,8 @@ class User extends Model implements IdentityInterface
     public $auth_key;
     public $password_hash;
 
+    public $account_owner_id;
+
     private static $_users = [];
 
     const TYPE_CLIENT = 'client';
@@ -169,6 +171,11 @@ class User extends Model implements IdentityInterface
         return (int) $this->id === (int) $key || (string) $this->username === (string) $key;
     }
 
+    public function isAccountOwner(): bool
+    {
+        return $this->id === $this->account_owner_id;
+    }
+
     public function not($key)
     {
         return (int) $this->id !== (int) $key && (string) $this->username !== (string) $key;
@@ -247,12 +254,8 @@ class User extends Model implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    /**
-     * @param $seller string|integer
-     * @return bool
-     */
-    public function hasSeller($seller)
+    public function hasOwnSeller(string|int $seller): bool
     {
-        return ((string) $seller === (string) $this->seller) || ((int) $seller === (int) $this->seller_id);
+        return ((string)$seller === (string)$this->seller) || ((int)$seller === (int)$this->seller_id);
     }
 }

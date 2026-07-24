@@ -4,24 +4,31 @@
     - `core` -> vendor/hiqdev/%the-core-package%/
     - `composer.json`
     - `composer.lock` - commited at releases
-    - `.docker/nginx/etc/nginx/conf.d/vhost.conf` - almost standart but doesn't work when symlinked :(
+    - `.docker/nginx/etc/nginx/conf.d/vhost.conf` - almost standard but doesn't work when symlinked :(
     - `.env.X`
         - `.env.dist` - production config
         - `.env.local` - local installation config
-    - `.gitignore` -> core/.gitignore
-    - `phpunit.xml.dist` -> core/phpunit.xml.dist
+    - `.gitignore`
+    - `testing files` - can be everything in case of using testing frameworks:
+        - `phpunit.xml` - for phpunit
+        - `codeception.yml` - for codeception
+        - `behat.xml` - for behat
+        - etc.
+    - `.gitlab-ci.yml` - Gitlab CI configuration file
+    - `psalm.xml` - psalm config
     - `public/`
         - `assets/.gitignore` - ignore everything, for git to keep the directory
-        - `favicon.ico`
+        - `favicon.ico` -> ../vendor/%reseller%/%assets-project%/src/assets/favicon.ico
         - `index.php` -> ../core/public/index.php
         - `robots.txt` -> ../core/public/robots.txt
     - `runtime/.gitignore` - ignore everything, for git to keep the directory
-    - `tests/` -> core/tests
+    - `tests/` -> directory with CI tests configuration
 - uncommited symlinks:
     - `.env` -> `.env.X`
         - `.env.dist`   for **production**
+        - `.env.beta`   for **staging** server with production database
+        - `.env.dev`    for **staging** server with test database
         - `.env.local`  for **local** development
-        - `.env.dev`    for **staging** server
     - `docker-compose.yml` -> `core/docker-compose.yml.X` similarly
 
 ## Ideas
@@ -36,17 +43,16 @@
 - thus standart files and dirs are symlinked from core, reusable between all installations:
     - public/index.php
     - public/robots.txt
-    - tests/
-    - phpunit.xml.dist
+    - public/favicon.ico
     - docker-compose.yml
-    - .gitignore
 - so project personalization comes down to tweaking several files
 - thouroughly handcrafted files with project configuration:
     - composer.json
     - .env.X
         - .env.dist - production config
+        - .env.beta - staging with production database
+        - .env.dev - staging with test database
         - .env.local - config for local installation
-        - .env.dev - staging
         - .env.myname-dev - personal configurations allowed
     - hidev.yml - not really needed, to be removed
     - config/params.php - not really needed, to be removed
@@ -55,7 +61,6 @@
     - docker-compose.yml - normally is a symlink, but may be deriviated from `core/docker-compose.yml.X`
 - copy pasted files, to be automated:
     - .docker/nginx/etc/nginx/conf.d/vhost.conf - can include IP restrictions
-    - public/favicon.ico
 - also project has evolving files:
     - public/assets/ - needs chmod a+w
     - runtime/ - needs chmod a+w

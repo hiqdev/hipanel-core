@@ -10,13 +10,16 @@
 
 namespace hipanel\grid;
 
-use hipanel\assets\CheckboxStyleAsset;
 use hipanel\helpers\ArrayHelper;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\SellerColumn;
 use hipanel\widgets\LinkSorter;
+use hipanel\widgets\PagerHook;
+use hipanel\widgets\SummaryHook;
 use hiqdev\assets\datatables\DataTablesAsset;
+use hiqdev\hiart\ActiveDataProvider;
 use Yii;
+use yii\helpers\Url;
 
 /**
  * Class GridView.
@@ -47,6 +50,24 @@ class GridView extends \hiqdev\higrid\GridView
      * {@inheritdoc}
      */
     public $layout = "<div class='row'><div class='col-xs-12'>{sorter}</div></div><div class=\"table-responsive\">{items}</div>\n<div class='row'><div class='col-sm-6 col-xs-12'><div class='dataTables_info'>{summary}</div></div>\n<div class='col-sm-6 col-xs-12'><div class='dataTables_paginate paging_bootstrap'>{pager}</div></div></div>";
+
+
+    public function init()
+    {
+        parent::init();
+
+        // todo: find more sophisticated solution
+        if (!isset($this->filterUrl) && Yii::$app->request->get('page', 0) > 1 && $this->dataProvider->getCount() <= 0) {
+            $url = Url::current(['page' => 1]);
+            $this->view->registerJs("document.location.assign('$url');");
+
+        }
+
+        if ($this->dataProvider instanceof ActiveDataProvider && $this->dataProvider->countSynchronously === false) {
+            $this->pager = ['class' => PagerHook::class];
+            $this->summaryRenderer = static fn() => SummaryHook::widget();
+        }
+    }
 
     /**
      * {@inheritdoc}
@@ -79,6 +100,9 @@ class GridView extends \hiqdev\higrid\GridView
                 'label' => Yii::t('hipanel', 'Block'),
                 'class' => BlockingColumn::class,
             ],
+            'tags' => [
+                'class' => TagsColumn::class,
+            ],
         ]);
     }
 
@@ -89,7 +113,7 @@ class GridView extends \hiqdev\higrid\GridView
     {
         $this->tableOptions['class'] .= ' ' . Yii::$app->themeManager->settings->getCssClass('table_condensed');
         parent::run();
-        $this->registerClientScript();
+        DataTablesAsset::register($this->view);
     }
 
     /**
@@ -100,15 +124,5 @@ class GridView extends \hiqdev\higrid\GridView
         $config = ArrayHelper::merge(['gridOptions' => ['resizableColumns' => ['resizeFromBody' => true]]], $config);
 
         return parent::detailView($config);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    private function registerClientScript()
-    {
-        $view = $this->getView();
-        DataTablesAsset::register($view);
-        CheckboxStyleAsset::register($view);
     }
 }

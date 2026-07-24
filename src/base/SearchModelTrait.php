@@ -12,7 +12,8 @@ namespace hipanel\base;
 
 use hiqdev\hiart\ActiveQuery;
 use hiqdev\hiart\ActiveRecord;
-use yii\data\ActiveDataProvider;
+use hiqdev\hiart\ActiveDataProvider;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -85,10 +86,13 @@ trait SearchModelTrait
          * @var ActiveRecord $class
          * @var ActiveQuery $query
          */
-        $class = get_parent_class();
+        $class = get_parent_class($this);
         $query = $class::find(); // $class::find()->orderBy($sort->orders)->all(); if $sort is Sort
 
-        $dataProvider = new ActiveDataProvider(ArrayHelper::merge(['query' => $query], $dataProviderConfig));
+        $dataProvider = Yii::createObject(ArrayHelper::merge([
+            'class' => ActiveDataProvider::class,
+            'query' => $query
+        ], $dataProviderConfig));
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -108,7 +112,7 @@ trait SearchModelTrait
             preg_match('/^(.*?)(_((?:.(?!_))+))?$/', $attribute, $matches);
 
             /// If the suffix is in the list of acceptable suffix filer conditions
-            if ($matches[3] && in_array($matches[3], static::$filterConditions, true)) {
+            if (!empty($matches[3]) && in_array($matches[3], static::$filterConditions, true)) {
                 $cmp = $matches[3];
                 $attribute = $matches[1];
             } else {

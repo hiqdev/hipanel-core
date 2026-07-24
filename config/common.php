@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
+/** @var array $params */
+
 return [
     'aliases' => [
         '@organization' => $params['organization.url'],
@@ -16,30 +18,42 @@ return [
         '@vendor/bower' => '@vendor/bower-asset',
         '@vendor/npm' => '@vendor/npm-asset',
         '@file' => '/file',
-        '@HIAM_SITE' => 'https://' . $params['hiam.site'],
+        '@HIAM_SITE' => (YII_ENV === 'prod' ? 'https://' : 'http://') . $params['hiam.site'],
     ],
     'components' => [
-        'cache' => [
-            'class' => \hipanel\components\Cache::class,
-        ],
+        'cache' =>
+            $params['cache.driver'] === 'memcached'
+            ? [
+                'class' => \yii\caching\MemCache::class,
+                'useMemcached' => true,
+                'servers' => [
+                    'memcached' => [
+                        'host' => $params['memcached.host'],
+                        'port' => 11211,
+                        'weight' => 60,
+                    ],
+                ],
+            ]
+            : ['class' => \hipanel\components\Cache::class]
+        ,
         'i18n' => [
             'class' => \hipanel\components\I18N::class,
             'translations' => [
                 'hipanel' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:synt' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:block-reasons' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel.object-combo' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
             ],
         ],
@@ -51,9 +65,13 @@ return [
             'panelUrl' => $params['hipanel.url'],
         ],
         'language' => [
-            'languages' => [
-                'en' => 'English',
-                'ru' => 'Русский',
+            'languages' => $params['language.languages'],
+        ],
+        'debug' => !empty($params['debug.event.enable']) ? [] : [
+            'panels' => [
+                'event' => [
+                    'class' => \hipanel\panels\FakeEventPanel::class,
+                ],
             ],
         ],
     ],

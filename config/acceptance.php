@@ -9,15 +9,18 @@
  */
 
 return [
-    'PARAMS_LOCATION' => dirname(__DIR__, 2) . '/composer-config-plugin-output/acceptance.php',
+    'PARAMS_LOCATION' => dirname(__DIR__, 4) . '/vendor/yiisoft/composer-config-plugin-output/acceptance.php',
     'YII2_CONFIG_LOCATION' => dirname(__DIR__) . '/tests/acceptance/config/suite.php',
 
     'COMMON_SUITE_LOCATION' => dirname(__DIR__) . '/tests/acceptance.suite.yml',
     'COMMON_TESTS_LOCATION' => dirname(__DIR__) . '/tests',
 
-    'URL' => $params['hipanel.url'],
+    'URL' => $_ENV['URL'] ?? '',
     'BROWSER' => 'chrome',
-    'SELENIUM_HOST' => $params['tests.acceptance.selenium.host'],
+    'SELENIUM_HOST' => $_ENV['TESTS_ACCEPTANCE_SELENIUM_HOST'] ?? '',
+
+    'USER_CREATION_DISABLED' => ($params['module.client.user.creation.disabled'] ?? null) === true ? '1' : '0',
+    'SERVER_ORDER_ALLOWED' => ($params['module.server.order.allowed'] ?? null) === true ? '1' : '0',
 
     'client' => [
         'id' => null,

@@ -8,10 +8,10 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
-use hiqdev\composer\config\Builder;
+use Yiisoft\Composer\Config\Builder;
 
 $config = \yii\helpers\ArrayHelper::merge(
-    require Builder::path('web-test'),
+    require Builder::path('web'),
     [
         'bootstrap' => [
             'debug' => new \yii\helpers\UnsetArrayValue(),

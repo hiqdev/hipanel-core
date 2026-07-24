@@ -10,12 +10,18 @@
 
 namespace hipanel\base;
 
-use hipanel\actions\ExportAction;
+use hipanel\actions\Action;
+use hipanel\actions\TagsAction;
+use hipanel\module\SmartRedirect\Infrastructure\ReferrerUrlMemoryBehavior;
 use hipanel\behaviors\UiOptionsBehavior;
 use hipanel\components\Cache;
 use hipanel\components\Response;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\hiart\ActiveRecord;
+use hiqdev\yii2\export\actions\CancelExportAction;
+use hiqdev\yii2\export\actions\StartExportAction;
+use hiqdev\yii2\export\actions\ProgressExportAction;
+use hiqdev\yii2\export\actions\DownloadExportAction;
 use Yii;
 use yii\di\Instance;
 use yii\helpers\Inflector;
@@ -47,17 +53,31 @@ class Controller extends \yii\web\Controller
     public function behaviors()
     {
         return [
-            [
-                'class' => UiOptionsBehavior::class,
-            ],
+            UiOptionsBehavior::class,
+            ReferrerUrlMemoryBehavior::class,
         ];
     }
 
     public function actions()
     {
         return [
-            'export' => [
-                'class' => ExportAction::class,
+            'start-export' => [
+                'class' => StartExportAction::class,
+            ],
+            'progress-export' => [
+                'class' => ProgressExportAction::class,
+            ],
+            'download-export' => [
+                'class' => DownloadExportAction::class,
+            ],
+            'cancel-export' => [
+                'class' => CancelExportAction::class,
+            ],
+            'set-tags' => [
+                'class' => TagsAction::class
+            ],
+            'get-tags' => [
+                'class' => TagsAction::class
             ],
         ];
     }
@@ -152,7 +172,8 @@ class Controller extends \yii\web\Controller
 
     public static function controllerId()
     {
-        return Inflector::camel2id(substr(end(explode('\\', get_called_class())), 0, -10)); // todo: remove
+        $parts = explode('\\', get_called_class());
+        return Inflector::camel2id(substr(end($parts), 0, -10)); // todo: remove
     }
 
     /**
@@ -226,7 +247,7 @@ class Controller extends \yii\web\Controller
 
     public function createAction($id)
     {
-        $config = $this->_internalActions[$id];
+        $config = $this->_internalActions[$id] ?? null;
 
         return $config ? Yii::createObject($config, [$id, $this]) : parent::createAction($id);
     }

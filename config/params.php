@@ -10,7 +10,18 @@
 
 $hipanelSite = $_ENV['HIPANEL_SITE'] ?? null;
 
+$multiLanguage = $_ENV['LANGUAGES_MULTI'] ?? 1;
+
 return [
+    'cache.driver'          => 'file',
+    'language.languages'    => $multiLanguage
+        ? [
+            'en' => 'English',
+            'ru' => 'Русский',
+        ]
+        : [
+            'en' => 'English',
+        ],
     'adminEmail'            => '',
     'organization.url'      => '',
     'organization.termsUrl' => '',
@@ -21,11 +32,13 @@ return [
     'hiam.apiBaseUrl'       => null,
     'hiam.client_id'        => '',
     'hiam.client_secret'    => '',
+    'hiam.scope'            => null,
 
     'hipanel.url'           => $hipanelSite ? "https://$hipanelSite/" : null,
     'hipanel.notPanel'      => false,
 
     'debug.allowedIps'      => [],
+    'debug.event.enable'    => false,
 
     'user.seller'           => '',
 
@@ -59,4 +72,6 @@ return [
 
     'ad-banner.dashboard.items' => [],
     'ad-banner.sidebar.items' => [],
+
+    'memcached.host' => 'memcached',
 ];

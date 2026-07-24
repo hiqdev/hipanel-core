@@ -10,11 +10,13 @@
 
 namespace hipanel\widgets;
 
+use Closure;
 use hipanel\assets\StickySidebarAsset;
 use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\IndexPageUiOptions;
 use hiqdev\higrid\representations\RepresentationCollectionInterface;
+use hiqdev\yii2\export\widgets\ExportProgress;
 use hiqdev\yii2\export\widgets\IndexPageExportLinks;
 use Yii;
 use yii\base\InvalidParamException;
@@ -90,6 +92,9 @@ class IndexPage extends Widget
      */
     public $searchView = '_search';
 
+    public ?Closure $insteadPerPageRender = null;
+    public array|Closure $exportVariants = [];
+
     /** {@inheritdoc} */
     public function init()
     {
@@ -137,7 +142,7 @@ JS
     public function getUiModel()
     {
         if ($this->uiModel === null) {
-            $this->uiModel = $this->originalContext->indexPageUiOptionsModel;
+            $this->uiModel = $this->originalContext->indexPageUiOptionsModel ?? $this->originalContext->uiModel;
         }
 
         return $this->uiModel;
@@ -172,6 +177,13 @@ JS
         $this->_current = null;
     }
 
+    public function content(string $name, callable|string $content): void
+    {
+        $this->beginContent($name);
+        echo is_callable($content) ? call_user_func($content) : $content;
+        $this->endContent();
+    }
+
     /**
      * Returns content saved in [[content]] by $name.
      * @param string $name
@@ -179,7 +191,7 @@ JS
      */
     public function renderContent($name)
     {
-        return $this->contents[$name];
+        return $this->contents[$name] ?? '';
     }
 
     public function run()
@@ -195,11 +207,15 @@ JS
     private function horizontalClientScriptInit()
     {
         $view = $this->getView();
-        StickySidebarAsset::register($view);
         $view->registerCss(<<<'CSS'
-            .advanced-search[min-width~="150px"] form > div {
-                width: 100%;
-                position: inherit;
+            .advanced-search {
+                container: advancedSearch / inline-size;
+            }
+            @container advancedSearch (width >= 70px) {
+                form > div {
+                    width: 100%!important;
+                    position: inherit!important;
+                }
             }
             .horizontal-view .content-sidebar {
                 will-change: min-height;
@@ -212,27 +228,17 @@ JS
             .horizontal-view .content-sidebar__inner > .btn,
             .horizontal-view .content-sidebar__inner .dropdown > .btn {
                 display: block;
-                margin-bottom: 10px;
+                margin-bottom: 1em;
+            }
+            .horizontal-view .content-sidebar__inner .btn-group {
+                display: flex;
+                margin-bottom: 1em;
+            }
+            .horizontal-view .content-sidebar__inner .btn-group > a.btn {
+                width: 100%;
             }
 CSS
         );
-        $view->registerJs(<<<"JS"
-            var isDesktop = $(window).innerWidth() > 750;
-            if (isDesktop) {
-                var stickySidebar = new StickySidebar('.horizontal-view .content-sidebar', {
-                    topSpacing: 10,
-                    containerSelector: '.horizontal-content',
-                    innerWrapperSelector: '.content-sidebar__inner'
-                });
-                $(document).on('pjax:end', stickySidebar.updateSticky);
-            }
-
-            $(document).on('pjax:end', function() {
-                $('.advanced-search form > div').css({'width': '100%'});
-                $(window).trigger('scroll'); // Fix left search block position
-            });
-JS
-           , View::POS_LOAD);
     }
 
     public function detectLayout()
@@ -292,9 +298,12 @@ JS
 
     public function renderPerPage()
     {
+        if ($this->insteadPerPageRender instanceof Closure) {
+            return call_user_func($this->insteadPerPageRender, $this);
+        }
         $items = [];
         foreach ([25, 50, 100, 200, 500] as $pageSize) {
-            $items[] = ['label' => $pageSize, 'url' => Url::current(['per_page' => $pageSize])];
+            $items[] = ['label' => $pageSize, 'url' => Url::current(['per-page' => $pageSize])];
         }
 
         return ButtonDropdown::widget([
@@ -326,7 +335,7 @@ JS
         foreach ($representations as $name => $representation) {
             $items[] = [
                 'label' => $representation->getLabel(),
-                'url' => Url::current(['representation' => $name]),
+                'url' => Url::current(['representation' => $name, 'sort' => '']),
             ];
         }
 
@@ -350,16 +359,27 @@ JS
         ], $options));
     }
 
+    public function canShowExport(): bool
+    {
+        $isGridExportActionExists = (bool)Yii::$app->controller->createAction('start-export');
+        /** @var RepresentationCollectionFinder $representationCollectionFinder */
+        $representationCollectionFinder = Yii::createObject(RepresentationCollectionFinder::class);
+        $collection = $representationCollectionFinder->findOrFallback();
+        $isRepresentationExists = count($collection?->getAll()) > 0;
+
+        return $isGridExportActionExists && $isRepresentationExists;
+    }
+
     public function renderExport()
     {
-        $isGridExportActionExists = (bool) Yii::$app->controller->createAction('export');
-        /** @var RepresentationCollectionFinder $repColFinder */
-        $repColFinder = Yii::createObject(RepresentationCollectionFinder::class);
-        $collection = $repColFinder->findOrFallback();
-        $isRepresentationExists = count($collection->getAll()) > 0;
-        if ($isGridExportActionExists && $isRepresentationExists) {
-            return IndexPageExportLinks::widget();
+        if ($this->canShowExport()) {
+            return IndexPageExportLinks::widget(['exportVariants' => $this->exportVariants]);
         }
+    }
+
+    public function renderExportProgress(): string
+    {
+        return $this->canShowExport() ? ExportProgress::widget() : '';
     }
 
     public function getViewPath()

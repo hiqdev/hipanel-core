@@ -11,14 +11,32 @@
 namespace hipanel\widgets\combo;
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\client\widgets\combo\PartnerCombo;
 use hipanel\modules\domain\widgets\combo\DomainCombo;
 use hipanel\modules\domain\widgets\combo\ZoneCombo;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
+use hipanel\modules\finance\widgets\combo\target\AnycastCDNCombo;
+use hipanel\modules\finance\widgets\combo\target\BackupCombo;
+use hipanel\modules\finance\widgets\combo\target\PrivateCloudBackupCombo;
+use hipanel\modules\finance\widgets\combo\target\PrivateCloudCombo;
+use hipanel\modules\finance\widgets\combo\target\SnapshotCombo;
+use hipanel\modules\finance\widgets\combo\target\StorageCombo;
+use hipanel\modules\finance\widgets\combo\target\SwitchLicenceCombo;
+use hipanel\modules\finance\widgets\combo\target\VideoCDNCombo;
+use hipanel\modules\finance\widgets\combo\target\VolumeCombo;
+use hipanel\modules\finance\widgets\combo\target\VPSCombo;
 use hipanel\modules\hosting\widgets\combo\AccountCombo;
+use hipanel\modules\ipam\widgets\combo\AggregateCombo;
+use hipanel\modules\server\widgets\combo\NetCombo;
+use hipanel\modules\server\widgets\combo\RackCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
+use hipanel\modules\server\widgets\combo\LocationCombo;
+use hipanel\modules\stock\widgets\combo\ModelCombo;
+use hipanel\modules\stock\widgets\combo\ModelGroupCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use Yii;
 use yii\bootstrap\InputWidget;
+use Yiisoft\Strings\Inflector;
 
 /**
  * Class BaseObjectSelector.
@@ -49,14 +67,32 @@ class ObjectCombo extends InputWidget
     /**
      * @var array
      */
-    public $knownClasses = [
+    public array $knownClasses = [
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
+        'partner' => ['alias' => '@client', 'combo' => PartnerCombo::class],
+        'switch_license' => ['alias' => '@target', 'combo' => SwitchLicenceCombo::class],
         'device' => ['alias' => '@server', 'combo' => ServerCombo::class],
         'domain' => ['alias' => '@domain', 'combo' => DomainCombo::class],
         'zone' => ['alias' => '@domain', 'combo' => ZoneCombo::class],
         'part' => ['alias' => '@part', 'combo' => PartCombo::class],
         'account' => ['alias' => '@account', 'combo' => AccountCombo::class],
         'plan' => ['alias' => '@plan', 'combo' => PlanCombo::class],
+        'model' => ['alias' => '@model', 'combo' => ModelCombo::class],
+        'model_group' => ['alias' => '@model-group', 'combo' => ModelGroupCombo::class],
+        'switch' => ['alias' => '@hub', 'combo' => NetCombo::class],
+        'rack' => ['alias' => '@hub', 'combo' => RackCombo::class],
+        'location' => ['alias' => '@hub', 'combo' => LocationCombo::class],
+        'anycastcdn' => ['alias' => '@finance', 'combo' => AnycastCDNCombo::class],
+        'backup' => ['alias' => '@finance', 'combo' => BackupCombo::class],
+        'private_cloud' => ['alias' => '@finance', 'combo' => PrivateCloudCombo::class],
+        'private_cloud_backup' => ['alias' => '@finance', 'combo' => PrivateCloudBackupCombo::class],
+        'snapshot' => ['alias' => '@finance', 'combo' => SnapshotCombo::class],
+        'storage' => ['alias' => '@finance', 'combo' => StorageCombo::class],
+        'videocdn' => ['alias' => '@finance', 'combo' => VideoCDNCombo::class],
+        'volume' => ['alias' => '@finance', 'combo' => VolumeCombo::class],
+        'vps' => ['alias' => '@finance', 'combo' => VPSCombo::class],
+        'ip_aggregate' => ['alias' => '@aggregate', 'combo' => AggregateCombo::class],
+        'products' => ['alias' => '@ref', 'combo' => ProductsCombo::class],
     ];
 
     /**
@@ -104,9 +140,10 @@ class ObjectCombo extends InputWidget
     /**
      * @param string $class
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
-    private function getLabel($class): string
+    private function getLabel(string $class): string
     {
-        return $class === 'device' ? 'Server' : ucfirst($class);
+        return $class === 'device' ? 'Server' : ucwords(Yii::createObject(Inflector::class)->toWords($class));
     }
 }

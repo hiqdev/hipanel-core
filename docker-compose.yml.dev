@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 
   nginx:
@@ -17,15 +15,26 @@ services:
       - "VIRTUAL_HOST=${HOSTS}"
       - "LETSENCRYPT_HOST=${HOSTS}"
       - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
+      - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS:-false}"
+
+  memcached:
+    image: memcached:1.5
+    networks:
+      - local-network
+    command: '-m 128'
 
   php-fpm:
-    image: hiqdev/php:7.3-fpm
+    image: hiqdev/php:8.5-fpm-alpine
     volumes:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
+    tmpfs:
+      - /app/runtime/debug:uid=82,gid=82
     networks:
-      - local-network
-      - hiapi-network
+      hiapi-network:
+      local-network:
+        aliases:
+          - local-php-fpm
     extra_hosts:
       - "${API_HOSTS_LINE}"
     environment:
@@ -36,8 +45,8 @@ networks:
   local-network:
     driver: bridge
   hiapi-network:
-    external:
-      name: "${HIAPI_SITE}"
+    name: "${HIAPI_DIST}"
+    external: true
   proxy-network:
-    external:
-      name: "nginx-proxy-network-${REAL_IP}"
+    name: "nginx-proxy-network-${REAL_IP}"
+    external: true

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * HiPanel core package
  *
@@ -15,19 +15,14 @@ use yii\base\Model;
 
 class IndexPageUiOptions extends Model
 {
-    const ORIENTATION_VERTICAL = 'vertical';
-
-    const ORIENTATION_HORIZONTAL = 'horizontal';
+    const string ORIENTATION_VERTICAL = 'vertical';
+    const string ORIENTATION_HORIZONTAL = 'horizontal';
 
     public $sort;
-
     public $per_page;
-
     public $orientation;
-
     public $representation;
-
-    public $availableRepresentations = [];
+    public array $availableRepresentations = [];
 
     public function fields()
     {
@@ -47,18 +42,20 @@ class IndexPageUiOptions extends Model
             ['orientation', 'in', 'range' => array_keys($this->getOrientationOptions())],
 
             ['representation', 'default', 'value' => null],
-            ['representation', function ($attribute, $params, $validator) {
-                if (!empty($this->availableRepresentations) && in_array($this->{$attribute}, $this->availableRepresentations, true)) {
-                    $this->addError($attribute, 'The token must contain letters or digits.');
-                }
-            }],
+            [
+                'representation',
+                function ($attribute) {
+                    $representationsAreNotEmpty = !empty($this->availableRepresentations);
+                    $representationIsNotExists = !array_key_exists($this->{$attribute}, $this->availableRepresentations);
+                    if ($representationsAreNotEmpty && $representationIsNotExists) {
+                        $this->addError($attribute, 'This view is not available.');
+                    }
+                },
+            ],
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function getOrientationOptions()
+    public function getOrientationOptions(): array
     {
         return [
             self::ORIENTATION_HORIZONTAL => Yii::t('hipanel', 'Horizontal'),

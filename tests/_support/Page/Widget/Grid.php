@@ -10,10 +10,12 @@
 
 namespace hipanel\tests\_support\Page\Widget;
 
+use Codeception\Scenario;
+use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\TestableInput;
-use WebDriverKeys;
+use Facebook\WebDriver\WebDriverKeys;
 
 /**
  * Class Grid
@@ -118,6 +120,52 @@ class Grid
         $selector = $this->baseSelector . "//tbody//tr[$rowNumber]";
 
         return $this->tester->grabAttributeFrom($selector, 'data-key');
+    }
+
+    public function getColumnNumber(string $columnName): int
+    {
+        $columnNumber = 2;
+        try {
+            $headElements = $this->tester->grabMultiple('//th[not(./input)]');
+        } catch (StaleElementReferenceException $exception) {
+            $this->tester->wait(5);
+            $headElements = $this->tester->grabMultiple('//th[not(./input)]');
+        }
+        foreach ($headElements as $currentColumnName) {
+            if(str_contains($currentColumnName, $columnName)) {
+                return $columnNumber;
+            }
+            $columnNumber++;
+        }
+
+        throw new \Exception("Failed detect column with name $columnName");
+    }
+
+    public function getRowNumberInColumnByValue(string $columnName, string $rowValue): int
+    {
+        $column = $this->getColumnNumber($columnName);
+
+        $rowNumber = 1;
+        $headElements = $this->tester->grabMultiple("//section[@class='content container-fluid']//tbody//td[$column]");
+        foreach ($headElements as $currentRow) {
+            if (str_contains($currentRow, $rowValue)) {
+                return $rowNumber;
+            }
+            $rowNumber++;
+        }
+
+        throw new \Exception("Failed detect row with name $rowValue");
+    }
+
+    public function getRowNumberByNameFromSummary(string $rowName): int
+    {
+        $headElements = $this->tester->grabMultiple("//div[@class='summary']//tbody//td[1]");
+
+        $res = array_flip($headElements)[$rowName] ?? null;
+        if ($res === null) {
+            throw new \Exception("Failed detect row with name $rowName");
+        }
+        return ++$res;
     }
 
     /**

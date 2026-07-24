@@ -43,7 +43,7 @@ class GridLegend extends Widget
     public function gridColumnOptions($column)
     {
         foreach ($this->legendItem->items() as $item) {
-            if (isset($item['columns']) && \in_array($column, $item['columns'], true) && (bool) $item['rule'] === true) {
+            if (isset($item['columns'], $item['rule']) && \in_array($column, $item['columns'], true) && (bool)$item['rule'] === true) {
                 return ['style' => "background-color: {$this->getColor($item)} !important;"];
             }
         }

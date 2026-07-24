@@ -41,6 +41,6 @@ class PincodePrompt extends Widget
      */
     public function isPINFailed(): bool
     {
-        return !$this->hasPINCode->__invoke() && Yii::$app->user->can('manage');
+        return !$this->hasPINCode->__invoke();
     }
 }

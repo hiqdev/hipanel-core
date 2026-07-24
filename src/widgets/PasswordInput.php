@@ -53,13 +53,13 @@ class PasswordInput extends InputWidget
         $html = Html::activePasswordInput($this->model, $this->attribute, $this->options);
         $html .= '<div class="input-group-btn">';
         $html .= Html::button(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), [
-            'class' => 'btn btn-default show-password' . ($this->options['disabled'] ? ' disabled' : ''),
+            'class' => 'btn btn-default show-password' . (isset($this->options['disabled']) ? ' disabled' : ''),
             'tabindex' => '-1',
         ]);
 
         if ($this->randomGenerator) {
             $html .= Html::button(Yii::t('hipanel', 'Random') . '&nbsp;<span class="caret"></span>', [
-                'class' => 'btn btn-default dropdown-toggle' . ($this->options['disabled'] ? ' disabled' : ''),
+                'class' => 'btn btn-default dropdown-toggle' . (isset($this->options['disabled']) ? ' disabled' : ''),
                 'data-toggle' => 'dropdown',
                 'aria-expanded' => 'false',
                 'tabindex' => '-1',
@@ -71,7 +71,7 @@ class PasswordInput extends InputWidget
                     return Html::tag('li', Html::a($item['label'], '#', [
                         'data' => [
                             'length' => $item['length'],
-                            'specialchars' => $item['specialchars'],
+                            'specialchars' => $item['specialchars'] ?? '',
                         ],
                         'class' => 'random-passgen',
                     ]));

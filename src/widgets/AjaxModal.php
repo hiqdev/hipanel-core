@@ -141,6 +141,9 @@ class AjaxModal extends \yii\bootstrap\Modal
         if ($this->handleSubmit !== false) {
             $this->registerClientScript();
         }
+        // Select2 does not function properly in some browsers when use it inside a Bootstrap modal
+        // https://select2.org/troubleshooting/common-problems
+        $this->view->registerJs(";(() => $.fn.modal.Constructor.prototype.enforceFocus = function() {})();");
         parent::init();
     }
 
@@ -152,7 +155,11 @@ class AjaxModal extends \yii\bootstrap\Modal
                 if ($this->usePost) {
                     $this->clientEvents['show.bs.modal'] = new JsExpression("function(e) {
                         if (e.namespace !== 'bs.modal') return true;
-                        var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        const grid = jQuery('div[role=\"grid\"]');
+                        let selection = [];
+                        if (grid.length && typeof grid.yiiGridView === 'function') {
+                            selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        }
                         $.post('{$this->actionUrl}', {selection: selection}).done(function (data) {
                             $('#{$this->id} .modal-body').html(data);
                         });
@@ -160,8 +167,12 @@ class AjaxModal extends \yii\bootstrap\Modal
                 } else {
                     $this->clientEvents['show.bs.modal'] = new JsExpression("function(e) {
                         if (e.namespace !== 'bs.modal') return true;
-                        var selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
-                        $.get('{$this->actionUrl}', {selection: selection}).done(function (data) {
+                        const grid = jQuery('div[role=\"grid\"]');
+                        let selection = [];
+                        if (grid.length && typeof grid.yiiGridView === 'function') {
+                            selection = jQuery('div[role=\"grid\"]').yiiGridView('getSelectedRows');
+                        }
+                        $.get('$this->actionUrl', {selection: selection}).done(function (data) {
                             $('#{$this->id} .modal-body').html(data);
                         });
                     }");
@@ -186,7 +197,7 @@ class AjaxModal extends \yii\bootstrap\Modal
         }
         if (!isset($this->clientEvents['hidden.bs.modal'])) {
             $this->clientEvents['hidden.bs.modal'] = new JsExpression("function() {
-                jQuery('#{$this->id} .modal-body').html({$quotedHtml});
+                jQuery('#$this->id .modal-body').html($quotedHtml);
             }");
         }
     }

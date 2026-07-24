@@ -72,7 +72,7 @@ class FontIcon extends \yii\base\BaseObject
 
     public static function nameClass($name)
     {
-        return (substr($name, 0, 3) === 'fa-' ? 'fa ' : '') . $name;
+        return (str_starts_with((string)$name, 'fa-') ? 'fa ' : '') . $name;
     }
 
     public function setParams($params)

@@ -1,15 +1,16 @@
 <?php
 
+use hipanel\widgets\combo\InternalObjectCombo;
+use yii\bootstrap\Html;
+use yii\db\ActiveRecordInterface;
+
 /** @var string $class_attribute */
 /** @var string $class_attribute_name */
-/** @var \yii\db\ActiveRecordInterface $model */
+/** @var ActiveRecordInterface $model */
 /** @var array $classOptions */
 /** @var string $attribute */
 /** @var string $selectedAttributeName */
-
 /** @var array $classes */
-use hipanel\widgets\combo\InternalObjectCombo;
-use yii\bootstrap\Html;
 
 $comboOptions = [
     'model' => $model,

@@ -17,7 +17,7 @@ class PincodePromptAsset extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@hipanel/assets/js';
+    public $sourcePath = __DIR__ . '/js';
 
     /**
      * @var array

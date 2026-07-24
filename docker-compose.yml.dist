@@ -1,44 +1,43 @@
-version: '3'
-
 services:
-
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80"
+  app:
+    image: "${DOCKER_APP_IMAGE}:${DOCKER_APP_TAG}"
+    restart: unless-stopped
+    stop_signal: SIGKILL
+    stop_grace_period: 0s
     volumes:
-      - ./:/app
-      - ./.docker/nginx/etc/nginx/conf.d:/etc/nginx/conf.d
-      - ./.docker/nginx/var/log/nginx:/var/log/nginx
-    networks:
-      - local-network
-      - proxy-network
-    environment:
-      - "VIRTUAL_HOST=${HOSTS}"
-      - "LETSENCRYPT_HOST=${HOSTS}"
-      - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
-      - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS}"
-
-  php-fpm:
-    image: hiqdev/php:7.3-fpm
-    volumes:
-      - ./:/app
+      - ./.env:/app/.env
       - ./.docker/php/var/log/php:/var/log/php
+      - ./.docker/nginx/var/log/nginx:/var/log/nginx
+    tmpfs:
+      - /app/runtime/debug:uid=82,gid=82
     networks:
-      - local-network
-      - hiapi-network
+      proxy-network:
+      hiapi-network:
+      local-network:
     extra_hosts:
+      - "local-php-fpm:127.0.0.1"
       - "${API_HOSTS_LINE}"
     environment:
       - "ENV=${ENV}"
       - "PHP_IDE_CONFIG=serverName=${HOSTS}"
+      - "VIRTUAL_HOST=${HOSTS}"
+      - "LETSENCRYPT_HOST=${HOSTS}"
+      - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
+      - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS:-false}"
+      - "BEFORE_ENTRYPOINT=composer dump"
+
+  memcached:
+    image: memcached:1.5
+    networks:
+      - local-network
+    command: '-m 128'
 
 networks:
   local-network:
     driver: bridge
   hiapi-network:
-    external:
-      name: "${HIAPI_SITE}"
+    name: "${HIAPI_DIST}"
+    external: true
   proxy-network:
-    external:
-      name: "nginx-proxy-network-${REAL_IP}"
+    name: "nginx-proxy-network-${REAL_IP}"
+    external: true

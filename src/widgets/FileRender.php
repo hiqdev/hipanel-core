@@ -17,13 +17,13 @@ use hipanel\widgets\filePreview\Dimensions;
 use hipanel\widgets\filePreview\FilePreviewFactoryInterface;
 use hipanel\widgets\filePreview\InsetDimensions;
 use hipanel\widgets\filePreview\types\PdfPreviewGenerator;
-use hipanel\widgets\filePreview\UnsupportedMimeTypeException;
 use hiqdev\assets\lightbox2\LightboxAsset;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use Throwable;
 
 /**
  * @property mixed iconOptions
@@ -68,6 +68,11 @@ class FileRender extends Widget
      * @var array
      */
     private $extMatch = [
+        'png' => 'fa-file-image-o',
+        'jpeg' => 'fa-file-image-o',
+        'jpg' => 'fa-file-image-o',
+        'bmp' => 'fa-file-image-o',
+        'gif' => 'fa-file-image-o',
         'pdf' => 'fa-file-pdf-o',
         'doc' => 'fa-file-word-o',
         'docx' => 'fa-file-word-o',
@@ -104,11 +109,10 @@ class FileRender extends Widget
     private function renderHtml()
     {
         $file = $this->file;
-        $path = $this->fileStorage->get($file);
-
-        /** @var FilePreviewFactoryInterface $factory */
-        $factory = Yii::createObject(FilePreviewFactoryInterface::class);
         try {
+            $path = $this->fileStorage->get($file);
+            /** @var FilePreviewFactoryInterface $factory */
+            $factory = Yii::createObject(FilePreviewFactoryInterface::class);
             $generator = $factory->createGenerator($path);
             $dimensions = new InsetDimensions($generator->getDimensions(), new Dimensions($this->thumbWidth, $this->thumbWidth));
             $src = 'data: ' . $generator->getContentType() . ';base64,' . base64_encode($generator->asBytes($dimensions));
@@ -119,12 +123,12 @@ class FileRender extends Widget
 
                 return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), $linkOptions);
             }
-        } catch (UnsupportedMimeTypeException $e) {
+        } catch (Throwable $e) {
             return Html::a($this->getExtIcon($file->type), $this->getLink(true));
         }
     }
 
-    private function getLink($download = false)
+    protected function getLink($download = false)
     {
         return Url::to($this->getRoute($download));
     }
@@ -143,7 +147,7 @@ class FileRender extends Widget
         return ['/file/view', 'id' => $this->file->id];
     }
 
-    private function getExtIcon($ext)
+    protected function getExtIcon($ext)
     {
         $defaultIcon = 'fa-file-text-o';
         $icon =  array_key_exists($ext, $this->extMatch) ? $this->extMatch[$ext] : $defaultIcon;

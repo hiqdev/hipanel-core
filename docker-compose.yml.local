@@ -1,31 +1,54 @@
-version: '3'
-
 services:
+  selenium:
+    image: selenium/standalone-chrome:latest
+    networks:
+      - local-network
+      - proxy-network
+      - hiapi-network
+    shm_size: 4g
+    ports:
+      - "127.0.0.1:5912:7900"
 
   nginx:
     image: nginx:latest
+    ports:
+      - "80"
     volumes:
       - ./:/app
       - ./.docker/nginx/etc/nginx/conf.d:/etc/nginx/conf.d
       - ./.docker/nginx/var/log/nginx:/var/log/nginx
-    links:
-      - php-fpm
     networks:
-      - local-network
-      - proxy-network
+      local-network:
+      proxy-network:
+      hiapi-network:
+        aliases:
+          - "${HOSTS}"
     environment:
       - "VIRTUAL_HOST=${HOSTS}"
       - "LETSENCRYPT_HOST=${HOSTS}"
       - "LETSENCRYPT_EMAIL=devteam@hiqdev.com"
+      - "LETSENCRYPT_STANDALONE_CERTS=${LETSENCRYPT_STANDALONE_CERTS:-false}"
+
+  memcached:
+    image: memcached
+    networks:
+      - local-network
+    command: '-m 128'
 
   php-fpm:
-    image: hiqdev/php:7.3-fpm
+    image: hiqdev/php:8.5-fpm-alpine
     volumes:
       - ./:/app
       - ./.docker/php/var/log/php:/var/log/php
+    tmpfs:
+      - /app/runtime/debug:uid=82,gid=82
     networks:
-      - local-network
-      - hiapi-network
+      hiapi-network:
+      local-network:
+        aliases:
+          - local-php-fpm
+    extra_hosts:
+      - "${API_HOSTS_LINE}"
     environment:
       - "ENV=${ENV}"
       - "PHP_IDE_CONFIG=serverName=${HOSTS}"
@@ -34,8 +57,8 @@ networks:
   local-network:
     driver: bridge
   hiapi-network:
-    external:
-      name: "${HIAPI_SITE}"
+    name: "${HIAPI_DIST}"
+    external: true
   proxy-network:
-    external:
-      name: "nginx-proxy-network-${REAL_IP}"
+    name: "nginx-proxy-network-${REAL_IP}"
+    external: true

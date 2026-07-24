@@ -12,6 +12,7 @@ namespace hipanel\widgets\combo;
 
 use hiqdev\combo\Combo;
 use ReflectionClass;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\Html;
 use yii\web\View;
@@ -44,7 +45,7 @@ class InternalObjectCombo extends Combo
      *
      * @var array
      */
-    public $classes = [];
+    public array $classes = [];
 
     /**
      * @var string
@@ -76,14 +77,19 @@ class InternalObjectCombo extends Combo
         $this->applyDefaultAttributes();
     }
 
-    private function generateConfigs()
+    private function generateConfigs(): void
     {
         foreach ($this->classes as $className => $options) {
-            $this->applyConfigByObjectClassName($className);
+            $widget = $this->applyConfigByObjectClassName($className);
+
+            if ($this->class_attribute === $className) {
+                $this->configId = $widget->configId;
+                $this->pluginOptions = $widget->pluginOptions;
+            }
         }
     }
 
-    private function registerChangerScript()
+    private function registerChangerScript(): void
     {
         $changerId = Html::getInputId($this->model, $this->class_attribute_name);
         $inputId = $this->inputOptions['id'];
@@ -91,9 +97,17 @@ class InternalObjectCombo extends Combo
         $this->view->registerJs("initObjectSelectorChanger('{$changerId}', '{$inputId}')");
     }
 
-    private function applyConfigByObjectClassName($className)
+    private function applyConfigByObjectClassName($className): Combo
     {
         $options = $this->classes[$className];
+
+        /** @var Combo $widget */
+        $widget = Yii::createObject([
+            'class' => $options['combo'],
+            'model' => $this->model,
+            'attribute' => $this->attribute,
+            'view' => $this->view,
+        ]);
         if ($options['comboOptions']) {
             foreach ($this->requiredAttributes as $attribute) {
                 if (isset($options['comboOptions'][$attribute->name])) {
@@ -101,10 +115,12 @@ class InternalObjectCombo extends Combo
                 }
             }
         }
-        $this->registerClientConfig();
+        $widget->registerClientConfig();
         $varName = strtolower($this->model->formName()) . '_object_id_' . $className;
-        $this->view->registerJsVar($varName, $this->configId, View::POS_END);
+        $this->view->registerJsVar($varName, $widget->configId, View::POS_END);
         $this->reset();
+
+        return $widget;
     }
 
     private function fillRequiredAttributes()
@@ -114,12 +130,14 @@ class InternalObjectCombo extends Combo
         });
     }
 
-    private function applyDefaultAttributes()
+    private function applyDefaultAttributes(): void
     {
-        $this->applyConfigByObjectClassName($this->class_attribute ?: 'client');
+        if ($this->class_attribute && array_key_exists($this->class_attribute, $this->classes)) {
+            $this->applyConfigByObjectClassName($this->class_attribute);
+        }
     }
 
-    private function registerSpecialAssets()
+    private function registerSpecialAssets(): void
     {
         // Fix validation styles
         $this->view->registerCss('
@@ -128,10 +146,9 @@ class InternalObjectCombo extends Combo
             select.object-selector-select:not([data-select2-id]) { display: none; }
         ');
         $this->view->registerJs(<<<'JS'
-            (function( $ ){
+            (function($) {
 
                 var originalDynamicForm = $.fn.yiiDynamicForm;
-                
                 var methods = {
                     addItem : function(widgetOptions, e, elem) { 
                         originalDynamicForm('addItem', widgetOptions, e, elem);
@@ -149,14 +166,12 @@ class InternalObjectCombo extends Combo
                         } 
                     }
                 };
-                
                 $.fn.yiiDynamicForm = function(method) {
                     if (method === 'addItem') {
                         return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
                     }
                     originalDynamicForm.apply(this, arguments);
                 }
-                
             })(window.jQuery);
 JS
         );

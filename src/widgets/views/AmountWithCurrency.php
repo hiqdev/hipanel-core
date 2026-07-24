@@ -18,17 +18,17 @@ use yii\helpers\ArrayHelper;
         <button
             type="button"
             data-toggle="dropdown"
-            class="btn btn-default iwd-label dropdown-toggle <?= $currencyDropdownOptions['disabled'] ? 'disabled' : '' ?>"
-            <?= $currencyDropdownOptions['disabled'] ? 'tabindex="-1"' : '' ?>
+            class="btn btn-default iwd-label dropdown-toggle <?= !empty($currencyDropdownOptions['disabled']) ? 'disabled' : '' ?>"
+            <?= !empty($currencyDropdownOptions['disabled']) ? 'tabindex="-1"' : '' ?>
         >
             <?= StringHelper::getCurrencySymbol($selectedCurrencyCode) ?>
         </button>
-        <?php if (!$currencyDropdownOptions['hidden']): ?>
+        <?php if (empty($currencyDropdownOptions['hidden'])) : ?>
             <button
-                type="button"
-                data-toggle="dropdown"
-                tabindex="-1"
-                class="btn btn-default dropdown-toggle <?= $currencyDropdownOptions['disabled'] ? 'disabled' : '' ?>"
+                    type="button"
+                    data-toggle="dropdown"
+                    tabindex="-1"
+                    class="btn btn-default dropdown-toggle <?= !empty($currencyDropdownOptions['disabled']) ? 'disabled' : '' ?>"
             >
                 <span class="caret"></span> <span class="sr-only"><?= Yii::t('hipanel', 'Toggle dropdown') ?></span>
             </button>

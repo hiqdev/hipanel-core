@@ -23,6 +23,8 @@ use yii\helpers\Html;
  */
 class IconStateLabel extends Widget
 {
+    use NoWidgetEventTrait;
+
     /**
      * @var Model
      */
@@ -68,45 +70,50 @@ class IconStateLabel extends Widget
      *
      * @var int
      */
-    public $size = 18;
+    public int $size = 18;
+
+    /**
+     * @var array of CSS styles, for example: ['width' => '100px', 'display' => 'flex', ...]
+     */
+    public array $cssStyles = [];
 
     public function run(): string
     {
         return $this->renderState();
     }
 
-    public function getState(): bool
+    protected function getState(): bool
     {
-        return (bool) $this->model->{$this->attribute};
+        return (bool)$this->model->{$this->attribute};
     }
 
-    public function getIcon(): string
+    protected function getIcon(): string
     {
         return sprintf('fa %s fw', $this->variate($this->icons));
     }
 
-    public function getColor(): string
+    protected function getColor(): array
     {
-        return sprintf('color: %s;', $this->variate($this->colors));
+        return ['color' => $this->variate($this->colors)];
     }
 
-    public function getSize(): string
+    protected function getSize(): array
     {
-        return sprintf('font-size: %dpx;', $this->size);
+        return ['font-size' => sprintf('%dpx', $this->size)];
     }
 
-    public function getMessage(): string
+    protected function getMessage(): string
     {
         return $this->variate($this->messages);
     }
 
     protected function renderState(): string
     {
-        return Html::tag('i', null, [
+        return Html::tag('i', Html::tag('span', Html::encode($this->getMessage()), ['class' => 'sr-only']), [
             'aria-hidden' => 'true',
             'class' => implode(' ', [$this->getIcon()]),
-            'style' => implode(' ', [$this->getColor(), $this->getSize()]),
-            'title' => $this->getMessage(),
+            'style' => array_merge($this->getColor(), $this->getSize(), $this->cssStyles),
+            'title' => Html::encode($this->getMessage()),
         ]);
     }
 
@@ -115,10 +122,13 @@ class IconStateLabel extends Widget
         if (!is_array($variants)) {
             $variants = [$variants];
         }
+
         if (count($variants) > 1) {
-            return $this->getState() ? $variants[0] : $variants[1];
+            $res = $variants[(int) !$this->getState()];
+        } else {
+            $res = $variants[0];
         }
 
-        return $variants[0];
+        return Html::encode($res);
     }
 }

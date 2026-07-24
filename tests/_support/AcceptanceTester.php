@@ -32,8 +32,8 @@ class AcceptanceTester extends \Codeception\Actor
     /**
      * Define custom actions here.
      */
-    public function performOnContent($actions, $timeout = null)
+    public function performOnContent($actions, $timeout = 10): void
     {
-        return $this->performOn('.content-wrapper', $actions, $timeout);
+        $this->performOn('.content-wrapper', $actions, $timeout);
     }
 }

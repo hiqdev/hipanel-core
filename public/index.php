@@ -8,10 +8,14 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
-use hiqdev\composer\config\Builder;
+use Yiisoft\Composer\Config\Builder;
 use yii\web\Application;
+use hidev\webapp\components\TestEndpoints;
 
-(function () {
+(static function () {
+    require_once(dirname(__DIR__, 2) . '/hidev-webapp/src/components/TestEndpoints.php');
+    TestEndpoints::try();
+
     require __DIR__ . '/../config/bootstrap.php';
 
     $host = $_SERVER['HTTP_HOST'];

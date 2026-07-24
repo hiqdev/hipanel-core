@@ -1,16 +1,24 @@
 
-1. [Directory structure]
-1. [Local HiPanel] installation and use
-1. [Create new panel]
+- [Directory structure]
+- [Infrastructure]
+- [Local HiPanel] installation and use
+- [Server HiPanel] installation and use
+- [Create new panel]
+- [Branding]
+- [Testing]
+- [GitlabCI]
 
 ### Outdated?
 
-1. [Installation] ([russian](ru/Installation.md))
-1. [Development]
+- [Development]
 
-[Local HiPanel]:        LocalHipanel.md
-[Create new panel]:     CreateNewPanel.md
 [Directory structure]:  DirectoryStructure.md
+[Infrastructure]:       Infrastructure.md
+[Local HiPanel]:        LocalHipanel.md
+[Server HiPanel]:       ServerHipanel.md
+[Create new panel]:     CreateNewPanel.md
+[Branding]:             Branding.md
+[GitlabCI]:             GitlabCI.md
 
-[Installation]:         Installation.md
 [Development]:          Development.md
+[Testing]:              Testing.md

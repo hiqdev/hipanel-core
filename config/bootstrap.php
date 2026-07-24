@@ -14,13 +14,25 @@ if (!defined('WEBAPP_ROOT_DIR')) {
 if (!defined('WEBAPP_VENDOR_DIR')) {
     define('WEBAPP_VENDOR_DIR', WEBAPP_ROOT_DIR . '/vendor');
 }
-
 if (!file_exists(WEBAPP_VENDOR_DIR . '/autoload.php')) {
     die("Run composer to set up dependencies!\n");
 }
 
 require_once WEBAPP_VENDOR_DIR . '/autoload.php';
-require_once hiqdev\composer\config\Builder::path('defines');
+
+(static function () {
+    $constantsFile = include Yiisoft\Composer\Config\Builder::path('constants');
+    foreach ($constantsFile as $path) {
+        require_once $path;
+    }
+})();
+
+error_reporting(YII_ENV === 'prod'
+    ? E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING
+    # XXX to be fixed to E_ALL & ~E_NOTICE for non prod
+    : E_ALL & ~E_NOTICE & ~E_DEPRECATED
+);
+
 require_once WEBAPP_VENDOR_DIR . '/yiisoft/yii2/Yii.php';
 
 Yii::setAlias('@root', WEBAPP_ROOT_DIR);

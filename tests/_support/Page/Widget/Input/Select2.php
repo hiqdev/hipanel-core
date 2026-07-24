@@ -64,6 +64,7 @@ class Select2 extends TestableInput
      */
     public function open(): Select2
     {
+        $this->tester->waitForElement($this->getClickSelector());
         $this->tester->click($this->getClickSelector());
         $this->seeIsOpened();
 
@@ -147,6 +148,14 @@ JS
 document.querySelector('{$this->getSelector()}').innerHTML += '<option value="" selected></option>'
 JS
         );
+
+        return $this;
+    }
+
+    public function chooseCurrency(string $currency): Select2
+    {
+        $this->tester->click("//div[contains(@class, '{$this->selector}')]//button");
+        $this->tester->click("//li/a[contains(text(),'{$currency}')]");
 
         return $this;
     }

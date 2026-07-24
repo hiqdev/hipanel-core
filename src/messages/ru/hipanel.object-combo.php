@@ -10,10 +10,27 @@
 
 return [
     'Client' => 'Клиент',
+    'Partner' => 'Партнер',
     'Server' => 'Сервер',
     'Domain' => 'Домен',
     'Zone' => 'Доменная зона',
     'Part' => 'Деталь',
     'Account' => 'Аккаунт',
     'Plan' => 'Тарифный план',
+    'Model' => 'Модель',
+    'Model Group' => 'Группа моделей',
+    'Switch' => 'Свитч',
+    'Rack' => 'Стойка',
+    'Location' => 'Локация',
+    'Anycastcdn' => 'Anycast CDN',
+    'Backup' => 'Бэкап',
+    'Private Cloud' => 'Личное облако',
+    'Private Cloud Backup' => 'Бэкап личного облака',
+    'Snapshot' => 'Снимок',
+    'Storage' => 'Хранилище',
+    'Videocdn' => 'VideoCDN',
+    'Volume' => 'Раздел',
+    'Vps' => 'VPS',
+    'Ip Aggregate' => 'IP aгрегат',
+    'Products' => 'Продукты'
 ];

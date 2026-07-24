@@ -77,7 +77,7 @@ class Pjax extends \yii\widgets\Pjax
             return null;
         }
 
-        $header      = Html::tag('h1', $view->title . ($view->params['subtitle'] ? Html::tag('small', $view->params['subtitle']) : ''));
+        $header      = Html::tag('h1', $view->title . (!empty($view->params['subtitle']) ? Html::tag('small', $view->params['subtitle']) : ''));
         $breadcrumbs = Breadcrumbs::widget([
             'homeLink'     => [
                 'label' => '<i class="fa fa-dashboard"></i> ' . Yii::t('hipanel', 'Home'),

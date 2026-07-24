@@ -10,6 +10,8 @@
 
 namespace hipanel\controllers;
 
+use hipanel\actions\TimeZoneAction;
+use hipanel\helpers\UserHelper;
 use hipanel\logic\Impersonator;
 use hipanel\models\User;
 use hisite\actions\RedirectAction;
@@ -25,7 +27,7 @@ use yii\filters\AccessControl;
 class SiteController extends \hisite\controllers\SiteController
 {
     /** @var string */
-    protected $defaultAuthClient = 'hiam';
+    public $defaultAuthClient = 'hiam';
     /**
      * @var Impersonator
      */
@@ -70,7 +72,10 @@ class SiteController extends \hisite\controllers\SiteController
             ],
             'profile' => [
                 'class' => RedirectAction::class,
-                'url' => ['@client/view', 'id' => Yii::$app->user->identity->id],
+                'url' => [
+                    '@client/view',
+                    'id' => UserHelper::getId(),
+                ],
             ],
             'lockscreen' => [
                 'class' => RenderAction::class,
@@ -79,7 +84,7 @@ class SiteController extends \hisite\controllers\SiteController
                 'class' => RedirectAction::class,
                 'url'   => [
                     '@client/view',
-                    'id'    => Yii::$app->user->identity->id,
+                    'id'    => UserHelper::getId(),
                     '#'     => 'ip_restriction_settings',
                 ],
             ],
@@ -87,10 +92,11 @@ class SiteController extends \hisite\controllers\SiteController
                 'class' => RedirectAction::class,
                 'url'   => [
                     '@client/view',
-                    'id'    => Yii::$app->user->identity->id,
+                    'id'    => UserHelper::getId(),
                     '#'     => 'notification_settings',
                 ],
             ],
+            'timezone' => TimeZoneAction::class,
         ]);
     }
 
@@ -113,7 +119,7 @@ class SiteController extends \hisite\controllers\SiteController
             }
         }
         $user->save();
-        Yii::$app->user->login($user, Yii::$app->params['login_duration'] ?: 3600 * 24 * 30);
+        Yii::$app->user->login($user, Yii::$app->params['login_duration'] ?? 3600 * 24 * 30);
     }
 
     public function actionLogin()
@@ -143,6 +149,20 @@ class SiteController extends \hisite\controllers\SiteController
         return $this->redirect($url);
     }
 
+    public function actionPushImpersonateAuth()
+    {
+        if ($this->impersonator->isUserImpersonated()) {
+            $this->impersonator->unimpersonateUser();
+        }
+        $this->impersonator->backupCurrentToken();
+        $this->impersonator->impersonateWithStateAndCode(
+            $this->request->get('code'),
+            $this->request->get('state')
+        );
+
+        return $this->goHome();
+    }
+
     public function actionImpersonate($user_id)
     {
         if ($this->impersonator->isUserImpersonated()) {
@@ -157,11 +177,27 @@ class SiteController extends \hisite\controllers\SiteController
     public function actionHealthcheck()
     {
         $text = 'Up and running.';
+        $text .= $this->testCache();
         if (isset(Yii::$app->user->identity->id)) {
             $id = Yii::$app->user->identity->id;
             $text .= "\n<h6>User ID: <userId>$id</userId></h6>";
         }
 
         return $text;
+    }
+
+    private function testCache(): string
+    {
+        $cache = Yii::$app->cache;
+        if (!empty($cache)) {
+            $cache->set('test_cache', 'test');
+            $testCache = $cache->get('test_cache');
+        }
+        if (isset($testCache) && $testCache === 'test') {
+            $result = "\n<h6>Cache is OK</h6>";
+        } else {
+            $result = "\n<h6>Cache is ABSENT</h6>";
+        }
+        return $result;
     }
 }

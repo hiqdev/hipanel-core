@@ -12,13 +12,7 @@ namespace hipanel\assets;
 
 class CheckboxStyleAsset extends \yii\web\AssetBundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public $sourcePath = '@hipanel/assets/css';
-
-    /**
-     * {@inheritdoc}
-     */
+    public $sourcePath = __DIR__ . '/css';
     public $css = ['checkbox-style-asset.css'];
+    public $publishOptions = ['only' => ['checkbox-style-asset.css']];
 }
