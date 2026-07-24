@@ -93,6 +93,7 @@
         "psr/container": "^1.0"
     },
     "require-dev": {
+        "opis/closure": "3.x-dev as 3.6.x-dev",
         "hiqdev/hidev": "dev-master",
         "hiqdev/hidev-php": "dev-master",
         "hiqdev/hidev-hiqdev": "dev-master"
