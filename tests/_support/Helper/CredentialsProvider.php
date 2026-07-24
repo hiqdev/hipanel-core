@@ -76,7 +76,12 @@ class CredentialsProvider extends \Codeception\Module
     {
         /** @var WebDriver $wd */
         $wd = $this->getModule('WebDriver');
-        $currentUrl = $wd->grabFromCurrentUrl();
+        try {
+            $currentUrl = $wd->grabFromCurrentUrl();
+        } catch (ModuleException $e) {
+            // No page opened yet (fresh/blank browser tab) - grabFromCurrentUrl() throws in that case.
+            $currentUrl = null;
+        }
         if ($currentUrl !== $url) {
             $wd->amOnPage($url);
         }
