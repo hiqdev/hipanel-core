@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 /**
@@ -13,6 +13,7 @@
  */
 
 return [
+    '#' => '№',
     'wrong pincode' => 'Неверный пин-код',
     /// General words
     'or' => 'или',
@@ -62,6 +63,7 @@ return [
     'Upload' => 'Загрузить',
     'Send' => 'Отправить',
     'Close' => 'Закрыть',
+    'Apply to all' => 'Применить ко всем',
 
     /// Dates
     'Last Month' => 'Последний месяц',
@@ -70,6 +72,7 @@ return [
     'Last 3 months' => 'Последние 3 месяца',
     'Last year' => 'Последний год',
     'year' => 'год',
+    'Year' => 'Год',
     'Interval' => 'Интервал',
     'Daily' => 'Ежедневно',
     'Weekly' => 'Еженедельно',
@@ -163,7 +166,7 @@ return [
     'Are you sure you want to delete these items?' => 'Вы уверены, что хотите удалить эти элементы?',
     'Example' => 'Пример',
     'Autorenew' => 'Автопродление',
-    'Autorenewal' => 'Автоматическе продление',
+    'Autorenewal' => 'Автоматическое продление',
     'Add to cart' => 'В корзину',
     'Not enabled' => 'Не включен',
     'Activated to' => 'Активированный для',
@@ -201,10 +204,12 @@ return [
     'Client' => 'Клиент',
     'Clients' => 'Клиенты',
     'Reseller' => 'Реселлер',
+    'Seller' => 'Продавец',
     'Currency' => 'Валюта',
     'Sum' => 'Сумма',
     'Count' => 'Количество',
     'Quantity' => 'Кол-во',
+    'Bill ID' => 'ID платежа',
 
     /// Note
     'Note' => 'Заметка',
@@ -322,4 +327,12 @@ return [
     'Autorenewal has been disabled' => 'Автообновление выключено',
     'Failed disabling Autorenewal' => 'Не удалось отключить автообновление',
     'Failed enabling Autorenewal' => 'Не удалось включить автообновление',
+    'You have not set a PIN code! Contact our support by e-mail {email}.' => 'У вас не установлен пин-код! Свяжитесь с нашей службой поддержки по электронной почте {email}.',
+
+    'loading pager...' => 'загружаю страницы...',
+    'loading summary...' => 'загружаю итог...',
+
+    'Refs' => 'Референсы',
+    'Gtype' => 'Тип',
+    'Tags' => 'Теги',
 ];

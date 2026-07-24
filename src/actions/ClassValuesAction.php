@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -19,6 +19,8 @@ use Yii;
 class ClassValuesAction extends Action
 {
     public $valuesClass;
+
+    public $setApiCommand;
 
     public $view;
 
@@ -35,7 +37,7 @@ class ClassValuesAction extends Action
             $this->model = (new Collection(['model' => $this->model]))->load()->first;
 
             $this->beforePerform();
-            $this->model->perform('set-class-values', [
+            $this->model->perform($this->setApiCommand ?: 'set-class-values', [
                 'id'     => $id,
                 'class'  => $this->valuesClass,
                 'values' => $this->model->dirtyAttributes,

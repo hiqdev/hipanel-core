@@ -1,0 +1,14 @@
+[Unit]
+Description={HOST} service in Docker container
+Requires=nginx-proxy-{REAL_IP}.service
+After=nginx-proxy-{REAL_IP}.service
+
+[Service]
+Type=simple
+WorkingDirectory={DIR}
+Restart=always
+ExecStart=/usr/local/bin/docker-compose up
+ExecStop=/usr/local/bin/docker-compose stop
+
+[Install]
+WantedBy=nginx-proxy-{REAL_IP}.service

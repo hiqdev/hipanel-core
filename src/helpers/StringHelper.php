@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\helpers;
@@ -45,6 +45,7 @@ class StringHelper extends \yii\helpers\StringHelper
             // Wrapped with array_values to make array keys sequential after empty values removing
             $result = array_values(array_filter($result));
         }
+
         return $result;
     }
 
@@ -55,6 +56,7 @@ class StringHelper extends \yii\helpers\StringHelper
      * @param string|null $locale   optional
      *
      * @return string|null the currency symbol or NULL if not found
+     * @see https://stackoverflow.com/questions/13897516/get-currency-symbol-in-php
      */
     public static function getCurrencySymbol($currency, $locale = null)
     {
@@ -63,6 +65,7 @@ class StringHelper extends \yii\helpers\StringHelper
         }
         $fmt = new NumberFormatter($locale . "@currency=$currency", NumberFormatter::CURRENCY);
         $symbol = $fmt->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
+
         return $symbol;
     }
 }

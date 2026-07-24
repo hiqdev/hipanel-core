@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 /**
@@ -162,7 +162,7 @@ return [
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
     'Example' => 'Пример',
     'Autorenew' => 'Автопродление',
-    'Autorenewal' => 'Автоматическе продление',
+    'Autorenewal' => 'Автоматическое продление',
     'Add to cart' => 'В корзину',
     'Not enabled' => 'Не включен',
     'Activated to' => 'Активированный для',

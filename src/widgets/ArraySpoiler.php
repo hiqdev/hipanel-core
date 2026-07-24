@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -81,9 +81,12 @@ class ArraySpoiler extends Widget
 
     /**
      * @var callable the function will be called for every element to format it.
-     * Gets two arguments - value and key
+     * Gets two arguments - value and key.
+     * Default formatter is ```Yii::$app->formatter->asText```
+     * @see yii\i18n\Formatter
+     * If you want to reinitialize it you should take care about html encoding of your spoiled data.
      */
-    public $formatter = null;
+    public $formatter;
 
     /**
      * @var int count of elements, that are visible out of spoiler
@@ -94,6 +97,12 @@ class ArraySpoiler extends Widget
      * @var string delimiter to join elements
      */
     public $delimiter = ', ';
+
+    /**
+     * @var string|null delimiter that is used to join hidden items
+     * Defaults to `null`, meaning that delimiter is the same as for visible items
+     */
+    public $hiddenDelimiter;
 
     /**
      * @var array|string When string - will be auto-converted to an array. Array will be passed to [[Html::tag()]]
@@ -143,9 +152,10 @@ class ArraySpoiler extends Widget
             throw new InvalidValueException('Input can not be processed as an array');
         }
 
-        if (is_callable($this->formatter)) {
-            $this->data = array_map($this->formatter, $this->data, array_keys($this->data));
+        if (!is_callable($this->formatter)) {
+            $this->formatter = Closure::fromCallable([Yii::$app->formatter, 'asText']);
         }
+        $this->data = array_map($this->formatter, $this->data, array_keys($this->data));
 
         if (is_callable($this->button['label'])) {
             $this->button['label'] = call_user_func($this->button['label'], $this);
@@ -187,6 +197,7 @@ class ArraySpoiler extends Widget
             $spoiled[] = $iterator->current();
             $iterator->next();
         }
+
         return $spoiled;
     }
 
@@ -205,6 +216,7 @@ class ArraySpoiler extends Widget
     {
         if (count($this->getSpoiledItems()) === 0) {
             $this->parts['{button}'] = '';
+
             return;
         }
 
@@ -219,6 +231,7 @@ class ArraySpoiler extends Widget
     {
         if (count($this->getSpoiledItems()) === 0) {
             $this->parts['{hidden}'] = '';
+
             return;
         }
 
@@ -262,7 +275,8 @@ class ArraySpoiler extends Widget
     public function renderHiddenPopover()
     {
         $this->parts['{hidden}'] = '';
-        return implode($this->delimiter, $this->getSpoiledItems());
+
+        return implode($this->hiddenDelimiter ?? $this->delimiter, $this->getSpoiledItems());
     }
 
     /**
@@ -303,7 +317,7 @@ class ArraySpoiler extends Widget
         $options = ArrayHelper::merge([
             'id' => $this->button['id'] . '-body',
             'tag' => 'span',
-            'value' => implode($this->delimiter, $this->getSpoiledItems()),
+            'value' => implode($this->hiddenDelimiter ?? $this->delimiter, $this->getSpoiledItems()),
             'class' => 'collapse',
             'data-spoiler-body' => true,
         ], $this->hidden);

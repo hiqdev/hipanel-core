@@ -1,15 +1,20 @@
 <?php
-/**
- * HiPanel core package.
- *
- * @link      https://hipanel.com/
- * @package   hipanel-core
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
- */
+
+declare(strict_types=1);
 
 namespace hipanel\widgets;
 
-class TimePicker extends \kartik\time\TimePicker
+class TimePicker extends DateTimePicker
 {
+    public function init(): void
+    {
+        parent::init();
+
+        $this->clientOptions = array_filter(array_merge([
+            'enableTime' => true,
+            'noCalendar' => true,
+            'dateFormat' => 'H:i',
+            'defaultDate' => '00:00',
+        ], $this->clientOptions), static fn($value): bool => $value !== null);
+    }
 }

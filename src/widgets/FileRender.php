@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -17,13 +17,13 @@ use hipanel\widgets\filePreview\Dimensions;
 use hipanel\widgets\filePreview\FilePreviewFactoryInterface;
 use hipanel\widgets\filePreview\InsetDimensions;
 use hipanel\widgets\filePreview\types\PdfPreviewGenerator;
-use hipanel\widgets\filePreview\UnsupportedMimeTypeException;
 use hiqdev\assets\lightbox2\LightboxAsset;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use Throwable;
 
 /**
  * @property mixed iconOptions
@@ -68,6 +68,11 @@ class FileRender extends Widget
      * @var array
      */
     private $extMatch = [
+        'png' => 'fa-file-image-o',
+        'jpeg' => 'fa-file-image-o',
+        'jpg' => 'fa-file-image-o',
+        'bmp' => 'fa-file-image-o',
+        'gif' => 'fa-file-image-o',
         'pdf' => 'fa-file-pdf-o',
         'doc' => 'fa-file-word-o',
         'docx' => 'fa-file-word-o',
@@ -88,6 +93,7 @@ class FileRender extends Widget
     public function run()
     {
         $this->registerClientScript();
+
         return $this->renderHtml();
     }
 
@@ -97,16 +103,16 @@ class FileRender extends Widget
         LightboxAsset::register($view);
         // Fix: Incorrect resizing of image #122
         $view->registerCss('.lightbox  .lb-image { max-width: inherit!important; }');
+        $this->addDownloadLinkButton();
     }
 
     private function renderHtml()
     {
         $file = $this->file;
-        $path = $this->fileStorage->get($file);
-
-        /** @var FilePreviewFactoryInterface $factory */
-        $factory = Yii::createObject(FilePreviewFactoryInterface::class);
         try {
+            $path = $this->fileStorage->get($file);
+            /** @var FilePreviewFactoryInterface $factory */
+            $factory = Yii::createObject(FilePreviewFactoryInterface::class);
             $generator = $factory->createGenerator($path);
             $dimensions = new InsetDimensions($generator->getDimensions(), new Dimensions($this->thumbWidth, $this->thumbWidth));
             $src = 'data: ' . $generator->getContentType() . ';base64,' . base64_encode($generator->asBytes($dimensions));
@@ -114,14 +120,15 @@ class FileRender extends Widget
                 return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), ['target' => '_blank']);
             } else {
                 $linkOptions = ArrayHelper::merge(['data-lightbox' => 'file-' . $file->id], $this->lightboxLinkOptions);
+
                 return Html::a(Html::img($src, $this->imageOptions), $this->getLink(), $linkOptions);
             }
-        } catch (UnsupportedMimeTypeException $e) {
+        } catch (Throwable $e) {
             return Html::a($this->getExtIcon($file->type), $this->getLink(true));
         }
     }
 
-    private function getLink($download = false)
+    protected function getLink($download = false)
     {
         return Url::to($this->getRoute($download));
     }
@@ -140,7 +147,7 @@ class FileRender extends Widget
         return ['/file/view', 'id' => $this->file->id];
     }
 
-    private function getExtIcon($ext)
+    protected function getExtIcon($ext)
     {
         $defaultIcon = 'fa-file-text-o';
         $icon =  array_key_exists($ext, $this->extMatch) ? $this->extMatch[$ext] : $defaultIcon;
@@ -148,5 +155,47 @@ class FileRender extends Widget
         Html::addCssClass($this->iconOptions, $iconClasses);
 
         return  Html::tag('i', null, $this->iconOptions);
+    }
+
+    private function addDownloadLinkButton()
+    {
+        $this->view->registerCss(<<<CSS
+            .lb-data .lb-download-link, .lb-data .lb-download-link:hover {
+                background: none;
+                float: left;
+                color: #d7d7d7;
+                display: block;
+                width: 30px;
+                height: 30px;
+                text-align: right;
+                outline: none;
+                filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+                opacity: 0.7;
+                -webkit-transition: opacity 0.2s;
+                -moz-transition: opacity 0.2s;
+                -o-transition: opacity 0.2s;
+                transition: opacity 0.2s;
+            }
+CSS
+);
+        $this->view->registerJs(<<<JS
+        if ($('.lb-closeContainer').length) {
+            $('.lb-closeContainer').append('<a class="lb-download-link"><i class="fa fa-cloud-download fa-2x" aria-hidden="true"></i></a>');
+            $('.lb-download-link').on('click', function(e) {
+                var win = window.open(e.currentTarget.attributes.href.value);
+                win.focus();
+            });
+            var target = document.querySelector('.lb-image');
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    var src = mutation.target.attributes.src.value.replace('/file/', '/file/get/');
+                    $('a.lb-download-link').attr({href: src});
+                });
+            });
+            var config = { attributes: true, childList: false, characterData: true };
+            observer.observe(target, config);
+        }
+JS
+         );
     }
 }

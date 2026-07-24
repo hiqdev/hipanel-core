@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\components;
@@ -88,7 +88,12 @@ class SettingsStorage extends Component implements SettingsStorageInterface
             return [];
         }
 
-        return Client::perform($action, $data);
+        try {
+            return Client::perform($action, $data);
+        } catch (\Throwable $exception) {
+            \Yii::error('Failed to access client storage: ' . $exception->getMessage());
+            return [];
+        }
     }
 
     private function decodeResponse($response)

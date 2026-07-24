@@ -1,33 +1,46 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
 use hipanel\assets\PincodePromptAsset;
+use hipanel\modules\client\helpers\HasPINCode;
+use Yii;
 use yii\base\Widget;
 
 class PincodePrompt extends Widget
 {
     public $loadingText;
+    /**
+     * @var HasPINCode
+     */
+    private $hasPINCode;
+
+    public function __construct(HasPINCode $hasPINCode, $config = [])
+    {
+        parent::__construct($config);
+        $this->hasPINCode = $hasPINCode;
+    }
 
     public function run()
     {
         PincodePromptAsset::register($this->view);
 
-        return $this->renderModalView();
+        return $this->render('pincode-prompt');
     }
 
-    protected function renderModalView()
+    /**
+     * @return bool
+     */
+    public function isPINFailed(): bool
     {
-        return $this->render('pincode-prompt', [
-            'widget' => $this,
-        ]);
+        return !$this->hasPINCode->__invoke();
     }
 }

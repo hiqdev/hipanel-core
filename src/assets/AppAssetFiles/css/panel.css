@@ -22,7 +22,8 @@ table.dataTable thead > tr > th:first-child {
 
 /* Attachment */
 .comment .comment-text p {
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 
 .comment .attachment {
@@ -428,7 +429,9 @@ table.dataTable thead > tr > th:first-child {
 
 /* ASC/DESC state  */
 a.asc:after,
-a.desc:after {
+a.desc:after,
+span.asc:after,
+span.desc:after {
     position: relative;
     display: inline-block;
     font-family: 'Glyphicons Halflings';
@@ -437,11 +440,11 @@ a.desc:after {
     padding-left: 5px;
 }
 
-a.desc:after {
+span.desc:after, a.desc:after {
     content: "\e152";
 }
 
-a.asc:after {
+span.asc:after, a.asc:after {
     content: "\e151";
 }
 
@@ -954,6 +957,20 @@ TABLE THEAD .filters TD.narrow-filter SELECT {
 }
 
 /* See https://stackoverflow.com/questions/19448902/changing-the-width-of-bootstrap-popover */
-.popover{
+td .popover {
     max-width: 100%;
+}
+
+/* Space is used to set the spacing between inline elements */
+.space-sm, .space-md, .space-lg {
+    display: inline-flex;
+}
+
+.space-sm { gap: 8px; }
+.space-md { gap: 16px; }
+.space-lg { gap: 24px; }
+
+.flatpickr-calendar {
+  opacity: 0;
+  display: none;
 }

@@ -1,21 +1,23 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\controllers;
 
+use hipanel\actions\TimeZoneAction;
+use hipanel\helpers\UserHelper;
 use hipanel\logic\Impersonator;
 use hipanel\models\User;
 use hisite\actions\RedirectAction;
 use hisite\actions\RenderAction;
 use Yii;
-use yii\authclient\AuthAction;
+use hiam\authclient\AuthAction;
 use yii\base\Module;
 use yii\filters\AccessControl;
 
@@ -25,7 +27,7 @@ use yii\filters\AccessControl;
 class SiteController extends \hisite\controllers\SiteController
 {
     /** @var string */
-    protected $defaultAuthClient = 'hiam';
+    public $defaultAuthClient = 'hiam';
     /**
      * @var Impersonator
      */
@@ -42,7 +44,7 @@ class SiteController extends \hisite\controllers\SiteController
         return array_merge(parent::behaviors(), [
             'loginRequired' => [
                 'class' => AccessControl::class,
-                'only' => ['profile'],
+                'only' => ['profile', 'notification-settings'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -70,14 +72,33 @@ class SiteController extends \hisite\controllers\SiteController
             ],
             'profile' => [
                 'class' => RedirectAction::class,
-                'url' => ['@client/view', 'id' => Yii::$app->user->identity->id],
+                'url' => [
+                    '@client/view',
+                    'id' => UserHelper::getId(),
+                ],
             ],
             'lockscreen' => [
                 'class' => RenderAction::class,
             ],
+            'ip-restriction-settings' => [
+                'class' => RedirectAction::class,
+                'url'   => [
+                    '@client/view',
+                    'id'    => UserHelper::getId(),
+                    '#'     => 'ip_restriction_settings',
+                ],
+            ],
+            'notification-settings' => [
+                'class' => RedirectAction::class,
+                'url'   => [
+                    '@client/view',
+                    'id'    => UserHelper::getId(),
+                    '#'     => 'notification_settings',
+                ],
+            ],
+            'timezone' => TimeZoneAction::class,
         ]);
     }
-
 
     public function actionUnimpersonate()
     {
@@ -98,7 +119,7 @@ class SiteController extends \hisite\controllers\SiteController
             }
         }
         $user->save();
-        Yii::$app->user->login($user, Yii::$app->params['login_duration'] ?: 3600 * 24 * 30);
+        Yii::$app->user->login($user, Yii::$app->params['login_duration'] ?? 3600 * 24 * 30);
     }
 
     public function actionLogin()
@@ -128,6 +149,20 @@ class SiteController extends \hisite\controllers\SiteController
         return $this->redirect($url);
     }
 
+    public function actionPushImpersonateAuth()
+    {
+        if ($this->impersonator->isUserImpersonated()) {
+            $this->impersonator->unimpersonateUser();
+        }
+        $this->impersonator->backupCurrentToken();
+        $this->impersonator->impersonateWithStateAndCode(
+            $this->request->get('code'),
+            $this->request->get('state')
+        );
+
+        return $this->goHome();
+    }
+
     public function actionImpersonate($user_id)
     {
         if ($this->impersonator->isUserImpersonated()) {
@@ -135,11 +170,34 @@ class SiteController extends \hisite\controllers\SiteController
         }
 
         $this->impersonator->backupCurrentToken();
+
         return $this->redirect($this->impersonator->buildAuthUrl($user_id));
     }
 
     public function actionHealthcheck()
     {
-        return "Up and running.";
+        $text = 'Up and running.';
+        $text .= $this->testCache();
+        if (isset(Yii::$app->user->identity->id)) {
+            $id = Yii::$app->user->identity->id;
+            $text .= "\n<h6>User ID: <userId>$id</userId></h6>";
+        }
+
+        return $text;
+    }
+
+    private function testCache(): string
+    {
+        $cache = Yii::$app->cache;
+        if (!empty($cache)) {
+            $cache->set('test_cache', 'test');
+            $testCache = $cache->get('test_cache');
+        }
+        if (isset($testCache) && $testCache === 'test') {
+            $result = "\n<h6>Cache is OK</h6>";
+        } else {
+            $result = "\n<h6>Cache is ABSENT</h6>";
+        }
+        return $result;
     }
 }

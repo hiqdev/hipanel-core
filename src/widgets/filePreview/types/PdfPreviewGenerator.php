@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets\filePreview\types;
@@ -27,6 +27,9 @@ class PdfPreviewGenerator extends AbstractPreviewGenerator
     {
         if ($this->imagick === null) {
             $this->imagick = new Imagick(realpath($this->path) . '[0]');
+            $this->imagick->setResolution(600, 600);
+            $this->imagick->setCompressionQuality(95);
+            $this->imagick->setImageFormat('jpeg');
         }
 
         return $this->imagick;

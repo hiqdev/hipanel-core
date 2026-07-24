@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -17,6 +17,8 @@ use hiqdev\hiart\ResponseErrorException;
 use Yii;
 use yii\base\InvalidCallException;
 use yii\helpers\ArrayHelper;
+use \yii\base\Action as BaseAction;
+use yii\web\Response;
 
 /**
  * HiPanel basic action.
@@ -24,12 +26,14 @@ use yii\helpers\ArrayHelper;
  *
  * @property Collection collection
  */
-class Action extends \yii\base\Action
+class Action extends BaseAction
 {
+    const EVENT_BEFORE_RUN = 'beforeRun';
     const EVENT_BEFORE_SAVE = 'beforeSave';
     const EVENT_BEFORE_LOAD = 'beforeLoad';
     const EVENT_BEFORE_PERFORM = 'beforePerform';
     const EVENT_AFTER_PERFORM = 'afterPerform';
+    public const EXPECTED_AJAX_RESPONSE_HEADER_NAME = 'X-Expected-Ajax-Response';
 
     /**
      * @var Controller the controller that owns this action
@@ -47,7 +51,7 @@ class Action extends \yii\base\Action
     public $_scenario;
 
     /**
-     * Perform query options
+     * Perform query options.
      * @var array
      */
     public $queryOptions = [];
@@ -101,7 +105,7 @@ class Action extends \yii\base\Action
         }
 
         if (!is_object($this->_collection)) {
-            $action = $this->controller->action;
+            $action = $this->controller->action ?? $this;
             if ($action instanceof self) {
                 $scenario = $action->getScenario();
             } else {
@@ -110,7 +114,7 @@ class Action extends \yii\base\Action
 
             $this->_collection = Yii::createObject(ArrayHelper::merge([
                 'class' => Collection::class,
-                'model' => $this->controller->newModel(),
+                'model' => $this->controller->newModel(['scenario' => $scenario]),
                 'scenario' => $scenario,
                 'queryOptions' => $this->queryOptions,
             ], (array) $this->_collection));
@@ -125,13 +129,16 @@ class Action extends \yii\base\Action
      */
     public $collectionLoader;
 
+    protected function beforeRun()
+    {
+        $this->thoroughTrigger(static::EVENT_BEFORE_RUN);
+
+        return parent::beforeRun();
+    }
+
     public function beforeLoad()
     {
-        if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_BEFORE_LOAD);
-        }
-
-        $this->trigger(static::EVENT_BEFORE_LOAD);
+        $this->thoroughTrigger(static::EVENT_BEFORE_LOAD);
     }
 
     /**
@@ -152,11 +159,7 @@ class Action extends \yii\base\Action
 
     public function beforeSave()
     {
-        if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_BEFORE_SAVE);
-        }
-
-        $this->trigger(static::EVENT_BEFORE_SAVE);
+        $this->thoroughTrigger(static::EVENT_BEFORE_SAVE);
     }
 
     /**
@@ -167,25 +170,27 @@ class Action extends \yii\base\Action
     public function saveCollection()
     {
         $this->beforeSave();
+
         return $this->collection->save();
     }
 
     public function beforePerform()
     {
+        $this->thoroughTrigger(static::EVENT_BEFORE_PERFORM);
+    }
+
+    protected function thoroughTrigger($event)
+    {
         if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_BEFORE_PERFORM);
+            $this->parent->trigger($event);
         }
 
-        $this->trigger(static::EVENT_BEFORE_PERFORM);
+        $this->trigger($event);
     }
 
     public function afterPerform()
     {
-        if (isset($this->parent)) {
-            $this->parent->trigger(static::EVENT_AFTER_PERFORM);
-        }
-
-        $this->trigger(static::EVENT_AFTER_PERFORM);
+        $this->thoroughTrigger(static::EVENT_AFTER_PERFORM);
     }
 
     /**
@@ -214,6 +219,7 @@ class Action extends \yii\base\Action
         }
 
         $this->afterPerform();
+
         return $error;
     }
 
@@ -309,5 +315,14 @@ class Action extends \yii\base\Action
         Yii::$app->session->addFlash($type, [
             'text' => $text,
         ]);
+    }
+
+    public function asJson(array $data = []): Response
+    {
+        $response = $this->controller->response;
+        $response->format = Response::FORMAT_JSON;
+        $response->data = $data;
+
+        return $response;
     }
 }

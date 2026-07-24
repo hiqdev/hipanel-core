@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\components;
@@ -59,6 +59,29 @@ class User extends \yii\web\User
     public function getIsGuest()
     {
         return empty($this->getIdentity()->id);
+    }
+
+    public function isAccountOwner()
+    {
+        $identity = $this->getIdentity();
+        if (!$identity) {
+            throw new InvalidCallException("The Identity instance is required to check if a user is an account owner");
+        }
+
+        return $identity->isAccountOwner();
+    }
+
+    public function canHasSubclients()
+    {
+        if (!$this->can('access-subclients')) {
+            return false;
+        }
+
+        if (!$this->isAccountOwner()) {
+            return true;
+        }
+
+        return $this->getIdentity()->type !== 'client';
     }
 
     /**

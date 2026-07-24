@@ -1,16 +1,17 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
 use hipanel\widgets\RefFilter;
+use Yii;
 
 class RefColumn extends DataColumn
 {
@@ -45,5 +46,14 @@ class RefColumn extends DataColumn
             'options' => $this->filterInputOptions,
             'elementOverrides' => $this->filterOverrides,
         ]);
+    }
+
+    public function getDataCellValue($model, $key, $index)
+    {
+        if (!empty($this->i18nDictionary)) {
+            return Yii::t($this->i18nDictionary, parent::getDataCellValue($model, $key, $index));
+        }
+
+        return parent::getDataCellValue($model, $key, $index);
     }
 }

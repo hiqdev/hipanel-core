@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\filters;
 
@@ -21,14 +29,18 @@ use yii\web\User;
  *       'delete'    => 'ticket.delete',
  *       '*'         => 'ticket.read',
  *   ],
- * ```
+ * ```.
  *
  * @author Andrii Vasyliev <sol@hiqdev.com>
  */
 class EasyAccessControl extends ActionFilter
 {
+    public const GUEST = '?';
+    public const USER = '@';
+    public const ALLOW_ANY = '*';
+
     /**
-     * @var User|array|string|false the user object representing the authentication status or the ID of the user application component.
+     * @var User|array|string|false the user object representing the authentication status or the ID of the user application component
      */
     public $user = 'user';
 
@@ -61,15 +73,15 @@ class EasyAccessControl extends ActionFilter
     /**
      * This method is invoked right before an action is to be executed (after all possible filters.)
      * You may override this method to do last-minute preparation for the action.
-     * @param Action $action the action to be executed.
-     * @return bool whether the action execution should be continued.
+     * @param Action $action the action to be executed
+     * @return bool whether the action execution should be continued
      */
     public function beforeAction($action)
     {
         return $this->checkActions($action) ?: $this->denyAccess($action);
     }
 
-    protected function checkActions($action)
+    protected function checkActions(Action $action)
     {
         foreach ($this->actions as $names => $permissions) {
             if ($this->matchAction($action, $names)) {
@@ -80,13 +92,21 @@ class EasyAccessControl extends ActionFilter
         return false;
     }
 
-    protected function matchAction($action, $names)
+    protected function matchAction(Action $action, string $effectiveActions)
     {
-        if ($names === '*') {
+        if ($effectiveActions === '*') {
             return true;
         }
+        $currentAction = $action->id;
+        $effectiveActionsArray = StringHelper::explode($effectiveActions, ',', true, true);
 
-        return in_array($action->id, StringHelper::explode($names, ',', true, true), true);
+        if (str_contains($action->id, ' ')) { // When used with SwitchAction, may be e.g. 'update POST xeditable'
+            $array = StringHelper::explode($action->id, ' ', true, true);
+            $currentAction = array_shift($array);
+        }
+
+        return in_array($action->id, $effectiveActionsArray, true)
+            || in_array($currentAction, $effectiveActionsArray, true);
     }
 
     protected function checkAllowed($permissions)
@@ -98,15 +118,19 @@ class EasyAccessControl extends ActionFilter
             $permissions = [$permissions];
         }
         foreach ($permissions as $permission) {
-            if ($permission === '?') {
-                if ($this->user->getIsGuest()) {
-                    return true;
-                }
-            } elseif ($permission === '@') {
-                if (!$this->user->getIsGuest()) {
-                    return true;
-                }
-            } elseif ($this->user->can($permission)) {
+            if ($permission === self::GUEST) {
+                return $this->user->getIsGuest();
+            }
+
+            if ($permission === self::USER) {
+                return !$this->user->getIsGuest();
+            }
+
+            if ($permission === self::ALLOW_ANY) {
+                return true;
+            }
+
+            if ($this->user->can($permission)) {
                 return true;
             }
         }
@@ -119,7 +143,7 @@ class EasyAccessControl extends ActionFilter
      * The default implementation will redirect the user to the login page if he is a guest;
      * if the user is already logged, a 403 HTTP exception will be thrown.
      * @param User|false $user the current user or boolean `false` in case of detached User component
-     * @throws ForbiddenHttpException if the user is already logged in or in case of detached User component.
+     * @throws ForbiddenHttpException if the user is already logged in or in case of detached User component
      */
     protected function denyAccess($action)
     {

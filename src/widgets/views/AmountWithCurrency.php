@@ -12,24 +12,23 @@ use yii\helpers\ArrayHelper;
  * @var array $currencyAttributeOptions
  * @var array $currencyDropdownOptions
  */
-
 ?>
 <div class="input-group">
     <div class="input-group-btn">
         <button
             type="button"
             data-toggle="dropdown"
-            class="btn btn-default iwd-label dropdown-toggle <?= $currencyDropdownOptions['disabled'] ? 'disabled' : '' ?>"
-            <?= $currencyDropdownOptions['disabled'] ? 'tabindex="-1"' : '' ?>
+            class="btn btn-default iwd-label dropdown-toggle <?= !empty($currencyDropdownOptions['disabled']) ? 'disabled' : '' ?>"
+            <?= !empty($currencyDropdownOptions['disabled']) ? 'tabindex="-1"' : '' ?>
         >
             <?= StringHelper::getCurrencySymbol($selectedCurrencyCode) ?>
         </button>
-        <?php if (!$currencyDropdownOptions['hidden']): ?>
+        <?php if (empty($currencyDropdownOptions['hidden'])) : ?>
             <button
-                type="button"
-                data-toggle="dropdown"
-                tabindex="-1"
-                class="btn btn-default dropdown-toggle <?= $currencyDropdownOptions['disabled'] ? 'disabled' : '' ?>"
+                    type="button"
+                    data-toggle="dropdown"
+                    tabindex="-1"
+                    class="btn btn-default dropdown-toggle <?= !empty($currencyDropdownOptions['disabled']) ? 'disabled' : '' ?>"
             >
                 <span class="caret"></span> <span class="sr-only"><?= Yii::t('hipanel', 'Toggle dropdown') ?></span>
             </button>
@@ -45,5 +44,5 @@ use yii\helpers\ArrayHelper;
             <?php endforeach ?>
         </ul>
     </div>
-    <?= Html::activeInput('text', $model, $attribute, $this->context->inputOptions) ?>
+    <?= Html::activeInput('text', $model, $attribute, $this->context->options) ?>
 </div>

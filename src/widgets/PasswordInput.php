@@ -1,38 +1,23 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
 
 use hipanel\helpers\ArrayHelper;
 use Yii;
-use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\JsExpression;
+use yii\widgets\InputWidget;
 
-class PasswordInput extends Widget
+class PasswordInput extends InputWidget
 {
-    /**
-     * @var \yii\base\Model
-     */
-    public $model;
-
-    /**
-     * @var string Name of model attribute
-     */
-    public $attribute;
-
-    /**
-     * @var array Will be passed to options of input field
-     */
-    public $inputOptions = [];
-
     /**
      * @var bool Whether to show 'random generator'
      */
@@ -50,7 +35,7 @@ class PasswordInput extends Widget
     {
         parent::init();
 
-        $this->inputOptions = ArrayHelper::merge(['class' => 'form-control'], $this->inputOptions);
+        $this->options = ArrayHelper::merge(['class' => 'form-control'], $this->options);
         $this->randomOptions = $this->randomOptions ?: [
             'weak' => ['label' => Yii::t('hipanel', 'Weak'), 'length' => 8, 'specialchars' => 0],
             'medium' => ['label' => Yii::t('hipanel', 'Medium'), 'length' => 10],
@@ -65,16 +50,16 @@ class PasswordInput extends Widget
     {
         $this->registerClientScript();
 
-        $html = Html::activePasswordInput($this->model, $this->attribute, $this->inputOptions);
+        $html = Html::activePasswordInput($this->model, $this->attribute, $this->options);
         $html .= '<div class="input-group-btn">';
         $html .= Html::button(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), [
-            'class' => 'btn btn-default show-password' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
+            'class' => 'btn btn-default show-password' . (isset($this->options['disabled']) ? ' disabled' : ''),
             'tabindex' => '-1',
         ]);
 
         if ($this->randomGenerator) {
             $html .= Html::button(Yii::t('hipanel', 'Random') . '&nbsp;<span class="caret"></span>', [
-                'class' => 'btn btn-default dropdown-toggle' . ($this->inputOptions['disabled'] ? ' disabled' : ''),
+                'class' => 'btn btn-default dropdown-toggle' . (isset($this->options['disabled']) ? ' disabled' : ''),
                 'data-toggle' => 'dropdown',
                 'aria-expanded' => 'false',
                 'tabindex' => '-1',
@@ -86,7 +71,7 @@ class PasswordInput extends Widget
                     return Html::tag('li', Html::a($item['label'], '#', [
                         'data' => [
                             'length' => $item['length'],
-                            'specialchars' => $item['specialchars'],
+                            'specialchars' => $item['specialchars'] ?? '',
                         ],
                         'class' => 'random-passgen',
                     ]));
@@ -115,11 +100,15 @@ class PasswordInput extends Widget
                 var randomString = function (length, specialChars) {
                     var specialChars = specialChars !== undefined ? specialChars : true;
                     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
-                    chars = specialChars ? chars + '!@#$%^&*()_=./<>' : chars;
                     chars = chars.split('');
                     if (!length) length = Math.floor(Math.random() * chars.length);
                     var str = '';
                     for (var i = 0; i < length; i++) str += chars[Math.floor(Math.random() * chars.length)];
+                    if (specialChars) {
+                        specialChars = '!@#$%^&*()\-_=+{};:,<.>'.split('');
+                        var specialChar = specialChars[Math.floor(Math.random() * specialChars.length)];
+                        str = str.replace(/.$/, specialChar);
+                    }
                     return str;
                 }
                 

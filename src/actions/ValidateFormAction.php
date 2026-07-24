@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -54,8 +54,9 @@ class ValidateFormAction extends Action
 
     public function run()
     {
-        if (Yii::$app->request->isPost) {
+        if ($this->controller->request->isPost || $this->controller->request->isAjax) {
             $this->loadCollection();
+
             return $this->controller->renderJson($this->validateMultiple());
         }
 
@@ -79,6 +80,7 @@ class ValidateFormAction extends Action
                 $result[$id] = $errors;
             }
         }
+
         return $result;
     }
 

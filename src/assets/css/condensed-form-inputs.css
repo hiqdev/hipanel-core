@@ -1,0 +1,18 @@
+.form-horizontal .form-group {
+    margin-bottom: 5px;
+}
+
+.form-control:not(textarea, input[type="tel"], input[name*="daterangepicker"], select[multiple]),
+.select2-container--default .select2-selection--single {
+    height: 30px !important;
+    padding: 5px 10px !important;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.form-control + .input-group-btn > button,
+.form-control + .input-group-btn > .btn-file,
+.control-label + .input-group .btn {
+    padding: 4px 10px;
+}

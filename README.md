@@ -7,31 +7,28 @@
 [![Build Status](https://img.shields.io/travis/hiqdev/hipanel-core.svg)](https://travis-ci.org/hiqdev/hipanel-core)
 [![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/hiqdev/hipanel-core.svg)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/hiqdev/hipanel-core.svg)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/)
-[![Dependency Status](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master/badge.svg)](https://www.versioneye.com/php/hiqdev:hipanel-core/dev-master)
 
 [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 
-[HiPanel](http://hipanel.com) is next generation control panel for hosting, domains and more.
+[HiPanel] is the next generation billing and control panel for hosting, domains and more.
 
+HiPanel is split into many pluggable packages.
 This package is the core of the system.
+
+Please see package with example setup [hiqdev/hipanel-core].
+
+Also see [documentation].
+
+[HiPanel]:              https://hipanel.com
+[hiqdev/hipanel-core]:  https://github.com/hiqdev/hipanel-core
+[documentation]:    docs
 
 ## Installation
 
-The preferred way to install this yii2-extension is through [composer](http://getcomposer.org/download/).
+See [installation] and [development] manuals.
 
-Either run
-
-```sh
-php composer.phar require "hiqdev/hipanel-core"
-```
-
-or add
-
-```json
-"hiqdev/hipanel-core": "*"
-```
-
-to the require section of your composer.json.
+[installation]:             docs/Installation.md
+[development]:              docs/Development.md
 
 ## License
 

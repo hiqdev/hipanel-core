@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -258,7 +258,7 @@ class ModalButton extends Widget
                 $toggleButton['type'] = 'button';
             }
 
-            if ($button['disabled']) {
+            if (isset($button['disabled']) && $button['disabled'] === true) {
                 $button = ArrayHelper::merge([
                     'onClick' => new JsExpression('return false'),
                 ], $button);
@@ -298,7 +298,9 @@ class ModalButton extends Widget
     public function beginForm()
     {
         $this->form = ActiveForm::begin($this->form);
-        echo Html::activeHiddenInput($this->model, 'id');
+
+        $inputId = $this->getModalId() . '-hidden-value';
+        echo Html::activeHiddenInput($this->model, 'id', ['id' => $inputId]);
     }
 
     /**

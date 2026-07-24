@@ -1,17 +1,16 @@
 <?php
 /**
- * Hosting Plugin for HiPanel
+ * HiPanel core package
  *
- * @link      https://github.com/hiqdev/hipanel-module-hosting
- * @package   hipanel-module-hosting
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets\obj;
 
 use hipanel\models\Obj;
-use Yii;
 use yii\helpers\Html;
 
 class ObjLinkWidget extends \yii\base\Widget
@@ -31,8 +30,12 @@ class ObjLinkWidget extends \yii\base\Widget
     protected function renderLink()
     {
         $alias = $this->model->getObjClass()->getAlias();
-    
-        return Html::a($this->getLabel(), ["@$alias/view", 'id' => $this->model->id], ['data-pjax' => 0]);
+
+        try {
+            return Html::a($this->getLabel(), ["@$alias/view", 'id' => $this->model->id], ['data-pjax' => 0]);
+        } catch (\Throwable $e) {
+            return $this->model->id;
+        }
     }
 
     public function setLabel($label)

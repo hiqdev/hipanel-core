@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -85,6 +85,8 @@ class ChartOptions extends \yii\base\Widget
      */
     public $pickerOptions = [];
 
+    public bool $autoload = false;
+
     /**
      * {@inheritdoc}
      * @throws InvalidConfigException
@@ -154,10 +156,14 @@ class ChartOptions extends \yii\base\Widget
                 "),
             ],
             'clientOptions' => [
+                'showDropdowns' => true,
+                'minDate' => new JsExpression("moment().year('2007')"),
+                'maxDate' => new JsExpression("moment()"),
                 'ranges' => [
                     Yii::t('hipanel', 'Current Month') => new JsExpression('[moment().startOf("month"), new Date()]'),
                     Yii::t('hipanel', 'Previous Month') => new JsExpression('[moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]'),
                     Yii::t('hipanel', 'Last 3 months') => new JsExpression('[moment().subtract(3, "month").startOf("month"), new Date()]'),
+                    Yii::t('hipanel', 'Last 6 months') => new JsExpression('[moment().subtract(6, "month").startOf("month"), new Date()]'),
                     Yii::t('hipanel', 'Last year') => new JsExpression('[moment().subtract(1, "year").startOf("year"), new Date()]'),
                 ],
             ],
@@ -197,6 +203,7 @@ class ChartOptions extends \yii\base\Widget
             $value = ArrayHelper::remove($options, 'value');
             $inputs[] = Html::hiddenInput($name, $value, $options);
         }
+
         return implode("\n", $inputs);
     }
 
@@ -279,20 +286,12 @@ HTML;
     {
         $id = $this->getId();
         $options = Json::encode($this->ajaxOptions);
-        $this->getView()->registerJs(/** @lang JavaScript */"
-            $('.{$id}').on('change.updateChart', function (event) {
-                var defaultOptions = {
-                    url: $(this).attr('action'),
-                    data: $(this).serializeArray(),
-                    type: 'post',
-                    success: function (html) {
-                        $('.{$id}-chart-wrapper').closest('.box').find('.box-body').html(html);
-                    }
-                };
-                event.preventDefault();
-                var options = $.extend(defaultOptions, $options, true)
-                $.ajax(options);
-            });
+        $view = $this->getView();
+        $view->registerJs(/** @lang JavaScript */"
+$(function() {
+    const chart = new HiPanelChart('{$id}', {$options}, {$this->autoload});
+    chart.init();
+});
             ");
     }
 }

@@ -2,7 +2,6 @@
 
 /**
  * @var \yii\web\View
- * @var \hipanel\widgets\PincodePrompt $widget
  */
 use yii\helpers\Html;
 
@@ -19,12 +18,20 @@ use yii\helpers\Html;
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <?= Html::passwordInput('pincode-modal-input', null, [
-                        'class' => 'form-control pincode-input',
-                        'placeholder' => '****',
-                        'autocomplete' => 'new-password',
-                    ]) ?>
-                    <p class="help-block"></p>
+                    <?php if (!$this->context->isPINFailed()) : ?>
+                        <?= Html::passwordInput('pincode-modal-input', null, [
+                            'class' => 'form-control pincode-input',
+                            'placeholder' => '****',
+                            'autocomplete' => 'new-password',
+                        ]) ?>
+                        <p class="help-block"></p>
+                    <?php else : ?>
+                        <p class="bg-danger" style="padding: 1rem">
+                            <?= Yii::t('hipanel', 'You have not set a PIN code! Contact our support by e-mail {email}.', [
+                                'email' => Html::mailto(Yii::$app->params['supportEmail'], Yii::$app->params['supportEmail']),
+                            ]) ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="modal-footer">
@@ -32,11 +39,13 @@ use yii\helpers\Html;
                     <?= Yii::t('hipanel', 'Close'); ?>
                 </button>
 
-                <?= Html::button(Yii::t('hipanel', 'Send'), [
-                    'class' => 'btn btn-primary pincode-submit',
-                    'data-toggle' => 'button',
-                    'data-loading-text' => $widget->loadingText,
-                ]) ?>
+                <?php if (!$this->context->isPINFailed()) : ?>
+                    <?= Html::button(Yii::t('hipanel', 'Send'), array_filter([
+                        'class' => 'btn btn-primary pincode-submit',
+                        'data-toggle' => 'button',
+                        'data-loading-text' => $widget->loadingText ?? null,
+                    ])) ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

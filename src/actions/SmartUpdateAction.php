@@ -1,15 +1,16 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
 
+use hipanel\module\SmartRedirect\Application\ActionRedirectResolver;
 use hipanel\base\Model;
 use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
@@ -61,8 +62,8 @@ class SmartUpdateAction extends SwitchAction
      * Creates `ActiveDataProvider` with given options list, stores it to [[dataProvider]].
      *
      * @throws BadRequestHttpException
-     * @return ActiveDataProvider
      * @throws \yii\base\InvalidConfigException when failed to generate `WHERE` condition
+     * @return ActiveDataProvider
      */
     public function getDataProvider()
     {
@@ -84,7 +85,7 @@ class SmartUpdateAction extends SwitchAction
             $this->dataProvider->query->andFilterWhere($this->findOptions);
         }
         $limit = $this->dataProvider->query->limit;
-        $this->dataProvider->query->andFilterWhere($this->findOptions)->andWhere(['limit' => $limit ? : 'ALL']);
+        $this->dataProvider->query->andFilterWhere($this->findOptions)->limit($limit ?? -1);
 
         return $this->dataProvider;
     }
@@ -105,6 +106,7 @@ class SmartUpdateAction extends SwitchAction
         if (is_null($this->_searchModel)) {
             $this->_searchModel = $this->controller->searchModel();
         }
+
         return $this->_searchModel;
     }
 
@@ -127,6 +129,7 @@ class SmartUpdateAction extends SwitchAction
                     foreach ($models as $model) {
                         $model->scenario = $this->scenario;
                     }
+
                     return [
                         'models' => $models,
                         'model' => reset($models),
@@ -143,6 +146,7 @@ class SmartUpdateAction extends SwitchAction
                         foreach ($models as $model) {
                             $model->scenario = $this->scenario;
                         }
+
                         return [
                             'models' => $models,
                             'model' => reset($models),
@@ -154,29 +158,27 @@ class SmartUpdateAction extends SwitchAction
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
-                    'url'   => function ($action) {
-                        return $action->collection->count() > 1
-                            ? $action->controller->getSearchUrl()
-                            : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id]);
-                    },
+                    'url' => [
+                        'class' => ActionRedirectResolver::class,
+                    ],
                 ],
                 'error'   => [
                     'class'  => RenderAction::class,
                     'view'   => $this->view,
                     'data'   => $this->data,
-                    'params' => function ($action) {
+                    'params' => function () {
                         try {
                             $models = $this->fetchModels();
 
                             foreach ($models as $model) {
                                 $model->scenario = $this->scenario;
                                 foreach ($this->collection->models as $payload) {
-                                    if ($payload->id === $model->id) {
+                                    if ((string)$payload->id === (string)$model->id) {
                                         $model->setAttributes(array_filter($payload->getAttributes()));
                                     }
                                 }
                             }
-                        } catch (BadRequestHttpException $e) {
+                        } catch (BadRequestHttpException) {
                             $models = $this->collection->models;
                         }
 
@@ -230,14 +232,15 @@ class SmartUpdateAction extends SwitchAction
     /**
      * Fetches models that will be edited.
      *
-     * @throws BadRequestHttpException
      * @return Model[]
+     * @throws BadRequestHttpException|\yii\base\InvalidConfigException
      */
     public function fetchModels()
     {
         $this->beforeFetchLoad();
         $dataProvider = $this->getDataProvider();
         $this->beforeFetch();
+
         return $dataProvider->getModels();
     }
 

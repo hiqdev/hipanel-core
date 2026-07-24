@@ -1,15 +1,17 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
 
+use hipanel\module\SmartRedirect\Application\ActionRedirectResolver;
+use hipanel\module\SmartRedirect\Domain\PreferSearchRedirectPolicy;
 use Yii;
 
 /**
@@ -23,6 +25,7 @@ class SmartDeleteAction extends SmartPerformAction
         // When button in being pressed, the system submits POST request which contains
         // POST model ClassSearch and GET attribute with ID
         $data = Yii::$app->request->get() ? [Yii::$app->request->get()] : null;
+
         parent::loadCollection($data);
     }
 
@@ -34,7 +37,10 @@ class SmartDeleteAction extends SmartPerformAction
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
-                    'url'   => 'index',
+                    'url' => [
+                        'class' => ActionRedirectResolver::class,
+                        'policy' => PreferSearchRedirectPolicy::class,
+                    ],
                 ],
             ],
         ], parent::getDefaultRules());

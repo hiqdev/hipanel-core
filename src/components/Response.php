@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\components;
@@ -16,9 +16,26 @@ class Response extends \yii\web\Response
 {
     public function sendContent()
     {
-        if ($this->stream === null) {
-            $this->content = Yii::$app->getI18n()->removeLegacyLangTags($this->content);
+        if ($this->stream === null
+            && $this->format === self::FORMAT_HTML
+            && !$this->headers->has('Content-Length')
+        ) {
+            $content = $this->content ?? '';
+            if (preg_match('/{lang:([^}<>]*)}/i', $content)) {
+                Yii::warning('Deprecated {lang:} tag used in ' . Yii::$app->controller->route);
+            }
         }
+
         parent::sendContent();
+    }
+
+    public function refresh($anchor = '')
+    {
+        $request = Yii::$app->request;
+        if ($request->getIsAjax()) {
+            return $this->redirect($request->getReferrer() . $anchor);
+        }
+
+        return parent::refresh($anchor);
     }
 }

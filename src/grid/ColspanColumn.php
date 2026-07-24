@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\grid;
 
@@ -7,14 +15,14 @@ use yii\grid\Column;
 use yii\helpers\Html;
 
 /**
- * Class ColspanColumn
+ * Class ColspanColumn.
  *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  */
 class ColspanColumn extends DataColumn
 {
     /** @var Column[] */
-    public $columns;
+    public array $columns;
 
     public function init()
     {
@@ -55,10 +63,11 @@ class ColspanColumn extends DataColumn
                 continue;
             }
             $this->columns[$id] = Yii::createObject(array_merge([
-                'class' => $this->grid->dataColumnClass ?: DataColumn::class,
+                'class' => $this->grid->dataColumnClass ?? DataColumn::class,
                 'grid' => $this->grid,
             ], $column));
         }
+
         return $this->columns;
     }
 }

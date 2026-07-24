@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -20,6 +20,12 @@ trait ModelTrait
      */
     public function attributes()
     {
+        static $cache = [];
+        $class = static::class;
+        if (isset($cache[$class])) {
+            return $cache[$class];
+        }
+
         $attributes = \yii\base\Model::attributes();
         foreach (self::rules() as $rule) {
             if (is_string(reset($rule))) {
@@ -32,6 +38,7 @@ trait ModelTrait
                 $attributes[$attribute] = $attribute;
             }
         }
-        return array_values($attributes);
+
+        return $cache[$class] = array_values($attributes);
     }
 }

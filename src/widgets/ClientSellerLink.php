@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -36,20 +36,24 @@ class ClientSellerLink extends \yii\base\Widget
 
     public function run()
     {
+        $user = Yii::$app->user;
         if ($this->getClient() === 'anonym') {
             $result = Html::tag('b', 'anonym');
-        } elseif ($this->getClientId() === Yii::$app->user->id || Yii::$app->user->can('support')) {
+        } elseif ($this->getClientId() === $user->id || $user->can('access-subclients')) {
             $result = Html::a($this->getClient(), ['@client/view', 'id' => $this->getClientId()]);
         } else {
             $result = $this->getClient();
         }
 
-        if (Yii::$app->user->can('support') && $this->getSeller() !== false) {
+        if ($user->can('access-subclients') && $this->getSeller() !== false) {
             $result .= ' / ';
-            if (Yii::$app->user->identity->hasSeller($this->getSeller())) {
-                $result .= $this->getSeller();
-            } else {
+            if (
+                $user->can('owner-staff') ||
+                ($user->can('access-reseller') && $user->identity->hasOwnSeller($this->getSeller()))
+            ) {
                 $result .= Html::a($this->getSeller(), ['@client/view', 'id' => $this->getSellerId()]);
+            } else {
+                $result .= $this->getSeller();
             }
         }
 
@@ -58,7 +62,7 @@ class ClientSellerLink extends \yii\base\Widget
 
     public function getClient()
     {
-        return $this->getValue($this->clientAttribute);
+        return Html::encode($this->getValue($this->clientAttribute));
     }
 
     public function getClientId()
@@ -68,7 +72,7 @@ class ClientSellerLink extends \yii\base\Widget
 
     public function getSeller()
     {
-        return $this->getValue($this->sellerAttribute);
+        return Html::encode($this->getValue($this->sellerAttribute));
     }
 
     public function getSellerId()

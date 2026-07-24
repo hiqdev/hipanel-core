@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -22,11 +22,17 @@ class Type extends \hipanel\widgets\Label
 
     /** @var[] which contains:
      * key - css class name which will be used to highlight label
-     * values - states or types, that represent current CSS class
+     * values - states or types, that represent current CSS class. Wildcards can be used.
      * Examples
      * ~~~
-     * ['info' => ['ok', 'expired']]
+     * [
+     *     'info' => ['ok', 'expired', 'error:recoverable'],
+     *     'warning' => ['problem', 'error:*'],
+     * ]
      * ~~~
+     *
+     * In the `warning` section, `error:*` wildcard is used. In this case the value
+     * will be checked for exact matches, then for wildcard matches.
      **/
     public $values = [];
 
@@ -40,33 +46,61 @@ class Type extends \hipanel\widgets\Label
 
     /** @var string field */
     public $field = 'state';
+    /** @var string $labelField */
+    public $labelField;
 
     public function init()
     {
         $possible = [];
-        $field = $this->model->{$this->field};
-
         foreach ($this->defaultValues as $key => $values) {
-            $possible[$key] = ArrayHelper::merge($values, $this->values[$key] ?: []);
+            $possible[$key] = ArrayHelper::merge($values, $this->values[$key] ?? []);
         }
-
         $this->values = ArrayHelper::merge($possible, $this->values);
 
+        $this->setColor($this->pickColor());
+        $this->setLabel(Yii::t($this->i18nDictionary, $this->getModelLabel()));
+    }
+
+    protected function pickColor(): string
+    {
+        $field = $this->getFieldValue() ?? '';
+
         foreach ($this->values as $classes => $values) {
-            if (in_array($field, $values, true)) {
-                $class = $classes;
-                break;
+            if (\in_array($field, $values, true)) {
+                return $classes;
             }
         }
 
-        $this->color = isset($class) ? $class : 'warning';
-
-        if ($this->model->hasAttribute("{$this->field}_label") && $this->model->getAttribute("{$this->field}_label") !== null) {
-            $label = $this->model->getAttribute("{$this->field}_label");
-        } else {
-            $label = $this->titlelize($this->model->{$this->field});
+        foreach ($this->values as $classes => $values) {
+            foreach ($values as $value) {
+                if (fnmatch($value, $field)) {
+                    return $classes;
+                }
+            }
         }
-        $this->label  = Yii::t($this->i18nDictionary, $label);
+
+        return 'warning'; // fallback
+    }
+
+    protected function getModelLabel(): string
+    {
+        $labelField = $this->getLabelField();
+
+        if ($this->model->hasAttribute($labelField) && $this->model->getAttribute($labelField) !== null) {
+            return $this->model->getAttribute($labelField);
+        }
+
+        return $this->titlelize($this->getFieldValue() ?? '');
+    }
+
+    protected function getFieldValue(): ?string
+    {
+        return $this->model->{$this->field};
+    }
+
+    protected function getLabelField(): ?string
+    {
+        return $this->labelField ?? ($this->field . '_label');
     }
 
     /**

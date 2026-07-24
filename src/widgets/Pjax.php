@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -77,7 +77,7 @@ class Pjax extends \yii\widgets\Pjax
             return null;
         }
 
-        $header      = Html::tag('h1', $view->title . ($view->params['subtitle'] ? Html::tag('small', $view->params['subtitle']) : ''));
+        $header      = Html::tag('h1', $view->title . (!empty($view->params['subtitle']) ? Html::tag('small', $view->params['subtitle']) : ''));
         $breadcrumbs = Breadcrumbs::widget([
             'homeLink'     => [
                 'label' => '<i class="fa fa-dashboard"></i> ' . Yii::t('hipanel', 'Home'),

@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\models;
@@ -43,6 +43,8 @@ class User extends Model implements IdentityInterface
 
     public $auth_key;
     public $password_hash;
+
+    public $account_owner_id;
 
     private static $_users = [];
 
@@ -151,7 +153,8 @@ class User extends Model implements IdentityInterface
         }
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         $parts = explode('_', $token);
-        $timestamp = (int)end($parts);
+        $timestamp = (int) end($parts);
+
         return $timestamp + $expire >= time();
     }
 
@@ -165,12 +168,17 @@ class User extends Model implements IdentityInterface
 
     public function is($key)
     {
-        return (int)$this->id === (int)$key || (string)$this->username === (string)$key;
+        return (int) $this->id === (int) $key || (string) $this->username === (string) $key;
+    }
+
+    public function isAccountOwner(): bool
+    {
+        return $this->id === $this->account_owner_id;
     }
 
     public function not($key)
     {
-        return (int)$this->id !== (int)$key && (string)$this->username !== (string)$key;
+        return (int) $this->id !== (int) $key && (string) $this->username !== (string) $key;
     }
 
     public function getLogin()
@@ -246,12 +254,8 @@ class User extends Model implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    /**
-     * @param $seller string|integer
-     * @return bool
-     */
-    public function hasSeller($seller)
+    public function hasOwnSeller(string|int $seller): bool
     {
-        return (((string)$seller === (string)$this->seller) || ((int)$seller === (int)$this->seller_id));
+        return ((string)$seller === (string)$this->seller) || ((int)$seller === (int)$this->seller_id);
     }
 }

@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\actions;
@@ -48,6 +48,7 @@ class ProxyAction extends Action
         if ($this->_params instanceof \Closure) {
             return call_user_func($this->_params, $this, $this->getModel());
         }
+
         return $this->_params;
     }
 
@@ -86,6 +87,7 @@ class ProxyAction extends Action
             Yii::$app->response->getHeaders()->add('X-PJAX-URL', $this->pjaxUrl);
         }
         $action = $this->action instanceof \Closure ? call_user_func($this->action, $this) : $this->action;
+
         return $this->controller->runAction($action, $this->params);
     }
 

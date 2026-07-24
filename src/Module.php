@@ -1,17 +1,16 @@
 <?php
 /**
- * Domain plugin for HiPanel
+ * HiPanel core package
  *
- * @link      https://github.com/hiqdev/hipanel-module-domain
- * @package   hipanel-module-domain
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel;
 
 use Yii;
-use yii\helpers\Url;
 
 /**
  * HiPanel Core Module.

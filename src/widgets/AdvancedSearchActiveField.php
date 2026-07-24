@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\widgets;
@@ -18,7 +18,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveField;
 
 /**
- * Class AdvancedSearchActiveField
+ * Class AdvancedSearchActiveField.
  *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  */
@@ -37,17 +37,18 @@ class AdvancedSearchActiveField extends ActiveField
         $config['attribute'] = $this->attribute;
         $config['view'] = $this->form->getView();
         $widget = Yii::createObject($config);
-
         if ($widget instanceof Combo) {
             $this->_inputId = $this->_inputId ?: ($this->getInputId() . '-' . mt_rand());
             $widget->inputOptions['id'] = $this->getInputId();
-            $widget->setPluginOptions([
+            $widget->setPluginOptions(ArrayHelper::merge($widget->pluginOptions, [
                 'select2Options' => [
                     'placeholder' => $this->model->getAttributeLabel($this->attribute),
                 ],
-            ]);
+            ]));
         }
-
+        if (isset($widget->template)) {
+            $this->template = $widget->template;
+        }
         $this->parts['{input}'] = $widget->run();
 
         return $this;
@@ -59,11 +60,10 @@ class AdvancedSearchActiveField extends ActiveField
 
         return parent::textarea(ArrayHelper::merge([
             'data-autosize' => true, 'rows' => 1,
-            'placeholder' => $this->model->getAttributeLabel('domains'),
-            'style' => ['max-height' => '30vh']
+            'placeholder' => $this->model->getAttributeLabel($this->attribute),
+            'style' => ['max-height' => '30vh'],
         ], $options));
     }
-
 
     protected function getInputId()
     {
@@ -97,6 +97,9 @@ class AdvancedSearchActiveField extends ActiveField
         $options['class'] = implode(' ', $class);
 
         $tag = ArrayHelper::remove($options, 'tag', 'div');
+        if (isset($this->options['class']) && str_contains($this->options['class'], 'checkbox')) {
+            return Html::beginTag($tag, $options);
+        }
         // Added tooltip help
         $options['data'] = [
             'toggle' => 'tooltip',

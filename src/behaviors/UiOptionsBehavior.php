@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\behaviors;
@@ -13,9 +13,9 @@ namespace hipanel\behaviors;
 use hipanel\components\UiOptionsStorage;
 use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\models\IndexPageUiOptions;
-use hiqdev\higrid\representations\RepresentationCollectionInterface;
 use Yii;
 use yii\base\Behavior;
+use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 use yii\web\Controller;
 
@@ -24,7 +24,7 @@ class UiOptionsBehavior extends Behavior
     /**
      * @var array
      */
-    public $allowedRoutes = ['index', 'export'];
+    public array $allowedRoutes = ['index', 'export', 'start-export'];
 
     /**
      * @var mixed
@@ -36,15 +36,10 @@ class UiOptionsBehavior extends Behavior
      */
     private $_model;
 
-    /**
-     * @var RepresentationCollectionFinder
-     */
-    private $representationCollectionFinder;
 
-    public function __construct(RepresentationCollectionFinder $representationCollectionFinder, array $config = [])
+    public function __construct(private readonly RepresentationCollectionFinder $representationCollectionFinder, array $config = [])
     {
         parent::__construct($config);
-        $this->representationCollectionFinder = $representationCollectionFinder;
     }
 
     public function events()
@@ -57,25 +52,27 @@ class UiOptionsBehavior extends Behavior
         if (!$this->isRouteAllowed()) {
             return;
         }
-
         $options = [];
-        $params = Yii::$app->request->get();
         $model = $this->getModel();
+        $queryParams = Yii::$app->request->get();
+        $keys = array_map(static fn($key): string => $key === 'per-page' ? 'per_page' : $key, array_keys($queryParams));
+        $params = array_combine($keys, array_values($queryParams));
         $model->attributes = $this->getUiOptionsStorage()->get($this->getRoute());
         $model->availableRepresentations = $this->findRepresentations();
         if ($params) {
             foreach ($params as $key => $value) {
-                if (in_array($key, array_keys($model->toArray()), true)) {
+                if (array_key_exists($key, $model->toArray())) {
                     $options[$key] = $value;
                 }
             }
-            $model->attributes = $options;
-
-            if ($model->validate()) {
-                $this->getUiOptionsStorage()->set($this->getRoute(), $model->toArray());
-            } else {
-                $errors = json_encode($model->getErrors());
-                Yii::warning('UiOptionsBehavior - IndexPageUiModel validation errors: ' . $errors);
+            if ($options !== []) {
+                $model->attributes = $options;
+                if ($model->validate()) {
+                    $this->getUiOptionsStorage()->set($this->getRoute(), $model->toArray());
+                } else {
+                    $errors = json_encode($model->getErrors());
+                    Yii::warning('UiOptionsBehavior - IndexPageUiModel validation errors: ' . $errors);
+                }
             }
         }
     }
@@ -96,27 +93,28 @@ class UiOptionsBehavior extends Behavior
 
     protected function isRouteAllowed()
     {
-        return in_array($this->owner->action->id, $this->allowedRoutes);
+        return in_array($this->owner->action->id, $this->allowedRoutes, true);
     }
 
     /**
      * @return UiOptionsStorage
+     * @throws InvalidConfigException
      */
-    protected function getUiOptionsStorage()
+    protected function getUiOptionsStorage(): UiOptionsStorage
     {
         return Yii::$app->get('uiOptionsStorage');
     }
 
     /**
-     * example: store/part/index
+     * example: store/part/index.
      *
      * @return string
      */
     protected function getRoute()
     {
-        $request = Yii::$app->request;
-        if ($this->isRouteAllowed() && $request->get('route', false)) {
-            return Html::encode($request->get('route'));
+        $request = $this->owner->request;
+        if ($this->isRouteAllowed() && ($route = $request->get('route', false))) {
+            return Html::encode($route);
         }
 
         return Yii::$app->request->pathInfo;

@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\models;
@@ -35,7 +35,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
      * and define keys `from` for Name and `to` for Value.
      *
      * @param string $name
-     * @param string $translate
+     * @param string|false $translate
      * @param array $options
      * @return array
      */
@@ -47,14 +47,26 @@ class Ref extends \hiqdev\hiart\ActiveRecord
         $from = ArrayHelper::remove($mapOptions, 'from', 'name');
         $to = ArrayHelper::remove($mapOptions, 'to', 'label');
         $group = ArrayHelper::remove($mapOptions, 'group', null);
+        $refs = ArrayHelper::map($models, $from, $to, $group);
 
-        return ArrayHelper::map($models, $from, $to, $group);
+        return $refs;
+    }
+
+    public static function getListRecursively($name, $translate = null, $options = [])
+    {
+        return self::getList($name, $translate, array_merge($options, ['with_recursive' => true]));
     }
 
     public static function findCached($name, $translate = null, $options = [])
     {
         if ($translate === null) {
             $translate = 'hipanel';
+        }
+
+        static $runtimeCache = [];
+        $runtimeKey = serialize([$name, $translate, $options]);
+        if (isset($runtimeCache[$runtimeKey])) {
+            return $runtimeCache[$runtimeKey];
         }
 
         $data = Yii::$app->get('cache')->getOrSet([__METHOD__, $name, $options], function () use ($name, $options) {
@@ -64,7 +76,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
             return $result;
         }, 3600);
 
-        return array_map(function ($model) use ($translate) {
+        $result = array_map(function ($model) use ($translate) {
             /** @var self $model */
             if ($translate !== false) {
                 $model->label = Yii::t($translate, $model->label);
@@ -72,5 +84,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
 
             return $model;
         }, $data);
+
+        return $runtimeCache[$runtimeKey] = $result;
     }
 }

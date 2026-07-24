@@ -1,9 +1,17 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\tests\_support\Page;
 
-use hipanel\tests\_support\AcceptanceTester;
 use hipanel\helpers\Url;
+use hipanel\tests\_support\AcceptanceTester;
 
 class SidebarMenu extends Authenticated
 {
@@ -13,7 +21,7 @@ class SidebarMenu extends Authenticated
         $I->needPage(Url::to(['/']));
     }
 
-    public function ensureContains($rootMenuName, $items)
+    public function ensureContains(string $rootMenuName, array $items): void
     {
         $I = $this->tester;
 
@@ -21,12 +29,12 @@ class SidebarMenu extends Authenticated
         $I->waitForElement('.menu-open');
         foreach ($items as $name => $url) {
             $I->see($name, '.menu-open');
-            $I->seeLink('', Url::to($url));
+            $I->seeElement(['css' => '.menu-open a[href~="' . Url::to($url) . '"]']);
         }
         $I->click($rootMenuName, '.sidebar-menu');
     }
 
-    public function ensureDoesNotContain($rootMenuName, $items = null)
+    public function ensureDoesNotContain(string $rootMenuName, array $items = null): void
     {
         $I = $this->tester;
 
@@ -40,5 +48,11 @@ class SidebarMenu extends Authenticated
             }
             $I->click($rootMenuName, '.sidebar-menu');
         }
+    }
+
+    public function ensureDontSeeRootLevelItem(string $name): void
+    {
+        $I = $this->tester;
+        $I->dontSee($name, ['css' => '.treeview a span']);
     }
 }

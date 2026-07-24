@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\widgets\gridLegend;
 
@@ -15,11 +23,21 @@ trait ColorizeGrid
         $this->colorizeRows();
     }
 
-    protected function colorizeColumns($column)
+    /**
+     * @param array $column
+     * @return array
+     */
+    protected function colorizeColumns(array $column): array
     {
-        if ($this->colorize && !isset($column['contentOptions'])) {
-            $column['contentOptions'] = function ($model) use ($column) {
-                return GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions($column['attribute']);
+        if ($this->colorize) {
+            $contentOptions = $column['contentOptions'] ?? [];
+            $contentOptions['style'] = '';
+            $column['contentOptions'] = function ($model) use ($column, $contentOptions) {
+                $coloredStyle = GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions($column['attribute']);
+                $coloredStyle = $coloredStyle['style'] ?? '';
+                $contentOptions['style'] .= $coloredStyle;
+
+                return $contentOptions;
             };
         }
 

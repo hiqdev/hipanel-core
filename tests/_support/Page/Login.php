@@ -1,4 +1,12 @@
 <?php
+/**
+ * HiPanel core package
+ *
+ * @link      https://hipanel.com/
+ * @package   hipanel-core
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\tests\_support\Page;
 
@@ -11,7 +19,7 @@ class Login
      */
     protected $tester;
 
-    function __construct(AcceptanceTester $I)
+    public function __construct(AcceptanceTester $I)
     {
         $this->tester = $I;
     }

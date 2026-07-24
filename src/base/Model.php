@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\base;
@@ -70,6 +70,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
             'comment' => Yii::t('hipanel', 'Comment'),
             'created_date' => Yii::t('hipanel', 'Registered'),
             'updated_date' => Yii::t('hipanel', 'Last update'),
+            'tags' => Yii::t('hipanel', 'Tags'),
         ];
     }
 
@@ -88,7 +89,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
         if (!isset(static::$mergedLabels[static::class])) {
             $default = $this->defaultAttributeLabels();
             foreach ($this->attributes() as $k) {
-                $label = $labels[$k] ?: $default[$k];
+                $label = $labels[$k] ?? null ?: $default[$k] ?? null;
                 if (!$label) {
                     if (preg_match('/(.+)_[a-z]+$/', $k, $m)) {
                         if (isset($labels[$m[1]])) {
@@ -111,7 +112,7 @@ class Model extends \hiqdev\hiart\ActiveRecord
 
     public function getClient()
     {
-        return $this->client;
+        return $this->client ?? null;
     }
 
     public function getClientId()

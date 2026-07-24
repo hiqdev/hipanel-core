@@ -1,11 +1,11 @@
 <?php
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
@@ -38,11 +38,11 @@ class SwitchColumn extends DataColumn
 
     public function getDataCellValue($model, $key, $index)
     {
-        return SwitchInput::widget(ArrayHelper::merge([
+        return SwitchInput::widget([
             'name' => 'swc' . $key . $model->id,
-            'pluginOptions' => ArrayHelper::merge($this->pluginOptions, [
+            'clientOptions' => ArrayHelper::merge([
                 'state' => (bool) parent::getDataCellValue($model, $key, $index),
-            ]),
-        ], $this->switchInputOptions));
+            ], $this->pluginOptions, $this->switchInputOptions),
+        ]);
     }
 }

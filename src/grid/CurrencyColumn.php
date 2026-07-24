@@ -1,19 +1,20 @@
 <?php
+
+declare(strict_types=1);
 /**
- * HiPanel core package.
+ * HiPanel core package
  *
  * @link      https://hipanel.com/
  * @package   hipanel-core
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\grid;
 
+use Closure;
 use hipanel\base\Model;
 use hipanel\modules\finance\widgets\ColoredBalance;
-use Yii;
-use yii\helpers\Html;
 
 /**
  * Class CurrencyColumn.
@@ -21,9 +22,9 @@ use yii\helpers\Html;
 class CurrencyColumn extends DataColumn
 {
     public $attribute = 'balance';
-    public $nameAttribute = 'balance';
-    public $format = 'html';
+    public $format = 'raw';
     public $filter = false;
+    public string $nameAttribute = 'balance';
 
     /**
      * @var bool|string Whether to compare [[attribute]] with another attribute to change the display colors
@@ -31,13 +32,15 @@ class CurrencyColumn extends DataColumn
      *  - string - name of attribute to compare with
      */
     public $compare = false;
-    public $colors = [];
+    public array $colors = [];
 
     public $urlCallback;
 
+    public ?Closure $valueFormatter = null;
+
     public function getColor($type)
     {
-        return $this->colors[$type] ?: $type;
+        return $this->colors[$type] ?? $type;
     }
 
     public function getUrl($model, $key, $index)
@@ -61,6 +64,7 @@ class CurrencyColumn extends DataColumn
             'colors' => $this->colors,
             'urlCallback' => $this->urlCallback,
             'url' => $this->getUrl($model, $key, $index),
+            'valueFormatter' => $this->valueFormatter,
         ]);
     }
 }

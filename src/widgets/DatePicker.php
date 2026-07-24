@@ -1,16 +1,20 @@
 <?php
-/**
- * HiPanel core package.
- *
- * @link      https://hipanel.com/
- * @package   hipanel-core
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2017, HiQDev (http://hiqdev.com/)
- */
+
+declare(strict_types=1);
 
 namespace hipanel\widgets;
 
-class DatePicker extends \kartik\date\DatePicker
+class DatePicker extends DateTimePicker
 {
-    public $separator = '&mdash;';
+    public string $icon = 'glyphicon-calendar';
+
+    public function init(): void
+    {
+        parent::init();
+
+        $this->clientOptions = array_filter(array_merge([
+            'enableTime' => false,
+            'dateFormat' => 'Y-m-d',
+        ], $this->clientOptions), static fn($value): bool => $value !== null);
+    }
 }
