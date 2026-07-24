@@ -114,6 +114,15 @@
         }
     },
     "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "yiisoft/composer-config-plugin": true,
+            "php-http/discovery": true,
+            "hiqdev/composer-ci-deps-plugin": true,
+            "cweagans/composer-patches": true
+        }
+    },
     "repositories": [
         {
             "type": "composer",
