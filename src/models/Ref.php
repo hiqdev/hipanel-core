@@ -47,8 +47,9 @@ class Ref extends \hiqdev\hiart\ActiveRecord
         $from = ArrayHelper::remove($mapOptions, 'from', 'name');
         $to = ArrayHelper::remove($mapOptions, 'to', 'label');
         $group = ArrayHelper::remove($mapOptions, 'group', null);
+        $refs = ArrayHelper::map($models, $from, $to, $group);
 
-        return ArrayHelper::map($models, $from, $to, $group);
+        return $refs;
     }
 
     public static function getListRecursively($name, $translate = null, $options = [])
@@ -62,6 +63,12 @@ class Ref extends \hiqdev\hiart\ActiveRecord
             $translate = 'hipanel';
         }
 
+        static $runtimeCache = [];
+        $runtimeKey = serialize([$name, $translate, $options]);
+        if (isset($runtimeCache[$runtimeKey])) {
+            return $runtimeCache[$runtimeKey];
+        }
+
         $data = Yii::$app->get('cache')->getOrSet([__METHOD__, $name, $options], function () use ($name, $options) {
             $conditions = array_merge(['gtype' => $name], $options);
             $result = self::find()->where($conditions)->all();
@@ -69,7 +76,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
             return $result;
         }, 3600);
 
-        return array_map(function ($model) use ($translate) {
+        $result = array_map(function ($model) use ($translate) {
             /** @var self $model */
             if ($translate !== false) {
                 $model->label = Yii::t($translate, $model->label);
@@ -77,5 +84,7 @@ class Ref extends \hiqdev\hiart\ActiveRecord
 
             return $model;
         }, $data);
+
+        return $runtimeCache[$runtimeKey] = $result;
     }
 }

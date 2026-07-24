@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace hipanel\widgets;
-
 
 use hipanel\base\Model;
 use Yii;
@@ -12,6 +12,8 @@ use yii\helpers\Html;
 /**
  * Class NoteBlock
  * @package hipanel\widgets
+ *
+ * @property-read string $emptyMessage
  */
 class NoteBlock extends Widget
 {
@@ -35,22 +37,24 @@ class NoteBlock extends Widget
      */
     public function run()
     {
-        $res = '</br>';
-        $res .= Html::tag('span', $this->model->getAttributeLabel($this->note) . ': ', ['class' => 'bold']);
         if (empty($this->noteOptions['url'])) {
             $value = $this->model->{$this->note};
-            $res .= empty($value) ? $this->getEmptyMessage() : $value;
+            $result = empty($value) ? $this->getEmptyMessage() : $value;
         } else {
-            $res .= XEditable::widget([
+            $result = XEditable::widget([
                 'model' => $this->model,
                 'attribute' => $this->note,
-                'pluginOptions' => $this->noteOptions,
+                'pluginOptions' => array_merge([
+                    'emptytext' => $this->model->getAttributeLabel($this->note),
+                    'type' => 'textarea',
+                ], $this->noteOptions),
             ]);
         }
-        return $res;
+
+        return Html::tag('span', $result);
     }
 
-    private function getEmptyMessage()
+    private function getEmptyMessage(): string
     {
         return Html::tag('span', Yii::t('hipanel', 'Empty'), ['style' => ['font-style' => 'italic']]);
     }

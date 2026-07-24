@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
+/** @var array $params */
+
 return [
     'aliases' => [
         '@organization' => $params['organization.url'],
@@ -63,10 +65,7 @@ return [
             'panelUrl' => $params['hipanel.url'],
         ],
         'language' => [
-            'languages' => [
-                'en' => 'English',
-                'ru' => 'Русский',
-            ],
+            'languages' => $params['language.languages'],
         ],
         'debug' => !empty($params['debug.event.enable']) ? [] : [
             'panels' => [

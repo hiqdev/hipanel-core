@@ -21,6 +21,7 @@ use hipanel\modules\finance\widgets\combo\target\PrivateCloudBackupCombo;
 use hipanel\modules\finance\widgets\combo\target\PrivateCloudCombo;
 use hipanel\modules\finance\widgets\combo\target\SnapshotCombo;
 use hipanel\modules\finance\widgets\combo\target\StorageCombo;
+use hipanel\modules\finance\widgets\combo\target\SwitchLicenceCombo;
 use hipanel\modules\finance\widgets\combo\target\VideoCDNCombo;
 use hipanel\modules\finance\widgets\combo\target\VolumeCombo;
 use hipanel\modules\finance\widgets\combo\target\VPSCombo;
@@ -69,6 +70,7 @@ class ObjectCombo extends InputWidget
     public array $knownClasses = [
         'client' => ['alias' => '@client', 'combo' => ClientCombo::class],
         'partner' => ['alias' => '@client', 'combo' => PartnerCombo::class],
+        'switch_license' => ['alias' => '@target', 'combo' => SwitchLicenceCombo::class],
         'device' => ['alias' => '@server', 'combo' => ServerCombo::class],
         'domain' => ['alias' => '@domain', 'combo' => DomainCombo::class],
         'zone' => ['alias' => '@domain', 'combo' => ZoneCombo::class],

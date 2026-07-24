@@ -11,11 +11,11 @@ use yii\helpers\Html;
 <p>
     <b><?= Yii::$app->user->identity->username ?></b>
 
-    <?php if (Yii::$app->user->can('support') && isset(Yii::$app->user->identity->seller)) : ?>
+    <?php if (!Yii::$app->user->isAccountOwner() && isset(Yii::$app->user->identity->seller)) : ?>
         <?= ' / ' . Yii::$app->user->identity->seller ?>
     <?php endif ?>
 
-    <?php if (Yii::$app->user->can('support')) : ?>
+    <?php if (!Yii::$app->user->is('client')) : ?>
         <small><?= Yii::$app->user->identity->type ?></small>
     <?php else : ?>
         <br>

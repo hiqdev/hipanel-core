@@ -10,6 +10,7 @@
 
 namespace hipanel\controllers;
 
+use hipanel\actions\TimeZoneAction;
 use hipanel\helpers\UserHelper;
 use hipanel\logic\Impersonator;
 use hipanel\models\User;
@@ -95,6 +96,7 @@ class SiteController extends \hisite\controllers\SiteController
                     '#'     => 'notification_settings',
                 ],
             ],
+            'timezone' => TimeZoneAction::class,
         ]);
     }
 

@@ -12,9 +12,10 @@ namespace hipanel\grid;
 
 use Closure;
 use hipanel\helpers\ArrayHelper;
+use hipanel\models\TaggableInterface;
 use hipanel\widgets\NoteBlock;
-use hipanel\widgets\XEditable;
-use Yii;
+use hipanel\widgets\TagsManager;
+use Throwable;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -53,7 +54,7 @@ class MainColumn extends DataColumn
         if (strncmp($url, '/', 1) === 0) {
             return $url;
         }
-        $baseUrl = isset($this->grid->controllerUrl) ? $this->grid->controllerUrl : '';
+        $baseUrl = $this->grid->controllerUrl ?? '';
 
         return $baseUrl ? Url::to($baseUrl . '/' . $url) : Url::to($url);
     }
@@ -61,20 +62,45 @@ class MainColumn extends DataColumn
     public function init()
     {
         parent::init();
-        $this->noteOptions = ArrayHelper::merge([
-            'url' => $this->buildUrl('set-note'),
-        ], $this->noteOptions);
+        $this->noteOptions = ArrayHelper::merge(['url' => $this->buildUrl('set-note')], $this->noteOptions);
+        $this->contentOptions = $this->contentOptions instanceof Closure ? call_user_func($this->contentOptions, $this->grid->filterModel) : $this->contentOptions;
+        if (isset($this->contentOptions['style'])) {
+            $this->contentOptions['style'] .= str_contains($this->contentOptions['style'], 'white-space') ? '' : ' white-space: nowrap;';
+        } else {
+            $this->contentOptions['style'] = 'white-space: nowrap;';
+        }
     }
 
     /** {@inheritdoc} */
-    protected function renderDataCellContent($model, $key, $index)
+    protected function renderDataCellContent($model, $key, $index): string
     {
         $value = $this->renderValue($model, $key, $index);
-        $note = $this->renderNoteLink($model, $key, $index);
         $extra = $this->renderExtra($model);
         $badges = $this->renderBadges($model, $key, $index);
+        $noteAndLabel = $this->renderNoteLinks($model);
+        $tags = $this->renderTags($model);
 
-        return $value . $extra . $badges . $note;
+        return Html::tag(
+            'span',
+            implode(" ",
+                array_map(static fn(string $html): string => Html::tag('span',
+                    $html,
+                    ['style' => 'display: flex; flex-direction: row; flex-wrap: nowrap; gap: 1rem;']), [
+                    Html::tag('span', implode('', array_filter([$value, $extra, $badges]))),
+                    $noteAndLabel,
+                    $tags,
+                ])),
+            ['style' => 'display: flex; flex-direction: column; flex-wrap: nowrap;']
+        );
+    }
+
+    protected function renderTags($model): string
+    {
+        if ($model instanceof TaggableInterface && !$model->isTagsHidden()) {
+            return TagsManager::widget(['model' => $model]);
+        }
+
+        return '';
     }
 
     protected function renderValue($model, $key, $index)
@@ -88,26 +114,23 @@ class MainColumn extends DataColumn
         } else {
             $value = $this->renderViewLink($model, $key, $index);
         }
+
         return $value;
     }
 
-    protected function renderBadges($model, $key, $index)
+    protected function renderBadges($model, $key, $index): ?string
     {
-        $badges = $this->badges instanceof Closure
-                    ? call_user_func($this->badges, $model, $key, $index)
-                    : $this->badges;
+        $badges = $this->badges instanceof Closure ? call_user_func($this->badges, $model, $key, $index) : $this->badges;
 
-        return $badges ? (' ' . $badges) : '';
+        return $badges ? (' ' . $badges) : null;
     }
 
-    protected function renderExtra($model)
+    protected function renderExtra($model): ?string
     {
-        $value = $this->extraAttribute ? $model->{$this->extraAttribute} : null;
-
-        return $value ? "<br>$value" : '';
+        return $this->extraAttribute ? $model->{$this->extraAttribute} : null;
     }
 
-    protected function renderViewLink($model, $key, $index)
+    protected function renderViewLink($model, $key, $index): string
     {
         $value = parent::renderDataCellContent($model, $key, $index);
 
@@ -117,11 +140,10 @@ class MainColumn extends DataColumn
     /**
      * Renders link to edit note.
      * @param $model
-     * @param $key
-     * @param $index
      * @return string
+     * @throws Throwable
      */
-    protected function renderNoteLink($model, $key, $index)
+    protected function renderNoteLinks($model): string
     {
         if (empty($this->note)) {
             return '';
@@ -129,11 +151,11 @@ class MainColumn extends DataColumn
         if (is_array($this->note)) {
             return array_reduce(
                 $this->note,
-                fn (string $res, string $note): string => $res . NoteBlock::widget([
-                    'model' => $model,
-                    'note' => $note,
-                    'noteOptions' => $this->noteOptions[$note],
-                ]),
+                fn(string $res, string $note): string => $res . NoteBlock::widget([
+                        'model' => $model,
+                        'note' => $note,
+                        'noteOptions' => $this->noteOptions[$note],
+                    ]),
                 '',
             );
         }
@@ -144,6 +166,7 @@ class MainColumn extends DataColumn
                 'noteOptions' => $this->noteOptions,
             ]);
         }
+
         return '';
     }
 }

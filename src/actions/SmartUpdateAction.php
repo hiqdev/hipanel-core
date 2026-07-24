@@ -10,6 +10,7 @@
 
 namespace hipanel\actions;
 
+use hipanel\module\SmartRedirect\Application\ActionRedirectResolver;
 use hipanel\base\Model;
 use hipanel\base\SearchModelTrait;
 use hiqdev\hiart\ActiveDataProvider;
@@ -160,29 +161,27 @@ class SmartUpdateAction extends SwitchAction
                 'save'    => true,
                 'success' => [
                     'class' => RedirectAction::class,
-                    'url'   => function ($action) {
-                        return $action->collection->count() > 1
-                            ? $action->controller->getSearchUrl()
-                            : $action->controller->getActionUrl('view', ['id' => $action->collection->first->id]);
-                    },
+                    'url' => [
+                        'class' => ActionRedirectResolver::class,
+                    ],
                 ],
                 'error'   => [
                     'class'  => RenderAction::class,
                     'view'   => $this->view,
                     'data'   => $this->data,
-                    'params' => function ($action) {
+                    'params' => function () {
                         try {
                             $models = $this->fetchModels();
 
                             foreach ($models as $model) {
                                 $model->scenario = $this->scenario;
                                 foreach ($this->collection->models as $payload) {
-                                    if ($payload->id === $model->id) {
+                                    if ((string)$payload->id === (string)$model->id) {
                                         $model->setAttributes(array_filter($payload->getAttributes()));
                                     }
                                 }
                             }
-                        } catch (BadRequestHttpException $e) {
+                        } catch (BadRequestHttpException) {
                             $models = $this->collection->models;
                         }
 
@@ -236,8 +235,8 @@ class SmartUpdateAction extends SwitchAction
     /**
      * Fetches models that will be edited.
      *
-     * @throws BadRequestHttpException
      * @return Model[]
+     * @throws BadRequestHttpException|\yii\base\InvalidConfigException
      */
     public function fetchModels()
     {

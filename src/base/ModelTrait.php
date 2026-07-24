@@ -20,6 +20,12 @@ trait ModelTrait
      */
     public function attributes()
     {
+        static $cache = [];
+        $class = static::class;
+        if (isset($cache[$class])) {
+            return $cache[$class];
+        }
+
         $attributes = \yii\base\Model::attributes();
         foreach (self::rules() as $rule) {
             if (is_string(reset($rule))) {
@@ -33,6 +39,6 @@ trait ModelTrait
             }
         }
 
-        return array_values($attributes);
+        return $cache[$class] = array_values($attributes);
     }
 }

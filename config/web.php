@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
  */
 
+/** @var array $params */
+
+$assetsProd = dirname(__DIR__, 4) . '/config/assets-prod.php';
+
 return [
     'id' => 'hipanel',
     'name' => 'HiPanel',
@@ -20,11 +24,14 @@ return [
         'log' => 'log',
         'themeManager' => 'themeManager',
         'language' => 'language',
+        'timezone',
     ]),
     'aliases' => [
         '@ref' => '/ref',
+        '@audit' => '/audit',
     ],
     'components' => [
+        'timezone' => ['class' => hipanel\components\Timezone::class],
         'request' => [
             'enableCsrfCookie' => false,
             'cookieValidationKey' => $params['cookieValidationKey'],
@@ -33,7 +40,7 @@ return [
             'class' => \hipanel\components\Response::class,
         ],
         'mailer' => [
-            'class' => \yii\swiftmailer\Mailer::class,
+            'class' => \yii\symfonymailer\Mailer::class,
             'viewPath' => dirname(__DIR__) . '/src/mail',
         ],
         'orientationStorage' => [
@@ -85,11 +92,13 @@ return [
             ],
         ],
         'urlManager' => [
-            'class' => \yii\web\UrlManager::class,
+            'class' => \hipanel\components\UrlManager::class,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
+                'audit/<table:\w+>/<id:\w+>' => 'audit/index',
+                'audit/<id:[\w\-]+>' => 'audit/trace',
                 '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
                 '<_c:[\w\-]+>' => '<_c>/index',
                 '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>' => '<_c>/<_a>',
@@ -97,7 +106,7 @@ return [
             ],
         ],
         'formatter' => [
-            'locale' => 'ru-RU',
+            'class' => \hipanel\components\Formatter::class,
             'nullDisplay' => '&nbsp;',
             'sizeFormatBase' => 1000,
         ],
@@ -109,6 +118,9 @@ return [
                 '$themedViewPaths' => [dirname(__DIR__) . '/src/views'],
             ],
         ],
+        'assetManager' => [
+            'bundles' => YII_ENV === 'prod' && file_exists($assetsProd) ? require($assetsProd) : [],
+        ],
         'fileStorage' => [
             'class' => \hipanel\components\FileStorage::class,
             'secret' => $params['fileStorageSecret'],
@@ -119,12 +131,8 @@ return [
         'themeSettingsStorage' => [
             'class' => \hipanel\components\ThemeSettingsStorage::class,
         ],
-        'assetManager' => [
-            'bundles' => [
-                \omnilight\assets\MomentAsset::class => [
-                    'class' => \hipanel\assets\MomentAsset::class,
-                ],
-            ],
+        'session' => [
+            'class' => yii\web\CacheSession::class,
         ],
     ],
     'container' => [
@@ -145,7 +153,7 @@ return [
         'singletons' => [
             \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class,
             \yii\web\Session::class => function () {
-                return new \yii\web\Session();
+                return Yii::$app->getSession();
             },
             \yii\web\User::class => function () {
                 return Yii::$app->getUser();
@@ -157,7 +165,7 @@ return [
                 return Yii::$app->get('authClientCollection');
             },
             \hipanel\grid\RepresentationCollectionFinder::class => function ($container, $params, $config) {
-                return \hipanel\grid\RepresentationCollectionFinder::forCurrentRoute('\hipanel\modules\%s\grid\%sRepresentations');
+                return \hipanel\grid\RepresentationCollectionFinder::forCurrentRoute('%s\hipanel\modules\%s\grid\%sRepresentations');
             },
         ],
     ],

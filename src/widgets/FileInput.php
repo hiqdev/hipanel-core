@@ -1,31 +1,27 @@
 <?php
-/**
- * HiPanel core package
- *
- * @link      https://hipanel.com/
- * @package   hipanel-core
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2014-2019, HiQDev (http://hiqdev.com/)
- */
+
+declare(strict_types=1);
 
 namespace hipanel\widgets;
 
-use hipanel\models\Ref;
+use hipanel\assets\FileInputAsset;
+use yii\helpers\Html;
+use yii\widgets\InputWidget;
 
-class FileInput extends \kartik\file\FileInput
+class FileInput extends InputWidget
 {
-    public function init()
+    public function run()
     {
-        $this->setAvailableFileTypes();
-        parent::init();
-    }
+        Html::removeCssClass($this->options, 'form-control');
+        $input = $this->hasModel()
+            ? Html::activeFileInput($this->model, $this->attribute, $this->options)
+            : Html::fileInput($this->name, $this->value, $this->options);
+        FileInputAsset::register($this->getView());
+        $this->view->registerJs("$('#$this->id').fileInput();");
 
-    protected function setAvailableFileTypes()
-    {
-        $refs = implode(', ', array_map(
-            fn (Ref $model) => "\"{$model->name}\"",
-            Ref::findCached('type,file')
-        ));
-        $this->options['data-allowed-file-extensions'] = "[{$refs}]";
+        return $this->render('FileInput', [
+            'id' => $this->id,
+            'hiddenInput' => $input,
+        ]);
     }
 }

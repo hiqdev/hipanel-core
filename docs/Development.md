@@ -47,7 +47,7 @@ To contribute follow this steps:
 
     You can do it at github website:
 
-    1. Open repository (for example [hipnel](https://github.com/hiqdev/hipanel))
+    1. Open repository (for example [hipanel-core](https://github.com/hiqdev/hipanel-core))
 
     2. Click __New pull request__
 

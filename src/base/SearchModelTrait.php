@@ -86,7 +86,7 @@ trait SearchModelTrait
          * @var ActiveRecord $class
          * @var ActiveQuery $query
          */
-        $class = get_parent_class();
+        $class = get_parent_class($this);
         $query = $class::find(); // $class::find()->orderBy($sort->orders)->all(); if $sort is Sort
 
         $dataProvider = Yii::createObject(ArrayHelper::merge([

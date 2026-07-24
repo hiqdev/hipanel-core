@@ -19,34 +19,32 @@ use yii\helpers\Html;
  */
 class SettingsModal extends AjaxModal
 {
-    /**
-     * @var Model
-     */
-    public $model;
+    public Model $model;
+
+    /** Header and text of toggle link */
+    public string $title = '';
+
+    /** template for `label` attribute */
+    public string $labelTemplate = '{icon} {label}';
 
     /**
-     * @var string text of toggle link
-     */
-    public $title;
-
-    /**
-     * @var string template for `label` attribute
-     */
-    public $labelTemplate = '{icon} {label}';
-
-    /**
-     * @var string icon class for toggle link
+     * icon class for toggle link
      * Will be passed through [[FontIcon::i()]] method
      */
-    public $icon;
+    public ?string $icon = null;
+
+    /** Priority text of toggle link */
+    public ?string $toggleText = null;
 
     public function init()
     {
         $this->header = Html::tag('h4', $this->title, ['class' => 'modal-title']);
         $this->actionUrl = [$this->scenario, 'id' => $this->model->id];
+        $this->icon = $this->icon ? FontIcon::i($this->icon) : '';
+        $this->toggleText = $this->toggleText ?? $this->title;
         $this->toggleButton = array_merge([
             'tag' => 'a',
-            'label' => strtr($this->labelTemplate, ['{icon}' => FontIcon::i($this->icon), '{label}' => $this->title]),
+            'label' => strtr($this->labelTemplate, ['{icon}' => $this->icon, '{label}' => $this->toggleText]),
             'class' => 'clickable',
         ], is_array($this->toggleButton) ? $this->toggleButton : []);
         parent::init();

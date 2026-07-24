@@ -38,16 +38,15 @@ class FilterStorage extends Component
      * Example of usage is listed in the description of the class
      * @see FilterStorage
      */
-    public $map = [];
+    public array $map = [];
 
     /**
      * Collects the filters according to the [[map]].
      *
-     * @throws InvalidConfigException
      * @return array key-value pairs of attributes and filters
      * @see map
      */
-    public function get()
+    public function get(): array
     {
         $result = [];
 
@@ -63,10 +62,9 @@ class FilterStorage extends Component
      * Sets the filters to the storage according to the [[map]].
      *
      * @param $filters
-     * @throws InvalidConfigException
      * @see map
      */
-    public function set($filters)
+    public function set($filters): void
     {
         $filters = (array) $filters;
 
@@ -85,7 +83,7 @@ class FilterStorage extends Component
      *
      * @void
      */
-    public function clearFilters()
+    public function clearFilters(): void
     {
         foreach ($this->map as $key) {
             $this->setByKey($key, null);
@@ -100,7 +98,7 @@ class FilterStorage extends Component
      * @param $value
      * @void
      */
-    public function setByKey($key, $value)
+    public function setByKey($key, $value): void
     {
         $storage = $this->getStorage();
         if ($value !== '' && $value !== null) {
@@ -117,18 +115,18 @@ class FilterStorage extends Component
      * @param $key
      * @return mixed|null
      */
-    public function getByKey($key)
+    public function getByKey($key): mixed
     {
         $storage = $this->getStorage();
 
-        return isset($storage[$key]) ? $storage[$key] : null;
+        return $storage[$key] ?? null;
     }
 
     /**
      * Returns the array from the filter storage.
      * @return array
      */
-    public function getStorage()
+    public function getStorage(): array
     {
         return Yii::$app->session->get('filterStorage', []);
     }
@@ -138,7 +136,7 @@ class FilterStorage extends Component
      *
      * @param array $storage
      */
-    public function setStorage(array $storage = [])
+    public function setStorage(array $storage = []): void
     {
         Yii::$app->session->set('filterStorage', $storage);
     }

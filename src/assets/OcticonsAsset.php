@@ -15,6 +15,6 @@ use yii\web\AssetBundle;
 class OcticonsAsset extends AssetBundle
 {
     public $css = [
-        '//cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.css',
     ];
 }
