@@ -84,6 +84,12 @@ class CredentialsProvider extends \Codeception\Module
         }
         if ($currentUrl !== $url) {
             $wd->amOnPage($url);
+            // The layout shell loads synchronously, but page content (e.g. the h1
+            // callers check right after needPage()) is filled in by a pjax/AJAX
+            // request that fires after the initial navigation - without this,
+            // callers race the content load and intermittently see a not-yet-filled
+            // page (see ContactsCest flake).
+            $wd->waitForJS('return document.readyState === "complete" && (!window.jQuery || window.jQuery.active === 0);', 10);
         }
     }
 

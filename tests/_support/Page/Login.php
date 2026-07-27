@@ -34,7 +34,7 @@ class Login
         $I->fillField('#loginform-username', $login);
         $I->fillField('#loginform-password', $password);
         $I->click('#login-form button[type=submit]');
-        $I->wait(3);
+        $I->waitForPageUpdate();
         $I->see($login);
 
         return $this;
