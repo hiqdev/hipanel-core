@@ -34,7 +34,12 @@ class Login
         $I->fillField('#loginform-username', $login);
         $I->fillField('#loginform-password', $password);
         $I->click('#login-form button[type=submit]');
-        $I->wait(3);
+        // Wait for the post-login redirect itself (a concrete marker) before
+        // falling back to the generic ajax-idle wait - waitForPageUpdate() alone
+        // can finish before the redirect even starts, for the same reason
+        // needPage() needed a "wait for busy first" fix (see CredentialsProvider).
+        $I->waitForJS('return window.location.pathname !== "/site/login";', 10);
+        $I->waitForPageUpdate();
         $I->see($login);
 
         return $this;
