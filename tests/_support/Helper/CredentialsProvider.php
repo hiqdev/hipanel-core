@@ -89,6 +89,18 @@ class CredentialsProvider extends \Codeception\Module
             // request that fires after the initial navigation - without this,
             // callers race the content load and intermittently see a not-yet-filled
             // page (see ContactsCest flake).
+            //
+            // Waiting for "idle" alone isn't enough: jQuery.active is still 0
+            // until that request actually starts, so checking idle first can
+            // pass instantly, before the request was even dispatched. Wait for
+            // it to start first (tolerating pages with no pjax/AJAX content at
+            // all) and only then wait for it to finish.
+            try {
+                $wd->waitForJS('return !!window.jQuery && window.jQuery.active > 0;', 1);
+            } catch (\Facebook\WebDriver\Exception\TimeoutException $e) {
+                // No pjax/AJAX request started within the grace window - this
+                // page has no further async content to wait out.
+            }
             $wd->waitForJS('return document.readyState === "complete" && (!window.jQuery || window.jQuery.active === 0);', 10);
         }
     }
