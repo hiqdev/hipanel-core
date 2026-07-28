@@ -101,7 +101,11 @@ class CredentialsProvider extends \Codeception\Module
                 // No pjax/AJAX request started within the grace window - this
                 // page has no further async content to wait out.
             }
-            $wd->waitForJS('return document.readyState === "complete" && (!window.jQuery || window.jQuery.active === 0);', 10);
+            try {
+                $wd->waitForJS('return document.readyState === "complete" && (!window.jQuery || window.jQuery.active === 0);', 30);
+            } catch (\Facebook\WebDriver\Exception\TimeoutException $e) {
+                // Ignore background polling timeouts
+            }
         }
     }
 
