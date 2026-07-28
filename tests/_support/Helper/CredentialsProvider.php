@@ -83,25 +83,15 @@ class CredentialsProvider extends \Codeception\Module
             $currentUrl = null;
         }
         if ($currentUrl !== $url) {
-            $wd->amOnPage($url);
-            // The layout shell loads synchronously, but page content (e.g. the h1
-            // callers check right after needPage()) is filled in by a pjax/AJAX
-            // request that fires after the initial navigation - without this,
-            // callers race the content load and intermittently see a not-yet-filled
-            // page (see ContactsCest flake).
+            // No post-navigation "wait for AJAX idle" here: this helper is shared by every acceptance
+            // test in every module, and a page-wide jQuery.active check can't tell "the content this
+            // caller is about to assert on" apart from unrelated background AJAX elsewhere on the page
+            // (e.g. dashboard ObjectsCountWidget boxes loading their counts).
             //
-            // Waiting for "idle" alone isn't enough: jQuery.active is still 0
-            // until that request actually starts, so checking idle first can
-            // pass instantly, before the request was even dispatched. Wait for
-            // it to start first (tolerating pages with no pjax/AJAX content at
-            // all) and only then wait for it to finish.
-            try {
-                $wd->waitForJS('return !!window.jQuery && window.jQuery.active > 0;', 1);
-            } catch (\Facebook\WebDriver\Exception\TimeoutException $e) {
-                // No pjax/AJAX request started within the grace window - this
-                // page has no further async content to wait out.
-            }
-            $wd->waitForJS('return document.readyState === "complete" && (!window.jQuery || window.jQuery.active === 0);', 10);
+            // Callers whose content is filled in asynchronously after navigation (e.g. an h1 set via pjax)
+            // must wait for that specific content themselves, e.g. `$I->waitForText($text, 10, 'h1')`
+            // instead of a bare `$I->see($text, 'h1')` (see ContactsCest).
+            $wd->amOnPage($url);
         }
     }
 
