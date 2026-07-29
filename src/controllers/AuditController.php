@@ -91,7 +91,7 @@ class AuditController extends Controller
 
             $traceId = $datum['request']['trace_id'] ?? null;
             if ($traceId !== null && $traceId !== '') {
-                $datum['request']['link'] = Url::toRoute(['`@audit/trace`', 'id' => $traceId]);
+                $datum['request']['link'] = Url::toRoute(['@audit/trace', 'id' => $traceId]);
             }
         }
 
