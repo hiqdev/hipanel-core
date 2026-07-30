@@ -73,6 +73,10 @@ async function determineActor(testTitle) {
   return Object.keys(testClients).find(role => testTitle.includes(`@${role}`)) || null;
 }
 
+// Actors whose stored session was already confirmed alive during this test run,
+// so we don't re-probe the server before every single test.
+const validatedActors = new Set<string>();
+
 async function handleStorageState({ browser }, use, testInfo) {
   const actor = await determineActor(testInfo.title);
   if (!actor) throw new Error("Role tag not found in test title. Expected: @seller, @manager, @client, @admin");
@@ -80,15 +84,43 @@ async function handleStorageState({ browser }, use, testInfo) {
   const authFilePath = getAuthStoragePath(actor);
   console.log(`Checking authentication file: ${authFilePath}`);
 
-  if (!fs.existsSync(authFilePath) || isAuthFileExpired(authFilePath)) {
+  let needsLogin = !fs.existsSync(authFilePath) || isAuthFileExpired(authFilePath);
+
+  if (!needsLogin && !validatedActors.has(actor)) {
+    needsLogin = !(await isSessionAlive(authFilePath, browser));
+  }
+
+  if (needsLogin) {
     await performLogin(actor, browser);
   }
+  validatedActors.add(actor);
+
   await use(authFilePath);
 }
 
 function isAuthFileExpired(filePath) {
   const { mtime } = fs.statSync(filePath);
   return (Date.now() - new Date(mtime).getTime()) > 86400000; // 24 hours
+}
+
+// The auth file's age alone isn't a reliable signal: the server-side session it
+// references can die before the 24h mark (session store restart/flush, etc.),
+// in which case a stored cookie silently redirects every page load to /site/login.
+// Probe it directly so a dead-but-not-expired session triggers a fresh login
+// instead of every test failing on a login page it never expected to see.
+async function isSessionAlive(authFilePath, browser): Promise<boolean> {
+  const context = await browser.newContext({ storageState: authFilePath });
+  const page = await context.newPage();
+  try {
+    await page.goto(`${process.env.URL}/site/healthcheck`, { waitUntil: "domcontentloaded" });
+    const userId = await page.textContent("userId", { timeout: 5_000 }).catch(() => null);
+    return !!userId;
+  } catch {
+    return false;
+  } finally {
+    await page.close();
+    await context.close();
+  }
 }
 
 function attachNetworkResponseListener(page) {
