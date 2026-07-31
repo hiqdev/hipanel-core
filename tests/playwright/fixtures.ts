@@ -124,11 +124,12 @@ async function isSessionAlive(authFilePath, browser): Promise<boolean> {
 }
 
 function attachNetworkResponseListener(page) {
-  let isClosed = false;
-  page.on("close", () => { isClosed = true; });
-
-  page.on("response", async (response) => {
-    if (isClosed) return;
+  // Deliberately synchronous: an earlier version awaited response.serverAddr()
+  // to log the server IP, which raced against page/context teardown and
+  // intermittently crashed tests (response.serverAddr: Target page, context
+  // or browser has been closed). Logging nothing but data already on hand
+  // removes that race entirely instead of guarding around it.
+  page.on("response", (response) => {
     const resourceType = response.request().resourceType();
     if (resourceType !== "xhr" && resourceType !== "fetch") return;
 
@@ -138,14 +139,7 @@ function attachNetworkResponseListener(page) {
     const method = response.request().method();
     const status = response.status();
 
-    const serverInfo = await Promise.race([
-      response.serverAddr(),
-      new Promise(resolve => setTimeout(() => resolve(null), 5000)), // Timeout after 5 seconds
-    ]);
-
-    const serverIp = serverInfo?.ipAddress || "Unknown";
-
-    console.log(`${serverIp} - ${formattedDate} "${method} ${path}" ${status}`);
+    console.log(`${formattedDate} "${method} ${path}" ${status}`);
   });
 }
 
