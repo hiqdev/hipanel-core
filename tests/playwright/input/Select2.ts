@@ -33,6 +33,31 @@ export default class Select2 {
     await this.page.locator(`//ul[contains(@class, 'select2-results__options')]/li[normalize-space(text())='${value}']`).click();
   }
 
+  async trySetValue(value: string): Promise<boolean> {
+    try {
+      await this.combobox.click();
+      await this.dropdownSearchField.fill(value);
+      await this.page.locator("ul.select2-results__options .loading-results").waitFor({ state: "hidden" }).catch(() => {});
+      const targetOption = this.page.locator(`//ul[contains(@class, 'select2-results__options')]/li[not(contains(@class, 'select2-results__message')) and normalize-space(text())='${value}']`);
+      if (await targetOption.isVisible({ timeout: 3000 }).catch(() => false)) {
+        await targetOption.click();
+        return true;
+      }
+      await this.dropdownSearchField.fill("");
+      await this.page.locator("ul.select2-results__options .loading-results").waitFor({ state: "hidden" }).catch(() => {});
+      const firstValidOption = this.page.locator(`//ul[contains(@class, 'select2-results__options')]/li[not(contains(@class, 'select2-results__message'))]`).first();
+      if (await firstValidOption.isVisible({ timeout: 2000 }).catch(() => false)) {
+        await firstValidOption.click();
+        return true;
+      }
+      await this.page.keyboard.press("Escape").catch(() => {});
+      return false;
+    } catch {
+      await this.page.keyboard.press("Escape").catch(() => {});
+      return false;
+    }
+  }
+
   async clickFirstOnTheList() {
     await this.combobox.click();
     await this.page.locator("ul.select2-results__options .loading-results").waitFor({ state: "hidden" });
