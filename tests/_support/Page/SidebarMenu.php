@@ -32,6 +32,7 @@ class SidebarMenu extends Authenticated
             $I->seeElement(['css' => '.menu-open a[href~="' . Url::to($url) . '"]']);
         }
         $I->click($rootMenuName, '.sidebar-menu');
+        $I->waitForElementNotVisible('.menu-open', 10);
     }
 
     public function ensureDoesNotContain(string $rootMenuName, array $items = null): void
@@ -47,6 +48,7 @@ class SidebarMenu extends Authenticated
                 $I->dontSee($name, '.menu-open');
             }
             $I->click($rootMenuName, '.sidebar-menu');
+            $I->waitForElementNotVisible('.menu-open', 10);
         }
     }
 
