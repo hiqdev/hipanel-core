@@ -1,9 +1,10 @@
 <?php
 
+use hipanel\widgets\Gravatar;
 use yii\helpers\Html;
 
 ?>
-<?= $this->render('//layouts/gravatar', [
+<?= Gravatar::widget([
     'email' => Yii::$app->user->identity->email ?? null,
     'size'  => 90,
 ]) ?>
