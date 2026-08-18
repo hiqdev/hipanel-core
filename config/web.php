@@ -137,6 +137,19 @@ return [
     ],
     'container' => [
         'definitions' => [
+            // AbstractSidebarMenu stays a *definition*, not a singleton: unlike
+            // AbstractNavbarMenu below, it's an actively-used extension point - many
+            // hipanel-module-* packages (finance, client, domain, hosting, ticket, ...)
+            // each contribute their own sidebar item via an 'add'-only 'definitions'
+            // entry for this same class (no 'class' key of their own). Moving the base
+            // 'class' registration to 'singletons' would strand it in a different
+            // section from all of those 'add' contributions - whichever section a
+            // project's merge order applies last would end up with an 'add'-only
+            // definition and no 'class' at all, throwing NotInstantiableException
+            // (confirmed breaking hipanel.ahnames.com when this was tried).
+            \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
+                'class' => \hipanel\menus\SidebarMenu::class,
+            ],
             \hipanel\widgets\AdBanner::class => [
                 'items' => $params['ad-banner.dashboard.items'],
             ],
@@ -145,24 +158,23 @@ return [
             ],
         ],
         'singletons' => [
-            // Registered as singletons, not definitions, so that a consuming app's own
-            // navbar/sidebar override (e.g. hiqdev/hipanel-site's AbstractNavbarMenu
-            // singleton, meant to replace this admin-panel navbar with a public-site one)
-            // reliably wins regardless of composer-config-plugin's per-project package
-            // merge order. yii\di\Container applies a later 'singletons' entry for the
-            // same class over an earlier one via ordinary associative-array merge, but
-            // when the two competing registrations land in *different* sections
+            // Registered as a singleton, not a definition, so that a consuming app's own
+            // navbar override (e.g. hiqdev/hipanel-site's AbstractNavbarMenu singleton,
+            // meant to replace this admin-panel navbar with a public-site one) reliably
+            // wins regardless of composer-config-plugin's per-project package merge
+            // order. yii\di\Container applies a later 'singletons' entry for the same
+            // class over an earlier one via ordinary associative-array merge, but when
+            // the two competing registrations land in *different* sections
             // ('definitions' vs 'singletons'), which section's value survives depends on
             // that project-specific merge order instead of composer dependency order -
             // see ahnames/ahnames.com HQD-328, where this 'definitions' registration
             // silently won over hipanel-site's singleton override, so the selling site
             // rendered this admin-panel navbar (complete with its UserMenu/gravatar
-            // dropdown) instead of hipanel-site's plain Login/Panel/Logout link.
+            // dropdown) instead of hipanel-site's plain Login/Panel/Logout link. Unlike
+            // AbstractSidebarMenu above, nothing else contributes an 'add'-only
+            // 'definitions' entry for this class, so this move is safe on its own.
             \hiqdev\thememanager\menus\AbstractNavbarMenu::class => [
                 'class' => \hipanel\menus\NavbarMenu::class,
-            ],
-            \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
-                'class' => \hipanel\menus\SidebarMenu::class,
             ],
             \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class,
             \yii\web\Session::class => function () {
