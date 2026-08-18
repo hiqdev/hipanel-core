@@ -137,12 +137,6 @@ return [
     ],
     'container' => [
         'definitions' => [
-            \hiqdev\thememanager\menus\AbstractNavbarMenu::class => [
-                'class' => \hipanel\menus\NavbarMenu::class,
-            ],
-            \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
-                'class' => \hipanel\menus\SidebarMenu::class,
-            ],
             \hipanel\widgets\AdBanner::class => [
                 'items' => $params['ad-banner.dashboard.items'],
             ],
@@ -151,6 +145,25 @@ return [
             ],
         ],
         'singletons' => [
+            // Registered as singletons, not definitions, so that a consuming app's own
+            // navbar/sidebar override (e.g. hiqdev/hipanel-site's AbstractNavbarMenu
+            // singleton, meant to replace this admin-panel navbar with a public-site one)
+            // reliably wins regardless of composer-config-plugin's per-project package
+            // merge order. yii\di\Container applies a later 'singletons' entry for the
+            // same class over an earlier one via ordinary associative-array merge, but
+            // when the two competing registrations land in *different* sections
+            // ('definitions' vs 'singletons'), which section's value survives depends on
+            // that project-specific merge order instead of composer dependency order -
+            // see ahnames/ahnames.com HQD-328, where this 'definitions' registration
+            // silently won over hipanel-site's singleton override, so the selling site
+            // rendered this admin-panel navbar (complete with its UserMenu/gravatar
+            // dropdown) instead of hipanel-site's plain Login/Panel/Logout link.
+            \hiqdev\thememanager\menus\AbstractNavbarMenu::class => [
+                'class' => \hipanel\menus\NavbarMenu::class,
+            ],
+            \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
+                'class' => \hipanel\menus\SidebarMenu::class,
+            ],
             \hipanel\widgets\filePreview\FilePreviewFactoryInterface::class => \hipanel\widgets\filePreview\FilePreviewFactory::class,
             \yii\web\Session::class => function () {
                 return Yii::$app->getSession();
