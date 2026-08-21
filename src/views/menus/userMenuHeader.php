@@ -7,6 +7,9 @@ use yii\helpers\Html;
 <?= Gravatar::widget([
     'email' => Yii::$app->user->identity->email ?? null,
     'size'  => 90,
+    'options' => [
+        'class' => 'img-circle',
+    ],
 ]) ?>
 <?php if (!is_null(Yii::$app->user->identity)) : ?>
 <p>
