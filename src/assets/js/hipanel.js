@@ -46,6 +46,12 @@ window.hipanel = (function () {
         "</div>";
     },
     notify: notify,
+    bulkActions: {
+      recompute: function (fieldsetSelector, checkboxSelector) {
+        var isAnyChecked = $(checkboxSelector || "input.grid-checkbox").filter(":checked").length > 0;
+        $(fieldsetSelector || ".box-bulk-actions fieldset").prop("disabled", !isAnyChecked);
+      },
+    },
     form: {
       preventSubmitWithEnter: function (formId) {
         $(formId).find("input").on("keyup keypress", function (e) {

@@ -10,6 +10,7 @@
 
 namespace hipanel\widgets;
 
+use hipanel\assets\HipanelAsset;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonDropdown;
@@ -39,18 +40,40 @@ class ActionBox extends Box
     private function registerClientScript()
     {
         $searchFormId = Json::htmlEncode("#{$this->getBulkFormId()}");
+        $bulkFieldsetSelector = Json::htmlEncode('.box-bulk-actions fieldset');
+        $checkboxSelector = Json::htmlEncode('input.grid-checkbox');
         $view = $this->getView();
+        HipanelAsset::register($view);
         $view->registerJs(<<<JS
-        // Checkbox
-        var checkboxes = $('table input[type="checkbox"]');
-        var bulkcontainer = $('.box-bulk-actions fieldset');
-        checkboxes.on('ifChecked ifUnchecked', function(event) {
-            if (event.type == 'ifChecked' && $('input.icheck').filter(':checked').length > 0) {
-                bulkcontainer.prop('disabled', false);
-            } else if ($('input.icheck').filter(':checked').length == 0) {
-                bulkcontainer.prop('disabled', true);
-            }
-        });
+        // Checkbox: keep the bulk-actions fieldset in sync with row selection.
+        // Was previously wired to iCheck's ifChecked/ifUnchecked events and an
+        // 'input.icheck' selector; the iCheck plugin is never initialised on
+        // grid checkboxes (they render as plain '.grid-checkbox' inputs), so
+        // this handler never actually fired. Aligned with IndexPage's approach.
+        $(document)
+            .off('change.hipanelActionBoxBulk')
+            .on('change.hipanelActionBoxBulk', $checkboxSelector, function (event) {
+                hipanel.bulkActions.recompute($bulkFieldsetSelector, $checkboxSelector);
+            });
+
+        if (!window.__hipanelBulkPageshowBound) {
+            window.__hipanelBulkPageshowBound = true;
+            window.addEventListener('pageshow', function (event) {
+                hipanel.bulkActions.recompute($bulkFieldsetSelector, $checkboxSelector);
+            });
+        }
+
+        $(document)
+            .off('pjax:end.hipanelActionBoxBulk')
+            .on('pjax:end.hipanelActionBoxBulk', function () {
+                hipanel.bulkActions.recompute($bulkFieldsetSelector, $checkboxSelector);
+            });
+
+        // Recompute once immediately: browsers can restore checkbox
+        // checked-state on a browser Back/Forward navigation even when the
+        // page is NOT served from bfcache (a genuine fresh document/script
+        // re-run), so 'pageshow'+persisted alone is not enough to catch it.
+        hipanel.bulkActions.recompute($bulkFieldsetSelector, $checkboxSelector);
         // On/Off Actions TODO: reduce scope
         $(document).on('click', '.box-bulk-actions a', function (event) {
             var link = $(this);

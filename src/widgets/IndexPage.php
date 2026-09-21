@@ -11,6 +11,7 @@
 namespace hipanel\widgets;
 
 use Closure;
+use hipanel\assets\HipanelAsset;
 use hipanel\assets\StickySidebarAsset;
 use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\helpers\ArrayHelper;
@@ -100,21 +101,47 @@ class IndexPage extends Widget
     {
         parent::init();
         $searchFormId = Json::htmlEncode("#{$this->getBulkFormId()}");
+        $bulkFieldsetSelector = Json::htmlEncode('.box-bulk-actions fieldset');
+        $checkboxSelector = Json::htmlEncode('input.grid-checkbox');
         $this->originalContext = Yii::$app->view->context;
         $view = $this->getView();
+        HipanelAsset::register($view);
         // Fix a very narrow select2 input in the search tables
         $view->registerCss('#content-pjax .select2-dropdown--below { min-width: 170px!important; }');
         $view->registerJs(<<<"JS"
-        // Checkbox
-        var bulkcontainer = $('.box-bulk-actions fieldset');
-        $($searchFormId).on('change', 'input[type="checkbox"]', function(event) {
-            var checkboxes = $('input.grid-checkbox');
-            if (checkboxes.filter(':checked').length > 0) {
-                bulkcontainer.prop('disabled', false);
-            } else if (checkboxes.filter(':checked').length === 0) {
-                bulkcontainer.prop('disabled', true);
-            }
-        });
+        // Checkbox: keep the bulk-actions fieldset in sync with row selection.
+        // Delegated on document (not on the "#bulk-..." form itself) so the
+        // handler survives a pjax reload that replaces the form/grid node.
+        $(document)
+            .off('change.hipanelBulk')
+            .on('change.hipanelBulk', $searchFormId + ' input[type="checkbox"]', function (event) {
+                hipanel.bulkActions.recompute($bulkFieldsetSelector, $checkboxSelector);
+            });
+
+        // Recompute on every 'pageshow' (bfcache restore AND a genuine fresh
+        // Back/Forward reload), since browsers can restore checkbox
+        // checked-state on history navigation even without serving the page
+        // from bfcache, so gating this on event.persisted is not enough.
+        if (!window.__hipanelBulkPageshowBound) {
+            window.__hipanelBulkPageshowBound = true;
+            window.addEventListener('pageshow', function (event) {
+                hipanel.bulkActions.recompute($bulkFieldsetSelector, $checkboxSelector);
+            });
+        }
+
+        // Recompute after any pjax reload (full or narrower) in case it swaps
+        // out the grid markup without re-running this widget's init().
+        $(document)
+            .off('pjax:end.hipanelBulk')
+            .on('pjax:end.hipanelBulk', function () {
+                hipanel.bulkActions.recompute($bulkFieldsetSelector, $checkboxSelector);
+            });
+
+        // Recompute once immediately: browsers can restore checkbox
+        // checked-state on a browser Back/Forward navigation even when the
+        // page is NOT served from bfcache (a genuine fresh document/script
+        // re-run), so 'pageshow'+persisted alone is not enough to catch it.
+        hipanel.bulkActions.recompute($bulkFieldsetSelector, $checkboxSelector);
         // On/Off Actions TODO: reduce scope
         $(document).on('click', '.box-bulk-actions a', function (event) {
             var link = $(this);
