@@ -10,3 +10,42 @@
 .json-diff-viewer td.line-number {
   white-space: nowrap;
 }
+
+.audit-group-head > td {
+  background: #eeeeee !important;
+  border-top: 2px solid #d9d9d9;
+}
+
+.audit-group-child > td {
+  background: #fafafa;
+}
+
+.audit-group-child:hover > td {
+  background: #f3f3f3 !important;
+}
+
+.audit-group-child > td:first-child {
+  border-left: 3px solid #adc6ff;
+  padding-left: 24px !important;
+}
+
+/* keep the segmented control as high as the other filters (32px) */
+.ant-segmented.audit-filters {
+  display: flex;
+  height: 32px;
+}
+
+.ant-segmented.audit-filters .ant-segmented-item-label {
+  min-height: 28px;
+  line-height: 28px;
+}
+
+.ant-segmented.audit-filters .ant-segmented-item {
+  height: 28px;
+}
+
+/* antd indents a nested table by 32px; align it with the tags above instead */
+.ant-table-expanded-row .ant-table-wrapper .ant-table {
+  margin-inline: 0 !important;
+  margin-block: 0 !important;
+}
