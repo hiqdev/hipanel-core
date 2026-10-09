@@ -16,7 +16,8 @@ export default function App() {
   }, []);
   const [filters, setFilters] = useState<Filters>(emptyFilters);
   const tableData = useMemo(() => groupByTrace(dataSource.filter((row) => matches(row, filters))), [dataSource, filters]);
-  const users = useMemo(() => Array.from(new Set(dataSource.map(({ user }) => user?.login).filter(Boolean))), [dataSource]);
+  const users = useMemo(() => Array.from(new Set(dataSource.map(({ user }) => user?.login).filter((v): v is string => !!v))), [dataSource]);
+  const apps = useMemo(() => Array.from(new Set(dataSource.map(({ request }) => request?.app).filter((v): v is string => !!v))), [dataSource]);
   const version = window.location.hash.substring(1);
   useEffect(() => {
     if (version) {
@@ -28,8 +29,9 @@ export default function App() {
   return (
     <>
       <Help />
-      <FilterBar filters={filters} users={users} onChange={setFilters} />
+      <FilterBar filters={filters} users={users} apps={apps} onChange={setFilters} />
       <Table<DataType>
+        size={"small"}
         columns={columns}
         dataSource={tableData}
         rowClassName={(record) => (record.kind === "group" ? "audit-group-head" : record.inGroup ? "audit-group-child" : "")}

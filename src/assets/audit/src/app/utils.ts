@@ -33,9 +33,9 @@ const pageSegment = new URL(window.location.href).pathname.split("/")[2];
 export const entityTable = pageSegment && !uuidRegex.test(pageSegment) ? pageSegment : undefined;
 export const canSplitNested = entityTable !== undefined && entityTable !== "trace";
 
-export const emptyFilters: Filters = { search: "", users: [], operations: [], range: null, scope: "all" };
+export const emptyFilters: Filters = { search: "", users: [], apps: [], operations: [], range: null, scope: "all" };
 
-export const matches = (row: DataType, { search, users, operations, range, scope }: Filters): boolean => {
+export const matches = (row: DataType, { search, users, apps, operations, range, scope }: Filters): boolean => {
   const needle = search.trim().toLowerCase();
   const data = row.diff.new ?? row.diff.old ?? {};
   const ts = toMs(row.timestamp);
@@ -43,6 +43,7 @@ export const matches = (row: DataType, { search, users, operations, range, scope
   return (
     (!needle || [row.entity_id, row.table, data.prop_name, data.value].some((v) => String(v ?? "").toLowerCase().includes(needle)))
     && (users.length === 0 || users.includes(row.user?.login))
+    && (apps.length === 0 || apps.includes(row.request?.app ?? ""))
     && (operations.length === 0 || operations.includes(row.operation))
     && (!range || (ts >= range[0] && ts <= range[1]))
     && (scope === "all" || (scope === "direct") === (row.table === entityTable))

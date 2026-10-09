@@ -12,12 +12,16 @@
 }
 
 .audit-group-head > td {
-  background: #fafafa !important;
+  background: #eeeeee !important;
   border-top: 2px solid #d9d9d9;
 }
 
 .audit-group-child > td {
-  background: #fcfcfd;
+  background: #fafafa;
+}
+
+.audit-group-child:hover > td {
+  background: #f3f3f3 !important;
 }
 
 .audit-group-child > td:first-child {
@@ -38,4 +42,10 @@
 
 .ant-segmented.audit-filters .ant-segmented-item {
   height: 28px;
+}
+
+/* antd indents a nested table by 32px; align it with the tags above instead */
+.ant-table-expanded-row .ant-table-wrapper .ant-table {
+  margin-inline: 0 !important;
+  margin-block: 0 !important;
 }

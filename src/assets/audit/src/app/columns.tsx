@@ -22,8 +22,8 @@ const baseColumns: NonNullable<TableProps<DataType>["columns"]> = [
       return (
         <>
           <a id={`#${record.id}`} href={`${url}#${record.id}`} target={"_blank"}>{formatTimestamp(timestamp)}</a>
-          <br />
-          <Text type={"secondary"}>{record.id}</Text>
+          {" "}
+          <Text type={"secondary"} style={{ fontSize: 12 }}>{record.id}</Text>
         </>
       );
     },
@@ -74,8 +74,8 @@ const baseColumns: NonNullable<TableProps<DataType>["columns"]> = [
       return (
         <>
           <Text strong>{propName}</Text>
-          <br />
-          <Text type={"secondary"}>{table} #{entity_id}</Text>
+          {" "}
+          <Text type={"secondary"} style={{ fontSize: 12 }}>{table} #{entity_id}</Text>
         </>
       );
     },
@@ -93,7 +93,7 @@ const baseColumns: NonNullable<TableProps<DataType>["columns"]> = [
         <>
           <OperationTag operation={operation} />
           {operation === "update" && isScalar(oldValue) && isScalar(newValue) && (
-            <div><Text type={"secondary"}>{String(oldValue)} → {String(newValue)}</Text></div>
+            <Text type={"secondary"} style={{ marginLeft: 4 }}>{String(oldValue)} → {String(newValue)}</Text>
           )}
         </>
       );

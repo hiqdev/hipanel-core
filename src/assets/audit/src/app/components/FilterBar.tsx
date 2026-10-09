@@ -3,7 +3,7 @@ import { DatePicker, Flex, Input, Segmented, Select } from "antd";
 import type { Filters, Scope } from "../types";
 import { canSplitNested, colors } from "../utils";
 
-export const FilterBar = ({ filters, users, onChange }: { filters: Filters; users: string[]; onChange: (f: Filters) => void }) => {
+export const FilterBar = ({ filters, users, apps, onChange }: { filters: Filters; users: string[]; apps: string[]; onChange: (f: Filters) => void }) => {
   const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
 
   return (
@@ -25,6 +25,14 @@ export const FilterBar = ({ filters, users, onChange }: { filters: Filters; user
         style={{ minWidth: 180 }}
         options={users.map((login) => ({ label: login, value: login }))}
         onChange={(users) => set({ users })}
+      />
+      <Select
+        mode={"multiple"}
+        allowClear
+        placeholder={"App"}
+        style={{ minWidth: 180 }}
+        options={apps.map((app) => ({ label: app, value: app }))}
+        onChange={(apps) => set({ apps })}
       />
       <Select
         mode={"multiple"}

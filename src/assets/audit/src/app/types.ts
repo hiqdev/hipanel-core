@@ -57,6 +57,7 @@ export type Scope = "all" | "direct" | "nested";
 export interface Filters {
   search: string;
   users: string[];
+  apps: string[];
   operations: string[];
   range: [number, number] | null;
   scope: Scope;
