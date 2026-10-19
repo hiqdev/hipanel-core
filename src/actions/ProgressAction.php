@@ -11,12 +11,15 @@ class ProgressAction extends Action
     public ?Closure $onProgress = null;
     public ?Closure $onGettingId = null;
     public bool $needToTerminate = false;
-    private int $triesLeft = self::INIT_TRIES;
+    /** How many seconds in a row an unchanged state is polled before the stream is closed. */
+    public int $maxIdleSeconds = self::INIT_TRIES;
+    private int $triesLeft;
     private ?string $lastHash = null;
     private const int INIT_TRIES = 60;
 
     public function run()
     {
+        $this->triesLeft = $this->maxIdleSeconds;
         $charset = Yii::$app->charset;
         header("Content-Type: text/event-stream; charset=$charset");
         header('Cache-Control: no-store');
@@ -47,7 +50,7 @@ class ProgressAction extends Action
         $hash = hash('sha256', implode("", [$id, $data]));
         if ($hash !== $this->lastHash) {
             $this->lastHash = $hash;
-            $this->triesLeft = self::INIT_TRIES;
+            $this->triesLeft = $this->maxIdleSeconds;
         }
         $this->triesLeft--;
 
