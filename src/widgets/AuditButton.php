@@ -41,6 +41,7 @@ class AuditButton extends Widget
         return match ($name) {
             'hub', 'server' => 'device',
             'plan' => 'tariff',
+            'thread' => 'message',
             default => $name,
         };
     }
