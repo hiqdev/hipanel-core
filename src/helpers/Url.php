@@ -21,10 +21,10 @@ class Url extends \yii\helpers\Url
     public static function toAction($link, $params = [], $action = 'index')
     {
         $params = is_array($params) ? $params : ['id' => $params];
-        if (strpos('/', $link) === false) {
+        if (!str_contains($link, '/')) {
             $link = $link . '/' . $action;
         }
-        if (strpos('@', $link) === false) {
+        if (!str_contains($link, '@')) {
             $link = '@' . $link;
         }
         array_unshift($params, $link);
