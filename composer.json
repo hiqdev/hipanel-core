@@ -69,7 +69,6 @@
         "hiqdev/yii2-asset-select2-bootstrap3-css": "dev-master",
         "hiqdev/yii2-asset-paulzi-form": "~2.4",
         "hiqdev/yii2-asset-visibilityjs": "*",
-        "hiqdev/yii2-reminder": "dev-master",
         "hiqdev/yii2-monitoring": "dev-master",
         "hiqdev/yii2-maintenance": "dev-master",
         "sentry/sdk": "^3.1.0|^4.0",

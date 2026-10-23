@@ -13,7 +13,6 @@ namespace hipanel\menus;
 use hipanel\widgets\ImpersonationStatus;
 use hiqdev\yii2\cart\widgets\CartTeaser;
 use hiqdev\yii2\language\menus\LanguageMenu;
-use hiqdev\yii2\reminder\widgets\ReminderTop;
 
 class NavbarMenu extends \hiqdev\yii2\menus\Menu
 {
@@ -25,14 +24,6 @@ class NavbarMenu extends \hiqdev\yii2\menus\Menu
                 'encode' => false,
                 'options' => [
                     'class' => 'dropdown language-menu',
-                ],
-            ],
-            [
-                'label' => ReminderTop::widget(),
-                'encode' => false,
-                'options' => [
-                    'id' => 'reminders',
-                    'class' => 'dropdown notifications-menu reminders',
                 ],
             ],
             [
