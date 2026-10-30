@@ -12,7 +12,6 @@ namespace hipanel\actions;
 
 use Closure;
 use hipanel\base\FilterStorage;
-use hipanel\helpers\Url;
 use yii\base\InvalidConfigException;
 
 /**
@@ -77,7 +76,13 @@ class RenderAction extends Action
         $queryParams = $this->controller->request->getQueryParams();
         $theFiltersShouldBeCleaned = $this->controller->request->post('clear-filters') === 'true';
         if (!empty($storedFilters) && !isset($queryParams[$formName]) && !$theFiltersShouldBeCleaned) {
-            return $this->controller->redirect(Url::toSearch($this->controller->id, $storedFilters));
+            // A route from the controller's unique id, not the `@<controller-id>` alias that
+            // Url::toSearch() builds: controller ids repeat across modules (domain/zone and
+            // dns/zone), and one global alias can point at only one of them.
+            return $this->controller->redirect([
+                '/' . $this->controller->getUniqueId() . '/index',
+                $formName => $storedFilters,
+            ]);
         }
 
         return $this->controller->render($this->getViewName(), $this->getParams());
