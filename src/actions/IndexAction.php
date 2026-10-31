@@ -130,7 +130,7 @@ class IndexAction extends SearchAction
         if ($count !== null) {
             $variants[self::VARIANT_TOTAL_COUNT_RESPONSE] = fn(VariantsAction $action): int => TotalCountCache::getOrSet(
                 $action->controller->request->getUrl(),
-                fn(): int => $count($action),
+                fn() => $count($action),
             );
         }
 
