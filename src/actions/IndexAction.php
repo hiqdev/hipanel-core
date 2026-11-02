@@ -30,6 +30,8 @@ class IndexAction extends SearchAction
 {
     public const VARIANT_PAGER_RESPONSE = 'pager';
     public const VARIANT_SUMMARY_RESPONSE = 'summary';
+    /** Answered from TotalCountCache when cached, so widgets can render it with their page. */
+    public const VARIANT_TOTAL_COUNT_RESPONSE = 'get-total-count';
     /**
      * GET AJAX answer options for `VariantAction`, for example:
      * ```
@@ -117,9 +119,22 @@ class IndexAction extends SearchAction
                         $action->parent->getDataProvider(),
                     ))->renderSummary(),
 
-                ], $this->responseVariants),
+                ], $this->cacheTotalCount($this->responseVariants)),
             ],
         ], parent::getDefaultRules());
+    }
+
+    private function cacheTotalCount(array $variants): array
+    {
+        $count = $variants[self::VARIANT_TOTAL_COUNT_RESPONSE] ?? null;
+        if ($count !== null) {
+            $variants[self::VARIANT_TOTAL_COUNT_RESPONSE] = fn(VariantsAction $action): int => TotalCountCache::getOrSet(
+                $action->controller->request->getUrl(),
+                fn() => $count($action),
+            );
+        }
+
+        return $variants;
     }
 
     public function getUiModel()
