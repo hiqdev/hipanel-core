@@ -121,6 +121,11 @@
             "php-http/discovery": true,
             "hiqdev/composer-ci-deps-plugin": true,
             "cweagans/composer-patches": true
+        },
+        "audit": {
+            "ignore": {
+                "PKSA-5r1g-c7b7-y1zg": "symfony/dom-crawler 3.x required by wbraganca/yii2-dynamicform; root-install (CI) only"
+            }
         }
     },
     "repositories": [
