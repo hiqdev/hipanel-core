@@ -11,6 +11,9 @@
 namespace hipanel\tests\unit\base;
 
 use hipanel\base\Controller;
+use Yii;
+use yii\i18n\PhpMessageSource;
+use yii\web\Application;
 
 class ControllerTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,11 +24,25 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->object = new Controller('test', null);
+        new Application([
+            'id' => 'test',
+            'basePath' => dirname(__DIR__, 3),
+            'components' => [
+                'request' => ['cookieValidationKey' => 'test'],
+                'i18n' => [
+                    'translations' => [
+                        '*' => ['class' => PhpMessageSource::class],
+                    ],
+                ],
+            ],
+        ]);
+        $this->object = new Controller('test', Yii::$app);
     }
 
     protected function tearDown(): void
     {
+        Yii::$app->errorHandler->unregister();
+        Yii::$app = null;
     }
 
     public function testCreated()
