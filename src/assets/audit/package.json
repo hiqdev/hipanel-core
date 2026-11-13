@@ -8,8 +8,8 @@
   "license": "ISC",
   "author": "",
   "scripts": {
-    "watch": "npx mix watch",
-    "build": "npx mix --production",
+    "dev": "npx mix watch",
+    "prod": "npx mix --production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
