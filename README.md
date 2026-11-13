@@ -4,9 +4,6 @@
 
 [![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-core/v/stable)](https://packagist.org/packages/hiqdev/hipanel-core)
 [![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-core/downloads)](https://packagist.org/packages/hiqdev/hipanel-core)
-[![Build Status](https://img.shields.io/travis/hiqdev/hipanel-core.svg)](https://travis-ci.org/hiqdev/hipanel-core)
-[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/hiqdev/hipanel-core.svg)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/hiqdev/hipanel-core.svg)](https://scrutinizer-ci.com/g/hiqdev/hipanel-core/)
 
 [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 
