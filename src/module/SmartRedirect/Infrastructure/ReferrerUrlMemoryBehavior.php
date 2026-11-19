@@ -33,11 +33,9 @@ class ReferrerUrlMemoryBehavior extends Behavior
 
     public function rememberUrl(ActionEvent $actionEvent): void
     {
-        $controller = $actionEvent->sender;
-        if ($actionEvent->action instanceof SmartUpdateAction && $this->suitableReferrer($controller->request->referrer)) {
-            $url = $controller->request->referrer;
-            $key = $this->getUrlKey($this->owner, $this->owner->action);
-            Url::remember($url, $key);
+        $request = $actionEvent->sender->request;
+        if ($actionEvent->action instanceof SmartUpdateAction && $this->suitableReferrer($request->referrer ?? '')) {
+            Url::remember($request->referrer, $this->getUrlKey($actionEvent->action, $request->url));
         }
     }
 
@@ -47,15 +45,18 @@ class ReferrerUrlMemoryBehavior extends Behavior
 
     }
 
-    private function getUrlKey(Controller $controller, Action $action): string
+    private function getUrlKey(Action $action, string $formUrl): string
     {
-        return implode('.', [$controller->id, $action->parent->id ?? $action->id]);
+        $parts = parse_url($formUrl);
+        $pathAndQuery = ($parts['path'] ?? '') . (isset($parts['query']) ? '?' . $parts['query'] : '');
+
+        return implode('.', [$this->owner->id, $action->parent->id ?? $action->id, md5($pathAndQuery)]);
     }
 
     public function getPreviousUrl(Action $action): ?string
     {
-        $key = $this->getUrlKey($this->owner, $action);
+        $formUrl = $this->owner->request->referrer;
 
-        return Url::previous($key);
+        return $formUrl === null ? null : Url::previous($this->getUrlKey($action, $formUrl));
     }
 }
