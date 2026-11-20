@@ -56,6 +56,19 @@ class ReferrerUrlMemoryBehaviorTest extends TestCase
         $this->assertSame('https://panel.example/entity/index', $this->previousUrlOnSave($secondForm));
     }
 
+    public function testSavePostedFromViewOrIndexPageReturnsToThatPage(): void
+    {
+        $this->mockApplication();
+
+        foreach (['https://panel.example/entity/view?id=1', 'https://panel.example/entity/index?page=2'] as $sourcePage) {
+            $controller = $this->controllerFor('/entity/update', $sourcePage);
+            $controller->action = $this->updateAction($controller);
+            $controller->trigger(Controller::EVENT_BEFORE_ACTION, new ActionEvent($controller->action));
+
+            $this->assertSame($sourcePage, $controller->getPreviousUrl($controller->action));
+        }
+    }
+
     private function openForm(string $formUrl, string $referrer): void
     {
         $controller = $this->controllerFor($formUrl, $referrer);

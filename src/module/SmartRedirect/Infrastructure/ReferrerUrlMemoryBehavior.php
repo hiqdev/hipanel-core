@@ -55,8 +55,13 @@ class ReferrerUrlMemoryBehavior extends Behavior
 
     public function getPreviousUrl(Action $action): ?string
     {
-        $formUrl = $this->owner->request->referrer;
+        $referrer = $this->owner->request->referrer;
+        if ($referrer === null) {
+            return null;
+        }
 
-        return $formUrl === null ? null : Url::previous($this->getUrlKey($action, $formUrl));
+        return $this->suitableReferrer($referrer)
+            ? $referrer
+            : Url::previous($this->getUrlKey($action, $referrer));
     }
 }
