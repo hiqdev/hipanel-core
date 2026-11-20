@@ -32,6 +32,7 @@ class ReferrerUrlMemoryBehaviorTest extends TestCase
         $this->assertTrue($this->isSuitableReferrer($behavior, '/entity/index'));
         $this->assertTrue($this->isSuitableReferrer($behavior, '/entity/view?id=1'));
         $this->assertFalse($this->isSuitableReferrer($behavior, '/entity/create'));
+        $this->assertFalse($this->isSuitableReferrer($behavior, 'https://view.example/entity/update?back=/entity/index'));
     }
 
     public function testCustomPatternsOverrideDefaults(): void

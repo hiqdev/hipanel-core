@@ -41,8 +41,9 @@ class ReferrerUrlMemoryBehavior extends Behavior
 
     private function suitableReferrer(string $referrer): bool
     {
-        return array_any($this->suitableReferrerPatterns, fn($pattern) => str_contains($referrer, $pattern));
+        $path = parse_url($referrer, PHP_URL_PATH) ?? '';
 
+        return array_any($this->suitableReferrerPatterns, fn($pattern) => str_contains($path, $pattern));
     }
 
     private function getUrlKey(Action $action, string $formUrl): string
