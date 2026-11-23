@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 import * as fs from "fs";
 import AdvancedSearch from "@hipanel-core/helper/AdvancedSearch";
 import { Alert, BulkActions, ColumnFilters } from "@hipanel-core/shared/ui/components";
@@ -190,6 +190,11 @@ export default class Index {
     return await this.page.locator(selector).getAttribute("data-key");
   }
   public async testExport() {
+    // Export runs as an async job (start → SSE progress → file download stream)
+    // and can legitimately take longer than the default 50s action timeout
+    // on a loaded CI runner, so give the whole test more room.
+    test.setTimeout(180_000);
+
     const linkNames = ["CSV", "TSV", "Excel XLSX", "Clipboard MD"];
     const exportButton = this.page.locator("#export-btn");
 
@@ -218,7 +223,10 @@ export default class Index {
     await linkLocator.highlight();
 
     const [download] = await Promise.all([
-      this.page.waitForEvent("download"),
+      // The export job (start → SSE progress → file stream) can take well
+      // over the default 50s action timeout when the export is large or the
+      // environment is under load, so wait longer specifically here.
+      this.page.waitForEvent("download", { timeout: 90_000 }),
       linkLocator.click(),
     ]);
 
